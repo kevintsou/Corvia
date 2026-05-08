@@ -1,10 +1,23 @@
-"""Analysis engine that orchestrates parsing and checker execution."""
+"""Analysis engine that orchestrates parsing and checker execution.
+
+Two-pass architecture (Phase 3):
+  Pass 1 — Parse all targets and build SymbolTable + CallGraph + FunctionSummaries.
+  Pass 2 — Run every registered checker over each AST with the shared
+           AnalysisContext attached, so checkers can perform inter-procedural
+           queries (e.g. "does this callee return NULL? does it allocate?").
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Optional
 
+from pycparser import c_ast
+
+from covia.core.call_graph import build_call_graph
+from covia.core.context import AnalysisContext
+from covia.core.summary import compute_summaries
+from covia.core.symbol_table import build_symbol_table
 from covia.models import AnalysisResult, Issue, MisraCategory, Severity
 from covia.parser import CParser
 from covia.registry import CheckerRegistry
@@ -38,17 +51,45 @@ class AnalysisEngine:
         self._misra_category = misra_category
         self._parser = CParser(use_cpp=use_cpp, include_dirs=include_dirs)
 
+    def analyze(self, targets: list[str]) -> AnalysisResult:
+        result = AnalysisResult()
+        files = self._collect_files(targets, result)
+        if not files:
+            return result
+
+        asts: dict[str, c_ast.FileAST] = {}
+        for f in files:
+            ast, parse_errors = self._parser.parse_file(f)
+            result.issues.extend(parse_errors)
+            if ast is not None:
+                asts[f] = ast
+                result.files_analyzed.append(f)
+
+        ctx = self._build_context(asts)
+
+        for filename, ast in asts.items():
+            for checker_cls in self._checker_classes:
+                checker = checker_cls()
+                checker.set_file(filename)
+                checker.set_context(ctx)
+                issues = checker.check(ast)
+                result.issues.extend(self._filter_issues(issues))
+
+        result.issues.sort(key=lambda i: (i.file, i.line, i.column))
+        return result
+
     def analyze_file(self, filepath: str) -> list[Issue]:
         ast, parse_errors = self._parser.parse_file(filepath)
         if ast is None:
             return parse_errors
 
+        ctx = self._build_context({filepath: ast})
         issues: list[Issue] = list(parse_errors)
         for checker_cls in self._checker_classes:
             checker = checker_cls()
             checker.set_file(filepath)
+            checker.set_context(ctx)
             issues.extend(checker.check(ast))
-
         return self._filter_issues(issues)
 
     def analyze_directory(
@@ -61,18 +102,15 @@ class AnalysisEngine:
                 issues.extend(self.analyze_file(str(f)))
         return issues
 
-    def analyze(self, targets: list[str]) -> AnalysisResult:
-        result = AnalysisResult()
-
+    def _collect_files(self, targets: list[str], result: AnalysisResult) -> list[str]:
+        files: list[str] = []
         for target in targets:
             p = Path(target)
             if p.is_file():
-                result.files_analyzed.append(str(p))
-                result.issues.extend(self.analyze_file(str(p)))
+                files.append(str(p))
             elif p.is_dir():
                 for f in sorted(p.rglob("*.c")):
-                    result.files_analyzed.append(str(f))
-                result.issues.extend(self.analyze_directory(str(p)))
+                    files.append(str(f))
             else:
                 result.issues.append(
                     Issue(
@@ -83,9 +121,18 @@ class AnalysisEngine:
                         line=0,
                     )
                 )
+        return files
 
-        result.issues.sort(key=lambda i: (i.file, i.line, i.column))
-        return result
+    def _build_context(self, asts: dict[str, c_ast.FileAST]) -> AnalysisContext:
+        symbol_table = build_symbol_table(asts)
+        call_graph = build_call_graph(asts, symbol_table)
+        summaries = compute_summaries(symbol_table, call_graph, asts)
+        return AnalysisContext(
+            symbol_table=symbol_table,
+            call_graph=call_graph,
+            summaries=summaries,
+            asts=asts,
+        )
 
     def _filter_issues(self, issues: list[Issue]) -> list[Issue]:
         filtered = [i for i in issues if i.severity >= self._min_severity]

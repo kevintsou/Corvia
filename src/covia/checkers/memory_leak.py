@@ -17,6 +17,24 @@ _ALLOC_FUNCS = {"malloc", "calloc", "realloc", "aligned_alloc"}
 _FREE_FUNCS = {"free"}
 
 
+def _looks_like_alloc(name: str, ctx) -> bool:
+    if name in _ALLOC_FUNCS:
+        return True
+    if ctx is None:
+        return False
+    s = ctx.summary_of(name)
+    return bool(s and s.allocates)
+
+
+def _looks_like_free(name: str, ctx) -> bool:
+    if name in _FREE_FUNCS:
+        return True
+    if ctx is None:
+        return False
+    s = ctx.summary_of(name)
+    return bool(s and s.frees_param)
+
+
 class _AllocState:
     """Tracks which variables hold allocated memory."""
 
@@ -34,6 +52,9 @@ class _AllocState:
 
 
 class _MemoryLeakAnalysis(ForwardAnalysis[_AllocState]):
+    def __init__(self, ctx=None) -> None:
+        self.ctx = ctx
+
     def initial_state(self) -> _AllocState:
         return _AllocState()
 
@@ -94,14 +115,14 @@ class _MemoryLeakAnalysis(ForwardAnalysis[_AllocState]):
     def _is_alloc_call(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.FuncCall):
             if isinstance(node.name, c_ast.ID):
-                return node.name.name in _ALLOC_FUNCS
+                return _looks_like_alloc(node.name.name, self.ctx)
         if isinstance(node, c_ast.Cast) and node.expr:
             return self._is_alloc_call(node.expr)
         return False
 
     def _is_free_call(self, node: c_ast.FuncCall) -> bool:
         if isinstance(node.name, c_ast.ID):
-            return node.name.name in _FREE_FUNCS
+            return _looks_like_free(node.name.name, self.ctx)
         return False
 
 
@@ -120,7 +141,7 @@ class MemoryLeakChecker(BaseChecker):
             return
 
         cfg = build_cfg(node)
-        analysis = _MemoryLeakAnalysis()
+        analysis = _MemoryLeakAnalysis(ctx=self._ctx)
         results = analysis.analyze(cfg)
 
         exit_state_pair = results.get(cfg.exit.id)
@@ -153,9 +174,14 @@ class MemoryLeakChecker(BaseChecker):
                             )
 
     def _has_alloc_calls(self, node: c_ast.Node) -> bool:
-        if isinstance(node, c_ast.FuncCall):
-            if isinstance(node.name, c_ast.ID) and node.name.name in _ALLOC_FUNCS | _FREE_FUNCS:
+        if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
+            n = node.name.name
+            if n in _ALLOC_FUNCS | _FREE_FUNCS:
                 return True
+            if self._ctx is not None:
+                s = self._ctx.summary_of(n)
+                if s and (s.allocates or s.frees_param):
+                    return True
         for _, child in node.children():
             if self._has_alloc_calls(child):
                 return True

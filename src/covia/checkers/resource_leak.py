@@ -18,6 +18,24 @@ _OPEN_FUNCS = {"fopen", "tmpfile", "fdopen", "freopen", "popen"}
 _CLOSE_FUNCS = {"fclose", "pclose"}
 
 
+def _looks_like_open(name: str, ctx) -> bool:
+    if name in _OPEN_FUNCS:
+        return True
+    if ctx is None:
+        return False
+    s = ctx.summary_of(name)
+    return bool(s and s.opens_resource)
+
+
+def _looks_like_close(name: str, ctx) -> bool:
+    if name in _CLOSE_FUNCS:
+        return True
+    if ctx is None:
+        return False
+    s = ctx.summary_of(name)
+    return bool(s and s.closes_param)
+
+
 class _ResourceState:
     def __init__(self, opened: set[str] | None = None, closed: set[str] | None = None) -> None:
         self.opened: set[str] = set(opened) if opened else set()
@@ -33,6 +51,9 @@ class _ResourceState:
 
 
 class _ResourceAnalysis(ForwardAnalysis[_ResourceState]):
+    def __init__(self, ctx=None) -> None:
+        self.ctx = ctx
+
     def initial_state(self) -> _ResourceState:
         return _ResourceState()
 
@@ -81,14 +102,14 @@ class _ResourceAnalysis(ForwardAnalysis[_ResourceState]):
 
     def _is_open_call(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
-            return node.name.name in _OPEN_FUNCS
+            return _looks_like_open(node.name.name, self.ctx)
         if isinstance(node, c_ast.Cast) and node.expr:
             return self._is_open_call(node.expr)
         return False
 
     def _is_close_call(self, node: c_ast.FuncCall) -> bool:
         if isinstance(node.name, c_ast.ID):
-            return node.name.name in _CLOSE_FUNCS
+            return _looks_like_close(node.name.name, self.ctx)
         return False
 
 
@@ -106,7 +127,7 @@ class ResourceLeakChecker(BaseChecker):
             return
 
         cfg = build_cfg(node)
-        analysis = _ResourceAnalysis()
+        analysis = _ResourceAnalysis(ctx=self._ctx)
         results = analysis.analyze(cfg)
 
         exit_pair = results.get(cfg.exit.id)
@@ -134,7 +155,7 @@ class ResourceLeakChecker(BaseChecker):
             closed = set(in_state.closed)
             for stmt in block.statements:
                 if isinstance(stmt, c_ast.FuncCall) and stmt.args:
-                    if isinstance(stmt.name, c_ast.ID) and stmt.name.name in _CLOSE_FUNCS:
+                    if isinstance(stmt.name, c_ast.ID) and _looks_like_close(stmt.name.name, self._ctx):
                         for arg in stmt.args.exprs or []:
                             if isinstance(arg, c_ast.ID):
                                 closed.add(arg.name)
@@ -150,8 +171,13 @@ class ResourceLeakChecker(BaseChecker):
 
     def _has_resource_calls(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
-            if node.name.name in _OPEN_FUNCS | _CLOSE_FUNCS:
+            n = node.name.name
+            if n in _OPEN_FUNCS | _CLOSE_FUNCS:
                 return True
+            if self._ctx is not None:
+                s = self._ctx.summary_of(n)
+                if s and (s.opens_resource or s.closes_param):
+                    return True
         for _, child in node.children():
             if self._has_resource_calls(child):
                 return True

@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from typing import ClassVar, Optional
+from typing import TYPE_CHECKING, ClassVar, Optional
 
 from pycparser import c_ast
 
 from covia.models import Issue, MisraRule, Severity
+
+if TYPE_CHECKING:
+    from covia.core.context import AnalysisContext
 
 
 class BaseChecker(c_ast.NodeVisitor):
@@ -26,9 +29,18 @@ class BaseChecker(c_ast.NodeVisitor):
     def __init__(self) -> None:
         self._issues: list[Issue] = []
         self._current_file: str = ""
+        self._ctx: Optional["AnalysisContext"] = None
 
     def set_file(self, filename: str) -> None:
         self._current_file = filename
+
+    def set_context(self, ctx: "AnalysisContext") -> None:
+        """Inject inter-procedural context. Optional — checkers may ignore it."""
+        self._ctx = ctx
+
+    @property
+    def ctx(self) -> Optional["AnalysisContext"]:
+        return self._ctx
 
     def report(
         self,
