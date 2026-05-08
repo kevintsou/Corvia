@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "agent",
+            "if": "Bash(git commit *)",
+            "model": "claude-haiku-4-5-20251001",
+            "timeout": 180,
+            "statusMessage": "Checking if README needs updates",
+            "prompt": "A new git commit was just created in this repository. Decide whether README.md needs to be updated and, if so, update it.\n\nSteps:\n1. Run `git log -1 --stat` to see the latest commit's message and changed files.\n2. If the commit is documentation-only, test-only, refactor, chore, style, or a fix that does not change user-visible behavior, do nothing and exit. Do NOT touch README.md.\n3. If the commit adds a new feature, new checker, new CLI flag, new section coverage, or otherwise changes user-visible behavior, read README.md and update only the sections that are now stale (Features list, Checkers table, MISRA Coverage table, Roadmap, version/test counts). Keep edits surgical and consistent with existing English/中文 bilingual structure.\n4. If you updated README.md, stage and amend it into the just-created commit with `git commit --amend --no-edit -- README.md`. Do not create a new commit. Do not push.\n5. Report in one short sentence what you did (or that no update was needed)."
+          }
+        ]
+      }
+    ]
+  }
+}

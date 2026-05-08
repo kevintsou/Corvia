@@ -19,6 +19,10 @@ from corvia.registry import CheckerRegistry
 
 
 RULE_16_1 = MisraRule("16.1", MisraCategory.REQUIRED, "All switch statements shall be well-formed")
+RULE_16_2 = MisraRule(
+    "16.2", MisraCategory.REQUIRED,
+    "A switch label shall only be used when the most closely-enclosing compound statement is the body of a switch statement",
+)
 RULE_16_3 = MisraRule(
     "16.3", MisraCategory.REQUIRED,
     "An unconditional break statement shall terminate every switch-clause",
@@ -59,9 +63,14 @@ class MisraSwitchChecker(BaseChecker):
     checker_id = "misra-switch"
     description = "MISRA C:2012 Rules 16.1, 16.3-16.7: switch statement rules"
     default_severity = Severity.WARNING
-    misra_rules = [RULE_16_1, RULE_16_3, RULE_16_4, RULE_16_5, RULE_16_6, RULE_16_7]
+    misra_rules = [RULE_16_1, RULE_16_2, RULE_16_3, RULE_16_4, RULE_16_5, RULE_16_6, RULE_16_7]
 
     def visit_Switch(self, node: c_ast.Switch) -> None:
+        body = node.stmt
+        if isinstance(body, c_ast.Compound) and body.block_items:
+            for item in body.block_items:
+                self._check_label_position_16_2(item, switch_body=body)
+
         # 16.7: condition must not be boolean.
         if node.cond is not None and _is_boolean_expr(node.cond):
             self.report(
@@ -140,6 +149,25 @@ class MisraSwitchChecker(BaseChecker):
                 )
 
         self.generic_visit(node)
+
+
+    def _check_label_position_16_2(self, node: c_ast.Node, switch_body: c_ast.Compound) -> None:
+        """Recursively walk into nested compound statements; any Case/Default
+        we find in a sub-compound (i.e. not directly in `switch_body`) is a
+        16.2 violation."""
+        if isinstance(node, c_ast.Compound):
+            for item in node.block_items or []:
+                if isinstance(item, (c_ast.Case, c_ast.Default)):
+                    self.report(
+                        item,
+                        "Switch label appears inside a nested compound statement",
+                        Severity.WARNING,
+                        RULE_16_2,
+                    )
+                self._check_label_position_16_2(item, switch_body)
+        else:
+            for _, child in node.children():
+                self._check_label_position_16_2(child, switch_body)
 
 
 CheckerRegistry.register(MisraSwitchChecker)
