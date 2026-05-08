@@ -14,7 +14,7 @@ Corvia is a Python-based static analysis tool for C code, inspired by Coverity. 
 
 ## Features
 
-- **96+ MISRA C:2012 rules** covered across 16 sections
+- **115+ MISRA C:2012 rules** covered across 20 sections
 - **Inter-procedural analysis** — function summaries flow across files so wrappers (`xalloc`, `xopen`, `xfree`) are recognized as allocators / openers / closers
 - **CFG-based dataflow analysis** for null dereference, uninitialized variables, memory and resource leaks
 - **Symbol table + call graph** — detects indirect recursion, cross-file identifier collisions (5.1, 5.7, 5.8, 5.9), and unused non-void return values (17.7)
@@ -115,21 +115,27 @@ MISRA rules violated: 3
 | **`misra-identifiers`** | External / typedef / tag / linkage uniqueness, scope shadowing | 5.1, 5.3, 5.6–5.9 |
 | **`misra-pointer-conv`** | Function-pointer / object-pointer / void-pointer / qualifier casts | 11.1–11.9 |
 | **`misra-stdlib`** | Forbidden Standard Library usage, reserved identifiers | 21.1–21.10, 21.12 |
+| **`misra-bitfields`** | Bit-field type restrictions, signed single-bit detection | 6.1, 6.2 |
+| **`misra-literals`** | Octal constants, lowercase suffix, string-to-non-const | 7.1, 7.3, 7.4 |
+| **`misra-switch`** | Switch well-formedness, default presence/position, missing break, boolean switch | 16.1, 16.3–16.7 |
+| **`misra-unions`** | union usage discouraged | 19.2 |
 
-Bold entries were added in Phase 3.
+Bold entries were added in Phase 3 / Phase 4.
 
 ---
 
 ## MISRA C:2012 Coverage
 
 <details>
-<summary>All 96+ implemented rules (click to expand)</summary>
+<summary>All 115+ implemented rules (click to expand)</summary>
 
 | Section | Rules |
 |---|---|
 | §1 — Undefined Behaviour | 1.3 |
 | §2 — Unused Code | 2.1, 2.2, 2.3, 2.7 |
 | §5 — Identifiers | 5.1, 5.3, 5.6, 5.7, 5.8, 5.9 |
+| §6 — Types (bit-fields) | 6.1, 6.2 |
+| §7 — Literals & Constants | 7.1, 7.3, 7.4 |
 | §8 — Declarations & Definitions | 8.1–8.14 |
 | §9 — Initialization | 9.1 |
 | §10 — Type Conversions | 10.1–10.8 |
@@ -138,8 +144,10 @@ Bold entries were added in Phase 3.
 | §13 — Side Effects | 13.1–13.6 |
 | §14 — Control Flow | 14.1–14.4 |
 | §15 — Control Flow (if/switch) | 15.1–15.7 |
+| §16 — Switch Statements | 16.1, 16.3, 16.4, 16.5, 16.6, 16.7 |
 | §17 — Functions | 17.1–17.8 |
 | §18 — Pointers & Arrays | 18.1–18.8 |
+| §19 — Overlapping Storage | 19.2 |
 | §20 — Preprocessing | 20.7, 20.10–20.12, 20.14 |
 | §21 — Standard Libraries | 21.1, 21.2, 21.3, 21.4, 21.5, 21.6, 21.7, 21.8, 21.9, 21.10, 21.12 |
 | §22 — Resources | 22.1, 22.2, 22.6 |
@@ -269,7 +277,7 @@ Total: **118 tests passing**.
 
 - [x] **Phase 1 & 2** — AST checkers, CFG/dataflow framework, MISRA C:2012 §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary inter-procedural analysis; MISRA §5, §11, §21; incremental cache; LSP server
-- [ ] **Phase 4** — MISRA §6 (bit-fields), §7 (literals), §16 (switch), §19 (overlapping storage)
+- [x] **Phase 4** — MISRA §6 (bit-fields), §7 (literals), §16 (switch), §19 (overlapping storage)
 - [ ] VS Code extension wrapping `corvia-lsp`
 - [ ] Project-config file (`corvia.toml`) for per-rule severity overrides
 
@@ -291,7 +299,7 @@ Corvia 是一款以 Python 實作的 C 語言靜態分析工具，靈感來自 C
 
 ## 功能特色
 
-- 涵蓋 **16 個章節、96+ 條 MISRA C:2012 規則**
+- 涵蓋 **20 個章節、115+ 條 MISRA C:2012 規則**
 - **跨函式分析**：函式摘要會跨檔案傳遞，能辨識 `xalloc`、`xopen`、`xfree` 等包裝函式
 - **CFG 資料流分析**：偵測空指標解引用、未初始化變數、記憶體與資源洩漏
 - **符號表 + 呼叫圖**：偵測間接遞迴、跨檔識別字衝突（5.1、5.7、5.8、5.9）、未使用非 void 回傳值（17.7）
@@ -396,7 +404,7 @@ Pass 2：每個 checker 在每個 AST 上跑，共享 AnalysisContext
 
 - [x] **Phase 1 & 2** — AST checker、CFG/dataflow 框架、MISRA §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary 跨函式分析；MISRA §5, §11, §21；增量 cache；LSP 伺服器
-- [ ] **Phase 4** — MISRA §6（bit-field）、§7（字面量）、§16（switch）、§19（重疊儲存）
+- [x] **Phase 4** — MISRA §6（bit-field）、§7（字面量）、§16（switch）、§19（重疊儲存）
 - [ ] 包裝 `corvia-lsp` 的 VS Code 擴充套件
 - [ ] 專案級設定檔（`corvia.toml`）：每條規則自訂嚴重等級
 
