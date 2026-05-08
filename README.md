@@ -80,6 +80,38 @@ corvia-lsp --stdio
 corvia-lsp --tcp --host 127.0.0.1 --port 9999
 ```
 
+### Configuration (`corvia.toml`)
+
+Place a `corvia.toml` in the project root (auto-discovered by walking
+upward) to set defaults for the whole project. CLI flags always take
+precedence.
+
+```toml
+[checkers]
+enabled  = ["null-deref", "memory-leak"]   # if set, only these run
+disabled = ["misra-unions"]                # subtracted from enabled
+
+[severity]
+"misra-stdlib" = "error"     # bump every misra-stdlib finding to error
+"21.3"         = "info"      # demote rule 21.3 to info
+"19.2"         = "off"       # silence rule 19.2 entirely
+
+[paths]
+include = ["/usr/local/include"]
+use_cpp = true
+
+[output]
+format   = "text"                  # text / json / md / html
+no_color = false
+
+[cache]
+enabled = true
+dir     = ".corvia_cache"
+```
+
+Pass `--config <path>` to override discovery, or `--no-config` to
+ignore the file entirely.
+
 ### Sample Output
 
 ```
@@ -278,8 +310,8 @@ Total: **118 tests passing**.
 - [x] **Phase 1 & 2** — AST checkers, CFG/dataflow framework, MISRA C:2012 §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary inter-procedural analysis; MISRA §5, §11, §21; incremental cache; LSP server
 - [x] **Phase 4** — MISRA §6 (bit-fields), §7 (literals), §16 (switch), §19 (overlapping storage)
+- [x] **Phase 5** — 7 more rules across §1, §2, §9, §16, §22; `corvia.toml` project-config file
 - [ ] VS Code extension wrapping `corvia-lsp`
-- [ ] Project-config file (`corvia.toml`) for per-rule severity overrides
 
 ---
 
@@ -405,8 +437,8 @@ Pass 2：每個 checker 在每個 AST 上跑，共享 AnalysisContext
 - [x] **Phase 1 & 2** — AST checker、CFG/dataflow 框架、MISRA §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary 跨函式分析；MISRA §5, §11, §21；增量 cache；LSP 伺服器
 - [x] **Phase 4** — MISRA §6（bit-field）、§7（字面量）、§16（switch）、§19（重疊儲存）
+- [x] **Phase 5** — §1/§2/§9/§16/§22 補 7 條規則；`corvia.toml` 專案級設定檔
 - [ ] 包裝 `corvia-lsp` 的 VS Code 擴充套件
-- [ ] 專案級設定檔（`corvia.toml`）：每條規則自訂嚴重等級
 
 ---
 

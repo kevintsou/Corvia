@@ -16,6 +16,7 @@ from pycparser import c_ast
 
 from corvia.core.cache import CacheManager, FileCache, hash_file
 from corvia.core.call_graph import build_call_graph
+from corvia.core.config import CorviaConfig, severity_from_string
 from corvia.core.context import AnalysisContext
 from corvia.core.summary import compute_summaries
 from corvia.core.symbol_table import build_symbol_table
@@ -36,23 +37,47 @@ class AnalysisEngine:
         external_checkers_dir: Optional[str] = None,
         incremental: bool = False,
         cache_dir: Optional[str] = None,
+        config: Optional[CorviaConfig] = None,
     ) -> None:
         CheckerRegistry.load_builtin_checkers()
         if external_checkers_dir:
             CheckerRegistry.load_external_checkers(external_checkers_dir)
 
+        self._config = config
+
         all_checkers = CheckerRegistry.get_all()
-        if checker_ids:
-            self._checker_classes = [
-                c for c in all_checkers if c.checker_id in checker_ids
-            ]
-        else:
-            self._checker_classes = all_checkers
+        cli_checkers = checker_ids
+        cfg_enabled = config.enabled_checkers if config else None
+        cfg_disabled = set(config.disabled_checkers) if config else set()
+
+        selected: list[type] = []
+        for c in all_checkers:
+            if cli_checkers is not None:
+                if c.checker_id not in cli_checkers:
+                    continue
+            elif cfg_enabled is not None:
+                if c.checker_id not in cfg_enabled:
+                    continue
+            if c.checker_id in cfg_disabled:
+                continue
+            selected.append(c)
+        self._checker_classes = selected
 
         self._min_severity = min_severity
         self._misra_only = misra_only
         self._misra_category = misra_category
-        self._parser = CParser(use_cpp=use_cpp, include_dirs=include_dirs)
+
+        merged_includes = list(include_dirs) if include_dirs else []
+        if config:
+            merged_includes.extend(config.include_dirs)
+            if not use_cpp and config.use_cpp:
+                use_cpp = True
+        self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None)
+
+        if incremental is False and config and config.cache_enabled:
+            incremental = True
+        if cache_dir is None and config and config.cache_dir:
+            cache_dir = config.cache_dir
         self._incremental = incremental
         self._cache = (
             CacheManager(cache_dir or ".corvia_cache") if incremental else None
@@ -194,7 +219,30 @@ class AnalysisEngine:
         )
 
     def _filter_issues(self, issues: list[Issue]) -> list[Issue]:
-        filtered = [i for i in issues if i.severity >= self._min_severity]
+        adjusted: list[Issue] = []
+        for i in issues:
+            if self._config is not None:
+                rule_id = i.misra_rule.rule_id if i.misra_rule else None
+                override = self._config.severity_for(i.checker_id, rule_id)
+                if override is not None:
+                    if override == "off":
+                        continue
+                    new_sev = severity_from_string(override)
+                    if new_sev is not None:
+                        i = Issue(
+                            checker_id=i.checker_id,
+                            severity=new_sev,
+                            message=i.message,
+                            file=i.file,
+                            line=i.line,
+                            column=i.column,
+                            end_line=i.end_line,
+                            context=i.context,
+                            misra_rule=i.misra_rule,
+                        )
+            adjusted.append(i)
+
+        filtered = [i for i in adjusted if i.severity >= self._min_severity]
 
         if self._misra_only:
             filtered = [i for i in filtered if i.misra_rule is not None]
