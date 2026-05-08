@@ -27,6 +27,10 @@ _BUILTIN_MODULES = [
     "misra_identifiers",
     "misra_pointer_conv",
     "misra_standard_lib",
+    "misra_bitfields",
+    "misra_literals",
+    "misra_switch",
+    "misra_unions",
 ]
 
 
