@@ -1,6 +1,6 @@
 """Tests for the dead code checker."""
 
-from covia.checkers.dead_code import DeadCodeChecker
+from corvia.checkers.dead_code import DeadCodeChecker
 
 
 def test_dead_after_return(parse_c):

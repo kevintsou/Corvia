@@ -1,6 +1,6 @@
 """Tests for the syntax checker."""
 
-from covia.checkers.syntax import SyntaxChecker
+from corvia.checkers.syntax import SyntaxChecker
 
 
 def test_assignment_in_condition(parse_c):

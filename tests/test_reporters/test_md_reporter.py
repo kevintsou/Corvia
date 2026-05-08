@@ -1,7 +1,7 @@
 """Tests for the Markdown reporter."""
 
-from covia.models import AnalysisResult, Issue, MisraCategory, MisraRule, Severity
-from covia.reporters.md_reporter import MdReporter
+from corvia.models import AnalysisResult, Issue, MisraCategory, MisraRule, Severity
+from corvia.reporters.md_reporter import MdReporter
 
 
 def test_md_output():
@@ -21,7 +21,7 @@ def test_md_output():
     )
     reporter = MdReporter()
     output = reporter.generate(result)
-    assert "# COVIA Analysis Report" in output
+    assert "# CORVIA Analysis Report" in output
     assert "MISRA C:2012 Rule Summary" in output
     assert "Rule 2.1" in output or "2.1" in output
     assert "Unreachable code" in output

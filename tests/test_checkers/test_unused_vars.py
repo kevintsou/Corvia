@@ -1,6 +1,6 @@
 """Tests for the unused variables checker."""
 
-from covia.checkers.unused_vars import UnusedVarsChecker
+from corvia.checkers.unused_vars import UnusedVarsChecker
 
 
 def test_unused_local_var(parse_c):

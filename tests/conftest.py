@@ -1,4 +1,4 @@
-"""Shared test fixtures for COVIA tests."""
+"""Shared test fixtures for CORVIA tests."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from covia.parser import CParser
+from corvia.parser import CParser
 
 
 @pytest.fixture
