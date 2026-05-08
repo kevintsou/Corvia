@@ -14,6 +14,7 @@ from typing import Optional
 
 from pycparser import c_ast
 
+from covia.core.cache import CacheManager, FileCache, hash_file
 from covia.core.call_graph import build_call_graph
 from covia.core.context import AnalysisContext
 from covia.core.summary import compute_summaries
@@ -33,6 +34,8 @@ class AnalysisEngine:
         use_cpp: bool = False,
         include_dirs: Optional[list[str]] = None,
         external_checkers_dir: Optional[str] = None,
+        incremental: bool = False,
+        cache_dir: Optional[str] = None,
     ) -> None:
         CheckerRegistry.load_builtin_checkers()
         if external_checkers_dir:
@@ -50,6 +53,10 @@ class AnalysisEngine:
         self._misra_only = misra_only
         self._misra_category = misra_category
         self._parser = CParser(use_cpp=use_cpp, include_dirs=include_dirs)
+        self._incremental = incremental
+        self._cache = (
+            CacheManager(cache_dir or ".covia_cache") if incremental else None
+        )
 
     def analyze(self, targets: list[str]) -> AnalysisResult:
         result = AnalysisResult()
@@ -57,26 +64,78 @@ class AnalysisEngine:
         if not files:
             return result
 
+        result.files_analyzed.extend(files)
+
+        if self._cache is not None:
+            to_analyze, reusable = self._cache.determine_files_to_analyze(files)
+            for f in reusable:
+                cached = self._cache.load(f)
+                if cached:
+                    result.issues.extend(self._filter_issues(cached.issues))
+            files_to_parse = sorted(to_analyze)
+        else:
+            files_to_parse = files
+
         asts: dict[str, c_ast.FileAST] = {}
-        for f in files:
+        for f in files_to_parse:
             ast, parse_errors = self._parser.parse_file(f)
             result.issues.extend(parse_errors)
             if ast is not None:
                 asts[f] = ast
-                result.files_analyzed.append(f)
 
         ctx = self._build_context(asts)
 
         for filename, ast in asts.items():
+            file_issues: list[Issue] = []
             for checker_cls in self._checker_classes:
                 checker = checker_cls()
                 checker.set_file(filename)
                 checker.set_context(ctx)
-                issues = checker.check(ast)
-                result.issues.extend(self._filter_issues(issues))
+                file_issues.extend(checker.check(ast))
+
+            if self._cache is not None:
+                self._save_cache(filename, file_issues, ctx)
+
+            result.issues.extend(self._filter_issues(file_issues))
 
         result.issues.sort(key=lambda i: (i.file, i.line, i.column))
         return result
+
+    def _save_cache(
+        self, filename: str, issues: list[Issue], ctx: AnalysisContext
+    ) -> None:
+        if self._cache is None:
+            return
+        try:
+            content_hash = hash_file(filename)
+        except OSError:
+            return
+        try:
+            mtime = Path(filename).stat().st_mtime
+        except OSError:
+            mtime = 0.0
+
+        callees = sorted({
+            site.callee
+            for caller, sites in ctx.call_graph.edges.items()
+            for site in sites
+            if site.file == filename
+        })
+        defines = sorted({
+            f.name
+            for f in ctx.symbol_table.all_functions()
+            if f.is_definition and f.file == filename and not f.is_static
+        })
+        self._cache.save(
+            FileCache(
+                path=filename,
+                content_hash=content_hash,
+                mtime=mtime,
+                issues=list(issues),
+                callees=callees,
+                defines=defines,
+            )
+        )
 
     def analyze_file(self, filepath: str) -> list[Issue]:
         ast, parse_errors = self._parser.parse_file(filepath)
