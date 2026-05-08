@@ -7,7 +7,11 @@ from typing import Optional
 
 from pycparser import CParser as _CParser
 from pycparser import c_ast, parse_file
-from pycparser.plyparser import ParseError
+
+try:
+    from pycparser.plyparser import ParseError  # pycparser < 3.0
+except ImportError:
+    from pycparser.c_parser import ParseError  # pycparser >= 3.0
 
 from covia.models import Issue, Severity
 

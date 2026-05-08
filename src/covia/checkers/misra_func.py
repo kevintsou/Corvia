@@ -41,7 +41,15 @@ class MisraFuncChecker(BaseChecker):
         func_name = node.decl.name if node.decl else None
 
         if func_name and node.body:
-            self._check_direct_recursion(func_name, node.body, node)
+            if self._ctx is not None and self._ctx.call_graph.is_recursive(func_name):
+                self.report(
+                    node.decl,
+                    f"Function '{func_name}' is recursive (direct or indirect)",
+                    Severity.WARNING,
+                    RULE_17_2,
+                )
+            else:
+                self._check_direct_recursion(func_name, node.body, node)
 
         if node.decl and node.decl.type:
             ret_type = self._get_return_type(node.decl.type)
@@ -72,6 +80,29 @@ class MisraFuncChecker(BaseChecker):
                     RULE_17_1,
                 )
         self.generic_visit(node)
+
+    def visit_Compound(self, node: c_ast.Compound) -> None:
+        for stmt in node.block_items or []:
+            if isinstance(stmt, c_ast.FuncCall) and isinstance(stmt.name, c_ast.ID):
+                self._check_unused_return(stmt)
+        self.generic_visit(node)
+
+    def _check_unused_return(self, call: c_ast.FuncCall) -> None:
+        if self._ctx is None:
+            return
+        callee = call.name.name if isinstance(call.name, c_ast.ID) else None
+        if callee is None:
+            return
+        sym = self._ctx.symbol_table.lookup_function(callee)
+        if sym is None:
+            return
+        if sym.return_type and sym.return_type not in ("void", ""):
+            self.report(
+                call,
+                f"Return value of non-void function '{callee}' is discarded",
+                Severity.WARNING,
+                RULE_17_7,
+            )
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
         if isinstance(node.type, c_ast.IdentifierType):

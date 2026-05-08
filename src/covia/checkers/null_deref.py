@@ -23,6 +23,19 @@ def _is_null(node: c_ast.Node) -> bool:
     return False
 
 
+def _callee_returns_null(rvalue: c_ast.Node, ctx) -> bool:
+    """If the rvalue is a FuncCall to a function whose summary says it may
+    return NULL, treat the assigned variable as definitely-NULL for analysis."""
+    if ctx is None:
+        return False
+    target = rvalue
+    if isinstance(target, c_ast.Cast) and target.expr is not None:
+        target = target.expr
+    if isinstance(target, c_ast.FuncCall) and isinstance(target.name, c_ast.ID):
+        return ctx.function_returns_null(target.name.name)
+    return False
+
+
 class _NullState:
     """null_vars: definitely NULL, nonnull_vars: definitely not NULL."""
 
@@ -44,8 +57,9 @@ class _NullState:
 
 
 class _NullAnalysis(ForwardAnalysis[_NullState]):
-    def __init__(self) -> None:
+    def __init__(self, ctx=None) -> None:
         self.deref_issues: list[tuple[c_ast.Node, str]] = []
+        self.ctx = ctx
 
     def initial_state(self) -> _NullState:
         return _NullState()
@@ -81,6 +95,10 @@ class _NullAnalysis(ForwardAnalysis[_NullState]):
             if stmt.init and _is_null(stmt.init):
                 state.null_vars.add(stmt.name)
                 state.nonnull_vars.discard(stmt.name)
+            elif stmt.init and _callee_returns_null(stmt.init, self.ctx):
+                self._check_deref_expr(stmt.init, state)
+                state.null_vars.add(stmt.name)
+                state.nonnull_vars.discard(stmt.name)
             elif stmt.init:
                 self._check_deref_expr(stmt.init, state)
                 state.null_vars.discard(stmt.name)
@@ -91,6 +109,9 @@ class _NullAnalysis(ForwardAnalysis[_NullState]):
             if isinstance(stmt.lvalue, c_ast.ID):
                 name = stmt.lvalue.name
                 if _is_null(stmt.rvalue):
+                    state.null_vars.add(name)
+                    state.nonnull_vars.discard(name)
+                elif _callee_returns_null(stmt.rvalue, self.ctx):
                     state.null_vars.add(name)
                     state.nonnull_vars.discard(name)
                 else:
@@ -153,7 +174,7 @@ class NullDerefChecker(BaseChecker):
             return
 
         cfg = build_cfg(node)
-        analysis = _NullAnalysis()
+        analysis = _NullAnalysis(ctx=self._ctx)
         analysis.analyze(cfg)
 
         reported: set[tuple[int, str]] = set()
