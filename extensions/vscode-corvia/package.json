@@ -1,0 +1,92 @@
+{
+  "name": "vscode-corvia",
+  "displayName": "Corvia",
+  "description": "C static analysis with MISRA C:2012 support",
+  "version": "0.1.0",
+  "publisher": "kevintsou",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevintsou/Corvia.git"
+  },
+  "license": "MIT",
+  "categories": [
+    "Linters",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "c",
+    "static-analysis",
+    "misra",
+    "linter",
+    "lsp"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": [
+    "onLanguage:c",
+    "onLanguage:cpp",
+    "workspaceContains:**/*.c"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Corvia",
+      "properties": {
+        "corvia.serverPath": {
+          "type": "string",
+          "default": "corvia-lsp",
+          "description": "Path to the corvia-lsp executable. Use the full path if it isn't on PATH."
+        },
+        "corvia.transport": {
+          "type": "string",
+          "enum": ["stdio", "tcp"],
+          "default": "stdio",
+          "description": "Transport for talking to corvia-lsp."
+        },
+        "corvia.tcp.host": {
+          "type": "string",
+          "default": "127.0.0.1",
+          "description": "Host (only used when transport=tcp)."
+        },
+        "corvia.tcp.port": {
+          "type": "number",
+          "default": 9999,
+          "description": "Port (only used when transport=tcp)."
+        },
+        "corvia.trace.server": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Traces communication between VS Code and corvia-lsp."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "corvia.restartServer",
+        "title": "Corvia: Restart Language Server"
+      },
+      {
+        "command": "corvia.showOutput",
+        "title": "Corvia: Show Output Channel"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.0"
+  }
+}
