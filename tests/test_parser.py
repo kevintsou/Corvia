@@ -1,6 +1,6 @@
 """Tests for the C parser wrapper."""
 
-from covia.parser import CParser
+from corvia.parser import CParser
 
 
 def test_parse_valid_string():

@@ -1,7 +1,7 @@
 """Tests for the analysis engine."""
 
-from covia.engine import AnalysisEngine
-from covia.models import Severity
+from corvia.engine import AnalysisEngine
+from corvia.models import Severity
 
 
 def test_analyze_clean_file(fixtures_dir):

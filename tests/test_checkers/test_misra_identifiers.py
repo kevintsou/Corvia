@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from covia.engine import AnalysisEngine
+from corvia.engine import AnalysisEngine
 
 
 def _run(target: str):

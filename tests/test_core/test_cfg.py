@@ -2,8 +2,8 @@
 
 import pytest
 from pycparser import c_ast
-from covia.parser import CParser
-from covia.core.cfg import build_cfg
+from corvia.parser import CParser
+from corvia.core.cfg import build_cfg
 
 
 @pytest.fixture

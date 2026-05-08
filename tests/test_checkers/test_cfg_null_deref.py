@@ -1,8 +1,8 @@
 """Tests for CFG-based null dereference checker."""
 
 import pytest
-from covia.parser import CParser
-from covia.checkers.null_deref import NullDerefChecker
+from corvia.parser import CParser
+from corvia.checkers.null_deref import NullDerefChecker
 
 
 @pytest.fixture

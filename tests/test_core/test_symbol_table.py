@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from covia.core.symbol_table import build_symbol_table
-from covia.parser import CParser
+from corvia.core.symbol_table import build_symbol_table
+from corvia.parser import CParser
 
 
 def _parse(src: str, name: str = "<test>"):

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from covia.core.cache import CacheManager, FileCache, hash_file
-from covia.engine import AnalysisEngine
-from covia.models import Issue, Severity
+from corvia.core.cache import CacheManager, FileCache, hash_file
+from corvia.engine import AnalysisEngine
+from corvia.models import Issue, Severity
 
 
 def test_hash_file_changes_with_content(tmp_path: Path):
@@ -50,7 +50,7 @@ def test_save_and_load_roundtrip(tmp_path: Path):
 def test_engine_writes_cache_on_first_run(tmp_path: Path):
     src = tmp_path / "a.c"
     src.write_text("int *get(void) { return 0; }\n")
-    cache_dir = tmp_path / "covia_cache"
+    cache_dir = tmp_path / "corvia_cache"
 
     engine = AnalysisEngine(incremental=True, cache_dir=str(cache_dir))
     engine.analyze([str(src)])
@@ -69,7 +69,7 @@ def test_unchanged_file_reuses_cache(tmp_path: Path):
         void leak(void) { char *p = malloc(8); }
         """
     )
-    cache_dir = tmp_path / "covia_cache"
+    cache_dir = tmp_path / "corvia_cache"
 
     e1 = AnalysisEngine(incremental=True, cache_dir=str(cache_dir))
     r1 = e1.analyze([str(src)])
@@ -86,7 +86,7 @@ def test_unchanged_file_reuses_cache(tmp_path: Path):
 def test_changed_file_invalidates(tmp_path: Path):
     src = tmp_path / "a.c"
     src.write_text("int *f(void) { return 0; }\n")
-    cache_dir = tmp_path / "covia_cache"
+    cache_dir = tmp_path / "corvia_cache"
 
     AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])
     h1 = hash_file(str(src))
@@ -102,7 +102,7 @@ def test_changed_file_invalidates(tmp_path: Path):
 
 
 def test_clean_cache(tmp_path: Path):
-    cache_dir = tmp_path / "covia_cache"
+    cache_dir = tmp_path / "corvia_cache"
     src = tmp_path / "a.c"
     src.write_text("int x;\n")
     AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from covia.engine import AnalysisEngine
+from corvia.engine import AnalysisEngine
 
 
 def _run(target: str):

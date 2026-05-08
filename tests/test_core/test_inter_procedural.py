@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from covia.engine import AnalysisEngine
+from corvia.engine import AnalysisEngine
 
 
 def _write(tmp_path: Path, name: str, content: str) -> str:
