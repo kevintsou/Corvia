@@ -43,6 +43,9 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--external-checkers", help="Directory containing external checker modules")
     p.add_argument("--list-checkers", action="store_true", help="List all available checkers and exit")
     p.add_argument("--no-color", action="store_true", help="Disable colored output")
+    p.add_argument("--incremental", action="store_true", help="Reuse cached results for unchanged files")
+    p.add_argument("--cache-dir", help="Cache directory (default: .covia_cache)")
+    p.add_argument("--clean-cache", action="store_true", help="Delete cache and exit")
     return p
 
 
@@ -96,6 +99,12 @@ def main(argv: list[str] | None = None) -> int:
         _list_checkers()
         return 0
 
+    if args.clean_cache:
+        from covia.core.cache import CacheManager
+        CacheManager(args.cache_dir or ".covia_cache").clear()
+        print("Cache cleared.")
+        return 0
+
     if not args.targets:
         parser.error("No targets specified. Use --list-checkers or provide files/directories.")
 
@@ -111,6 +120,8 @@ def main(argv: list[str] | None = None) -> int:
         use_cpp=args.use_cpp,
         include_dirs=args.include if args.include else None,
         external_checkers_dir=args.external_checkers,
+        incremental=args.incremental,
+        cache_dir=args.cache_dir,
     )
 
     result = engine.analyze(args.targets)
