@@ -1,6 +1,6 @@
-# COVIA — C Static Analyzer with MISRA C:2012 Support
+# Corvia — C Static Analyzer with MISRA C:2012 Support
 
-COVIA is a Python-based static analysis tool for C code, inspired by Coverity. It detects bugs, undefined behaviour, and MISRA C:2012 rule violations using AST-level and CFG-based dataflow analysis.
+Corvia is a Python-based static analysis tool for C code, inspired by Coverity. It detects bugs, undefined behaviour, and MISRA C:2012 rule violations using AST-level and CFG-based dataflow analysis.
 
 ---
 
