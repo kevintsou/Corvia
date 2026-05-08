@@ -46,6 +46,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--incremental", action="store_true", help="Reuse cached results for unchanged files")
     p.add_argument("--cache-dir", help="Cache directory (default: .corvia_cache)")
     p.add_argument("--clean-cache", action="store_true", help="Delete cache and exit")
+    p.add_argument("--config", help="Path to corvia.toml (default: auto-discover from cwd)")
+    p.add_argument("--no-config", action="store_true", help="Ignore corvia.toml and use CLI flags only")
     return p
 
 
@@ -112,6 +114,28 @@ def main(argv: list[str] | None = None) -> int:
     min_severity = _SEVERITY_MAP[args.severity]
     misra_category = _MISRA_CAT_MAP.get(args.misra_category) if args.misra_category else None
 
+    config = None
+    if not args.no_config:
+        from corvia.core.config import ConfigError, discover, load
+        try:
+            if args.config:
+                config = load(args.config)
+            else:
+                config = discover(".")
+        except ConfigError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 2
+        if config and config.source_path:
+            print(f"Using config: {config.source_path}", file=sys.stderr)
+
+    output_format = args.format
+    if config and config.output_format and "-f" not in (argv or sys.argv) and "--format" not in (argv or sys.argv):
+        output_format = config.output_format
+
+    no_color = args.no_color
+    if config and config.no_color is not None and not args.no_color:
+        no_color = config.no_color
+
     engine = AnalysisEngine(
         checker_ids=checker_ids,
         min_severity=min_severity,
@@ -122,18 +146,19 @@ def main(argv: list[str] | None = None) -> int:
         external_checkers_dir=args.external_checkers,
         incremental=args.incremental,
         cache_dir=args.cache_dir,
+        config=config,
     )
 
     result = engine.analyze(args.targets)
 
-    if args.format == "json":
+    if output_format == "json":
         output = JsonReporter().generate(result)
-    elif args.format == "html":
+    elif output_format == "html":
         output = HtmlReporter().generate(result)
-    elif args.format == "md":
+    elif output_format == "md":
         output = MdReporter().generate(result)
     else:
-        use_color = not args.no_color and sys.stdout.isatty()
+        use_color = not no_color and sys.stdout.isatty()
         output = _format_text(result, use_color)
 
     if args.output:

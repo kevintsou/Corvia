@@ -12,6 +12,10 @@ from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
 RULE_22_1 = MisraRule("22.1", MisraCategory.REQUIRED, "All resources obtained dynamically by means of Standard Library functions shall be explicitly released")
+RULE_22_5 = MisraRule(
+    "22.5", MisraCategory.MANDATORY,
+    "A pointer to a FILE object shall not be dereferenced",
+)
 RULE_22_6 = MisraRule("22.6", MisraCategory.MANDATORY, "The value of a pointer to a FILE shall not be used after the associated stream has been closed")
 
 _OPEN_FUNCS = {"fopen", "tmpfile", "fdopen", "freopen", "popen"}
@@ -117,11 +121,13 @@ class ResourceLeakChecker(BaseChecker):
     checker_id = "resource-leak"
     description = "Detects resource leaks (fopen without fclose) using CFG analysis"
     default_severity = Severity.WARNING
-    misra_rules = [RULE_22_1, RULE_22_6]
+    misra_rules = [RULE_22_1, RULE_22_5, RULE_22_6]
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
         if node.body is None or node.body.block_items is None:
             return
+
+        self._check_file_deref_22_5(node)
 
         if not self._has_resource_calls(node.body):
             return
@@ -168,6 +174,43 @@ class ResourceLeakChecker(BaseChecker):
                                 Severity.ERROR,
                                 RULE_22_6,
                             )
+
+    def _check_file_deref_22_5(self, func: c_ast.FuncDef) -> None:
+        """Find variables of type FILE* and report any *p / p-> dereference."""
+        file_vars: set[str] = set()
+        self._collect_file_vars(func, file_vars)
+        if not file_vars:
+            return
+        self._scan_for_deref(func.body, file_vars)
+
+    def _collect_file_vars(self, node: c_ast.Node, out: set[str]) -> None:
+        if isinstance(node, c_ast.Decl) and node.name and isinstance(node.type, c_ast.PtrDecl):
+            inner = node.type.type
+            if isinstance(inner, c_ast.TypeDecl) and isinstance(inner.type, c_ast.IdentifierType):
+                if "FILE" in inner.type.names:
+                    out.add(node.name)
+        for _, child in node.children():
+            self._collect_file_vars(child, out)
+
+    def _scan_for_deref(self, node: c_ast.Node, file_vars: set[str]) -> None:
+        if isinstance(node, c_ast.UnaryOp) and node.op == "*":
+            if isinstance(node.expr, c_ast.ID) and node.expr.name in file_vars:
+                self.report(
+                    node,
+                    f"Dereference of FILE pointer '{node.expr.name}'",
+                    Severity.ERROR,
+                    RULE_22_5,
+                )
+        elif isinstance(node, c_ast.StructRef) and node.type == "->":
+            if isinstance(node.name, c_ast.ID) and node.name.name in file_vars:
+                self.report(
+                    node,
+                    f"Dereference of FILE pointer '{node.name.name}' via '->'",
+                    Severity.ERROR,
+                    RULE_22_5,
+                )
+        for _, child in node.children():
+            self._scan_for_deref(child, file_vars)
 
     def _has_resource_calls(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
