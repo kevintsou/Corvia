@@ -2,8 +2,8 @@
 
 import json
 
-from covia.models import AnalysisResult, Issue, MisraCategory, MisraRule, Severity
-from covia.reporters.json_reporter import JsonReporter
+from corvia.models import AnalysisResult, Issue, MisraCategory, MisraRule, Severity
+from corvia.reporters.json_reporter import JsonReporter
 
 
 def _make_result():

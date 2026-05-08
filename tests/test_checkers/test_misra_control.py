@@ -1,6 +1,6 @@
 """Tests for the MISRA control flow checker."""
 
-from covia.checkers.misra_control import MisraControlChecker
+from corvia.checkers.misra_control import MisraControlChecker
 
 
 def test_goto_detected(parse_c):

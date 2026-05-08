@@ -1,6 +1,6 @@
 """Tests for the MISRA expression checker."""
 
-from covia.checkers.misra_expr import MisraExprChecker
+from corvia.checkers.misra_expr import MisraExprChecker
 
 
 def test_shift_out_of_range(parse_c):

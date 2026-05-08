@@ -1,6 +1,6 @@
 """Tests for the buffer overflow checker."""
 
-from covia.checkers.buffer_overflow import BufferOverflowChecker
+from corvia.checkers.buffer_overflow import BufferOverflowChecker
 
 
 def test_oob_access(parse_c):

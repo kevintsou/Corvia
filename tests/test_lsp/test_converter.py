@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from covia.lsp.converter import (
+from corvia.lsp.converter import (
     LSP_ERROR,
     LSP_INFO,
     LSP_WARNING,
@@ -11,7 +11,7 @@ from covia.lsp.converter import (
     issues_by_file,
     path_to_file_uri,
 )
-from covia.models import Issue, MisraCategory, MisraRule, Severity
+from corvia.models import Issue, MisraCategory, MisraRule, Severity
 
 
 def test_basic_conversion():
@@ -27,7 +27,7 @@ def test_basic_conversion():
     assert d["severity"] == LSP_ERROR
     assert d["range"]["start"]["line"] == 11
     assert d["range"]["start"]["character"] == 4
-    assert d["source"] == "covia"
+    assert d["source"] == "corvia"
     assert d["code"] == "null-deref"
 
 

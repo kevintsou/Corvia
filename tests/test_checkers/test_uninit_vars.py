@@ -1,6 +1,6 @@
 """Tests for the uninitialized variables checker."""
 
-from covia.checkers.uninit_vars import UninitVarsChecker
+from corvia.checkers.uninit_vars import UninitVarsChecker
 
 
 def test_basic_uninit(parse_c):

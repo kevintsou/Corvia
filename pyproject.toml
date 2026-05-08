@@ -3,9 +3,9 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "covia"
+name = "corvia"
 version = "0.1.0"
-description = "COVIA - C language static analysis tool with MISRA C:2012 support"
+description = "CORVIA - C language static analysis tool with MISRA C:2012 support"
 requires-python = ">=3.9"
 dependencies = [
     "pycparser>=2.21",
@@ -23,8 +23,8 @@ lsp = [
 ]
 
 [project.scripts]
-covia = "covia.cli:main"
-covia-lsp = "covia.lsp.server:main"
+corvia = "corvia.cli:main"
+corvia-lsp = "corvia.lsp.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

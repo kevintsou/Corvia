@@ -1,8 +1,8 @@
 """Tests for the resource leak checker."""
 
 import pytest
-from covia.parser import CParser
-from covia.checkers.resource_leak import ResourceLeakChecker
+from corvia.parser import CParser
+from corvia.checkers.resource_leak import ResourceLeakChecker
 
 
 @pytest.fixture

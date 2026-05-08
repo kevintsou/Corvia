@@ -10,20 +10,20 @@ import pytest
 
 
 def test_server_module_importable():
-    from covia.lsp import server  # noqa: F401
+    from corvia.lsp import server  # noqa: F401
 
 
 def test_create_server_when_pygls_available():
     pytest.importorskip("pygls")
     pytest.importorskip("lsprotocol")
-    from covia.lsp.server import create_server
+    from corvia.lsp.server import create_server
 
     server = create_server()
     assert server is not None
 
 
 def test_argparse_defaults():
-    from covia.lsp.server import _build_parser
+    from corvia.lsp.server import _build_parser
 
     args = _build_parser().parse_args([])
     assert args.tcp is False

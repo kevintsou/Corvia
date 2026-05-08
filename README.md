@@ -8,15 +8,18 @@
 
 # English
 
-Corvia is a Python-based static analysis tool for C code, inspired by Coverity. It detects bugs, undefined behaviour, and MISRA C:2012 rule violations using AST-level and CFG-based dataflow analysis.
+Corvia is a Python-based static analysis tool for C code, inspired by Coverity. It detects bugs, undefined behaviour, and MISRA C:2012 rule violations using AST-level checks, CFG-based dataflow, and **inter-procedural / cross-file analysis** (Phase 3).
 
 ---
 
 ## Features
 
-- **66+ MISRA C:2012 rules** covered across 13 sections
+- **96+ MISRA C:2012 rules** covered across 16 sections
+- **Inter-procedural analysis** — function summaries flow across files so wrappers (`xalloc`, `xopen`, `xfree`) are recognized as allocators / openers / closers
 - **CFG-based dataflow analysis** for null dereference, uninitialized variables, memory and resource leaks
-- **Control Flow Graph (CFG)** builder with forward/backward analysis framework
+- **Symbol table + call graph** — detects indirect recursion, cross-file identifier collisions (5.1, 5.7, 5.8, 5.9), and unused non-void return values (17.7)
+- **Incremental analysis** — content-hash cache + reverse-dependency invalidation; only re-analyze files that actually changed
+- **LSP server** (`corvia-lsp`) — drop-in for any LSP-capable editor (VS Code, Neovim, Emacs, …)
 - **Multiple output formats**: plain text (with color), JSON, HTML, Markdown
 - **Extensible checker architecture** — drop in custom checkers via `--external-checkers`
 - **MISRA filtering** — `--misra-only`, `--misra-category mandatory|required|advisory`
@@ -30,7 +33,8 @@ Corvia is a Python-based static analysis tool for C code, inspired by Coverity. 
 ```bash
 git clone https://github.com/kevintsou/Corvia.git
 cd Corvia
-pip install -e ".[dev]"
+pip install -e ".[dev]"          # base + dev tools
+pip install -e ".[dev,lsp]"      # also install LSP server
 ```
 
 ---
@@ -39,32 +43,41 @@ pip install -e ".[dev]"
 
 ```bash
 # Analyze a file or directory
-covia path/to/file.c
-covia src/
+corvia path/to/file.c
+corvia src/
 
 # Choose output format
-covia src/ --format json
-covia src/ --format html -o report.html
-covia src/ --format md   -o report.md
+corvia src/ --format json
+corvia src/ --format html -o report.html
+corvia src/ --format md   -o report.md
 
 # Filter by severity
-covia src/ --severity warning
+corvia src/ --severity warning
 
 # Show only MISRA violations
-covia src/ --misra-only
-covia src/ --misra-only --misra-category required
+corvia src/ --misra-only
+corvia src/ --misra-only --misra-category required
 
 # Enable specific checkers only
-covia src/ --checkers null-deref,memory-leak
+corvia src/ --checkers null-deref,memory-leak
 
 # List all available checkers
-covia --list-checkers
+corvia --list-checkers
 
 # Use C preprocessor (for macro-heavy code)
-covia src/ --use-cpp -I/usr/include
+corvia src/ --use-cpp -I/usr/include
 
 # Load external custom checkers
-covia src/ --external-checkers ./custom_checkers/
+corvia src/ --external-checkers ./custom_checkers/
+
+# Incremental analysis (cache results between runs)
+corvia src/ --incremental
+corvia src/ --incremental --cache-dir .my_cache
+corvia --clean-cache
+
+# Run the LSP server
+corvia-lsp --stdio
+corvia-lsp --tcp --host 127.0.0.1 --port 9999
 ```
 
 ### Sample Output
@@ -88,32 +101,39 @@ MISRA rules violated: 3
 | `unused-vars` | Unused variables, tags, parameters | 2.2, 2.3, 2.7 |
 | `uninit-var` | Uninitialized variable reads (CFG-based) | 9.1 |
 | `dead-code` | Unreachable code, always-true/false conditions | 2.1, 14.3 |
-| `null-deref` | NULL pointer dereference via `*`, `->`, `[]` (CFG-based) | 1.3 |
+| `null-deref` | NULL pointer dereference via `*`, `->`, `[]` (CFG + summaries) | 1.3 |
 | `buffer-overflow` | Array index out of bounds | 1.3, 18.1 |
-| `memory-leak` | malloc/calloc/realloc without free (CFG-based) | 22.1, 22.2 |
-| `resource-leak` | fopen/popen without fclose, use-after-close (CFG-based) | 22.1, 22.6 |
+| `memory-leak` | malloc/calloc/realloc without free (CFG + summaries) | 22.1, 22.2 |
+| `resource-leak` | fopen/popen without fclose, use-after-close (CFG + summaries) | 22.1, 22.6 |
 | `misra-types` | Implicit/narrowing conversions, sign mixing | 10.1–10.8 |
 | `misra-decl` | Missing types, extern misuse, static/inline rules | 8.1–8.14 |
 | `misra-expr` | Operator precedence, side effects, comma operator | 12.1–12.5, 13.1–13.6 |
 | `misra-control` | goto, switch, if-else completeness rules | 14.1–14.4, 15.1–15.7 |
-| `misra-func` | stdarg prohibition, implicit declarations, return values | 17.1–17.8 |
+| `misra-func` | stdarg prohibition, indirect recursion, unused return values | 17.1–17.8 |
 | `misra-pointer` | Pointer arithmetic, array decay, function pointers | 18.1–18.8 |
 | `misra-preproc` | Macro restrictions, `#include` ordering (AST-detectable) | 20.7, 20.10–20.12, 20.14 |
+| **`misra-identifiers`** | External / typedef / tag / linkage uniqueness, scope shadowing | 5.1, 5.3, 5.6–5.9 |
+| **`misra-pointer-conv`** | Function-pointer / object-pointer / void-pointer / qualifier casts | 11.1–11.9 |
+| **`misra-stdlib`** | Forbidden Standard Library usage, reserved identifiers | 21.1–21.10, 21.12 |
+
+Bold entries were added in Phase 3.
 
 ---
 
 ## MISRA C:2012 Coverage
 
 <details>
-<summary>All 66+ implemented rules (click to expand)</summary>
+<summary>All 96+ implemented rules (click to expand)</summary>
 
 | Section | Rules |
 |---|---|
 | §1 — Undefined Behaviour | 1.3 |
 | §2 — Unused Code | 2.1, 2.2, 2.3, 2.7 |
+| §5 — Identifiers | 5.1, 5.3, 5.6, 5.7, 5.8, 5.9 |
 | §8 — Declarations & Definitions | 8.1–8.14 |
 | §9 — Initialization | 9.1 |
 | §10 — Type Conversions | 10.1–10.8 |
+| §11 — Pointer Type Conversions | 11.1–11.9 |
 | §12 — Expressions | 12.1–12.5 |
 | §13 — Side Effects | 13.1–13.6 |
 | §14 — Control Flow | 14.1–14.4 |
@@ -121,6 +141,7 @@ MISRA rules violated: 3
 | §17 — Functions | 17.1–17.8 |
 | §18 — Pointers & Arrays | 18.1–18.8 |
 | §20 — Preprocessing | 20.7, 20.10–20.12, 20.14 |
+| §21 — Standard Libraries | 21.1, 21.2, 21.3, 21.4, 21.5, 21.6, 21.7, 21.8, 21.9, 21.10, 21.12 |
 | §22 — Resources | 22.1, 22.2, 22.6 |
 
 </details>
@@ -130,36 +151,65 @@ MISRA rules violated: 3
 ## Architecture
 
 ```
-src/covia/
+src/corvia/
 ├── cli.py                  # Argument parsing, colored output, entry point
-├── engine.py               # Multi-file analysis orchestrator
+├── engine.py               # Two-pass analysis orchestrator (parse-all → context → checkers)
 ├── parser.py               # pycparser wrapper with fake libc headers
 ├── registry.py             # Checker auto-discovery and registration
 ├── models.py               # Issue, MisraRule, Severity, AnalysisResult
 ├── core/
 │   ├── cfg.py              # Control Flow Graph builder
-│   └── dataflow.py         # Generic ForwardAnalysis / BackwardAnalysis
+│   ├── dataflow.py         # Generic ForwardAnalysis / BackwardAnalysis
+│   ├── symbol_table.py     # Cross-file symbol table (Phase 3)
+│   ├── call_graph.py       # Call graph + Tarjan SCC (Phase 3)
+│   ├── summary.py          # FunctionSummary bottom-up computation (Phase 3)
+│   ├── context.py          # AnalysisContext bundle for checkers (Phase 3)
+│   └── cache.py            # Content-hash incremental cache (Phase 3)
 ├── checkers/
-│   ├── base.py             # BaseChecker (NodeVisitor + report())
-│   ├── null_deref.py       # CFG-based null pointer analysis
-│   ├── memory_leak.py      # CFG-based malloc/free tracking
-│   ├── resource_leak.py    # CFG-based fopen/fclose tracking
-│   ├── uninit_vars.py      # CFG-based uninitialized variable detection
-│   └── ...                 # (11 more checkers)
+│   ├── base.py             # BaseChecker (NodeVisitor + report() + set_context())
+│   ├── null_deref.py       # CFG + summary-aware null pointer analysis
+│   ├── memory_leak.py      # CFG + summary-aware malloc/free tracking
+│   ├── resource_leak.py    # CFG + summary-aware fopen/fclose tracking
+│   ├── misra_identifiers.py     # §5 (Phase 3)
+│   ├── misra_pointer_conv.py    # §11 (Phase 3)
+│   ├── misra_standard_lib.py    # §21 (Phase 3)
+│   └── ...                      # 12 other checkers
+├── lsp/
+│   ├── converter.py        # Issue → LSP Diagnostic (pygls-free) (Phase 3)
+│   └── server.py           # corvia-lsp entry point (Phase 3)
 └── reporters/
     ├── json_reporter.py
     ├── html_reporter.py
     └── md_reporter.py
 ```
 
+### Two-Pass Analysis Pipeline (Phase 3)
+
+```
+Pass 1: parse all targets
+  ↓
+  build SymbolTable    (cross-file globals, statics, typedefs, tags)
+  ↓
+  build CallGraph      (every FuncCall edge, Tarjan SCC for recursion)
+  ↓
+  compute Summaries    (bottom-up over SCCs, fixpoint inside cycles)
+  ↓
+Pass 2: run every checker on every AST with shared AnalysisContext
+```
+
+This lets a checker analyzing `f` ask, in O(1):
+- Does callee `g` ever return NULL?
+- Does callee `g` allocate / open / free / close?
+- Are `f` and `g` (mutually) recursive?
+
 ### Adding a Custom Checker
 
 ```python
 # custom_checkers/my_checker.py
 from pycparser import c_ast
-from covia.checkers.base import BaseChecker
-from covia.models import MisraRule, MisraCategory, Severity
-from covia.registry import CheckerRegistry
+from corvia.checkers.base import BaseChecker
+from corvia.models import MisraRule, MisraCategory, Severity
+from corvia.registry import CheckerRegistry
 
 MY_RULE = MisraRule("15.5", MisraCategory.REQUIRED, "A function should have a single point of exit")
 
@@ -170,6 +220,9 @@ class SingleReturnChecker(BaseChecker):
     misra_rules = [MY_RULE]
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
+        # Optional: use cross-function context
+        if self._ctx and self._ctx.summary_of(node.decl.name):
+            ...
         # ... your analysis logic
         pass
 
@@ -177,7 +230,7 @@ CheckerRegistry.register(SingleReturnChecker)
 ```
 
 ```bash
-covia src/ --external-checkers ./custom_checkers/
+corvia src/ --external-checkers ./custom_checkers/
 ```
 
 ---
@@ -189,7 +242,7 @@ covia src/ --external-checkers ./custom_checkers/
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=covia --cov-report=html
+pytest tests/ --cov=corvia --cov-report=html
 
 # Run a specific checker's tests
 pytest tests/test_checkers/test_null_deref.py -v
@@ -200,21 +253,25 @@ pytest tests/test_checkers/test_null_deref.py -v
 ```
 tests/
 ├── fixtures/           # C source files used as test inputs
-├── test_checkers/      # Per-checker unit tests (11 files)
-├── test_core/          # CFG and dataflow framework tests
-├── test_reporters/     # JSON and Markdown reporter tests
+├── test_checkers/      # Per-checker unit tests
+├── test_core/          # CFG, dataflow, symbol_table, call_graph, summary, cache
+├── test_lsp/           # LSP converter + server smoke tests
+├── test_reporters/     # JSON / Markdown reporter tests
 ├── test_engine.py
 └── test_parser.py
 ```
+
+Total: **118 tests passing**.
 
 ---
 
 ## Roadmap
 
-- **Phase 3**: Inter-procedural / cross-file analysis (SymbolTable + CallGraph)
-- **Phase 3**: Expand MISRA coverage to ~100+ rules (Sections 5, 6, 7, 11, 16, 19, 21)
-- LSP / IDE integration
-- Incremental analysis (only re-check changed files)
+- [x] **Phase 1 & 2** — AST checkers, CFG/dataflow framework, MISRA C:2012 §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
+- [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary inter-procedural analysis; MISRA §5, §11, §21; incremental cache; LSP server
+- [ ] **Phase 4** — MISRA §6 (bit-fields), §7 (literals), §16 (switch), §19 (overlapping storage)
+- [ ] VS Code extension wrapping `corvia-lsp`
+- [ ] Project-config file (`corvia.toml`) for per-rule severity overrides
 
 ---
 
@@ -228,15 +285,18 @@ MIT
 
 # 中文
 
-Corvia 是一款以 Python 實作的 C 語言靜態分析工具，靈感來自 Coverity。透過 AST 層級分析與基於控制流圖（CFG）的資料流分析，偵測程式錯誤、未定義行為以及 MISRA C:2012 規則違反。
+Corvia 是一款以 Python 實作的 C 語言靜態分析工具，靈感來自 Coverity。透過 AST 層級分析、基於控制流圖（CFG）的資料流分析，以及 **跨函式／跨檔案分析**（Phase 3），偵測程式錯誤、未定義行為以及 MISRA C:2012 規則違反。
 
 ---
 
 ## 功能特色
 
-- 涵蓋 **13 個章節、66+ 條 MISRA C:2012 規則**
+- 涵蓋 **16 個章節、96+ 條 MISRA C:2012 規則**
+- **跨函式分析**：函式摘要會跨檔案傳遞，能辨識 `xalloc`、`xopen`、`xfree` 等包裝函式
 - **CFG 資料流分析**：偵測空指標解引用、未初始化變數、記憶體與資源洩漏
-- **控制流圖（CFG）**建構器，支援前向／後向分析框架
+- **符號表 + 呼叫圖**：偵測間接遞迴、跨檔識別字衝突（5.1、5.7、5.8、5.9）、未使用非 void 回傳值（17.7）
+- **增量分析**：內容雜湊 cache + 反向依賴失效；只重分析真正有變動的檔案
+- **LSP 伺服器**（`corvia-lsp`）：相容於 VS Code、Neovim、Emacs 等所有 LSP 編輯器
 - **多種輸出格式**：純文字（彩色）、JSON、HTML、Markdown
 - **可擴充的 checker 架構**：透過 `--external-checkers` 載入自訂檢查器
 - **MISRA 過濾**：`--misra-only`、`--misra-category mandatory|required|advisory`
@@ -250,7 +310,8 @@ Corvia 是一款以 Python 實作的 C 語言靜態分析工具，靈感來自 C
 ```bash
 git clone https://github.com/kevintsou/Corvia.git
 cd Corvia
-pip install -e ".[dev]"
+pip install -e ".[dev]"          # 基本 + 開發工具
+pip install -e ".[dev,lsp]"      # 含 LSP 伺服器
 ```
 
 ---
@@ -259,182 +320,85 @@ pip install -e ".[dev]"
 
 ```bash
 # 分析單一檔案或目錄
-covia path/to/file.c
-covia src/
+corvia path/to/file.c
+corvia src/
 
 # 指定輸出格式
-covia src/ --format json
-covia src/ --format html -o report.html
-covia src/ --format md   -o report.md
+corvia src/ --format json
+corvia src/ --format html -o report.html
+corvia src/ --format md   -o report.md
 
 # 依嚴重程度過濾
-covia src/ --severity warning
+corvia src/ --severity warning
 
 # 只顯示 MISRA 規則違反
-covia src/ --misra-only
-covia src/ --misra-only --misra-category required
+corvia src/ --misra-only
+corvia src/ --misra-only --misra-category required
 
 # 只啟用特定 checker
-covia src/ --checkers null-deref,memory-leak
+corvia src/ --checkers null-deref,memory-leak
 
 # 列出所有可用 checker
-covia --list-checkers
+corvia --list-checkers
 
 # 使用 C 前處理器（適合含大量巨集的程式碼）
-covia src/ --use-cpp -I/usr/include
+corvia src/ --use-cpp -I/usr/include
 
 # 載入外部自訂 checker
-covia src/ --external-checkers ./custom_checkers/
-```
+corvia src/ --external-checkers ./custom_checkers/
 
-### 輸出範例
+# 增量分析
+corvia src/ --incremental
+corvia src/ --incremental --cache-dir .my_cache
+corvia --clean-cache
 
-```
-test.c:12:5: error[null-deref] (MISRA C:2012 Rule 1.3 Required): Dereference of NULL pointer 'p'
-test.c:20:3: warning[uninit-var] (MISRA C:2012 Rule 9.1 Required): Variable 'x' may be used uninitialized
-test.c:35:1: error[memory-leak] (MISRA C:2012 Rule 22.1 Required): Memory allocated to 'buf' is never freed
-
-Summary: 3 issues (2 errors, 1 warning, 0 info) in 1 file
-MISRA rules violated: 3
-```
-
----
-
-## 檢查器一覽
-
-| Checker ID | 說明 | MISRA 規則 |
-|---|---|---|
-| `syntax` | 條件式中的賦值、缺少大括號 | 13.4, 15.6 |
-| `unused-vars` | 未使用的變數、型別標籤、參數 | 2.2, 2.3, 2.7 |
-| `uninit-var` | 未初始化變數讀取（CFG 分析） | 9.1 |
-| `dead-code` | 不可達程式碼、永真／永假條件 | 2.1, 14.3 |
-| `null-deref` | 空指標解引用 `*`、`->`、`[]`（CFG 分析） | 1.3 |
-| `buffer-overflow` | 陣列索引越界 | 1.3, 18.1 |
-| `memory-leak` | malloc/calloc/realloc 未釋放（CFG 分析） | 22.1, 22.2 |
-| `resource-leak` | fopen/popen 未關閉、關閉後使用（CFG 分析） | 22.1, 22.6 |
-| `misra-types` | 隱式轉換、窄化轉換、有無號數混用 | 10.1–10.8 |
-| `misra-decl` | 缺少型別宣告、extern 誤用、static/inline 規則 | 8.1–8.14 |
-| `misra-expr` | 運算子優先順序、副作用、逗號運算子 | 12.1–12.5, 13.1–13.6 |
-| `misra-control` | goto、switch、if-else 完整性規則 | 14.1–14.4, 15.1–15.7 |
-| `misra-func` | 禁用 stdarg、隱式宣告、回傳值規則 | 17.1–17.8 |
-| `misra-pointer` | 指標算術、陣列衰退、函式指標 | 18.1–18.8 |
-| `misra-preproc` | 巨集限制、`#include` 順序（AST 可偵測部分） | 20.7, 20.10–20.12, 20.14 |
-
----
-
-## MISRA C:2012 涵蓋範圍
-
-<details>
-<summary>全部 66+ 條已實作規則（點擊展開）</summary>
-
-| 章節 | 規則 |
-|---|---|
-| §1 — 未定義行為 | 1.3 |
-| §2 — 未使用程式碼 | 2.1, 2.2, 2.3, 2.7 |
-| §8 — 宣告與定義 | 8.1–8.14 |
-| §9 — 初始化 | 9.1 |
-| §10 — 型別轉換 | 10.1–10.8 |
-| §12 — 運算式 | 12.1–12.5 |
-| §13 — 副作用 | 13.1–13.6 |
-| §14 — 控制流 | 14.1–14.4 |
-| §15 — 控制流（if/switch） | 15.1–15.7 |
-| §17 — 函式 | 17.1–17.8 |
-| §18 — 指標與陣列 | 18.1–18.8 |
-| §20 — 前處理器 | 20.7, 20.10–20.12, 20.14 |
-| §22 — 資源管理 | 22.1, 22.2, 22.6 |
-
-</details>
-
----
-
-## 系統架構
-
-```
-src/covia/
-├── cli.py                  # 命令列參數解析、彩色輸出、程式進入點
-├── engine.py               # 多檔案分析協調器
-├── parser.py               # pycparser 封裝（含假 libc 標頭）
-├── registry.py             # Checker 自動探索與註冊
-├── models.py               # Issue、MisraRule、Severity、AnalysisResult
-├── core/
-│   ├── cfg.py              # 控制流圖建構器
-│   └── dataflow.py         # 通用前向／後向分析框架
-├── checkers/
-│   ├── base.py             # BaseChecker（NodeVisitor + report()）
-│   ├── null_deref.py       # CFG 空指標分析
-│   ├── memory_leak.py      # CFG malloc/free 追蹤
-│   ├── resource_leak.py    # CFG fopen/fclose 追蹤
-│   ├── uninit_vars.py      # CFG 未初始化變數偵測
-│   └── ...                 # （其餘 11 個 checker）
-└── reporters/
-    ├── json_reporter.py
-    ├── html_reporter.py
-    └── md_reporter.py
-```
-
-### 新增自訂 Checker
-
-```python
-# custom_checkers/my_checker.py
-from pycparser import c_ast
-from covia.checkers.base import BaseChecker
-from covia.models import MisraRule, MisraCategory, Severity
-from covia.registry import CheckerRegistry
-
-MY_RULE = MisraRule("15.5", MisraCategory.REQUIRED, "A function should have a single point of exit")
-
-class SingleReturnChecker(BaseChecker):
-    checker_id = "single-return"
-    description = "每個函式只能有一個回傳點"
-    default_severity = Severity.WARNING
-    misra_rules = [MY_RULE]
-
-    def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
-        # ... 你的分析邏輯
-        pass
-
-CheckerRegistry.register(SingleReturnChecker)
-```
-
-```bash
-covia src/ --external-checkers ./custom_checkers/
+# 啟動 LSP 伺服器
+corvia-lsp --stdio
+corvia-lsp --tcp --host 127.0.0.1 --port 9999
 ```
 
 ---
 
-## 開發指南
+## Phase 3 技術亮點
 
-```bash
-# 執行所有測試
-pytest tests/ -v
-
-# 執行含覆蓋率報告
-pytest tests/ --cov=covia --cov-report=html
-
-# 執行特定 checker 的測試
-pytest tests/test_checkers/test_null_deref.py -v
-```
-
-**測試結構：**
+### Two-Pass 分析管線
 
 ```
-tests/
-├── fixtures/           # 作為測試輸入的 C 原始碼
-├── test_checkers/      # 各 checker 單元測試（11 個檔案）
-├── test_core/          # CFG 與資料流框架測試
-├── test_reporters/     # JSON 與 Markdown 報告器測試
-├── test_engine.py
-└── test_parser.py
+Pass 1：解析所有目標
+  ↓
+  建構 SymbolTable    （跨檔全域、靜態、typedef、tag）
+  ↓
+  建構 CallGraph      （所有 FuncCall 邊；用 Tarjan SCC 偵測遞迴）
+  ↓
+  計算 FunctionSummary （依 SCC 由下而上；遇到循環用 fixpoint 收斂）
+  ↓
+Pass 2：每個 checker 在每個 AST 上跑，共享 AnalysisContext
 ```
+
+這讓分析 `f` 的 checker 可以在 O(1) 內查詢：
+- callee `g` 是否可能回傳 NULL？
+- callee `g` 是否會 allocate / open / free / close？
+- `f` 與 `g` 是否（互相）遞迴？
+
+### 增量分析
+
+每個分析過的檔案會儲存：
+- SHA-256 內容雜湊
+- 上次的 Issue 列表
+- 該檔呼叫的所有外部函式（callees）
+- 該檔定義的所有 external linkage 函式（defines）
+
+下次執行時：若 B.c 的 hash 改了 → A.c 若 callee 中含 B.c 的 defines，A.c 也會被重新分析。
 
 ---
 
 ## 開發路線圖
 
-- **Phase 3**：跨函式／跨檔案分析（SymbolTable + CallGraph）
-- **Phase 3**：擴充 MISRA 規則至 100+ 條（第 5、6、7、11、16、19、21 章節）
-- LSP／IDE 整合
-- 增量分析（只重新分析有變更的檔案）
+- [x] **Phase 1 & 2** — AST checker、CFG/dataflow 框架、MISRA §1, §2, §8–§10, §12–§15, §17, §18, §20, §22
+- [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary 跨函式分析；MISRA §5, §11, §21；增量 cache；LSP 伺服器
+- [ ] **Phase 4** — MISRA §6（bit-field）、§7（字面量）、§16（switch）、§19（重疊儲存）
+- [ ] 包裝 `corvia-lsp` 的 VS Code 擴充套件
+- [ ] 專案級設定檔（`corvia.toml`）：每條規則自訂嚴重等級
 
 ---
 
