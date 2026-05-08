@@ -1,6 +1,6 @@
 """Tests for the null pointer dereference checker."""
 
-from covia.checkers.null_deref import NullDerefChecker
+from corvia.checkers.null_deref import NullDerefChecker
 
 
 def test_null_deref_basic(parse_c):

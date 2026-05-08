@@ -1,8 +1,8 @@
 """Tests for the memory leak checker."""
 
 import pytest
-from covia.parser import CParser
-from covia.checkers.memory_leak import MemoryLeakChecker
+from corvia.parser import CParser
+from corvia.checkers.memory_leak import MemoryLeakChecker
 
 
 @pytest.fixture
