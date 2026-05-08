@@ -31,6 +31,7 @@ _BUILTIN_MODULES = [
     "misra_literals",
     "misra_switch",
     "misra_unions",
+    "misra_init",
 ]
 
 

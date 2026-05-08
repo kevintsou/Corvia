@@ -27,7 +27,26 @@ RULE_21_8 = MisraRule("21.8", MisraCategory.REQUIRED, "The library functions abo
 RULE_21_9 = MisraRule("21.9", MisraCategory.REQUIRED, "The library functions bsearch and qsort of <stdlib.h> shall not be used")
 RULE_21_10 = MisraRule("21.10", MisraCategory.REQUIRED, "The Standard Library time and date functions shall not be used")
 RULE_21_12 = MisraRule("21.12", MisraCategory.ADVISORY, "The exception handling features of <fenv.h> should not be used")
+RULE_1_4 = MisraRule(
+    "1.4", MisraCategory.REQUIRED,
+    "Emergent language features shall not be used",
+)
 
+
+# C11 emergent features (atomics, generic selection, threads, alignment).
+_EMERGENT_TYPES = {
+    "atomic_bool", "atomic_int", "atomic_uint", "atomic_long", "atomic_ulong",
+    "atomic_flag", "thrd_t", "mtx_t", "cnd_t", "tss_t", "once_flag",
+    "max_align_t",
+}
+_EMERGENT_FUNCS = {
+    "thrd_create", "thrd_join", "thrd_detach", "thrd_yield", "thrd_sleep",
+    "mtx_init", "mtx_lock", "mtx_unlock", "mtx_destroy",
+    "cnd_init", "cnd_signal", "cnd_wait", "cnd_destroy",
+    "atomic_load", "atomic_store", "atomic_exchange", "atomic_compare_exchange_strong",
+    "atomic_fetch_add", "atomic_fetch_sub",
+    "_Generic", "_Static_assert", "_Alignas", "_Alignof", "_Noreturn", "_Atomic",
+}
 
 _DYNAMIC_MEM = {"malloc", "calloc", "realloc", "free", "aligned_alloc"}
 _SETJMP = {"setjmp", "longjmp", "jmp_buf"}
@@ -59,7 +78,7 @@ class MisraStandardLibChecker(BaseChecker):
     description = "MISRA C:2012 Rules 21.x: forbidden Standard Library usage and reserved identifiers"
     default_severity = Severity.WARNING
     misra_rules = [
-        RULE_21_1, RULE_21_2, RULE_21_3, RULE_21_4, RULE_21_5,
+        RULE_1_4, RULE_21_1, RULE_21_2, RULE_21_3, RULE_21_4, RULE_21_5,
         RULE_21_6, RULE_21_7, RULE_21_8, RULE_21_9, RULE_21_10, RULE_21_12,
     ]
 
@@ -85,6 +104,8 @@ class MisraStandardLibChecker(BaseChecker):
                     self.report(node, f"Use of <signal.h> type '{typ}'", Severity.WARNING, RULE_21_5)
                 if typ in _TIME and typ.endswith(("_t",)) or typ == "tm":
                     self.report(node, f"Use of <time.h> type '{typ}'", Severity.WARNING, RULE_21_10)
+                if typ in _EMERGENT_TYPES:
+                    self.report(node, f"Use of emergent language type '{typ}'", Severity.WARNING, RULE_1_4)
         self.generic_visit(node)
 
     def _check_call(self, node: c_ast.FuncCall, name: str) -> None:
@@ -106,6 +127,8 @@ class MisraStandardLibChecker(BaseChecker):
             self.report(node, f"Use of <time.h> function '{name}'", Severity.WARNING, RULE_21_10)
         if name in _FENV:
             self.report(node, f"Use of <fenv.h> exception facility '{name}'", Severity.INFO, RULE_21_12)
+        if name in _EMERGENT_FUNCS:
+            self.report(node, f"Use of emergent language feature '{name}'", Severity.WARNING, RULE_1_4)
 
     def _is_reserved(self, name: str) -> bool:
         if name in _RESERVED_NAMES:
