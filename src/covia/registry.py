@@ -24,6 +24,9 @@ _BUILTIN_MODULES = [
     "misra_preproc",
     "memory_leak",
     "resource_leak",
+    "misra_identifiers",
+    "misra_pointer_conv",
+    "misra_standard_lib",
 ]
 
 
