@@ -311,7 +311,7 @@ Total: **118 tests passing**.
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary inter-procedural analysis; MISRA §5, §11, §21; incremental cache; LSP server
 - [x] **Phase 4** — MISRA §6 (bit-fields), §7 (literals), §16 (switch), §19 (overlapping storage)
 - [x] **Phase 5** — 7 more rules across §1, §2, §9, §16, §22; `corvia.toml` project-config file
-- [ ] VS Code extension wrapping `corvia-lsp`
+- [x] **Phase 6** — VS Code extension under `extensions/vscode-corvia/`
 
 ---
 
@@ -438,7 +438,7 @@ Pass 2：每個 checker 在每個 AST 上跑，共享 AnalysisContext
 - [x] **Phase 3** — SymbolTable + CallGraph + FunctionSummary 跨函式分析；MISRA §5, §11, §21；增量 cache；LSP 伺服器
 - [x] **Phase 4** — MISRA §6（bit-field）、§7（字面量）、§16（switch）、§19（重疊儲存）
 - [x] **Phase 5** — §1/§2/§9/§16/§22 補 7 條規則；`corvia.toml` 專案級設定檔
-- [ ] 包裝 `corvia-lsp` 的 VS Code 擴充套件
+- [x] **Phase 6** — VS Code 擴充套件位於 `extensions/vscode-corvia/`
 
 ---
 
