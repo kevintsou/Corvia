@@ -1,32 +1,10 @@
-Run the Corvia static analyzer on this project.
+Run the Corvia static analyzer on the current working directory.
 
-Usage:
-- `/corvia` — analyze `src/` with default settings
-- `/corvia src/myfile.c` — analyze a specific file
-- `/corvia src/ --misra-only` — MISRA rules only
-- `/corvia src/ --format json` — JSON output
-- `/corvia --list-checkers` — show all available checkers
+Steps:
+1. Use the Bash tool to get the current working directory: `pwd`
+2. Run `corvia <cwd> $ARGUMENTS` using the Bash tool, where `<cwd>` is the result of step 1
+3. Display the full output
+4. Summarize: total issues found, highest severity, and which checkers fired most
 
----
-
-Run the following command and show the full output to the user:
-
-```bash
-corvia $ARGUMENTS
-```
-
-If `$ARGUMENTS` is empty, default to:
-
-```bash
-corvia src/
-```
-
-After showing the output, briefly summarize:
-- How many issues were found
-- The highest severity level seen (error / warning / info)
-- Which checkers fired most often (if any)
-
-If `corvia` is not found, remind the user to install it:
-```bash
-pip install -e ".[dev,lsp]"
-```
+If no output is produced, confirm the project is clean.
+If `corvia` is not found, tell the user to run: `pip install -e ".[dev,lsp]"` from the Corvia repo root.
