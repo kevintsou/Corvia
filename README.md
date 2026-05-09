@@ -48,6 +48,7 @@ corvia src/ --misra-only --misra-category required
 - **Incremental cache** — content-hash + reverse-dependency invalidation, only re-analyzes files that actually changed
 - **LSP server** (`corvia-lsp`) for live editor diagnostics (any LSP-capable editor)
 - **VS Code extension** under `extensions/vscode-corvia/`
+- **Claude Code skill** — install once, use `corvia-review` in any C/C++ project for automatic code review
 - **Multiple output formats**: text (color), JSON, Markdown, HTML
 - **Pluggable checkers** via `--external-checkers <dir>`
 
@@ -56,6 +57,20 @@ corvia src/ --misra-only --misra-category required
 ## Installation
 
 **Requirements**: Python 3.9+. Optional: a C preprocessor on `PATH` (`cpp`/`clang`) for `--use-cpp`.
+
+### Option 1: Claude Code Skill (Easiest)
+
+If you use Claude Code, install the **corvia-review** skill:
+
+```bash
+git clone --depth 1 https://github.com/kevintsou/Corvia.git /tmp/corvia && \
+cp -r /tmp/corvia/corvia_skill ~/.claude/skills/ && \
+rm -rf /tmp/corvia
+```
+
+Then use `@corvia-review` in any C/C++ project, or ask Claude: *"幫我 code review 整份專案"* or *"Analyze this project"*.
+
+### Option 2: Local Install (Development)
 
 ```bash
 # Clone & install
