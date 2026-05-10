@@ -308,7 +308,7 @@ class UninitVarsChecker(BaseChecker):
 
     def _handle_func_call(self, node: c_ast.FuncCall, var_states: dict[str, _VarState]) -> None:
         if node.args:
-            for arg in node.args.exprs or []:
+            for idx, arg in enumerate(node.args.exprs or []):
                 if isinstance(arg, c_ast.UnaryOp) and arg.op == "&":
                     if isinstance(arg.expr, c_ast.ID):
                         name = arg.expr.name
@@ -319,6 +319,19 @@ class UninitVarsChecker(BaseChecker):
                                 Severity.WARNING,
                                 RULE_9_1,
                             )
+
+                if isinstance(arg, c_ast.ID) and arg.name in var_states:
+                    callee_name = node.name.name if isinstance(node.name, c_ast.ID) else None
+                    if callee_name and self._ctx and self._ctx.function_output_param_not_initialized(callee_name, idx):
+                        state = var_states[arg.name]
+                        if not state.fully_initialized:
+                            self.report(
+                                arg,
+                                f"Variable '{arg.name}' passed to function '{callee_name}' that may not initialize it",
+                                Severity.WARNING,
+                                RULE_9_1,
+                            )
+
                 self._check_reads(arg, var_states)
 
     def _check_reads(self, node: c_ast.Node, var_states: dict[str, _VarState]) -> None:
