@@ -53,6 +53,9 @@ class FunctionSummary:
     # MISRA 17.7
     return_value_used_internally: bool = False
 
+    # Uninitialized output parameters (Rule 9.1)
+    output_params_not_initialized: set[int] = field(default_factory=set)
+
     # Bookkeeping
     is_external: bool = False  # True for known stdlib / unresolved
     is_recursive: bool = False
@@ -142,6 +145,7 @@ class _SummaryComputer:
             or a.has_side_effects != b.has_side_effects
             or a.modifies_globals != b.modifies_globals
             or a.params_must_not_be_null != b.params_must_not_be_null
+            or a.output_params_not_initialized != b.output_params_not_initialized
         )
 
     def _compute_one(self, func: FunctionSymbol, recursive: bool) -> FunctionSummary:
@@ -170,6 +174,7 @@ class _SummaryComputer:
         summary.modifies_globals = analyzer.modifies_globals
         summary.params_must_not_be_null = analyzer.params_dereffed_unconditionally
         summary.return_value_used_internally = analyzer.return_value_used
+        summary.output_params_not_initialized = analyzer.output_params_not_initialized
 
         return summary
 
@@ -198,9 +203,10 @@ class _BodyAnalyzer:
         self.params_dereffed_unconditionally: set[int] = set()
         self.return_value_used = False
 
-        # Variables locally known to hold allocated / opened resources
         self._allocated_locals: set[str] = set()
         self._opened_locals: set[str] = set()
+        self.output_params_not_initialized: set[int] = set()
+        self._param_initialized: dict[int, bool] = {i: False for i in param_index.values()}
 
     def walk(self, node: c_ast.Node) -> None:
         if isinstance(node, c_ast.Decl) and node.name and node.init:
@@ -213,6 +219,8 @@ class _BodyAnalyzer:
                     self._allocated_locals.add(name)
                 if self._is_open_call(node.rvalue):
                     self._opened_locals.add(name)
+            if isinstance(node.lvalue, c_ast.UnaryOp) and node.lvalue.op == "*":
+                self._mark_param_initialized(node.lvalue.expr)
             self.has_side_effects = True
 
         elif isinstance(node, c_ast.FuncCall):
@@ -220,6 +228,9 @@ class _BodyAnalyzer:
 
         elif isinstance(node, c_ast.Return):
             self.has_returns = True
+            for idx in self._param_initialized:
+                if not self._param_initialized[idx]:
+                    self.output_params_not_initialized.add(idx)
             if node.expr is None:
                 pass
             elif self._is_null(node.expr):
@@ -256,6 +267,10 @@ class _BodyAnalyzer:
             self._allocated_locals.add(var_name)
         if self._is_open_call(init):
             self._opened_locals.add(var_name)
+
+    def _mark_param_initialized(self, node: c_ast.Node) -> None:
+        if isinstance(node, c_ast.ID) and node.name in self.param_index:
+            self._param_initialized[self.param_index[node.name]] = True
 
     def _track_call(self, call: c_ast.FuncCall) -> None:
         self.has_side_effects = True

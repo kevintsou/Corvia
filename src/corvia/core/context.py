@@ -44,3 +44,9 @@ class AnalysisContext:
             return False
         from corvia.core.summary import TriState
         return s.returns_null in (TriState.YES, TriState.MAYBE)
+
+    def function_output_param_not_initialized(self, func_name: str, param_idx: int) -> bool:
+        s = self.summaries.get(func_name)
+        if s is None:
+            return False
+        return param_idx in s.output_params_not_initialized

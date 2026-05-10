@@ -38,6 +38,26 @@ class DeadCodeChecker(BaseChecker):
 
         self.generic_visit(node)
 
+    def visit_Assignment(self, node: c_ast.Assignment) -> None:
+        if node.op != "=":
+            rhs_val = self._eval_constant_extended(node.rvalue)
+            if rhs_val == 0:
+                self.report(
+                    node,
+                    f"Compound assignment '{node.op}' with zero value is a no-op",
+                    Severity.WARNING,
+                    RULE_2_1,
+                )
+            elif self._is_all_ones(node.rvalue):
+                if node.op in ("|=", "&=", "^="):
+                    self.report(
+                        node,
+                        f"Compound assignment '{node.op}' with bitwise complement of zero is a no-op",
+                        Severity.WARNING,
+                        RULE_2_1,
+                    )
+        self.generic_visit(node)
+
     def visit_If(self, node: c_ast.If) -> None:
         self._check_invariant_condition(node.cond, node, "if")
         self.generic_visit(node)
@@ -90,6 +110,26 @@ class DeadCodeChecker(BaseChecker):
             if inner is not None:
                 return not inner
         return None
+
+    def _eval_constant_extended(self, node: c_ast.Node) -> object:
+        if isinstance(node, c_ast.Constant):
+            raw = node.value.rstrip("uUlL")
+            try:
+                return int(raw, 0)
+            except ValueError:
+                return None
+        if isinstance(node, c_ast.UnaryOp) and node.op == "!":
+            inner = self._eval_constant_extended(node.expr)
+            if inner is not None:
+                return int(not inner)
+        return None
+
+    def _is_all_ones(self, node: c_ast.Node) -> bool:
+        return (
+            isinstance(node, c_ast.UnaryOp)
+            and node.op == "~"
+            and self._eval_constant_extended(node.expr) == 0
+        )
 
 
 CheckerRegistry.register(DeadCodeChecker)
