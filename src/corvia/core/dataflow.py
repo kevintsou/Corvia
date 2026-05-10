@@ -54,8 +54,8 @@ class ForwardAnalysis(ABC, Generic[T]):
 
             for block in cfg.blocks:
                 if block.predecessors:
-                    pred_outs = [out_states[p.id] for p in block.predecessors]
-                    new_in = self.merge(pred_outs)
+                    pred_outs = [out_states[p.id] for p in block.predecessors if p.id in out_states]
+                    new_in = self.merge(pred_outs) if pred_outs else self.initial_state()
                 elif block.is_entry:
                     new_in = self.entry_state()
                 else:
@@ -115,8 +115,8 @@ class BackwardAnalysis(ABC, Generic[T]):
 
             for block in reversed(cfg.blocks):
                 if block.successors:
-                    succ_ins = [in_states[s.id] for s in block.successors]
-                    new_out = self.merge(succ_ins)
+                    succ_ins = [in_states[s.id] for s in block.successors if s.id in in_states]
+                    new_out = self.merge(succ_ins) if succ_ins else self.initial_state()
                 elif block.is_exit:
                     new_out = self.exit_state()
                 else:
