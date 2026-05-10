@@ -2,7 +2,7 @@
 
 > 🌐 [English](#english) | [中文](#中文)
 
-Corvia is a Python-based static analysis tool for C, inspired by Coverity. It detects bugs, undefined behaviour, and **122+ MISRA C:2012 rules across 20 sections** using AST-level checks, CFG-based dataflow, and inter-procedural cross-file analysis. It ships as a CLI (`corvia`), an LSP server (`corvia-lsp`), and a VS Code extension.
+Corvia is a Python-based static analysis tool for C. It detects bugs, undefined behaviour, and **122+ MISRA C:2012 rules across 20 sections** using AST-level checks, CFG-based dataflow, and inter-procedural cross-file analysis. It ships as a CLI (`corvia`), an LSP server (`corvia-lsp`), and a VS Code extension.
 
 ```
 corvia src/                        # CLI
