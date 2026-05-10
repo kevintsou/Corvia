@@ -1043,7 +1043,7 @@ MIT
 
 ## 中文版（精簡）
 
-Corvia 是一款以 Python 實作、靈感來自 Coverity 的 C 語言靜態分析工具。涵蓋 **20 個章節、122+ 條 MISRA C:2012 規則**，提供 CLI、LSP 伺服器、VS Code 擴充套件三種使用方式。
+Corvia 是一款以 Python 實作的 C 語言靜態分析工具。涵蓋 **20 個章節、122+ 條 MISRA C:2012 規則**，提供 CLI、LSP 伺服器、VS Code 擴充套件三種使用方式。
 
 ### 安裝
 
