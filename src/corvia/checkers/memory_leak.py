@@ -70,13 +70,6 @@ class _MemoryLeakAnalysis(ForwardAnalysis[_AllocState]):
     def merge(self, states: list[_AllocState]) -> _AllocState:
         if not states:
             return _AllocState()
-        allocated: set[str] = set()
-        freed: set[str] = set()
-        for s in states:
-            allocated |= s.allocated
-            freed &= s.freed if freed or not allocated else s.freed
-        if not any(True for _ in states):
-            return _AllocState()
         allocated_union: set[str] = set()
         freed_intersect: set[str] | None = None
         for s in states:
