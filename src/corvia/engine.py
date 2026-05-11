@@ -72,7 +72,7 @@ class AnalysisEngine:
             merged_includes.extend(config.include_dirs)
             if not use_cpp and config.use_cpp:
                 use_cpp = True
-        self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None)
+        self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None, auto_install=True)
 
         if incremental is False and config and config.cache_enabled:
             incremental = True

@@ -23,10 +23,14 @@ lsp = [
     "pygls>=1.3.0",
     "lsprotocol>=2024.0.0",
 ]
+cpp = [
+    "wmi; sys_platform == 'win32'",
+]
 
 [project.scripts]
 corvia = "corvia.cli:main"
 corvia-lsp = "corvia.lsp.server:main"
+corvia-install-cpp = "corvia.install:install_cpp"
 
 [tool.setuptools.packages.find]
 where = ["src"]
