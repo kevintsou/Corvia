@@ -227,6 +227,7 @@ class _BodyAnalyzer:
             self._track_call(node)
 
         elif isinstance(node, c_ast.Return):
+            first_return = not self.has_returns
             self.has_returns = True
             for idx in self._param_initialized:
                 if not self._param_initialized[idx]:
@@ -234,7 +235,7 @@ class _BodyAnalyzer:
             if node.expr is None:
                 pass
             elif self._is_null(node.expr):
-                if self.returns_null_state == TriState.NO and not self.has_returns:
+                if self.returns_null_state == TriState.NO and first_return:
                     self.returns_null_state = TriState.YES
                 else:
                     self.returns_null_state = TriState.MAYBE

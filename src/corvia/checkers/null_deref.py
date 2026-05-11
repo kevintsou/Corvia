@@ -130,12 +130,29 @@ class _NullAnalysis(ForwardAnalysis[_NullState]):
                 self._check_deref_expr(stmt.expr, state)
 
         elif isinstance(stmt, c_ast.BinaryOp):
-            if stmt.op in ("!=", "=="):
+            # When the CFG condition block contains a null comparison, update
+            # state conservatively so downstream blocks don't produce false
+            # positives.  We mark the variable as non-null for != NULL and as
+            # null for == NULL.  This is a single-block approximation: the
+            # transfer function cannot split state per successor, so we choose
+            # the safe side (non-null for !=, null for ==) rather than emitting
+            # a spurious dereference warning inside the guarded body.
+            if stmt.op == "!=":
                 if isinstance(stmt.left, c_ast.ID) and _is_null(stmt.right):
-                    pass
+                    state.nonnull_vars.add(stmt.left.name)
+                    state.null_vars.discard(stmt.left.name)
                 elif isinstance(stmt.right, c_ast.ID) and _is_null(stmt.left):
-                    pass
-            self._check_deref_expr(stmt, state)
+                    state.nonnull_vars.add(stmt.right.name)
+                    state.null_vars.discard(stmt.right.name)
+            elif stmt.op == "==":
+                if isinstance(stmt.left, c_ast.ID) and _is_null(stmt.right):
+                    state.null_vars.add(stmt.left.name)
+                    state.nonnull_vars.discard(stmt.left.name)
+                elif isinstance(stmt.right, c_ast.ID) and _is_null(stmt.left):
+                    state.null_vars.add(stmt.right.name)
+                    state.nonnull_vars.discard(stmt.right.name)
+            else:
+                self._check_deref_expr(stmt, state)
 
         else:
             self._check_deref_expr(stmt, state)
