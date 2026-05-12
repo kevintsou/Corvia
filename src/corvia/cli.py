@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
 
 from corvia import __version__
 from corvia.engine import AnalysisEngine
@@ -50,6 +51,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--config", help="Path to corvia.toml (default: auto-discover from cwd)")
     p.add_argument("--no-config", action="store_true", help="Ignore corvia.toml and use CLI flags only")
     p.add_argument("--cproject", help="Path to Eclipse .cproject file to extract include paths")
+    p.add_argument("--cpp-args", action="append", default=[], help="Extra arguments passed to the C preprocessor (e.g. -march=arm)")
     return p
 
 
@@ -118,15 +120,36 @@ def main(argv: list[str] | None = None) -> int:
 
     config = None
     cproject_includes: list[str] = []
+    discover_base = "."
+    if not args.no_config and args.targets:
+        first_target = Path(args.targets[0])
+        if first_target.is_absolute():
+            discover_base = str(first_target.parent)
+        elif not Path(discover_base).exists():
+            discover_base = "."
     if not args.no_config:
         from corvia.core.config import ConfigError, discover, load, parse_cproject_include_paths
         try:
             if args.config:
                 config = load(args.config)
             else:
-                config = discover(".")
-            if args.cproject:
-                cproject_includes = parse_cproject_include_paths(args.cproject)
+                config = discover(discover_base)
+            cproject_path_str = args.cproject or (config.cproject if config else None)
+            if cproject_path_str:
+                cproject_path = Path(cproject_path_str)
+                if not cproject_path.is_absolute() and args.targets:
+                    first_target = Path(args.targets[0])
+                    target_dir = first_target.parent
+                    for parent in [target_dir] + list(target_dir.parents):
+                        candidate = parent / cproject_path
+                        if candidate.exists():
+                            cproject_path = candidate
+                            break
+                    else:
+                        cproject_path = cproject_path.resolve()
+                else:
+                    cproject_path = cproject_path.resolve()
+                cproject_includes = parse_cproject_include_paths(cproject_path)
         except ConfigError as e:
             print(f"Error: {e}", file=sys.stderr)
             return 2
@@ -149,6 +172,7 @@ def main(argv: list[str] | None = None) -> int:
         use_cpp=args.use_cpp,
         include_dirs=args.include + cproject_includes if (args.include or cproject_includes) else None,
         cpp_defines=args.define,
+        cpp_args=args.cpp_args,
         external_checkers_dir=args.external_checkers,
         incremental=args.incremental,
         cache_dir=args.cache_dir,
@@ -168,7 +192,6 @@ def main(argv: list[str] | None = None) -> int:
         output = _format_text(result, use_color)
 
     if args.output:
-        from pathlib import Path
         Path(args.output).write_text(output, encoding="utf-8")
         print(f"Report written to {args.output}")
     else:

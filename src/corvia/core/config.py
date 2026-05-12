@@ -16,6 +16,7 @@ Schema (all sections optional):
     [paths]
     include = ["/usr/local/include"]   # -I equivalents
     use_cpp = true                     # invoke cpp before parsing
+    cpp_args = "-march=arm -mthumb"    # extra flags passed to gcc/clang
 
     [output]
     format   = "text"                  # text / json / md / html
@@ -123,6 +124,8 @@ class CorviaConfig:
     severity_overrides: dict[str, str] = field(default_factory=dict)
     include_dirs: list[str] = field(default_factory=list)
     use_cpp: bool = False
+    cpp_args: list[str] = field(default_factory=list)
+    cproject: Optional[str] = None
     output_format: Optional[str] = None
     no_color: Optional[bool] = None
     cache_enabled: Optional[bool] = None
@@ -175,6 +178,16 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
         config.include_dirs = list(paths["include"])
     if "use_cpp" in paths:
         config.use_cpp = bool(paths["use_cpp"])
+    if "cpp_args" in paths:
+        val = paths["cpp_args"]
+        if isinstance(val, str):
+            config.cpp_args = val.split()
+        elif isinstance(val, list):
+            config.cpp_args = [str(v) for v in val]
+        else:
+            raise ConfigError(f"{path}: [paths] cpp_args must be a string or list")
+    if "cproject" in paths:
+        config.cproject = str(paths["cproject"])
 
     output = data.get("output", {}) or {}
     if "format" in output:

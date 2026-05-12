@@ -245,7 +245,10 @@ class CParser:
     def _build_cpp_args(self) -> list[str]:
         parts: list[str] = []
         if self._cpp_args:
-            parts.extend(self._cpp_args.split())
+            if isinstance(self._cpp_args, list):
+                parts.extend(self._cpp_args)
+            else:
+                parts.extend(self._cpp_args.split())
         for d in self._cpp_defines:
             parts.append(f"-D{d}")
         dirs = self._include_dirs + [_fake_libc_dir()]

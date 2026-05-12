@@ -35,6 +35,7 @@ class AnalysisEngine:
         use_cpp: bool = False,
         include_dirs: Optional[list[str]] = None,
         cpp_defines: Optional[list[str]] = None,
+        cpp_args: Optional[list[str]] = None,
         external_checkers_dir: Optional[str] = None,
         incremental: bool = False,
         cache_dir: Optional[str] = None,
@@ -69,11 +70,13 @@ class AnalysisEngine:
         self._misra_category = misra_category
 
         merged_includes = list(include_dirs) if include_dirs else []
+        merged_cpp_args = list(cpp_args) if cpp_args else []
         if config:
             merged_includes.extend(config.include_dirs)
+            merged_cpp_args.extend(config.cpp_args)
             if not use_cpp and config.use_cpp:
                 use_cpp = True
-        self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None, cpp_defines=cpp_defines, auto_install=True)
+        self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None, cpp_defines=cpp_defines, cpp_args=merged_cpp_args or None, auto_install=True)
 
         if incremental is False and config and config.cache_enabled:
             incremental = True
