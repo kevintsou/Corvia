@@ -134,12 +134,12 @@ def main(argv: list[str] | None = None) -> int:
         elif not Path(discover_base).exists():
             discover_base = "."
     if not args.no_config:
-        from corvia.core.config import ConfigError, discover, load, parse_cproject_include_paths
+        from corvia.core.config import ConfigError, discover_or_create, load, parse_cproject_include_paths
         try:
             if args.config:
                 config = load(args.config)
             else:
-                config = discover(discover_base)
+                config = discover_or_create(discover_base)
             cproject_path_str = args.cproject or (config.cproject if config else None)
             if cproject_path_str:
                 cproject_path = Path(cproject_path_str)

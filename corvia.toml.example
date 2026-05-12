@@ -1,0 +1,41 @@
+# CORVIA Configuration Template
+# Copy this file to your project root as corvia.toml and customize.
+
+[paths]
+# Enable C preprocessor mode (requires gcc/clang in PATH)
+use_cpp = true
+
+# Eclipse .cproject file for auto-discovering include paths
+cproject = ".cproject"
+
+# Extra flags passed to the C preprocessor
+cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS -D_IC_NAME_=IC_PS5037 -D_BOOT_TYPE_=BOOT_TYPE_MASKROM"
+
+# Additional include directories (space-separated)
+# include = ["../common/include", "/usr/local/include"]
+
+[checkers]
+# If set, only these checkers run. Omit to run all built-in checkers.
+# enabled = ["null-deref", "memory-leak", "misra-switch"]
+
+# Checkers to disable (subtracted from the enabled set)
+# disabled = ["misra-unions"]
+
+[severity]
+# Override severity per checker id or MISRA rule id.
+# Values: "error" / "warning" / "info" / "off"
+# "parser" = "warning"
+# "21.3" = "info"
+# "19.2" = "off"
+
+[output]
+# Output format: text / json / md / html
+format = "text"
+
+# Disable colored output
+# no_color = true
+
+[cache]
+# Enable incremental analysis (skip unchanged files)
+enabled = true
+dir = ".corvia_cache"

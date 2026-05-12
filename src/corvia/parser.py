@@ -105,11 +105,72 @@ void free(void *p);
 void *memcpy(void *dest, const void *src, size_t n);
 void *memset(void *s, int c, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
+typedef int __gnuc_va_list;
+typedef __gnuc_va_list va_list;
 """
+
+# GCC extension keywords to strip from preprocessed output before pycparser parse
+_GCC_KEYWORDS = [
+    "__attribute__", "__attribute",
+    "__inline__", "__inline",
+    "__volatile__", "__volatile",
+    "__const__", "__const",
+    "__restrict__", "__restrict",
+    "__extension__", "__extension",
+    "__signed__", "__signed",
+    "__asm__", "__asm",
+    "__typeof__", "__typeof",
+    "__noreturn__", "__noreturn",
+    "__always_inline__",
+    "__packed__",
+    "__aligned__",
+    "__section__",
+    "__may_alias__",
+    "__builtin_va_list",
+    "__int64",
+    "__int128",
+    "__ptr32",
+    "__ptr64",
+    "__unaligned",
+    "__w64",
+    "__cdecl",
+    "__stdcall",
+    "__fastcall",
+    "__thiscall",
+    "__vectorcall",
+    "__alignof__",
+    "__alignof",
+]
+_GCC_KEYWORD_RE = re.compile(r'\b(' + '|'.join(re.escape(k) for k in _GCC_KEYWORDS) + r')\b')
+
+
+def _strip_attributes(code: str) -> str:
+    """Strip __attribute__((...)) constructs with proper bracket counting."""
+    result: list[str] = []
+    i = 0
+    while i < len(code):
+        m = re.search(r'\b__attribute__\s*\(\(', code[i:])
+        if not m:
+            result.append(code[i:])
+            break
+        result.append(code[i:i+m.start()])
+        start = i + m.end()
+        depth = 2
+        j = start
+        while j < len(code) and depth > 0:
+            if code[j] == '(':
+                depth += 1
+            elif code[j] == ')':
+                depth -= 1
+            j += 1
+        i = j
+    return ''.join(result)
+
 
 def _strip_preprocessor(code: str) -> str:
     """Remove preprocessor directives (#include, #define, #if, etc.) so pycparser can parse the file.
-    Handles #if/#endif block pairs and single-line directives. Injects common type stubs."""
+    Handles #if/#endif block pairs and single-line directives. Injects common type stubs.
+    Also handles MSVC/ARM preprocessor output with binary artifacts by filtering garbage lines."""
     code = _CONTINUATION_RE.sub("", code)
     lines = code.split('\n')
     result: list[str] = []
@@ -129,9 +190,18 @@ def _strip_preprocessor(code: str) -> str:
             continue
         if depth > 0:
             result.append("")
-        else:
-            result.append(line)
+            continue
+        if len(stripped) > 10000:
+            result.append("")
+            continue
+        result.append(line)
     code = "\n".join(result)
+    code = re.sub(r'\b__builtin_va_list\b', 'int', code)
+    code = _strip_attributes(code)
+    code = _GCC_KEYWORD_RE.sub("", code)
+    code = re.sub(r'\bregister\s+\w+(?:\s+\w+)*\s*\(\s*"[^"]*"\s*\)\s*=\s*[^;]+;', ';', code)
+    code = re.sub(r'\s*\(\s*"[^"]*"\s*::[^;]*;', ';', code)
+    code = re.sub(r'\b__builtin_unreachable\s*\(\s*\)', '', code)
     code = _COMMON_TYPE_STUBS + "\n" + code
     return code
 
@@ -191,8 +261,8 @@ def _try_fix_unknown_types(code: str) -> str | None:
 
 
 def _fake_libc_dir() -> str:
-    import pycparser
-    return str(Path(pycparser.__file__).parent / "utils" / "fake_libc_include")
+    import os
+    return os.path.join(os.path.dirname(__file__), "utils", "fake_libc_include")
 
 
 def _find_cpp() -> str:
@@ -242,8 +312,28 @@ class CParser:
                 f"Make sure its path was passed correctly. Original error: {e}"
             )
 
+    def _preprocess_file_safe(self, filename: str, cpp_args_list: list[str]) -> tuple[str, str, int]:
+        """Preprocess a file and capture stdout/stderr regardless of return code."""
+        import subprocess as sub
+        path_list = [self._cpp_path] + cpp_args_list + [filename]
+        try:
+            proc = sub.Popen(
+                path_list,
+                stdout=sub.PIPE,
+                stderr=sub.PIPE,
+                text=True,
+                shell=False,
+            )
+            stdout, stderr = proc.communicate()
+            return stdout, stderr, proc.returncode
+        except OSError as e:
+            raise RuntimeError(
+                f"Unable to invoke '{self._cpp_path}'. "
+                f"Make sure its path was passed correctly. Original error: {e}"
+            )
+
     def _build_cpp_args(self) -> list[str]:
-        parts: list[str] = []
+        parts: list[str] = ["-E"]
         if self._cpp_args:
             if isinstance(self._cpp_args, list):
                 parts.extend(self._cpp_args)
@@ -263,7 +353,7 @@ class CParser:
             line = line.strip()
             if not line:
                 continue
-            if ': error:' not in line.lower() and ': warning:' not in line.lower():
+            if ': error:' not in line.lower() and ': fatal error:' not in line.lower() and ': warning:' not in line.lower():
                 continue
             parts = line.split(':')
             if len(parts) < 3:
@@ -313,27 +403,8 @@ class CParser:
         if self._use_cpp:
             cpp_args_list = self._build_cpp_args()
             try:
-                text, _ = self._preprocess_file(filepath, cpp_args_list)
-                parser = _CParser()
-                ast = parser.parse(text, filename=filepath)
-                return ast, []
-            except CalledProcessError as e:
-                combined = ""
-                if e.stdout:
-                    combined = e.stdout.strip()
-                if e.stderr:
-                    if combined:
-                        combined += "\n" + e.stderr.strip()
-                    else:
-                        combined = e.stderr.strip()
-                if not combined:
-                    combined = f"C preprocessor error (exit code {e.returncode})"
-                issues = self._parse_cpp_errors(combined, filepath)
-                if issues:
-                    return None, issues
-                first_line = combined.split('\n')[0] if combined else f"C preprocessor error (exit code {e.returncode})"
-                return _make_error(first_line)
-            except FileNotFoundError:
+                text, stderr, returncode = self._preprocess_file_safe(filepath, cpp_args_list)
+            except OSError as e:
                 if self._auto_install or self._use_cpp:
                     try:
                         from corvia.install import install_cpp
@@ -346,6 +417,44 @@ class CParser:
                 )
             except OSError as e:
                 return _make_error(f"Cannot read file: {filepath}: {e}")
+
+            if not text:
+                combined = stderr.strip() if stderr else f"C preprocessor error (exit code {returncode})"
+                issues = self._parse_cpp_errors(combined, filepath)
+                if issues:
+                    return None, issues
+                first_line = combined.split('\n')[0] if combined else f"C preprocessor error (exit code {returncode})"
+                return _make_error(first_line)
+
+            try:
+                parser = _CParser()
+                ast = parser.parse(text, filename=filepath)
+                return ast, []
+            except ParseError as e:
+                error_msg = str(e)
+                if text and len(text) > 100:
+                    fallback_text = _strip_preprocessor(text)
+                    fallback_text = _strip_comments(fallback_text)
+                    try:
+                        fallback_parser = _CParser()
+                        fallback_ast = fallback_parser.parse(fallback_text, filename=filepath)
+                        return fallback_ast, []
+                    except ParseError:
+                        pass
+                if text:
+                    return None, [Issue(
+                        checker_id="parser",
+                        severity=Severity.ERROR,
+                        message=f"Preprocessed output parse error: {error_msg}",
+                        file=filepath,
+                        line=0,
+                        column=0,
+                    )]
+                combined = stderr.strip() if stderr else f"Preprocessing failed (exit code {returncode})"
+                issues = self._parse_cpp_errors(combined, filepath)
+                if issues:
+                    return None, issues
+                return _make_error(combined.split('\n')[0] if combined else f"Preprocessing failed (exit code {returncode})")
 
         # Without CPP: read the file ourselves so we control the encoding.
         # pycparser's parse_file opens files without specifying an encoding,
