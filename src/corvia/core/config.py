@@ -188,6 +188,9 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
             raise ConfigError(f"{path}: [paths] cpp_args must be a string or list")
     if "cproject" in paths:
         config.cproject = str(paths["cproject"])
+        cproject_path = Path(config.source_path).parent / config.cproject
+        if cproject_path.exists():
+            config.include_dirs = parse_cproject_include_paths(str(cproject_path))
 
     output = data.get("output", {}) or {}
     if "format" in output:
@@ -225,6 +228,32 @@ def discover(start: str | Path = ".") -> Optional[CorviaConfig]:
         if config_file.is_file():
             return load(config_file)
     return None
+
+
+_DEFAULT_TOML = """[paths]
+use_cpp = true
+cproject = ".cproject"
+cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS -D_IC_NAME_=IC_PS5037 -D_BOOT_TYPE_=BOOT_TYPE_MASKROM"
+"""
+
+
+def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
+    """Walk upward from `start` looking for corvia.toml.
+    If not found, create a default one in the start directory and return it.
+    Returns None only if TOML support is unavailable."""
+    config = discover(start)
+    if config is not None:
+        return config
+    cur = Path(start).resolve()
+    if cur.is_file():
+        cur = cur.parent
+    target = cur / "corvia.toml"
+    try:
+        target.write_text(_DEFAULT_TOML, encoding="utf-8")
+        print(f"Created default config: {target}", file=__import__('sys').stderr)
+        return load(target)
+    except OSError:
+        return None
 
 
 def severity_from_string(value: str) -> Optional[Severity]:
