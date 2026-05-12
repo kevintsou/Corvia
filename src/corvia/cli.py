@@ -40,6 +40,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--misra-category", choices=["mandatory", "required", "advisory"], help="Filter by MISRA category")
     p.add_argument("--use-cpp", action="store_true", help="Use C preprocessor before parsing")
     p.add_argument("-I", "--include", action="append", default=[], help="Additional include directories")
+    p.add_argument("-D", "--define", action="append", default=[], help="Preprocessor definitions (e.g., -DNAME=VALUE)")
     p.add_argument("--external-checkers", help="Directory containing external checker modules")
     p.add_argument("--list-checkers", action="store_true", help="List all available checkers and exit")
     p.add_argument("--no-color", action="store_true", help="Disable colored output")
@@ -48,6 +49,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--clean-cache", action="store_true", help="Delete cache and exit")
     p.add_argument("--config", help="Path to corvia.toml (default: auto-discover from cwd)")
     p.add_argument("--no-config", action="store_true", help="Ignore corvia.toml and use CLI flags only")
+    p.add_argument("--cproject", help="Path to Eclipse .cproject file to extract include paths")
     return p
 
 
@@ -115,13 +117,16 @@ def main(argv: list[str] | None = None) -> int:
     misra_category = _MISRA_CAT_MAP.get(args.misra_category) if args.misra_category else None
 
     config = None
+    cproject_includes: list[str] = []
     if not args.no_config:
-        from corvia.core.config import ConfigError, discover, load
+        from corvia.core.config import ConfigError, discover, load, parse_cproject_include_paths
         try:
             if args.config:
                 config = load(args.config)
             else:
                 config = discover(".")
+            if args.cproject:
+                cproject_includes = parse_cproject_include_paths(args.cproject)
         except ConfigError as e:
             print(f"Error: {e}", file=sys.stderr)
             return 2
@@ -142,7 +147,8 @@ def main(argv: list[str] | None = None) -> int:
         misra_only=args.misra_only,
         misra_category=misra_category,
         use_cpp=args.use_cpp,
-        include_dirs=args.include if args.include else None,
+        include_dirs=args.include + cproject_includes if (args.include or cproject_includes) else None,
+        cpp_defines=args.define,
         external_checkers_dir=args.external_checkers,
         incremental=args.incremental,
         cache_dir=args.cache_dir,

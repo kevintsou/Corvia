@@ -31,11 +31,77 @@ CLI flags always take precedence; values supplied here are defaults.
 from __future__ import annotations
 
 import sys
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
 from corvia.models import Severity
+
+
+def parse_cproject_include_paths(cproject_path: str | Path) -> list[str]:
+    """Extract include paths from Eclipse .cproject file.
+
+    Handles:
+    - ${workspace_loc:/${ProjName}/path} -> project_dir/path
+    - ${workspace_loc:/ProjectName/path} -> project_dir/path
+    - Absolute Windows paths (D:\\...)
+
+    Returns list of absolute directory paths.
+    """
+    path = Path(cproject_path)
+    if not path.exists():
+        return []
+
+    content = path.read_text(encoding="utf-8")
+    include_paths: list[str] = []
+    proj_dir = path.parent
+
+    name_match = re.search(r'<name>(\w+)</name>', content)
+    project_name = name_match.group(1) if name_match else None
+
+    def find_matching_brace(content: str, start: int) -> int:
+        depth = 0
+        i = start
+        while i < len(content):
+            if content[i] == '{':
+                depth += 1
+            elif content[i] == '}':
+                depth -= 1
+                if depth == 0:
+                    return i
+            i += 1
+        return -1
+
+    ws_loc_pattern = re.compile(r'\$\{workspace_loc:')
+    for m in ws_loc_pattern.finditer(content):
+        brace_end = find_matching_brace(content, m.start())
+        if brace_end <= 0:
+            continue
+
+        full_match = content[m.start():brace_end + 1]
+        inner = full_match[len('${workspace_loc:'):-1].lstrip('/')
+
+        rel_path = inner
+        if '${ProjName}' in inner:
+            rel_path = inner.replace('${ProjName}', project_name or '')
+            if project_name:
+                rel_path = rel_path.replace(f'{project_name}/', '')
+        elif project_name and inner.startswith(f'{project_name}/'):
+            rel_path = inner[len(project_name) + 1:]
+
+        rel_path_clean = rel_path.replace('/', '\\')
+        if rel_path_clean.startswith('\\'):
+            rel_path_clean = rel_path_clean[1:]
+        full_path = str(proj_dir / rel_path_clean)
+
+        if Path(full_path).exists() and full_path not in include_paths:
+            include_paths.append(full_path)
+
+    if str(proj_dir) not in include_paths:
+        include_paths.insert(0, str(proj_dir))
+
+    return include_paths
 
 
 if sys.version_info >= (3, 11):

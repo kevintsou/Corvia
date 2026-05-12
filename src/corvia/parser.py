@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import re
 import shutil
+import subprocess
 from pathlib import Path
+from subprocess import CalledProcessError
 from typing import Optional
 
 from pycparser import CParser as _CParser
@@ -207,21 +209,92 @@ class CParser:
         use_cpp: bool = False,
         cpp_path: str | None = None,
         cpp_args: str = "",
+        cpp_defines: Optional[list[str]] = None,
         include_dirs: Optional[list[str]] = None,
         auto_install: bool = False,
     ) -> None:
         self._use_cpp = use_cpp
         self._cpp_path = cpp_path or _find_cpp()
         self._cpp_args = cpp_args
+        self._cpp_defines = cpp_defines or []
         self._include_dirs = include_dirs or []
         self._auto_install = auto_install
 
-    def _build_cpp_args(self) -> str:
-        parts = [self._cpp_args] if self._cpp_args else []
+    def _preprocess_file(self, filename: str, cpp_args_list: list[str]) -> tuple[str, str]:
+        """Preprocess a file and capture both stdout and stderr."""
+        import subprocess as sub
+        path_list = [self._cpp_path] + cpp_args_list + [filename]
+
+        try:
+            proc = sub.Popen(
+                path_list,
+                stdout=sub.PIPE,
+                stderr=sub.PIPE,
+                text=True,
+            )
+            stdout, stderr = proc.communicate()
+            if proc.returncode != 0:
+                raise sub.CalledProcessError(proc.returncode, path_list, stdout, stderr)
+            return stdout, ""
+        except OSError as e:
+            raise RuntimeError(
+                f"Unable to invoke '{self._cpp_path}'. "
+                f"Make sure its path was passed correctly. Original error: {e}"
+            )
+
+    def _build_cpp_args(self) -> list[str]:
+        parts: list[str] = []
+        if self._cpp_args:
+            parts.extend(self._cpp_args.split())
+        for d in self._cpp_defines:
+            parts.append(f"-D{d}")
         dirs = self._include_dirs + [_fake_libc_dir()]
         for d in dirs:
             parts.append(f"-I{d}")
-        return " ".join(parts)
+        return parts
+
+    def _parse_cpp_errors(self, stderr: str, filepath: str) -> list[Issue]:
+        issues: list[Issue] = []
+        lines = stderr.split('\n')
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            if ': error:' not in line.lower() and ': warning:' not in line.lower():
+                continue
+            parts = line.split(':')
+            if len(parts) < 3:
+                continue
+            try:
+                path_part = parts[0].strip()
+                rest_idx = 1
+                if len(parts) > 3 and parts[1].strip().isdigit() and parts[2].strip().isdigit():
+                    path_part = parts[0] + ":" + parts[1]
+                    rest_idx = 2
+                elif len(parts) > 2 and not parts[1].strip().isdigit():
+                    if parts[2].strip().isdigit():
+                        path_part = parts[0] + ":" + parts[1]
+                        rest_idx = 2
+                    elif len(parts) > 3 and parts[3].strip().isdigit():
+                        path_part = parts[0] + ":" + parts[1] + ":" + parts[2]
+                        rest_idx = 3
+                linenum_str = parts[rest_idx].strip()
+                if not linenum_str.isdigit():
+                    continue
+                linenum = int(linenum_str)
+                sev = Severity.ERROR if 'error' in line.lower() else Severity.WARNING
+                msg = ' '.join(parts[rest_idx + 2:]).strip()
+                issues.append(Issue(
+                    checker_id="parser",
+                    severity=sev,
+                    message=msg,
+                    file=filepath if not path_part or '\\' not in path_part and '/' not in path_part else path_part,
+                    line=linenum,
+                    column=0,
+                ))
+            except (ValueError, IndexError):
+                pass
+        return issues[:50]
 
     def parse_file(self, filepath: str) -> tuple[Optional[c_ast.FileAST], list[Issue]]:
         def _make_error(msg: str) -> tuple[None, list[Issue]]:
@@ -235,17 +308,28 @@ class CParser:
             )]
 
         if self._use_cpp:
-            # Let pycparser invoke the C preprocessor directly.
+            cpp_args_list = self._build_cpp_args()
             try:
-                ast = parse_file(
-                    filepath,
-                    use_cpp=True,
-                    cpp_path=self._cpp_path,
-                    cpp_args=self._build_cpp_args(),
-                )
+                text, _ = self._preprocess_file(filepath, cpp_args_list)
+                parser = _CParser()
+                ast = parser.parse(text, filename=filepath)
                 return ast, []
-            except ParseError as e:
-                return _make_error(str(e))
+            except CalledProcessError as e:
+                combined = ""
+                if e.stdout:
+                    combined = e.stdout.strip()
+                if e.stderr:
+                    if combined:
+                        combined += "\n" + e.stderr.strip()
+                    else:
+                        combined = e.stderr.strip()
+                if not combined:
+                    combined = f"C preprocessor error (exit code {e.returncode})"
+                issues = self._parse_cpp_errors(combined, filepath)
+                if issues:
+                    return None, issues
+                first_line = combined.split('\n')[0] if combined else f"C preprocessor error (exit code {e.returncode})"
+                return _make_error(first_line)
             except FileNotFoundError:
                 if self._auto_install or self._use_cpp:
                     try:
