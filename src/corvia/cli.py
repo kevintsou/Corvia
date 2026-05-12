@@ -14,6 +14,12 @@ from corvia.reporters.html_reporter import HtmlReporter
 from corvia.reporters.json_reporter import JsonReporter
 from corvia.reporters.md_reporter import MdReporter
 
+try:
+    from tqdm import tqdm
+    _has_tqdm = True
+except ImportError:
+    _has_tqdm = False
+
 _SEVERITY_MAP = {"info": Severity.INFO, "warning": Severity.WARNING, "error": Severity.ERROR}
 _MISRA_CAT_MAP = {"mandatory": MisraCategory.MANDATORY, "required": MisraCategory.REQUIRED, "advisory": MisraCategory.ADVISORY}
 
@@ -179,7 +185,25 @@ def main(argv: list[str] | None = None) -> int:
         config=config,
     )
 
-    result = engine.analyze(args.targets)
+    files_for_progress = []
+    for target in args.targets:
+        p = Path(target)
+        if p.is_file():
+            files_for_progress.append(str(p))
+        elif p.is_dir():
+            files_for_progress.extend(str(f) for f in sorted(p.rglob("*.c")))
+
+    if _has_tqdm and len(files_for_progress) > 1:
+        progress_bar = tqdm(files_for_progress, desc="Analyzing", unit="file", ncols=80)
+        def progress_callback(curr, total, name):
+            progress_bar.set_description(f"Analyzing {name}")
+            progress_bar.update(1)
+        result = engine.analyze(args.targets, progress_callback=progress_callback)
+        progress_bar.close()
+    else:
+        if len(files_for_progress) > 1:
+            print(f"Processing {len(files_for_progress)} files...", file=sys.stderr)
+        result = engine.analyze(args.targets)
 
     if output_format == "json":
         output = JsonReporter().generate(result)

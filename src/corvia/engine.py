@@ -23,6 +23,9 @@ from corvia.core.symbol_table import build_symbol_table
 from corvia.models import AnalysisResult, Issue, MisraCategory, Severity
 from corvia.parser import CParser
 from corvia.registry import CheckerRegistry
+from typing import Callable, Optional
+
+ProgressCallback = Callable[[int, int, str], None]
 
 
 class AnalysisEngine:
@@ -87,7 +90,7 @@ class AnalysisEngine:
             CacheManager(cache_dir or ".corvia_cache") if incremental else None
         )
 
-    def analyze(self, targets: list[str]) -> AnalysisResult:
+    def analyze(self, targets: list[str], progress_callback: Optional[ProgressCallback] = None) -> AnalysisResult:
         result = AnalysisResult()
         files = self._collect_files(targets, result)
         if not files:
@@ -106,7 +109,9 @@ class AnalysisEngine:
             files_to_parse = files
 
         asts: dict[str, c_ast.FileAST] = {}
-        for f in files_to_parse:
+        for idx, f in enumerate(files_to_parse):
+            if progress_callback:
+                progress_callback(idx + 1, len(files_to_parse), str(Path(f).name))
             ast, parse_errors = self._parser.parse_file(f)
             result.issues.extend(parse_errors)
             if ast is not None:
