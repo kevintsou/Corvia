@@ -270,7 +270,7 @@ def _find_cpp() -> str:
         path = shutil.which(name)
         if path:
             return path
-    return "cpp"
+    raise RuntimeError("No C preprocessor found (cpp/gcc/clang/cl). Install MinGW or LLVM.")
 
 
 class CParser:
@@ -284,16 +284,22 @@ class CParser:
         auto_install: bool = False,
     ) -> None:
         self._use_cpp = use_cpp
-        self._cpp_path = cpp_path or _find_cpp()
+        self._cpp_path = cpp_path
         self._cpp_args = cpp_args
         self._cpp_defines = cpp_defines or []
         self._include_dirs = include_dirs or []
         self._auto_install = auto_install
 
+    def _ensure_cpp_path(self) -> str:
+        if self._cpp_path is None:
+            self._cpp_path = _find_cpp()
+        return self._cpp_path
+
     def _preprocess_file(self, filename: str, cpp_args_list: list[str]) -> tuple[str, str]:
         """Preprocess a file and capture both stdout and stderr."""
         import subprocess as sub
-        path_list = [self._cpp_path] + cpp_args_list + [filename]
+        cpp_path = self._ensure_cpp_path()
+        path_list = [cpp_path] + cpp_args_list + [filename]
 
         try:
             proc = sub.Popen(
@@ -308,14 +314,15 @@ class CParser:
             return stdout, ""
         except OSError as e:
             raise RuntimeError(
-                f"Unable to invoke '{self._cpp_path}'. "
+                f"Unable to invoke '{cpp_path}'. "
                 f"Make sure its path was passed correctly. Original error: {e}"
             )
 
     def _preprocess_file_safe(self, filename: str, cpp_args_list: list[str]) -> tuple[str, str, int]:
         """Preprocess a file and capture stdout/stderr regardless of return code."""
         import subprocess as sub
-        path_list = [self._cpp_path] + cpp_args_list + [filename]
+        cpp_path = self._ensure_cpp_path()
+        path_list = [cpp_path] + cpp_args_list + [filename]
         try:
             proc = sub.Popen(
                 path_list,
@@ -328,7 +335,7 @@ class CParser:
             return stdout, stderr, proc.returncode
         except OSError as e:
             raise RuntimeError(
-                f"Unable to invoke '{self._cpp_path}'. "
+                f"Unable to invoke '{cpp_path}'. "
                 f"Make sure its path was passed correctly. Original error: {e}"
             )
 
@@ -404,7 +411,7 @@ class CParser:
             cpp_args_list = self._build_cpp_args()
             try:
                 text, stderr, returncode = self._preprocess_file_safe(filepath, cpp_args_list)
-            except OSError as e:
+            except (OSError, RuntimeError) as e:
                 if self._auto_install or self._use_cpp:
                     try:
                         from corvia.install import install_cpp
@@ -415,8 +422,6 @@ class CParser:
                     f"C preprocessor (cpp) not found. "
                     f"Install it with: pip install corvia[cpp] or run: corvia-install-cpp"
                 )
-            except OSError as e:
-                return _make_error(f"Cannot read file: {filepath}: {e}")
 
             if not text:
                 combined = stderr.strip() if stderr else f"C preprocessor error (exit code {returncode})"
