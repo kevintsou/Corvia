@@ -194,10 +194,18 @@ def main(argv: list[str] | None = None) -> int:
             files_for_progress.extend(str(f) for f in sorted(p.rglob("*.c")))
 
     if _has_tqdm and len(files_for_progress) > 1:
-        progress_bar = tqdm(files_for_progress, desc="Analyzing", unit="file", ncols=80)
+        progress_bar = tqdm(total=0, desc="Parsing", unit="file", ncols=80)
         def progress_callback(curr, total, name):
-            progress_bar.set_description(f"Analyzing {name}")
-            progress_bar.update(1)
+            if name.startswith("check "):
+                if progress_bar.desc != "Checking":
+                    progress_bar.reset(total=total)
+                    progress_bar.set_description("Checking")
+                progress_bar.set_description(f"Checking {name[6:]}")
+            else:
+                if total != progress_bar.total:
+                    progress_bar.reset(total=total)
+                progress_bar.set_description(f"Parsing {name}")
+            progress_bar.update(curr - progress_bar.n)
         result = engine.analyze(args.targets, progress_callback=progress_callback)
         progress_bar.close()
     else:
