@@ -257,7 +257,7 @@ class _CoordRemapper(NodeVisitor):
         self.line_map = line_map
         self.target_norm = Path(target_file).resolve()
 
-    def visit_Node(self, node: c_ast.Node) -> None:
+    def generic_visit(self, node: c_ast.Node) -> None:
         if hasattr(node, 'coord') and node.coord is not None:
             coord = node.coord
             if coord.line is not None and 0 <= coord.line - 1 < len(self.line_map):
@@ -269,8 +269,7 @@ class _CoordRemapper(NodeVisitor):
                     else:
                         coord.file = str(orig_path)
                         coord.line = orig_line
-                        self._changed += 1
-        self.generic_visit(node)
+        super().generic_visit(node)
 
 
 def _remap_ast(ast: c_ast.FileAST, line_map: list[tuple[int, str]], target_file: str) -> None:
