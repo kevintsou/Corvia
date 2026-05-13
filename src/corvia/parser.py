@@ -490,7 +490,7 @@ class CParser:
                 line_map = _build_line_map(text, filepath)
                 parser = _CParser()
                 ast = parser.parse(text, filename=filepath)
-                _remap_ast(ast, line_map, filepath, 'direct')
+                _remap_ast(ast, line_map, filepath)
                 return ast, []
             except ParseError as e:
                 error_msg = str(e)
