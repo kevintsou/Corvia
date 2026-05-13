@@ -11,6 +11,7 @@ from typing import Optional
 
 from pycparser import CParser as _CParser
 from pycparser import c_ast, parse_file
+from pycparser.c_ast import NodeVisitor
 
 try:
     from pycparser.plyparser import ParseError  # pycparser < 3.0
@@ -108,6 +109,8 @@ int memcmp(const void *s1, const void *s2, size_t n);
 typedef int __gnuc_va_list;
 typedef __gnuc_va_list va_list;
 """
+
+_STUB_LINES = len(_COMMON_TYPE_STUBS.split('\n'))
 
 # GCC extension keywords to strip from preprocessed output before pycparser parse
 _GCC_KEYWORDS = [
@@ -219,6 +222,59 @@ def _strip_comments(code: str) -> str:
         # // comment: drop everything up to (but not including) the newline.
         return ""
     return _COMMENT_RE.sub(_replace, code)
+
+
+def _build_line_map(text: str, target_file: str) -> list[tuple[int, str]]:
+    """Build {line_in_text: (original_line, original_file)} mapping from # line markers.
+    Interpolates line numbers between markers for accurate per-line mapping."""
+    import re
+    lines = text.split('\n')
+    result = [(0, '')] * len(lines)
+    cur_line = 0
+    cur_file = ''
+    last_marker_idx = -1
+    last_marker_line = 0
+    for i, line in enumerate(lines):
+        m = re.match(r'#\s+(\d+)\s+"([^"]+)"', line)
+        if m:
+            cur_line = int(m.group(1))
+            cur_file = m.group(2)
+            last_marker_idx = i
+            last_marker_line = cur_line
+            result[i] = (0, '')
+        elif cur_file and last_marker_idx >= 0:
+            orig_line = last_marker_line + (i - last_marker_idx)
+            result[i] = (orig_line, cur_file)
+        else:
+            result[i] = (cur_line, cur_file)
+    return result
+
+
+class _CoordRemapper(NodeVisitor):
+    """Walk AST and remap all node coordinates using the line map."""
+
+    def __init__(self, line_map: list[tuple[int, str]], target_file: str) -> None:
+        self.line_map = line_map
+        self.target_norm = Path(target_file).resolve()
+
+    def visit_Node(self, node: c_ast.Node) -> None:
+        if hasattr(node, 'coord') and node.coord is not None:
+            coord = node.coord
+            if coord.line is not None and 0 <= coord.line - 1 < len(self.line_map):
+                orig_line, orig_file = self.line_map[coord.line - 1]
+                if orig_file:
+                    orig_path = Path(orig_file).resolve()
+                    if orig_path == self.target_norm:
+                        coord.line = orig_line
+                    else:
+                        coord.file = str(orig_path)
+                        coord.line = orig_line
+                        self._changed += 1
+        self.generic_visit(node)
+
+
+def _remap_ast(ast: c_ast.FileAST, line_map: list[tuple[int, str]], target_file: str) -> None:
+    _CoordRemapper(line_map, target_file).visit(ast)
 
 
 def _try_fix_unknown_types(code: str) -> str | None:
@@ -432,17 +488,27 @@ class CParser:
                 return _make_error(first_line)
 
             try:
+                line_map = _build_line_map(text, filepath)
                 parser = _CParser()
                 ast = parser.parse(text, filename=filepath)
+                _remap_ast(ast, line_map, filepath, 'direct')
                 return ast, []
             except ParseError as e:
                 error_msg = str(e)
                 if text and len(text) > 100:
                     fallback_text = _strip_preprocessor(text)
                     fallback_text = _strip_comments(fallback_text)
+                    # Build a line map from the fallback text by re-parsing its # markers
+                    fb_line_map = _build_line_map(text, filepath)
+                    # Extend with stub entries - compute actual offset from line count difference
+                    stub_lines = fallback_text.count('\n') - text.count('\n')
+                    if stub_lines > 0:
+                        fb_line_map = [(0, '')] * stub_lines + fb_line_map
+                    fb_line_map = fb_line_map[:fallback_text.count('\n') + 1]
                     try:
                         fallback_parser = _CParser()
                         fallback_ast = fallback_parser.parse(fallback_text, filename=filepath)
+                        _remap_ast(fallback_ast, fb_line_map, filepath)
                         return fallback_ast, []
                     except ParseError:
                         pass

@@ -51,16 +51,19 @@ class BaseChecker(c_ast.NodeVisitor):
     ) -> None:
         line = 0
         col = 0
+        file = self._current_file
         if node.coord:
             line = node.coord.line
             col = node.coord.column or 0
+            if node.coord.file and node.coord.file != self._current_file:
+                file = node.coord.file
 
         self._issues.append(
             Issue(
                 checker_id=self.checker_id,
                 severity=severity or self.default_severity,
                 message=message,
-                file=self._current_file,
+                file=file,
                 line=line,
                 column=col,
                 misra_rule=misra_rule,
