@@ -28,6 +28,29 @@ RULE_5_9 = MisraRule("5.9", MisraCategory.ADVISORY, "Identifiers that define obj
 _EXTERN_PREFIX_LEN = 31  # MISRA C:2012 minimum significance for external identifiers
 
 
+def _is_compiler_reserved(name: str) -> bool:
+    """Return True for identifiers that are reserved by the implementation.
+
+    C standard (7.1.3) reserves:
+    * Names starting with ``__`` (double underscore)
+    * Names starting with ``_`` followed by an uppercase letter
+
+    GCC/Clang ARM intrinsics, MSVC extensions, and built-in helpers all fall
+    into one of these categories.  Reporting MISRA violations on them is
+    noise — the programmer cannot rename them.
+    """
+    if name.startswith("__"):
+        return True
+    if len(name) >= 2 and name[0] == "_" and name[1].isupper():
+        return True
+    return False
+
+
+def _is_non_user_file(path: str) -> bool:
+    """Return True for pseudo-paths that represent compiler internals."""
+    return path.startswith("<")  # <built-in>, <command-line>, etc.
+
+
 class MisraIdentifiersChecker(BaseChecker):
     checker_id = "misra-identifiers"
     description = "MISRA C:2012 Rules 5.1/5.3/5.6-5.9: identifier uniqueness and shadowing"
@@ -132,6 +155,8 @@ class MisraIdentifiersChecker(BaseChecker):
         for sym in table.globals.values():
             if sym.is_static:
                 continue
+            if _is_compiler_reserved(sym.name) or _is_non_user_file(sym.file):
+                continue
             seen.setdefault(sym.name[:_EXTERN_PREFIX_LEN], []).append(sym)
         for prefix, syms in seen.items():
             distinct_names = {s.name for s in syms}
@@ -146,8 +171,12 @@ class MisraIdentifiersChecker(BaseChecker):
 
     def _check_5_6(self, table) -> None:
         for typedef_name in table.typedefs:
+            if _is_compiler_reserved(typedef_name):
+                continue
             if typedef_name in table.globals:
                 sym = table.globals[typedef_name]
+                if _is_non_user_file(sym.file):
+                    continue
                 self._emit_for_current_file(
                     sym.file, sym.line, sym.column,
                     f"typedef name '{typedef_name}' collides with an external identifier",
@@ -173,6 +202,8 @@ class MisraIdentifiersChecker(BaseChecker):
         defs: dict[str, list] = {}
         for sym in table._all_decls:
             if sym.is_definition and not sym.is_static and sym.scope == "global":
+                if _is_compiler_reserved(sym.name) or _is_non_user_file(sym.file):
+                    continue
                 defs.setdefault(sym.name, []).append(sym)
         for name, items in defs.items():
             files = {s.file for s in items}
@@ -187,7 +218,11 @@ class MisraIdentifiersChecker(BaseChecker):
     def _check_5_9(self, table) -> None:
         owners: dict[str, list[str]] = {}
         for filename, locals_in_file in table.file_locals.items():
+            if _is_non_user_file(filename):
+                continue
             for name in locals_in_file:
+                if _is_compiler_reserved(name):
+                    continue
                 owners.setdefault(name, []).append(filename)
         for name, files in owners.items():
             if len(files) > 1:

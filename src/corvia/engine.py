@@ -108,6 +108,8 @@ class AnalysisEngine:
         else:
             files_to_parse = files
 
+        source_files_resolved = {Path(f).resolve() for f in files}
+
         asts: dict[str, c_ast.FileAST] = {}
         for idx, f in enumerate(files_to_parse):
             if progress_callback:
@@ -131,6 +133,11 @@ class AnalysisEngine:
                 checker.set_file(filename)
                 checker.set_context(ctx)
                 file_issues.extend(checker.check(ast))
+
+            file_issues = [
+                i for i in file_issues
+                if not i.file or Path(i.file).resolve() in source_files_resolved
+            ]
 
             if self._cache is not None:
                 self._save_cache(filename, file_issues, ctx)
@@ -182,12 +189,17 @@ class AnalysisEngine:
             return parse_errors
 
         ctx = self._build_context({filepath: ast})
+        resolved = Path(filepath).resolve()
         issues: list[Issue] = list(parse_errors)
         for checker_cls in self._checker_classes:
             checker = checker_cls()
             checker.set_file(filepath)
             checker.set_context(ctx)
-            issues.extend(checker.check(ast))
+            checker_issues = [
+                i for i in checker.check(ast)
+                if not i.file or Path(i.file).resolve() == resolved
+            ]
+            issues.extend(checker_issues)
         return self._filter_issues(issues)
 
     def analyze_directory(
