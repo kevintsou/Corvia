@@ -8,7 +8,10 @@ this module pygls-free makes it trivial to unit-test.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
+from urllib.request import url2pathname
 
 from corvia.models import Issue, Severity
 
@@ -65,11 +68,11 @@ def issues_by_file(issues: list[Issue]) -> dict[str, list[Issue]]:
 
 def file_uri_to_path(uri: str) -> str:
     if uri.startswith("file://"):
-        return uri[len("file://"):]
+        return url2pathname(urlparse(uri).path)
     return uri
 
 
 def path_to_file_uri(path: str) -> str:
     if path.startswith("file://"):
         return path
-    return f"file://{path}"
+    return Path(path).as_uri()
