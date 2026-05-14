@@ -46,14 +46,20 @@ class MisraBitFieldsChecker(BaseChecker):
     misra_rules = [RULE_6_1, RULE_6_2]
 
     def visit_Struct(self, node: c_ast.Struct) -> None:
-        self._check_members(node.decls or [])
+        self._check_members(node.decls or [], parent=node)
         self.generic_visit(node)
 
     def visit_Union(self, node: c_ast.Union) -> None:
-        self._check_members(node.decls or [])
+        self._check_members(node.decls or [], parent=node)
         self.generic_visit(node)
 
-    def _check_members(self, members) -> None:
+    def _check_members(self, members, parent: c_ast.Node | None = None) -> None:
+        # Build a human-readable parent name for use in messages (e.g. "struct Foo").
+        parent_label = ""
+        if parent is not None:
+            kind = "struct" if isinstance(parent, c_ast.Struct) else "union"
+            parent_label = f" in {kind} '{parent.name}'" if parent.name else f" in anonymous {kind}"
+
         for member in members:
             if not isinstance(member, c_ast.Decl):
                 continue
@@ -65,10 +71,19 @@ class MisraBitFieldsChecker(BaseChecker):
                 continue
             joined = " ".join(names)
 
+            # Use parent node as coord fallback when member has no usable location.
+            coord_node = member
+            if parent is not None and (
+                member.coord is None
+                or not member.coord.line
+            ):
+                coord_node = parent
+
             if joined not in _ALLOWED_BITFIELD_TYPES:
+                field_label = f"'{member.name}'" if member.name else "<anon>"
                 self.report(
-                    member,
-                    f"Bit-field '{member.name or '<anon>'}' has disallowed type '{joined}'",
+                    coord_node,
+                    f"Bit-field {field_label}{parent_label} has disallowed type '{joined}'",
                     Severity.WARNING,
                     RULE_6_1,
                 )
@@ -80,8 +95,8 @@ class MisraBitFieldsChecker(BaseChecker):
                     width = 0
                 if width == 1 and joined in _SIGNED_INT_TYPES:
                     self.report(
-                        member,
-                        f"Single-bit bit-field '{member.name}' has signed type '{joined}'",
+                        coord_node,
+                        f"Single-bit bit-field '{member.name}'{parent_label} has signed type '{joined}'",
                         Severity.WARNING,
                         RULE_6_2,
                     )
