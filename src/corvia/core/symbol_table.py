@@ -92,6 +92,27 @@ def _coord(node: c_ast.Node) -> tuple[int, int]:
     return (0, 0)
 
 
+def _actual_file(filename: str, node: c_ast.Node) -> str:
+    """Return the actual source file where a declaration physically lives.
+
+    When --use-cpp is active the AST contains nodes from every #included
+    header.  After _remap_ast, coord.file reflects the real origin (e.g.
+    ``arm_acle.h``, ``<built-in>``).  We use that instead of the top-level
+    .c filename so that cross-file uniqueness rules (5.8, 5.9 …) do not
+    confuse header-defined symbols with symbols authored in the .c file.
+
+    Paths starting with ``<`` (e.g. ``<built-in>``, ``<command-line>``) are
+    treated as non-user files and are returned as-is so callers can detect
+    them cheaply with a ``startswith('<')`` check.
+    """
+    if node and node.coord and node.coord.file:
+        cf = node.coord.file
+        # Only override when coord points somewhere other than the analysed file.
+        if cf != filename:
+            return cf
+    return filename
+
+
 def _has_storage(decl: c_ast.Decl, name: str) -> bool:
     return name in (decl.storage or [])
 
@@ -187,6 +208,7 @@ class SymbolTableBuilder:
         if decl is None or decl.name is None:
             return
 
+        actual_file = _actual_file(filename, decl)
         line, col = _coord(decl)
         func_decl = _get_underlying_func_decl(decl.type)
         ret_type = ""
@@ -220,7 +242,7 @@ class SymbolTableBuilder:
             name=decl.name,
             kind="function",
             type_str=ret_type,
-            file=filename,
+            file=actual_file,
             line=line,
             column=col,
             is_static=_has_storage(decl, "static"),
@@ -245,12 +267,13 @@ class SymbolTableBuilder:
             self._handle_func_declaration(filename, decl, func_decl)
             return
 
+        actual_file = _actual_file(filename, decl)
         line, col = _coord(decl)
         sym = Symbol(
             name=decl.name,
             kind="variable",
             type_str=_format_type(decl.type),
-            file=filename,
+            file=actual_file,
             line=line,
             column=col,
             is_static=_has_storage(decl, "static"),
@@ -267,6 +290,7 @@ class SymbolTableBuilder:
     def _handle_func_declaration(
         self, filename: str, decl: c_ast.Decl, func_decl: c_ast.FuncDecl
     ) -> None:
+        actual_file = _actual_file(filename, decl)
         line, col = _coord(decl)
         ret_type = _format_type(func_decl.type)
         params: list[Symbol] = []
@@ -297,7 +321,7 @@ class SymbolTableBuilder:
             name=decl.name,
             kind="function",
             type_str=ret_type,
-            file=filename,
+            file=actual_file,
             line=line,
             column=col,
             is_static=_has_storage(decl, "static"),
