@@ -30,9 +30,9 @@ src/io.c:7:3      [info]     resource-leak     FILE* 'f' may not be closed on al
 
 | Code | Meaning |
 |---|---|
-| `0` | No issues found — project is clean |
-| `1` | One or more issues found |
-| `2` | Parse error — one or more files could not be parsed (check for missing includes or non-standard syntax) |
+| `0` | No **error**-level issues found — warnings and info are still reported but do not change the exit code |
+| `1` | One or more **error**-level issues found |
+| `2` | Configuration error — `corvia.toml` could not be loaded or is invalid |
 
 ---
 
