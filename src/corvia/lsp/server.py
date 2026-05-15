@@ -75,7 +75,9 @@ def create_server():
                     message=d["message"],
                 )
             )
-        server.publish_diagnostics(uri, lsp_diags)
+        server.text_document_publish_diagnostics(
+            types.PublishDiagnosticsParams(uri=uri, diagnostics=lsp_diags)
+        )
 
     def _analyze_and_publish(uri: str) -> None:
         path = file_uri_to_path(uri)

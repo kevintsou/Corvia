@@ -66,8 +66,19 @@ def test_grouping_by_file():
 
 
 def test_uri_path_roundtrip():
-    assert file_uri_to_path("file:///abs/path.c") == "/abs/path.c"
-    assert path_to_file_uri("/abs/path.c") == "file:///abs/path.c"
+    import sys
+    from pathlib import Path
+
+    if sys.platform == "win32":
+        # Windows: use a real absolute path for roundtrip
+        p = Path("C:/abs/path.c")
+        uri = p.as_uri()  # file:///C:/abs/path.c
+        assert file_uri_to_path(uri) == str(p)
+        assert path_to_file_uri(str(p)) == uri
+    else:
+        assert file_uri_to_path("file:///abs/path.c") == "/abs/path.c"
+        assert path_to_file_uri("/abs/path.c") == "file:///abs/path.c"
+
     assert path_to_file_uri("file:///already.c") == "file:///already.c"
 
 
