@@ -9,7 +9,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 ## Features / 功能特色
 
 - **23 built-in checkers**: Syntax errors, memory leaks, null pointer dereference, buffer overflow, uninitialized variables, dead code, resource leaks, and all MISRA C:2012 mandatory/required/advisory rules
-- **C Preprocessor mode** (`--use-cpp`): Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation
+- **C Preprocessor mode**: Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation (enabled by default; use `--no-cpp` to disable)
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
 - **Auto-config**: Auto-creates `corvia.toml` with sensible defaults when none exists
 - **Multiple output formats**: text, JSON, HTML, Markdown
@@ -49,10 +49,11 @@ corvia src/main.c
 ```bash
 corvia src/
 ```
+C preprocessor and incremental caching are enabled by default.
 
-### Enable C preprocessor mode
+### Disable C preprocessor mode
 ```bash
-corvia --use-cpp src/
+corvia --no-cpp src/
 ```
 
 ### Use a configuration file
@@ -91,14 +92,16 @@ corvia [options] [targets ...]
 | `-s, --severity` | Minimum severity: `info`, `warning`, `error` (default: info) |
 | `--misra-only` | Only show issues with MISRA rule mapping |
 | `--misra-category` | Filter by MISRA category: `mandatory`, `required`, `advisory` |
-| `--use-cpp` | Enable C preprocessor mode |
+| `--use-cpp` | Enable C preprocessor mode (default: enabled) |
+| `--no-cpp` | Disable C preprocessor mode |
 | `-I, --include` | Additional include directories (can be repeated) |
 | `-D, --define` | Preprocessor definitions, e.g. `-DNAME=VALUE` |
 | `--cpp-args` | Extra arguments for the C preprocessor |
 | `--cproject` | Path to Eclipse `.cproject` file |
 | `--config` | Path to `corvia.toml` (auto-discovered by default) |
 | `--no-config` | Ignore `corvia.toml` and use CLI flags only |
-| `--incremental` | Enable incremental analysis (cached results) |
+| `--incremental` | Enable incremental analysis (default: enabled) |
+| `--no-incremental` | Disable incremental analysis |
 | `--cache-dir` | Cache directory (default: `.corvia_cache`) |
 | `--clean-cache` | Delete cache and exit |
 | `--list-checkers` | List all available checkers |
@@ -117,6 +120,12 @@ corvia src/main.c src/utils.c lib/
 # With preprocessor (ARM target)
 corvia --use-cpp --cpp-args="--target=armv7-unknown-windows-gnu" src/
 
+# Without preprocessor (for simple code without includes)
+corvia --no-cpp src/
+
+# Disable incremental caching
+corvia --no-incremental src/
+
 # Filter by MISRA category
 corvia --misra-category mandatory src/
 
@@ -129,8 +138,8 @@ corvia -c misra-switch,null-deref src/
 # Custom include paths
 corvia -I /usr/local/include -I ./src/include src/
 
-# Incremental analysis
-corvia --incremental src/
+# Incremental analysis (enabled by default, use --no-incremental to disable)
+corvia src/
 ```
 
 ---
