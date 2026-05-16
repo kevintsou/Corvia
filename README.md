@@ -22,13 +22,19 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 
 ## Installation / 安裝
 
+### From PyPI (recommended)
 ```bash
 pip install corvia
 ```
 
+### From GitHub (latest development version)
+```bash
+pip install git+https://github.com/kevintsou/Corvia.git
+```
+
 For development:
 ```bash
-pip install corvia[dev]
+pip install git+https://github.com/kevintsou/Corvia.git#egg=corvia[dev,lsp]
 ```
 
 For LSP support:
