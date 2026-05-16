@@ -230,30 +230,72 @@ def discover(start: str | Path = ".") -> Optional[CorviaConfig]:
     return None
 
 
-_DEFAULT_TOML = """[paths]
-use_cpp = true
-cproject = ".cproject"
-cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS -D_IC_NAME_=IC_PS5037 -D_BOOT_TYPE_=BOOT_TYPE_MASKROM"
+_EXAMPLE_TOML = """\
+# corvia.toml.example — Corvia configuration reference
+# Copy this file to corvia.toml and edit to suit your project.
+# All sections are optional; CLI flags always take precedence.
+
+[checkers]
+# enabled  = ["null-deref", "memory-leak", "uninit-var"]  # run only these checkers
+# disabled = ["misra-unions", "misra-preproc"]             # exclude specific checkers
+
+[severity]
+# Override severity per checker-id or MISRA rule-id.
+# Valid values: "error" | "warning" | "info" | "off"
+# "19.2"        = "off"      # silence union advisory entirely
+# "misra-expr"  = "info"     # downgrade all expression warnings to info
+# "9.1"         = "error"    # promote uninitialized-variable to error
+
+[paths]
+use_cpp = false
+# include  = ["/usr/local/include", "third_party/include"]  # extra -I paths
+# cproject = ".cproject"        # auto-extract include paths from Eclipse .cproject
+# cpp_args = "-march=armv7-a -mthumb"  # extra flags passed to the C preprocessor
+
+[output]
+format   = "text"   # text | json | md | html
+no_color = false
+
+[cache]
+enabled = true
+dir     = ".corvia_cache"
 """
 
 
 def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
     """Walk upward from `start` looking for corvia.toml.
-    If not found, create a default one in the start directory and return it.
-    Returns None only if TOML support is unavailable."""
+
+    If not found, creates a ``corvia.toml.example`` in the start directory
+    for the user to reference, then raises :class:`ConfigError` with an
+    actionable message.  Returns None only if TOML support is unavailable.
+    """
     config = discover(start)
     if config is not None:
         return config
+
     cur = Path(start).resolve()
     if cur.is_file():
         cur = cur.parent
-    target = cur / "corvia.toml"
+
+    # Create the example file so the user has something to start from.
+    example_path = cur / "corvia.toml.example"
     try:
-        target.write_text(_DEFAULT_TOML, encoding="utf-8")
-        print(f"Created default config: {target}", file=__import__('sys').stderr)
-        return load(target)
+        example_path.write_text(_EXAMPLE_TOML, encoding="utf-8")
+        example_created = True
     except OSError:
-        return None
+        example_created = False
+
+    msg_lines = [
+        f"No corvia.toml found (searched upward from '{cur}').",
+    ]
+    if example_created:
+        msg_lines += [
+            f"An example configuration has been created at:",
+            f"  {example_path}",
+            "Copy it to corvia.toml, edit as needed, then re-run Corvia.",
+        ]
+    msg_lines.append("Run with --no-config to skip configuration file discovery.")
+    raise ConfigError("\n".join(msg_lines))
 
 
 def severity_from_string(value: str) -> Optional[Severity]:
