@@ -112,6 +112,15 @@ typedef __gnuc_va_list va_list;
 
 _STUB_LINES = len(_COMMON_TYPE_STUBS.split('\n'))
 
+_STUB_TYPEDEF_RE = re.compile(r'\btypedef\b[^;()\[\]]*\b(\w+)\s*;')
+_ASM_CALL_PAT = r'\((?:[^()]*|\([^()]*\))*\)'
+_ASM_RE = re.compile(r'\b__asm__\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?' + _ASM_CALL_PAT)
+_ASM_NOUNDER_RE = re.compile(r'\b__asm\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?' + _ASM_CALL_PAT)
+_BUILTIN_RE = re.compile(r'\b__builtin_\w+\s*' + _ASM_CALL_PAT)
+_STUB_TYPEDEF_NAMES: frozenset[str] = frozenset(
+    m.group(1) for m in _STUB_TYPEDEF_RE.finditer(_COMMON_TYPE_STUBS)
+)
+
 # GCC extension keywords to strip from preprocessed output before pycparser parse
 _GCC_KEYWORDS = [
     "__attribute__", "__attribute",
@@ -170,6 +179,19 @@ def _strip_attributes(code: str) -> str:
     return ''.join(result)
 
 
+def _dedup_stub_typedefs(code: str) -> str:
+    """Blank out typedef lines whose alias is already in _COMMON_TYPE_STUBS.
+
+    Prevents pycparser duplicate-typedef errors when preprocessed system headers
+    (e.g. ARM stddef.h) redefine types like size_t that _COMMON_TYPE_STUBS declares.
+    """
+    def _replace(m: re.Match) -> str:
+        if m.group(1) in _STUB_TYPEDEF_NAMES:
+            return '\n' * m.group(0).count('\n')
+        return m.group(0)
+    return _STUB_TYPEDEF_RE.sub(_replace, code)
+
+
 def _strip_preprocessor(code: str) -> str:
     """Remove preprocessor directives (#include, #define, #if, etc.) so pycparser can parse the file.
     Handles #if/#endif block pairs and single-line directives. Injects common type stubs.
@@ -201,10 +223,16 @@ def _strip_preprocessor(code: str) -> str:
     code = "\n".join(result)
     code = re.sub(r'\b__builtin_va_list\b', 'int', code)
     code = _strip_attributes(code)
+    # Strip __asm__/__asm with optional __volatile__ qualifier and nested parens
+    code = _ASM_RE.sub('', code)
+    code = _ASM_NOUNDER_RE.sub('', code)
     code = _GCC_KEYWORD_RE.sub("", code)
     code = re.sub(r'\bregister\s+\w+(?:\s+\w+)*\s*\(\s*"[^"]*"\s*\)\s*=\s*[^;]+;', ';', code)
     code = re.sub(r'\s*\(\s*"[^"]*"\s*::[^;]*;', ';', code)
     code = re.sub(r'\b__builtin_unreachable\s*\(\s*\)', '', code)
+    # Replace remaining __builtin_XXX(...) calls (va_arg, llabs, etc.) with 0.
+    code = _BUILTIN_RE.sub('0', code)
+    code = _dedup_stub_typedefs(code)
     code = _COMMON_TYPE_STUBS + "\n" + code
     return code
 

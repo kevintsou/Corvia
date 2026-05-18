@@ -175,7 +175,11 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
 
     paths = data.get("paths", {}) or {}
     if "include" in paths:
-        config.include_dirs = list(paths["include"])
+        base = path.parent
+        config.include_dirs = [
+            str((base / d).resolve()) if not Path(d).is_absolute() else d
+            for d in paths["include"]
+        ]
     if "use_cpp" in paths:
         config.use_cpp = bool(paths["use_cpp"])
     if "cpp_args" in paths:
