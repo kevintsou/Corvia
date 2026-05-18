@@ -117,12 +117,13 @@ _STUB_TYPEDEF_NAMES: frozenset[str] = frozenset(
     m.group(1) for m in _STUB_TYPEDEF_RE.finditer(_COMMON_TYPE_STUBS)
 )
 
-# Matches __asm__/__asm (+ optional volatile qualifier) or __builtin_XXX,
-# immediately followed by '(' — used by _strip_gcc_calls.
-_GCC_CALL_KW_RE = re.compile(
+# Two patterns used by _strip_gcc_calls:
+#   _ASM_CALL_KW_RE  — __asm__ / __asm statements (strip entirely)
+#   _BUILTIN_CALL_KW_RE — __builtin_XXX() expressions (replace with 0)
+_ASM_CALL_KW_RE = re.compile(
     r'\b(?:__asm__|__asm)\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?(?:goto\s*)?\('
-    r'|\b__builtin_\w+\s*\('
 )
+_BUILTIN_CALL_KW_RE = re.compile(r'\b__builtin_\w+\s*\(')
 
 # GCC extension keywords to strip from preprocessed output before pycparser parse
 _GCC_KEYWORDS = [
@@ -183,22 +184,32 @@ def _strip_attributes(code: str) -> str:
 
 
 def _strip_gcc_calls(code: str) -> str:
-    """Strip __asm__/__asm and __builtin_XXX call expressions using depth-counting.
+    """Strip __asm__/__asm calls and replace __builtin_XXX() calls with 0.
 
-    Regex-based paren matching causes catastrophic backtracking on deeply nested
-    argument lists (e.g. __asm volatile with 3+ levels of nested casts).
-    This scanner is O(n) regardless of nesting depth.
+    Uses depth-counting (O(n)) to handle arbitrary nesting depth without the
+    catastrophic backtracking that regex paren-matching suffers on code like
+    __asm volatile("..." :: "r" ((T)(a | ((T)b << 16) | (((T)c << 24))))).
+
+    __asm__ / __asm are stripped entirely (they are statements).
+    __builtin_XXX() are replaced with 0 (they are expressions — removing
+    them would leave 'x = ;' which is a syntax error).
     """
+    # Merge both match streams ordered by position.
+    asm_matches = [('asm', m) for m in _ASM_CALL_KW_RE.finditer(code)]
+    bi_matches = [('builtin', m) for m in _BUILTIN_CALL_KW_RE.finditer(code)]
+    events = sorted(asm_matches + bi_matches, key=lambda e: e[1].start())
+
     result: list[str] = []
     pos = 0
-    for m in _GCC_CALL_KW_RE.finditer(code):
+    for kind, m in events:
+        if m.start() < pos:
+            continue  # already consumed by a previous (outer) match
         result.append(code[pos:m.start()])
         depth = 1
         i = m.end()  # right after the opening '('
         while i < len(code) and depth > 0:
             c = code[i]
             if c in ('"', "'"):
-                # Skip string/char literal to avoid counting parens inside them
                 q = c
                 i += 1
                 while i < len(code):
@@ -216,6 +227,9 @@ def _strip_gcc_calls(code: str) -> str:
                 depth -= 1
             i += 1
         pos = i  # skip past the matching closing ')'
+        if kind == 'builtin':
+            result.append('0')  # keep as a valid expression placeholder
+        # 'asm' → stripped entirely (it is a statement, nothing to replace)
     result.append(code[pos:])
     return ''.join(result)
 
