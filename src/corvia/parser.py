@@ -113,12 +113,15 @@ typedef __gnuc_va_list va_list;
 _STUB_LINES = len(_COMMON_TYPE_STUBS.split('\n'))
 
 _STUB_TYPEDEF_RE = re.compile(r'\btypedef\b[^;()\[\]]*\b(\w+)\s*;')
-_ASM_CALL_PAT = r'\((?:[^()]*|\([^()]*\))*\)'
-_ASM_RE = re.compile(r'\b__asm__\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?' + _ASM_CALL_PAT)
-_ASM_NOUNDER_RE = re.compile(r'\b__asm\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?' + _ASM_CALL_PAT)
-_BUILTIN_RE = re.compile(r'\b__builtin_\w+\s*' + _ASM_CALL_PAT)
 _STUB_TYPEDEF_NAMES: frozenset[str] = frozenset(
     m.group(1) for m in _STUB_TYPEDEF_RE.finditer(_COMMON_TYPE_STUBS)
+)
+
+# Matches __asm__/__asm (+ optional volatile qualifier) or __builtin_XXX,
+# immediately followed by '(' — used by _strip_gcc_calls.
+_GCC_CALL_KW_RE = re.compile(
+    r'\b(?:__asm__|__asm)\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?(?:goto\s*)?\('
+    r'|\b__builtin_\w+\s*\('
 )
 
 # GCC extension keywords to strip from preprocessed output before pycparser parse
@@ -179,6 +182,44 @@ def _strip_attributes(code: str) -> str:
     return ''.join(result)
 
 
+def _strip_gcc_calls(code: str) -> str:
+    """Strip __asm__/__asm and __builtin_XXX call expressions using depth-counting.
+
+    Regex-based paren matching causes catastrophic backtracking on deeply nested
+    argument lists (e.g. __asm volatile with 3+ levels of nested casts).
+    This scanner is O(n) regardless of nesting depth.
+    """
+    result: list[str] = []
+    pos = 0
+    for m in _GCC_CALL_KW_RE.finditer(code):
+        result.append(code[pos:m.start()])
+        depth = 1
+        i = m.end()  # right after the opening '('
+        while i < len(code) and depth > 0:
+            c = code[i]
+            if c in ('"', "'"):
+                # Skip string/char literal to avoid counting parens inside them
+                q = c
+                i += 1
+                while i < len(code):
+                    if code[i] == '\\':
+                        i += 2
+                        continue
+                    if code[i] == q:
+                        i += 1
+                        break
+                    i += 1
+                continue
+            if c == '(':
+                depth += 1
+            elif c == ')':
+                depth -= 1
+            i += 1
+        pos = i  # skip past the matching closing ')'
+    result.append(code[pos:])
+    return ''.join(result)
+
+
 def _dedup_stub_typedefs(code: str) -> str:
     """Blank out typedef lines whose alias is already in _COMMON_TYPE_STUBS.
 
@@ -223,15 +264,11 @@ def _strip_preprocessor(code: str) -> str:
     code = "\n".join(result)
     code = re.sub(r'\b__builtin_va_list\b', 'int', code)
     code = _strip_attributes(code)
-    # Strip __asm__/__asm with optional __volatile__ qualifier and nested parens
-    code = _ASM_RE.sub('', code)
-    code = _ASM_NOUNDER_RE.sub('', code)
+    # Strip __asm__/__asm/__builtin_XXX(...) using depth-counting (no backtracking).
+    code = _strip_gcc_calls(code)
     code = _GCC_KEYWORD_RE.sub("", code)
     code = re.sub(r'\bregister\s+\w+(?:\s+\w+)*\s*\(\s*"[^"]*"\s*\)\s*=\s*[^;]+;', ';', code)
     code = re.sub(r'\s*\(\s*"[^"]*"\s*::[^;]*;', ';', code)
-    code = re.sub(r'\b__builtin_unreachable\s*\(\s*\)', '', code)
-    # Replace remaining __builtin_XXX(...) calls (va_arg, llabs, etc.) with 0.
-    code = _BUILTIN_RE.sub('0', code)
     code = _dedup_stub_typedefs(code)
     code = _COMMON_TYPE_STUBS + "\n" + code
     return code
