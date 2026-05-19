@@ -11,6 +11,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **23 built-in checkers**: Syntax errors, memory leaks, null pointer dereference, buffer overflow, uninitialized variables, dead code, resource leaks, and all MISRA C:2012 mandatory/required/advisory rules
 - **C Preprocessor mode**: Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation (enabled by default; use `--no-cpp` to disable)
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
+- **Makefile support**: Auto-detect include paths and defines from `Makefile` (runs `make -B -n` when available, falls back to static variable expansion for Windows/cross-platform use)
 - **Auto-config**: Auto-creates `corvia.toml` with sensible defaults when none exists
 - **Multiple output formats**: text, JSON, HTML, Markdown
 - **Incremental analysis**: Cache results to skip unchanged files
@@ -160,6 +161,10 @@ CORVIA automatically discovers `corvia.toml` by walking upward from the target f
 [paths]
 use_cpp = true                    # Enable C preprocessor mode
 cproject = ".cproject"            # Eclipse project file for include paths
+# OR use Makefile auto-detection (mutually exclusive with cproject):
+makefile = "Makefile"             # Path to Makefile (auto-detected if omitted)
+make_target = "all"               # Make target to dry-run (optional)
+make_args = ["SOC_ID=PS5801"]     # Extra variables passed to make / static parser
 cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS"
 include = ["../common/include"]   # Additional include directories
 
@@ -184,6 +189,39 @@ dir = ".corvia_cache"
 ```
 
 A complete annotated template is available at `corvia.toml.example`.
+
+---
+
+## Example Configurations / 範例設定檔
+
+Ready-to-use `corvia.toml` templates are provided in the [`example_toml/`](example_toml/) folder:
+
+| File | Description |
+|------|-------------|
+| [`corvia.toml.ps5801`](example_toml/corvia.toml.ps5801) | Phison PS5801 SoC firmware project — manual include path list, uses C preprocessor with SOC defines |
+| [`corvia.toml.ds5`](example_toml/corvia.toml.ds5) | Eclipse CDT / ARM DS-5 project — auto-extracts include paths from `.cproject` |
+
+### How to use / 使用方式
+
+1. Copy the closest matching example to your project root and rename it `corvia.toml`:
+
+```bash
+# Eclipse CDT / DS-5 project
+cp /path/to/corvia/example_toml/corvia.toml.ds5 your_project/corvia.toml
+
+# Phison PS5801 firmware project
+cp /path/to/corvia/example_toml/corvia.toml.ps5801 your_project/corvia.toml
+```
+
+2. Edit the file to match your project (adjust paths, defines, SOC_ID, etc.).
+
+3. Run Corvia from your project directory:
+
+```bash
+corvia src/
+```
+
+Corvia will automatically discover and load `corvia.toml` by walking upward from the target path.
 
 ---
 

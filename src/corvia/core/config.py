@@ -105,6 +105,242 @@ def parse_cproject_include_paths(cproject_path: str | Path) -> list[str]:
     return include_paths
 
 
+def _find_make() -> Optional[str]:
+    """Return the first available make executable on PATH."""
+    import shutil
+    for name in ("make", "mingw32-make", "gmake"):
+        path = shutil.which(name)
+        if path:
+            return path
+    return None
+
+
+def _extract_flags_from_text(text: str, proj_dir: Path) -> tuple[list[str], list[str]]:
+    """Parse -I and -D flags from compiler command output or Makefile text."""
+    seen_inc: set[str] = set()
+    seen_def: set[str] = set()
+    include_dirs: list[str] = []
+    cpp_defines: list[str] = []
+    for line in text.splitlines():
+        # Allow backslash in path tokens so Windows paths (D:\...) are captured.
+        # Quoted form handles paths with spaces; unquoted allows any non-whitespace.
+        for m in re.finditer(r'-I\s*("(?:[^"]+)"|[^\s"]+)', line):
+            raw = m.group(1).strip('"')
+            p = Path(raw)
+            abs_p = str(p.resolve()) if p.is_absolute() else str((proj_dir / p).resolve())
+            if abs_p not in seen_inc and Path(abs_p).is_dir():
+                seen_inc.add(abs_p)
+                include_dirs.append(abs_p)
+        for m in re.finditer(r'-D([^\s"]+)', line):
+            d = m.group(1)
+            if d not in seen_def:
+                seen_def.add(d)
+                cpp_defines.append(d)
+    return include_dirs, cpp_defines
+
+
+def _parse_makefile_static(
+    makefile_path: Path,
+    extra_vars: Optional[dict[str, str]] = None,
+    _visited: Optional[set[str]] = None,
+) -> tuple[list[str], list[str]]:
+    """Static Makefile parser: expand variables and extract -I/-D flags.
+
+    Handles simple := / ?= / = assignments, $(VAR) expansion, $(abspath ...),
+    $(dir ...), $(wildcard ...), and recursive 'include' directives.
+    Does not execute shell commands — $(shell ...) is replaced with empty string.
+    """
+    if _visited is None:
+        _visited = set()
+    key = str(makefile_path.resolve())
+    if key in _visited:
+        return [], []
+    _visited.add(key)
+
+    try:
+        raw = makefile_path.read_bytes()
+    except OSError:
+        return [], []
+
+    # Normalise line endings: CRLF -> LF so line-continuation regex works uniformly
+    content = raw.replace(b'\r\n', b'\n').replace(b'\r', b'\n').decode('utf-8', errors='replace')
+
+    proj_dir = makefile_path.parent
+
+    # Seed variables with CURDIR and any caller-supplied overrides
+    vars_: dict[str, str] = {"CURDIR": str(proj_dir)}
+    if extra_vars:
+        vars_.update(extra_vars)
+
+    # Join line continuations  (\<newline>[whitespace] -> single space)
+    # NOTE: must use a compiled pattern with re.MULTILINE or a non-raw string
+    # so that \n is the actual newline character (ASCII 10).
+    _line_cont_re = re.compile(chr(92) + chr(92) + chr(10) + r'[ \t]*')
+    content = _line_cont_re.sub(' ', content)
+
+    # First pass: collect variable assignments (not recipes — skip tab-indented lines)
+    for line in content.splitlines():
+        if line.startswith('\t'):
+            continue
+        # := / ::= (immediate), ?= (default), = (recursive), += (append)
+        m = re.match(r'^([A-Za-z_]\w*)\s*(\?=|:=|::=|\+=|=)\s*(.*)', line)
+        if not m:
+            continue
+        name, op, val = m.group(1), m.group(2), m.group(3).strip()
+        if op == '?=' and name in vars_:
+            continue  # don't override existing value
+        if op == '+=':
+            vars_[name] = vars_.get(name, '') + ' ' + val
+        else:
+            vars_[name] = val
+
+    def _expand(s: str, depth: int = 0) -> str:
+        if depth > 20 or '$' not in s:
+            return s
+
+        def _sub(m: re.Match) -> str:
+            # m.group(1) is the innermost content (no nested parens/braces)
+            inner = m.group(1)
+            # Built-in functions
+            if inner.startswith('abspath '):
+                arg = _expand(inner[8:].strip(), depth + 1)
+                p = Path(arg)
+                resolved = p.resolve() if p.is_absolute() else (proj_dir / p).resolve()
+                return str(resolved)
+            if inner.startswith('dir '):
+                arg = _expand(inner[4:].strip(), depth + 1)
+                return str(Path(arg).parent) + '/'
+            if inner.startswith('notdir '):
+                arg = _expand(inner[7:].strip(), depth + 1)
+                return Path(arg).name
+            if inner.startswith('wildcard ') or inner.startswith('shell ') \
+                    or inner.startswith('call ') or inner.startswith('eval ') \
+                    or inner.startswith('foreach ') or inner.startswith('filter') \
+                    or inner.startswith('subst ') or inner.startswith('patsubst ') \
+                    or inner.startswith('sort ') or inner.startswith('word ') \
+                    or inner.startswith('words ') or inner.startswith('firstword ') \
+                    or inner.startswith('lastword ') or inner.startswith('addprefix ') \
+                    or inner.startswith('addsuffix ') or inner.startswith('join ') \
+                    or inner.startswith('strip ') or inner.startswith('error ') \
+                    or inner.startswith('warning ') or inner.startswith('info '):
+                return ''  # skip dynamic / message functions
+            if inner.startswith('or ') or inner.startswith('if ') \
+                    or inner.startswith('and '):
+                return ''
+            # Plain variable lookup — recursively expand its value
+            return _expand(vars_.get(inner, ''), depth + 1)
+
+        # Expand from the inside out: repeatedly replace innermost $(...) / ${...}
+        # that contain no nested parens/braces.  Stop when stable.
+        result = s
+        prev = None
+        iters = 0
+        while '$' in result and result != prev and iters < 30:
+            prev = result
+            result = re.sub(r'\$\(([^()]*)\)', _sub, result)
+            result = re.sub(r'\$\{([^{}]*)\}', _sub, result)
+            # Drop lone $ not followed by ( / { / word-char (auto-variables etc.)
+            result = re.sub(r'\$[^({\w]', '', result)
+            iters += 1
+        return result
+
+    # Expand all variables
+    for k in list(vars_.keys()):
+        vars_[k] = _expand(vars_[k])
+
+    # Collect full text after expansion for -I/-D extraction
+    expanded_lines: list[str] = []
+    include_dirs: list[str] = []
+    cpp_defines: list[str] = []
+
+    for line in content.splitlines():
+        if line.startswith('\t'):
+            expanded_lines.append(_expand(line))
+            continue
+        # Handle 'include' directives recursively
+        inc_m = re.match(r'^-?include\s+(.+)', line)
+        if inc_m:
+            inc_path_raw = _expand(inc_m.group(1).strip())
+            for inc_tok in inc_path_raw.split():
+                inc_p = Path(inc_tok)
+                if not inc_p.is_absolute():
+                    inc_p = proj_dir / inc_p
+                sub_incs, sub_defs = _parse_makefile_static(inc_p, vars_, _visited)
+                include_dirs.extend(sub_incs)
+                cpp_defines.extend(sub_defs)
+            continue
+        expanded_lines.append(_expand(line))
+
+    # Extract flags from all expanded lines
+    text = '\n'.join(expanded_lines)
+    more_incs, more_defs = _extract_flags_from_text(text, proj_dir)
+    # Merge, preserving order and deduplicating
+    seen_i = set(include_dirs)
+    for d in more_incs:
+        if d not in seen_i:
+            seen_i.add(d)
+            include_dirs.append(d)
+    seen_d = set(cpp_defines)
+    for d in more_defs:
+        if d not in seen_d:
+            seen_d.add(d)
+            cpp_defines.append(d)
+
+    return include_dirs, cpp_defines
+
+
+def parse_makefile_include_paths(
+    makefile_path: str | Path,
+    make_target: str = "",
+    make_args: Optional[list[str]] = None,
+) -> tuple[list[str], list[str]]:
+    """Extract -I include paths and -D defines from a Makefile.
+
+    Strategy:
+    1. Dynamic: run 'make -B -n' and parse GCC command lines (works on Linux/Mac/WSL).
+    2. Static fallback: parse Makefile text and expand variables (works everywhere,
+       including Windows where Linux-style Makefiles cannot be executed).
+
+    Returns (include_dirs, cpp_defines).
+    """
+    import subprocess
+    path = Path(makefile_path)
+    if not path.exists():
+        return [], []
+
+    proj_dir = path.parent
+
+    # --- Dynamic attempt ---
+    make_cmd = _find_make()
+    if make_cmd:
+        cmd = [make_cmd, "-B", "-n", "-f", path.name]
+        if make_args:
+            cmd.extend(make_args)
+        if make_target:
+            cmd.append(make_target)
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True,
+                cwd=str(proj_dir), timeout=60,
+            )
+            output = result.stdout + result.stderr
+            inc_dirs, cpp_defs = _extract_flags_from_text(output, proj_dir)
+            if inc_dirs:
+                return inc_dirs, cpp_defs
+        except (subprocess.TimeoutExpired, OSError):
+            pass
+
+    # --- Static fallback ---
+    # Seed extra variables from make_args (e.g. ["SOC_ID=PS5801"])
+    extra: dict[str, str] = {}
+    for arg in (make_args or []):
+        kv = re.match(r'^([A-Za-z_]\w*)=(.*)', arg)
+        if kv:
+            extra[kv.group(1)] = kv.group(2)
+
+    return _parse_makefile_static(path, extra_vars=extra)
+
+
 if sys.version_info >= (3, 11):
     import tomllib as _toml  # type: ignore[import]
 else:  # pragma: no cover
@@ -126,6 +362,9 @@ class CorviaConfig:
     use_cpp: bool = False
     cpp_args: list[str] = field(default_factory=list)
     cproject: Optional[str] = None
+    makefile: Optional[str] = None
+    make_target: str = ""
+    make_args: list[str] = field(default_factory=list)
     output_format: Optional[str] = None
     no_color: Optional[bool] = None
     cache_enabled: Optional[bool] = None
@@ -190,11 +429,44 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
             config.cpp_args = [str(v) for v in val]
         else:
             raise ConfigError(f"{path}: [paths] cpp_args must be a string or list")
+    proj_dir = Path(config.source_path).parent
+
     if "cproject" in paths:
+        # Eclipse CDT: explicit .cproject path
         config.cproject = str(paths["cproject"])
-        cproject_path = Path(config.source_path).parent / config.cproject
+        cproject_path = proj_dir / config.cproject
         if cproject_path.exists():
             config.include_dirs = parse_cproject_include_paths(str(cproject_path))
+
+    elif "makefile" in paths or (proj_dir / "Makefile").exists() or (proj_dir / "makefile").exists():
+        # Makefile project: explicit path or auto-detected in same directory
+        if "makefile" in paths:
+            config.makefile = str(paths["makefile"])
+        else:
+            config.makefile = "Makefile" if (proj_dir / "Makefile").exists() else "makefile"
+
+        if "make_target" in paths:
+            config.make_target = str(paths["make_target"])
+
+        if "make_args" in paths:
+            val = paths["make_args"]
+            if isinstance(val, str):
+                config.make_args = val.split()
+            elif isinstance(val, list):
+                config.make_args = [str(v) for v in val]
+
+        makefile_path = proj_dir / config.makefile
+        inc_dirs, cpp_defs = parse_makefile_include_paths(
+            makefile_path,
+            make_target=config.make_target,
+            make_args=config.make_args,
+        )
+        if inc_dirs:
+            # Only override manual include list if Makefile returned results
+            config.include_dirs = inc_dirs
+        if cpp_defs and not config.cpp_args:
+            # Only inject defines if user hasn't already set cpp_args
+            config.cpp_args = [f"-D{d}" for d in cpp_defs]
 
     output = data.get("output", {}) or {}
     if "format" in output:
@@ -253,7 +525,10 @@ _EXAMPLE_TOML = """\
 [paths]
 use_cpp = false
 # include  = ["/usr/local/include", "third_party/include"]  # extra -I paths
-# cproject = ".cproject"        # auto-extract include paths from Eclipse .cproject
+# cproject = ".cproject"          # Eclipse CDT: auto-extract include paths from .cproject
+# makefile = "Makefile"           # Makefile: auto-detect include paths (mutually exclusive with cproject)
+# make_target = "all"             # make target used for dry-run (optional)
+# make_args = ["SOC_ID=PS5801"]   # extra variables passed to make / static parser
 # cpp_args = "-march=armv7-a -mthumb"  # extra flags passed to the C preprocessor
 
 [output]
