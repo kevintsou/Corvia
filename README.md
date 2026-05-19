@@ -11,6 +11,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **23 built-in checkers**: Syntax errors, memory leaks, null pointer dereference, buffer overflow, uninitialized variables, dead code, resource leaks, and all MISRA C:2012 mandatory/required/advisory rules
 - **C Preprocessor mode**: Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation (enabled by default; use `--no-cpp` to disable)
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
+- **Makefile support**: Auto-detect include paths and defines from `Makefile` (runs `make -B -n` when available, falls back to static variable expansion for Windows/cross-platform use)
 - **Auto-config**: Auto-creates `corvia.toml` with sensible defaults when none exists
 - **Multiple output formats**: text, JSON, HTML, Markdown
 - **Incremental analysis**: Cache results to skip unchanged files
@@ -160,6 +161,10 @@ CORVIA automatically discovers `corvia.toml` by walking upward from the target f
 [paths]
 use_cpp = true                    # Enable C preprocessor mode
 cproject = ".cproject"            # Eclipse project file for include paths
+# OR use Makefile auto-detection (mutually exclusive with cproject):
+makefile = "Makefile"             # Path to Makefile (auto-detected if omitted)
+make_target = "all"               # Make target to dry-run (optional)
+make_args = ["SOC_ID=PS5801"]     # Extra variables passed to make / static parser
 cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS"
 include = ["../common/include"]   # Additional include directories
 
