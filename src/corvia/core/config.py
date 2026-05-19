@@ -438,12 +438,9 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
         if cproject_path.exists():
             config.include_dirs = parse_cproject_include_paths(str(cproject_path))
 
-    elif "makefile" in paths or (proj_dir / "Makefile").exists() or (proj_dir / "makefile").exists():
-        # Makefile project: explicit path or auto-detected in same directory
-        if "makefile" in paths:
-            config.makefile = str(paths["makefile"])
-        else:
-            config.makefile = "Makefile" if (proj_dir / "Makefile").exists() else "makefile"
+    elif "makefile" in paths:
+        # Makefile project: only when explicitly configured (avoids running make -B -n on every startup)
+        config.makefile = str(paths["makefile"])
 
         if "make_target" in paths:
             config.make_target = str(paths["make_target"])
