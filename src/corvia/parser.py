@@ -112,6 +112,19 @@ typedef __gnuc_va_list va_list;
 
 _STUB_LINES = len(_COMMON_TYPE_STUBS.split('\n'))
 
+_STUB_TYPEDEF_RE = re.compile(r'\btypedef\b[^;()\[\]]*\b(\w+)\s*;')
+_STUB_TYPEDEF_NAMES: frozenset[str] = frozenset(
+    m.group(1) for m in _STUB_TYPEDEF_RE.finditer(_COMMON_TYPE_STUBS)
+)
+
+# Two patterns used by _strip_gcc_calls:
+#   _ASM_CALL_KW_RE  — __asm__ / __asm statements (strip entirely)
+#   _BUILTIN_CALL_KW_RE — __builtin_XXX() expressions (replace with 0)
+_ASM_CALL_KW_RE = re.compile(
+    r'\b(?:__asm__|__asm)\s*(?:__volatile__\s*|__volatile\s*|volatile\s*)?(?:goto\s*)?\('
+)
+_BUILTIN_CALL_KW_RE = re.compile(r'\b__builtin_\w+\s*\(')
+
 # GCC extension keywords to strip from preprocessed output before pycparser parse
 _GCC_KEYWORDS = [
     "__attribute__", "__attribute",
@@ -170,6 +183,70 @@ def _strip_attributes(code: str) -> str:
     return ''.join(result)
 
 
+def _strip_gcc_calls(code: str) -> str:
+    """Strip __asm__/__asm calls and replace __builtin_XXX() calls with 0.
+
+    Uses depth-counting (O(n)) to handle arbitrary nesting depth without the
+    catastrophic backtracking that regex paren-matching suffers on code like
+    __asm volatile("..." :: "r" ((T)(a | ((T)b << 16) | (((T)c << 24))))).
+
+    __asm__ / __asm are stripped entirely (they are statements).
+    __builtin_XXX() are replaced with 0 (they are expressions — removing
+    them would leave 'x = ;' which is a syntax error).
+    """
+    # Merge both match streams ordered by position.
+    asm_matches = [('asm', m) for m in _ASM_CALL_KW_RE.finditer(code)]
+    bi_matches = [('builtin', m) for m in _BUILTIN_CALL_KW_RE.finditer(code)]
+    events = sorted(asm_matches + bi_matches, key=lambda e: e[1].start())
+
+    result: list[str] = []
+    pos = 0
+    for kind, m in events:
+        if m.start() < pos:
+            continue  # already consumed by a previous (outer) match
+        result.append(code[pos:m.start()])
+        depth = 1
+        i = m.end()  # right after the opening '('
+        while i < len(code) and depth > 0:
+            c = code[i]
+            if c in ('"', "'"):
+                q = c
+                i += 1
+                while i < len(code):
+                    if code[i] == '\\':
+                        i += 2
+                        continue
+                    if code[i] == q:
+                        i += 1
+                        break
+                    i += 1
+                continue
+            if c == '(':
+                depth += 1
+            elif c == ')':
+                depth -= 1
+            i += 1
+        pos = i  # skip past the matching closing ')'
+        if kind == 'builtin':
+            result.append('0')  # keep as a valid expression placeholder
+        # 'asm' → stripped entirely (it is a statement, nothing to replace)
+    result.append(code[pos:])
+    return ''.join(result)
+
+
+def _dedup_stub_typedefs(code: str) -> str:
+    """Blank out typedef lines whose alias is already in _COMMON_TYPE_STUBS.
+
+    Prevents pycparser duplicate-typedef errors when preprocessed system headers
+    (e.g. ARM stddef.h) redefine types like size_t that _COMMON_TYPE_STUBS declares.
+    """
+    def _replace(m: re.Match) -> str:
+        if m.group(1) in _STUB_TYPEDEF_NAMES:
+            return '\n' * m.group(0).count('\n')
+        return m.group(0)
+    return _STUB_TYPEDEF_RE.sub(_replace, code)
+
+
 def _strip_preprocessor(code: str) -> str:
     """Remove preprocessor directives (#include, #define, #if, etc.) so pycparser can parse the file.
     Handles #if/#endif block pairs and single-line directives. Injects common type stubs.
@@ -201,10 +278,12 @@ def _strip_preprocessor(code: str) -> str:
     code = "\n".join(result)
     code = re.sub(r'\b__builtin_va_list\b', 'int', code)
     code = _strip_attributes(code)
+    # Strip __asm__/__asm/__builtin_XXX(...) using depth-counting (no backtracking).
+    code = _strip_gcc_calls(code)
     code = _GCC_KEYWORD_RE.sub("", code)
     code = re.sub(r'\bregister\s+\w+(?:\s+\w+)*\s*\(\s*"[^"]*"\s*\)\s*=\s*[^;]+;', ';', code)
     code = re.sub(r'\s*\(\s*"[^"]*"\s*::[^;]*;', ';', code)
-    code = re.sub(r'\b__builtin_unreachable\s*\(\s*\)', '', code)
+    code = _dedup_stub_typedefs(code)
     code = _COMMON_TYPE_STUBS + "\n" + code
     return code
 

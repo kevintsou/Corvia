@@ -37,6 +37,9 @@ corvia [targets...] [flags]
 |---|---|
 | `--use-cpp` | Run the C preprocessor (`cpp` / `clang`) before parsing |
 | `-I`, `--include <dir>` | Add an include directory (repeatable) |
+| `-D`, `--define <NAME=VALUE>` | Add a preprocessor definition (repeatable, e.g. `-DDEBUG=1`) |
+| `--cproject <path>` | Path to an Eclipse `.cproject` file — automatically extracts include paths from it |
+| `--cpp-args <arg>` | Extra arguments passed directly to the C preprocessor (repeatable, e.g. `--cpp-args -march=arm`) |
 
 ---
 
