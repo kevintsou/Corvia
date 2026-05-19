@@ -18,6 +18,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **MISRA category filtering**: Filter by mandatory / required / advisory
 - **Extensible**: Load external checkers from a directory
 - **LSP support**: Language Server Protocol for IDE integration
+- **MCP server**: `corvia-mcp` exposes all analysis features as MCP tools for AI agent integration (Claude Desktop, etc.)
 
 ---
 
@@ -33,14 +34,17 @@ pip install corvia
 pip install git+https://github.com/kevintsou/Corvia.git
 ```
 
-For development:
+### Optional feature groups
+
 ```bash
-pip install git+https://github.com/kevintsou/Corvia.git#egg=corvia[dev,lsp]
+pip install corvia[lsp]              # LSP server (VS Code / Neovim integration)
+pip install corvia[mcp]              # MCP server (Claude Desktop / AI agent integration)
+pip install corvia[lsp,mcp]          # Both
 ```
 
-For LSP support:
+From GitHub:
 ```bash
-pip install corvia[lsp]
+pip install "corvia[mcp] @ git+https://github.com/kevintsou/Corvia.git"
 ```
 
 ---
@@ -229,29 +233,29 @@ Corvia will automatically discover and load `corvia.toml` by walking upward from
 
 | ID | Description | MISRA |
 |----|-------------|-------|
-| `syntax` | C syntax errors | - |
-| `unused-var` | Unused variables | - |
-| `uninit-var` | Uninitialized variables | - |
-| `dead-code` | Unreachable code | - |
-| `null-deref` | Null pointer dereference | - |
-| `buffer-overflow` | Buffer overflow | - |
-| `memory-leak` | Memory leaks | - |
-| `resource-leak` | Resource leaks | - |
-| `misra-types` | Type-related MISRA rules | MISRA 10.1–10.8 |
-| `misra-decl` | Declaration rules | MISRA 8.1–8.14 |
-| `misra-expr` | Expression rules | MISRA 12.1–12.4 |
-| `misra-control` | Control flow rules | MISRA 14.1–14.4, 15.1–15.7 |
-| `misra-func` | Function rules | MISRA 16.1–16.7, 17.1–17.8 |
-| `misra-pointer` | Pointer rules | MISRA 18.1–18.8 |
-| `misra-pointer-conv` | Pointer conversion rules | MISRA 11.1–11.9 |
-| `misra-preproc` | Preprocessor rules | MISRA 19.1–19.2, 20.1–20.14 |
-| `misra-stdlib` | Standard library rules | MISRA 21.1–21.12 |
-| `misra-bitfields` | Bit-field rules | MISRA 6.1–6.2 |
-| `misra-literals` | Literal rules | MISRA 7.1–7.4 |
-| `misra-switch` | Switch statement rules | MISRA 16.1–16.7 |
-| `misra-unions` | Union rules | MISRA 9.5 |
-| `misra-identifiers` | Identifier rules | MISRA 5.1–5.9 |
-| `misra-init` | Initialization rules | MISRA 9.1–9.3 |
+| `syntax` | C syntax errors | 13.4, 15.6 |
+| `unused-var` | Unused variables | 2.2–2.4, 2.6–2.7 |
+| `uninit-var` | Uninitialized variables | 9.1 |
+| `dead-code` | Unreachable code | 2.1, 14.3 |
+| `null-deref` | Null pointer dereference | 1.3 |
+| `buffer-overflow` | Buffer overflow | 1.3, 18.1 |
+| `memory-leak` | Memory leaks | 22.1–22.2 |
+| `resource-leak` | Resource leaks | 22.1, 22.5–22.6 |
+| `misra-types` | Type-related MISRA rules | 10.1–10.8 |
+| `misra-decl` | Declaration rules | 8.1–8.14 |
+| `misra-expr` | Expression and side effect rules | 12.1–12.5, 13.1–13.6 |
+| `misra-control` | Control flow rules | 14.1–14.4, 15.1–15.7 |
+| `misra-func` | Function rules | 17.1–17.8 |
+| `misra-pointer` | Pointer and array rules | 18.1–18.8 |
+| `misra-pointer-conv` | Pointer type conversion rules | 11.1–11.9 |
+| `misra-preproc` | Preprocessor rules | 20.7, 20.10–20.12, 20.14 |
+| `misra-stdlib` | Standard library and reserved identifiers | 1.4, 21.1–21.12 |
+| `misra-bitfields` | Bit-field rules | 6.1–6.2 |
+| `misra-literals` | Literal rules | 7.1–7.4 |
+| `misra-switch` | Switch statement rules | 16.1–16.7 |
+| `misra-unions` | Union usage | 19.2 |
+| `misra-identifiers` | Identifier uniqueness and shadowing | 5.1, 5.3, 5.6–5.9 |
+| `misra-init` | Aggregate / union initializer rules | 9.2–9.3 |
 
 List all checkers with:
 ```bash
@@ -276,6 +280,7 @@ corvia --list-checkers
 CORVIA provides a Language Server Protocol implementation for IDE integration.
 
 ```bash
+pip install corvia[lsp]
 corvia-lsp
 ```
 
@@ -283,11 +288,50 @@ This starts an LSP server that can be connected to from editors like VS Code, Ne
 
 ---
 
+## MCP Server / MCP 伺服器
+
+CORVIA provides a [Model Context Protocol](https://modelcontextprotocol.io) server that lets AI agents (e.g. Claude Desktop) call Corvia analysis tools directly.
+
+### Installation
+
+```bash
+pip install corvia[mcp]
+```
+
+### Available tools
+
+| Tool | Description |
+|------|-------------|
+| `analyze` | Run static analysis on a C file or directory. Returns JSON with `issues`, `summary`, and `misra_summary`. Supports all analysis options: checkers, severity, misra_only, misra_category, use_cpp, include_dirs, defines, cpp_args, config, incremental, cache_dir |
+| `list_checkers` | List all available checker IDs, descriptions, and MISRA rules |
+| `clean_cache` | Delete the incremental analysis cache |
+
+### Claude Desktop setup
+
+Add to `claude_desktop_config.json`:
+
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "corvia": {
+      "command": "corvia-mcp"
+    }
+  }
+}
+```
+
+Restart Claude Desktop — Corvia tools will appear in the tool list.
+
+---
+
 ## Development / 開發
 
 ```bash
-# Install in dev mode
-pip install -e .[dev]
+# Install in dev mode with all optional dependencies
+pip install -e ".[dev,lsp,mcp]"
 
 # Run tests
 pytest
@@ -303,31 +347,36 @@ corvia/
 ├── src/corvia/
 │   ├── __init__.py
 │   ├── cli.py            # CLI entry point
-│   ├── engine.py          # Analysis engine
-│   ├── parser.py          # C parser wrapper (pycparser)
-│   ├── models.py          # Data models
-│   ├── registry.py        # Checker registry
-│   ├── install.py         # C preprocessor installer
-│   ├── checkers/          # Built-in checkers
+│   ├── engine.py         # Analysis engine
+│   ├── parser.py         # C parser wrapper (pycparser)
+│   ├── models.py         # Data models
+│   ├── registry.py       # Checker registry
+│   ├── install.py        # C preprocessor installer
+│   ├── checkers/         # Built-in checkers
 │   │   ├── misra_switch.py
 │   │   ├── misra_types.py
 │   │   ├── null_deref.py
 │   │   └── ...
 │   ├── core/
-│   │   ├── config.py      # Configuration (corvia.toml)
-│   │   ├── cache.py       # Incremental cache
+│   │   ├── config.py     # Configuration (corvia.toml)
+│   │   ├── cache.py      # Incremental cache
 │   │   ├── symbol_table.py
 │   │   ├── call_graph.py
 │   │   ├── context.py
 │   │   └── ...
-│   ├── reporters/         # Output formatters
+│   ├── reporters/        # Output formatters
 │   │   ├── json_reporter.py
 │   │   ├── html_reporter.py
 │   │   ├── md_reporter.py
 │   │   └── base.py
-│   └── lsp/               # LSP server
-│       ├── server.py
-│       └── converter.py
+│   ├── lsp/              # LSP server
+│   │   ├── server.py
+│   │   └── converter.py
+│   └── mcp/              # MCP server
+│       └── server.py
+├── example_toml/         # Ready-to-use corvia.toml templates
+│   ├── corvia.toml.ps5801
+│   └── corvia.toml.ds5
 ├── tests/
 ├── pyproject.toml
 └── corvia.toml.example
