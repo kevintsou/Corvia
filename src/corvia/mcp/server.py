@@ -95,7 +95,8 @@ def analyze(
         config: Path to a corvia.toml configuration file. Auto-discovered if omitted.
         no_config: If true, ignore corvia.toml entirely and use only the parameters above.
         incremental: Cache results so unchanged files are skipped on subsequent runs.
-        cache_dir: Directory used for the incremental cache (default: .corvia_cache).
+        cache_dir: Directory used for the incremental cache. Defaults to .corvia_cache
+            next to the analysis target (not the server working directory).
 
     Returns:
         A dict with keys:
@@ -124,6 +125,19 @@ def analyze(
             # If no config found / error, continue without config
             resolved_config = None
 
+    # Resolve cache_dir so we never fall back to the MCP server's cwd
+    # (which may not be writable).  Priority:
+    #   1. Caller-supplied cache_dir
+    #   2. corvia.toml cache.dir setting
+    #   3. .corvia_cache next to the analysis target
+    resolved_cache_dir = cache_dir
+    if resolved_cache_dir is None and resolved_config and resolved_config.cache_dir:
+        resolved_cache_dir = resolved_config.cache_dir
+    if resolved_cache_dir is None:
+        target_path = Path(path).resolve()
+        base_dir = target_path.parent if target_path.is_file() else target_path
+        resolved_cache_dir = str(base_dir / ".corvia_cache")
+
     engine = AnalysisEngine(
         checker_ids=checkers,
         min_severity=min_severity,
@@ -134,7 +148,7 @@ def analyze(
         cpp_defines=defines or None,
         cpp_args=cpp_args or None,
         incremental=incremental,
-        cache_dir=cache_dir,
+        cache_dir=resolved_cache_dir,
         config=resolved_config,
     )
 
