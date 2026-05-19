@@ -192,6 +192,39 @@ A complete annotated template is available at `corvia.toml.example`.
 
 ---
 
+## Example Configurations / 範例設定檔
+
+Ready-to-use `corvia.toml` templates are provided in the [`example_toml/`](example_toml/) folder:
+
+| File | Description |
+|------|-------------|
+| [`corvia.toml.ps5801`](example_toml/corvia.toml.ps5801) | Phison PS5801 SoC firmware project — manual include path list, uses C preprocessor with SOC defines |
+| [`corvia.toml.ds5`](example_toml/corvia.toml.ds5) | Eclipse CDT / ARM DS-5 project — auto-extracts include paths from `.cproject` |
+
+### How to use / 使用方式
+
+1. Copy the closest matching example to your project root and rename it `corvia.toml`:
+
+```bash
+# Eclipse CDT / DS-5 project
+cp /path/to/corvia/example_toml/corvia.toml.ds5 your_project/corvia.toml
+
+# Phison PS5801 firmware project
+cp /path/to/corvia/example_toml/corvia.toml.ps5801 your_project/corvia.toml
+```
+
+2. Edit the file to match your project (adjust paths, defines, SOC_ID, etc.).
+
+3. Run Corvia from your project directory:
+
+```bash
+corvia src/
+```
+
+Corvia will automatically discover and load `corvia.toml` by walking upward from the target path.
+
+---
+
 ## Checkers / 檢查器
 
 | ID | Description | MISRA |
