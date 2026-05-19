@@ -525,7 +525,10 @@ _EXAMPLE_TOML = """\
 [paths]
 use_cpp = false
 # include  = ["/usr/local/include", "third_party/include"]  # extra -I paths
-# cproject = ".cproject"        # auto-extract include paths from Eclipse .cproject
+# cproject = ".cproject"          # Eclipse CDT: auto-extract include paths from .cproject
+# makefile = "Makefile"           # Makefile: auto-detect include paths (mutually exclusive with cproject)
+# make_target = "all"             # make target used for dry-run (optional)
+# make_args = ["SOC_ID=PS5801"]   # extra variables passed to make / static parser
 # cpp_args = "-march=armv7-a -mthumb"  # extra flags passed to the C preprocessor
 
 [output]
