@@ -325,6 +325,31 @@ Add to `claude_desktop_config.json`:
 
 Restart Claude Desktop — Corvia tools will appear in the tool list.
 
+### Claude Code (CLI / VS Code extension) setup
+
+**Option A — one-line command (recommended):**
+```bash
+claude mcp add corvia corvia-mcp
+```
+
+**Option B — manual config:**
+
+Add to `settings.json`:
+- **User-level** (all projects): `~/.claude/settings.json`
+- **Project-level** (current project only): `.claude/settings.json`
+
+```json
+{
+  "mcpServers": {
+    "corvia": {
+      "command": "corvia-mcp"
+    }
+  }
+}
+```
+
+The VS Code extension shares the same settings as the Claude Code CLI — no separate configuration needed.
+
 ---
 
 ## Development / 開發
