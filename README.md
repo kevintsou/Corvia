@@ -12,7 +12,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **C Preprocessor mode**: Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation (enabled by default; use `--no-cpp` to disable)
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
 - **Makefile support**: Auto-detect include paths and defines from `Makefile` (runs `make -B -n` when available, falls back to static variable expansion for Windows/cross-platform use)
-- **Auto-config**: Auto-creates `corvia.toml` with sensible defaults when none exists
+- **Interactive setup wizard**: When `corvia.toml` is missing, displays a menu of templates from `example_toml/` to choose from; auto-creates config in the working directory (non-interactive environments fall back to auto-creation with defaults)
 - **Multiple output formats**: text, JSON, HTML, Markdown
 - **Incremental analysis**: Cache results to skip unchanged files
 - **MISRA category filtering**: Filter by mandatory / required / advisory
@@ -68,7 +68,7 @@ corvia --no-cpp src/
 ```
 
 ### Use a configuration file
-Create `corvia.toml` in your project root (or run `corvia` without one and it will be auto-created):
+Create `corvia.toml` in your project root (or run `corvia` without one and it will interactively prompt you to choose a template):
 
 ```toml
 [paths]
@@ -157,7 +157,7 @@ corvia src/
 
 ## Configuration / 設定檔 (`corvia.toml`)
 
-CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory. If no config file is found, one is auto-created with defaults.
+CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory. If no config file is found, an interactive wizard displays available templates from `example_toml/` for you to choose from (in non-interactive environments, defaults are used instead).
 
 ### Full configuration reference
 
