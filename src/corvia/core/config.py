@@ -574,6 +574,19 @@ def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
     raise ConfigError("\n".join(msg_lines))
 
 
+def find_example_tomls() -> list[Path]:
+    """Return .toml files from the package's example_toml/ directory, sorted by name.
+
+    Locates example_toml/ relative to this file (works for editable installs).
+    Returns an empty list if the directory is not found.
+    """
+    pkg_root = Path(__file__).parent.parent.parent.parent
+    example_dir = pkg_root / "example_toml"
+    if not example_dir.is_dir():
+        return []
+    return sorted(example_dir.glob("*.toml*"))
+
+
 def severity_from_string(value: str) -> Optional[Severity]:
     v = value.lower()
     if v == "error":

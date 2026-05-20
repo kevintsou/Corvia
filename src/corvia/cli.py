@@ -136,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
         elif not Path(discover_base).exists():
             discover_base = "."
     if not args.no_config:
-        from corvia.core.config import ConfigError, discover_or_create, load, parse_cproject_include_paths
+        from corvia.core.config import ConfigError, discover_or_create, find_example_tomls, load, parse_cproject_include_paths, _EXAMPLE_TOML
         try:
             if args.config:
                 config = load(args.config)
@@ -158,9 +158,55 @@ def main(argv: list[str] | None = None) -> int:
                 else:
                     cproject_path = cproject_path.resolve()
                 cproject_includes = parse_cproject_include_paths(cproject_path)
-        except ConfigError as e:
-            print(f"Error: {e}", file=sys.stderr)
-            return 2
+        except ConfigError:
+            dest = Path(discover_base).resolve() / "corvia.toml"
+
+            # 照舊寫入 corvia.toml.example 供使用者參考
+            example_path = Path(discover_base).resolve() / "corvia.toml.example"
+            try:
+                example_path.write_text(_EXAMPLE_TOML, encoding="utf-8")
+            except OSError:
+                pass
+
+            templates = find_example_tomls()
+            selected = None
+
+            if templates and sys.stdin.isatty():
+                print("\nNo corvia.toml found. Choose a template to get started:\n", file=sys.stderr)
+                for i, t in enumerate(templates, 1):
+                    desc = ""
+                    try:
+                        first = t.read_text(encoding="utf-8").splitlines()[0]
+                        if first.startswith("#"):
+                            desc = "  " + first.lstrip("# ").strip()
+                    except OSError:
+                        pass
+                    print(f"  [{i}] {t.name}{desc}", file=sys.stderr)
+                print("  [0] Skip (add corvia.toml manually or use --no-config)\n", file=sys.stderr)
+                try:
+                    choice = input("Select [0]: ").strip()
+                    idx = int(choice) if choice else 0
+                    if 1 <= idx <= len(templates):
+                        selected = templates[idx - 1]
+                except (ValueError, EOFError, KeyboardInterrupt):
+                    pass
+
+            if selected:
+                import shutil
+                shutil.copy(selected, dest)
+                print(f"Copied {selected.name} -> corvia.toml", file=sys.stderr)
+                try:
+                    config = load(str(dest))
+                    print(f"Using config: {dest}", file=sys.stderr)
+                except ConfigError as e2:
+                    print(f"Error: {e2}", file=sys.stderr)
+                    return 2
+            else:
+                print(
+                    "No corvia.toml found. Use --no-config to skip, or copy a template from example_toml/.",
+                    file=sys.stderr,
+                )
+                return 2
         if config and config.source_path:
             print(f"Using config: {config.source_path}", file=sys.stderr)
 
