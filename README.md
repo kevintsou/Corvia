@@ -24,12 +24,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 
 ## Installation / 安裝
 
-### From PyPI (recommended)
-```bash
-pip install corvia
-```
-
-### From GitHub (latest development version)
+### From GitHub
 ```bash
 pip install git+https://github.com/kevintsou/Corvia.git
 ```
