@@ -575,16 +575,21 @@ def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
 
 
 def find_example_tomls() -> list[Path]:
-    """Return .toml files from the package's example_toml/ directory, sorted by name.
+    """Return .toml files from the bundled example_toml/ directory, sorted by name.
 
-    Locates example_toml/ relative to this file (works for editable installs).
+    Works for both editable and non-editable pip installs via importlib.resources.
     Returns an empty list if the directory is not found.
     """
-    pkg_root = Path(__file__).parent.parent.parent.parent
-    example_dir = pkg_root / "example_toml"
-    if not example_dir.is_dir():
+    import importlib.resources
+    try:
+        pkg_dir = importlib.resources.files("corvia") / "example_toml"
+        paths = sorted(
+            Path(str(f)) for f in pkg_dir.iterdir()  # type: ignore[union-attr]
+            if f.name.endswith((".toml", ".toml.ds5", ".toml.ps5801")) or "toml" in f.name
+        )
+        return paths
+    except (TypeError, FileNotFoundError, AttributeError):
         return []
-    return sorted(example_dir.glob("*.toml*"))
 
 
 def severity_from_string(value: str) -> Optional[Severity]:

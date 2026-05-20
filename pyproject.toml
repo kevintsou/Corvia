@@ -40,5 +40,8 @@ corvia-mcp = "corvia.mcp.server:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+corvia = ["example_toml/*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
