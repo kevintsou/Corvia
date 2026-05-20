@@ -31,15 +31,55 @@ pip install git+https://github.com/kevintsou/Corvia.git
 
 ### Optional feature groups
 
+#### `[lsp]` — IDE 即時分析（VS Code / Neovim）
+
+**適用情境：** 想在編輯器裡即時看到 Corvia 的警告，不需要手動執行 CLI。
+
 ```bash
-pip install corvia[lsp]              # LSP server (VS Code / Neovim integration)
-pip install corvia[mcp]              # MCP server (Claude Desktop / AI agent integration)
-pip install corvia[lsp,mcp]          # Both
+pip install "git+https://github.com/kevintsou/Corvia.git[lsp]"
 ```
 
-From GitHub:
+安裝後啟動 Language Server：
 ```bash
-pip install "corvia[mcp] @ git+https://github.com/kevintsou/Corvia.git"
+corvia-lsp
+```
+
+在 VS Code 或 Neovim 的 LSP 設定中指向 `corvia-lsp`，即可在存檔時自動分析並在程式碼旁顯示問題標記。
+
+---
+
+#### `[mcp]` — AI Agent 整合（Claude Desktop / Claude Code）
+
+**適用情境：** 想讓 Claude Desktop 或 Claude Code 直接呼叫 Corvia 分析工具，不需要手動下指令。
+
+```bash
+pip install "git+https://github.com/kevintsou/Corvia.git[mcp]"
+```
+
+安裝後在 `claude_desktop_config.json` 加入：
+```json
+{
+  "mcpServers": {
+    "corvia": { "command": "corvia-mcp" }
+  }
+}
+```
+
+Claude 就可以直接說「幫我分析這個專案」並自動呼叫 Corvia。
+
+---
+
+#### `[lsp,mcp]` — 同時安裝兩者
+
+```bash
+pip install "git+https://github.com/kevintsou/Corvia.git[lsp,mcp]"
+```
+
+---
+
+**一般命令列使用不需要任何 extra，直接安裝基本版即可：**
+```bash
+pip install git+https://github.com/kevintsou/Corvia.git
 ```
 
 ---
