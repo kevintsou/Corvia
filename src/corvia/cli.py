@@ -52,8 +52,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--external-checkers", help="Directory containing external checker modules")
     p.add_argument("--list-checkers", action="store_true", help="List all available checkers and exit")
     p.add_argument("--no-color", action="store_true", help="Disable colored output")
-    p.add_argument("--incremental", action="store_true", default=True, help="Reuse cached results for unchanged files (default: enabled)")
-    p.add_argument("--no-incremental", dest="incremental", action="store_false", help="Disable incremental caching")
+    p.add_argument("--incremental", action=argparse.BooleanOptionalAction, default=None,
+                   help="Reuse cached results for unchanged files (default: enabled)")
     p.add_argument("--cache-dir", help="Cache directory (default: .corvia_cache)")
     p.add_argument("--clean-cache", action="store_true", help="Delete cache and exit")
     p.add_argument("--config", help="Path to corvia.toml (default: auto-discover from cwd)")
@@ -172,6 +172,16 @@ def main(argv: list[str] | None = None) -> int:
     if config and config.no_color is not None and not args.no_color:
         no_color = config.no_color
 
+    if args.incremental is None:
+        # Not specified: config wins, then default to True (cache on by default for CLI)
+        if config and config.cache_enabled is not None:
+            incremental = config.cache_enabled
+        else:
+            incremental = True
+    else:
+        # User explicitly passed --incremental or --no-incremental: honour it
+        incremental = args.incremental
+
     engine = AnalysisEngine(
         checker_ids=checker_ids,
         min_severity=min_severity,
@@ -182,7 +192,7 @@ def main(argv: list[str] | None = None) -> int:
         cpp_defines=args.define,
         cpp_args=args.cpp_args,
         external_checkers_dir=args.external_checkers,
-        incremental=args.incremental,
+        incremental=incremental,
         cache_dir=args.cache_dir,
         config=config,
     )

@@ -40,7 +40,7 @@ class AnalysisEngine:
         cpp_defines: Optional[list[str]] = None,
         cpp_args: Optional[list[str]] = None,
         external_checkers_dir: Optional[str] = None,
-        incremental: bool = False,
+        incremental: Optional[bool] = None,
         cache_dir: Optional[str] = None,
         config: Optional[CorviaConfig] = None,
     ) -> None:
@@ -81,8 +81,8 @@ class AnalysisEngine:
                 use_cpp = True
         self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None, cpp_defines=cpp_defines, cpp_args=merged_cpp_args or None, auto_install=True)
 
-        if incremental is False and config and config.cache_enabled:
-            incremental = True
+        if incremental is None:
+            incremental = False
         if cache_dir is None and config and config.cache_dir:
             cache_dir = config.cache_dir
         self._incremental = incremental
