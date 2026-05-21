@@ -82,6 +82,12 @@ pip install "git+https://github.com/kevintsou/Corvia.git[lsp,mcp]"
 pip install git+https://github.com/kevintsou/Corvia.git
 ```
 
+### Uninstall / 移除
+
+```bash
+pip uninstall corvia
+```
+
 ---
 
 ## Quick Start / 快速開始
