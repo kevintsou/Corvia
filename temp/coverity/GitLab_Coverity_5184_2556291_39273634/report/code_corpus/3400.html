@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line84">84    </a></b>	        sys_init_result |= ERR_SYS_IP_INIT_FAIL;
+<b><a name="line85">85    </a></b>	    }
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	#if 0 //only for test loader init pcie link
+<b><a name="line88">88    </a></b>	    host_api_pcie_loader_update_phy_rom_without_isr(&gHostApiStruct);
+<b><a name="line89">89    </a></b>	#endif
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    // Init OCP info prior to DBUF init
+<b><a name="line92">92    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line93">93    </a></b>	    if (gpFwSimCtrl0Reg->smbus_send_cpl)
+<b><a name="line94">94    </a></b>	    {
+<b><a name="line95">95    </a></b>	        phal_smbm_api_set_start(SMBUS0, TRUE); // For bootcode send SMBus CQ
+<b><a name="line96">96    </a></b>	        // SMBus Master is still busy
+<b><a name="line97">97    </a></b>	        U32 mabiao_addr = MABIAO_SET_US(MABIAO_SMBUS_POLL, MCTP_PACKET_TIMEOUT_INTERVAL_US_DEFAULT);
+<b><a name="line98">98    </a></b>	        while (phal_smbm_poll_protocol_end(SMBUS0)) {
+<b><a name="line99">99    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line100">100    </a></b>	                break;
+<b><a name="line101">101    </a></b>	            }
+<b><a name="line102">102    </a></b>	        }
+<b><a name="line103">103    </a></b>	        gpFwSimCtrl0Reg->smbus_send_cpl = 0;
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	    // reset smbus after smbm trigger done
+<b><a name="line107">107    </a></b>	    PHAL_RST_N_CLR_RST_N_SMB_SEL();
+<b><a name="line108">108    </a></b>	    PHAL_RST_N_SET_RST_N_SMB_SEL();
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	    init_ocp_device_info();
+<b><a name="line111">111    </a></b>	#endif
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_RSV2));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "113" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line114">114    </a></b>	    // In X3 need initial all dbuf bank first
+<b><a name="line115">115    </a></b>	    phal_dbuf_api_init_all(FALSE);
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    sal_log_tracker_set(sal_locate(0x03, TYPE_RSV2));
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    I2cInit(I2C_NM_400K, I2C_HS_1M7);
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    sal_log_tracker_set(sal_locate(0x04, TYPE_RSV2));
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    return sys_init_result;
+<b><a name="line124">124    </a></b>	}
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	U8 sys_init_check(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line127">127    </a></b>	{
+<b><a name="line128">128    </a></b>	    U8 sys_init_result = PASS;
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	    U32 rct = EFUSE_PARSE_REPC(bc_ptr->p_efuse_security_setting->drbg_repc);
+<b><a name="line131">131    </a></b>	    U32 apt = EFUSE_PARSE_ADPC(bc_ptr->p_efuse_security_setting->drbg_adpc);
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	    if (phal_dbuf_init_check_all()) {
+<b><a name="line134">134    </a></b>	        sys_init_result |= ERR_DBUF_INIT_FAIL;
+<b><a name="line135">135    </a></b>	    }
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	    if (phal_sqz_is_en() == FALSE) {
+<b><a name="line138">138    </a></b>	        if (PASS != phal_init_rng(rct, apt, (U8)bc_ptr->p_efuse_security_setting_1->health_test_en))
+<b><a name="line139">139    </a></b>	        {
+<b><a name="line140">140    </a></b>	            sys_init_result |= ERR_RNG_INIT_FAIL;
+<b><a name="line141">141    </a></b>	        }
+<b><a name="line142">142    </a></b>	    }
+<b><a name="line143">143    </a></b>	
+<b><a name="line144">144    </a></b>	    return sys_init_result;
+</pre></body>
+</html>

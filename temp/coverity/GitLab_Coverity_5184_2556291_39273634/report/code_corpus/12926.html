@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_nvme.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line657">657    </a></b>	    U64 ct_sys_axi_rerr  : 1;
+<b><a name="line658">658    </a></b>	    U64 ct_rcsh_ecc_err  : 1;
+<b><a name="line659">659    </a></b>	    U64 ct_pcie_axi_berr : 1;
+<b><a name="line660">660    </a></b>	    U64 ct_pcie_axi_perr : 1;
+<b><a name="line661">661    </a></b>	    U64 ct_pcie_axi_rerr : 1;
+<b><a name="line662">662    </a></b>	    U64 ct_prp_ff_perr   : 1;
+<b><a name="line663">663    </a></b>	    U64 ct_ha_q_perr  : 1;
+<b><a name="line664">664    </a></b>	    U64 ct_psdt_err   : 1;
+<b><a name="line665">665    </a></b>	    U64 ct_prp1_err   : 1;
+<b><a name="line666">666    </a></b>	    U64 ct_prp2_err   : 1;
+<b><a name="line667">667    </a></b>	    U64 ct_prp_ofst_err  : 1;
+<b><a name="line668">668    </a></b>	    U64 ct_runc_err   : 1;
+<b><a name="line669">669    </a></b>	    U64 ct_dma_e3d512_err : 1;
+<b><a name="line670">670    </a></b>	    U64 ct_sys_e3d4k_err : 1;
+<b><a name="line671">671    </a></b>	    U64 ct_sec_e3d4kp_err : 1;
+<b><a name="line672">672    </a></b>	    U64 ct_dulb_err   : 1;
+<b><a name="line673">673    </a></b>	    U64 ct_sram_perr  : 1;
+<b><a name="line674">674    </a></b>	    U64 ct_wunc_err   : 1;
+<b><a name="line675">675    </a></b>	    U64 ct_apu_kerr   : 1;
+<b><a name="line676">676    </a></b>	    U64 rsv_qw10b     : 21;
+<b><a name="line677">677    </a></b>	
+<b><a name="line678">678    </a></b>	    //QW11~QW15
+<b><a name="line679">679    </a></b>	    U64 rsv_qw11_qw15[5];
+<b><a name="line680">680    </a></b>	
+<b><a name="line681">681    </a></b>	};
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	
+<b><a name="line684">684    </a></b>	*/
+<b><a name="line685">685    </a></b>	/* STRUCTURE :  */
+<b><a name="line686">686    </a></b>	/*
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line687">687    </a></b>	typedef struct hal_hcmd_comm_ctx_struct         HAL_HCMD_COMM_CTX_STRUCT,   *HAL_HCMD_COMM_CTX_STRUCT_PTR;
+<b><a name="line688">688    </a></b>	struct hal_hcmd_comm_ctx_struct
+<b><a name="line689">689    </a></b>	{
+<b><a name="line690">690    </a></b>	    union
+<b><a name="line691">691    </a></b>	    {
+<b><a name="line692">692    </a></b>	        U32 dw[6];
+<b><a name="line693">693    </a></b>	        struct
+<b><a name="line694">694    </a></b>	        {
+<b><a name="line695">695    </a></b>	            //DW0
+<b><a name="line696">696    </a></b>	            U32 ctag                 : 9; // Command tag allocated in NVMe IP
+<b><a name="line697">697    </a></b>	            U32 mbr                  : 1; // In order read
+<b><a name="line698">698    </a></b>	            U32 ior                  : 1;
+<b><a name="line699">699    </a></b>	            U32 adm                  : 1;
+<b><a name="line700">700    </a></b>	            U32 lr                   : 1; // Limited Retry
+<b><a name="line701">701    </a></b>	            U32 fua                  : 1; // Force Unit Access
+<b><a name="line702">702    </a></b>	            U32 az                   : 1; // All Zero
+<b><a name="line703">703    </a></b>	            U32 err                  : 1; // Command error
+<b><a name="line704">704    </a></b>	            U32 op_code              : 8; // NVMe command op code
+<b><a name="line705">705    </a></b>	            U32 vfid                 : 6;
+<b><a name="line706">706    </a></b>	            U32 cr                   : 1;
+<b><a name="line707">707    </a></b>	            U32 lbaf                 : 1; // LBA Format
+<b><a name="line708">708    </a></b>	
+<b><a name="line709">709    </a></b>	            // DW1 - DW2
+<b><a name="line710">710    </a></b>	            U32 rsv1[2];
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	            // DW3
+<b><a name="line713">713    </a></b>	            U32 tnlc         : 17; // total number of LCA, this field is always valid for those command that defined SLBA/NLB but for read this field is only valid when NC = 1
+<b><a name="line714">714    </a></b>	            U32 nvm_set      : 3;
+<b><a name="line715">715    </a></b>	            U32 fuse         : 2;
+<b><a name="line716">716    </a></b>	            U32 attr         : 2;  // 2'b00 : async, 2'b01 : write, 2'b10 : read, 2'b11 : sync (async/sync share the same doorbell)
+<b><a name="line717">717    </a></b>	            U32 dsm          : 8;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/nvme/mi/nvme_mi_basic_management_command.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  nvme_mi_basic_management_command.c                                    */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	static void nvme_basic_management_command_default_udid(SMBUS_UDID *p_udid)
+<b><a name="line24">24    </a></b>	{
+<b><a name="line25">25    </a></b>	    //--NVM Express Management v1.0a
+<b><a name="line26">26    </a></b>	    //----Figure 7: NVM Subsystem and FRU Information Device SMBus UDID
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    memset((void *)(p_udid), 0x00, sizeof(*p_udid));
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	    //--SMBus Interface (Carbon)
+<b><a name="line31">31    </a></b>	    p_udid->vendor_specific_id.nvme_mi.unique_nvm_storage_device_id =
+<b><a name="line32">32    </a></b>	        0 |
+<b><a name="line33">33    </a></b>	        (((serial_number[0] << 0) |
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "(serial_number[0] << 0) | (serial_number[1] << 8) | (serial_number[2] << 16) | (serial_number[3] << 24)" (8 bits) is less that the right hand operand "268435455" (32 bits).</font>
+<b><a name="line34">34    </a></b>	                (serial_number[1] << 8) |
+<b><a name="line35">35    </a></b>	                (serial_number[2] << 16) |
+<b><a name="line36">36    </a></b>	                (serial_number[3] << 24)) & 0x0FFFFFFF);
+<b><a name="line37">37    </a></b>	    p_udid->vendor_specific_id.nvme_mi.udid_type = SMBUS_UDID_VENDOR_SPEC_DEVICE;
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    //This field contains a vendor assigned device ID for the Management Endpoint
+<b><a name="line40">40    </a></b>	    p_udid->subsystem_device_id = phal_pcie_get_subsystem_device_id(PCIE_PORT_0);
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    //This field contains the PCI-SIG vendor ID for the Management Endpoint
+<b><a name="line43">43    </a></b>	    p_udid->subsystem_vendor_id = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    // ASIC supports SMBus 3.1
+<b><a name="line46">46    </a></b>	    // 0100b  - SMBus Specification 2.0
+<b><a name="line47">47    </a></b>	    // 0101b  - SMBus Specification 3.0
+<b><a name="line48">48    </a></b>	    p_udid->interface.smbus_version = SMBUS_UDID_SMBUS_VERSION_3_0;
+<b><a name="line49">49    </a></b>	    p_udid->interface.oem       = 1U; //This bit shall be set to ���1'
+<b><a name="line50">50    </a></b>	    p_udid->interface.asf       = 1U; //This bit shall be set to ���1���.
+<b><a name="line51">51    </a></b>	    p_udid->interface.ipmi      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line52">52    </a></b>	    p_udid->interface.zone      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    //This field contains a vendor assigned device ID for the Management Endpoint
+<b><a name="line55">55    </a></b>	    p_udid->device_id = phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    //This field contains the PCI-SIG vendor ID for the Management Endpoint
+<b><a name="line58">58    </a></b>	    p_udid->vendor_id = phal_pcie_get_vendor_id(PCIE_PORT_0); //HW default is 0x1987
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    //TODO: need to confirm
+<b><a name="line61">61    </a></b>	    p_udid->version.silicon_revision_id = phal_get_hw_ver(); // ASIC Silicon revision
+<b><a name="line62">62    </a></b>	    p_udid->version.udid_version = 1U;          // UDID version 1
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    p_udid->device_capabilities.pec_supported = 1U;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	void clear_vuc_key_hash(EFUSE_API *p_efuse_api)
+<b><a name="line360">360    </a></b>	{
+<b><a name="line361">361    </a></b>	    // Clear the sec key hash from buffer
+<b><a name="line362">362    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_vuc_protect_key_hash_read), 0x00, sizeof(p_efuse_api->a_efuse_vuc_protect_key_hash_read));
+<b><a name="line363">363    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_vuc_protect_key_hash),      0x00, sizeof(p_efuse_api->a_efuse_vuc_protect_key_hash));
+<b><a name="line364">364    </a></b>	}
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	void efuse_api_init(EFUSE_API *p_efuse_api)
+<b><a name="line367">367    </a></b>	{
+<b><a name="line368">368    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP));
+<b><a name="line369">369    </a></b>	    memset((void *)p_efuse_api, 0x00, sizeof(*p_efuse_api)); //TODO check if
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    p_efuse_api->efuse_nand_setting_offset = 0xFFU;
+<b><a name="line372">372    </a></b>	    p_efuse_api->efuse_uds_kdk_offset = 0xFFU;
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    return;
+<b><a name="line375">375    </a></b>	}
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	U8 check_uds_kdk_supported(const EFUSE_SECURITY_SETTING *efuse_security_setting_ptr)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    U32 uds_kdk_offset;
+<b><a name="line380">380    </a></b>	    U8 result;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	    result = FALSE;
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    if (efuse_security_setting_ptr != NULL) {
+<b><a name="line385">385    </a></b>	        for (uds_kdk_offset = 0; uds_kdk_offset < EFUSE_UDS_KDK_COUNT; uds_kdk_offset++) {
+<b><a name="line386">386    </a></b>	            if ((1 == efuse_security_setting_ptr->u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_valid) &&
+<b><a name="line387">387    </a></b>	                (0 == efuse_security_setting_ptr->u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_invalid)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "(*efuse_security_setting_ptr).u16_union.uds_kdk_state" of type "struct __C588 ( const *)[2]" is cast to type "struct __C588 const *".</font>
+<b><a name="line388">388    </a></b>	                result = TRUE;
+<b><a name="line389">389    </a></b>	                break;
+<b><a name="line390">390    </a></b>	            }
+<b><a name="line391">391    </a></b>	        }
+<b><a name="line392">392    </a></b>	    }
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	    return result;
+<b><a name="line395">395    </a></b>	}
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	void get_efuse_sec_clock_setting(EFUSE_API *p_efuse_api, U8 *is_step_clock_enable, U8 *is_random_clock_enable)
+<b><a name="line398">398    </a></b>	{
+<b><a name="line399">399    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting = get_efuse_security_setting(p_efuse_api);
+<b><a name="line400">400    </a></b>	
+<b><a name="line401">401    </a></b>	    if (p_security_setting != NULL) {
+<b><a name="line402">402    </a></b>	        (*is_step_clock_enable)   = (U8)p_security_setting->step_clock_enable;
+<b><a name="line403">403    </a></b>	        (*is_random_clock_enable) = (U8)p_security_setting->random_clock_enable;
+<b><a name="line404">404    </a></b>	    }
+<b><a name="line405">405    </a></b>	    else {
+<b><a name="line406">406    </a></b>	        (*is_step_clock_enable)   = 0U;
+<b><a name="line407">407    </a></b>	        (*is_random_clock_enable) = 0U;
+<b><a name="line408">408    </a></b>	    }
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	    return;
+<b><a name="line411">411    </a></b>	}
+<b><a name="line412">412    </a></b>	
+<b><a name="line413">413    </a></b>	void get_all_efuse_sys_landmark(EFUSE_API *p_efuse_api, void *pt_bc_struct)
+<b><a name="line414">414    </a></b>	{
+<b><a name="line415">415    </a></b>	    BC_GLOBAL_STRUCT_PTR bc_ptr = (BC_GLOBAL_STRUCT_PTR)pt_bc_struct;
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	    U8 boot_landmark_0_buf[EFUSE_BANK_SIZE];
+<b><a name="line418">418    </a></b>	    U8 boot_landmark_1_buf[EFUSE_BANK_SIZE];
+</pre></body>
+</html>

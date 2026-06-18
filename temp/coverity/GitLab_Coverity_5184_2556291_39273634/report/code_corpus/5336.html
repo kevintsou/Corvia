@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line470">470    </a></b>	    //  System related IP initialization.
+<b><a name="line471">471    </a></b>	    status = sys_init(bc_ptr);
+<b><a name="line472">472    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_1_SYS_INIT, TYPE_TIMESTAMP));
+<b><a name="line473">473    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_FLOW_SYS_INIT_FAIL, (0 == status));
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    if ((gpFwSimCtrl0Reg->not_aes_key_ram_clr == FALSE) && (gpFwSimCtrl1Reg->sqz_enable == FALSE)) {
+<b><a name="line476">476    </a></b>	        hal_sec_aes_kram_clr(SEC_TIMEOUT_TICKS);
+<b><a name="line477">477    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_SEC_AES_KEY_RAM_CLR_TIMEOUT, (0 == gSecAesTimeout));
+<b><a name="line478">478    </a></b>	    }
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    host->host_id_tbl.flow.all = 0;
+<b><a name="line481">481    </a></b>	    version_init();
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	#if (CONFIG_FLH != CONFIG_FLH_EFUSE)
+<b><a name="line484">484    </a></b>	    //When CONFIG_FLH is not CONFIG_FLH_EFUSE (0), the boot code is debug mode
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    //This is explicitly printed out in debug mode
+<b><a name="line487">487    </a></b>	#if (CONFIG_FLH == CONFIG_FLH_CUSTOM)
+<b><a name="line488">488    </a></b>	    Dump_Debug(tprintf("ROM Debug Mode Custom"));
+<b><a name="line489">489    </a></b>	#else
+<b><a name="line490">490    </a></b>	    Dump_Debug(tprintf("Version: %c%c%c%c", fw_version[0], fw_version[1], fw_version[2], fw_version[3]));
+<b><a name="line491">491    </a></b>	    Dump_Debug(tprintf("%c%c%c%c", fw_version[4], fw_version[5], fw_version[6], fw_version[7]));
+<b><a name="line492">492    </a></b>	#endif
+<b><a name="line493">493    </a></b>	    Dump_Debug(tprintf("Date: %s, Time: %s", __DATE__, __TIME__));
+<b><a name="line494">494    </a></b>	#endif
+<b><a name="line495">495    </a></b>	
+<b><a name="line496">496    </a></b>	    sal_log_info_char('\r'); //UART Token separator
+<b><a name="line497">497    </a></b>	    sal_log_info_char('\n');
+<b><a name="line498">498    </a></b>	    sal_log_info_char('R'); //Start of Boot Code
+<b><a name="line499">499    </a></b>	    sal_log_info_char('A' + phal_get_hw_ver()); //Part of 'R', Hardware Version
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "65UL + phal_get_hw_ver()" from essential type "unsigned 32-bit int" to different or narrower essential type "character".</font>
+<b><a name="line500">500    </a></b>	    sal_log_info_char('A' + BOOTCODE_MAIN_VERSION); //Part of 'R', Boot Code Main Version
+<b><a name="line501">501    </a></b>	    //sal_log_info_char(BOOTCODE_DEBUG_VERSION3); //Part of 'R', (Build Mode - 0: ROM, 1: SPI, 2: ICE)
+<b><a name="line502">502    </a></b>	
+<b><a name="line503">503    </a></b>	    //TODO:check use method
+<b><a name="line504">504    </a></b>	    if (0 != (bootcode_hal_pmu_get_core_vdt_cnt() + bootcode_hal_pmu_get_flh_vdt_cnt())) {
+<b><a name="line505">505    </a></b>	        sal_log_info_char('V'); //VDT Count is not 0
+<b><a name="line506">506    </a></b>	        sal_log_info_num(bootcode_hal_pmu_get_core_vdt_cnt()); //Core VDT Count
+<b><a name="line507">507    </a></b>	        sal_log_info_num(bootcode_hal_pmu_get_flh_vdt_cnt()); //Flash VDT Count
+<b><a name="line508">508    </a></b>	    }
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	    /*
+<b><a name="line511">511    </a></b>	     *  EFUSE parameter initialization
+<b><a name="line512">512    </a></b>	     */
+<b><a name="line513">513    </a></b>	    sal_log_info_char('E'); //eFuse Parameter Init Start
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	    //TODO find a way to deal with when these settings are UECC
+<b><a name="line516">516    </a></b>	    bc_ptr->p_efuse_nand_setting = get_efuse_nand_setting(&gEFuseAPI);
+<b><a name="line517">517    </a></b>	    bc_ptr->p_efuse_security_setting = get_efuse_security_setting(&gEFuseAPI);
+<b><a name="line518">518    </a></b>	    bc_ptr->p_efuse_security_setting_1 = get_efuse_security_setting_1(&gEFuseAPI);
+<b><a name="line519">519    </a></b>	    bc_ptr->p_efuse_uds_kdk = get_uds_kdk(&gEFuseAPI);
+<b><a name="line520">520    </a></b>	
+<b><a name="line521">521    </a></b>	    // handle sys clock
+<b><a name="line522">522    </a></b>	    sys_clock_setting(bc_ptr);
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	    // handle sqz init
+<b><a name="line525">525    </a></b>	    if (EFUSE_PARSE_SQZ_STATE(bc_ptr->p_efuse_security_setting->u16_union.sqz.sqz_enable)) {
+<b><a name="line526">526    </a></b>	        // SQZ ROM CRC Check
+<b><a name="line527">527    </a></b>	        gpFwSimCtrl1Reg->sqz_rom_crc_chk_disable = bc_ptr->p_efuse_security_setting_1->sqz_crc_chk_disable;
+<b><a name="line528">528    </a></b>	
+<b><a name="line529">529    </a></b>	        if (PASS == phal_sqz_init(DBUF_API_BOOTCODE_SQZ_PARAM_BUFFER_BASE, FALSE))
+<b><a name="line530">530    </a></b>	        {
+</pre></body>
+</html>

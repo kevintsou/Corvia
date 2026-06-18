@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/host/framework_host.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3">3    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	#undef LOGID
+<b><a name="line6">6    </a></b>	#define LOGID LOGID_FRAMEWORK_HOST
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	static HOST_GM_T sHostGM;
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	/*!
+<b><a name="line11">11    </a></b>	   @brief      Get the Host GM Ptr object
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	   @return     HOST_GM_T*
+<b><a name="line14">14    </a></b>	 */
+<b><a name="line15">15    </a></b>	HOST_GM_T *GetHostGmPtr(void)
+<b><a name="line16">16    </a></b>	{
+<b><a name="line17">17    </a></b>	    return &sHostGM;
+<b><a name="line18">18    </a></b>	}
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	/*!
+<b><a name="line21">21    </a></b>	   @brief      Host GM init
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line24">24    </a></b>	 */
+<b><a name="line25">25    </a></b>	static void HostGmInit(HOST_GM_T *pHostGM)
+<b><a name="line26">26    </a></b>	{
+<b><a name="line27">27    </a></b>	    U8 ubPortID = PCIE_PID_0;
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	    memset((void *)pHostGM, 0x00U, sizeof(HOST_GM_T));
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    // 1. Host Variables
+<b><a name="line32">32    </a></b>	    // memcpy((void *)pHostGM->sHostVar.aubFwVersion,              /* TBD */,  sizeof(pHostGM->sHostVar.aubFwVersion));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line33">33    </a></b>	    // memcpy((void *)pHostGM->sHostVar.aubNvmeModelNumber,        /* TBD */,  sizeof(pHostGM->sHostVar.aubNvmeModelNumber));
+<b><a name="line34">34    </a></b>	    // memcpy((void *)pHostGM->sHostVar.aubHostSerialNumber,       /* TBD */,  sizeof(pHostGM->sHostVar.aubHostSerialNumber));
+<b><a name="line35">35    </a></b>	    // memcpy((void *)pHostGM->sHostVar.aubSecurityVersionNumber,  /* TBD */,  sizeof(pHostGM->sHostVar.aubSecurityVersionNumber));
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    pHostGM->sHostVar.sPCIe.ubBusNumber         = phal_pcie_get_bus_number(ubPortID);
+<b><a name="line38">38    </a></b>	    pHostGM->sHostVar.sPCIe.ubDeviceNumber      = phal_pcie_get_device_number(ubPortID);
+<b><a name="line39">39    </a></b>	    pHostGM->sHostVar.sPCIe.ubFunctionNumber    = phal_pcie_get_function_number(ubPortID);
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    pHostGM->sHostVar.sPCIe.uwDeviceID          = phal_pcie_get_device_id(ubPortID);
+<b><a name="line42">42    </a></b>	    pHostGM->sHostVar.sPCIe.uwVendorID          = phal_pcie_get_vendor_id(ubPortID);
+<b><a name="line43">43    </a></b>	    pHostGM->sHostVar.sPCIe.uwSubsystemDeviceID = phal_pcie_get_subsystem_device_id(ubPortID);
+<b><a name="line44">44    </a></b>	    pHostGM->sHostVar.sPCIe.uwSubsystemVendorID = phal_pcie_get_subsystem_vendor_id(ubPortID);
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    // 2. Host Info
+<b><a name="line47">47    </a></b>	    pHostGM->sHostInfo.sBuffer.ulBase = FRAMEWORK_DBUF_HOST_BUFFER_BASE;
+<b><a name="line48">48    </a></b>	    pHostGM->sHostInfo.sBuffer.ulSize = FRAMEWORK_DBUF_HOST_BUFFER_SIZE;
+<b><a name="line49">49    </a></b>	    pHostGM->sHostInfo.ulTotalLBA     = FRAMEWORK_DBUF_PB_SIZE >> 9U; // sector size
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    // 3. Binding
+<b><a name="line52">52    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line53">53    </a></b>	    pHostGM->sBinding.sOOB.pSmbsMgr    = GetSmbsMgrPtr();
+<b><a name="line54">54    </a></b>	    pHostGM->sBinding.sOOB.pSmbmMgr    = GetSmbmMgrPtr();
+<b><a name="line55">55    </a></b>	    pHostGM->sBinding.sOOB.pOcpRecvMgr = GetOcpRecvMgrPtr();
+<b><a name="line56">56    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line57">57    </a></b>	}
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	/*!
+<b><a name="line60">60    </a></b>	   @brief      Get hcmd
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line63">63    </a></b>	 */
+</pre></body>
+</html>

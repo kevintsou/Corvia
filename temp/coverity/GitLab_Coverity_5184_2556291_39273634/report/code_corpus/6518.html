@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2350">2350    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line2351">2351    </a></b>	    sal_log_tracker_set(sal_locate(0x11, TYPE_STEP));
+<b><a name="line2352">2352    </a></b>	    fpl_ptr->fip_init_status |= hal_fip_mdll_trigger_wait_idle(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap);
+<b><a name="line2353">2353    </a></b>	#endif
+<b><a name="line2354">2354    </a></b>	
+<b><a name="line2355">2355    </a></b>	    sal_log_tracker_set(sal_locate(0x12, TYPE_STEP));
+<b><a name="line2356">2356    </a></b>	    fpl_ptr->fip_init_status |= fip_api_chk_status(0U, HAL_FLH_CHK_RDY_BUSY);
+<b><a name="line2357">2357    </a></b>	
+<b><a name="line2358">2358    </a></b>	    if (fpl_ptr->fip_init_status == 0) {
+<b><a name="line2359">2359    </a></b>	        Dump_Debug(tprintf("reset pass"));
+<b><a name="line2360">2360    </a></b>	    }
+<b><a name="line2361">2361    </a></b>	
+<b><a name="line2362">2362    </a></b>	    if (1 == fpl_ptr->p_efuse_nand_setting->micron_por_retry)
+<b><a name="line2363">2363    </a></b>	    {
+<b><a name="line2364">2364    </a></b>	        sal_log_tracker_set(sal_locate(0x9C, TYPE_STEP));
+<b><a name="line2365">2365    </a></b>	        fpl_ptr->fip_init_status |= fpl_micron_por_retry(fpl_ptr);
+<b><a name="line2366">2366    </a></b>	    }
+<b><a name="line2367">2367    </a></b>	
+<b><a name="line2368">2368    </a></b>	    if ((fpl_ptr->fip_init_status & HAL_STATUS_TIMEOUT) == 0U) {
+<b><a name="line2369">2369    </a></b>	        sal_log_tracker_set(sal_locate(0x13, TYPE_STEP));
+<b><a name="line2370">2370    </a></b>	        fpl_pio_cmd(fpl_ptr->p_efuse_nand_setting->read_mode);
+<b><a name="line2371">2371    </a></b>	    }
+<b><a name="line2372">2372    </a></b>	
+<b><a name="line2373">2373    </a></b>	    if ((fpl_ptr->p_efuse_nand_setting->por_retry_enable == TRUE) && ((fpl_ptr->fip_init_status & HAL_STATUS_TIMEOUT) == 0U)) {
+<b><a name="line2374">2374    </a></b>	        sal_log_tracker_set(sal_locate(0x14, TYPE_STEP));
+<b><a name="line2375">2375    </a></b>	        fpl_ptr->fip_init_status |= fpl_por_retry(fpl_ptr, fip_inst_ptr);
+<b><a name="line2376">2376    </a></b>	    }
+<b><a name="line2377">2377    </a></b>	
+<b><a name="line2378">2378    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->set_feature_enable == TRUE) {
+<b><a name="line2379">2379    </a></b>	        sal_log_tracker_set(sal_locate(0x15, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line2380">2380    </a></b>	        if (fpl_ptr->flash_if == HAL_FIP_OP_FLH_IF_TOGGLE) {
+<b><a name="line2381">2381    </a></b>	            hal_fip_set_clk_div_en(TRUE, 3U);
+<b><a name="line2382">2382    </a></b>	        }
+<b><a name="line2383">2383    </a></b>	        fpl_ptr->fip_init_status |= fpl_set_feature_if(fip_inst_ptr, fpl_ptr);
+<b><a name="line2384">2384    </a></b>	        fpl_fip_clock_init(fpl_ptr);
+<b><a name="line2385">2385    </a></b>	    }
+<b><a name="line2386">2386    </a></b>	
+<b><a name="line2387">2387    </a></b>	    if ((fpl_ptr->p_efuse_nand_setting->rx_mode_dq != HAL_FPL_RX_MODE_CTT) ||
+<b><a name="line2388">2388    </a></b>	        (fpl_ptr->p_efuse_nand_setting->nand_zq_calibration_dis == FALSE)) {
+<b><a name="line2389">2389    </a></b>	        sal_log_tracker_set(sal_locate(0x16, TYPE_STEP));
+<b><a name="line2390">2390    </a></b>	        fpl_ptr->fip_init_status |= fpl_nand_zq_calibration(fpl_ptr);
+<b><a name="line2391">2391    </a></b>	    }
+<b><a name="line2392">2392    </a></b>	
+<b><a name="line2393">2393    </a></b>	    r32_w_FCH_SQCQ_RCDR_CFG_MULTI_WRITE(FLH_MAX_CH_NUM, 1);
+<b><a name="line2394">2394    </a></b>	    return fpl_ptr->fip_init_status;
+<b><a name="line2395">2395    </a></b>	}
+<b><a name="line2396">2396    </a></b>	
+</pre></body>
+</html>

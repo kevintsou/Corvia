@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/uart.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line48">48    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_CMD_DISPATCH_ABNORMAL, 0);
+<b><a name="line49">49    </a></b>	            }
+<b><a name="line50">50    </a></b>	            else if (VUC_HANDLER_SEND_DATA == vuc_dispatcher->state) {
+<b><a name="line51">51    </a></b>	                xmodem_send_handler((&(vuc_dispatcher->xmod)), data);
+<b><a name="line52">52    </a></b>	            }
+<b><a name="line53">53    </a></b>	            else if (VUC_HANDLER_SEND_CQ == vuc_dispatcher->state) {
+<b><a name="line54">54    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_SEND_CQ_ABNORMAL, 0);
+<b><a name="line55">55    </a></b>	            }
+<b><a name="line56">56    </a></b>	            else {
+<b><a name="line57">57    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_INTERRUPT_UNKNOWN_STATE, 0);
+<b><a name="line58">58    </a></b>	            }
+<b><a name="line59">59    </a></b>	        }
+<b><a name="line60">60    </a></b>	    } while (bootcode_hal_uart_api_get_rx_fifo_empty() == FALSE);
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	/*
+<b><a name="line64">64    </a></b>	 * public
+<b><a name="line65">65    </a></b>	 *
+<b><a name="line66">66    </a></b>	 */
+<b><a name="line67">67    </a></b>	void uart_isr(void)
+<b><a name="line68">68    </a></b>	{
+<b><a name="line69">69    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line70">70    </a></b>	    host->_uart_cmd_in = TRUE;
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    if ((bootcode_hal_uart_api_get_rx_over_flow_err_en() && bootcode_hal_uart_api_get_rx_over_flow_err_sts())) {
+<b><a name="line73">73    </a></b>	        bootcode_hal_uart_api_w_rx_over_flow_err_sts(((U8)1));
+<b><a name="line74">74    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line75">75    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_OVFLW_ERR_INTERRUPT, 0);
+<b><a name="line76">76    </a></b>	    }
+<b><a name="line77">77    </a></b>	    else if (bootcode_hal_uart_api_get_rx_parity_err_en() && bootcode_hal_uart_api_get_rx_parity_err_sts()) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "bootcode_hal_uart_api_get_rx_parity_err_en()" of non-boolean essential type is being interpreted as a boolean value for the operator "&&".</font>
+<b><a name="line78">78    </a></b>	        bootcode_hal_uart_api_w_rx_parity_err_sts(((U8)1));
+<b><a name="line79">79    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line80">80    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_PARITY_ERR_INTERRUPT, 0);
+<b><a name="line81">81    </a></b>	    }
+<b><a name="line82">82    </a></b>	    else if (bootcode_hal_uart_api_get_rx_frame_err_en() && bootcode_hal_uart_api_get_rx_frame_err_sts()) {
+<b><a name="line83">83    </a></b>	        bootcode_hal_uart_api_w_rx_frame_err_sts(((U8)1));
+<b><a name="line84">84    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line85">85    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_FRAME_ERR_INTERRUPT, 0);
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	    else if (bootcode_hal_uart_api_get_rx_fifo_not_empty_en() && bootcode_hal_uart_api_get_rx_fifo_not_empty_sts()) {
+<b><a name="line88">88    </a></b>	        uart_rx_not_empty_int();
+<b><a name="line89">89    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line90">90    </a></b>	    }
+<b><a name="line91">91    </a></b>	    else {
+<b><a name="line92">92    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_UNKNOWN_INTERRUPT, 0);
+<b><a name="line93">93    </a></b>	    }
+<b><a name="line94">94    </a></b>	}
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	/*
+<b><a name="line97">97    </a></b>	 * API to Init UART
+<b><a name="line98">98    </a></b>	 */
+<b><a name="line99">99    </a></b>	void sys_api_uart_init(U8 baudrate_mode, U8 rx_latch_position_config_enable, U8 rx_latch_position)
+<b><a name="line100">100    </a></b>	{
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    if(gUartInitDone)
+<b><a name="line103">103    </a></b>	    {
+<b><a name="line104">104    </a></b>	        return;
+<b><a name="line105">105    </a></b>	    }
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if (rx_latch_position_config_enable == TRUE) {
+<b><a name="line108">108    </a></b>	        bootcode_hal_uart_api_set_rx_lat_posi(rx_latch_position);
+</pre></body>
+</html>

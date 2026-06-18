@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9991">9991    </a></b>	                gSecKatRecord.rslt_kat_mldsa = FAIL;
+<b><a name="line9992">9992    </a></b>	            }
+<b><a name="line9993">9993    </a></b>	            else {
+<b><a name="line9994">9994    </a></b>	                gSecKatRecord.rslt_kat_mldsa = PASS;
+<b><a name="line9995">9995    </a></b>	            }
+<b><a name="line9996">9996    </a></b>	#endif
+<b><a name="line9997">9997    </a></b>	            gSecKatRecord.exec_kat_mldsa = 1;
+<b><a name="line9998">9998    </a></b>	        }
+<b><a name="line9999">9999    </a></b>	    }
+<b><a name="line10000">10000    </a></b>	
+<b><a name="line10001">10001    </a></b>	    return kat_status;
+<b><a name="line10002">10002    </a></b>	}
+<b><a name="line10003">10003    </a></b>	
+<b><a name="line10004">10004    </a></b>	static U32 kat_kaz(U32 kat_buffer)
+<b><a name="line10005">10005    </a></b>	{
+<b><a name="line10006">10006    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10007">10007    </a></b>	
+<b><a name="line10008">10008    </a></b>	    if (0 == gBCodeGlobalStruct.p_efuse_security_setting->kaz_disable) {
+<b><a name="line10009">10009    </a></b>	        sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line10010">10010    </a></b>	        if (gSecKatRecord.exec_kat_kaz == 0)
+<b><a name="line10011">10011    </a></b>	        {
+<b><a name="line10012">10012    </a></b>	#if KAT_KAZ_EN
+<b><a name="line10013">10013    </a></b>	            if (phal_sqz_is_en()) {
+<b><a name="line10014">10014    </a></b>	                kat_status = sec_sqz_kat_KAZ();
+<b><a name="line10015">10015    </a></b>	            }
+<b><a name="line10016">10016    </a></b>	            else {
+<b><a name="line10017">10017    </a></b>	                kat_status = host_sec_kaz_verify_kat(kat_buffer);
+<b><a name="line10018">10018    </a></b>	            }
+<b><a name="line10019">10019    </a></b>	            if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10020">10020    </a></b>	                sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "10020" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line10021">10021    </a></b>	                gSecKatRecord.rslt_kat_kaz = FAIL;
+<b><a name="line10022">10022    </a></b>	            }
+<b><a name="line10023">10023    </a></b>	            else {
+<b><a name="line10024">10024    </a></b>	                gSecKatRecord.rslt_kat_kaz = PASS;
+<b><a name="line10025">10025    </a></b>	            }
+<b><a name="line10026">10026    </a></b>	#endif
+<b><a name="line10027">10027    </a></b>	            gSecKatRecord.exec_kat_kaz = 1;
+<b><a name="line10028">10028    </a></b>	        }
+<b><a name="line10029">10029    </a></b>	    }
+<b><a name="line10030">10030    </a></b>	
+<b><a name="line10031">10031    </a></b>	    return kat_status;
+<b><a name="line10032">10032    </a></b>	}
+<b><a name="line10033">10033    </a></b>	
+<b><a name="line10034">10034    </a></b>	static U32 kat_aes256_cbc(U32 kat_buffer)
+<b><a name="line10035">10035    </a></b>	{
+<b><a name="line10036">10036    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10037">10037    </a></b>	
+<b><a name="line10038">10038    </a></b>	    sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line10039">10039    </a></b>	    if (gSecKatRecord.exec_kat_aes_cbc == 0)
+<b><a name="line10040">10040    </a></b>	    {
+<b><a name="line10041">10041    </a></b>	#if KAT_AES_EN
+<b><a name="line10042">10042    </a></b>	        if (phal_sqz_is_en()) {
+<b><a name="line10043">10043    </a></b>	            kat_status = sec_sqz_kat_AES_CBC();
+<b><a name="line10044">10044    </a></b>	        }
+<b><a name="line10045">10045    </a></b>	        else {
+<b><a name="line10046">10046    </a></b>	            kat_status = host_sec_aes_cbc_256_kat(kat_buffer);
+<b><a name="line10047">10047    </a></b>	        }
+<b><a name="line10048">10048    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10049">10049    </a></b>	            sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line10050">10050    </a></b>	            gSecKatRecord.rslt_kat_aes_cbc = FAIL;
+<b><a name="line10051">10051    </a></b>	        }
+</pre></body>
+</html>

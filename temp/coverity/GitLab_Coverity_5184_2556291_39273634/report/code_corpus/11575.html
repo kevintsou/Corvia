@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line255">255    </a></b>	    }
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_HANDSHAKE_START == gVUALock.ubVUCLockState)) {
+<b><a name="line258">258    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line259">259    </a></b>	        return result;
+<b><a name="line260">260    </a></b>	    }
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	    typedef struct {
+<b><a name="line263">263    </a></b>	        U8 ubRsaCT[VUA_RSA_CT_LEN];                     // 512 byte (need check)
+<b><a name="line264">264    </a></b>	        U8 ubMlkemCT[VUA_MLKEM_CT_LEN];                 // 1568 byte
+<b><a name="line265">265    </a></b>	        U8 reserve[2012];
+<b><a name="line266">266    </a></b>	        U32 ulCRC;                                      // ---total 4096---
+<b><a name="line267">267    </a></b>	        U8 aubHMACParameter[608];
+<b><a name="line268">268    </a></b>	        U8 aubRsaSS[VUA_RSA_SS_LEN];                    // 64 byte
+<b><a name="line269">269    </a></b>	        U8 aubZ[512];
+<b><a name="line270">270    </a></b>	    } VUA_receiveEncryptionData_t;
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	    //Set value for the entire output data:
+<b><a name="line274">274    </a></b>	    VUA_receiveEncryptionData_t *pEncryptionData = (VUA_receiveEncryptionData_t *)gVUALock.ulVendorBufBase;
+<b><a name="line275">275    </a></b>	    memset((void *)pEncryptionData, 0x00, sizeof(VUA_receiveEncryptionData_t));
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	    //1 RNG -> Gen "Z" (32 Byte)
+<b><a name="line279">279    </a></b>	    if(0 != VUA_gen_rng((U8 *)(ubEncryptRandom))) {
+<b><a name="line280">280    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_INTERNAL_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line281">281    </a></b>	        return result;
+<b><a name="line282">282    </a></b>	    }
+<b><a name="line283">283    </a></b>	    // copy "Z" to aubZ for later use
+<b><a name="line284">284    </a></b>	    memcpy((void *)(pEncryptionData->aubZ), (void *)(ubEncryptRandom), VUA_ENCRYPT_RANDOM_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line285">285    </a></b>	    // Add Padding 0x0 480 Bytes
+<b><a name="line286">286    </a></b>	    memset((void *)(pEncryptionData->aubZ + VUA_ENCRYPT_RANDOM_SIZE), 0x0, 480);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // RSA to Gen "RsaCT", "RsaSS"
+<b><a name="line290">290    </a></b>	    VUA_RSAEncode((U32)pEncryptionData->ubRsaCT, (U32)pEncryptionData->aubZ, (U32 *)&gVUALock.VUAPublicKey.RsaPublicKey);
+<b><a name="line291">291    </a></b>	    memcpy((void *)(gVUALock.aubRsaCT), (void *)pEncryptionData->ubRsaCT, VUA_RSA_CT_LEN);
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	    memset((void *)pEncryptionData->aubHMACParameter, 0x00, sizeof(pEncryptionData->aubHMACParameter));
+<b><a name="line294">294    </a></b>	    //Otherinput = L || FixedInfo, FixedInfo = HMAC-512  || ID_u || ID_v || N_v
+<b><a name="line295">295    </a></b>	    //pEncryptionData->aubHMACParameter 512b
+<b><a name="line296">296    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter),                     (void *)pEncryptionData->aubZ,            512);           //512
+<b><a name="line297">297    </a></b>	    ulHMAC_input_size += sizeof(pEncryptionData->aubZ);
+<b><a name="line298">298    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubL,            sizeof(aubL));           //4
+<b><a name="line299">299    </a></b>	    ulHMAC_input_size += sizeof(aubL);
+<b><a name="line300">300    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubHmac_512,     sizeof(aubHmac_512));    //8
+<b><a name="line301">301    </a></b>	    ulHMAC_input_size += sizeof(aubHmac_512);
+<b><a name="line302">302    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdu,          sizeof(aubIdu));         //8
+<b><a name="line303">303    </a></b>	    ulHMAC_input_size += sizeof(aubIdu);
+<b><a name="line304">304    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdv,          sizeof(aubIdv));         //8
+<b><a name="line305">305    </a></b>	    ulHMAC_input_size += sizeof(aubIdv);
+<b><a name="line306">306    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubN_v, sizeof(gVUALock.aubN_v)); //64
+<b><a name="line307">307    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubN_v); //should be 604 Bytes
+<b><a name="line308">308    </a></b>	
+<b><a name="line309">309    </a></b>	    // use HMAC to gen RsaSS, with default_salt as key
+<b><a name="line310">310    </a></b>	    VUA_hmac_512((U8 *)aubDefault_salt, DEFALUT_SALT_LEN, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubRsaSS, ulHMAC_input_size);
+<b><a name="line311">311    </a></b>	    memcpy((void *)(gVUALock.aubRsaSS), (void *)pEncryptionData->aubRsaSS, VUA_RSA_SS_LEN);
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	    VUA_mlkem_enc((U8 *)pEncryptionData->ubMlkemCT, (U8 *)gVUALock.aubMlkemSS, (U8 *)gVUALock.VUAPublicKey.ubMlkemPubKey);
+<b><a name="line314">314    </a></b>	    memcpy((void *)(gVUALock.aubMlkemCT), (void *)pEncryptionData->ubMlkemCT, VUA_MLKEM_CT_LEN);
+<b><a name="line315">315    </a></b>	
+</pre></body>
+</html>

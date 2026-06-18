@@ -1,0 +1,132 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>DEADCODE</checker>
+<type>deadcode</type>
+<subtype>dead_default_in_switch</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1295</line>
+<column>5</column>
+</event>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{When switching on {0}, the value of {1} must be equal to {2}.}{{code{algorithm_type}}}{{code{algorithm_type}}}{13}}}}</description>
+<line>1344</line>
+<column>13</column>
+</event>
+<event>
+<tag>dead_error_condition</tag>
+<description>{CovLStrv2{{t{The {code{switch}} governing value {0} cannot reach the {code{default}} case.}{{code{algorithm_type}}}}}}</description>
+<line>1344</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>dead_error_begin</tag>
+<description>{CovLStrv2{{t{Execution cannot reach this statement: {0}.}{{code{default:}}}}}}</description>
+<line>1367</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>dead_default_in_switch</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>DEADCODE</checker>
+<type>deadcode</type>
+<subtype>dead_default_in_switch</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1295</line>
+<column>5</column>
+</event>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1345</line>
+<column>5</column>
+</event>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{When switching on {0}, the value of {1} must be equal to {2}.}{{code{algorithm_type}}}{{code{algorithm_type}}}{13}}}}</description>
+<line>1374</line>
+<column>13</column>
+</event>
+<event>
+<tag>dead_error_condition</tag>
+<description>{CovLStrv2{{t{The {code{switch}} governing value {0} cannot reach the {code{default}} case.}{{code{algorithm_type}}}}}}</description>
+<line>1374</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>dead_error_begin</tag>
+<description>{CovLStrv2{{t{Execution cannot reach this statement: {0}.}{{code{default:}}}}}}</description>
+<line>1402</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>dead_default_in_switch</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>DEADCODE</checker>
+<type>deadcode</type>
+<subtype>dead_default_in_switch</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1295</line>
+<column>5</column>
+</event>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1345</line>
+<column>5</column>
+</event>
+<event>
+<tag>equality_cond</tag>
+<description>{CovLStrv2{{t{Jumping to case {0}.}{{code{13UL}}}}}}</description>
+<line>1375</line>
+<column>5</column>
+</event>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{When switching on {0}, the value of {1} must be equal to {2}.}{{code{algorithm_type}}}{{code{algorithm_type}}}{13}}}}</description>
+<line>1431</line>
+<column>13</column>
+</event>
+<event>
+<tag>dead_error_condition</tag>
+<description>{CovLStrv2{{t{The {code{switch}} governing value {0} cannot reach the {code{default}} case.}{{code{algorithm_type}}}}}}</description>
+<line>1431</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>dead_error_begin</tag>
+<description>{CovLStrv2{{t{Execution cannot reach this statement: {0}.}{{code{default:}}}}}}</description>
+<line>1440</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>dead_default_in_switch</subcategory>
+</error>

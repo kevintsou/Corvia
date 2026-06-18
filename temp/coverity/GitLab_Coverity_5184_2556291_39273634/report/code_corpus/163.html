@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line14">14    </a></b>	U8 dal_cmgr_get_int_p_cmgr_lock(U8 p_ofst)
+<b><a name="line15">15    </a></b>	{
+<b><a name="line16">16    </a></b>	    if (p_ofst == 0U)
+<b><a name="line17">17    </a></b>	    {
+<b><a name="line18">18    </a></b>	        return r_all_CMGR_P0_CMGR_LOCK_INT();
+<b><a name="line19">19    </a></b>	    }
+<b><a name="line20">20    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line21">21    </a></b>	    {
+<b><a name="line22">22    </a></b>	        return r_all_CMGR_P1_CMGR_LOCK_INT();
+<b><a name="line23">23    </a></b>	    }
+<b><a name="line24">24    </a></b>	    else
+<b><a name="line25">25    </a></b>	    {
+<b><a name="line26">26    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line27">27    </a></b>	        return 0U;
+<b><a name="line28">28    </a></b>	    }
+<b><a name="line29">29    </a></b>	}
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	U8 dal_cmgr_get_int_p_wdma_err(U8 p_ofst)
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    if (p_ofst == 0U)
+<b><a name="line34">34    </a></b>	    {
+<b><a name="line35">35    </a></b>	        return r_all_CMGR_P0_WDMA_ERR_INT();
+<b><a name="line36">36    </a></b>	    }
+<b><a name="line37">37    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line38">38    </a></b>	    {
+<b><a name="line39">39    </a></b>	        return r_all_CMGR_P1_WDMA_ERR_INT();
+<b><a name="line40">40    </a></b>	    }
+<b><a name="line41">41    </a></b>	    else
+<b><a name="line42">42    </a></b>	    {
+<b><a name="line43">43    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line44">44    </a></b>	        return 0U;
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	}
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	U8 dal_cmgr_get_int_p_rdma_err(U8 p_ofst)
+<b><a name="line49">49    </a></b>	{
+<b><a name="line50">50    </a></b>	    if (p_ofst == 0U)
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        return r_all_CMGR_P0_RDMA_ERR_INT();
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line55">55    </a></b>	    {
+<b><a name="line56">56    </a></b>	        return r_all_CMGR_P1_RDMA_ERR_INT();
+<b><a name="line57">57    </a></b>	    }
+<b><a name="line58">58    </a></b>	    else
+<b><a name="line59">59    </a></b>	    {
+<b><a name="line60">60    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line61">61    </a></b>	        return 0U;
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	}
+<b><a name="line64">64    </a></b>	U8 dal_cmgr_get_int_p_r_unc_err(U8 p_ofst)
+<b><a name="line65">65    </a></b>	{
+<b><a name="line66">66    </a></b>	    if (p_ofst == 0U)
+<b><a name="line67">67    </a></b>	    {
+<b><a name="line68">68    </a></b>	        return r_all_CMGR_P0_R_UNC_ERR_INT();
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line71">71    </a></b>	    {
+<b><a name="line72">72    </a></b>	        return r_all_CMGR_P1_R_UNC_ERR_INT();
+<b><a name="line73">73    </a></b>	    }
+<b><a name="line74">74    </a></b>	    else
+</pre></body>
+</html>

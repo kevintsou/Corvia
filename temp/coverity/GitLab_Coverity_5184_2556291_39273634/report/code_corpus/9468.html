@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/gpio.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#include "user_libs.h"
+<b><a name="line21">21    </a></b>	#include "top/gpio.h"
+<b><a name="line22">22    </a></b>	#include "host/pcie/host_pcie.h"
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#undef LOGID
+<b><a name="line25">25    </a></b>	#define LOGID LOGID_USER_TP
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	/*
+<b><a name="line28">28    </a></b>	 *  private prototypes
+<b><a name="line29">29    </a></b>	 *
+<b><a name="line30">30    </a></b>	 */
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	/*
+<b><a name="line34">34    </a></b>	 *  private
+<b><a name="line35">35    </a></b>	 *
+<b><a name="line36">36    </a></b>	 */
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	/*
+<b><a name="line39">39    </a></b>	 *  public
+<b><a name="line40">40    </a></b>	 *
+<b><a name="line41">41    </a></b>	 */
+<b><a name="line42">42    </a></b>	U32 get_gpio_input_all(void)
+<b><a name="line43">43    </a></b>	{
+<b><a name="line44">44    </a></b>	    U32 result = 0;
+<b><a name="line45">45    </a></b>	    U8 i;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    for (i = GPIO_NUM_0; i < GPIO_NUM_PWRDIS; i++) {
+<b><a name="line48">48    </a></b>	        result |= (hal_padc_get_gpio_value(i) << i);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "hal_padc_get_gpio_value(i) << i" (8 bits) is less that the left hand operand "result" (32 bits).</font>
+<b><a name="line49">49    </a></b>	    }
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    return result;
+<b><a name="line52">52    </a></b>	}
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	void gpio_latch_status(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line55">55    </a></b>	{
+<b><a name="line56">56    </a></b>	    U32 gpio_latch_state = hal_sys_gpio_lh_get();
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    /*
+<b><a name="line59">59    </a></b>	     *  Initialize boot code global struct gpio status
+<b><a name="line60">60    </a></b>	     */
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    // GPIO 6: Form Factor Decision (refer to "PS5303 Pad and Test Mode.xlsm")
+<b><a name="line63">63    </a></b>	    // 0: U.2/U.3
+<b><a name="line64">64    </a></b>	    // 1: EDSFF
+<b><a name="line65">65    </a></b>	    if (gpio_latch_state & GPIO_6_SEL)
+<b><a name="line66">66    </a></b>	    {
+<b><a name="line67">67    </a></b>	        sal_log_tracker_set(sal_locate(0xE1, TYPE_STEP));
+<b><a name="line68">68    </a></b>	        bc_ptr->gpio_voltage_setting_config.form_factor_u2_u3 = FALSE;
+<b><a name="line69">69    </a></b>	        bc_ptr->parameter_config.edsff_enable_flag = TRUE;
+<b><a name="line70">70    </a></b>	    }
+<b><a name="line71">71    </a></b>	    else
+<b><a name="line72">72    </a></b>	    {
+<b><a name="line73">73    </a></b>	        sal_log_tracker_set(sal_locate(0xE0, TYPE_STEP));
+<b><a name="line74">74    </a></b>	        bc_ptr->gpio_voltage_setting_config.form_factor_u2_u3 = TRUE;
+<b><a name="line75">75    </a></b>	        bc_ptr->parameter_config.edsff_enable_flag = FALSE;
+<b><a name="line76">76    </a></b>	    }
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	    // GPIO 14: Force Boot Code/Load Code (refer to "PS5303 Pad and Test Mode.xlsm")
+<b><a name="line79">79    </a></b>	    // 1: Load loader from NAND
+</pre></body>
+</html>

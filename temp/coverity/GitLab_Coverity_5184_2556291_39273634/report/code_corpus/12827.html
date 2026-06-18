@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_aes.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_AES_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_AES_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_AES_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	#include "phal/phal_sqz.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	U8 phal_sec_aes_set_ram_key(SEC_AES_SET_KEY_PARAMS_T_PTR params);
+<b><a name="line8">8    </a></b>	U8 phal_sec_aes_ofl_blocking(SEC_AESOFL_PARAMS_T_PTR params);
+<b><a name="line9">9    </a></b>	U8 phal_sec_aes_keywrap_blocking(SEC_KEYWRAP_PARAMS_T_PTR params);
+<b><a name="line10">10    </a></b>	void phal_sec_aes_kram_clr(void);
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#endif
+<b><a name="line13">13    </a></b>	
+</pre></body>
+</html>

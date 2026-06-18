@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line900">900    </a></b>	/*!
+<b><a name="line901">901    </a></b>	 @brief      polling shake squeeze
+<b><a name="line902">902    </a></b>	 @param[in]   timeout_val     - setting timeout value
+<b><a name="line903">903    </a></b>	 @param[out]  ret             - polling done or not
+<b><a name="line904">904    </a></b>	
+<b><a name="line905">905    </a></b>	 @return    Check polling reuslt
+<b><a name="line906">906    </a></b>	 @retval     1U - polling done
+<b><a name="line907">907    </a></b>	 @retval     0U - polling not finished
+<b><a name="line908">908    </a></b>	
+<b><a name="line909">909    </a></b>	 @note
+<b><a name="line910">910    </a></b>	
+<b><a name="line911">911    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line912">912    </a></b>	
+<b><a name="line913">913    </a></b>	 */
+<b><a name="line914">914    </a></b>	U8 hal_sec_sha3_shake_sqz_polling_old(U64 timeout_val)
+<b><a name="line915">915    </a></b>	{
+<b><a name="line916">916    </a></b>	    U8 trigger_done = SEC_NO;
+<b><a name="line917">917    </a></b>	
+<b><a name="line918">918    </a></b>	    if (timeout_val == 0U)
+<b><a name="line919">919    </a></b>	    {
+<b><a name="line920">920    </a></b>	        if (0U == dal_sec_sha_get_sqz_trig())
+<b><a name="line921">921    </a></b>	        {
+<b><a name="line922">922    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line923">923    </a></b>	        }
+<b><a name="line924">924    </a></b>	    }
+<b><a name="line925">925    </a></b>	    else if (timeout_val < HAL_SEC_BLOCKING_TIME_VAL)
+<b><a name="line926">926    </a></b>	    {
+<b><a name="line927">927    </a></b>	        U8 is_timeout = SEC_NO;
+<b><a name="line928">928    </a></b>	
+<b><a name="line929">929    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "131072ULL" from essential type "unsigned 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line930">930    </a></b>	
+<b><a name="line931">931    </a></b>	        while (1UL == dal_sec_sha_get_sqz_trig())
+<b><a name="line932">932    </a></b>	        {
+<b><a name="line933">933    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line934">934    </a></b>	            {
+<b><a name="line935">935    </a></b>	                is_timeout = SEC_YES;
+<b><a name="line936">936    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line937">937    </a></b>	                break;
+<b><a name="line938">938    </a></b>	            }
+<b><a name="line939">939    </a></b>	        }
+<b><a name="line940">940    </a></b>	
+<b><a name="line941">941    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line942">942    </a></b>	        {
+<b><a name="line943">943    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line944">944    </a></b>	        }
+<b><a name="line945">945    </a></b>	    }
+<b><a name="line946">946    </a></b>	    else
+<b><a name="line947">947    </a></b>	    {
+<b><a name="line948">948    </a></b>	        while (1UL == dal_sec_sha_get_sqz_trig())
+<b><a name="line949">949    </a></b>	        {
+<b><a name="line950">950    </a></b>	            ASM_DSB();
+<b><a name="line951">951    </a></b>	        };
+<b><a name="line952">952    </a></b>	
+<b><a name="line953">953    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line954">954    </a></b>	    }
+<b><a name="line955">955    </a></b>	
+<b><a name="line956">956    </a></b>	    return trigger_done;
+<b><a name="line957">957    </a></b>	}
+<b><a name="line958">958    </a></b>	
+<b><a name="line959">959    </a></b>	/*!
+<b><a name="line960">960    </a></b>	 @brief       sha ots trigger function of blocking mode, which would wait the result done
+</pre></body>
+</html>

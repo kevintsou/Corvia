@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line604">604    </a></b>	    FIP_PIO_PARAM_UNION param;
+<b><a name="line605">605    </a></b>	    U8 feat_adr_id;
+<b><a name="line606">606    </a></b>	    U32 status;
+<b><a name="line607">607    </a></b>	
+<b><a name="line608">608    </a></b>	    status      = 0U;
+<b><a name="line609">609    </a></b>	    feat_adr_id = 0U;
+<b><a name="line610">610    </a></b>	    (void)memset((void *)&param, 0U, sizeof(FIP_PIO_PARAM_UNION));
+<b><a name="line611">611    </a></b>	
+<b><a name="line612">612    </a></b>	    param.comm.ch                              = ch;
+<b><a name="line613">613    </a></b>	    param.comm.bank                            = bank;
+<b><a name="line614">614    </a></b>	    param.comm.die                             = die;
+<b><a name="line615">615    </a></b>	    param.comm.plane                           = plane;
+<b><a name="line616">616    </a></b>	    param.comm.odt_prefix                      = gFplApiStruct.p_efuse_nand_setting->odt_prefix;
+<b><a name="line617">617    </a></b>	    param.cmd_addr.dat_buf                     = data_buf;
+<b><a name="line618">618    </a></b>	
+<b><a name="line619">619    </a></b>	    fip_pio_parsing(cmd_info_ptr, &param, FALSE, retry_tbl);
+<b><a name="line620">620    </a></b>	
+<b><a name="line621">621    </a></b>	    feat_adr_id = ((param.cmd_addr.addr_len > 1U) ? (1U) : (0U));
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	    if (gFplApiStruct.retry_by_set_parm == TRUE) {
+<b><a name="line624">624    </a></b>	        status = hal_fip_api_set_parameter(param.comm.ch,
+<b><a name="line625">625    </a></b>	                param.comm.bank,
+<b><a name="line626">626    </a></b>	                (U8 *)&param.cmd_addr.cmd,
+<b><a name="line627">627    </a></b>	                (U8 *)&param.cmd_addr.addr[feat_adr_id],
+<b><a name="line628">628    </a></b>	                param.cmd_addr.dat_buf,
+<b><a name="line629">629    </a></b>	                param.cmd_addr.dat_len,
+<b><a name="line630">630    </a></b>	                gFplApiStruct.p_efuse_nand_setting->cmd_dqs_h,
+<b><a name="line631">631    </a></b>	                gFplApiStruct.p_efuse_nand_setting->odt_prefix,
+<b><a name="line632">632    </a></b>	                (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line633">633    </a></b>	                HAL_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "30ULL + (U64)(*gFplApiStruct.p_efuse_nand_setting).delay_for_nbs_test * 30000ULL" from essential type "unsigned 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line634">634    </a></b>	    }
+<b><a name="line635">635    </a></b>	    else {
+<b><a name="line636">636    </a></b>	        status = hal_fip_api_set_feature(param.comm.ch,
+<b><a name="line637">637    </a></b>	                param.comm.bank,
+<b><a name="line638">638    </a></b>	                param.cmd_addr.cmd[0U],
+<b><a name="line639">639    </a></b>	                param.cmd_addr.addr[feat_adr_id],
+<b><a name="line640">640    </a></b>	                param.cmd_addr.dat_buf,
+<b><a name="line641">641    </a></b>	                gFplApiStruct.p_efuse_nand_setting->cmd_dqs_h,
+<b><a name="line642">642    </a></b>	                gFplApiStruct.p_efuse_nand_setting->odt_prefix,
+<b><a name="line643">643    </a></b>	                (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line644">644    </a></b>	                HAL_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line645">645    </a></b>	    }
+<b><a name="line646">646    </a></b>	
+<b><a name="line647">647    </a></b>	    return status;
+<b><a name="line648">648    </a></b>	}
+<b><a name="line649">649    </a></b>	
+<b><a name="line650">650    </a></b>	U32 fip_get_feature_retry(FIP_CMD_INFO_PTR cmd_info_ptr, U8 *retry_tbl, U8 ch, U8 bank, U8 plane, U8 die, U8 *data_buf)
+<b><a name="line651">651    </a></b>	{
+<b><a name="line652">652    </a></b>	    FIP_PIO_PARAM_UNION param;
+<b><a name="line653">653    </a></b>	    U8 feat_adr_id;
+<b><a name="line654">654    </a></b>	    U32 status;
+<b><a name="line655">655    </a></b>	
+<b><a name="line656">656    </a></b>	    status      = 0U;
+<b><a name="line657">657    </a></b>	    feat_adr_id = 0U;
+<b><a name="line658">658    </a></b>	    (void)memset((void *)&param, 0U, sizeof(FIP_PIO_PARAM_UNION));
+<b><a name="line659">659    </a></b>	    param.comm.ch                              = ch;
+<b><a name="line660">660    </a></b>	    param.comm.bank                            = bank;
+<b><a name="line661">661    </a></b>	    param.comm.die                             = die;
+<b><a name="line662">662    </a></b>	    param.comm.plane                           = plane;
+<b><a name="line663">663    </a></b>	    param.comm.odt_prefix                      = gFplApiStruct.p_efuse_nand_setting->odt_prefix;
+<b><a name="line664">664    </a></b>	    param.cmd_addr.dat_buf                     = data_buf;
+</pre></body>
+</html>

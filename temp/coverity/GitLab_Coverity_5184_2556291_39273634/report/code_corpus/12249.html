@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1218">1218    </a></b>	        case RECOVERY_CMD_DEVICE_RESET:
+<b><a name="line1219">1219    </a></b>	            pDeviceReset            = (RC_DEVICE_RESET *)pCmdData;
+<b><a name="line1220">1220    </a></b>	            /* coverity[unsigned_compare] */
+<b><a name="line1221">1221    </a></b>	            bIsUnsupportedParameter = !(M_IS_VALID_DRC(pDeviceReset->ubDeviceResetControl)  &&
+<b><a name="line1222">1222    </a></b>	                                        M_IS_VALID_FR(pDeviceReset->ubForcedRecovery)       &&
+<b><a name="line1223">1223    </a></b>	                                        M_IS_VALID_IC(pDeviceReset->ubInterfaceControl));
+<b><a name="line1224">1224    </a></b>	            bIsLengthWriteError     = (sizeof(RC_DEVICE_RESET) != ubDataCnt);
+<b><a name="line1225">1225    </a></b>	            break;
+<b><a name="line1226">1226    </a></b>	
+<b><a name="line1227">1227    </a></b>	        case RECOVERY_CMD_RECOVERY_CTRL:
+<b><a name="line1228">1228    </a></b>	            pRecoveryCtrl           = (RC_RECOVERY_CTRL *)pCmdData;
+<b><a name="line1229">1229    </a></b>	            bIsUnsupportedParameter = !(M_IS_VALID_ARI(pRecoveryCtrl->ubActivateRecoveryImage)    &&
+<b><a name="line1230">1230    </a></b>	                                        M_IS_VALID_RIS(pRecoveryCtrl->ubRecoveryImageSelection));
+<b><a name="line1231">1231    </a></b>	            bIsLengthWriteError     = (sizeof(RC_RECOVERY_CTRL) != ubDataCnt);
+<b><a name="line1232">1232    </a></b>	            break;
+<b><a name="line1233">1233    </a></b>	
+<b><a name="line1234">1234    </a></b>	        case RECOVERY_CMD_INDIRECT_CTRL:
+<b><a name="line1235">1235    </a></b>	            pIndirectCtrl           = (RC_INDIRECT_CTRL *)pCmdData;
+<b><a name="line1236">1236    </a></b>	            bIsLengthWriteError     = (sizeof(RC_INDIRECT_CTRL) != ubDataCnt);
+<b><a name="line1237">1237    </a></b>	            break;
+<b><a name="line1238">1238    </a></b>	
+<b><a name="line1239">1239    </a></b>	        case RECOVERY_CMD_INDIRECT_DATA:
+<b><a name="line1240">1240    </a></b>	            bIsLengthWriteError = (sizeof(RC_INDIRECT_DATA) < ubDataCnt);
+<b><a name="line1241">1241    </a></b>	            break;
+<b><a name="line1242">1242    </a></b>	    }
+<b><a name="line1243">1243    </a></b>	
+<b><a name="line1244">1244    </a></b>	    if (bIsLengthWriteError)
+<b><a name="line1245">1245    </a></b>	    {
+<b><a name="line1246">1246    </a></b>	        Dump_OCP(tprintf("    Write data length error"));
+<b><a name="line1247">1247    </a></b>	        M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_LENGTH_WRITE_ERROR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">        ^</font>
+<b><a name="line1248">1248    </a></b>	    }
+<b><a name="line1249">1249    </a></b>	
+<b><a name="line1250">1250    </a></b>	    if (bIsUnsupportedParameter)
+<b><a name="line1251">1251    </a></b>	    {
+<b><a name="line1252">1252    </a></b>	        Dump_OCP(tprintf("    write data unsupported paramter"));
+<b><a name="line1253">1253    </a></b>	        M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_PARAMETER);
+<b><a name="line1254">1254    </a></b>	    }
+<b><a name="line1255">1255    </a></b>	
+<b><a name="line1256">1256    </a></b>	    return (bIsLengthWriteError | bIsUnsupportedParameter);
+<b><a name="line1257">1257    </a></b>	}
+<b><a name="line1258">1258    </a></b>	
+<b><a name="line1259">1259    </a></b>	
+<b><a name="line1260">1260    </a></b>	
+<b><a name="line1261">1261    </a></b>	
+<b><a name="line1262">1262    </a></b>	
+<b><a name="line1263">1263    </a></b>	/*******************************************************************************************************
+<b><a name="line1264">1264    </a></b>	 * API
+<b><a name="line1265">1265    </a></b>	 *******************************************************************************************************/
+<b><a name="line1266">1266    </a></b>	
+<b><a name="line1267">1267    </a></b>	/*!
+<b><a name="line1268">1268    </a></b>	   @brief      Backup RP data to DBUF for FW usage
+<b><a name="line1269">1269    </a></b>	
+<b><a name="line1270">1270    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1271">1271    </a></b>	 */
+<b><a name="line1272">1272    </a></b>	static void OcpRecoveryBackupRpSharedDataToDbuf(ACROT_DATA *pACRotData)
+<b><a name="line1273">1273    </a></b>	{
+<b><a name="line1274">1274    </a></b>	    RP_SHARED_DATA *pRpSharedData = GetRpSharedData();
+<b><a name="line1275">1275    </a></b>	
+<b><a name="line1276">1276    </a></b>	    pRpSharedData->ubDeviceStatus         = pACRotData->sDeviceStatus.ubDeviceStatus;
+<b><a name="line1277">1277    </a></b>	    pRpSharedData->uwRecoveryReasonCode   = pACRotData->sDeviceStatus.uwRecoveryReasonCode;
+<b><a name="line1278">1278    </a></b>	    pRpSharedData->ubDeviceRecoveryStatus = pACRotData->sRecoveryStatus.ubDeviceRecoveryStatus;
+</pre></body>
+</html>

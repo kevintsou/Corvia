@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/fip/hal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line636">636    </a></b>	void hal_fip_set_read_warmup_option(U8 ch, U8 warmup_mode, U8 cycle_num);
+<b><a name="line637">637    </a></b>	void hal_fip_set_w_warmup_enable(U8 ch, BOOL is_enable);
+<b><a name="line638">638    </a></b>	void hal_fip_set_r_warmup_enable(U8 ch, BOOL is_enable);
+<b><a name="line639">639    </a></b>	void hal_fip_set_over_ecc_thr(U8 idx, U16 threshold);
+<b><a name="line640">640    </a></b>	void hal_fip_set_int_eot(U8 ch, BOOL is_en, BOOL is_cpu_en, BOOL is_map_en, BOOL is_no_stop_en);
+<b><a name="line641">641    </a></b>	void hal_fip_set_io_type(U8 ch, U8 io_type, U8 dis_dqsb, U8 dis_re);
+<b><a name="line642">642    </a></b>	void hal_fip_set_sca_io_type(U8 ch, U8 is_sca);
+<b><a name="line643">643    </a></b>	void hal_fip_set_io_mode(U8 ch, U8 rx_mode, U8 tx_mode);
+<b><a name="line644">644    </a></b>	void hal_fip_set_edo_mode(U8 ch, U8 is_enable);
+<b><a name="line645">645    </a></b>	void hal_fip_set_dis_dqs_detect(U8 ch, U8 is_enable);
+<b><a name="line646">646    </a></b>	void hal_fip_get_int_inf(U8 ch, HAL_FIP_INT_INF_STRUCT_PTR int_inf);
+<b><a name="line647">647    </a></b>	void hal_fip_set_sca_prot(U8 ch, U8 is_enable);
+<b><a name="line648">648    </a></b>	void hal_fip_set_sca_auto_mode(U8 ch, U8 is_enable);
+<b><a name="line649">649    </a></b>	#if 0
+<b><a name="line650">650    </a></b>	// nand ctrl
+<b><a name="line651">651    </a></b>	void hal_fip_nand_ctrl_reset(U8 ch, U8 ce, U32 *ac_timing);
+<b><a name="line652">652    </a></b>	void hal_fip_nand_ctrl_hard_reset(U8 ch, U8 ce, U32 *ac_timing);
+<b><a name="line653">653    </a></b>	void hal_fip_nand_ctrl_die_sel(U8 ch, U8 ce, U8 die, U32 *ac_timing);
+<b><a name="line654">654    </a></b>	void hal_fip_nand_ctrl_cer_pre_fix(U8 ch, U8 ce, U8 chip_addr, U32 *ac_timing);
+<b><a name="line655">655    </a></b>	U32  hal_fip_nand_ctrl_read_status(U8 ch, U8 ce, U8 *status, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line656">656    </a></b>	U32  hal_fip_nand_ctrl_read_status_by_lun(U8 ch, U8 ce, U8 addr_cnt, U8 *addr, U8 *status, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line657">657    </a></b>	void hal_fip_nand_ctrl_write_data_dobule_byte(U8 ch, U8 *data, U16 size);
+<b><a name="line658">658    </a></b>	U32  hal_fip_nand_ctrl_set_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line659">659    </a></b>	U32  hal_fip_nand_ctrl_read_data_skip_highbyte(U8 ch, U8 *data, U16 size);
+<b><a name="line660">660    </a></b>	U32  hal_fip_nand_ctrl_read_data_sca(U8 ch, U8 ce, U8 *data, U16 size);
+<b><a name="line661">661    </a></b>	U32  hal_fip_nand_ctrl_get_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line662">662    </a></b>	#endif
+<b><a name="line663">663    </a></b>	
+<b><a name="line664">664    </a></b>	void hal_fip_collect_error_map(U8 ch, HAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR err_map_inf);
+<b><a name="line665">665    </a></b>	U32  hal_fip_cq_handler_for_bootcode(HAL_FIP_INT_MSG_STRUCT_PTR cq_ptr, HAL_FIP_INT_INF_STRUCT_PTR int_inf_ptr, HAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR err_map_inf_ptr);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "hal_fip_cq_handler_for_bootcode" is declared but never defined.</font>
+<b><a name="line666">666    </a></b>	
+<b><a name="line667">667    </a></b>	#if 0
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	// fpu
+<b><a name="line670">670    </a></b>	U32 hal_fip_fpu_fill_nop(U32 fpu_base);
+<b><a name="line671">671    </a></b>	U32 hal_fip_fpu_fill_rr_adr(U32 fpu_base, U8 num);
+<b><a name="line672">672    </a></b>	U32 hal_fip_fpu_fill_rr_va(U32 fpu_base);
+<b><a name="line673">673    </a></b>	U32 hal_fip_fpu_fill_rr_dat(U32 fpu_base, U8 num);
+<b><a name="line674">674    </a></b>	U32 hal_fip_fpu_fill_dly(U32 fpu_base, U8 cycle);
+<b><a name="line675">675    </a></b>	U32 hal_fip_fpu_fill_dly_sca(U32 fpu_base, U8 cycle);
+<b><a name="line676">676    </a></b>	U32 hal_fip_fpu_fill_ce(U32 fpu_base, U8 ce_op_code_index, U8 delay_cycle);
+<b><a name="line677">677    </a></b>	U32 hal_fip_fpu_fill_cmd(U32 fpu_base, U8 dat, U8 dqs_h);
+<b><a name="line678">678    </a></b>	U32 hal_fip_fpu_fill_adr(U32 fpu_base, U8 num);
+<b><a name="line679">679    </a></b>	U32 hal_fip_fpu_fill_datr(U32 fpu_base, U8 first, U8 last);
+<b><a name="line680">680    </a></b>	U32 hal_fip_fpu_fill_datr_chk_rby(U32 fpu_base, U8 rby_mask, U8 exp_val);
+<b><a name="line681">681    </a></b>	U32 hal_fip_fpu_fill_datr_chk_fail(U32 fpu_base, U8 rby_mask, U8 fail_mask, U8 exp_val);
+<b><a name="line682">682    </a></b>	U32 hal_fip_fpu_fill_dmaw(U32 fpu_base);
+<b><a name="line683">683    </a></b>	U32 hal_fip_fpu_fill_dmar(U32 fpu_base);
+<b><a name="line684">684    </a></b>	U32 hal_fip_fpu_fill_adr_gen(U32 fpu_base);
+<b><a name="line685">685    </a></b>	U32 hal_fip_fpu_fill_cer(U32 fpu_base, U8 last, U8 fw, U8 val);
+<b><a name="line686">686    </a></b>	U32 hal_fip_fpu_fill_raw_read(U32 fpu_base, U8 dst_ptr, U8 src_ptr, U8 logic, U8 mode, U8 trn_en);
+<b><a name="line687">687    </a></b>	U32 hal_fip_fpu_fill_sbc(U32 fpu_base, U8 sb_index, U8 ldpc_opcode);
+<b><a name="line688">688    </a></b>	U32 hal_fip_fpu_fill_cor(U32 fpu_base, U8 ibf_ptr);
+<b><a name="line689">689    </a></b>	U32 hal_fip_fpu_fill_br(U32 fpu_base, U8 mode, U8 direction, U8 ibuf_ptr, U8 all, U8 trn_en);
+<b><a name="line690">690    </a></b>	U32 hal_fip_fpu_fill_end(U32 fpu_base);
+<b><a name="line691">691    </a></b>	
+<b><a name="line692">692    </a></b>	//
+<b><a name="line693">693    </a></b>	void hal_fip_ctor(HAL_FIP_STRUCT_PTR fip);
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	U32 hal_fip_get_distribution(U16 idx);
+<b><a name="line696">696    </a></b>	
+</pre></body>
+</html>

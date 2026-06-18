@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2607">2607    </a></b>	
+<b><a name="line2608">2608    </a></b>	    sal_log_info_num(usable_code_pointer_block_set); //Part of 'D', Code Pointer Block set used
+<b><a name="line2609">2609    </a></b>	    sal_log_info_num(code_pointer_block_copy_count); //Part of 'D', Number of copies of Code Pointer Block in Code Pointer Block Set
+<b><a name="line2610">2610    </a></b>	
+<b><a name="line2611">2611    </a></b>	    return usable_code_pointer_block_set;
+<b><a name="line2612">2612    </a></b>	}
+<b><a name="line2613">2613    </a></b>	
+<b><a name="line2614">2614    </a></b>	U8 record_code_pointer_block(LOAD_CODE_STATUS *p_load_code_status, U64 id_table_fsa, U8 revision)
+<b><a name="line2615">2615    </a></b>	{
+<b><a name="line2616">2616    </a></b>	    U8 set, copy;
+<b><a name="line2617">2617    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line2618">2618    </a></b>	    CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status;
+<b><a name="line2619">2619    </a></b>	
+<b><a name="line2620">2620    </a></b>	    //Find the set that this Code Pointer Block belongs to and record where it is
+<b><a name="line2621">2621    </a></b>	    for (set = 0; set < CODE_POINTER_BLOCK_SET_COUNT_MAX; set++) {
+<b><a name="line2622">2622    </a></b>	        p_code_pointer_block_status = &(p_load_code_status->a_code_pointer_block_status[set]);
+<b><a name="line2623">2623    </a></b>	
+<b><a name="line2624">2624    </a></b>	        if (0 == (p_code_pointer_block_status->state & CODE_POINTER_BLOCK_STATE_ID_TABLE_EXISTS)) {
+<b><a name="line2625">2625    </a></b>	            //None of the previous sets have a matching revision
+<b><a name="line2626">2626    </a></b>	            //Mark this set with the Code Pointer's revision
+<b><a name="line2627">2627    </a></b>	            p_code_pointer_block_status->code_pointer_block_revision = revision;
+<b><a name="line2628">2628    </a></b>	            p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ID_TABLE_EXISTS;
+<b><a name="line2629">2629    </a></b>	        }
+<b><a name="line2630">2630    </a></b>	
+<b><a name="line2631">2631    </a></b>	        if (revision == p_code_pointer_block_status->code_pointer_block_revision) {
+<b><a name="line2632">2632    </a></b>	            //The Code Pointer Block is part of this set
+<b><a name="line2633">2633    </a></b>	            Dump_LoadCode(tprintf("Record Copy %d of Revision %x into set %d at %L", p_code_pointer_block_status->code_pointer_block_copy_count, revision, set, id_table_fsa));
+<b><a name="line2634">2634    </a></b>	
+<b><a name="line2635">2635    </a></b>	            //Check if the ID table is obtained from one of its backups
+<b><a name="line2636">2636    </a></b>	            if (0 != ((id_table_fsa >> gFplApiStruct.addr_rule->rule_node.shift) & gFplApiStruct.addr_rule->rule_node.mask)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0ULL" (signed) is not the same as that of the right operand "(id_table_fsa >> gFplApiStruct.addr_rule->rule_node.shift) & gFplApiStruct.addr_rule->rule_node.mask"(unsigned).</font>
+<b><a name="line2637">2637    </a></b>	                //The first node fails to be loaded, rebuild is recommended
+<b><a name="line2638">2638    </a></b>	                p_code_pointer_block_status->error.id_table |= CODE_POINTER_BLOCK_ERROR_ID_TABLE_REBUILD_REQUIRED;
+<b><a name="line2639">2639    </a></b>	            }
+<b><a name="line2640">2640    </a></b>	
+<b><a name="line2641">2641    </a></b>	            if (CODE_POINTER_BLOCK_MAX_VALID_COUNT > p_code_pointer_block_status->code_pointer_block_copy_count) {
+<b><a name="line2642">2642    </a></b>	                //TODO possibly refine this?
+<b><a name="line2643">2643    </a></b>	                for (copy = 0; copy < p_code_pointer_block_status->code_pointer_block_copy_count; copy++) {
+<b><a name="line2644">2644    </a></b>	                    //Check if this Code Pointer Block
+<b><a name="line2645">2645    </a></b>	                    //TODO maybe record only the Code Pointer Block FSA without the node?
+<b><a name="line2646">2646    </a></b>	                    if ((p_code_pointer_block_status->a_id_table_fsa[copy] & ~((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift)) ==
+<b><a name="line2647">2647    </a></b>	                        (id_table_fsa & ~((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift))) {
+<b><a name="line2648">2648    </a></b>	                        break;
+<b><a name="line2649">2649    </a></b>	                    }
+<b><a name="line2650">2650    </a></b>	                }
+<b><a name="line2651">2651    </a></b>	                if (copy == p_code_pointer_block_status->code_pointer_block_copy_count) {
+<b><a name="line2652">2652    </a></b>	                    //Record the ID Table address as there is still room in the structure
+<b><a name="line2653">2653    </a></b>	                    p_code_pointer_block_status->a_id_table_fsa[p_code_pointer_block_status->code_pointer_block_copy_count] = id_table_fsa;
+<b><a name="line2654">2654    </a></b>	                    p_code_pointer_block_status->code_pointer_block_copy_count++;
+<b><a name="line2655">2655    </a></b>	                }
+<b><a name="line2656">2656    </a></b>	
+<b><a name="line2657">2657    </a></b>	                if (p_code_pointer_block_status->code_pointer_block_copy_count == p_load_code_status->parameters.code_pointer_block_per_set) {
+<b><a name="line2658">2658    </a></b>	
+<b><a name="line2659">2659    </a></b>	                    Dump_LoadCode(tprintf(", FULL == %d", p_load_code_status->parameters.code_pointer_block_per_set));
+<b><a name="line2660">2660    </a></b>	                    //This set of Code Pointer Block is now full
+<b><a name="line2661">2661    </a></b>	                    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ID_TABLE_COMPLETE;
+<b><a name="line2662">2662    </a></b>	                }
+<b><a name="line2663">2663    </a></b>	                else if (p_code_pointer_block_status->code_pointer_block_copy_count > p_load_code_status->parameters.code_pointer_block_per_set) {
+<b><a name="line2664">2664    </a></b>	
+<b><a name="line2665">2665    </a></b>	                    Dump_LoadCode(tprintf(", EXTRA > %d", p_load_code_status->parameters.code_pointer_block_per_set));
+<b><a name="line2666">2666    </a></b>	                    //This set of Code Pointer Block has extra copies
+<b><a name="line2667">2667    </a></b>	                    p_code_pointer_block_status->error.id_table |= CODE_POINTER_BLOCK_ERROR_ID_TABLE_EXTRA;
+</pre></body>
+</html>

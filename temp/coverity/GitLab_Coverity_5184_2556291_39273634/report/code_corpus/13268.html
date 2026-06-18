@@ -1,0 +1,1317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_comm_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line321">321    </a></b>	    U32 block_size = (data_mode == 0U) ? (512UL + meta_size) : (512UL);
+<b><a name="line322">322    </a></b>	    U8 crc_out;
+<b><a name="line323">323    </a></b>	    U8 e3d4kp = 0U;
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    for (i = 0U; i < 8U; i++)
+<b><a name="line326">326    </a></b>	    {
+<b><a name="line327">327    </a></b>	        if ((tar_bmp & BIT(i)) != 0UL)
+<b><a name="line328">328    </a></b>	        {
+<b><a name="line329">329    </a></b>	            crc_out = hal_sec_gen_e3d512p(0U, addr + (i * block_size), lba + i, lbafix0, meta_size, data_mode);
+<b><a name="line330">330    </a></b>	            e3d4kp ^= crc_out;
+<b><a name="line331">331    </a></b>	        }
+<b><a name="line332">332    </a></b>	    }
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    return e3d4kp;
+<b><a name="line335">335    </a></b>	}
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	/*!
+<b><a name="line338">338    </a></b>	 @brief      compute e3d512p
+<b><a name="line339">339    </a></b>	 @param[in]  key         - initial value
+<b><a name="line340">340    </a></b>	 @param[in]  addr        - address used to compute crc
+<b><a name="line341">341    </a></b>	 @param[in]  lba         - lba used to compute crc
+<b><a name="line342">342    </a></b>	 @param[in]  lbafix0     - enable LBAFIX0 or not
+<b><a name="line343">343    </a></b>	 @param[out] e3d512p      - e3d512p result
+<b><a name="line344">344    </a></b>	 @return    e3d512p result
+<b><a name="line345">345    </a></b>	 @note
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	 - all lba in 4K data will tie 0 when lbafix0 = 1
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	 */
+<b><a name="line350">350    </a></b>	U8 hal_sec_gen_e3d512p(U8 key, U32 addr, U64 lba, U8 lbafix0, U32 meta_size, U8 data_mode)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line351">351    </a></b>	{
+<b><a name="line352">352    </a></b>	    U8 i;
+<b><a name="line353">353    </a></b>	    U8 crc_level;
+<b><a name="line354">354    </a></b>	    U8 crc_out;
+<b><a name="line355">355    </a></b>	    U8 temp_meta_size = (data_mode == 0U) ? ((U8)meta_size) : (0U);
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	    crc_level = 7U - ((U8)lba & 0x7U);
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    crc_out = (crc_level == 7U) ? 0x12U : key; // first lba use init value(0xFF/0x12), others use 0x00
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    if (lbafix0 == 1U)
+<b><a name="line362">362    </a></b>	    {
+<b><a name="line363">363    </a></b>	        lba = 0ULL;
+<b><a name="line364">364    </a></b>	    }
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	    crc_out = hal_sec_cal_e2ep_crc8(crc_out, (U32)&lba, 8UL);
+<b><a name="line367">367    </a></b>	    crc_out = hal_sec_cal_e2ep_crc8(crc_out, addr, 512UL + temp_meta_size);
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	    for (i = 0; i < crc_level; i++) // the rest sectors fill 0
+<b><a name="line370">370    </a></b>	    {
+<b><a name="line371">371    </a></b>	        crc_out = hal_sec_cal_e2ep_crc8(crc_out, 0, 8UL);
+<b><a name="line372">372    </a></b>	        crc_out = hal_sec_cal_e2ep_crc8(crc_out, 0, 512UL + temp_meta_size);
+<b><a name="line373">373    </a></b>	    }
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	    if (data_mode == 1U)
+<b><a name="line376">376    </a></b>	    {
+<b><a name="line377">377    </a></b>	        if (crc_level == 0U)
+<b><a name="line378">378    </a></b>	        {
+<b><a name="line379">379    </a></b>	            crc_out = hal_sec_cal_e2ep_crc8(crc_out, addr + 512UL, meta_size);
+<b><a name="line380">380    </a></b>	        }
+<b><a name="line381">381    </a></b>	        else
+<b><a name="line382">382    </a></b>	        {
+<b><a name="line383">383    </a></b>	            crc_out = hal_sec_cal_e2ep_crc8(crc_out, 0, meta_size);
+<b><a name="line384">384    </a></b>	        }
+<b><a name="line385">385    </a></b>	    }
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	    return crc_out;
+<b><a name="line388">388    </a></b>	}
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	/*!
+<b><a name="line391">391    </a></b>	 @brief      compute crc8
+<b><a name="line392">392    </a></b>	 @param[in]  crc_out      - initial value
+<b><a name="line393">393    </a></b>	 @param[in]  src_addr     - data address
+<b><a name="line394">394    </a></b>	 @param[in]  length       - data length
+<b><a name="line395">395    </a></b>	 @return    crc8 result
+<b><a name="line396">396    </a></b>	 @note
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	  - None
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	*/
+<b><a name="line401">401    </a></b>	U8 hal_sec_cal_e2ep_crc8(U8 crc_out, U32 src_addr, U32 length)
+<b><a name="line402">402    </a></b>	{
+<b><a name="line403">403    </a></b>	    U32 i, j;
+<b><a name="line404">404    </a></b>	    volatile U8 data_in;
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    for (i = 0U; i < length; i++)
+<b><a name="line407">407    </a></b>	    {
+<b><a name="line408">408    </a></b>	        data_in = (src_addr != 0U) ? ((volatile U8 *)src_addr)[i] : 0U;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	        for (j = 0U; j < 8U; j++)
+<b><a name="line411">411    </a></b>	        {
+<b><a name="line412">412    </a></b>	            if ((((crc_out & 0x80U) >> 7U) ^ (data_in & 0x01U)) > 0U)
+<b><a name="line413">413    </a></b>	            {
+<b><a name="line414">414    </a></b>	                crc_out <<= 1U;
+<b><a name="line415">415    </a></b>	                data_in >>= 1U;
+<b><a name="line416">416    </a></b>	                crc_out ^= 0xD5U;
+<b><a name="line417">417    </a></b>	            }
+<b><a name="line418">418    </a></b>	            else
+<b><a name="line419">419    </a></b>	            {
+<b><a name="line420">420    </a></b>	                crc_out <<= 1U;
+<b><a name="line421">421    </a></b>	                data_in >>= 1U;
+<b><a name="line422">422    </a></b>	            }
+<b><a name="line423">423    </a></b>	        }
+<b><a name="line424">424    </a></b>	    }
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	    return crc_out;
+<b><a name="line427">427    </a></b>	}
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	/*!
+<b><a name="line430">430    </a></b>	 @brief      restore LBA by LCA_H, LBAp and E3D_LBA_SEL register bit
+<b><a name="line431">431    </a></b>	 @param[in]  lca_h         - PBNA LCA_H
+<b><a name="line432">432    </a></b>	 @param[in]  lbap          - LBAp
+<b><a name="line433">433    </a></b>	 @param[in]  lba_e3d_sel   - E3D_LBA_SEL bit
+<b><a name="line434">434    </a></b>	 @param[out] lba           - lba
+<b><a name="line435">435    </a></b>	 @return    lba
+<b><a name="line436">436    </a></b>	 @note
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	 - all lba in 4K data will tie 0 when lbafix0 = 1
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	 */
+<b><a name="line441">441    </a></b>	U64 hal_sec_restore_lba(U16 lca_h, U64 lbap, U8 e3d_lba_sel)
+<b><a name="line442">442    </a></b>	{
+<b><a name="line443">443    </a></b>	    U64 lba = 0ULL;
+<b><a name="line444">444    </a></b>	
+<b><a name="line445">445    </a></b>	    if (e3d_lba_sel == 0U)
+<b><a name="line446">446    </a></b>	    {
+<b><a name="line447">447    </a></b>	        lba = (((U64)lca_h << 19ULL) | (lbap & 0x7FFFFULL));
+<b><a name="line448">448    </a></b>	    }
+<b><a name="line449">449    </a></b>	    else if (e3d_lba_sel == 1U)
+<b><a name="line450">450    </a></b>	    {
+<b><a name="line451">451    </a></b>	        lba = (((U64)lca_h << 20ULL) | (lbap & 0xFFFFFULL));
+<b><a name="line452">452    </a></b>	    }
+<b><a name="line453">453    </a></b>	    else if (e3d_lba_sel == 2U)
+<b><a name="line454">454    </a></b>	    {
+<b><a name="line455">455    </a></b>	        lba = (((U64)lca_h << 21ULL) | (lbap & 0x1FFFFFULL));
+<b><a name="line456">456    </a></b>	    }
+<b><a name="line457">457    </a></b>	    else if (e3d_lba_sel == 3U)
+<b><a name="line458">458    </a></b>	    {
+<b><a name="line459">459    </a></b>	        lba = (((U64)lca_h << 22ULL) | (lbap & 0x3FFFFFULL));
+<b><a name="line460">460    </a></b>	    }
+<b><a name="line461">461    </a></b>	    else if (e3d_lba_sel == 4U)
+<b><a name="line462">462    </a></b>	    {
+<b><a name="line463">463    </a></b>	        lba = (((U64)lca_h << 23ULL) | (lbap & 0x7FFFFFULL));
+<b><a name="line464">464    </a></b>	    }
+<b><a name="line465">465    </a></b>	    else
+<b><a name="line466">466    </a></b>	    {
+<b><a name="line467">467    </a></b>	        ; // MISRA-C
+<b><a name="line468">468    </a></b>	    }
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    return lba;
+<b><a name="line471">471    </a></b>	}
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	/*!
+<b><a name="line474">474    </a></b>	  @brief execute sec_crc16 function
+<b><a name="line475">475    </a></b>	  @param[in] data_p                 - data buffer
+<b><a name="line476">476    </a></b>	  @param[in] length                 - data length
+<b><a name="line477">477    </a></b>	  @return crc value
+<b><a name="line478">478    </a></b>	  @note
+<b><a name="line479">479    </a></b>	  -                                      16   12   5U
+<b><a name="line480">480    </a></b>	  - this is the CCITT CRC 16 polynomial X  + X  + X  + 1U.
+<b><a name="line481">481    </a></b>	  - This works out to be 0x1021, but the way the algorithm works
+<b><a name="line482">482    </a></b>	  - lets us use 0x8408 (the reverse of the bit pattern).  The high
+<b><a name="line483">483    </a></b>	  - bit is always assumed to be set, thus we only use 16 bits to
+<b><a name="line484">484    </a></b>	  - represent the 17 bit value.
+<b><a name="line485">485    </a></b>	*/
+<b><a name="line486">486    </a></b>	U16 hal_sec_crc16(U8 *data_p, U32 length)
+<b><a name="line487">487    </a></b>	{
+<b><a name="line488">488    </a></b>	    U16 temp_data = 0U;
+<b><a name="line489">489    </a></b>	    U16 crc = 0xFFFFU;
+<b><a name="line490">490    </a></b>	    U16 crc_poly = (U16)(0x8408UL); //CRC16 FW Calc poly value.
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	    if (length == 0U)
+<b><a name="line493">493    </a></b>	    {
+<b><a name="line494">494    </a></b>	        return (~crc);
+<b><a name="line495">495    </a></b>	    }
+<b><a name="line496">496    </a></b>	
+<b><a name="line497">497    </a></b>	    do
+<b><a name="line498">498    </a></b>	    {
+<b><a name="line499">499    </a></b>	        temp_data = ((U16)0xFF & (*data_p++));
+<b><a name="line500">500    </a></b>	
+<b><a name="line501">501    </a></b>	        for (U8 i = 0U; i < 8U; i++)
+<b><a name="line502">502    </a></b>	        {
+<b><a name="line503">503    </a></b>	            if (((crc & 0x0001U) ^ (temp_data & 0x0001U)) == 1U)
+<b><a name="line504">504    </a></b>	            {
+<b><a name="line505">505    </a></b>	                crc = (crc >> 1 ^ crc_poly);
+<b><a name="line506">506    </a></b>	            }
+<b><a name="line507">507    </a></b>	            else
+<b><a name="line508">508    </a></b>	            {
+<b><a name="line509">509    </a></b>	                crc >>= 1;
+<b><a name="line510">510    </a></b>	            }
+<b><a name="line511">511    </a></b>	
+<b><a name="line512">512    </a></b>	            temp_data >>= 1U;
+<b><a name="line513">513    </a></b>	        }
+<b><a name="line514">514    </a></b>	    }
+<b><a name="line515">515    </a></b>	    while ((--length) > 0U);
+<b><a name="line516">516    </a></b>	
+<b><a name="line517">517    </a></b>	    crc = ~crc;
+<b><a name="line518">518    </a></b>	    temp_data = crc;
+<b><a name="line519">519    </a></b>	    crc = (crc << 8U) | (temp_data >> 8U & 0xFFU);
+<b><a name="line520">520    </a></b>	
+<b><a name="line521">521    </a></b>	    return crc;
+<b><a name="line522">522    </a></b>	}
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	/*!
+<b><a name="line525">525    </a></b>	  @brief defense method of Side-Channel Attacks defend the compare.
+<b><a name="line526">526    </a></b>	  @param[in] data_buf_ptr       - data buffer.
+<b><a name="line527">527    </a></b>	  @param[in] cmp_buf_ptr        - compare buffer
+<b><a name="line528">528    </a></b>	  @param[in] data_buf_len       - data size
+<b><a name="line529">529    </a></b>	  @param[in] cmp_buf_len        - compare size
+<b><a name="line530">530    </a></b>	  @param[in] rng_ptr            - random value
+<b><a name="line531">531    </a></b>	  @note
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	  - None
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	*/
+<b><a name="line536">536    </a></b>	U16 hal_sec_dmsca_def_cmp(U8 *data_buf_ptr, U8 *cmp_buf_ptr, U32 data_buf_len, U32 cmp_buf_len, U8 *rng_ptr)
+<b><a name="line537">537    </a></b>	{
+<b><a name="line538">538    </a></b>	    U8  mask_flag     = (rng_ptr[0] & 0x1U);
+<b><a name="line539">539    </a></b>	    U16 mask          = HAL_SEC_DMSCA_PASS;
+<b><a name="line540">540    </a></b>	    U32 flow_cnt      = 0UL;
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    /* Fault.DefaultFail */
+<b><a name="line543">543    </a></b>	    // If a parameter can only take a limited number of values it is tempting to use the default case in a switch (or the else part of a cascaded if-else-if construct) for dealing with the last possible (and valid) value without checking. This is prone to fault injection because this alternative is easily selected as a result of potential data manipulation.
+<b><a name="line544">544    </a></b>	    // Solution: Do not make this assumption. When checking conditions (switch or if) check all possible cases and fail by default. Also a final else statement in an if-else construct should lead to a fail.
+<b><a name="line545">545    </a></b>	    U16 cmp_rtn       = HAL_SEC_DMSCA_FAIL;
+<b><a name="line546">546    </a></b>	    U16 cmp_result;//    = HAL_SEC_DMSCA_FAIL;
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	    /* Fault.Delay related vars */
+<b><a name="line549">549    </a></b>	    U16 loops;//                       = 0U;
+<b><a name="line550">550    </a></b>	    U16 idx_delay;//                   = 0U;
+<b><a name="line551">551    </a></b>	    U16 delay_loops;
+<b><a name="line552">552    </a></b>	
+<b><a name="line553">553    </a></b>	    if (mask_flag > 0U)
+<b><a name="line554">554    </a></b>	    {
+<b><a name="line555">555    </a></b>	        mask ^= HAL_SEC_DMSCA_MASK_1;
+<b><a name="line556">556    </a></b>	    }
+<b><a name="line557">557    </a></b>	    else
+<b><a name="line558">558    </a></b>	    {
+<b><a name="line559">559    </a></b>	        mask ^= HAL_SEC_DMSCA_MASK_2;
+<b><a name="line560">560    </a></b>	    }
+<b><a name="line561">561    </a></b>	
+<b><a name="line562">562    </a></b>	    if (data_buf_len == cmp_buf_len)
+<b><a name="line563">563    </a></b>	    {
+<b><a name="line564">564    </a></b>	        delay_loops = ((U16 *)(void *)rng_ptr)[0];
+<b><a name="line565">565    </a></b>	
+<b><a name="line566">566    </a></b>	        /* Fault.Delay */
+<b><a name="line567">567    </a></b>	        // Fault injection often requires an exact hit of vulnerable code or data.
+<b><a name="line568">568    </a></b>	        // Solution: Use random length delays around the use of sensitive code and data to reduce the risk of success. Time based fault injection can become impractical.
+<b><a name="line569">569    </a></b>	        loops = delay_loops;
+<b><a name="line570">570    </a></b>	        for (idx_delay = 0U; idx_delay < delay_loops; idx_delay++)
+<b><a name="line571">571    </a></b>	        {
+<b><a name="line572">572    </a></b>	            if ((idx_delay + loops) != delay_loops)
+<b><a name="line573">573    </a></b>	            {
+<b><a name="line574">574    </a></b>	                break;
+<b><a name="line575">575    </a></b>	            }
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	            loops--;
+<b><a name="line578">578    </a></b>	        }
+<b><a name="line579">579    </a></b>	
+<b><a name="line580">580    </a></b>	        /* Fault.Delay - checking */
+<b><a name="line581">581    </a></b>	        if (idx_delay == delay_loops)
+<b><a name="line582">582    </a></b>	        {
+<b><a name="line583">583    </a></b>	            cmp_result = hal_sec_dmsca_buf_cmp(data_buf_ptr, cmp_buf_ptr, data_buf_len, &(rng_ptr[2]), &flow_cnt);
+<b><a name="line584">584    </a></b>	
+<b><a name="line585">585    </a></b>	            flow_cnt -= HAL_SEC_DMSCA_FLOW_CNT;
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	            /* Fault.Branch */
+<b><a name="line588">588    </a></b>	            // Boolean values can be manipulated by fault injection attacks.
+<b><a name="line589">589    </a></b>	            // Solution:Do not use booleans for sensitive decisions. Fault injection typically changes actual values to simple values, like 0 or 1. Non-trivial numerical values are more difficult to set by fault injection. Sensitive choices should therefore not be coded as a boolean value, but rather as a non-trivial numerical value.
+<b><a name="line590">590    </a></b>	            if (cmp_result == HAL_SEC_DMSCA_PASS)
+<b><a name="line591">591    </a></b>	            {
+<b><a name="line592">592    </a></b>	                cmp_rtn = HAL_SEC_DMSCA_PASS;
+<b><a name="line593">593    </a></b>	            }
+<b><a name="line594">594    </a></b>	
+<b><a name="line595">595    </a></b>	            flow_cnt -= HAL_SEC_DMSCA_FLOW_CNT;
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	            /* Fault.Flow */
+<b><a name="line598">598    </a></b>	            // Fault injection can hit the program counter or stack. This can result in "code hijacking", i.e. unauthorized jumps to privileged code. Verification of the correct flow should be done during the execution of sensitive code.
+<b><a name="line599">599    </a></b>	            // Solution: Use counters that keep track of the correctness of the execution path. Check counters to verify completion of execution path.
+<b><a name="line600">600    </a></b>	            if (flow_cnt != 0U)
+<b><a name="line601">601    </a></b>	            {
+<b><a name="line602">602    </a></b>	                cmp_rtn = HAL_SEC_DMSCA_FAIL;
+<b><a name="line603">603    </a></b>	            }
+<b><a name="line604">604    </a></b>	        }
+<b><a name="line605">605    </a></b>	    }
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    /* Branch.Leakage */
+<b><a name="line608">608    </a></b>	    // Program branches (e.g. if statements or switches) may be prone to side channel leakage.
+<b><a name="line609">609    </a></b>	    // Solution: Avoid using branches for confidential decisions. Confidential program alternatives should be coded in a time-constant manner, preferably in identical instruction sequence.
+<b><a name="line610">610    </a></b>	    if (cmp_rtn == HAL_SEC_DMSCA_PASS)
+<b><a name="line611">611    </a></b>	    {
+<b><a name="line612">612    </a></b>	        if (mask_flag > 0U)
+<b><a name="line613">613    </a></b>	        {
+<b><a name="line614">614    </a></b>	            mask ^= HAL_SEC_DMSCA_MASK_1;
+<b><a name="line615">615    </a></b>	        }
+<b><a name="line616">616    </a></b>	        else
+<b><a name="line617">617    </a></b>	        {
+<b><a name="line618">618    </a></b>	            mask ^= HAL_SEC_DMSCA_MASK_2;
+<b><a name="line619">619    </a></b>	        }
+<b><a name="line620">620    </a></b>	    }
+<b><a name="line621">621    </a></b>	    else
+<b><a name="line622">622    </a></b>	    {
+<b><a name="line623">623    </a></b>	        if (mask_flag > 0U)
+<b><a name="line624">624    </a></b>	        {
+<b><a name="line625">625    </a></b>	            mask ^= HAL_SEC_DMSCA_MASK_2;
+<b><a name="line626">626    </a></b>	        }
+<b><a name="line627">627    </a></b>	        else
+<b><a name="line628">628    </a></b>	        {
+<b><a name="line629">629    </a></b>	            mask ^= HAL_SEC_DMSCA_MASK_1;
+<b><a name="line630">630    </a></b>	        }
+<b><a name="line631">631    </a></b>	    }
+<b><a name="line632">632    </a></b>	
+<b><a name="line633">633    </a></b>	    return mask;
+<b><a name="line634">634    </a></b>	}
+<b><a name="line635">635    </a></b>	
+<b><a name="line636">636    </a></b>	U16 hal_sec_verify_signature_compare(U32 data_buf_addr, U32 cmp_buf_addr, U32 compare_len, U8 is_kat)
+<b><a name="line637">637    </a></b>	{
+<b><a name="line638">638    </a></b>	    U8 rng[6] = {0};
+<b><a name="line639">639    </a></b>	
+<b><a name="line640">640    </a></b>	    if (SEC_NO == is_kat)
+<b><a name="line641">641    </a></b>	    {
+<b><a name="line642">642    </a></b>	        // dmsca cmp use 6 bytes random.
+<b><a name="line643">643    </a></b>	        hal_sec_get_true_rand(sizeof(rng), (U8 *)rng);
+<b><a name="line644">644    </a></b>	
+<b><a name="line645">645    </a></b>	        // Use dmsca cmp.
+<b><a name="line646">646    </a></b>	        return hal_sec_dmsca_def_cmp((U8 *)(U32 *)data_buf_addr, (U8 *)(U32 *)cmp_buf_addr, compare_len, compare_len, (U8 *)rng);
+<b><a name="line647">647    </a></b>	    }
+<b><a name="line648">648    </a></b>	    else
+<b><a name="line649">649    </a></b>	    {
+<b><a name="line650">650    </a></b>	        // dmsca cmp is disabled, use memcmp
+<b><a name="line651">651    </a></b>	        if (0 != memcmp((void *)(U32 *)data_buf_addr, (void *)(U32 *)cmp_buf_addr, compare_len))
+<b><a name="line652">652    </a></b>	        {
+<b><a name="line653">653    </a></b>	            return HAL_SEC_DMSCA_FAIL;
+<b><a name="line654">654    </a></b>	        }
+<b><a name="line655">655    </a></b>	        else
+<b><a name="line656">656    </a></b>	        {
+<b><a name="line657">657    </a></b>	            return HAL_SEC_DMSCA_PASS;
+<b><a name="line658">658    </a></b>	        }
+<b><a name="line659">659    </a></b>	    }
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	}
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	/*!
+<b><a name="line664">664    </a></b>	 @brief generate a random number which length is indicate.
+<b><a name="line665">665    </a></b>	 @param[in] rand_len  - the byte lengths of random number want to generate.
+<b><a name="line666">666    </a></b>	 @param[in] rand_val  - declared for buffer of random number
+<b><a name="line667">667    </a></b>	 @note
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	 - None
+<b><a name="line670">670    </a></b>	
+<b><a name="line671">671    </a></b>	*/
+<b><a name="line672">672    </a></b>	void hal_sec_get_true_rand(U32 rand_len, U8 *rand_val)
+<b><a name="line673">673    </a></b>	{
+<b><a name="line674">674    </a></b>	    do {
+<b><a name="line675">675    </a></b>	        hal_rng_run_enable();
+<b><a name="line676">676    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RNG_CHK, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line677">677    </a></b>	        while (1) {
+<b><a name="line678">678    </a></b>	            if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line679">679    </a></b>	                rand_len = 0;
+<b><a name="line680">680    </a></b>	                break;
+<b><a name="line681">681    </a></b>	            }
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	            if (hal_rng_check_done() == TRUE) {
+<b><a name="line684">684    </a></b>	                U32 sample_size = MIN(128, rand_len);
+<b><a name="line685">685    </a></b>	                (void)memcpy((void *)rand_val, (void *)(U32 *)(&r32_SQZ_RNG_REG[r32_RNG_REG0]), sample_size);
+<b><a name="line686">686    </a></b>	                rand_val += sample_size;
+<b><a name="line687">687    </a></b>	                rand_len -= sample_size;
+<b><a name="line688">688    </a></b>	                break;
+<b><a name="line689">689    </a></b>	            }
+<b><a name="line690">690    </a></b>	        }
+<b><a name="line691">691    </a></b>	        hal_rng_run_disable();
+<b><a name="line692">692    </a></b>	    } while(rand_len > 0);
+<b><a name="line693">693    </a></b>	}
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	/*!
+<b><a name="line696">696    </a></b>	 @brief generate the bit array.
+<b><a name="line697">697    </a></b>	 @param[in]  epsilon_src   - source data buffer of byte array.
+<b><a name="line698">698    </a></b>	 @param[in]  epsilon_tar   - target data buffer of bit array.
+<b><a name="line699">699    </a></b>	 @param[in]  n             - data length, unit of bit.
+<b><a name="line700">700    </a></b>	 @param[out] ret           - generate result
+<b><a name="line701">701    </a></b>	 @return generate result
+<b><a name="line702">702    </a></b>	 @retval 0U - gen bits fail
+<b><a name="line703">703    </a></b>	 @retval 1U - gen bits pass
+<b><a name="line704">704    </a></b>	 @note
+<b><a name="line705">705    </a></b>	
+<b><a name="line706">706    </a></b>	 - 3A: 0011 1010 -> 00 00 01 01 01 00 01 00
+<b><a name="line707">707    </a></b>	
+<b><a name="line708">708    </a></b>	*/
+<b><a name="line709">709    </a></b>	U8 hal_sec_gen_bits(U8 *epsilon_src, U8 *epsilon_tar, U32 n)
+<b><a name="line710">710    </a></b>	{
+<b><a name="line711">711    </a></b>	    U8  ret = SEC_YES;
+<b><a name="line712">712    </a></b>	    U32 count = 0UL;
+<b><a name="line713">713    </a></b>	
+<b><a name="line714">714    </a></b>	    for (U32 i = 0UL; i < (n / 8UL); i++)
+<b><a name="line715">715    </a></b>	    {
+<b><a name="line716">716    </a></b>	        //RSA_Printf("epsilon_src[%x]=%x\n", i, epsilon_src[i]);
+<b><a name="line717">717    </a></b>	        switch (epsilon_src[i] / 16U)
+<b><a name="line718">718    </a></b>	        {
+<b><a name="line719">719    </a></b>	            case 0x0U :
+<b><a name="line720">720    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line721">721    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line722">722    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line723">723    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line724">724    </a></b>	                break;
+<b><a name="line725">725    </a></b>	
+<b><a name="line726">726    </a></b>	            case 0x1U :
+<b><a name="line727">727    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line728">728    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line729">729    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line730">730    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line731">731    </a></b>	                break;
+<b><a name="line732">732    </a></b>	
+<b><a name="line733">733    </a></b>	            case 0x2U :
+<b><a name="line734">734    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line735">735    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line736">736    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line737">737    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line738">738    </a></b>	                break;
+<b><a name="line739">739    </a></b>	            case 0x3U :
+<b><a name="line740">740    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line741">741    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line742">742    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line743">743    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line744">744    </a></b>	                break;
+<b><a name="line745">745    </a></b>	
+<b><a name="line746">746    </a></b>	            case 0x4U :
+<b><a name="line747">747    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line748">748    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line749">749    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line750">750    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line751">751    </a></b>	                break;
+<b><a name="line752">752    </a></b>	
+<b><a name="line753">753    </a></b>	            case 0x5U :
+<b><a name="line754">754    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line755">755    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line756">756    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line757">757    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line758">758    </a></b>	                break;
+<b><a name="line759">759    </a></b>	
+<b><a name="line760">760    </a></b>	            case 0x6U :
+<b><a name="line761">761    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line762">762    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line763">763    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line764">764    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line765">765    </a></b>	                break;
+<b><a name="line766">766    </a></b>	
+<b><a name="line767">767    </a></b>	            case 0x7U :
+<b><a name="line768">768    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line769">769    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line770">770    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line771">771    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line772">772    </a></b>	                break;
+<b><a name="line773">773    </a></b>	
+<b><a name="line774">774    </a></b>	            case 0x8U :
+<b><a name="line775">775    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line776">776    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line777">777    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line778">778    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line779">779    </a></b>	                break;
+<b><a name="line780">780    </a></b>	
+<b><a name="line781">781    </a></b>	            case 0x9U :
+<b><a name="line782">782    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line783">783    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line784">784    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line785">785    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line786">786    </a></b>	                break;
+<b><a name="line787">787    </a></b>	
+<b><a name="line788">788    </a></b>	            case 0xAU :
+<b><a name="line789">789    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line790">790    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line791">791    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line792">792    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line793">793    </a></b>	                break;
+<b><a name="line794">794    </a></b>	
+<b><a name="line795">795    </a></b>	            case 0xBU :
+<b><a name="line796">796    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line797">797    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line798">798    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line799">799    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line800">800    </a></b>	                break;
+<b><a name="line801">801    </a></b>	
+<b><a name="line802">802    </a></b>	            case 0xCU :
+<b><a name="line803">803    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line804">804    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line805">805    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line806">806    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line807">807    </a></b>	                break;
+<b><a name="line808">808    </a></b>	
+<b><a name="line809">809    </a></b>	            case 0xDU :
+<b><a name="line810">810    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line811">811    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line812">812    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line813">813    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line814">814    </a></b>	                break;
+<b><a name="line815">815    </a></b>	
+<b><a name="line816">816    </a></b>	            case 0xEU :
+<b><a name="line817">817    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line818">818    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line819">819    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line820">820    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line821">821    </a></b>	                break;
+<b><a name="line822">822    </a></b>	
+<b><a name="line823">823    </a></b>	            case 0xFU :
+<b><a name="line824">824    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line825">825    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line826">826    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line827">827    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line828">828    </a></b>	                break;
+<b><a name="line829">829    </a></b>	
+<b><a name="line830">830    </a></b>	            default :
+<b><a name="line831">831    </a></b>	                //RSA_Printf("Invalid character %x.\n", epsilon_src[i] / 16);
+<b><a name="line832">832    </a></b>	                ret = SEC_NO;
+<b><a name="line833">833    </a></b>	                break;
+<b><a name="line834">834    </a></b>	        }
+<b><a name="line835">835    </a></b>	
+<b><a name="line836">836    </a></b>	        switch (epsilon_src[i] % 16U)
+<b><a name="line837">837    </a></b>	        {
+<b><a name="line838">838    </a></b>	
+<b><a name="line839">839    </a></b>	            case 0x0U :
+<b><a name="line840">840    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line841">841    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line842">842    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line843">843    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line844">844    </a></b>	                break;
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	            case 0x1U :
+<b><a name="line847">847    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line848">848    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line849">849    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line850">850    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line851">851    </a></b>	                break;
+<b><a name="line852">852    </a></b>	
+<b><a name="line853">853    </a></b>	            case 0x2U :
+<b><a name="line854">854    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line855">855    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line856">856    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line857">857    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line858">858    </a></b>	                break;
+<b><a name="line859">859    </a></b>	
+<b><a name="line860">860    </a></b>	            case 0x3U :
+<b><a name="line861">861    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line862">862    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line863">863    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line864">864    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line865">865    </a></b>	                break;
+<b><a name="line866">866    </a></b>	
+<b><a name="line867">867    </a></b>	            case 0x4U :
+<b><a name="line868">868    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line869">869    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line870">870    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line871">871    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line872">872    </a></b>	                break;
+<b><a name="line873">873    </a></b>	
+<b><a name="line874">874    </a></b>	            case 0x5U :
+<b><a name="line875">875    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line876">876    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line877">877    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line878">878    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line879">879    </a></b>	                break;
+<b><a name="line880">880    </a></b>	
+<b><a name="line881">881    </a></b>	            case 0x6U :
+<b><a name="line882">882    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line883">883    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line884">884    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line885">885    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line886">886    </a></b>	                break;
+<b><a name="line887">887    </a></b>	
+<b><a name="line888">888    </a></b>	            case 0x7U :
+<b><a name="line889">889    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line890">890    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line891">891    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line892">892    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line893">893    </a></b>	                break;
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	            case 0x8U :
+<b><a name="line896">896    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line897">897    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line898">898    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line899">899    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line900">900    </a></b>	                break;
+<b><a name="line901">901    </a></b>	
+<b><a name="line902">902    </a></b>	            case 0x9U :
+<b><a name="line903">903    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line904">904    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line905">905    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line906">906    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line907">907    </a></b>	                break;
+<b><a name="line908">908    </a></b>	
+<b><a name="line909">909    </a></b>	            case 0xAU :
+<b><a name="line910">910    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line911">911    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line912">912    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line913">913    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line914">914    </a></b>	                break;
+<b><a name="line915">915    </a></b>	
+<b><a name="line916">916    </a></b>	            case 0xBU :
+<b><a name="line917">917    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line918">918    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line919">919    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line920">920    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line921">921    </a></b>	                break;
+<b><a name="line922">922    </a></b>	
+<b><a name="line923">923    </a></b>	            case 0xCU :
+<b><a name="line924">924    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line925">925    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line926">926    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line927">927    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line928">928    </a></b>	                break;
+<b><a name="line929">929    </a></b>	
+<b><a name="line930">930    </a></b>	            case 0xDU :
+<b><a name="line931">931    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line932">932    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line933">933    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line934">934    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line935">935    </a></b>	                break;
+<b><a name="line936">936    </a></b>	
+<b><a name="line937">937    </a></b>	            case 0xEU :
+<b><a name="line938">938    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line939">939    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line940">940    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line941">941    </a></b>	                epsilon_tar[count++] = 0U;
+<b><a name="line942">942    </a></b>	                break;
+<b><a name="line943">943    </a></b>	
+<b><a name="line944">944    </a></b>	            default : // case 0xFU
+<b><a name="line945">945    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line946">946    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line947">947    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line948">948    </a></b>	                epsilon_tar[count++] = 1U;
+<b><a name="line949">949    </a></b>	                break;
+<b><a name="line950">950    </a></b>	        }
+<b><a name="line951">951    </a></b>	
+<b><a name="line952">952    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8, epsilon_tar[i*8]);
+<b><a name="line953">953    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+1, epsilon_tar[i*8+1]);
+<b><a name="line954">954    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+2, epsilon_tar[i*8+2]);
+<b><a name="line955">955    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+3, epsilon_tar[i*8+3]);
+<b><a name="line956">956    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+4, epsilon_tar[i*8+4]);
+<b><a name="line957">957    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+5, epsilon_tar[i*8+5]);
+<b><a name="line958">958    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+6, epsilon_tar[i*8+6]);
+<b><a name="line959">959    </a></b>	        //        RSA_Printf("epsilon_tar[%x]=%x\n", i*8+7, epsilon_tar[i*8+7]);
+<b><a name="line960">960    </a></b>	    }
+<b><a name="line961">961    </a></b>	
+<b><a name="line962">962    </a></b>	    return ret;
+<b><a name="line963">963    </a></b>	}
+<b><a name="line964">964    </a></b>	
+<b><a name="line965">965    </a></b>	/*!
+<b><a name="line966">966    </a></b>	 @brief execute frequency test
+<b><a name="line967">967    </a></b>	 @param[in]  n             - data length, unit of bit
+<b><a name="line968">968    </a></b>	 @param[in]  epsilon       - source data buffer of bit array
+<b><a name="line969">969    </a></b>	 @param[out] ret           - test result
+<b><a name="line970">970    </a></b>	 @return test result
+<b><a name="line971">971    </a></b>	 @return 0U - p_value < 0.01
+<b><a name="line972">972    </a></b>	 @return 1U - p_value >= 0.01
+<b><a name="line973">973    </a></b>	 @note
+<b><a name="line974">974    </a></b>	
+<b><a name="line975">975    </a></b>	 - None
+<b><a name="line976">976    </a></b>	
+<b><a name="line977">977    </a></b>	*/
+<b><a name="line978">978    </a></b>	U8 hal_sec_frequency_test(U8 n, U8 *epsilon)
+<b><a name="line979">979    </a></b>	{
+<b><a name="line980">980    </a></b>	    double f, s_obs, p_value, sum = 0.0;
+<b><a name="line981">981    </a></b>	    double sqrt2 = 1.41421356237309504880;
+<b><a name="line982">982    </a></b>	
+<b><a name="line983">983    </a></b>	    for (U8 i = 0U; i < n; i++)
+<b><a name="line984">984    </a></b>	    {
+<b><a name="line985">985    </a></b>	        sum += (double)2.0 * (double)epsilon[i] - (double)1.0;
+<b><a name="line986">986    </a></b>	    }
+<b><a name="line987">987    </a></b>	
+<b><a name="line988">988    </a></b>	    s_obs = (double)(fabs(sum)) / (sqrt((double)n));
+<b><a name="line989">989    </a></b>	    f = s_obs / sqrt2;
+<b><a name="line990">990    </a></b>	    p_value = erfc(f);
+<b><a name="line991">991    </a></b>	
+<b><a name="line992">992    </a></b>	    if (p_value < 0.01)
+<b><a name="line993">993    </a></b>	    {
+<b><a name="line994">994    </a></b>	        //RSA_Printf("frequency p_value < 0.01\n");
+<b><a name="line995">995    </a></b>	        return SEC_NO;
+<b><a name="line996">996    </a></b>	    }
+<b><a name="line997">997    </a></b>	    else
+<b><a name="line998">998    </a></b>	    {
+<b><a name="line999">999    </a></b>	        //RSA_Printf("frequency p_value >= 0.01\n");
+<b><a name="line1000">1000    </a></b>	        return SEC_YES;
+<b><a name="line1001">1001    </a></b>	    }
+<b><a name="line1002">1002    </a></b>	}
+<b><a name="line1003">1003    </a></b>	
+<b><a name="line1004">1004    </a></b>	/*!
+<b><a name="line1005">1005    </a></b>	 @brief execute self correlation test
+<b><a name="line1006">1006    </a></b>	 @param[in]  d             - number of digits to shift left
+<b><a name="line1007">1007    </a></b>	 @param[in]  n             - data length, unit of bit
+<b><a name="line1008">1008    </a></b>	 @param[in]  epsilon       - source data buffer of bit array
+<b><a name="line1009">1009    </a></b>	 @param[out] ret           - test result
+<b><a name="line1010">1010    </a></b>	 @return test result
+<b><a name="line1011">1011    </a></b>	 @return 0U - p_value < 0.01
+<b><a name="line1012">1012    </a></b>	 @return 1U - p_value >= 0.01
+<b><a name="line1013">1013    </a></b>	 @note
+<b><a name="line1014">1014    </a></b>	
+<b><a name="line1015">1015    </a></b>	 - None
+<b><a name="line1016">1016    </a></b>	
+<b><a name="line1017">1017    </a></b>	*/
+<b><a name="line1018">1018    </a></b>	U8 hal_sec_self_correlation_test(U8 d, U8 n, U8 epsilon[])
+<b><a name="line1019">1019    </a></b>	{
+<b><a name="line1020">1020    </a></b>	    // epsilon is input pattern
+<b><a name="line1021">1021    </a></b>	    U8 n_d = n - d;
+<b><a name="line1022">1022    </a></b>	    U32 Ad = 0UL;
+<b><a name="line1023">1023    </a></b>	    double V, p_value = 0.0;
+<b><a name="line1024">1024    </a></b>	    double sqrt2 = 1.41421356237309504880;
+<b><a name="line1025">1025    </a></b>	
+<b><a name="line1026">1026    </a></b>	    for (U8 i = 0U; i < (n_d - 1U); ++i)
+<b><a name="line1027">1027    </a></b>	    {
+<b><a name="line1028">1028    </a></b>	        Ad += ((U32)(epsilon[i]) ^ (U32)(epsilon[i + d]));
+<b><a name="line1029">1029    </a></b>	    }
+<b><a name="line1030">1030    </a></b>	
+<b><a name="line1031">1031    </a></b>	    V = 2.0 * ((double)Ad - ((double)n_d / (double)2.0)) / (sqrt((double)n_d));
+<b><a name="line1032">1032    </a></b>	
+<b><a name="line1033">1033    </a></b>	    p_value = erfc(fabs(V) / sqrt2);
+<b><a name="line1034">1034    </a></b>	
+<b><a name="line1035">1035    </a></b>	    if (p_value < 0.01)
+<b><a name="line1036">1036    </a></b>	    {
+<b><a name="line1037">1037    </a></b>	        //RSA_Printf("self_correlation p_value < 0.01\n");
+<b><a name="line1038">1038    </a></b>	        return SEC_NO;
+<b><a name="line1039">1039    </a></b>	    }
+<b><a name="line1040">1040    </a></b>	    else
+<b><a name="line1041">1041    </a></b>	    {
+<b><a name="line1042">1042    </a></b>	        //RSA_Printf("self_correlation p_value >= 0.01\n");
+<b><a name="line1043">1043    </a></b>	        return SEC_YES;
+<b><a name="line1044">1044    </a></b>	    }
+<b><a name="line1045">1045    </a></b>	}
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	/*!
+<b><a name="line1048">1048    </a></b>	 @brief execute binary derivate test
+<b><a name="line1049">1049    </a></b>	 @param[in]  k              - the times of the sequence doing binary derivate test
+<b><a name="line1050">1050    </a></b>	 @param[in]  n              - sequence length, unit of bit
+<b><a name="line1051">1051    </a></b>	 @param[in]  epsilon_l      - epsilon length, unit of bit
+<b><a name="line1052">1052    </a></b>	 @param[in]  epsilon        - source data buffer of bit array
+<b><a name="line1053">1053    </a></b>	 @param[in]  temp_epsilon   - temp data buffer of bit array
+<b><a name="line1054">1054    </a></b>	 @param[out] ret            - test result
+<b><a name="line1055">1055    </a></b>	 @return test result
+<b><a name="line1056">1056    </a></b>	 @return 0U - p_value < 0.01
+<b><a name="line1057">1057    </a></b>	 @return 1U - p_value >= 0.01
+<b><a name="line1058">1058    </a></b>	 @note
+<b><a name="line1059">1059    </a></b>	
+<b><a name="line1060">1060    </a></b>	 - None
+<b><a name="line1061">1061    </a></b>	
+<b><a name="line1062">1062    </a></b>	*/
+<b><a name="line1063">1063    </a></b>	U8 hal_sec_binary_derivate_test(U32 k, U8 n, U8 epsilon_l, U8 epsilon[], U8 temp_epsilon[])
+<b><a name="line1064">1064    </a></b>	{
+<b><a name="line1065">1065    </a></b>	    // epsilon is input pattern
+<b><a name="line1066">1066    </a></b>	    U8 Sn_k = 0U;
+<b><a name="line1067">1067    </a></b>	    U8 n_k = n - (U8)k;
+<b><a name="line1068">1068    </a></b>	    double V = 0.0, p_value = 0.0, sqrt2 = 1.41421356237309504880;
+<b><a name="line1069">1069    </a></b>	
+<b><a name="line1070">1070    </a></b>	    for (U8 i = 0U; i < k; ++i)
+<b><a name="line1071">1071    </a></b>	    {
+<b><a name="line1072">1072    </a></b>	        for (U8 j = 0U; j < (epsilon_l - 1U); ++j)
+<b><a name="line1073">1073    </a></b>	        {
+<b><a name="line1074">1074    </a></b>	            temp_epsilon[j] = epsilon[j] ^ epsilon[j + 1U];
+<b><a name="line1075">1075    </a></b>	        }
+<b><a name="line1076">1076    </a></b>	    }
+<b><a name="line1077">1077    </a></b>	
+<b><a name="line1078">1078    </a></b>	    for (U8 i = 0U; i < n_k; ++i)
+<b><a name="line1079">1079    </a></b>	    {
+<b><a name="line1080">1080    </a></b>	        Sn_k += (2U * temp_epsilon[i]) - 1U;
+<b><a name="line1081">1081    </a></b>	    }
+<b><a name="line1082">1082    </a></b>	
+<b><a name="line1083">1083    </a></b>	    V = (double)(fabs((double)Sn_k)) / (sqrt((double)n_k));
+<b><a name="line1084">1084    </a></b>	
+<b><a name="line1085">1085    </a></b>	
+<b><a name="line1086">1086    </a></b>	    p_value = erfc(fabs(V) / sqrt2);
+<b><a name="line1087">1087    </a></b>	
+<b><a name="line1088">1088    </a></b>	    if (p_value < 0.01)
+<b><a name="line1089">1089    </a></b>	    {
+<b><a name="line1090">1090    </a></b>	        //RSA_Printf("binary_derivate p_value < 0.01\n");
+<b><a name="line1091">1091    </a></b>	        return SEC_NO;
+<b><a name="line1092">1092    </a></b>	    }
+<b><a name="line1093">1093    </a></b>	    else
+<b><a name="line1094">1094    </a></b>	    {
+<b><a name="line1095">1095    </a></b>	        //RSA_Printf("binary_derivate p_value >= 0.01\n");
+<b><a name="line1096">1096    </a></b>	        return SEC_YES;
+<b><a name="line1097">1097    </a></b>	    }
+<b><a name="line1098">1098    </a></b>	}
+<b><a name="line1099">1099    </a></b>	
+<b><a name="line1100">1100    </a></b>	/*!
+<b><a name="line1101">1101    </a></b>	 @brief execute gen_bits and frequency test/self correlation test/binary derivate test
+<b><a name="line1102">1102    </a></b>	 @param[in]  src_addr            - source data buffer address
+<b><a name="line1103">1103    </a></b>	 @param[in]  genbits_buf_addr    - target data buffer address
+<b><a name="line1104">1104    </a></b>	 @param[in]  bin_der_buf_addr    - data buffer address for binary derivate test
+<b><a name="line1105">1105    </a></b>	 @param[in]  n                   - sequence length, unit of bit
+<b><a name="line1106">1106    </a></b>	 @param[out] ret                 - test result
+<b><a name="line1107">1107    </a></b>	 @return test result
+<b><a name="line1108">1108    </a></b>	 @return 0U - test fail
+<b><a name="line1109">1109    </a></b>	 @return 1U - test pass
+<b><a name="line1110">1110    </a></b>	 @note
+<b><a name="line1111">1111    </a></b>	
+<b><a name="line1112">1112    </a></b>	 - None
+<b><a name="line1113">1113    </a></b>	
+<b><a name="line1114">1114    </a></b>	*/
+<b><a name="line1115">1115    </a></b>	U8 hal_sec_genbits_and_rand_alg_check(U32 src_addr, U32 genbits_buf_addr, U32 bin_der_buf_addr, int n)
+<b><a name="line1116">1116    </a></b>	{
+<b><a name="line1117">1117    </a></b>	    U8 ret = hal_sec_gen_bits((U8 *)(src_addr), (U8 *)(genbits_buf_addr), 128UL);
+<b><a name="line1118">1118    </a></b>	    ret &= hal_sec_frequency_test(128U, (U8 *)(genbits_buf_addr));
+<b><a name="line1119">1119    </a></b>	    ret &= hal_sec_self_correlation_test(1U, 128U, (U8 *)(genbits_buf_addr));
+<b><a name="line1120">1120    </a></b>	    ret &= hal_sec_binary_derivate_test(3UL, 128U, 128U, (U8 *)(genbits_buf_addr), (U8 *)(bin_der_buf_addr));
+<b><a name="line1121">1121    </a></b>	
+<b><a name="line1122">1122    </a></b>	    return ret;
+<b><a name="line1123">1123    </a></b>	}
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	/*!
+<b><a name="line1126">1126    </a></b>	 @brief execute get random number and frequency test/self correlation test/binary derivate test
+<b><a name="line1127">1127    </a></b>	 @param[in]  rnd              - declared for buffer of random number
+<b><a name="line1128">1128    </a></b>	 @param[in]  src_addr         - source data buffer address
+<b><a name="line1129">1129    </a></b>	 @param[in]  genbits_buf_addr - data buffer address for gen_bits
+<b><a name="line1130">1130    </a></b>	 @param[in]  bin_der_buf_addr - data buffer address for binary derivate test
+<b><a name="line1131">1131    </a></b>	 @param[in]  retry_times      - retry times.
+<b><a name="line1132">1132    </a></b>	 @param[out] ret              - generate RNG pass or not
+<b><a name="line1133">1133    </a></b>	 @return generate RNG pass or not
+<b><a name="line1134">1134    </a></b>	 @return 0U - generate RNG fail
+<b><a name="line1135">1135    </a></b>	 @return 1U - generate RNG pass
+<b><a name="line1136">1136    </a></b>	 @note
+<b><a name="line1137">1137    </a></b>	
+<b><a name="line1138">1138    </a></b>	 - None
+<b><a name="line1139">1139    </a></b>	
+<b><a name="line1140">1140    </a></b>	*/
+<b><a name="line1141">1141    </a></b>	U8 hal_sec_get_sm_128b_true_rand(U8 *rnd/*16B*/, U32 src_addr/*16B*/, U32 genbits_buf_addr/*128B*/, U32 bin_der_buf_addr/*128B*/, U8 retry_times)
+<b><a name="line1142">1142    </a></b>	{
+<b><a name="line1143">1143    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line1144">1144    </a></b>	    U8 try_cnt = 0U;
+<b><a name="line1145">1145    </a></b>	
+<b><a name="line1146">1146    </a></b>	    while (try_cnt < retry_times)
+<b><a name="line1147">1147    </a></b>	    {
+<b><a name="line1148">1148    </a></b>	        hal_sec_get_true_rand((U32)HAL_HW_128BIT_RNG_LEN, (U8 *)(src_addr));
+<b><a name="line1149">1149    </a></b>	
+<b><a name="line1150">1150    </a></b>	        ret = hal_sec_genbits_and_rand_alg_check(src_addr, genbits_buf_addr, bin_der_buf_addr, 128);
+<b><a name="line1151">1151    </a></b>	        if (ret == SEC_YES)
+<b><a name="line1152">1152    </a></b>	        {
+<b><a name="line1153">1153    </a></b>	            (void)memcpy((void *)rnd, (void *)(U32 *)(src_addr), HAL_HW_128BIT_RNG_LEN);
+<b><a name="line1154">1154    </a></b>	            break;
+<b><a name="line1155">1155    </a></b>	        }
+<b><a name="line1156">1156    </a></b>	        else
+<b><a name="line1157">1157    </a></b>	        {
+<b><a name="line1158">1158    </a></b>	            try_cnt++;
+<b><a name="line1159">1159    </a></b>	            ret = SEC_NO;
+<b><a name="line1160">1160    </a></b>	        }
+<b><a name="line1161">1161    </a></b>	    }
+<b><a name="line1162">1162    </a></b>	
+<b><a name="line1163">1163    </a></b>	    return ret;
+<b><a name="line1164">1164    </a></b>	}
+<b><a name="line1165">1165    </a></b>	
+<b><a name="line1166">1166    </a></b>	/*!
+<b><a name="line1167">1167    </a></b>	 @brief execute get sm3 drng and frequency test/self correlation test/binary derivate test
+<b><a name="line1168">1168    </a></b>	 @param[in] rand             - declared for buffer of random number
+<b><a name="line1169">1169    </a></b>	 @param[in] src_addr          - source data buffer address
+<b><a name="line1170">1170    </a></b>	 @param[in] hash_addr         - buffer address for hash
+<b><a name="line1171">1171    </a></b>	 @param[in] genbits_buf_addr  - data buffer address for gen_bits (128B)
+<b><a name="line1172">1172    </a></b>	 @param[in] bin_der_buf_addr  - data buffer address for binary derivate test (16B)
+<b><a name="line1173">1173    </a></b>	 @param[in] timeout_val       - setting timeout value
+<b><a name="line1174">1174    </a></b>	 @param[out] ret              - generate SM3 DRNG pass or not
+<b><a name="line1175">1175    </a></b>	 @return generate SM3 DRNG pass or not
+<b><a name="line1176">1176    </a></b>	 @return 0U - generate SM3 DRNG fail
+<b><a name="line1177">1177    </a></b>	 @return 1U - generate SM3 DRNG pass
+<b><a name="line1178">1178    </a></b>	 @note
+<b><a name="line1179">1179    </a></b>	
+<b><a name="line1180">1180    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line1181">1181    </a></b>	
+<b><a name="line1182">1182    </a></b>	*/
+<b><a name="line1183">1183    </a></b>	U8 hal_sec_get_256b_sm3_drng(U8 *rnd, U32 src_addr, U32 hash_addr, U32 genbits_buf_addr, U32 bin_der_buf_addr, U64 timeout_val)
+<b><a name="line1184">1184    </a></b>	{
+<b><a name="line1185">1185    </a></b>	    U8 ret = SEC_YES;
+<b><a name="line1186">1186    </a></b>	
+<b><a name="line1187">1187    </a></b>	    SEC_SHA_PARAMS_T sha_param;
+<b><a name="line1188">1188    </a></b>	    (void)memset((void *)&sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line1189">1189    </a></b>	
+<b><a name="line1190">1190    </a></b>	    sha_param.src_addr.low  = src_addr;
+<b><a name="line1191">1191    </a></b>	    sha_param.targ_addr.low = hash_addr;
+<b><a name="line1192">1192    </a></b>	    sha_param.sha_mode      = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line1193">1193    </a></b>	    sha_param.src_len       = 64UL;
+<b><a name="line1194">1194    </a></b>	    sha_param.timeout_val   = timeout_val;
+<b><a name="line1195">1195    </a></b>	
+<b><a name="line1196">1196    </a></b>	    hal_sec_get_true_rand(64, (U8 *)(src_addr));
+<b><a name="line1197">1197    </a></b>	
+<b><a name="line1198">1198    </a></b>	    // ret = hal_sec_sha_blocking(&sha_param);
+<b><a name="line1199">1199    </a></b>	    hal_sec_sha_trigger(&sha_param);
+<b><a name="line1200">1200    </a></b>	    ret &= hal_sec_sha_polling(sha_param.timeout_val, SEC_NO);
+<b><a name="line1201">1201    </a></b>	
+<b><a name="line1202">1202    </a></b>	    if (ret == SEC_NO)
+<b><a name="line1203">1203    </a></b>	    {
+<b><a name="line1204">1204    </a></b>	        //SEC_LOGE(" Bug SM3 exec failed.");
+<b><a name="line1205">1205    </a></b>	        return SEC_NO;
+<b><a name="line1206">1206    </a></b>	    }
+<b><a name="line1207">1207    </a></b>	
+<b><a name="line1208">1208    </a></b>	    ret = hal_sec_genbits_and_rand_alg_check(hash_addr, genbits_buf_addr, bin_der_buf_addr, 128);
+<b><a name="line1209">1209    </a></b>	
+<b><a name="line1210">1210    </a></b>	    if (ret == SEC_YES)
+<b><a name="line1211">1211    </a></b>	    {
+<b><a name="line1212">1212    </a></b>	        (void)memcpy((void *)rnd, (void *)(U32 *)hash_addr, HAL_HW_128BIT_RNG_LEN);
+<b><a name="line1213">1213    </a></b>	    }
+<b><a name="line1214">1214    </a></b>	    else
+<b><a name="line1215">1215    </a></b>	    {
+<b><a name="line1216">1216    </a></b>	
+<b><a name="line1217">1217    </a></b>	        //SEC_LOGI(" frequency/self_correlation/binary_derivate failed.");
+<b><a name="line1218">1218    </a></b>	
+<b><a name="line1219">1219    </a></b>	        for (U16 try_cnt = 0; try_cnt < HAL_SW_SM_TRY_LIMIT; try_cnt++)
+<b><a name="line1220">1220    </a></b>	        {
+<b><a name="line1221">1221    </a></b>	            hal_sec_get_true_rand(64, (U8 *)(src_addr));
+<b><a name="line1222">1222    </a></b>	
+<b><a name="line1223">1223    </a></b>	            ret = hal_sec_sha_blocking(&sha_param);
+<b><a name="line1224">1224    </a></b>	
+<b><a name="line1225">1225    </a></b>	            if (ret == SEC_NO)
+<b><a name="line1226">1226    </a></b>	            {
+<b><a name="line1227">1227    </a></b>	                //SEC_LOGE(" Bug SM3 exec failed.");
+<b><a name="line1228">1228    </a></b>	                return SEC_NO;
+<b><a name="line1229">1229    </a></b>	            }
+<b><a name="line1230">1230    </a></b>	
+<b><a name="line1231">1231    </a></b>	            ret = hal_sec_genbits_and_rand_alg_check(hash_addr, genbits_buf_addr, bin_der_buf_addr, 128);
+<b><a name="line1232">1232    </a></b>	
+<b><a name="line1233">1233    </a></b>	            if (ret == SEC_YES)
+<b><a name="line1234">1234    </a></b>	            {
+<b><a name="line1235">1235    </a></b>	                (void)memcpy((void *)rnd, (void *)(U32 *)(hash_addr), HAL_HW_128BIT_RNG_LEN);
+<b><a name="line1236">1236    </a></b>	                break;
+<b><a name="line1237">1237    </a></b>	            }
+<b><a name="line1238">1238    </a></b>	            else
+<b><a name="line1239">1239    </a></b>	            {
+<b><a name="line1240">1240    </a></b>	                ret = SEC_NO;
+<b><a name="line1241">1241    </a></b>	            }
+<b><a name="line1242">1242    </a></b>	
+<b><a name="line1243">1243    </a></b>	        }
+<b><a name="line1244">1244    </a></b>	
+<b><a name="line1245">1245    </a></b>	    }
+<b><a name="line1246">1246    </a></b>	
+<b><a name="line1247">1247    </a></b>	    if (ret == SEC_NO)
+<b><a name="line1248">1248    </a></b>	    {
+<b><a name="line1249">1249    </a></b>	        return SEC_NO;
+<b><a name="line1250">1250    </a></b>	    }
+<b><a name="line1251">1251    </a></b>	
+<b><a name="line1252">1252    </a></b>	    ret = hal_sec_genbits_and_rand_alg_check((hash_addr + 16UL), genbits_buf_addr, bin_der_buf_addr, 128);
+<b><a name="line1253">1253    </a></b>	
+<b><a name="line1254">1254    </a></b>	    if (ret == SEC_YES)
+<b><a name="line1255">1255    </a></b>	    {
+<b><a name="line1256">1256    </a></b>	        (void)memcpy((void *)&rnd[16], (void *)(U32 *)(hash_addr + 16UL), HAL_HW_128BIT_RNG_LEN);
+<b><a name="line1257">1257    </a></b>	    }
+<b><a name="line1258">1258    </a></b>	    else
+<b><a name="line1259">1259    </a></b>	    {
+<b><a name="line1260">1260    </a></b>	        //SEC_LOGI(" frequency/self_correlation/binary_derivate failed.");
+<b><a name="line1261">1261    </a></b>	
+<b><a name="line1262">1262    </a></b>	        for (U16 try_cnt = 0; try_cnt < HAL_SW_SM_TRY_LIMIT; try_cnt++)
+<b><a name="line1263">1263    </a></b>	        {
+<b><a name="line1264">1264    </a></b>	            hal_sec_get_true_rand(64, (U8 *)(src_addr));
+<b><a name="line1265">1265    </a></b>	
+<b><a name="line1266">1266    </a></b>	            ret = hal_sec_sha_blocking(&sha_param);
+<b><a name="line1267">1267    </a></b>	
+<b><a name="line1268">1268    </a></b>	            if (ret == SEC_NO)
+<b><a name="line1269">1269    </a></b>	            {
+<b><a name="line1270">1270    </a></b>	                //SEC_LOGE(" Bug SM3 exec failed.");
+<b><a name="line1271">1271    </a></b>	                return SEC_NO;
+<b><a name="line1272">1272    </a></b>	            }
+<b><a name="line1273">1273    </a></b>	
+<b><a name="line1274">1274    </a></b>	            ret = hal_sec_genbits_and_rand_alg_check((hash_addr + 16UL), genbits_buf_addr, bin_der_buf_addr, 128);
+<b><a name="line1275">1275    </a></b>	
+<b><a name="line1276">1276    </a></b>	            if (ret == SEC_YES)
+<b><a name="line1277">1277    </a></b>	            {
+<b><a name="line1278">1278    </a></b>	                (void)memcpy((void *)&rnd[16], (void *)(U32 *)(hash_addr + 16UL), HAL_HW_128BIT_RNG_LEN);
+<b><a name="line1279">1279    </a></b>	                break;
+<b><a name="line1280">1280    </a></b>	            }
+<b><a name="line1281">1281    </a></b>	            else
+<b><a name="line1282">1282    </a></b>	            {
+<b><a name="line1283">1283    </a></b>	                ret = SEC_NO;
+<b><a name="line1284">1284    </a></b>	            }
+<b><a name="line1285">1285    </a></b>	
+<b><a name="line1286">1286    </a></b>	        }
+<b><a name="line1287">1287    </a></b>	    }
+<b><a name="line1288">1288    </a></b>	
+<b><a name="line1289">1289    </a></b>	    return ret;
+<b><a name="line1290">1290    </a></b>	}
+<b><a name="line1291">1291    </a></b>	
+<b><a name="line1292">1292    </a></b>	/*!
+<b><a name="line1293">1293    </a></b>	 @brief execute get random number and health test
+<b><a name="line1294">1294    </a></b>	 @param[in]  rnd              - declared for buffer of random number
+<b><a name="line1295">1295    </a></b>	 @param[in]  src_addr         - source data buffer address
+<b><a name="line1296">1296    </a></b>	 @param[in]  genbits_buf_addr - data buffer address for gen_bits
+<b><a name="line1297">1297    </a></b>	 @param[in]  bin_der_buf_addr - data buffer address for binary derivate test
+<b><a name="line1298">1298    </a></b>	 @param[out] ret              - generate RNG pass or not
+<b><a name="line1299">1299    </a></b>	 @return generate RNG pass or not
+<b><a name="line1300">1300    </a></b>	 @return 0U - generate RNG fail
+<b><a name="line1301">1301    </a></b>	 @return 1U - generate RNG pass
+<b><a name="line1302">1302    </a></b>	 @note
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	 - None
+<b><a name="line1305">1305    </a></b>	
+<b><a name="line1306">1306    </a></b>	*/
+<b><a name="line1307">1307    </a></b>	U8 hal_sec_get_128b_seed_for_rng(U8 *rnd, U32 src_addr, U32 genbits_buf_addr, U32 bin_der_buf_addr)
+<b><a name="line1308">1308    </a></b>	{
+<b><a name="line1309">1309    </a></b>	    return hal_sec_get_sm_128b_true_rand(rnd, src_addr, genbits_buf_addr, bin_der_buf_addr, 10);
+<b><a name="line1310">1310    </a></b>	}
+<b><a name="line1311">1311    </a></b>	
+<b><a name="line1312">1312    </a></b>	/*!
+<b><a name="line1313">1313    </a></b>	 @brief      data mask r1 for icv debug
+<b><a name="line1314">1314    </a></b>	 @param[in]  rnd  - input address first 4B data will be mask r1
+<b><a name="line1315">1315    </a></b>	 @note
+<b><a name="line1316">1316    </a></b>	
+<b><a name="line1317">1317    </a></b>	 - None
+<b><a name="line1318">1318    </a></b>	
+<b><a name="line1319">1319    </a></b>	 */
+<b><a name="line1320">1320    </a></b>	void hal_sec_r1_encode(U32 *rnd)
+<b><a name="line1321">1321    </a></b>	{
+<b><a name="line1322">1322    </a></b>	    w_CR_MASK_R1_EN(1U);
+<b><a name="line1323">1323    </a></b>	    w_CR_SEED_KEY(rnd[0]);
+<b><a name="line1324">1324    </a></b>	    w_CR_SEED_KEY_UPD(1U);
+<b><a name="line1325">1325    </a></b>	    rnd[0] = r_SR_KEY_OUT();
+<b><a name="line1326">1326    </a></b>	}
+<b><a name="line1327">1327    </a></b>	
+<b><a name="line1328">1328    </a></b>	/*!
+<b><a name="line1329">1329    </a></b>	 @brief      mask enable and update (ahb / axi / r1 / r2 / r3)
+<b><a name="line1330">1330    </a></b>	 @note
+<b><a name="line1331">1331    </a></b>	
+<b><a name="line1332">1332    </a></b>	 - must get true random (RNG) before update mask
+<b><a name="line1333">1333    </a></b>	
+<b><a name="line1334">1334    </a></b>	 */
+<b><a name="line1335">1335    </a></b>	
+<b><a name="line1336">1336    </a></b>	/*!
+<b><a name="line1337">1337    </a></b>	 @brief      mask enable (ahb / axi / r1 / r2 / r3)
+<b><a name="line1338">1338    </a></b>	 @note
+<b><a name="line1339">1339    </a></b>	
+<b><a name="line1340">1340    </a></b>	 - must get true random (RNG) before update mask
+<b><a name="line1341">1341    </a></b>	
+<b><a name="line1342">1342    </a></b>	 */
+<b><a name="line1343">1343    </a></b>	
+<b><a name="line1344">1344    </a></b>	/*!
+<b><a name="line1345">1345    </a></b>	 @brief      mask update (ahb / axi / r1 / r2 / r3)
+<b><a name="line1346">1346    </a></b>	 @note
+<b><a name="line1347">1347    </a></b>	
+<b><a name="line1348">1348    </a></b>	 - must get true random (RNG) before update mask
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	 */
+<b><a name="line1351">1351    </a></b>	
+<b><a name="line1352">1352    </a></b>	/*!
+<b><a name="line1353">1353    </a></b>	 @brief      mask disable (ahb / axi / r1 / r2 / r3)
+<b><a name="line1354">1354    </a></b>	 @note
+<b><a name="line1355">1355    </a></b>	
+<b><a name="line1356">1356    </a></b>	 - None
+<b><a name="line1357">1357    </a></b>	
+<b><a name="line1358">1358    </a></b>	 */
+<b><a name="line1359">1359    </a></b>	
+<b><a name="line1360">1360    </a></b>	/*!
+<b><a name="line1361">1361    </a></b>	 @brief      mask ahb and axi update
+<b><a name="line1362">1362    </a></b>	 @note
+<b><a name="line1363">1363    </a></b>	
+<b><a name="line1364">1364    </a></b>	 - None
+<b><a name="line1365">1365    </a></b>	
+<b><a name="line1366">1366    </a></b>	 */
+<b><a name="line1367">1367    </a></b>	
+<b><a name="line1368">1368    </a></b>	/*!
+<b><a name="line1369">1369    </a></b>	 @brief      sec ip internal aes register mask enable
+<b><a name="line1370">1370    </a></b>	 @note
+<b><a name="line1371">1371    </a></b>	
+<b><a name="line1372">1372    </a></b>	 - None
+<b><a name="line1373">1373    </a></b>	
+<b><a name="line1374">1374    </a></b>	 */
+<b><a name="line1375">1375    </a></b>	void hal_sec_aesotf_mask_en(void)
+<b><a name="line1376">1376    </a></b>	{
+<b><a name="line1377">1377    </a></b>	    dal_sec_aes_otf_set_mask_en(1U);
+<b><a name="line1378">1378    </a></b>	    dal_sec_aes_ofl_set_r1_en(1U);
+<b><a name="line1379">1379    </a></b>	    dal_sec_aes_otf_set_r2_update();
+<b><a name="line1380">1380    </a></b>	}
+<b><a name="line1381">1381    </a></b>	
+<b><a name="line1382">1382    </a></b>	/*!
+<b><a name="line1383">1383    </a></b>	 @brief      sec ip internal aes register mask disable
+<b><a name="line1384">1384    </a></b>	 @note
+<b><a name="line1385">1385    </a></b>	
+<b><a name="line1386">1386    </a></b>	 - None
+<b><a name="line1387">1387    </a></b>	
+<b><a name="line1388">1388    </a></b>	 */
+<b><a name="line1389">1389    </a></b>	void hal_sec_aesotf_mask_dis(void)
+<b><a name="line1390">1390    </a></b>	{
+<b><a name="line1391">1391    </a></b>	    dal_sec_aes_otf_set_mask_en(0U);
+<b><a name="line1392">1392    </a></b>	    dal_sec_aes_ofl_set_r1_en(0U);
+<b><a name="line1393">1393    </a></b>	}
+<b><a name="line1394">1394    </a></b>	
+<b><a name="line1395">1395    </a></b>	/*!
+<b><a name="line1396">1396    </a></b>	 @brief      APU sram init
+<b><a name="line1397">1397    </a></b>	 @note
+<b><a name="line1398">1398    </a></b>	
+<b><a name="line1399">1399    </a></b>	 - None
+<b><a name="line1400">1400    </a></b>	
+<b><a name="line1401">1401    </a></b>	 */
+<b><a name="line1402">1402    </a></b>	
+<b><a name="line1403">1403    </a></b>	/*!
+<b><a name="line1404">1404    </a></b>	 @brief   search kidx from apu register according to nsid and lca
+<b><a name="line1405">1405    </a></b>	 @param[in]  nsid  - namespace id
+<b><a name="line1406">1406    </a></b>	 @param[in]  lca   - lca
+<b><a name="line1407">1407    </a></b>	 @note
+<b><a name="line1408">1408    </a></b>	
+<b><a name="line1409">1409    </a></b>	 - None
+<b><a name="line1410">1410    </a></b>	
+<b><a name="line1411">1411    </a></b>	 */
+<b><a name="line1412">1412    </a></b>	
+<b><a name="line1413">1413    </a></b>	/*!
+<b><a name="line1414">1414    </a></b>	 @brief   kpio search kidx from apu register according to nsid and cev
+<b><a name="line1415">1415    </a></b>	 @param[in]  nsid  - namespace id
+<b><a name="line1416">1416    </a></b>	 @param[in]  cev   - ktag
+<b><a name="line1417">1417    </a></b>	 @note
+<b><a name="line1418">1418    </a></b>	
+<b><a name="line1419">1419    </a></b>	 - None
+<b><a name="line1420">1420    </a></b>	
+<b><a name="line1421">1421    </a></b>	 */
+<b><a name="line1422">1422    </a></b>	
+<b><a name="line1423">1423    </a></b>	/*!
+<b><a name="line1424">1424    </a></b>	 @brief   reset apu specific aes range
+<b><a name="line1425">1425    </a></b>	 @param[in]  range_idx  - aes range index
+<b><a name="line1426">1426    </a></b>	 @note
+<b><a name="line1427">1427    </a></b>	
+<b><a name="line1428">1428    </a></b>	 - None
+<b><a name="line1429">1429    </a></b>	
+<b><a name="line1430">1430    </a></b>	 */
+<b><a name="line1431">1431    </a></b>	
+<b><a name="line1432">1432    </a></b>	/*!
+<b><a name="line1433">1433    </a></b>	 @brief   reset all apu aes range
+<b><a name="line1434">1434    </a></b>	 @note
+<b><a name="line1435">1435    </a></b>	
+<b><a name="line1436">1436    </a></b>	 - None
+<b><a name="line1437">1437    </a></b>	
+<b><a name="line1438">1438    </a></b>	 */
+<b><a name="line1439">1439    </a></b>	
+<b><a name="line1440">1440    </a></b>	/*!
+<b><a name="line1441">1441    </a></b>	 @brief   set apu aes range
+<b><a name="line1442">1442    </a></b>	 @param[in]  range_idx  - aes range index
+<b><a name="line1443">1443    </a></b>	 @param[in]  start_lca  - start lca
+<b><a name="line1444">1444    </a></b>	 @param[in]  start_nsid - namespace id
+<b><a name="line1445">1445    </a></b>	 @param[in]  end_lca    - end lca
+<b><a name="line1446">1446    </a></b>	 @param[in]  end_nsid   - namespace id
+<b><a name="line1447">1447    </a></b>	 @param[in]  key_idx    - key index
+<b><a name="line1448">1448    </a></b>	 @note
+<b><a name="line1449">1449    </a></b>	
+<b><a name="line1450">1450    </a></b>	 - None
+<b><a name="line1451">1451    </a></b>	
+<b><a name="line1452">1452    </a></b>	 */
+<b><a name="line1453">1453    </a></b>	
+<b><a name="line1454">1454    </a></b>	/*!
+<b><a name="line1455">1455    </a></b>	 @brief      enable sec internal dynamic clock gating
+<b><a name="line1456">1456    </a></b>	 @note
+<b><a name="line1457">1457    </a></b>	
+<b><a name="line1458">1458    </a></b>	 - None
+<b><a name="line1459">1459    </a></b>	
+<b><a name="line1460">1460    </a></b>	 */
+<b><a name="line1461">1461    </a></b>	void hal_sec_dyn_clk_en(void)
+<b><a name="line1462">1462    </a></b>	{
+<b><a name="line1463">1463    </a></b>	    hal_sec_pke_set_dyn_clk_gat_en(SEC_YES);
+<b><a name="line1464">1464    </a></b>	    hal_sec_sha_set_dyn_clk_gat_en(SEC_YES);
+<b><a name="line1465">1465    </a></b>	    hal_sec_aes_ofl_set_dyn_clk_gat_en(SEC_YES);
+<b><a name="line1466">1466    </a></b>	    hal_sec_aes_otf_set_otf_dyn_clk_gat_en(SEC_YES);
+<b><a name="line1467">1467    </a></b>	}
+<b><a name="line1468">1468    </a></b>	
+<b><a name="line1469">1469    </a></b>	/*!
+<b><a name="line1470">1470    </a></b>	 @brief      enable sec/pke step clock
+<b><a name="line1471">1471    </a></b>	 @param[in]  rand_val0  - step clock value0
+<b><a name="line1472">1472    </a></b>	 @param[in]  rand_val1  - step clock value1
+<b><a name="line1473">1473    </a></b>	 @param[in]  rand_val2  - step clock value2
+<b><a name="line1474">1474    </a></b>	 @param[in]  rand_val3  - step clock value3
+<b><a name="line1475">1475    </a></b>	 @param[in]  rand_val4  - step clock value4
+<b><a name="line1476">1476    </a></b>	 @param[in]  rand_val5  - step clock value5
+<b><a name="line1477">1477    </a></b>	 @note
+<b><a name="line1478">1478    </a></b>	
+<b><a name="line1479">1479    </a></b>	 - None
+<b><a name="line1480">1480    </a></b>	
+<b><a name="line1481">1481    </a></b>	 */
+<b><a name="line1482">1482    </a></b>	void hal_sec_step_sec_clk_enable(U8 rand_val0, U8 rand_val1, U8 rand_val2, U8 rand_val3, U8 rand_val4, U8 rand_val5)
+<b><a name="line1483">1483    </a></b>	{
+<b><a name="line1484">1484    </a></b>	    U32 test[16];
+<b><a name="line1485">1485    </a></b>	    hal_sec_get_true_rand(sizeof(test), (U8 *)test);
+<b><a name="line1486">1486    </a></b>	
+<b><a name="line1487">1487    </a></b>	    w_CR_SEC_CLK_DIV0(rand_val0);
+<b><a name="line1488">1488    </a></b>	    w_CR_SEC_CLK_DIV1(rand_val1);
+<b><a name="line1489">1489    </a></b>	    w_CR_SEC_CLK_DIV2(rand_val2);
+<b><a name="line1490">1490    </a></b>	    w_CR_SEC_CLK_DIV3(rand_val3);
+<b><a name="line1491">1491    </a></b>	    w_CR_SEC_CLK_DIV4(rand_val4);
+<b><a name="line1492">1492    </a></b>	    w_CR_SEC_CLK_DIV5(rand_val5);
+<b><a name="line1493">1493    </a></b>	
+<b><a name="line1494">1494    </a></b>	    w_CR_SEC_CLK_STEP_EN(1U);
+<b><a name="line1495">1495    </a></b>	}
+<b><a name="line1496">1496    </a></b>	
+<b><a name="line1497">1497    </a></b>	/*!
+<b><a name="line1498">1498    </a></b>	 @brief      disable sec/pke step clock
+<b><a name="line1499">1499    </a></b>	 @note
+<b><a name="line1500">1500    </a></b>	
+<b><a name="line1501">1501    </a></b>	 - None
+<b><a name="line1502">1502    </a></b>	
+<b><a name="line1503">1503    </a></b>	 */
+<b><a name="line1504">1504    </a></b>	void hal_sec_step_sec_clk_disable(void)
+<b><a name="line1505">1505    </a></b>	{
+<b><a name="line1506">1506    </a></b>	    w_CR_SEC_CLK_STEP_EN(0U);
+<b><a name="line1507">1507    </a></b>	}
+<b><a name="line1508">1508    </a></b>	
+<b><a name="line1509">1509    </a></b>	/*!
+<b><a name="line1510">1510    </a></b>	 @brief      enable sec random clock
+<b><a name="line1511">1511    </a></b>	 @note
+<b><a name="line1512">1512    </a></b>	
+<b><a name="line1513">1513    </a></b>	 - None
+<b><a name="line1514">1514    </a></b>	
+<b><a name="line1515">1515    </a></b>	 */
+<b><a name="line1516">1516    </a></b>	void hal_sec_rnd_sec_clk_enable(void)
+<b><a name="line1517">1517    </a></b>	{
+<b><a name="line1518">1518    </a></b>	    U32 test[16];
+<b><a name="line1519">1519    </a></b>	    hal_sec_get_true_rand(sizeof(test), (U8 *)test);
+<b><a name="line1520">1520    </a></b>	    w_CR_SEC_CLK_RAND_EN(1U);
+<b><a name="line1521">1521    </a></b>	}
+<b><a name="line1522">1522    </a></b>	
+<b><a name="line1523">1523    </a></b>	/*!
+<b><a name="line1524">1524    </a></b>	 @brief      disable sec random clock
+<b><a name="line1525">1525    </a></b>	 @note
+<b><a name="line1526">1526    </a></b>	
+<b><a name="line1527">1527    </a></b>	 - None
+<b><a name="line1528">1528    </a></b>	
+<b><a name="line1529">1529    </a></b>	 */
+<b><a name="line1530">1530    </a></b>	void hal_sec_rnd_sec_clk_disable(void)
+<b><a name="line1531">1531    </a></b>	{
+<b><a name="line1532">1532    </a></b>	    w_CR_SEC_CLK_RAND_EN(0U);
+<b><a name="line1533">1533    </a></b>	}
+<b><a name="line1534">1534    </a></b>	
+<b><a name="line1535">1535    </a></b>	
+<b><a name="line1536">1536    </a></b>	/*!
+<b><a name="line1537">1537    </a></b>	 @brief      get digest length
+<b><a name="line1538">1538    </a></b>	 @param[in]  sha_mode           - sha algorithm type
+<b><a name="line1539">1539    </a></b>	 @return     U32 digest length
+<b><a name="line1540">1540    </a></b>	 @note
+<b><a name="line1541">1541    </a></b>	
+<b><a name="line1542">1542    </a></b>	 - None
+<b><a name="line1543">1543    </a></b>	
+<b><a name="line1544">1544    </a></b>	 */
+<b><a name="line1545">1545    </a></b>	U32 hal_sec_get_digest_len(U32 sha_mode)
+<b><a name="line1546">1546    </a></b>	{
+<b><a name="line1547">1547    </a></b>	    U32 digest_len = 0UL;
+<b><a name="line1548">1548    </a></b>	
+<b><a name="line1549">1549    </a></b>	    switch (sha_mode)
+<b><a name="line1550">1550    </a></b>	    {
+<b><a name="line1551">1551    </a></b>	#if 0 //BC No Used
+<b><a name="line1552">1552    </a></b>	        case HAL_SEC_SHA2_160_MODE:
+<b><a name="line1553">1553    </a></b>	            digest_len = HAL_SEC_SHA2_160_DIGEST_LEN;
+<b><a name="line1554">1554    </a></b>	            break;
+<b><a name="line1555">1555    </a></b>	#endif //BC No Used
+<b><a name="line1556">1556    </a></b>	        case HAL_SEC_SHA2_256_MODE:
+<b><a name="line1557">1557    </a></b>	            digest_len = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line1558">1558    </a></b>	            break;
+<b><a name="line1559">1559    </a></b>	
+<b><a name="line1560">1560    </a></b>	        case HAL_SEC_SHA2_512_MODE:
+<b><a name="line1561">1561    </a></b>	            digest_len = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line1562">1562    </a></b>	            break;
+<b><a name="line1563">1563    </a></b>	
+<b><a name="line1564">1564    </a></b>	        case HAL_SEC_SHA2_SM3_MODE:
+<b><a name="line1565">1565    </a></b>	            digest_len = HAL_SEC_SHA2_SM3_DIGEST_LEN;
+<b><a name="line1566">1566    </a></b>	            break;
+<b><a name="line1567">1567    </a></b>	
+<b><a name="line1568">1568    </a></b>	        case HAL_SEC_SHA2_512T256_MODE:
+<b><a name="line1569">1569    </a></b>	            digest_len = HAL_SEC_SHA2_512T256_DIGEST_LEN;
+<b><a name="line1570">1570    </a></b>	            break;
+<b><a name="line1571">1571    </a></b>	#if 0 //BC No Used
+<b><a name="line1572">1572    </a></b>	        case HAL_SEC_SHA2_384_MODE:
+<b><a name="line1573">1573    </a></b>	            digest_len = HAL_SEC_SHA2_384_DIGEST_LEN;
+<b><a name="line1574">1574    </a></b>	            break;
+<b><a name="line1575">1575    </a></b>	
+<b><a name="line1576">1576    </a></b>	        case HAL_SEC_SHA3_224_MODE:
+<b><a name="line1577">1577    </a></b>	            digest_len = HAL_SEC_SHA3_224_DIGEST_LEN;
+<b><a name="line1578">1578    </a></b>	            break;
+<b><a name="line1579">1579    </a></b>	
+<b><a name="line1580">1580    </a></b>	        case HAL_SEC_SHA3_256_MODE:
+<b><a name="line1581">1581    </a></b>	            digest_len = HAL_SEC_SHA3_256_DIGEST_LEN;
+<b><a name="line1582">1582    </a></b>	            break;
+<b><a name="line1583">1583    </a></b>	
+<b><a name="line1584">1584    </a></b>	        case HAL_SEC_SHA3_384_MODE:
+<b><a name="line1585">1585    </a></b>	            digest_len = HAL_SEC_SHA3_384_DIGEST_LEN;
+<b><a name="line1586">1586    </a></b>	            break;
+<b><a name="line1587">1587    </a></b>	#endif //BC No Used
+<b><a name="line1588">1588    </a></b>	        case HAL_SEC_SHA3_512_MODE:
+<b><a name="line1589">1589    </a></b>	            digest_len = HAL_SEC_SHA3_512_DIGEST_LEN;
+<b><a name="line1590">1590    </a></b>	            break;
+<b><a name="line1591">1591    </a></b>	
+<b><a name="line1592">1592    </a></b>	        case HAL_SEC_SHA3_SHAKE_128_MODE:
+<b><a name="line1593">1593    </a></b>	            digest_len = HAL_SEC_SHA3_SHAKE_128_DIGEST_LEN;
+<b><a name="line1594">1594    </a></b>	            break;
+<b><a name="line1595">1595    </a></b>	
+<b><a name="line1596">1596    </a></b>	        case HAL_SEC_SHA3_SHAKE_256_MODE:
+<b><a name="line1597">1597    </a></b>	            digest_len = HAL_SEC_SHA3_SHAKE_256_DIGEST_LEN;
+<b><a name="line1598">1598    </a></b>	            break;
+<b><a name="line1599">1599    </a></b>	
+<b><a name="line1600">1600    </a></b>	        default:
+<b><a name="line1601">1601    </a></b>	            /* Non-compliant - default must also have a break */
+<b><a name="line1602">1602    </a></b>	            digest_len = 1UL; // avoid misrc-c
+<b><a name="line1603">1603    </a></b>	            ALWAYS_ASSERT(0U);
+<b><a name="line1604">1604    </a></b>	            break;
+<b><a name="line1605">1605    </a></b>	    }
+<b><a name="line1606">1606    </a></b>	
+<b><a name="line1607">1607    </a></b>	    return digest_len;
+<b><a name="line1608">1608    </a></b>	}
+<b><a name="line1609">1609    </a></b>	
+<b><a name="line1610">1610    </a></b>	/*!
+<b><a name="line1611">1611    </a></b>	 @brief      get kram data
+<b><a name="line1612">1612    </a></b>	 @param[in]  key_idx      - key index
+<b><a name="line1613">1613    </a></b>	 @param[in]  key_type     - key type
+<b><a name="line1614">1614    </a></b>	 @param[in]  offset       - key offset
+<b><a name="line1615">1615    </a></b>	 @param[out] ret          - kram data
+<b><a name="line1616">1616    </a></b>	 @return    kram data
+<b><a name="line1617">1617    </a></b>	 @note
+<b><a name="line1618">1618    </a></b>	
+<b><a name="line1619">1619    </a></b>	 - None
+<b><a name="line1620">1620    </a></b>	
+<b><a name="line1621">1621    </a></b>	 */
+<b><a name="line1622">1622    </a></b>	U32 hal_sec_kram_get_key(U16 key_idx, U8 key_type, U8 offset)
+<b><a name="line1623">1623    </a></b>	{
+<b><a name="line1624">1624    </a></b>	    volatile U32 *key_ptr;
+<b><a name="line1625">1625    </a></b>	
+<b><a name="line1626">1626    </a></b>	    key_ptr = (U32 *)(dal_sec_aes_get_key_ram_addr() + (((U32)key_idx * 3UL/*enckey, lbakey, deckey*/ + (U32)key_type) * 32UL/*keylen*/));
+<b><a name="line1627">1627    </a></b>	
+<b><a name="line1628">1628    </a></b>	    return key_ptr[offset];
+<b><a name="line1629">1629    </a></b>	}
+<b><a name="line1630">1630    </a></b>	
+</pre></body>
+</html>

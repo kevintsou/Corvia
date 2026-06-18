@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/key_manifest_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/*
+<b><a name="line2">2    </a></b>	 * key_manifest_api.h
+<b><a name="line3">3    </a></b>	 *
+<b><a name="line4">4    </a></b>	 *  Created on: 2022-04-14
+<b><a name="line5">5    </a></b>	 *      Author: harry_li
+<b><a name="line6">6    </a></b>	 */
+<b><a name="line7">7    </a></b>	#ifndef _INC_KEY_MANIFEST_API_H_
+<b><a name="line8">8    </a></b>	#define _INC_KEY_MANIFEST_API_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_INC_KEY_MANIFEST_API_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	#include "top/load.h"
+<b><a name="line11">11    </a></b>	#include "sec/sec_key_api.h"
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	#define KEY_MANIFEST_HEADER_SECTION_INDEX               (0U)
+<b><a name="line14">14    </a></b>	#define KEY_MANIFEST_MAIN_SECTION_INDEX                 (1U)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	#define KEY_MANIFEST_SKIP                               (1U)
+<b><a name="line18">18    </a></b>	#define KEY_MANIFEST_NO_SKIP                            (0U)
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#ifndef SHA2_384_DIGEST_SIZE
+<b><a name="line21">21    </a></b>	#define SHA2_384_DIGEST_SIZE                            (48U)
+<b><a name="line22">22    </a></b>	#endif
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#define KEY_MANIFEST_KEY_COUNT                          (16U)
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	#define GET_GP_KEY_MANIFEST_API()                      (&g_key_manifest_api)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define GET_G_EFUSE_API_PTR()                          (&gEFuseAPI);
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	#define GET_GP_BCODE_STRUCT()                          (&gBCodeGlobalStruct)
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	typedef struct key_manifest_header   KEY_MANIFEST_HEADER,  *KEY_MANIFEST_HEADER_PTR;
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	// 512B
+<b><a name="line35">35    </a></b>	struct key_manifest_header {
+<b><a name="line36">36    </a></b>	    //0x00
+<b><a name="line37">37    </a></b>	    U8  sha2_mode;          //use for hash public key
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    U8  rsv_01_03[3U];
+</pre></body>
+</html>

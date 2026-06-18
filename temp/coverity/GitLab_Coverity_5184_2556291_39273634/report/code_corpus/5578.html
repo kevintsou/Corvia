@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1097">1097    </a></b>	         *  1. Check error
+<b><a name="line1098">1098    </a></b>	         *      - ubCMS
+<b><a name="line1099">1099    </a></b>	         *          (case 1) invalid CMS
+<b><a name="line1100">1100    </a></b>	         *              -> update [RECOVERY_STATUS] ubDeviceRecoveryStatus
+<b><a name="line1101">1101    </a></b>	         *
+<b><a name="line1102">1102    </a></b>	         *      - ubRecoveryImageSelection
+<b><a name="line1103">1103    </a></b>	         *          (case 1) use image from CMS while PROT_CAP does not support push c-image
+<b><a name="line1104">1104    </a></b>	         *          (case 2) use image stored on device while PROT_CAP does not support local c-image
+<b><a name="line1105">1105    </a></b>	         *              -> update [DEVICE_STATUS] ubProtocolError
+<b><a name="line1106">1106    </a></b>	         *
+<b><a name="line1107">1107    </a></b>	         *  2. Update affected ACROT R data
+<b><a name="line1108">1108    </a></b>	         *      - N/A
+<b><a name="line1109">1109    </a></b>	         *
+<b><a name="line1110">1110    </a></b>	         *  3. Following behavior
+<b><a name="line1111">1111    </a></b>	         *      - ubActivateRecoveryImage -> activate recovery image, write 1 clear
+<b><a name="line1112">1112    </a></b>	         **********************************************************************************/
+<b><a name="line1113">1113    </a></b>	        pCmsInfo = GetCurrentCmsInfoPtr(pACRotData->sRecoveryCtrl.ubCMS);
+<b><a name="line1114">1114    </a></b>	
+<b><a name="line1115">1115    </a></b>	        // Invalid CMS
+<b><a name="line1116">1116    </a></b>	        if (TOR_CODE_SPACE_FOR_RECOVERY != pCmsInfo->ubTypeOfRegion)
+<b><a name="line1117">1117    </a></b>	        {
+<b><a name="line1118">1118    </a></b>	            RpDeviceStatusManagement(pACRotData, E_RP_STATE_ENCOUNTER_INVALID_CMS);
+<b><a name="line1119">1119    </a></b>	            bActivateAllowable = FALSE;
+<b><a name="line1120">1120    </a></b>	        }
+<b><a name="line1121">1121    </a></b>	
+<b><a name="line1122">1122    </a></b>	        // Invalid recovery image selection
+<b><a name="line1123">1123    </a></b>	        if ((RIS_STORED_ON_DEVICE == pACRotData->sRecoveryCtrl.ubRecoveryImageSelection &&
+<b><a name="line1124">1124    </a></b>	            (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btLocalCImageSupport)) ||
+<b><a name="line1125">1125    </a></b>	            (RIS_FROM_MEMORY_WINDOW == pACRotData->sRecoveryCtrl.ubRecoveryImageSelection &&
+<b><a name="line1126">1126    </a></b>	            (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btPushCImageSupport)))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (boolean) is not the same as that of the right operand "pACRotData->sProtCap.sCapabilities.sAgent.btPushCImageSupport"(unsigned).</font>
+<b><a name="line1127">1127    </a></b>	        {
+<b><a name="line1128">1128    </a></b>	            M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_PARAMETER);
+<b><a name="line1129">1129    </a></b>	            bActivateAllowable = FALSE;
+<b><a name="line1130">1130    </a></b>	        }
+<b><a name="line1131">1131    </a></b>	
+<b><a name="line1132">1132    </a></b>	        Write1ClearActivateRecoveryImage(pACRotData, bActivateAllowable);
+<b><a name="line1133">1133    </a></b>	    }
+<b><a name="line1134">1134    </a></b>	}
+<b><a name="line1135">1135    </a></b>	
+<b><a name="line1136">1136    </a></b>	/*!
+<b><a name="line1137">1137    </a></b>	   @brief      Fill command data into INDIRECT_CTRL data register
+<b><a name="line1138">1138    </a></b>	
+<b><a name="line1139">1139    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1140">1140    </a></b>	   @param      ubDataCnt         total data byte count following by the command
+<b><a name="line1141">1141    </a></b>	   @param      pCmdData          data following by the command
+<b><a name="line1142">1142    </a></b>	 */
+<b><a name="line1143">1143    </a></b>	static void RpWriteIndirectCtrl(ACROT_DATA *pACRotData, U8 ubDataCnt, U8 *pCmdData)
+<b><a name="line1144">1144    </a></b>	{
+<b><a name="line1145">1145    </a></b>	    CMS_INFO *pCmsInfo;
+<b><a name="line1146">1146    </a></b>	
+<b><a name="line1147">1147    </a></b>	    if (FALSE == IsRpWriteDataOccurProtocolError(pACRotData, RECOVERY_CMD_INDIRECT_CTRL, ubDataCnt, pCmdData))
+<b><a name="line1148">1148    </a></b>	    {
+<b><a name="line1149">1149    </a></b>	        // Copy command data to ACROT
+<b><a name="line1150">1150    </a></b>	        memcpy((void *)&pACRotData->sIndirectCtrl, (void *)pCmdData, ubDataCnt);
+<b><a name="line1151">1151    </a></b>	
+<b><a name="line1152">1152    </a></b>	        /**********************************************************************************
+<b><a name="line1153">1153    </a></b>	         *  1. Check error
+<b><a name="line1154">1154    </a></b>	         *      - N/A (will check in INDIRECT_DATA W/R)
+<b><a name="line1155">1155    </a></b>	         *
+<b><a name="line1156">1156    </a></b>	         *  2. Update affected ACROT R data
+<b><a name="line1157">1157    </a></b>	         *      - ubCMS -> [INDIRECT_STATUS] ubTypeOfRegion
+</pre></body>
+</html>

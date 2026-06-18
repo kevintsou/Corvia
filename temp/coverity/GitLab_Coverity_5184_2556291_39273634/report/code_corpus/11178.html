@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line294">294    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line295">295    </a></b>	        Dump_Debug(tprintf("\nC5 rnd fail1"));
+<b><a name="line296">296    </a></b>	#endif
+<b><a name="line297">297    </a></b>	        return TRUE;
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	    memcpy((void *)p_vuc_protect->z, (void *)p_encryption_data->a_encrypt_random, 32);
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    (void)memset((U32 *)((U32)p_encryption_data->a_encrypt_random + 32U), 0x0, 480);
+<b><a name="line303">303    </a></b>	    (void)memset((void *)p_encryption_data->a_dummy_random, 0x00, 508);
+<b><a name="line304">304    </a></b>	
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line307">307    </a></b>	    Dump_Debug(tprintf("\nRandom Data:\n"));
+<b><a name="line308">308    </a></b>	    Dump_Debug(tprintm((U32)p_encryption_data->a_encrypt_random, sizeof(p_encryption_data->a_encrypt_random)));
+<b><a name="line309">309    </a></b>	#endif
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	    p_encryption_data->crc = 0;
+<b><a name="line312">312    </a></b>	    p_encryption_data->crc = vuc_protect_crc32((U32)p_encryption_data, sizeof(ENCRYPTION_DATA));
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line315">315    </a></b>	    Dump_Debug(tprintf("\nDevice crc:%x\n", p_encryption_data->crc));
+<b><a name="line316">316    </a></b>	#endif
+<b><a name="line317">317    </a></b>	
+<b><a name="line318">318    </a></b>	    pke_status = vuc_rsa4096_enc(p_vuc_protect_key_rsa4096, (U8 *)p_encryption_data->a_encrypt_random);
+<b><a name="line319">319    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line320">320    </a></b>	    // tprintf("\nRandom Data After RSA enc:\n");
+<b><a name="line321">321    </a></b>	    // tprintm((U32)p_encryption_data, sizeof(*p_encryption_data));
+<b><a name="line322">322    </a></b>	#endif
+<b><a name="line323">323    </a></b>	    if (pke_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "pke_status" does not have an essentially boolean type.</font>
+<b><a name="line324">324    </a></b>	        status_code      = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line325">325    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line328">328    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line329">329    </a></b>	        Dump_Debug(tprintf("\nC5 pke fail"));
+<b><a name="line330">330    </a></b>	#endif
+<b><a name="line331">331    </a></b>	        return TRUE;
+<b><a name="line332">332    </a></b>	    }
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    // Stored as little endian
+<b><a name="line335">335    </a></b>	    memcpy((void *) & (p_vuc_protect->a_encrypt_random[0]), (void *)p_encryption_data, VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	    hal_sec_api_reverse_endian((void *)p_encryption_data, (void *)p_encryption_data, VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line338">338    </a></b>	    p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_ENCRYPTION_DATA_SENT;
+<b><a name="line339">339    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line340">340    </a></b>	    memset((void *)drbg_buffer, 0U, DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE);
+<b><a name="line341">341    </a></b>	    return FALSE;
+<b><a name="line342">342    </a></b>	}
+<b><a name="line343">343    </a></b>	STATIC_ASSERT(sizeof(RSA4096_PUBLIC_KEY) <= DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_SIZE, "DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_SIZE overflow");
+<b><a name="line344">344    </a></b>	STATIC_ASSERT(HAL_SEC_SHA2_512_DIGEST_LEN <= DBUF_API_BOOTCODE_HASH_BUFFER_SIZE, "DBUF_API_BOOTCODE_HASH_BUFFER_SIZE overflow"); // SHA 512
+<b><a name="line345">345    </a></b>	STATIC_ASSERT(DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE >= (DRBG_HMAC_INPUT_BUF_LEN + DRBG_SEED_MATERIAL_BUF_LEN + DRBG_ENTROPY_INPUT_BUF_LEN + DRBG_PERSIONAL_STR_BUF_LEN + DRBG_ADDITIONAL_INPUT_BUF_LEN + DRBG_NONCE_BUF_LEN + DRBG_HMAC_KEY_LEN + DRBG_OUTPUT_BLOCK_LEN),
+<b><a name="line346">346    </a></b>	    "DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE overflow");
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	/**
+<b><a name="line349">349    </a></b>	 * Host sends the encryption data back to device for verification
+<b><a name="line350">350    </a></b>	 *
+<b><a name="line351">351    </a></b>	 *
+<b><a name="line352">352    </a></b>	 *
+<b><a name="line353">353    </a></b>	 * @param vuc_dispatch_param_struct_ptr
+<b><a name="line354">354    </a></b>	 * @return fail or not
+</pre></body>
+</html>

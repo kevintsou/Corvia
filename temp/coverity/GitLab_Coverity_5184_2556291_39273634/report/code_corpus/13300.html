@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/build/sal_build_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line348">348    </a></b>	} SECResult_e;
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	#define TEST_SEC (FALSE && ((IC_TYPE_FPGA_HAPS == IC_TYPE) || (IC_TYPE_FPGA_COBRA == IC_TYPE)))
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	//==========================================================
+<b><a name="line353">353    </a></b>	//  TIMEOUT threshold Define  (Unit:ms)
+<b><a name="line354">354    </a></b>	//==========================================================
+<b><a name="line355">355    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line356">356    </a></b>	#define GERNAL_TIMEOUT_THRESHOLD			(50)
+<b><a name="line357">357    </a></b>	#define PKE_TIMEOUT_THRESHOLD				(200)
+<b><a name="line358">358    </a></b>	#define SHA_TIMEOUT_THRESHOLD				(200)
+<b><a name="line359">359    </a></b>	#else /* (IC_TYPE == IC_TYPE_ASIC) */
+<b><a name="line360">360    </a></b>	#define GERNAL_TIMEOUT_THRESHOLD			(0xFFFFFFFF)
+<b><a name="line361">361    </a></b>	#define PKE_TIMEOUT_THRESHOLD				(1000)
+<b><a name="line362">362    </a></b>	#define SHA_TIMEOUT_THRESHOLD				(1000)
+<b><a name="line363">363    </a></b>	#endif /* (IC_TYPE == IC_TYPE_ASIC) */
+<b><a name="line364">364    </a></b>	#define WAIT_FLAG_RDY_THRESHOLD             (100) //TODO: check me!
+<b><a name="line365">365    </a></b>	#define AES_OFL_TIMEOUT_THRESHOLD			(300)
+<b><a name="line366">366    </a></b>	#define NVME_NL_ISR_TIMEOUT_THRESHOLD       (300)
+<b><a name="line367">367    </a></b>	#define NVME_RESET_TIMEOUT_THRESHOLD        (500)
+<b><a name="line368">368    </a></b>	#define NVME_TIMEOUT_THRESHOLD				(100)
+<b><a name="line369">369    </a></b>	#define NVME_CMD_TIMEOUT_THRESHOLD			(2000)
+<b><a name="line370">370    </a></b>	#define YMTC_POWERONRESET_THRESHOLD_US		(1500)
+<b><a name="line371">371    </a></b>	#define SPI_GERNAL_TIMEOUT_THRESHOLD		(10000)
+<b><a name="line372">372    </a></b>	#define NAND_READ_TR_TIMEOUT_THRESHOLD		(1)		// 1ms, tR will not over 100us
+<b><a name="line373">373    </a></b>	#define NAND_TBERS_TIMEOUT_THRESHOLD		(15)	// 15ms, tBERS
+<b><a name="line374">374    </a></b>	#define DBUF_TIMEOUT_THRESHOLD		        (10000) //TODO 5963
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	// TODO: check timeout
+<b><a name="line377">377    </a></b>	#define SQZ_TIMEOUT_THRESHOLD               (0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	//==========================================================
+<b><a name="line380">380    </a></b>	//  Common Parameter Define
+<b><a name="line381">381    </a></b>	//==========================================================
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	#define DEF_2B      (2)
+<b><a name="line384">384    </a></b>	#define DEF_4B      (4)
+<b><a name="line385">385    </a></b>	#define DEF_8B      (8)
+<b><a name="line386">386    </a></b>	#define DEF_16B     (16)
+<b><a name="line387">387    </a></b>	#define DEF_32B     (32)
+<b><a name="line388">388    </a></b>	#define DEF_64B     (64)
+<b><a name="line389">389    </a></b>	#define DEF_128B    (128)
+<b><a name="line390">390    </a></b>	#define DEF_256B    (256)
+<b><a name="line391">391    </a></b>	#define DEF_384B    (384)
+<b><a name="line392">392    </a></b>	#define DEF_512B    (512)
+<b><a name="line393">393    </a></b>	#define DEF_768B    (768)
+<b><a name="line394">394    </a></b>	#define SECTOR_BYTE DEF_512B
+<b><a name="line395">395    </a></b>	#define DEF_KB(X)   ((U32)(X) << 10)
+<b><a name="line396">396    </a></b>	#define DEF_GB(X)   ((U64)(X) << 30)
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	//==========================================================
+<b><a name="line399">399    </a></b>	//  Common Macro Define
+<b><a name="line400">400    </a></b>	//==========================================================
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	//Useful Macro ? maybe
+<b><a name="line403">403    </a></b>	#define LOWBYTE(X)  (((unsigned char *)(&(X)))[0])
+<b><a name="line404">404    </a></b>	#define HIGHBYTE(X) (((unsigned char *)(&(X)))[1])
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	#define RAMB   (( volatile unsigned char *)0x00000000)
+<b><a name="line407">407    </a></b>	#define RAMW   (( volatile unsigned short int *)0x00000000)
+<b><a name="line408">408    </a></b>	#define RAML   (( volatile unsigned int *)0x00000000)
+</pre></body>
+</html>

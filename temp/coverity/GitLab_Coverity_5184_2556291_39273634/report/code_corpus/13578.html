@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sys.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line45">45    </a></b>	    // refer to : https://confluence.phison.com:8443/pages/viewpage.action?spaceKey=PS5303X3&title=Clock+Table
+<b><a name="line46">46    </a></b>	    // X3 ASIC system default clock : 250MHz
+<b><a name="line47">47    </a></b>	    // X3 ASIC CPU default clock : 333.3MHz
+<b><a name="line48">48    </a></b>	    return 250;
+<b><a name="line49">49    </a></b>	#else
+<b><a name="line50">50    </a></b>	    // X3 FULL FPGA system clk: 1 MHz
+<b><a name="line51">51    </a></b>	    // X3 FULL FPGA cpu clk: 8 MHz
+<b><a name="line52">52    </a></b>	    // X3 L2 FPGA system clk: 2.5 MHz
+<b><a name="line53">53    </a></b>	    // X3 L2 FPGA cpu clk: 8 MHz
+<b><a name="line54">54    </a></b>	    return 2;
+<b><a name="line55">55    </a></b>	#endif
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	U32 phal_sys_rtt_get_us(void)
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    return dal_s1_get_rt2_cnt();
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	void phal_sys_gpio_specific_func_init(void)
+<b><a name="line64">64    </a></b>	{
+<b><a name="line65">65    </a></b>	    // Switch to SMBus mode
+<b><a name="line66">66    </a></b>	    M_SMBE_SET_SMB_IO_EN();
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    hal_mux_gpio_sel(MUX_GPIO_UART_ARM_SEL, GPIONULL_SEL);
+<b><a name="line69">69    </a></b>	    hal_mux_gpio_sel(MUX_GPIO_UART_ANDES_SEL, GPIONULL_SEL);
+<b><a name="line70">70    </a></b>	    hal_mux_gpio_sel(MUX_GPIO_I2CM_SEL, GPIONULL_SEL);
+<b><a name="line71">71    </a></b>	    hal_mux_gpio_sel(MUX_GPIO_SMB_SEL, GPIONULL_SEL);   // independent
+<b><a name="line72">72    </a></b>	}
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	void uart_isr(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "uart_isr" is declared more than once.</font>
+<b><a name="line75">75    </a></b>	void host_api_perst_isr(U16 id);
+<b><a name="line76">76    </a></b>	void host_api_pcie_isr(void);
+<b><a name="line77">77    </a></b>	void host_api_nvme_isr(void);
+<b><a name="line78">78    </a></b>	void sys_api_smbs_isr(void);
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	void isr_entry(void)
+<b><a name="line82">82    </a></b>	{
+<b><a name="line83">83    </a></b>	    U32 itc_id = dal_gic_get_iar();
+<b><a name="line84">84    </a></b>	    //tprintf("itc_id:%d",itc_id);
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    switch (itc_id) {
+<b><a name="line89">89    </a></b>	    case GIC_ID_UART0_INT:
+<b><a name="line90">90    </a></b>	        uart_isr();
+<b><a name="line91">91    </a></b>	        break;
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    case GIC_ID_PERSTN_EVT_0:  // PERST_F of Port0
+<b><a name="line94">94    </a></b>	    case GIC_ID_PERSTN_EVT_1:  // PERST_R of Port0
+<b><a name="line95">95    </a></b>	        Dump_Debug(tprintf("GIC_ID_PERSTN_EVT_0 or 1 :%x",itc_id));
+<b><a name="line96">96    </a></b>	        host_api_perst_isr(itc_id);
+<b><a name="line97">97    </a></b>	        break;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    case GIC_ID_PCIE_P0_INTR_N:
+<b><a name="line100">100    </a></b>	        Dump_Debug(tprintf("GIC_ID_PCIE_P0_INTR_N"));
+<b><a name="line101">101    </a></b>	        host_api_pcie_isr();
+<b><a name="line102">102    </a></b>	        break;
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    case GIC_ID_NVME_INT:
+<b><a name="line105">105    </a></b>	        Dump_Debug(tprintf("GIC_ID_NVME_INT"));
+<b><a name="line106">106    </a></b>	        host_api_nvme_isr();
+<b><a name="line107">107    </a></b>	        break;
+<b><a name="line108">108    </a></b>	
+<b><a name="line109">109    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line110">110    </a></b>	    case GIC_ID_SMBS_INT:   //TODO: need to confirm
+<b><a name="line111">111    </a></b>	        sys_api_smbs_isr();
+<b><a name="line112">112    </a></b>	        break;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1692">1692    </a></b>	        }
+<b><a name="line1693">1693    </a></b>	
+<b><a name="line1694">1694    </a></b>	        memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line1695">1695    </a></b>	
+<b><a name="line1696">1696    </a></b>	        aesofl_param.xts.src_addr.low        = partial_project_binary_start_address;
+<b><a name="line1697">1697    </a></b>	        aesofl_param.xts.src_len             = (U32)(sector_count << SECTOR_SIZE_SHIFT);
+<b><a name="line1698">1698    </a></b>	        aesofl_param.xts.targ_addr.low       = partial_project_binary_start_address;
+<b><a name="line1699">1699    </a></b>	        aesofl_param.xts.lba_l               = (U64)(initial_lba + (sector_start - 1));
+<b><a name="line1700">1700    </a></b>	        aesofl_param.xts.encrypt             = FALSE;
+<b><a name="line1701">1701    </a></b>	        aesofl_param.xts.aes_mode            = HAL_SEC_AES_XTS_MODE;
+<b><a name="line1702">1702    </a></b>	        aesofl_param.xts.timeout_val         = SEC_TIMEOUT_TICKS;
+<b><a name="line1703">1703    </a></b>	        aesofl_param.xts.set_key_en          = TRUE;
+<b><a name="line1704">1704    </a></b>	
+<b><a name="line1705">1705    </a></b>	        aesofl_param.xts.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line1706">1706    </a></b>	        aesofl_param.xts.setkey.key_ptr      = (U32 *) & (gEncryptionKey_Burner.aes256_xts.encryption_key[0]);
+<b><a name="line1707">1707    </a></b>	        aesofl_param.xts.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line1708">1708    </a></b>	        aesofl_param.xts.setkey.key_type     = HAL_SEC_AES_KEY256_MODE;
+<b><a name="line1709">1709    </a></b>	        aesofl_param.xts.setkey.tmp_addr.low = (U32)DBUF_API_BOOTCODE_XMODEM_BUFFER_BASE;
+<b><a name="line1710">1710    </a></b>	        aesofl_param.xts.setkey.tmp_size     = 32U;
+<b><a name="line1711">1711    </a></b>	        aesofl_param.xts.setkey.gen_key_en   = TRUE;
+<b><a name="line1712">1712    </a></b>	
+<b><a name="line1713">1713    </a></b>	        U8 is_step_clock_enable   = 0U;
+<b><a name="line1714">1714    </a></b>	        U8 is_random_clock_enable = 0U;
+<b><a name="line1715">1715    </a></b>	
+<b><a name="line1716">1716    </a></b>	        get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line1717">1717    </a></b>	
+<b><a name="line1718">1718    </a></b>	        bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line1719">1719    </a></b>	
+<b><a name="line1720">1720    </a></b>	        // Clear temp buffer
+<b><a name="line1721">1721    </a></b>	        memset((void *)DBUF_API_BOOTCODE_XMODEM_BUFFER_BASE, 0x00, 32);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134750208UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line1722">1722    </a></b>	
+<b><a name="line1723">1723    </a></b>	        if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line1724">1724    </a></b>	            return BIT1;
+<b><a name="line1725">1725    </a></b>	        }
+<b><a name="line1726">1726    </a></b>	    }
+<b><a name="line1727">1727    </a></b>	    else {
+<b><a name="line1728">1728    </a></b>	        //AES HW is not enabled
+<b><a name="line1729">1729    </a></b>	        return BIT1;
+<b><a name="line1730">1730    </a></b>	    }
+<b><a name="line1731">1731    </a></b>	
+<b><a name="line1732">1732    </a></b>	    return 0;
+<b><a name="line1733">1733    </a></b>	}
+<b><a name="line1734">1734    </a></b>	
+<b><a name="line1735">1735    </a></b>	
+<b><a name="line1736">1736    </a></b>	void scan_bitmap_restore_read_offset(U8 nand_retry, U32 ch_bitmap)
+<b><a name="line1737">1737    </a></b>	{
+<b><a name="line1738">1738    </a></b>	    FIP_READ_PARAM_STRUCT a_fip_read_param[FLH_MAX_CH_NUM];
+<b><a name="line1739">1739    </a></b>	    U8  channel;
+<b><a name="line1740">1740    </a></b>	    U8  plane;
+<b><a name="line1741">1741    </a></b>	    U32 command_status = 0U;
+<b><a name="line1742">1742    </a></b>	    U32 polling_status = 0U;
+<b><a name="line1743">1743    </a></b>	
+<b><a name="line1744">1744    </a></b>	    (void)memset((void *)a_fip_read_param, 0, sizeof(a_fip_read_param));
+<b><a name="line1745">1745    </a></b>	
+<b><a name="line1746">1746    </a></b>	    if (nand_retry != FIP_NORMAL_READ) {
+<b><a name="line1747">1747    </a></b>	        sal_log_info_char('O');
+<b><a name="line1748">1748    </a></b>	
+<b><a name="line1749">1749    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line1750">1750    </a></b>	            if (0U == (ch_bitmap & (1U << channel))) {
+<b><a name="line1751">1751    </a></b>	                continue;
+<b><a name="line1752">1752    </a></b>	            }
+</pre></body>
+</html>

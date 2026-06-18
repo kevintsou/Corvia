@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line42">42    </a></b>	    //A MCTP_NULL_EID means that the eid is not static
+<b><a name="line43">43    </a></b>	    //This field should never be the Broadcast EID (0xFF)
+<b><a name="line44">44    </a></b>	    p_endpoint->static_eid = eid;
+<b><a name="line45">45    </a></b>	    p_endpoint->eid = p_endpoint->static_eid;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    //TODO@Aaron PCIE VDM is true false and everything else is false true???
+<b><a name="line48">48    </a></b>	    p_endpoint->discoverable = discoverable;
+<b><a name="line49">49    </a></b>	    p_endpoint->discovered = discovered;
+<b><a name="line50">50    </a></b>	}
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	void mctp_message_handle(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line53">53    </a></b>	{
+<b><a name="line54">54    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Handle"));
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    if (NULL != p_transmit_handler) {
+<b><a name="line57">57    </a></b>	        if (MCTP_MESSAGE_TRANSMIT_STATE_END == p_transmit_handler->state) {
+<b><a name="line58">58    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Request Packet  Byte Count : %x", p_transmit_handler->request_packet_handler.byte_count));
+<b><a name="line59">59    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Request Message Byte Count : %x", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line60">60    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Message Header Size        : %x", sizeof(MCTP_MESSAGE_HEADER)));
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	            if (p_transmit_handler->request_message_handler.byte_count < sizeof(MCTP_MESSAGE_HEADER)) {
+<b><a name="line63">63    </a></b>	                mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line64">64    </a></b>	            }
+<b><a name="line65">65    </a></b>	            else {
+<b><a name="line66">66    </a></b>	                // DSP0236
+<b><a name="line67">67    </a></b>	                // An endpoint may drop a message if the message type is not supported by the endpoint. This can happen in any one of the following ways
+<b><a name="line68">68    </a></b>	                // 1. The endpoint can elect to not start message assembly upon detecting the invalid message type in the first packet.
+<b><a name="line69">69    </a></b>	                // 2. The endpoint can elect to terminate message assembly in process.
+<b><a name="line70">70    </a></b>	                // 3. The endpoint can elect to drop the message after it has been assembled.
+<b><a name="line71">71    </a></b>	                switch (((MCTP_MESSAGE_HEADER *) & (p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_offset]))->mt) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "&p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_offset]" of type "U8 *" is cast to type "MCTP_MESSAGE_HEADER *".</font>
+<b><a name="line72">72    </a></b>	                case MCTP_MESSAGE_TYPE_MCTP_CONTROL:
+<b><a name="line73">73    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> MCTP Contorl"));
+<b><a name="line74">74    </a></b>	                    mctp_message_handle_mctp_control(p_transmit_handler);
+<b><a name="line75">75    </a></b>	                    break;
+<b><a name="line76">76    </a></b>	                case MCTP_MESSAGE_TYPE_NVME_MANAGEMENT_MESSAGES:
+<b><a name="line77">77    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> Request Messages Handle"));
+<b><a name="line78">78    </a></b>	                    mctp_message_handle_nvme_mi_message(p_transmit_handler);
+<b><a name="line79">79    </a></b>	                    break;
+<b><a name="line80">80    </a></b>	                default:
+<b><a name="line81">81    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> Unknown Message Type"));
+<b><a name="line82">82    </a></b>	                    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line83">83    </a></b>	                    break;
+<b><a name="line84">84    </a></b>	                }
+<b><a name="line85">85    </a></b>	            }
+<b><a name="line86">86    </a></b>	        }
+<b><a name="line87">87    </a></b>	    }
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line91">91    </a></b>	
+</pre></body>
+</html>

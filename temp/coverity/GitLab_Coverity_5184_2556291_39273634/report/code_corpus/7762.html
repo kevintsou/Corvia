@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_self_check_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line134">134    </a></b>	            phal_pmu_pub_set_sha2_256_fail_num(0U);
+<b><a name="line135">135    </a></b>	            phal_pmu_pub_set_sha2_384_fail_num(0U);
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	            // reg 43
+<b><a name="line138">138    </a></b>	            phal_pmu_pub_set_sha2_512_fail_num(0U);
+<b><a name="line139">139    </a></b>	            phal_pmu_pub_set_sha2_512_256_fail_num(0U);
+<b><a name="line140">140    </a></b>	            phal_pmu_pub_set_sha3_224_fail_num(0U);
+<b><a name="line141">141    </a></b>	            phal_pmu_pub_set_sha3_256_fail_num(0U);
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	            // reg 44
+<b><a name="line144">144    </a></b>	            phal_pmu_pub_set_sha3_384_fail_num(0U);
+<b><a name="line145">145    </a></b>	            phal_pmu_pub_set_sha3_512_fail_num(0U);
+<b><a name="line146">146    </a></b>	            phal_pmu_pub_set_pke_fail_num(0U);
+<b><a name="line147">147    </a></b>	            phal_pmu_pub_set_bypassmode_1_fail_num(0U);
+<b><a name="line148">148    </a></b>	
+<b><a name="line149">149    </a></b>	            sal_log_info_char('W');           // Whole chipe reset
+<b><a name="line150">150    </a></b>	            sal_log_info_num((U64)restart_num); // part of 'W', indicates restart count
+<b><a name="line151">151    </a></b>	            sal_log_tracker_set(sal_locate((restart_num & 0xFF), TYPE_DATA));
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	            // waiting for 1 ms, then reset
+<b><a name="line154">154    </a></b>	            hal_wdt_whole_chip_reset_trig(0x1U); // unit : ms
+<b><a name="line155">155    </a></b>	            while (1) {
+<b><a name="line156">156    </a></b>	                // wait for reset
+<b><a name="line157">157    </a></b>	            }
+<b><a name="line158">158    </a></b>	        }
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	        return FAIL;
+<b><a name="line161">161    </a></b>	    }
+<b><a name="line162">162    </a></b>	    else {
+<b><a name="line163">163    </a></b>	        sal_log_tracker_set(sal_locate(0x14, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "163" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line164">164    </a></b>	        sal_log_info_num(PASS); // part of 's'
+<b><a name="line165">165    </a></b>	        return PASS;
+<b><a name="line166">166    </a></b>	    }
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+</pre></body>
+</html>

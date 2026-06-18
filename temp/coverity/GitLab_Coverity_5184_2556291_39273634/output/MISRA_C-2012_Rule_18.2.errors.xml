@@ -1,0 +1,812 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 18.2</checker>
+<type>MISRA_C_2012_Rule_18.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_read_cmd</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{buf}}}}}}</description>
+<line>44</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_api_insert_hd}}}}}}</description>
+<line>46</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_api_insert_hd</function>
+<key>7074a1900d31c475165429c4cfad7f4b</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_api_insert_hd(buf, 0, 0, 0, 1)}}}}}}</description>
+<line>46</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>48</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 1 &lt;&lt; fip_read_param_struct_ptr-&gt;nand_addr.bank)}}}}}}</description>
+<line>48</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>50</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[6U])}}}}}}</description>
+<line>50</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>52</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[2U])}}}}}}</description>
+<line>52</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{2}{{code{fip_inst_pasring}}}}}}</description>
+<line>54</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_pasring</function>
+<key>01a8c5652837610c0ddfc96cf67a77ca</key>
+<id>13</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_pasring(cmd_info_ptr, buf, fta_addr, die, plane, retry_tbl)}}}}}}</description>
+<line>54</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>56</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[3U])}}}}}}</description>
+<line>56</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>58</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 0)}}}}}}</description>
+<line>58</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_end}}}}}}</description>
+<line>60</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_end</function>
+<key>5c958ff78cdcd5548fea74c08cf100d0</key>
+<id>3</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_end(buf)}}}}}}</description>
+<line>60</line>
+<column>5</column>
+</event>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{inst_buf}}}}}}</description>
+<line>62</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_18_2_violation</tag>
+<description>{CovLStrv2{{t{The pointers {0} and {1} do not address elements of the same array.}{{code{buf}}}{{code{inst_buf}}}}}}</description>
+<line>62</line>
+<column>5</column>
+</event>
+<extra>buf,inst_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 18.2</checker>
+<type>MISRA_C_2012_Rule_18.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_read_dma</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{inst_buf}}}}}}</description>
+<line>892</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{(*gFplApiStruct.p_efuse_nand_setting).gen_seed_by_pca == 0}}}}}}</description>
+<line>898</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>if_fallthrough</tag>
+<description>{CovLStrv2{{t{Falling through to end of if statement.}}}}</description>
+<line>901</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>905</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{buf}}}}}}</description>
+<line>907</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_api_insert_hd}}}}}}</description>
+<line>909</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_api_insert_hd</function>
+<key>7074a1900d31c475165429c4cfad7f4b</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_api_insert_hd(buf, 0, 0, pln, 1)}}}}}}</description>
+<line>909</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>911</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 1 &lt;&lt; fip_read_param_struct_ptr-&gt;nand_addr.bank)}}}}}}</description>
+<line>911</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>913</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[6U])}}}}}}</description>
+<line>913</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>915</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[2U])}}}}}}</description>
+<line>915</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{2}{{code{fip_inst_pasring}}}}}}</description>
+<line>917</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_pasring</function>
+<key>01a8c5652837610c0ddfc96cf67a77ca</key>
+<id>13</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_pasring(&amp;gFipInstStruct.inst[1U], buf, fta_addr, 0, 0, NULL)}}}}}}</description>
+<line>917</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>919</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[4U])}}}}}}</description>
+<line>919</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{i &lt; fip_read_param_struct_ptr-&gt;nand_addr.node + fip_read_param_struct_ptr-&gt;node_count}}}}}}</description>
+<line>921</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{i == fip_read_param_struct_ptr-&gt;nand_addr.node}}}}}}</description>
+<line>924</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{i == fip_read_param_struct_ptr-&gt;nand_addr.node + fip_read_param_struct_ptr-&gt;node_count - 1}}}}}}</description>
+<line>928</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dmar}}}}}}</description>
+<line>933</line>
+<column>9</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dmar</function>
+<key>127a213d9c033e33bab3fed405bd956f</key>
+<id>3</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dmar(buf, scr_seed[i], crc_seed[i], fip_read_param_struct_ptr-&gt;buf_addr[i], fip_read_param_struct_ptr-&gt;spr_addr[i], i, tag, opt)}}}}}}</description>
+<line>933</line>
+<column>9</column>
+</event>
+<event>
+<tag>loop</tag>
+<description>{CovLStrv2{{t{Jumping back to the beginning of the loop.}}}}</description>
+<line>934</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>loop_begin</tag>
+<description>{CovLStrv2{{t{Jumped back to beginning of loop.}}}}</description>
+<line>921</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{i &lt; fip_read_param_struct_ptr-&gt;nand_addr.node + fip_read_param_struct_ptr-&gt;node_count}}}}}}</description>
+<line>921</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>loop_end</tag>
+<description>{CovLStrv2{{t{Reached end of loop.}}}}</description>
+<line>934</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>936</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[3U])}}}}}}</description>
+<line>936</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>938</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 0)}}}}}}</description>
+<line>938</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_end}}}}}}</description>
+<line>940</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_end</function>
+<key>5c958ff78cdcd5548fea74c08cf100d0</key>
+<id>3</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_end(buf)}}}}}}</description>
+<line>940</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_18_2_violation</tag>
+<description>{CovLStrv2{{t{The pointers {0} and {1} do not address elements of the same array.}{{code{buf}}}{{code{inst_buf}}}}}}</description>
+<line>942</line>
+<column>5</column>
+</event>
+<extra>buf,inst_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 18.2</checker>
+<type>MISRA_C_2012_Rule_18.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_read_dma</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{inst_buf}}}}}}</description>
+<line>892</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{(*gFplApiStruct.p_efuse_nand_setting).gen_seed_by_pca == 0}}}}}}</description>
+<line>898</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>if_fallthrough</tag>
+<description>{CovLStrv2{{t{Falling through to end of if statement.}}}}</description>
+<line>901</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>905</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{buf}}}}}}</description>
+<line>907</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_api_insert_hd}}}}}}</description>
+<line>909</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_api_insert_hd</function>
+<key>7074a1900d31c475165429c4cfad7f4b</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_api_insert_hd(buf, 0, 0, pln, 1)}}}}}}</description>
+<line>909</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>911</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 1 &lt;&lt; fip_read_param_struct_ptr-&gt;nand_addr.bank)}}}}}}</description>
+<line>911</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>913</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[6U])}}}}}}</description>
+<line>913</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>915</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[2U])}}}}}}</description>
+<line>915</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{2}{{code{fip_inst_pasring}}}}}}</description>
+<line>917</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_pasring</function>
+<key>01a8c5652837610c0ddfc96cf67a77ca</key>
+<id>13</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_pasring(&amp;gFipInstStruct.inst[1U], buf, fta_addr, 0, 0, NULL)}}}}}}</description>
+<line>917</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>919</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[4U])}}}}}}</description>
+<line>919</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{i &lt; fip_read_param_struct_ptr-&gt;nand_addr.node + fip_read_param_struct_ptr-&gt;node_count}}}}}}</description>
+<line>921</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>loop_end</tag>
+<description>{CovLStrv2{{t{Reached end of loop.}}}}</description>
+<line>934</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_dly}}}}}}</description>
+<line>936</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dly</function>
+<key>4c59d997ccab591d2d990af79be422e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[3U])}}}}}}</description>
+<line>936</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_ce}}}}}}</description>
+<line>938</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_ce</function>
+<key>61d704f9df364c281ae7da9d071455e6</key>
+<id>4</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_ce(buf, 0)}}}}}}</description>
+<line>938</line>
+<column>5</column>
+</event>
+<event>
+<tag>identity_transfer</tag>
+<description>{CovLStrv2{{t{Passing {0} as argument {1} to function {2}, which returns an offset off that argument.}{{code{buf}}}{1}{{code{fip_inst_gen_end}}}}}}</description>
+<line>940</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_end</function>
+<key>5c958ff78cdcd5548fea74c08cf100d0</key>
+<id>3</id>
+</model_ptr>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{buf}}}{}{{code{(U8 *)fip_inst_gen_end(buf)}}}}}}</description>
+<line>940</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_18_2_violation</tag>
+<description>{CovLStrv2{{t{The pointers {0} and {1} do not address elements of the same array.}{{code{buf}}}{{code{inst_buf}}}}}}</description>
+<line>942</line>
+<column>5</column>
+</event>
+<extra>buf,inst_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 18.2</checker>
+<type>MISRA_C_2012_Rule_18.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>SmbusFillTxBufferSubsystemManagementData</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{0U == *pLengthByte}}}}}}</description>
+<line>162</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{pLengthByte}}}}}}</description>
+<line>168</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{pLengthByte &lt; (U8 *)&amp;aubReturnData[256U]}}}}}}</description>
+<line>168</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>assign</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{pPecByte}}}{}{{code{&amp;pLengthByte[*pLengthByte + 1U]}}}}}}</description>
+<line>170</line>
+<column>9</column>
+</event>
+<event>
+<tag>address_of</tag>
+<description>{CovLStrv2{{t{Taking the address of {0}.}{{code{&amp;aubReturnData[ubCmdCode]}}}}}}</description>
+<line>171</line>
+<column>9</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_18_2_violation</tag>
+<description>{CovLStrv2{{t{The pointers {0} and {1} do not address elements of the same array.}{{code{pPecByte}}}{{code{&amp;aubReturnData[ubCmdCode]}}}}}}</description>
+<line>171</line>
+<column>9</column>
+</event>
+<extra>aubReturnData,pPecByte,ubCmdCode</extra>
+<subcategory>none</subcategory>
+</error>

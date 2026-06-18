@@ -1,0 +1,93 @@
+[
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+    "line" : 189,
+    "tag" : "unsigned_compare",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "c779aef3868b88bd0e39a88c5c643c1f",
+        "checker" : "NO_EFFECT",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+        "line" : 190
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+    "line" : 445,
+    "tag" : "unsigned_compare",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "4d4ae31d88d5bd07ce14cb772b691303",
+        "checker" : "NO_EFFECT",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+        "line" : 446
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+    "line" : 1220,
+    "tag" : "unsigned_compare",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "b54efedee615ac3db9109059b23241ed",
+        "checker" : "NO_EFFECT",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c",
+        "line" : 1221
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c",
+    "line" : 147,
+    "tag" : "overrun-buffer-arg",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "5c14540b1fb90af7cc68d817b14f0630",
+        "checker" : "OVERRUN",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c",
+        "line" : 148
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c",
+    "line" : 1702,
+    "tag" : "assert_side_effect",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "cc2b08626f5feb03a624e0cceca27a9f",
+        "checker" : "ASSERT_SIDE_EFFECT",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c",
+        "line" : 1703
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c",
+    "line" : 594,
+    "tag" : "assert_side_effect",
+    "classification" : "Intentional",
+    "defectsApplied" : [
+      {
+        "mergeKey" : "aabbc416576209205a3ccd85d29832b1",
+        "checker" : "ASSERT_SIDE_EFFECT",
+        "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c",
+        "line" : 595
+      }
+    ]
+  },
+  {
+    "file" : "/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c",
+    "line" : 117,
+    "tag" : "overrun-buffer-arg",
+    "classification" : "Intentional",
+    "defectsApplied" : []
+  }
+]

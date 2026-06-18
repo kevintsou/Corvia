@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line214">214    </a></b>	        if (VUC_HANDLER_WAIT != vuc_dispatch->state) {
+<b><a name="line215">215    </a></b>	            if (MABIAO_CHK((U32)&(vuc_dispatch->cmd_timer))) {
+<b><a name="line216">216    </a></b>	                Dump_Vendor(tprintf("\n\r "));
+<b><a name="line217">217    </a></b>	                vuc_dispatch_reset(vuc_dispatch);
+<b><a name="line218">218    </a></b>	            }
+<b><a name="line219">219    </a></b>	        }
+<b><a name="line220">220    </a></b>	        else {
+<b><a name="line221">221    </a></b>	            if (vuc_dispatch->sq_rcv_flag) {
+<b><a name="line222">222    </a></b>	                (void)memcpy((void *)(&vuc_dispatch->sq_cmd), (void *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, VUC_SQ_CMD_LEN);
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	                Dump_Vendor(tprintf("\r\n>> vuc opc: %x", vuc_dispatch->sq_cmd.opc));
+<b><a name="line225">225    </a></b>	                Dump_Vendor(tprintf("\r\n>> vuc ndt: %llx", (U64)vuc_dispatch->sq_cmd.ndt));
+<b><a name="line226">226    </a></b>	                Dump_Vendor(tprintf("\r\n>> vuc feature: %x", vuc_dispatch->sq_cmd.feature));
+<b><a name="line227">227    </a></b>	                Dump_Vendor(tprintf("\r\n>> vuc sub_feature: %x\r\n", vuc_dispatch->sq_cmd.sub_feature));
+<b><a name="line228">228    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_SQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line229">229    </a></b>	            }
+<b><a name="line230">230    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_RCV_SQ);
+<b><a name="line231">231    </a></b>	        }
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	        if (VUC_HANDLER_RCV_SQ == vuc_dispatch->state) {
+<b><a name="line234">234    </a></b>	            vuc_cq_reset();
+<b><a name="line235">235    </a></b>	            vuc_sq_parsing(vuc_dispatch);
+<b><a name="line236">236    </a></b>	
+<b><a name="line237">237    </a></b>	            mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line238">238    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line239">239    </a></b>	        }
+<b><a name="line240">240    </a></b>	        else if (VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state) {
+<b><a name="line241">241    </a></b>	            vendor_cmd_dispatch((VUC_SQ_STRUCT_PTR)(&(vuc_dispatch->sq_cmd)), (VUC_CQ_STRUCT_PTR)(&(vuc_dispatch->cq_cmd)), (U8 *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, HOST_SERVICE_NVME_TYPE);
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	            mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_SEND_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xffffffffa0620f30 | 0" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line244">244    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line245">245    </a></b>	        }
+<b><a name="line246">246    </a></b>	        else if (VUC_HANDLER_SEND_CQ == vuc_dispatch->state) {
+<b><a name="line247">247    </a></b>	            if (vuc_dispatch->cq_send_flag) {
+<b><a name="line248">248    </a></b>	                memcpy((void *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, (void *)(&(vuc_dispatch->cq_cmd)), VUC_CQ_CMD_LEN);
+<b><a name="line249">249    </a></b>	                vuc_dispatch_reset(vuc_dispatch);
+<b><a name="line250">250    </a></b>	            }
+<b><a name="line251">251    </a></b>	            else {
+<b><a name="line252">252    </a></b>	                memcpy((void *)(&(vuc_dispatch->sq_cmd)), (void *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, VUC_SQ_CMD_LEN);
+<b><a name="line253">253    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_SQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	                vuc_cq_reset();
+<b><a name="line256">256    </a></b>	                vuc_sq_parsing(vuc_dispatch);
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line259">259    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line260">260    </a></b>	            }
+<b><a name="line261">261    </a></b>	        }
+<b><a name="line262">262    </a></b>	        else {
+<b><a name="line263">263    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_VUC_PACKET_HANDLER_UNKNOWN_STATE, 0);
+<b><a name="line264">264    </a></b>	        }
+<b><a name="line265">265    </a></b>	    }
+<b><a name="line266">266    </a></b>	}
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	static void vuc_check_burner_byXmodem(VUC_DISPATCH_PTR vuc_dispatch)
+<b><a name="line269">269    </a></b>	{
+<b><a name="line270">270    </a></b>	    // If xmodem_sideband_enable = TRUE -> It means device use xmodem receive Burner.
+<b><a name="line271">271    </a></b>	    // -> Init xmodem receiving flow.
+<b><a name="line272">272    </a></b>	    // When receiving Burner done, check Burner file is valid or not.
+<b><a name="line273">273    </a></b>	    // Then execute ISP Jump.
+<b><a name="line274">274    </a></b>	    U32 check_error = 0;
+</pre></body>
+</html>

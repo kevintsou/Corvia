@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	    memset((void *)p_nvme_admin_cmd_resp, 0, sizeof(NVME_MI_NVME_ADMIN_CMD_RESP));
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    response_data.p_base = (U8 *)(host->buffer_base);
+<b><a name="line580">580    </a></b>	    response_data.size = 0U;
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    // (68 byte) : admin command request format
+<b><a name="line585">585    </a></b>	    // (N  byte) : NVMe Request Data (Optional)
+<b><a name="line586">586    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line587">587    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count >= (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U)) {
+<b><a name="line588">588    </a></b>	        // NVMe Request Data have data
+<b><a name="line589">589    </a></b>	        request_data.p_base = (p_transmit_handler->request_message_handler.buffer.p_base + sizeof(NVME_MI_NVME_ADMIN_CMD_REQ));
+<b><a name="line590">590    </a></b>	        request_data.size = (p_transmit_handler->request_message_handler.byte_count - (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U));
+<b><a name="line591">591    </a></b>	    }
+<b><a name="line592">592    </a></b>	    else {
+<b><a name="line593">593    </a></b>	        // admin command size have to >= (68 byte + 4 byte)
+<b><a name="line594">594    </a></b>	        request_data.p_base = NULL;
+<b><a name="line595">595    </a></b>	        request_data.size = 0UL;
+<b><a name="line596">596    </a></b>	    }
+<b><a name="line597">597    </a></b>	
+<b><a name="line598">598    </a></b>	    if (request_data.p_base == NULL) {
+<b><a name="line599">599    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line600">600    </a></b>	        p_nvme_admin_cmd_resp->dw1.generic_resp.status |= message_response_status;
+<b><a name="line601">601    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Admin Command Size Less 72 Byte"));
+<b><a name="line602">602    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Admin Command Size : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line603">603    </a></b>	
+<b><a name="line604">604    </a></b>	    }
+<b><a name="line605">605    </a></b>	    else if (chk_mctp_mi_adm_prohibit(p_nvme_admin_cmd_req->sqdw0.opcode) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "chk_mctp_mi_adm_prohibit(p_nvme_admin_cmd_req->sqdw0.opcode)" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line606">606    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line607">607    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_OPC;
+<b><a name="line608">608    </a></b>	    }
+<b><a name="line609">609    </a></b>	    // Check if oob support admin command
+<b><a name="line610">610    </a></b>	    else if (chk_mctp_mi_adm_support(p_nvme_admin_cmd_req->sqdw0.opcode) == FALSE) {
+<b><a name="line611">611    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line612">612    </a></b>	        p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line613">613    </a></b>	    }
+<b><a name="line614">614    </a></b>	    else if ((chk_mctp_mi_adm_need_data_out(p_nvme_admin_cmd_req->sqdw0.opcode) == TRUE) && (p_nvme_admin_cmd_req->dlen == 0U)) {
+<b><a name="line615">615    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line616">616    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line617">617    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line618">618    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Admin Command need transmit data, but DLEN is 0!"));
+<b><a name="line619">619    </a></b>	    }
+<b><a name="line620">620    </a></b>	
+<b><a name="line621">621    </a></b>	    //Check Command Flags Bit 0 and the DLEN fields
+<b><a name="line622">622    </a></b>	    //Figure 112: NVMe Admin Command Request Description
+<b><a name="line623">623    </a></b>	    //--Byte 05
+<b><a name="line624">624    </a></b>	    //--Byte 35:32
+<b><a name="line625">625    </a></b>	    //if (0U == (p_nvme_admin_cmd_req->sqdw0.cmdflag & BIT0))   //X2 follow MI version 1.2 don't check cmdflag bit 0 & bit 1
+<b><a name="line626">626    </a></b>	    //{
+<b><a name="line627">627    </a></b>	    //    // Bit 0, if cleared to ���0���, then the DLEN field shall be cleared to 0h.
+<b><a name="line628">628    </a></b>	    //    if (0U != p_nvme_admin_cmd_req->dlen)
+<b><a name="line629">629    </a></b>	    //    {
+<b><a name="line630">630    </a></b>	    //        // need return an Invalid Parameter Error Response
+<b><a name="line631">631    </a></b>	    //        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line632">632    </a></b>	    //        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN != 0"));
+<b><a name="line633">633    </a></b>	    //        Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line634">634    </a></b>	    //    }
+<b><a name="line635">635    </a></b>	    //}
+<b><a name="line636">636    </a></b>	    //else
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line747">747    </a></b>	    }
+<b><a name="line748">748    </a></b>	
+<b><a name="line749">749    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ek_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line750">750    </a></b>	    {
+<b><a name="line751">751    </a></b>	        return SEC_NO;
+<b><a name="line752">752    </a></b>	    }
+<b><a name="line753">753    </a></b>	
+<b><a name="line754">754    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&ek_t.de, exch_t->sk, &keyexch_buf->comm_buf) != SEC_YES)
+<b><a name="line755">755    </a></b>	    {
+<b><a name="line756">756    </a></b>	        return SEC_NO;
+<b><a name="line757">757    </a></b>	    }
+<b><a name="line758">758    </a></b>	
+<b><a name="line759">759    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ra_point, exch_t->Ra) != SEC_YES)
+<b><a name="line760">760    </a></b>	    {
+<b><a name="line761">761    </a></b>	        return SEC_NO;
+<b><a name="line762">762    </a></b>	    }
+<b><a name="line763">763    </a></b>	
+<b><a name="line764">764    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&rb_point, exch_t->Rb) != SEC_YES)
+<b><a name="line765">765    </a></b>	    {
+<b><a name="line766">766    </a></b>	        return SEC_NO;
+<b><a name="line767">767    </a></b>	    }
+<b><a name="line768">768    </a></b>	
+<b><a name="line769">769    </a></b>	    // A5: check RB on curve; G1 = e(Ppube, P2) ^ rA, G2 = e(RB, deA),  G3 = G2 ^ rA
+<b><a name="line770">770    </a></b>	    if (hal_sec_sm9_z256_point_is_on_curve(&rb_point) == SEC_NO)
+<b><a name="line771">771    </a></b>	    {
+<b><a name="line772">772    </a></b>	        return SEC_NO;
+<b><a name="line773">773    </a></b>	    }
+<b><a name="line774">774    </a></b>	
+<b><a name="line775">775    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T sm9_z256_mont_p2;
+<b><a name="line776">776    </a></b>	    memcpy((void *)&sm9_z256_mont_p2, (void *)&SM9_Z256_MONT_P2, sizeof(SM9_Z256_MONT_P2));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line777">777    </a></b>	
+<b><a name="line778">778    </a></b>	    hal_sec_sm9_z256_pairing(*g1_pt, &sm9_z256_mont_p2, &emk_t.Ppube, &keyexch_buf->comm_buf);
+<b><a name="line779">779    </a></b>	    hal_sec_sm9_z256_fp12_pow(*g1_pt, *g1_pt, exch_t->ra, &keyexch_buf->comm_buf);
+<b><a name="line780">780    </a></b>	    hal_sec_sm9_z256_pairing(*g2_pt, &ek_t.de, &rb_point, &keyexch_buf->comm_buf);
+<b><a name="line781">781    </a></b>	    hal_sec_sm9_z256_fp12_pow(*g3_pt, *g2_pt, exch_t->ra, &keyexch_buf->comm_buf);
+<b><a name="line782">782    </a></b>	
+<b><a name="line783">783    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&ra_point, ta);
+<b><a name="line784">784    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&rb_point, tb);
+<b><a name="line785">785    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g1_pt, g1_hex);
+<b><a name="line786">786    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g2_pt, g2_hex);
+<b><a name="line787">787    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g3_pt, g3_hex);
+<b><a name="line788">788    </a></b>	
+<b><a name="line789">789    </a></b>	    // A6: S1 = Hash(0x82 || g1 || Hash(g2 || g3 || ID_A || ID_B || RA || RB)), check S1 = SB [optional]
+<b><a name="line790">790    </a></b>	
+<b><a name="line791">791    </a></b>	    // A7: sk = KDF(ID_A || ID_B || RA || RB || g1 || g2 || g3, klen)
+<b><a name="line792">792    </a></b>	    hal_sec_sm9_sm3_init(&keyexch_buf->comm_buf);
+<b><a name="line793">793    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityA, exch_t->ialen, &keyexch_buf->comm_buf);
+<b><a name="line794">794    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityB, exch_t->iblen, &keyexch_buf->comm_buf);
+<b><a name="line795">795    </a></b>	    hal_sec_sm9_sm3_update(ta + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line796">796    </a></b>	    hal_sec_sm9_sm3_update(tb + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line797">797    </a></b>	    hal_sec_sm9_sm3_update(g1_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line798">798    </a></b>	    hal_sec_sm9_sm3_update(g2_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line799">799    </a></b>	    hal_sec_sm9_sm3_update(g3_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line800">800    </a></b>	    hal_sec_sm9_sm3_kdf_finish(out, out_len, &keyexch_buf->comm_buf);
+<b><a name="line801">801    </a></b>	
+<b><a name="line802">802    </a></b>	    if (hal_sec_sm9_mem_is_zero(out, out_len) == 1U)
+<b><a name="line803">803    </a></b>	    {
+<b><a name="line804">804    </a></b>	        return SEC_NO;
+<b><a name="line805">805    </a></b>	    }
+<b><a name="line806">806    </a></b>	
+<b><a name="line807">807    </a></b>	    // A8: SA = Hash(0x83 || g1 || Hash(g2 || g3 || ID_A || ID_B || RA || RB)) [optional]
+</pre></body>
+</html>

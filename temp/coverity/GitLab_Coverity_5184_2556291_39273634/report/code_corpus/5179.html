@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2870">2870    </a></b>	
+<b><a name="line2871">2871    </a></b>	            if (0 == command_status) {
+<b><a name="line2872">2872    </a></b>	                //Mark this channel as being read
+<b><a name="line2873">2873    </a></b>	                reading_channel_bitmap |= (1 << channel);
+<b><a name="line2874">2874    </a></b>	            }
+<b><a name="line2875">2875    </a></b>	            else {
+<b><a name="line2876">2876    </a></b>	
+<b><a name="line2877">2877    </a></b>	                Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2878">2878    </a></b>	                Dump_ScanID(tprintf("Read Trigger Error %x", command_status));
+<b><a name="line2879">2879    </a></b>	                sal_log_info_char('T');
+<b><a name="line2880">2880    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line2881">2881    </a></b>	                sal_log_tracker_set(sal_locate(0xE0, TYPE_LOAD_CODE_ERR));
+<b><a name="line2882">2882    </a></b>	                //TODO go through all fip_status usages
+<b><a name="line2883">2883    </a></b>	                if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line2884">2884    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line2885">2885    </a></b>	                }
+<b><a name="line2886">2886    </a></b>	                if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line2887">2887    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << channel);
+<b><a name="line2888">2888    </a></b>	                }
+<b><a name="line2889">2889    </a></b>	            }
+<b><a name="line2890">2890    </a></b>	        }
+<b><a name="line2891">2891    </a></b>	
+<b><a name="line2892">2892    </a></b>	        //Check the result of the Read Trigger
+<b><a name="line2893">2893    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line2894">2894    </a></b>	            //Skip channels that are not being read
+<b><a name="line2895">2895    </a></b>	            if (0U == (reading_channel_bitmap & (1U << channel))) {
+<b><a name="line2896">2896    </a></b>	                continue;
+<b><a name="line2897">2897    </a></b>	            }
+<b><a name="line2898">2898    </a></b>	
+<b><a name="line2899">2899    </a></b>	            command_status = fip_api_chk_status(channel, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "5UL | 2UL" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2900">2900    </a></b>	            //tprintf("  row address:%x, column address:%x", hal_fip_get_row_address(channel), hal_fip_get_column_address(channel));
+<b><a name="line2901">2901    </a></b>	            //receive the cq result of the read trigger
+<b><a name="line2902">2902    </a></b>	            //command_status |= fip_api_get_cq_result(&a_fip_read_param[channel], channel); Ken TODO : check is need or not
+<b><a name="line2903">2903    </a></b>	
+<b><a name="line2904">2904    </a></b>	            if (0 == (command_status & HAL_STATUS_TIMEOUT)) {
+<b><a name="line2905">2905    </a></b>	                //Do nothing, the Read Trigger command finished correctly
+<b><a name="line2906">2906    </a></b>	            }
+<b><a name="line2907">2907    </a></b>	            else {
+<b><a name="line2908">2908    </a></b>	                //The Read Trigger has timeout
+<b><a name="line2909">2909    </a></b>	                //No subsequent actions should be performed as it will most likely timeout as well
+<b><a name="line2910">2910    </a></b>	                reading_channel_bitmap &= ~(1 << channel);
+<b><a name="line2911">2911    </a></b>	
+<b><a name="line2912">2912    </a></b>	                Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2913">2913    </a></b>	                Dump_ScanID(tprintf("Read Trigger Timeout %x", command_status));
+<b><a name="line2914">2914    </a></b>	
+<b><a name="line2915">2915    </a></b>	                sal_log_info_char('T');
+<b><a name="line2916">2916    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line2917">2917    </a></b>	                sal_log_tracker_set(sal_locate(0xE1, TYPE_LOAD_CODE_ERR));
+<b><a name="line2918">2918    </a></b>	                a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line2919">2919    </a></b>	            }
+<b><a name="line2920">2920    </a></b>	        }
+<b><a name="line2921">2921    </a></b>	
+<b><a name="line2922">2922    </a></b>	        //Trigger the data out node by node and check for correctness
+<b><a name="line2923">2923    </a></b>	        for (backup = 0; backup < backup_max; backup++) {
+<b><a name="line2924">2924    </a></b>	            for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line2925">2925    </a></b>	                //Skip channels that are not being read
+<b><a name="line2926">2926    </a></b>	                if (0 == (reading_channel_bitmap & (1 << channel))) {
+<b><a name="line2927">2927    </a></b>	                    continue;
+<b><a name="line2928">2928    </a></b>	                }
+<b><a name="line2929">2929    </a></b>	
+<b><a name="line2930">2930    </a></b>	                a_fip_read_param[channel].nand_addr.all =
+</pre></body>
+</html>

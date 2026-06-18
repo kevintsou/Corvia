@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line854">854    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line855">855    </a></b>	            }
+<b><a name="line856">856    </a></b>	        }
+<b><a name="line857">857    </a></b>	    }
+<b><a name="line858">858    </a></b>	
+<b><a name="line859">859    </a></b>	    return status;
+<b><a name="line860">860    </a></b>	}
+<b><a name="line861">861    </a></b>	
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	void fip_api_read_dma(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr)
+<b><a name="line864">864    </a></b>	{
+<b><a name="line865">865    </a></b>	    U8  *inst_buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line866">866    </a></b>	    U8  *buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line867">867    </a></b>	    U32 sq_cmd_size;
+<b><a name="line868">868    </a></b>	    U8  tag;
+<b><a name="line869">869    </a></b>	    U8  i;
+<b><a name="line870">870    </a></b>	    U16 mr_target_id;
+<b><a name="line871">871    </a></b>	    U16 mr_source_id;
+<b><a name="line872">872    </a></b>	    U8  fta_addr[FLH_FTA_ADDR_MAX];
+<b><a name="line873">873    </a></b>	    U32 scr_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line874">874    </a></b>	    U64 crc_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line875">875    </a></b>	    U32 page;
+<b><a name="line876">876    </a></b>	    U32 block;
+<b><a name="line877">877    </a></b>	    U8  pln;
+<b><a name="line878">878    </a></b>	    U32 opt;
+<b><a name="line879">879    </a></b>	    U8  ch;
+<b><a name="line880">880    </a></b>	
+<b><a name="line881">881    </a></b>	    //tprintf("fip_api_read_dma ch num = %x", fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line882">882    </a></b>	    opt           = 0U;
+<b><a name="line883">883    </a></b>	    i             = 0U;
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value "0" to "i" here, but that stored value is overwritten before it can be used.</font>
+<b><a name="line884">884    </a></b>	    sq_cmd_size   = 0U;
+<b><a name="line885">885    </a></b>	    mr_target_id = MR_COP0_0_0_MVP(4U * fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line886">886    </a></b>	    mr_source_id = BE_MR_TID_CPU0_CQ_FIP_CH0;
+<b><a name="line887">887    </a></b>	    block         = PCA_2_BLOCK(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line888">888    </a></b>	    page          = PCA_2_PAGE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line889">889    </a></b>	    pln           = PCA_2_PLANE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line890">890    </a></b>	    ch            = PCA_2_CHANNEL(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line891">891    </a></b>	
+<b><a name="line892">892    </a></b>	    memset((void *)inst_buf, 0x00, DBUF_API_BOOTCODE_TEMP_INST_BUFFER_SIZE);
+<b><a name="line893">893    </a></b>	    memset((void *)fta_addr, 0x00, sizeof(fta_addr));
+<b><a name="line894">894    </a></b>	    memset((void *)scr_seed, 0x00, sizeof(scr_seed));
+<b><a name="line895">895    </a></b>	    memset((void *)crc_seed, 0x00, sizeof(crc_seed));
+<b><a name="line896">896    </a></b>	
+<b><a name="line897">897    </a></b>	    fip_set_fta_addr(fta_addr, fip_read_param_struct_ptr, FLH_FTA_ROW_ADDR_MAX);
+<b><a name="line898">898    </a></b>	    if(gFplApiStruct.p_efuse_nand_setting->gen_seed_by_pca == FALSE)
+<b><a name="line899">899    </a></b>	    {
+<b><a name="line900">900    </a></b>	        fip_cop0_pu_seed_get_seed(ch, block, 0, 0, page, 0xF, gFplApiStruct.p_efuse_nand_setting->rand_seed_4_to_7_en, scr_seed);
+<b><a name="line901">901    </a></b>	    }
+<b><a name="line902">902    </a></b>	    else
+<b><a name="line903">903    </a></b>	    {
+<b><a name="line904">904    </a></b>	        fip_gen_scr_and_crc_seed(scr_seed, crc_seed, page, block);
+<b><a name="line905">905    </a></b>	    }
+<b><a name="line906">906    </a></b>	
+<b><a name="line907">907    </a></b>	    buf += sizeof(MR_HDR_STRUCT);
+<b><a name="line908">908    </a></b>	
+<b><a name="line909">909    </a></b>	    buf = (U8 *)fip_inst_api_insert_hd(buf, 0, 0, pln, 1);
+<b><a name="line910">910    </a></b>	
+<b><a name="line911">911    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, ((U8)1U << fip_read_param_struct_ptr->nand_addr.bank));
+<b><a name="line912">912    </a></b>	
+<b><a name="line913">913    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_BUS_SWITCH]);
+<b><a name="line914">914    </a></b>	
+<b><a name="line915">915    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCS]);
+<b><a name="line916">916    </a></b>	
+<b><a name="line917">917    </a></b>	    buf = (U8 *)fip_inst_pasring(&gFipInstStruct.inst[INST_ID_DMA_CMD], buf, fta_addr, 0U, 0U, NULL);
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCCS]);
+<b><a name="line920">920    </a></b>	
+<b><a name="line921">921    </a></b>	    for (i = fip_read_param_struct_ptr->nand_addr.node; i < (fip_read_param_struct_ptr->nand_addr.node + fip_read_param_struct_ptr->node_count); i++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event value_overwrite:</font></b> <font face="Arial"; size="3"; color="#FF5959">Overwriting previous write to "i" with value from "fip_read_param_struct_ptr->nand_addr.node".</font>
+<b><a name="line922">922    </a></b>	    {
+<b><a name="line923">923    </a></b>	        opt = 0;
+<b><a name="line924">924    </a></b>	        if (i == fip_read_param_struct_ptr->nand_addr.node)
+<b><a name="line925">925    </a></b>	        {
+<b><a name="line926">926    </a></b>	            opt |= HAL_FIP_OP_OPT_FIRST;
+<b><a name="line927">927    </a></b>	        }
+<b><a name="line928">928    </a></b>	        if (i == ((fip_read_param_struct_ptr->nand_addr.node + fip_read_param_struct_ptr->node_count) - 1))
+<b><a name="line929">929    </a></b>	        {
+<b><a name="line930">930    </a></b>	            opt |= HAL_FIP_OP_OPT_LAST;
+<b><a name="line931">931    </a></b>	        }
+<b><a name="line932">932    </a></b>	        tag = ((fip_read_param_struct_ptr->nand_addr.ch * FIP_DMA_READ_TAG_PER_CH) + i);
+<b><a name="line933">933    </a></b>	        buf = (U8 *)fip_inst_gen_dmar(buf, scr_seed[i], crc_seed[i],  fip_read_param_struct_ptr->buf_addr[i], fip_read_param_struct_ptr->spr_addr[i], i, tag, opt);
+<b><a name="line934">934    </a></b>	    }
+<b><a name="line935">935    </a></b>	
+<b><a name="line936">936    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><a name="line939">939    </a></b>	
+<b><a name="line940">940    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><a name="line941">941    </a></b>	
+<b><a name="line942">942    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><a name="line943">943    </a></b>	    sq_cmd_size = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line944">944    </a></b>	
+<b><a name="line945">945    </a></b>	    hal_flh_scq_mr_header(inst_buf , mr_target_id, mr_source_id, sq_cmd_size);
+<b><a name="line946">946    </a></b>	
+<b><a name="line947">947    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line948">948    </a></b>	
+<b><a name="line949">949    </a></b>	}
+<b><a name="line950">950    </a></b>	
+<b><a name="line951">951    </a></b>	void fip_gen_scr_and_crc_seed(U32 *scr_seed, U64 *crc_seed , U32 page, U32 block)
+<b><a name="line952">952    </a></b>	{
+</pre></body>
+</html>

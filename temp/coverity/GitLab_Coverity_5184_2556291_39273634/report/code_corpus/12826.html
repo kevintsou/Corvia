@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sys.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_SYS_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_SYS_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_SYS_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	#include "build/sal_build_types.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line8">8    </a></b>	#define TICKS_1_US      (333U)                  // tick count of 1 us with CPU clock 333MHz
+<b><a name="line9">9    </a></b>	#define TICKS_0_1_US     (33U)                  // tick count of 0.1 us with CPU clock 333MHz
+<b><a name="line10">10    </a></b>	#else
+<b><a name="line11">11    </a></b>	#define TICKS_1_US       (4U)                   // tick count of 1 us with CPU clock 4MHz
+<b><a name="line12">12    </a></b>	#define TICKS_0_1_US     (1U)                   // tick count of 0.1 us with CPU clock 4MHz. Note, the accuracy is not enough in 4MHz
+<b><a name="line13">13    </a></b>	#endif
+<b><a name="line14">14    </a></b>	#define TICKS_1_MS      (TICKS_1_US * 1000U)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define M_MISCL_GET_JTAG_DISABLE()          r_CR_JTAG_DISABLE()
+<b><a name="line17">17    </a></b>	#define M_MISCL_GET_JTAG_DISABLE_0_6()      (r32_r_HW_CFG_DIS() & 0x7FU)
+<b><a name="line18">18    </a></b>	#define M_MISCL_GET_JTAG_STATUS_LOCK()      r_CR_JTAG_STATUS_LOCK()
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#define PHAL_SYS_CLK_DIV_SEL(div_value) w_CR_SYS_CLKDIV_VAL((U8)div_value)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define PHAL_RST_N_SET_RST_N_I2CM_SEL()         w_CR_RST_N_I2CM(1U);
+<b><a name="line24">24    </a></b>	#define PHAL_RST_N_SET_RST_N_PIP_PDAON_SEL()    w_CR_RST_N_PIP_PDAON(1U)
+<b><a name="line25">25    </a></b>	#define PHAL_RST_N_SET_RST_N_PIP_SEL()          w_CR_RST_N_PIP(1U)
+<b><a name="line26">26    </a></b>	#define PHAL_RST_N_SET_RST_N_UART_SEL()         w_CR_RST_N_UART(1U)
+<b><a name="line27">27    </a></b>	#define PHAL_RST_N_SET_RST_N_SPI_SEL()          w_CR_RST_N_SPI(1U)
+<b><a name="line28">28    </a></b>	#define PHAL_RST_N_SET_RST_N_SMB_SEL()          w_CR_RST_N_SMB(1U)
+<b><a name="line29">29    </a></b>	#define PHAL_RST_N_SET_RST_N_SQZ_SEC_SEL()      w_CR_RST_N_SQZ_SEC(1U)
+<b><a name="line30">30    </a></b>	#define PHAL_RST_N_SET_RST_N_SQZ_SEL()          w_CR_RST_N_SQZ(1U)
+<b><a name="line31">31    </a></b>	#define PHAL_RST_N_SET_RST_N_SQZ_CORE_SEL()     w_CR_RST_N_SQZ_CORE(1U)
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	#define PHAL_RST_N_CLR_RST_N_I2CM_SEL()         w_CR_RST_N_I2CM(0U);
+</pre></body>
+</html>

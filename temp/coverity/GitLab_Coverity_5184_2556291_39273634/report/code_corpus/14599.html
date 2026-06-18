@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line169">169    </a></b>	    U8  *n;
+<b><a name="line170">170    </a></b>	    U8  *n0;
+<b><a name="line171">171    </a></b>	    U8  *r;
+<b><a name="line172">172    </a></b>	    U8  *rr;
+<b><a name="line173">173    </a></b>	    U8  *kx;
+<b><a name="line174">174    </a></b>	    U8  *msg;
+<b><a name="line175">175    </a></b>	    U32  msg_len;
+<b><a name="line176">176    </a></b>	    U8  *sig;
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	    U32 nbytes  : 16;
+<b><a name="line179">179    </a></b>	    U32 hash_id : 8;
+<b><a name="line180">180    </a></b>	    U32 rsv     : 8;
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	} PKCS1V15_KATPattern, PKCS1V21_KATPattern;
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	extern const PKCS1V21_KATPattern pkcs2v1_rsa4096_test2;
+<b><a name="line185">185    </a></b>	#endif
+<b><a name="line186">186    </a></b>	#if KAT_SM2_EN
+<b><a name="line187">187    </a></b>	typedef struct
+<b><a name="line188">188    </a></b>	{
+<b><a name="line189">189    </a></b>	    U8* sign_r;
+<b><a name="line190">190    </a></b>	    U8* sign_s;
+<b><a name="line191">191    </a></b>	    U8* digest;
+<b><a name="line192">192    </a></b>	    U8* qx;
+<b><a name="line193">193    </a></b>	    U8* qy;
+<b><a name="line194">194    </a></b>	    U8* k;
+<b><a name="line195">195    </a></b>	    U8* d;
+<b><a name="line196">196    </a></b>	} SEC_SM2_SIGN_VER_KAT_PATTERN;
+<b><a name="line197">197    </a></b>	
+<b><a name="line198">198    </a></b>	extern const SEC_SM2_SIGN_VER_KAT_PATTERN sm2_verify_test1;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "sm2_verify_test1" is declared but never defined.</font>
+<b><a name="line199">199    </a></b>	#endif
+<b><a name="line200">200    </a></b>	
+<b><a name="line201">201    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line202">202    </a></b>	typedef struct {
+<b><a name="line203">203    </a></b>	    const U8 *pk_1;
+<b><a name="line204">204    </a></b>	    const U8 *msg_1;
+<b><a name="line205">205    </a></b>	    const U8 *sig_1;
+<b><a name="line206">206    </a></b>	
+<b><a name="line207">207    </a></b>	    const S8 *z_2;
+<b><a name="line208">208    </a></b>	    const U8 *c_2;
+<b><a name="line209">209    </a></b>	    const U8 *rhoprime_2;
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	    const U8 *msg_2;
+<b><a name="line212">212    </a></b>	    const U8 *pk_2;
+<b><a name="line213">213    </a></b>	    const U8 *h_2;
+<b><a name="line214">214    </a></b>	} SEC_MLDSA_VERIFY_KAT_PATTERN;
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	extern const U8 rsa_e[4];
+<b><a name="line217">217    </a></b>	extern const SEC_MLDSA_VERIFY_KAT_PATTERN sec_mldsa_kat_pattern_1;
+<b><a name="line218">218    </a></b>	#endif
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	#if BC_USE_EXTRA_KAT
+<b><a name="line221">221    </a></b>	#if KAT_SHA_HMAC_EN
+<b><a name="line222">222    </a></b>	U32 host_sec_sha2_160_kat(U32 buf_addr);
+<b><a name="line223">223    </a></b>	U32 host_sec_sha2_384_kat(U32 buf_addr);
+<b><a name="line224">224    </a></b>	U32 host_sec_sha3_224_kat(U32 buf_addr);
+<b><a name="line225">225    </a></b>	U32 host_sec_sha3_256_kat(U32 buf_addr);
+<b><a name="line226">226    </a></b>	U32 host_sec_sha2_512t256_kat(U32 buf_addr);
+<b><a name="line227">227    </a></b>	U32 host_sec_sha3_384_kat(U32 buf_addr);
+<b><a name="line228">228    </a></b>	U32 host_sec_sha3_512_kat(U32 buf_addr);
+<b><a name="line229">229    </a></b>	U32 host_sec_hmac_sha2_160_kat(U32 buf_addr);
+</pre></body>
+</html>

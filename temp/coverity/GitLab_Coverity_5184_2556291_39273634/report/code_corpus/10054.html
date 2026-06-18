@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line45">45    </a></b>	    p_transmit_handler->request_packet_handler.buffer.size = packet_individual_buffer_size;
+<b><a name="line46">46    </a></b>	    packet_individual_buffer_base = packet_buffer_base + packet_individual_buffer_size;
+<b><a name="line47">47    </a></b>	    p_transmit_handler->reponse_packet_handler.buffer.p_base = (U8 *)packet_individual_buffer_base;
+<b><a name="line48">48    </a></b>	    p_transmit_handler->reponse_packet_handler.buffer.size = packet_individual_buffer_size;
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    p_transmit_handler->request_message_handler.buffer.p_base = (U8 *)messsage_buffer_base;
+<b><a name="line51">51    </a></b>	    p_transmit_handler->request_message_handler.buffer.size = message_individual_buffer_size;
+<b><a name="line52">52    </a></b>	    message_individual_buffer_base = messsage_buffer_base + message_individual_buffer_size;
+<b><a name="line53">53    </a></b>	    p_transmit_handler->reponse_message_handler.buffer.p_base = (U8 *)message_individual_buffer_base;
+<b><a name="line54">54    </a></b>	    p_transmit_handler->reponse_message_handler.buffer.size = message_individual_buffer_size;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init : %x", (U32)p_transmit_handler));
+<b><a name="line57">57    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Request  Packet  Base : %x", (U32)p_transmit_handler->request_packet_handler.buffer.p_base));
+<b><a name="line58">58    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Request  Packet  Size : %d", (U32)p_transmit_handler->request_packet_handler.buffer.size));
+<b><a name="line59">59    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Response Packet  Base : %x", (U32)p_transmit_handler->reponse_packet_handler.buffer.p_base));
+<b><a name="line60">60    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Response Packet  Size : %d", (U32)p_transmit_handler->reponse_packet_handler.buffer.size));
+<b><a name="line61">61    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Request  Message Base : %x", (U32)p_transmit_handler->request_message_handler.buffer.p_base));
+<b><a name="line62">62    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Request  Message Size : %d", (U32)p_transmit_handler->request_message_handler.buffer.size));
+<b><a name="line63">63    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Response Message Base : %x", (U32)p_transmit_handler->reponse_message_handler.buffer.p_base));
+<b><a name="line64">64    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Init Response Message Size : %d", (U32)p_transmit_handler->reponse_message_handler.buffer.size));
+<b><a name="line65">65    </a></b>	}
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	void mctp_message_transmit_handler_receive_assign(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler, const MCTP_TRANSPORT *p_transport, const MCTP_TRANSPORT_INFO_GENERIC *p_source_transport_info, const MCTP_TRANSPORT_HEADER *p_transport_header)
+<b><a name="line68">68    </a></b>	{
+<b><a name="line69">69    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Message Transmit Handler Receive Assign"));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    //Message Info initialized from Transport Header
+<b><a name="line72">72    </a></b>	    p_transmit_handler->message_info.p_transport = (MCTP_TRANSPORT *)p_transport;
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    memcpy((void *) & (p_transmit_handler->message_info.source_transport_info), (void *)p_source_transport_info, sizeof(p_transmit_handler->message_info.source_transport_info));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "p_source_transport_info" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    p_transmit_handler->message_info.destination_endpoint_id = p_transport_header->destination_endpoint_id;
+<b><a name="line77">77    </a></b>	    p_transmit_handler->message_info.hdr_verions = p_transport_header->hdr_version;
+<b><a name="line78">78    </a></b>	    p_transmit_handler->message_info.message_terminus.source_eid = p_transport_header->source_endpoint_id;
+<b><a name="line79">79    </a></b>	    p_transmit_handler->message_info.message_terminus.message_tag = p_transport_header->msg_tag;
+<b><a name="line80">80    </a></b>	    p_transmit_handler->message_info.message_terminus.tag_owner = p_transport_header->to;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    //Reset the message descriptor
+<b><a name="line83">83    </a></b>	    p_transmit_handler->request_packet_handler.byte_count   = 0U;
+<b><a name="line84">84    </a></b>	    p_transmit_handler->request_packet_handler.byte_offset  = 0U;
+<b><a name="line85">85    </a></b>	    p_transmit_handler->request_message_handler.byte_count  = 0U;
+<b><a name="line86">86    </a></b>	    p_transmit_handler->request_message_handler.byte_offset = 0U;
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    p_transmit_handler->direction = MCTP_MESSAGE_TRANSMIT_DIRECTION_RECEIVE;
+<b><a name="line89">89    </a></b>	    p_transmit_handler->state = MCTP_MESSAGE_TRANSMIT_STATE_TRANSMITTING;
+<b><a name="line90">90    </a></b>	    p_transmit_handler->pause_flag_status = 0U;
+<b><a name="line91">91    </a></b>	    p_transmit_handler->packet_sequence_number = ((p_transport_header->pkt_seq_num - 1U) & 0x03U);
+<b><a name="line92">92    </a></b>	    //Set to a current Packet Sequence Number - 1 to act as if a previous Packet Sequence Number exists
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    p_transmit_handler->previous_packet_time = phal_sys_rtt_get_ms();
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    p_transmit_handler->error = 0U;
+<b><a name="line97">97    </a></b>	}
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	U32 mctp_message_transmit_handler_send_assign(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler, const DATA_DESCRIPTOR a_message_parts[MCTP_MESSAGE_PARTS_COUNT], const MCTP_MESSAGE_INFO *p_mctp_message_info)
+<b><a name="line100">100    </a></b>	{
+<b><a name="line101">101    </a></b>	    U32 message_parts_offset;
+<b><a name="line102">102    </a></b>	    U32 crc_32c;
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    //Message Info is set outside
+<b><a name="line105">105    </a></b>	    memcpy((void *) & (p_transmit_handler->message_info), (void *)p_mctp_message_info, sizeof(*p_mctp_message_info));
+</pre></body>
+</html>

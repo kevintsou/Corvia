@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2435">2435    </a></b>	 @brief      get PKE_QUE_DIF register
+<b><a name="line2436">2436    </a></b>	 @param[out]  reg_val          - PKE_QUE_DIF register value
+<b><a name="line2437">2437    </a></b>	 @return PKE_QUE_DIF register value
+<b><a name="line2438">2438    </a></b>	 @note
+<b><a name="line2439">2439    </a></b>	 - None
+<b><a name="line2440">2440    </a></b>	*/
+<b><a name="line2441">2441    </a></b>	U32 hal_sec_pke_get_que_dif(void)
+<b><a name="line2442">2442    </a></b>	{
+<b><a name="line2443">2443    </a></b>	    return (dal_sec_pke_get_que_dif());
+<b><a name="line2444">2444    </a></b>	}
+<b><a name="line2445">2445    </a></b>	
+<b><a name="line2446">2446    </a></b>	/*!
+<b><a name="line2447">2447    </a></b>	 @brief      set PKE_CMDQ_WR_PTR register
+<b><a name="line2448">2448    </a></b>	 @param[in]  cmd_size          - set value to PKE_CMDQ_WR_PTR register
+<b><a name="line2449">2449    </a></b>	 @note
+<b><a name="line2450">2450    </a></b>	 - None
+<b><a name="line2451">2451    </a></b>	*/
+<b><a name="line2452">2452    </a></b>	void hal_sec_pke_set_cmdq_wr_ptr(U32 cmd_size)
+<b><a name="line2453">2453    </a></b>	{
+<b><a name="line2454">2454    </a></b>	    dal_sec_pke_set_cmdq_wr_ptr(cmd_size);
+<b><a name="line2455">2455    </a></b>	}
+<b><a name="line2456">2456    </a></b>	
+<b><a name="line2457">2457    </a></b>	U32 hal_sec_pke_get_bank_num(U8 bank_sel)
+<b><a name="line2458">2458    </a></b>	{
+<b><a name="line2459">2459    </a></b>	    return (U32)(dal_sec_pke_get_bank_num(bank_sel));
+<b><a name="line2460">2460    </a></b>	}
+<b><a name="line2461">2461    </a></b>	
+<b><a name="line2462">2462    </a></b>	U8 hal_sec_pke_get_rama_bank_num(void)
+<b><a name="line2463">2463    </a></b>	{
+<b><a name="line2464">2464    </a></b>	    return (dal_sec_pke_get_rama_bank_num());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "dal_sec_pke_get_rama_bank_num()" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2465">2465    </a></b>	}
+<b><a name="line2466">2466    </a></b>	
+<b><a name="line2467">2467    </a></b>	U8 hal_sec_pke_get_ramb_bank_num(void)
+<b><a name="line2468">2468    </a></b>	{
+<b><a name="line2469">2469    </a></b>	    return (dal_sec_pke_get_ramb_bank_num());
+<b><a name="line2470">2470    </a></b>	}
+<b><a name="line2471">2471    </a></b>	
+<b><a name="line2472">2472    </a></b>	U8 hal_sec_pke_get_ramc_bank_num(void)
+<b><a name="line2473">2473    </a></b>	{
+<b><a name="line2474">2474    </a></b>	    return (dal_sec_pke_get_ramc_bank_num());
+<b><a name="line2475">2475    </a></b>	}
+<b><a name="line2476">2476    </a></b>	
+<b><a name="line2477">2477    </a></b>	/*!
+<b><a name="line2478">2478    </a></b>	 @brief      get PKE_PC_PTR_OUT register
+<b><a name="line2479">2479    </a></b>	 @param[out]  reg_val          - PKE_PC_PTR_OUT register value
+<b><a name="line2480">2480    </a></b>	 @return PKE_PC_PTR_OUT register value
+<b><a name="line2481">2481    </a></b>	 @note
+<b><a name="line2482">2482    </a></b>	 - None
+<b><a name="line2483">2483    </a></b>	*/
+<b><a name="line2484">2484    </a></b>	U32 hal_sec_pke_get_pc_ptr_out(void)
+<b><a name="line2485">2485    </a></b>	{
+<b><a name="line2486">2486    </a></b>	    return dal_sec_pke_get_pc_ptr_out();
+<b><a name="line2487">2487    </a></b>	}
+<b><a name="line2488">2488    </a></b>	
+<b><a name="line2489">2489    </a></b>	/*!
+<b><a name="line2490">2490    </a></b>	 @brief      set PKE_PC_PTR_IN register
+<b><a name="line2491">2491    </a></b>	 @param[in]  ptr_in          - set value to PKE_PC_PTR_IN register
+<b><a name="line2492">2492    </a></b>	 @note
+<b><a name="line2493">2493    </a></b>	 - None
+<b><a name="line2494">2494    </a></b>	*/
+<b><a name="line2495">2495    </a></b>	void hal_sec_pke_set_pc_ptr_in(U32 ptr_in)
+</pre></body>
+</html>

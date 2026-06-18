@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2374">2374    </a></b>	                            Dump_LoadCode(tprintf("DMA Parallel %d ", parallel));
+<b><a name="line2375">2375    </a></b>	                            Dump_LoadCode(tprintf("FSA %L ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2376">2376    </a></b>	                            Dump_LoadCode(tprintf("%d Nodes: ", a_fip_read_param[parallel].node_count));
+<b><a name="line2377">2377    </a></b>	                            Dump_LoadCode(tprintf("Data @ %x ", a_fip_read_param[parallel].buf_addr[0]));
+<b><a name="line2378">2378    </a></b>	                            Dump_LoadCode(tprintf("Spare @ %x ", a_fip_read_param[parallel].spr_addr[0]));
+<b><a name="line2379">2379    </a></b>	
+<b><a name="line2380">2380    </a></b>	                            //The parameters were already set during the read trigger
+<b><a name="line2381">2381    </a></b>	                            fip_api_read_dma(&a_fip_read_param[parallel]);
+<b><a name="line2382">2382    </a></b>	                        }
+<b><a name="line2383">2383    </a></b>	                        else {
+<b><a name="line2384">2384    </a></b>	                            //The Read Trigger has timeout
+<b><a name="line2385">2385    </a></b>	                            //No subsequent actions should be performed as it will most likely timeout as well
+<b><a name="line2386">2386    </a></b>	                            reading_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2387">2387    </a></b>	
+<b><a name="line2388">2388    </a></b>	                            Dump_LoadCode(tprintf("!!!Parallel %d ", parallel));
+<b><a name="line2389">2389    </a></b>	                            Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2390">2390    </a></b>	                            Dump_LoadCode(tprintf("Read Trigger Timeout %x", (U64)command_status));
+<b><a name="line2391">2391    </a></b>	                            sal_log_tracker_set(sal_locate(0xF1, TYPE_LOAD_CODE_ERR));
+<b><a name="line2392">2392    </a></b>	                            sal_log_info_char('T');
+<b><a name="line2393">2393    </a></b>	                            sal_log_info_num(a_fip_read_param[parallel].nand_addr.all); //Part of 'T'/'U', FSA of the read command
+<b><a name="line2394">2394    </a></b>	
+<b><a name="line2395">2395    </a></b>	
+<b><a name="line2396">2396    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[parallel]);
+<b><a name="line2397">2397    </a></b>	                        }
+<b><a name="line2398">2398    </a></b>	                    }
+<b><a name="line2399">2399    </a></b>	
+<b><a name="line2400">2400    </a></b>	
+<b><a name="line2401">2401    </a></b>	                    //Check the result of the Read DMA
+<b><a name="line2402">2402    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2403">2403    </a></b>	                        if (0 == (reading_parallel_bitmap & (1 << parallel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "reading_parallel_bitmap" (unsigned) is not the same as that of the right operand "1 << parallel"(signed).</font>
+<b><a name="line2404">2404    </a></b>	                            continue;
+<b><a name="line2405">2405    </a></b>	                        }
+<b><a name="line2406">2406    </a></b>	                        // receive the cq result of the read dma
+<b><a name="line2407">2407    </a></b>	                        command_status = fip_api_get_cq_result(&a_fip_read_param[parallel], a_channel[parallel]);
+<b><a name="line2408">2408    </a></b>	                        if (0 == command_status) {
+<b><a name="line2409">2409    </a></b>	                            //No timeout has occurred
+<b><a name="line2410">2410    </a></b>	                            //Check each node to see if it is properly read
+<b><a name="line2411">2411    </a></b>	                            for (node = 0; node < node_max; node++) {
+<b><a name="line2412">2412    </a></b>	                                if (0 == (a_node_to_load_bitmap[parallel] & (1 << node))) {
+<b><a name="line2413">2413    </a></b>	                                    continue;
+<b><a name="line2414">2414    </a></b>	                                }
+<b><a name="line2415">2415    </a></b>	
+<b><a name="line2416">2416    </a></b>	                                if (0U == (a_fip_read_param[parallel].error_map[node] & FIP_READ_ERROR_MASK)) {
+<b><a name="line2417">2417    </a></b>	                                    if (PAGE_MARK_CODE_BLOCK == (((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[parallel].spr_addr[node]))->page_mark & 0xFF)) {
+<b><a name="line2418">2418    </a></b>	                                        Dump_LoadCode(tprintf("Parallel %d Node %d, OK", parallel, node));
+<b><a name="line2419">2419    </a></b>	                                        a_node_to_load_bitmap[parallel] &= ~(1 << node);
+<b><a name="line2420">2420    </a></b>	
+<b><a name="line2421">2421    </a></b>	                                        if (0 == a_node_to_load_bitmap[parallel]) {
+<b><a name="line2422">2422    </a></b>	                                            //Entire page has been Loaded
+<b><a name="line2423">2423    </a></b>	                                            not_loaded_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2424">2424    </a></b>	
+<b><a name="line2425">2425    </a></b>	                                            //Log the status of this read
+<b><a name="line2426">2426    </a></b>	                                            if (0x100 > (p_fw_slot_status->copy_retry_count + copy_retry)) {
+<b><a name="line2427">2427    </a></b>	                                                p_fw_slot_status->copy_retry_count += copy_retry;
+<b><a name="line2428">2428    </a></b>	                                            }
+<b><a name="line2429">2429    </a></b>	                                            if (0x100 > (p_fw_slot_status->nand_retry_count + nand_retry)) {
+<b><a name="line2430">2430    </a></b>	                                                p_fw_slot_status->nand_retry_count += nand_retry;
+<b><a name="line2431">2431    </a></b>	                                            }
+<b><a name="line2432">2432    </a></b>	                                            if (p_fw_slot_status->bit_flip_count_max < a_fip_read_param[parallel].bit_correct[node]) {
+<b><a name="line2433">2433    </a></b>	                                                p_fw_slot_status->bit_flip_count_max = a_fip_read_param[parallel].bit_correct[node];
+<b><a name="line2434">2434    </a></b>	                                            }
+</pre></body>
+</html>

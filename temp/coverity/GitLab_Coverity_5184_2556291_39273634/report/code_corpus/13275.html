@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm2_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1317">1317    </a></b>	    ret = hal_sec_sha(&sha_params);
+<b><a name="line1318">1318    </a></b>	
+<b><a name="line1319">1319    </a></b>	    (void)memcpy((void *)(dst_buf), (void *)(U32 *)((U32)(digest_addr)), HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line1320">1320    </a></b>	
+<b><a name="line1321">1321    </a></b>	    return ret;
+<b><a name="line1322">1322    </a></b>	}
+<b><a name="line1323">1323    </a></b>	
+<b><a name="line1324">1324    </a></b>	/*!
+<b><a name="line1325">1325    </a></b>	 @brief       K_A = KDF(x_U || y_U || Z_A || Z_B, klen)
+<b><a name="line1326">1326    </a></b>	 @param[in]   vx           - x_U/V
+<b><a name="line1327">1327    </a></b>	 @param[in]   vy           - y_U/V
+<b><a name="line1328">1328    </a></b>	 @param[in]   za           - bit string Za
+<b><a name="line1329">1329    </a></b>	 @param[in]   zb           - bit string Zb
+<b><a name="line1330">1330    </a></b>	 @param[in]   key_len      - key length of KDF
+<b><a name="line1331">1331    </a></b>	 @param[in]   msg_addr     - source address
+<b><a name="line1332">1332    </a></b>	 @param[in]   digest_addr    - target address
+<b><a name="line1333">1333    </a></b>	 @param[in]   key          - key
+<b><a name="line1334">1334    </a></b>	 @param[in]   timeout_val  - setting timeout value
+<b><a name="line1335">1335    </a></b>	 @param[out]  ret          - trigger and polling done or not
+<b><a name="line1336">1336    </a></b>	
+<b><a name="line1337">1337    </a></b>	 @return    Check trigger reuslt
+<b><a name="line1338">1338    </a></b>	 @retval    1U - trigger and polling done
+<b><a name="line1339">1339    </a></b>	 @retval    0U - trigger and polling not finished
+<b><a name="line1340">1340    </a></b>	
+<b><a name="line1341">1341    </a></b>	 @note
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line1344">1344    </a></b>	
+<b><a name="line1345">1345    </a></b>	 */
+<b><a name="line1346">1346    </a></b>	U8 hal_sec_sm2_calculate_kdf_k(U8 *vx, U8 *vy, U8 *za, U8 *zb, U32 key_len, U32 msg_addr, U32 digest_addr, U8 *key, U64 timeout_val)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line1347">1347    </a></b>	{
+<b><a name="line1348">1348    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	    //key = KDF([xU yU ZA ZB],klen);
+<b><a name="line1351">1351    </a></b>	    (void)memcpy((void *)(U32 *)(digest_addr),                                (void *)(vx), HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line1352">1352    </a></b>	    (void)memcpy((void *)(U32 *)(digest_addr + HAL_SEC_SM2_BYTE_NUM),         (void *)(vy), HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line1353">1353    </a></b>	    (void)memcpy((void *)(U32 *)(digest_addr + (HAL_SEC_SM2_BYTE_NUM * 2UL)), (void *)(za), HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line1354">1354    </a></b>	    (void)memcpy((void *)(U32 *)(digest_addr + (HAL_SEC_SM2_BYTE_NUM * 3UL)), (void *)(zb), HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line1355">1355    </a></b>	
+<b><a name="line1356">1356    </a></b>	    ret = sec_sm2_kdf((U8 *)(U32 *)(digest_addr), (HAL_SEC_SM2_BYTE_NUM * 4UL), key_len, key, msg_addr, digest_addr, timeout_val);
+<b><a name="line1357">1357    </a></b>	
+<b><a name="line1358">1358    </a></b>	    hal_sec_api_reverse_endian((void *)(key), (void *)(key), key_len);
+<b><a name="line1359">1359    </a></b>	
+<b><a name="line1360">1360    </a></b>	    return ret;
+<b><a name="line1361">1361    </a></b>	}
+<b><a name="line1362">1362    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line521">521    </a></b>	    // handle sys clock
+<b><a name="line522">522    </a></b>	    sys_clock_setting(bc_ptr);
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	    // handle sqz init
+<b><a name="line525">525    </a></b>	    if (EFUSE_PARSE_SQZ_STATE(bc_ptr->p_efuse_security_setting->u16_union.sqz.sqz_enable)) {
+<b><a name="line526">526    </a></b>	        // SQZ ROM CRC Check
+<b><a name="line527">527    </a></b>	        gpFwSimCtrl1Reg->sqz_rom_crc_chk_disable = bc_ptr->p_efuse_security_setting_1->sqz_crc_chk_disable;
+<b><a name="line528">528    </a></b>	
+<b><a name="line529">529    </a></b>	        if (PASS == phal_sqz_init(DBUF_API_BOOTCODE_SQZ_PARAM_BUFFER_BASE, FALSE))
+<b><a name="line530">530    </a></b>	        {
+<b><a name="line531">531    </a></b>	            gpFwSimCtrl1Reg->sqz_enable = 1;
+<b><a name="line532">532    </a></b>	        }
+<b><a name="line533">533    </a></b>	        else
+<b><a name="line534">534    </a></b>	        {
+<b><a name="line535">535    </a></b>	            status |= ERR_SQZ_INIT_FAIL;
+<b><a name="line536">536    </a></b>	        }
+<b><a name="line537">537    </a></b>	    }
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	    // check DBUF init done and init RNG
+<b><a name="line540">540    </a></b>	    status = sys_init_check(bc_ptr);
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    //  Record the various information that boot code uses
+<b><a name="line543">543    </a></b>	    *((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_GPIO_LATCH)) = hal_sys_gpio_lh_get();
+<b><a name="line544">544    </a></b>	    *((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_GPIO_DATA))  = get_gpio_input_all();
+<b><a name="line545">545    </a></b>	    ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_SIM_REG))[0]  = hal_sim_info_0_get();
+<b><a name="line546">546    </a></b>	    ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_SIM_REG))[1]  = hal_sim_info_1_get();
+<b><a name="line547">547    </a></b>	    ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_SIM_REG))[2]  = hal_sim_info_2_get();
+<b><a name="line548">548    </a></b>	    *((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_HW_VERSION)) = phal_get_hw_ver();
+<b><a name="line549">549    </a></b>	
+<b><a name="line550">550    </a></b>	    memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_BOOT_CODE_VERSION), (void *)fw_version, 8);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_FLOW_SYS_INIT_FAIL, (0 == status));
+<b><a name="line553">553    </a></b>	    return status;
+<b><a name="line554">554    </a></b>	}
+<b><a name="line555">555    </a></b>	
+<b><a name="line556">556    </a></b>	void update_dbuf_for_fw(void)
+<b><a name="line557">557    </a></b>	{
+<b><a name="line558">558    </a></b>	    clear_sec_key_hash_and_data(&gEFuseAPI);
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	    // backup EFUSE_API STRUCT data to DBUF
+<b><a name="line561">561    </a></b>	    (void)memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_EFUSE_SETTING_BASE), (void *)(uintptr_t)&gEFuseAPI, sizeof(EFUSE_API));
+<b><a name="line562">562    </a></b>	    // backup DEBUG_MESSAGE data to DBUF
+<b><a name="line563">563    </a></b>	    (void)memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_DEBUG_MESSAGE), (void *)LOG_INFO_BASE, DBUF_API_BOOTCODE_MISC_OFFSET_DEBUG_MESSAGE_SIZE);
+<b><a name="line564">564    </a></b>	    (void)memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_ERROR_MESSAGE), (void *)LOG_ERROR_BASE, DBUF_API_BOOTCODE_MISC_OFFSET_ERROR_MESSAGE_SIZE);
+<b><a name="line565">565    </a></b>	    (void)memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_TIME_MESSAGE ), (void *)LOG_TIME_STAMP_BASE, DBUF_API_BOOTCODE_MISC_OFFSET_TIME_MESSAGE_SIZE);
+<b><a name="line566">566    </a></b>	    // backup SEC KAT status to DBUF
+<b><a name="line567">567    </a></b>	    (void)memcpy((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_KAT_STATUS), (void *)&gSecKatRecord, sizeof(SEC_KAT_RECORD));
+<b><a name="line568">568    </a></b>	}
+<b><a name="line569">569    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/nvme/host_nvme.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line18">18    </a></b>	#define HOST_NVME_C
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#include "user_libs.h"
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	void hal_nvme_nl_del_cmd_buf(void)
+<b><a name="line23">23    </a></b>	{
+<b><a name="line24">24    </a></b>	    //U8 p_ofst = 0;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    /*
+<b><a name="line27">27    </a></b>	        // wait status stable
+<b><a name="line28">28    </a></b>	        mabiao_set(MABIAO_MS, &timer, 100);
+<b><a name="line29">29    </a></b>	        while (hal_nl_get_p_cmdf_sts_stable(PCIE_PORT_0) == 0)
+<b><a name="line30">30    </a></b>	        {
+<b><a name="line31">31    </a></b>	            if (mabiao_chk(&timer))
+<b><a name="line32">32    </a></b>	            {
+<b><a name="line33">33    </a></b>	                break;
+<b><a name="line34">34    </a></b>	            }
+<b><a name="line35">35    </a></b>	        }
+<b><a name="line36">36    </a></b>	    */
+<b><a name="line37">37    </a></b>	    // delete Port0
+<b><a name="line38">38    </a></b>	    //r32_w_all_NL_DEL_PID(PCIE_PORT_0);
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    // set delete type
+<b><a name="line41">41    </a></b>	    dal_nl_set_del_type(0,1);          //  00b: RSVD; 01b: subsys level del; 10b : func del; 11b : queue del
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	    // trigger
+<b><a name="line44">44    </a></b>	    dal_nl_set_del_req(0);
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    // wait ready
+<b><a name="line47">47    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_NVME_WAIT, 100);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line48">48    </a></b>	    while (hal_nl_get_del_req()) {
+<b><a name="line49">49    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line50">50    </a></b>	            break;
+<b><a name="line51">51    </a></b>	        }
+<b><a name="line52">52    </a></b>	    }
+<b><a name="line53">53    </a></b>	}
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	/*
+<b><a name="line56">56    </a></b>	U8 hal_nvme_apu_chk_p_cpl_empty(U8 pid)
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    return (U8)r32_r_all_APU_P_CPL_EMPTY(pid);
+<b><a name="line59">59    </a></b>	}
+<b><a name="line60">60    </a></b>	*/
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	void hal_nvme_nl_clr_sq_en(U16 qid, U8 rst_admin_q_reg)
+<b><a name="line63">63    </a></b>	{
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	    dal_nl_set_fw_set_fid(0U);
+<b><a name="line66">66    </a></b>	    dal_nl_set_fw_set_pid(0U);
+<b><a name="line67">67    </a></b>	    dal_nl_clr_sq_en(qid);
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    if ((qid == 0U) && (rst_admin_q_reg == TRUE)) { // Clear ASQ/ACQ/AQA based on rule in NVMe spec
+<b><a name="line70">70    </a></b>	        dal_nl_set_sq_base(qid, 0U);
+<b><a name="line71">71    </a></b>	        dal_nl_set_sq_size(qid, 0U);
+<b><a name="line72">72    </a></b>	    }
+<b><a name="line73">73    </a></b>	}
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	void hal_nvme_nl_clr_cq_en(U16 qid, U8 rst_admin_q_reg)
+<b><a name="line76">76    </a></b>	{
+<b><a name="line77">77    </a></b>	    dal_nl_set_fw_set_fid(0U);
+<b><a name="line78">78    </a></b>	    dal_nl_set_fw_set_pid(0U);
+</pre></body>
+</html>

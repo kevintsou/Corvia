@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_comm_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line647">647    </a></b>	    }
+<b><a name="line648">648    </a></b>	    else
+<b><a name="line649">649    </a></b>	    {
+<b><a name="line650">650    </a></b>	        // dmsca cmp is disabled, use memcmp
+<b><a name="line651">651    </a></b>	        if (0 != memcmp((void *)(U32 *)data_buf_addr, (void *)(U32 *)cmp_buf_addr, compare_len))
+<b><a name="line652">652    </a></b>	        {
+<b><a name="line653">653    </a></b>	            return HAL_SEC_DMSCA_FAIL;
+<b><a name="line654">654    </a></b>	        }
+<b><a name="line655">655    </a></b>	        else
+<b><a name="line656">656    </a></b>	        {
+<b><a name="line657">657    </a></b>	            return HAL_SEC_DMSCA_PASS;
+<b><a name="line658">658    </a></b>	        }
+<b><a name="line659">659    </a></b>	    }
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	}
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	/*!
+<b><a name="line664">664    </a></b>	 @brief generate a random number which length is indicate.
+<b><a name="line665">665    </a></b>	 @param[in] rand_len  - the byte lengths of random number want to generate.
+<b><a name="line666">666    </a></b>	 @param[in] rand_val  - declared for buffer of random number
+<b><a name="line667">667    </a></b>	 @note
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	 - None
+<b><a name="line670">670    </a></b>	
+<b><a name="line671">671    </a></b>	*/
+<b><a name="line672">672    </a></b>	void hal_sec_get_true_rand(U32 rand_len, U8 *rand_val)
+<b><a name="line673">673    </a></b>	{
+<b><a name="line674">674    </a></b>	    do {
+<b><a name="line675">675    </a></b>	        hal_rng_run_enable();
+<b><a name="line676">676    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RNG_CHK, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "-13107200" (unsigned) is not the same as that of the right operand "0x2a4 << 4"(signed).</font>
+<b><a name="line677">677    </a></b>	        while (1) {
+<b><a name="line678">678    </a></b>	            if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line679">679    </a></b>	                rand_len = 0;
+<b><a name="line680">680    </a></b>	                break;
+<b><a name="line681">681    </a></b>	            }
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	            if (hal_rng_check_done() == TRUE) {
+<b><a name="line684">684    </a></b>	                U32 sample_size = MIN(128, rand_len);
+<b><a name="line685">685    </a></b>	                (void)memcpy((void *)rand_val, (void *)(U32 *)(&r32_SQZ_RNG_REG[r32_RNG_REG0]), sample_size);
+<b><a name="line686">686    </a></b>	                rand_val += sample_size;
+<b><a name="line687">687    </a></b>	                rand_len -= sample_size;
+<b><a name="line688">688    </a></b>	                break;
+<b><a name="line689">689    </a></b>	            }
+<b><a name="line690">690    </a></b>	        }
+<b><a name="line691">691    </a></b>	        hal_rng_run_disable();
+<b><a name="line692">692    </a></b>	    } while(rand_len > 0);
+<b><a name="line693">693    </a></b>	}
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	/*!
+<b><a name="line696">696    </a></b>	 @brief generate the bit array.
+<b><a name="line697">697    </a></b>	 @param[in]  epsilon_src   - source data buffer of byte array.
+<b><a name="line698">698    </a></b>	 @param[in]  epsilon_tar   - target data buffer of bit array.
+<b><a name="line699">699    </a></b>	 @param[in]  n             - data length, unit of bit.
+<b><a name="line700">700    </a></b>	 @param[out] ret           - generate result
+<b><a name="line701">701    </a></b>	 @return generate result
+<b><a name="line702">702    </a></b>	 @retval 0U - gen bits fail
+<b><a name="line703">703    </a></b>	 @retval 1U - gen bits pass
+<b><a name="line704">704    </a></b>	 @note
+<b><a name="line705">705    </a></b>	
+<b><a name="line706">706    </a></b>	 - 3A: 0011 1010 -> 00 00 01 01 01 00 01 00
+<b><a name="line707">707    </a></b>	
+</pre></body>
+</html>

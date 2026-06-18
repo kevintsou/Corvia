@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line757">757    </a></b>	 * - None.
+<b><a name="line758">758    </a></b>	 *
+<b><a name="line759">759    </a></b>	 */
+<b><a name="line760">760    </a></b>	void dal_fip_set_dbi_cnt1(U8 ch, U8 dbi_cnt1_value)
+<b><a name="line761">761    </a></b>	{
+<b><a name="line762">762    </a></b>	    w_DBI_CNT1(ch, dbi_cnt1_value);
+<b><a name="line763">763    </a></b>	}
+<b><a name="line764">764    </a></b>	
+<b><a name="line765">765    </a></b>	/*!
+<b><a name="line766">766    </a></b>	 * @brief       Set the DBI mode for a specified channel.
+<b><a name="line767">767    </a></b>	 *
+<b><a name="line768">768    </a></b>	 * - This function is used to enable or disable DBI mode for a specified channel.
+<b><a name="line769">769    </a></b>	 *
+<b><a name="line770">770    </a></b>	 * @param[in] ch        The index of the channel to be configured.
+<b><a name="line771">771    </a></b>	 * @param[in] is_enable  indicating whether the Dbi mode is enabled or disabled.
+<b><a name="line772">772    </a></b>	 * @return None.
+<b><a name="line773">773    </a></b>	 * @note
+<b><a name="line774">774    </a></b>	 *
+<b><a name="line775">775    </a></b>	 * - None.
+<b><a name="line776">776    </a></b>	 *
+<b><a name="line777">777    </a></b>	 */
+<b><a name="line778">778    </a></b>	void dal_fip_set_dbi_en(U8 ch, BOOL is_enable)
+<b><a name="line779">779    </a></b>	{
+<b><a name="line780">780    </a></b>	    if (is_enable) {
+<b><a name="line781">781    </a></b>	        w_DBI_EN(ch, TRUE);
+<b><a name="line782">782    </a></b>	        w_FLH_FPHI_REG_TX_DIS_DBI(ch, FALSE);
+<b><a name="line783">783    </a></b>	    }
+<b><a name="line784">784    </a></b>	    else {
+<b><a name="line785">785    </a></b>	        w_DBI_EN(ch, FALSE);
+<b><a name="line786">786    </a></b>	        w_FLH_FPHI_REG_TX_DIS_DBI(ch, TRUE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast of composite expression of essential type ambiguous essential type to essential type unsigned.</font>
+<b><a name="line787">787    </a></b>	    }
+<b><a name="line788">788    </a></b>	}
+<b><a name="line789">789    </a></b>	
+<b><a name="line790">790    </a></b>	/*!
+<b><a name="line791">791    </a></b>	 * @brief       Sets the EDO mode for a specified channel.
+<b><a name="line792">792    </a></b>	 *
+<b><a name="line793">793    </a></b>	 * - This function is used to enable or disable EDO (Extended Data Output) mode for a specified channel.
+<b><a name="line794">794    </a></b>	 *
+<b><a name="line795">795    </a></b>	 * @param[in] ch        The index of the channel to be configured.
+<b><a name="line796">796    </a></b>	 * @param[in] is_enable Boolean indicating whether the EDO mode is enabled or disabled.
+<b><a name="line797">797    </a></b>	 * @return None.
+<b><a name="line798">798    </a></b>	 * @note
+<b><a name="line799">799    </a></b>	 *
+<b><a name="line800">800    </a></b>	 * - None.
+<b><a name="line801">801    </a></b>	 *
+<b><a name="line802">802    </a></b>	 */
+<b><a name="line803">803    </a></b>	#define DB_DAL_FIP_SET_EDO_MODE    ((1) && DB_DAL_FIP)
+<b><a name="line804">804    </a></b>	void dal_fip_set_edo_mode(U8 ch, U8 is_enable)
+<b><a name="line805">805    </a></b>	{
+<b><a name="line806">806    </a></b>	    w_FLH_EDO_MODE(ch, is_enable);
+<b><a name="line807">807    </a></b>	#if DB_DAL_FIP_SET_EDO_MODE
+<b><a name="line808">808    </a></b>	    Dump_Debug(tprintf("EDO mode = %x",r_FLH_EDO_MODE(ch)));
+<b><a name="line809">809    </a></b>	#endif
+<b><a name="line810">810    </a></b>	}
+<b><a name="line811">811    </a></b>	
+<b><a name="line812">812    </a></b>	/*!
+<b><a name="line813">813    </a></b>	 * @brief   Direct control wp pin by FIP
+<b><a name="line814">814    </a></b>	 *
+<b><a name="line815">815    </a></b>	 * @param[in] ch        The index of the channel to be configured.
+<b><a name="line816">816    </a></b>	 * @param[in] wp_value  Set write protected pin value.
+<b><a name="line817">817    </a></b>	 * @return    None
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pmu/hal_pmu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line71">71    </a></b>	    // @step 3. Check NAND IO power off
+<b><a name="line72">72    </a></b>	    sal_log_tracker_set(sal_locate(0x22, TYPE_RSV6));
+<b><a name="line73">73    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    while (r_CR_VOUT_FIO_1P2V() != 0U) {
+<b><a name="line76">76    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line77">77    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FIO1P2_0_TIMEOUT;
+<b><a name="line78">78    </a></b>	        }
+<b><a name="line79">79    </a></b>	    }
+<b><a name="line80">80    </a></b>	#endif
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	/*
+<b><a name="line83">83    </a></b>	    // disable VDT mask
+<b><a name="line84">84    </a></b>	    mabiao_set(MABIAO_MS, &gsMabiao[MABIAO_BE], timeout);   //ken :  Polling cr_vout_fio_0p6, but no this register
+<b><a name="line85">85    </a></b>	    while (r_CR_VOUT_FIO_1P2V() != 0U) {
+<b><a name="line86">86    </a></b>	        if (mabiao_chk(&gsMabiao[MABIAO_BE])) {
+<b><a name="line87">87    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FIO1P2_0_TIMEOUT;
+<b><a name="line88">88    </a></b>	        }
+<b><a name="line89">89    </a></b>	    }
+<b><a name="line90">90    </a></b>	*/
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    // @step 4. Turn off NAND IO/CORE power
+<b><a name="line93">93    </a></b>	    sal_log_tracker_set(sal_locate(0x23, TYPE_RSV6));
+<b><a name="line94">94    </a></b>	    i2c_nand_power_on_through_mcu();
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line97">97    </a></b>	    // @step 5. Check NAND CORE power on
+<b><a name="line98">98    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "-1705050112" (unsigned) is not the same as that of the right operand "0x62 << 4"(signed).</font>
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	    while (r_CR_VOUT_FC() != 1U) {
+<b><a name="line101">101    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line102">102    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FC_1_TIMEOUT;
+<b><a name="line103">103    </a></b>	        }
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	#endif
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line108">108    </a></b>	    // @step 6. Check NAND IO power on
+<b><a name="line109">109    </a></b>	    sal_log_tracker_set(sal_locate(0x24, TYPE_RSV6));
+<b><a name="line110">110    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    while (r_CR_VOUT_FIO_1P2V() != 1U) {
+<b><a name="line113">113    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line114">114    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FIO1P2_1_TIMEOUT;
+<b><a name="line115">115    </a></b>	        }
+<b><a name="line116">116    </a></b>	    }
+<b><a name="line117">117    </a></b>	#endif
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    // @step 7. All FLH VDT Mask off
+<b><a name="line120">120    </a></b>	    // x3 pypass this step
+<b><a name="line121">121    </a></b>	    //sal_log_tracker_set(sal_locate(0x25, TYPE_RSV6));
+<b><a name="line122">122    </a></b>	    //r32_w_VDT_RST(r32_r_VDT_RST() & ~(0xF00U));
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    // @step 8. FPHY Regulator / FPHY_PLL or FPHY_OSC power on flow
+<b><a name="line125">125    </a></b>	    sal_log_tracker_set(sal_locate(0x26, TYPE_RSV6));
+<b><a name="line126">126    </a></b>	    hal_fphy_power_on();
+<b><a name="line127">127    </a></b>	    sal_log_tracker_set(sal_locate(0x27, TYPE_RSV6));
+<b><a name="line128">128    </a></b>	    hal_fphy_osc_enable(ssc_en, HAL_FPL_OSC_CLK_3200M, HAL_FPL_OSC_DIV_4);
+<b><a name="line129">129    </a></b>	    sal_log_tracker_set(sal_locate(0x28, TYPE_RSV6));
+</pre></body>
+</html>

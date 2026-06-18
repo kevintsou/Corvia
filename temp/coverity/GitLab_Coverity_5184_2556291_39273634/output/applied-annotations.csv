@@ -1,0 +1,7 @@
+file,line,tag,checker,mergeKey,triage
+/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c,595,assert_side_effect,ASSERT_SIDE_EFFECT,aabbc416576209205a3ccd85d29832b1,Intentional
+/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c,148,overrun-buffer-arg,OVERRUN,5c14540b1fb90af7cc68d817b14f0630,Intentional
+/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c,1703,assert_side_effect,ASSERT_SIDE_EFFECT,cc2b08626f5feb03a624e0cceca27a9f,Intentional
+/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c,190,unsigned_compare,NO_EFFECT,c779aef3868b88bd0e39a88c5c643c1f,Intentional
+/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c,1221,unsigned_compare,NO_EFFECT,b54efedee615ac3db9109059b23241ed,Intentional
+/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c,446,unsigned_compare,NO_EFFECT,4d4ae31d88d5bd07ce14cb772b691303,Intentional

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/slibhal.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SLIBHAL_H_
+<b><a name="line2">2    </a></b>	#define _SLIBHAL_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_SLIBHAL_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	void phal_uart_putc(char ubData);
+<b><a name="line5">5    </a></b>	void phal_uart_put_hex(char ubData);
+<b><a name="line6">6    </a></b>	void phal_hw_sim_log(void);
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	void phal_sys_rtt_enable(void);
+<b><a name="line9">9    </a></b>	U32 phal_sys_rtt_get_ms(void);
+<b><a name="line10">10    </a></b>	U32 phal_sys_rtt_get_us(void);
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#endif
+<b><a name="line13">13    </a></b>	
+</pre></body>
+</html>

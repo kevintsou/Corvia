@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line288">288    </a></b>	}
+<b><a name="line289">289    </a></b>	U8 dal_cmgr_get_int_en_p_r_unc_err(U8 p_ofst)
+<b><a name="line290">290    </a></b>	{
+<b><a name="line291">291    </a></b>	    if (p_ofst == 0U)
+<b><a name="line292">292    </a></b>	    {
+<b><a name="line293">293    </a></b>	        return r_all_CMGR_P0_R_UNC_ERR_INT_EN();
+<b><a name="line294">294    </a></b>	    }
+<b><a name="line295">295    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line296">296    </a></b>	    {
+<b><a name="line297">297    </a></b>	        return r_all_CMGR_P1_R_UNC_ERR_INT_EN();
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	    else
+<b><a name="line300">300    </a></b>	    {
+<b><a name="line301">301    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line302">302    </a></b>	        return 0U;
+<b><a name="line303">303    </a></b>	    }
+<b><a name="line304">304    </a></b>	}
+<b><a name="line305">305    </a></b>	U8 dal_cmgr_get_int_en_p_clr_cvld_err(U8 p_ofst)
+<b><a name="line306">306    </a></b>	{
+<b><a name="line307">307    </a></b>	    if (p_ofst == 0U)
+<b><a name="line308">308    </a></b>	    {
+<b><a name="line309">309    </a></b>	        return r_all_CMGR_P0_CLR_CVLD_ERR_INT_EN();
+<b><a name="line310">310    </a></b>	    }
+<b><a name="line311">311    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line312">312    </a></b>	    {
+<b><a name="line313">313    </a></b>	        return r_all_CMGR_P1_CLR_CVLD_ERR_INT_EN();
+<b><a name="line314">314    </a></b>	    }
+<b><a name="line315">315    </a></b>	    else
+<b><a name="line316">316    </a></b>	    {
+<b><a name="line317">317    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line318">318    </a></b>	        return 0U;
+<b><a name="line319">319    </a></b>	    }
+<b><a name="line320">320    </a></b>	}
+<b><a name="line321">321    </a></b>	U8 dal_cmgr_get_int_en_p_cmgr_ptr_ofst(U8 p_ofst)
+<b><a name="line322">322    </a></b>	{
+<b><a name="line323">323    </a></b>	    if (p_ofst == 0U)
+<b><a name="line324">324    </a></b>	    {
+<b><a name="line325">325    </a></b>	        return r_all_CMGR_P0_CMGR_PTR_OFST_INT_EN();
+<b><a name="line326">326    </a></b>	    }
+<b><a name="line327">327    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line328">328    </a></b>	    {
+<b><a name="line329">329    </a></b>	        return r_all_CMGR_P1_CMGR_PTR_OFST_INT_EN();
+<b><a name="line330">330    </a></b>	    }
+<b><a name="line331">331    </a></b>	    else
+<b><a name="line332">332    </a></b>	    {
+<b><a name="line333">333    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line334">334    </a></b>	        return 0U;
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	U8 dal_cmgr_get_int_en_p_rpf_hptr_ofst_err(U8 p_ofst)
+<b><a name="line338">338    </a></b>	{
+<b><a name="line339">339    </a></b>	    if (p_ofst == 0U)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        return r_all_CMGR_P0_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line342">342    </a></b>	    }
+<b><a name="line343">343    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line344">344    </a></b>	    {
+<b><a name="line345">345    </a></b>	        return r_all_CMGR_P1_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line346">346    </a></b>	    }
+<b><a name="line347">347    </a></b>	    else
+<b><a name="line348">348    </a></b>	    {
+</pre></body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/log/sal_log.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line229">229    </a></b>	    switch(sub_feature)
+<b><a name="line230">230    </a></b>	    {
+<b><a name="line231">231    </a></b>	        case DUMP_LOGSIZE:
+<b><a name="line232">232    </a></b>	            sal_log_dump_logsize(tar_addr);
+<b><a name="line233">233    </a></b>	            break;
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	        case DUMP_FOR_VUC:
+<b><a name="line236">236    </a></b>	            ubresult = sal_log_dump_for_vuc(tar_addr);
+<b><a name="line237">237    </a></b>	            break;
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	        default:
+<b><a name="line240">240    </a></b>	            Dump_Debug(tprintf("Wrong SAL sub-feature Index !"));
+<b><a name="line241">241    </a></b>	            break;
+<b><a name="line242">242    </a></b>	    }
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	    return ubresult;
+<b><a name="line245">245    </a></b>	}
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	void sal_log_enable_disable_all_uart(U8 uart_en)
+<b><a name="line248">248    </a></b>	{
+<b><a name="line249">249    </a></b>	    gSalPrintfEn = uart_en ;
+<b><a name="line250">250    </a></b>	    gsSalLogInfo.uart_en = uart_en;
+<b><a name="line251">251    </a></b>	    gsSalLogTracker.uart_en = uart_en;
+<b><a name="line252">252    </a></b>	    gsSalLogTimeStamp.uart_en = uart_en;
+<b><a name="line253">253    </a></b>	    gsSalLogError.uart_en = uart_en;
+<b><a name="line254">254    </a></b>	}
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	void sal_log_disable_all_mem_log(void)
+<b><a name="line257">257    </a></b>	{
+<b><a name="line258">258    </a></b>	    gsSalLogInfo.mlog_en = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line259">259    </a></b>	    gsSalLogTracker.mlog_en = FALSE;
+<b><a name="line260">260    </a></b>	    gsSalLogTimeStamp.mlog_en = FALSE;
+<b><a name="line261">261    </a></b>	    gsSalLogError.mlog_en = FALSE;
+<b><a name="line262">262    </a></b>	}
+<b><a name="line263">263    </a></b>	
+</pre></body>
+</html>

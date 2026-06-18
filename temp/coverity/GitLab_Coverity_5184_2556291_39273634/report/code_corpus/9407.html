@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line231">231    </a></b>	            w_DQ_BIT_REV_IDX(ubCh, ubCE);
+<b><a name="line232">232    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCS]);
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	            while(ubData[fpl_ptr->p_efuse_nand_setting->redriver_reg_rd_option] != ubReadData)
+<b><a name="line235">235    </a></b>	            {
+<b><a name="line236">236    </a></b>	                if (100 == ubReadCnt)
+<b><a name="line237">237    </a></b>	                {
+<b><a name="line238">238    </a></b>	                    break;
+<b><a name="line239">239    </a></b>	                }
+<b><a name="line240">240    </a></b>	                w_PIO_CER_LAST(ubCh, 1U);
+<b><a name="line241">241    </a></b>	                w_PIO_CER(ubCh, 0x03);
+<b><a name="line242">242    </a></b>	                w_PIO_ADR(ubCh, 0xF1);
+<b><a name="line243">243    </a></b>	                ubReadData = ((U8)r32_r_FCH_PIO_DAT(ubCh));
+<b><a name="line244">244    </a></b>	                ubReadCnt++;
+<b><a name="line245">245    </a></b>	            }
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCH]);
+<b><a name="line248">248    </a></b>	            r32_FLH_REG_TX(ubCh)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ubCE)));
+<b><a name="line249">249    </a></b>	        }
+<b><a name="line250">250    </a></b>	    }
+<b><a name="line251">251    </a></b>	}
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	void fpl_set_dq_revert(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line254">254    </a></b>	{
+<b><a name="line255">255    </a></b>	    U8 ch;
+<b><a name="line256">256    </a></b>	    U8 bank;
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	    bank = 0U;
+<b><a name="line259">259    </a></b>	    for (ch = 0U; ch < FLH_MAX_PHYS_CH; ch++) {
+<b><a name="line260">260    </a></b>	        if (BITS_GET(fpl_ptr->dq_revert_bitmap, ch, 1U) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "fpl_ptr->dq_revert_bitmap >> ch" (32 bits) is less that the right hand operand "1ULL" (64 bits).</font>
+<b><a name="line261">261    </a></b>	            hal_fip_set_dq_reverse(ch, bank, (BOOL)TRUE);
+<b><a name="line262">262    </a></b>	        }
+<b><a name="line263">263    </a></b>	        FIP_DBG_INFO_PRINTF("[dq_revert]DQ_REV_BMP[%d] = 0x%02X\r\n", \
+<b><a name="line264">264    </a></b>	            ch, \
+<b><a name="line265">265    </a></b>	            fpl_ptr->dq_revert_bitmap);
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	}
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	void fpl_fip_clock_init(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line270">270    </a></b>	{
+<b><a name="line271">271    </a></b>	    /* X3 FIP functional divider clock setting table (FLH_OSC_CLK = 800 MHz)
+<b><a name="line272">272    </a></b>	       Toggle :
+<b><a name="line273">273    </a></b>	       * - 000b: div 2
+<b><a name="line274">274    </a></b>	       * - 001b: div 4
+<b><a name="line275">275    </a></b>	       * - 010b: div 8
+<b><a name="line276">276    </a></b>	       * - 011b: div 16
+<b><a name="line277">277    </a></b>	       * - 100b: div 32
+<b><a name="line278">278    </a></b>	       * - 101b: div 64
+<b><a name="line279">279    </a></b>	       * - 110b: div 128
+<b><a name="line280">280    </a></b>	       * - 111b: div 128
+<b><a name="line281">281    </a></b>	    */
+<b><a name="line282">282    </a></b>	
+<b><a name="line283">283    </a></b>	    //clear clock divider
+<b><a name="line284">284    </a></b>	    hal_fip_set_ca_clk_div_en(FALSE, 0U);
+<b><a name="line285">285    </a></b>	    hal_fip_set_clk_div_en(FALSE, 0U);
+<b><a name="line286">286    </a></b>	
+<b><a name="line287">287    </a></b>	    //set clock divider
+<b><a name="line288">288    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->sca_mode_en == EFUSE_PARAM_PROTOCOL_CONVENTIONAL) {
+<b><a name="line289">289    </a></b>	        //CONV MODE
+<b><a name="line290">290    </a></b>	        if (fpl_ptr->flash_if == HAL_FIP_OP_FLH_IF_LEGACY) {
+<b><a name="line291">291    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_LEGACY_50MT) {
+</pre></body>
+</html>

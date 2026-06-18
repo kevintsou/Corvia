@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_directive_4_10_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Header files should be guarded against multiple inclusion.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">^</font>
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  hal_flh_fip_def.h                                                         */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	#include "sal_libs.h"
+<b><a name="line18">18    </a></b>	#include "top/lib.h"
+<b><a name="line19">19    </a></b>	#include "top/timer_api.h"
+<b><a name="line20">20    </a></b>	#include "top/scr_seed_ps.h"
+<b><a name="line21">21    </a></b>	#include "smbus/ocp/ocp_secure_firmware_recovery.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#ifndef _HAL_FLH_FIP_DEF_H_
+<b><a name="line24">24    </a></b>	#define _HAL_FLH_FIP_DEF_H_
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	// id 0: read cmd, 1: dma cmd, 2: set feature, 3: retry set feature , 4: prefix for retry
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define INST_ID_READ_CMD                            (0U)
+<b><a name="line29">29    </a></b>	#define INST_ID_DMA_CMD                             (1U)
+<b><a name="line30">30    </a></b>	#define INST_ID_SET_FEAT                            (2U)
+<b><a name="line31">31    </a></b>	#define INST_ID_SET_FEAT_FOR_RETRY                  (3U)
+<b><a name="line32">32    </a></b>	#define INST_ID_PREFIX_FOR_RETRY                    (4U)
+</pre></body>
+</html>

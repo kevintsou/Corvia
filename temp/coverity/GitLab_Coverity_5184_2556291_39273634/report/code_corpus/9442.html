@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8524">8524    </a></b>	            (void)memcpy((void *)(U8 *)ptx_addr, (void *)&gubKatPlain64B_0[0], pattern->len);
+<b><a name="line8525">8525    </a></b>	        }
+<b><a name="line8526">8526    </a></b>	        else
+<b><a name="line8527">8527    </a></b>	        {
+<b><a name="line8528">8528    </a></b>	            // RUNTIME GEN: gubKatPlain512B_0
+<b><a name="line8529">8529    </a></b>	            for(U16 i = 0; i < 512; i++)
+<b><a name="line8530">8530    </a></b>	            {
+<b><a name="line8531">8531    </a></b>	                *(U8 *)(ptx_addr + i) = (i > 255) ? (i - 0x100) : i;
+<b><a name="line8532">8532    </a></b>	            }
+<b><a name="line8533">8533    </a></b>	        }
+<b><a name="line8534">8534    </a></b>	#else
+<b><a name="line8535">8535    </a></b>	        return;
+<b><a name="line8536">8536    </a></b>	#endif
+<b><a name="line8537">8537    </a></b>	    }
+<b><a name="line8538">8538    </a></b>	
+<b><a name="line8539">8539    </a></b>	    (void)memset((void *)aesofl_param, 0, sizeof(SEC_AESOFL_PARAMS_T));
+<b><a name="line8540">8540    </a></b>	
+<b><a name="line8541">8541    </a></b>	    aesofl_param->comm.aes_mode            = pattern->aes_mode;
+<b><a name="line8542">8542    </a></b>	    aesofl_param->comm.src_addr.low        = ptx_addr;
+<b><a name="line8543">8543    </a></b>	    aesofl_param->comm.src_len             = pattern->len;
+<b><a name="line8544">8544    </a></b>	    aesofl_param->comm.targ_addr.low       = (aesofl_param->comm.src_addr.low + pattern->len + 512UL) & (~0xFFUL);
+<b><a name="line8545">8545    </a></b>	    aesofl_param->comm.tag_ptr             = (U8 *)((U32)((aesofl_param->comm.targ_addr.low + pattern->len + 512UL) & (~0xFFUL)));
+<b><a name="line8546">8546    </a></b>	    aesofl_param->comm.tag_len             = 16U;
+<b><a name="line8547">8547    </a></b>	    aesofl_param->comm.iv_ptr              = (U32 *)(((U32)(aesofl_param->comm.tag_ptr) + 32UL) & (~0x1FUL)); // max tag_len is 128
+<b><a name="line8548">8548    </a></b>	    aesofl_param->comm.timeout_val         = SEC_TIMEOUT_TICKS;
+<b><a name="line8549">8549    </a></b>	    aesofl_param->comm.sm4_en              = is_sm4;
+<b><a name="line8550">8550    </a></b>	    aesofl_param->comm.set_key_en          = TRUE;
+<b><a name="line8551">8551    </a></b>	
+<b><a name="line8552">8552    </a></b>	    aesofl_param->comm.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line8553">8553    </a></b>	    aesofl_param->comm.setkey.tmp_addr.low = (aesofl_param->comm.targ_addr.low + pattern->len + 0x300ULL) & (~0x1FULL);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "aesofl_param->comm.targ_addr.low + pattern->len" (32 bits) is less that the right hand operand "768ULL" (64 bits).</font>
+<b><a name="line8554">8554    </a></b>	    aesofl_param->comm.setkey.tmp_size     = 32UL;
+<b><a name="line8555">8555    </a></b>	    aesofl_param->comm.setkey.key_ptr      = (U32 *)((aesofl_param->comm.setkey.tmp_addr.low + aesofl_param->comm.setkey.tmp_size + 16U) & (~0x1FU));
+<b><a name="line8556">8556    </a></b>	    aesofl_param->comm.setkey.aes_mode     = pattern->aes_mode;
+<b><a name="line8557">8557    </a></b>	    aesofl_param->comm.setkey.key_type     = pattern->aes_key_type;
+<b><a name="line8558">8558    </a></b>	    aesofl_param->comm.setkey.is_otf_type  = HAL_SEC_AES_OFL;
+<b><a name="line8559">8559    </a></b>	    aesofl_param->comm.setkey.is_otf_core  = HAL_SEC_AES_OFL;
+<b><a name="line8560">8560    </a></b>	    aesofl_param->comm.setkey.gen_key_en   = SEC_YES;
+<b><a name="line8561">8561    </a></b>	    aesofl_param->comm.setkey.sm4_en       = is_sm4;
+<b><a name="line8562">8562    </a></b>	
+<b><a name="line8563">8563    </a></b>	    (void)memcpy((void *)(U8 *)ctx_addr, (void *)pattern->ctx_ptr, pattern->len);
+<b><a name="line8564">8564    </a></b>	
+<b><a name="line8565">8565    </a></b>	    (void)memcpy((void *)aesofl_param->comm.setkey.key_ptr, (void *)pattern->key_ptr, pattern->key_size);
+<b><a name="line8566">8566    </a></b>	    if (pattern->iv_ptr != NULL) {
+<b><a name="line8567">8567    </a></b>	        (void)memcpy((void *)aesofl_param->comm.iv_ptr, (void *)pattern->iv_ptr, 16U);
+<b><a name="line8568">8568    </a></b>	    }
+<b><a name="line8569">8569    </a></b>	
+<b><a name="line8570">8570    </a></b>	    if (pattern->aes_mode == HAL_SEC_AES_XTS_MODE) {
+<b><a name="line8571">8571    </a></b>	        aesofl_param->xts.lba_l = pattern->sp.xts.lba_l;
+<b><a name="line8572">8572    </a></b>	        aesofl_param->xts.lba_h = pattern->sp.xts.lba_h;
+<b><a name="line8573">8573    </a></b>	        aesofl_param->xts.blk_num = pattern->len / 0x10U;
+<b><a name="line8574">8574    </a></b>	    }
+<b><a name="line8575">8575    </a></b>	    else {
+<b><a name="line8576">8576    </a></b>	        ; // other
+<b><a name="line8577">8577    </a></b>	    }
+<b><a name="line8578">8578    </a></b>	}
+<b><a name="line8579">8579    </a></b>	#endif
+<b><a name="line8580">8580    </a></b>	#if KAT_AES_EN
+<b><a name="line8581">8581    </a></b>	U32 host_sec_aes_cbc_256_kat(U32 buf_addr)
+<b><a name="line8582">8582    </a></b>	{
+<b><a name="line8583">8583    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line8584">8584    </a></b>	    U8 ret = SEC_NO;
+</pre></body>
+</html>

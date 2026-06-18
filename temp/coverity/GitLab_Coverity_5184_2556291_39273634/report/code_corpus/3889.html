@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2392">2392    </a></b>	 @note
+<b><a name="line2393">2393    </a></b>	 - None
+<b><a name="line2394">2394    </a></b>	*/
+<b><a name="line2395">2395    </a></b>	U8 hal_sec_pke_get_op_bsy(void)
+<b><a name="line2396">2396    </a></b>	{
+<b><a name="line2397">2397    </a></b>	    return dal_sec_pke_get_op_bsy();
+<b><a name="line2398">2398    </a></b>	}
+<b><a name="line2399">2399    </a></b>	
+<b><a name="line2400">2400    </a></b>	/*!
+<b><a name="line2401">2401    </a></b>	 @brief      get PKE_QUE_EMPTY register
+<b><a name="line2402">2402    </a></b>	 @param[out]  reg_val          - PKE_QUE_EMPTY register value
+<b><a name="line2403">2403    </a></b>	 @return PKE_QUE_EMPTY register value
+<b><a name="line2404">2404    </a></b>	 @note
+<b><a name="line2405">2405    </a></b>	 - None
+<b><a name="line2406">2406    </a></b>	*/
+<b><a name="line2407">2407    </a></b>	U8 hal_sec_pke_get_que_empty(void)
+<b><a name="line2408">2408    </a></b>	{
+<b><a name="line2409">2409    </a></b>	    return (dal_sec_pke_get_que_empty());
+<b><a name="line2410">2410    </a></b>	}
+<b><a name="line2411">2411    </a></b>	
+<b><a name="line2412">2412    </a></b>	/*!
+<b><a name="line2413">2413    </a></b>	 @brief      get PKE_QUE_FUL register
+<b><a name="line2414">2414    </a></b>	 @param[out]  reg_val          - PKE_QUE_FUL register value
+<b><a name="line2415">2415    </a></b>	 @return PKE_QUE_FUL register value
+<b><a name="line2416">2416    </a></b>	 @note
+<b><a name="line2417">2417    </a></b>	 - None
+<b><a name="line2418">2418    </a></b>	*/
+<b><a name="line2419">2419    </a></b>	U8 hal_sec_pke_get_que_ful(void)
+<b><a name="line2420">2420    </a></b>	{
+<b><a name="line2421">2421    </a></b>	    return dal_sec_pke_get_que_ful();
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "dal_sec_pke_get_que_ful()" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2422">2422    </a></b>	}
+<b><a name="line2423">2423    </a></b>	
+<b><a name="line2424">2424    </a></b>	/*!
+<b><a name="line2425">2425    </a></b>	 @brief      set PKE_WR_PTR_SET register
+<b><a name="line2426">2426    </a></b>	 @note
+<b><a name="line2427">2427    </a></b>	 - None
+<b><a name="line2428">2428    </a></b>	*/
+<b><a name="line2429">2429    </a></b>	void hal_sec_pke_set_wr_ptr_set(void)
+<b><a name="line2430">2430    </a></b>	{
+<b><a name="line2431">2431    </a></b>	    return (dal_sec_pke_set_wr_ptr_set());
+<b><a name="line2432">2432    </a></b>	}
+<b><a name="line2433">2433    </a></b>	
+<b><a name="line2434">2434    </a></b>	/*!
+<b><a name="line2435">2435    </a></b>	 @brief      get PKE_QUE_DIF register
+<b><a name="line2436">2436    </a></b>	 @param[out]  reg_val          - PKE_QUE_DIF register value
+<b><a name="line2437">2437    </a></b>	 @return PKE_QUE_DIF register value
+<b><a name="line2438">2438    </a></b>	 @note
+<b><a name="line2439">2439    </a></b>	 - None
+<b><a name="line2440">2440    </a></b>	*/
+<b><a name="line2441">2441    </a></b>	U32 hal_sec_pke_get_que_dif(void)
+<b><a name="line2442">2442    </a></b>	{
+<b><a name="line2443">2443    </a></b>	    return (dal_sec_pke_get_que_dif());
+<b><a name="line2444">2444    </a></b>	}
+<b><a name="line2445">2445    </a></b>	
+<b><a name="line2446">2446    </a></b>	/*!
+<b><a name="line2447">2447    </a></b>	 @brief      set PKE_CMDQ_WR_PTR register
+<b><a name="line2448">2448    </a></b>	 @param[in]  cmd_size          - set value to PKE_CMDQ_WR_PTR register
+<b><a name="line2449">2449    </a></b>	 @note
+<b><a name="line2450">2450    </a></b>	 - None
+<b><a name="line2451">2451    </a></b>	*/
+<b><a name="line2452">2452    </a></b>	void hal_sec_pke_set_cmdq_wr_ptr(U32 cmd_size)
+</pre></body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line551">551    </a></b>	        case E_RP_STATE_FORCED_RECOVERY_WITH_PROT_CAP_DISABLE:
+<b><a name="line552">552    </a></b>	            // A device which has been commanded to enter recovery but forced recovery is disable
+<b><a name="line553">553    </a></b>	            // MUST report "Error entering recovery mode" in RECOVERY_STATUS register
+<b><a name="line554">554    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_ERROR_ENTERING_RECOVERY_MODE);
+<b><a name="line555">555    </a></b>	            break;
+<b><a name="line556">556    </a></b>	
+<b><a name="line557">557    </a></b>	        case E_RP_STATE_FORCED_RECOVERY_WITH_PROT_CAP_ENABLE:
+<b><a name="line558">558    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_RECOVERY_MODE);
+<b><a name="line559">559    </a></b>	            M_OCP_RECOVERY_SET_RECOVERY_REASON_CODE(pACRotData, RRC_FORCED_RECOVERY);
+<b><a name="line560">560    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_AWAITING_RECOVERY_IMAGE);
+<b><a name="line561">561    </a></b>	            break;
+<b><a name="line562">562    </a></b>	
+<b><a name="line563">563    </a></b>	        case E_RP_STATE_ENCOUNTER_INVALID_CMS:
+<b><a name="line564">564    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_INVALID_COMPONENT_ADDRESS_SPACE);
+<b><a name="line565">565    </a></b>	            break;
+<b><a name="line566">566    </a></b>	
+<b><a name="line567">567    </a></b>	        case E_RP_STATE_ACTIVATE_RECOVERY_IMAGE:
+<b><a name="line568">568    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_RUNNING_RECOVERY_IMAGE);
+<b><a name="line569">569    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_BOOTING_RECOVERY_IMAGE);
+<b><a name="line570">570    </a></b>	            break;
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	        case E_RP_STATE_UPDATE_STATUS_RUNNING_RECOVERY_IMAGE:
+<b><a name="line573">573    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_DEVICE_HEALTHY);
+<b><a name="line574">574    </a></b>	            M_OCP_RECOVERY_SET_RECOVERY_REASON_CODE(pACRotData, RRC_NO_BOOT_FAILURE_DECTECTED);
+<b><a name="line575">575    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_RECOVERY_SUCCESSFULL);
+<b><a name="line576">576    </a></b>	            break;
+<b><a name="line577">577    </a></b>	
+<b><a name="line578">578    </a></b>	        case E_RP_STATE_RETURN_TO_DEFAULT_VALUE:
+<b><a name="line579">579    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_STATUS_PENDING);
+<b><a name="line580">580    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_NOT_IN_RECOVERY_MODE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">            ^</font>
+<b><a name="line581">581    </a></b>	            break;
+<b><a name="line582">582    </a></b>	
+<b><a name="line583">583    </a></b>	        default:
+<b><a name="line584">584    </a></b>	            break;
+<b><a name="line585">585    </a></b>	    }
+<b><a name="line586">586    </a></b>	}
+<b><a name="line587">587    </a></b>	
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	/*******************************************************************************************************
+<b><a name="line593">593    </a></b>	 * Recovery Process - Read Command Handler
+<b><a name="line594">594    </a></b>	 *******************************************************************************************************/
+<b><a name="line595">595    </a></b>	
+<b><a name="line596">596    </a></b>	/*!
+<b><a name="line597">597    </a></b>	   @brief      OCP recovery process read command handler
+<b><a name="line598">598    </a></b>	
+<b><a name="line599">599    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line600">600    </a></b>	   @param      ubCmdCode         recovery command code
+<b><a name="line601">601    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line602">602    </a></b>	 */
+<b><a name="line603">603    </a></b>	static void RpReadCmdHandler(ACROT_DATA *pACRotData, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line604">604    </a></b>	{
+<b><a name="line605">605    </a></b>	    pSmbsTx->uwOffset = 0U;
+<b><a name="line606">606    </a></b>	    pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST] = RpReadGetFollowingDataByteCount(ubCmdCode);
+<b><a name="line607">607    </a></b>	    pSmbsTx->uwCount = RpReadGetTotalReturnLength(pSmbsTx);
+<b><a name="line608">608    </a></b>	
+<b><a name="line609">609    </a></b>	    switch (ubCmdCode)
+<b><a name="line610">610    </a></b>	    {
+<b><a name="line611">611    </a></b>	        case RECOVERY_CMD_PROT_CAP:
+</pre></body>
+</html>

@@ -1,0 +1,1253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line656">656    </a></b>	        xpos += 16;
+<b><a name="line657">657    </a></b>	
+<b><a name="line658">658    </a></b>	        /* dot operation:
+<b><a name="line659">659    </a></b>	         * multiplication operation for binary Galois (finite) field of
+<b><a name="line660">660    </a></b>	         * 2^128 elements */
+<b><a name="line661">661    </a></b>	        hal_gf_mult(y, h, tmp);
+<b><a name="line662">662    </a></b>	        (void)memcpy((void *)y, (void *)tmp, 16);
+<b><a name="line663">663    </a></b>	    }
+<b><a name="line664">664    </a></b>	
+<b><a name="line665">665    </a></b>	    if (x + xlen > xpos)
+<b><a name="line666">666    </a></b>	    {
+<b><a name="line667">667    </a></b>	        /* Add zero padded last block */
+<b><a name="line668">668    </a></b>	        U32 last = (U32)x + xlen - (U32)xpos;
+<b><a name="line669">669    </a></b>	        (void)memcpy((void *)tmp, (void *)xpos, last);
+<b><a name="line670">670    </a></b>	        (void)memset((void *)(tmp + last), 0, sizeof(tmp) - last);
+<b><a name="line671">671    </a></b>	
+<b><a name="line672">672    </a></b>	        /* Y_i = (Y^(i-1) XOR X_i) dot H */
+<b><a name="line673">673    </a></b>	        hal_xor_block(y, tmp);
+<b><a name="line674">674    </a></b>	
+<b><a name="line675">675    </a></b>	        /* dot operation:
+<b><a name="line676">676    </a></b>	         * multiplication operation for binary Galois (finite) field of
+<b><a name="line677">677    </a></b>	         * 2^128 elements */
+<b><a name="line678">678    </a></b>	        hal_gf_mult(y, h, tmp);
+<b><a name="line679">679    </a></b>	        (void)memcpy((void *)y, (void *)tmp, 16);
+<b><a name="line680">680    </a></b>	    }
+<b><a name="line681">681    </a></b>	
+<b><a name="line682">682    </a></b>	    /* Return Y_m */
+<b><a name="line683">683    </a></b>	}
+<b><a name="line684">684    </a></b>	
+<b><a name="line685">685    </a></b>	void hal_aes_gcm_init_hash_subkey(U8 *key, U32 key_len, U8 *H, U32 kidx, U32 kram_wid)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line686">686    </a></b>	{
+<b><a name="line687">687    </a></b>	    //Step 1: Let H= CIPHK(0^128).
+<b><a name="line688">688    </a></b>	    /* Generate hash subkey H = AES_K(0^128) */
+<b><a name="line689">689    </a></b>	    (void)memset((void *)H, 0, 32U);
+<b><a name="line690">690    </a></b>	
+<b><a name="line691">691    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line692">692    </a></b>	    (void)memset((void *)(&aesofl_param), 0, sizeof(SEC_AESOFL_PARAMS_T));
+<b><a name="line693">693    </a></b>	
+<b><a name="line694">694    </a></b>	    aesofl_param.comm.aes_mode            = HAL_SEC_AES_ECB_MODE;
+<b><a name="line695">695    </a></b>	    aesofl_param.comm.src_addr.low        = (U32)H;
+<b><a name="line696">696    </a></b>	    aesofl_param.comm.src_len             = 32UL;
+<b><a name="line697">697    </a></b>	    aesofl_param.comm.targ_addr.low       = (U32)H;
+<b><a name="line698">698    </a></b>	    aesofl_param.comm.sm4_en              = SEC_NO;
+<b><a name="line699">699    </a></b>	    aesofl_param.comm.set_key_en          = SEC_YES;
+<b><a name="line700">700    </a></b>	    aesofl_param.comm.timeout_val         = (U64)HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line701">701    </a></b>	
+<b><a name="line702">702    </a></b>	    aesofl_param.comm.setkey.kram_wid     = kram_wid;  // cpu0, cpu4
+<b><a name="line703">703    </a></b>	    aesofl_param.comm.setkey.key_ptr      = (U32 *)(void *)(key);
+<b><a name="line704">704    </a></b>	    aesofl_param.comm.setkey.aes_mode     = HAL_SEC_AES_ECB_MODE;
+<b><a name="line705">705    </a></b>	    aesofl_param.comm.setkey.key_type     = (key_len == 16U) ? HAL_SEC_AES_KEY128_MODE : HAL_SEC_AES_KEY256_MODE;
+<b><a name="line706">706    </a></b>	
+<b><a name="line707">707    </a></b>	    aesofl_param.comm.setkey.sm4_en       = SEC_NO;
+<b><a name="line708">708    </a></b>	    aesofl_param.comm.setkey.timeout_val  = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line709">709    </a></b>	    aesofl_param.comm.encrypt             = SEC_YES;
+<b><a name="line710">710    </a></b>	
+<b><a name="line711">711    </a></b>	    (void)phal_sec_aes_ofl_blocking(&aesofl_param);
+<b><a name="line712">712    </a></b>	}
+<b><a name="line713">713    </a></b>	
+<b><a name="line714">714    </a></b>	void hal_aes_gcm_prepare_j0(U8 *iv, U32 iv_len, U8 *H, U8 *J0)
+<b><a name="line715">715    </a></b>	{
+<b><a name="line716">716    </a></b>	    U8 len_buf[16];
+<b><a name="line717">717    </a></b>	
+<b><a name="line718">718    </a></b>	    if (iv_len == 12U)
+<b><a name="line719">719    </a></b>	    {
+<b><a name="line720">720    </a></b>	        //Step 2.1: If len(IV)=96, then let J0= IV || 0^31 || 1.
+<b><a name="line721">721    </a></b>	        /* Prepare block J_0 = IV || 0^31 || 1 [len(IV) = 96] */
+<b><a name="line722">722    </a></b>	        (void)memcpy((void *)J0, (void *)iv, iv_len);
+<b><a name="line723">723    </a></b>	        (void)memset((void *)(J0 + iv_len), 0, HAL_AES_BLOCK_SIZE - iv_len);
+<b><a name="line724">724    </a></b>	        J0[HAL_AES_BLOCK_SIZE - 1U] = 0x01U;
+<b><a name="line725">725    </a></b>	    }
+<b><a name="line726">726    </a></b>	    else
+<b><a name="line727">727    </a></b>	    {
+<b><a name="line728">728    </a></b>	        //Step 2.2: If len(IV)嚙踝蕭謕�嚙踐����改蕭嚙踐�����96, then let s= 128* ceil(len(IV)/128)-len(IV),
+<b><a name="line729">729    </a></b>	        //and let J0=GHASHH(IV||0^(s+64)||[len(IV)]64).
+<b><a name="line730">730    </a></b>	        /*
+<b><a name="line731">731    </a></b>	         * s = 128 * ceil(len(IV)/128) - len(IV)
+<b><a name="line732">732    </a></b>	         * J_0 = GHASH_H(IV || 0^(s+64) || [len(IV)]_64)
+<b><a name="line733">733    </a></b>	         */
+<b><a name="line734">734    </a></b>	        hal_ghash_start(J0);
+<b><a name="line735">735    </a></b>	        hal_ghash(H, iv, iv_len, J0);
+<b><a name="line736">736    </a></b>	        hal_aes_put_be64(len_buf, 0ULL);
+<b><a name="line737">737    </a></b>	        hal_aes_put_be64(len_buf + 8U, (U64)iv_len * 8ULL);
+<b><a name="line738">738    </a></b>	        hal_ghash(H, len_buf, sizeof(len_buf), J0);
+<b><a name="line739">739    </a></b>	    }
+<b><a name="line740">740    </a></b>	}
+<b><a name="line741">741    </a></b>	
+<b><a name="line742">742    </a></b>	void hal_aes_gcm_getJ0(U8 *pubJ0, U8 *key, U32 key_len, U8 *iv, U32 iv_len, U32 buffer_addr, U32 kidx, U32 kram_wid)
+<b><a name="line743">743    </a></b>	{
+<b><a name="line744">744    </a></b>	    hal_aes_gcm_init_hash_subkey(key, key_len, (U8 *)buffer_addr, kidx, kram_wid);
+<b><a name="line745">745    </a></b>	    hal_aes_gcm_prepare_j0(iv, iv_len, (U8 *)buffer_addr, pubJ0);
+<b><a name="line746">746    </a></b>	}
+<b><a name="line747">747    </a></b>	
+<b><a name="line748">748    </a></b>	/*!
+<b><a name="line749">749    </a></b>	 @brief      aes_keywrap blocking mode, which would wait the result done
+<b><a name="line750">750    </a></b>	 @param[in]  params - aes keywrap parameter structure
+<b><a name="line751">751    </a></b>	 @param[out] ret    - trigger result
+<b><a name="line752">752    </a></b>	
+<b><a name="line753">753    </a></b>	 @return    Check trigger reuslt.
+<b><a name="line754">754    </a></b>	 @retval     1U - trigger done
+<b><a name="line755">755    </a></b>	 @retval     0U - trigger not finished
+<b><a name="line756">756    </a></b>	
+<b><a name="line757">757    </a></b>	 @note
+<b><a name="line758">758    </a></b>	 - [wrap] known answer test
+<b><a name="line759">759    </a></b>	   1.  input data: 0x0011223344556677 0x8899AABBCCDDEEFF 0x0001020304050607 0x08090A0B0C0D0E0F (input len  = 32)
+<b><a name="line760">760    </a></b>	   2.          iv: 0xA6A6A6A6A6A6A6A6
+<b><a name="line761">761    </a></b>	   3. 256-bit KEK: 0x0001020304050607 0x08090A0B0C0D0E0F 0x1011121314151617 0x18191A1B1C1D1E1F (key type = 1)
+<b><a name="line762">762    </a></b>	   4. output data: 0x28C9F404C4B810F4(IV) + 0xCBCCB35CFB87F826 0x3F5786E2D80ED326 0xCBC7F0E71A99F43B 0xFB988B9B7A02DD21 (output len  = 40)
+<b><a name="line763">763    </a></b>	
+<b><a name="line764">764    </a></b>	 - [unwrap] known answer test
+<b><a name="line765">765    </a></b>	   1.  input data: 0x28C9F404C4B810F4(IV) + 0xCBCCB35CFB87F826 0x3F5786E2D80ED326 0xCBC7F0E71A99F43B 0xFB988B9B7A02DD21 (input len  = 40)
+<b><a name="line766">766    </a></b>	   2.          iv: 0x28C9F404C4B810F4
+<b><a name="line767">767    </a></b>	   3. output data: 0xA6A6A6A6A6A6A6A6(IV) + 0x0011223344556677 0x8899AABBCCDDEEFF 0x0001020304050607 0x08090A0B0C0D0E0F (output len  = 40)
+<b><a name="line768">768    </a></b>	
+<b><a name="line769">769    </a></b>	 */
+<b><a name="line770">770    </a></b>	U8 hal_sec_aes_keywrap_blocking(SEC_KEYWRAP_PARAMS_T_PTR params)
+<b><a name="line771">771    </a></b>	{
+<b><a name="line772">772    </a></b>	    // Force blocking
+<b><a name="line773">773    </a></b>	    params->setkey.timeout_val = (U64)HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line774">774    </a></b>	
+<b><a name="line775">775    </a></b>	    return (hal_sec_aes_keywrap(params));
+<b><a name="line776">776    </a></b>	}
+<b><a name="line777">777    </a></b>	
+<b><a name="line778">778    </a></b>	/*!
+<b><a name="line779">779    </a></b>	 @brief      aes_keywrap trigger and polling
+<b><a name="line780">780    </a></b>	 @param[in]  params - aes keywrap parameter structure
+<b><a name="line781">781    </a></b>	 @param[out] ret    - trigger result
+<b><a name="line782">782    </a></b>	
+<b><a name="line783">783    </a></b>	 @return    Check trigger reuslt.
+<b><a name="line784">784    </a></b>	 @retval     1U - trigger done
+<b><a name="line785">785    </a></b>	 @retval     0U - trigger not finished
+<b><a name="line786">786    </a></b>	 @note
+<b><a name="line787">787    </a></b>	 - None
+<b><a name="line788">788    </a></b>	 */
+<b><a name="line789">789    </a></b>	U8 hal_sec_aes_keywrap(SEC_KEYWRAP_PARAMS_T_PTR params)
+<b><a name="line790">790    </a></b>	{
+<b><a name="line791">791    </a></b>	    U64 tmp_targ_addr = 0ULL;
+<b><a name="line792">792    </a></b>	
+<b><a name="line793">793    </a></b>	    // in order to put IV in front of the data, request by FW
+<b><a name="line794">794    </a></b>	    tmp_targ_addr     = params->targ_addr.all;
+<b><a name="line795">795    </a></b>	    params->targ_addr.all = params->setkey.tmp_addr.all;
+<b><a name="line796">796    </a></b>	    hal_sec_aes_keywrap_trigger(params);
+<b><a name="line797">797    </a></b>	    params->setkey.tmp_addr.all = params->targ_addr.all;
+<b><a name="line798">798    </a></b>	    params->targ_addr.all       = tmp_targ_addr;
+<b><a name="line799">799    </a></b>	
+<b><a name="line800">800    </a></b>	    return (hal_sec_aes_keywrap_polling(params));
+<b><a name="line801">801    </a></b>	}
+<b><a name="line802">802    </a></b>	
+<b><a name="line803">803    </a></b>	/*!
+<b><a name="line804">804    </a></b>	 @brief      perform aes_keywrap
+<b><a name="line805">805    </a></b>	 @param[in]  params - aes keywrap parameter structure
+<b><a name="line806">806    </a></b>	 @note
+<b><a name="line807">807    </a></b>	
+<b><a name="line808">808    </a></b>	 - None
+<b><a name="line809">809    </a></b>	
+<b><a name="line810">810    </a></b>	 */
+<b><a name="line811">811    </a></b>	void hal_sec_aes_keywrap_trigger(SEC_KEYWRAP_PARAMS_T_PTR params)
+<b><a name="line812">812    </a></b>	{
+<b><a name="line813">813    </a></b>	    ASSERT(0U, ((params->src_addr.all & HAL_SEC_ALIGN_BYTE_MASK) == 0U));   //align
+<b><a name="line814">814    </a></b>	    ASSERT(0U, ((params->targ_addr.all & HAL_SEC_ALIGN_BYTE_MASK) == 0U));
+<b><a name="line815">815    </a></b>	    ASSERT(0U, (((params->src_addr.all >> 32ULL) & (~HAL_SEC_HIGH_BYTE_MASK)) == 0ULL));
+<b><a name="line816">816    </a></b>	    ASSERT(0U, (((params->targ_addr.all >> 32ULL) & (~HAL_SEC_HIGH_BYTE_MASK)) == 0ULL));
+<b><a name="line817">817    </a></b>	
+<b><a name="line818">818    </a></b>	    ASM_DSB();
+<b><a name="line819">819    </a></b>	    if (params->setkey.r1_enable == SEC_YES)
+<b><a name="line820">820    </a></b>	    {
+<b><a name="line821">821    </a></b>	        ASM_DSB();
+<b><a name="line822">822    </a></b>	        dal_sec_aes_ofl_set_r1_en(1U);
+<b><a name="line823">823    </a></b>	        ASM_DSB();
+<b><a name="line824">824    </a></b>	    }
+<b><a name="line825">825    </a></b>	    else
+<b><a name="line826">826    </a></b>	    {
+<b><a name="line827">827    </a></b>	        ASM_DSB();
+<b><a name="line828">828    </a></b>	        dal_sec_aes_ofl_set_r1_en(0U);
+<b><a name="line829">829    </a></b>	        ASM_DSB();
+<b><a name="line830">830    </a></b>	    }
+<b><a name="line831">831    </a></b>	    ASM_DSB();
+<b><a name="line832">832    </a></b>	
+<b><a name="line833">833    </a></b>	    params->setkey.aes_mode = HAL_SEC_AES_ECB_MODE;
+<b><a name="line834">834    </a></b>	    phal_sec_aes_set_ram_key(&(params->setkey));
+<b><a name="line835">835    </a></b>	
+<b><a name="line836">836    </a></b>	    dal_sec_aes_ofl_mode_set(HAL_SEC_AES_ECB_MODE, HAL_SEC_AES_RAM_DAT_LSB_FST, params->encrypt, params->sm4_en);
+<b><a name="line837">837    </a></b>	    dal_sec_aes_ofl_set_keywrap_data(params->src_addr.all, params->src_len, params->targ_addr.all, params->dummy_len, (U32 *)params->iv_ptr, params->write_kram, params->setkey.kidx, params->enc_or_lba, params->setkey.r1_enable);
+<b><a name="line838">838    </a></b>	    dal_sec_aes_ofl_set_keywrap_trig();
+<b><a name="line839">839    </a></b>	}
+<b><a name="line840">840    </a></b>	
+<b><a name="line841">841    </a></b>	/*!
+<b><a name="line842">842    </a></b>	 @brief      perform aes_keywrap polling
+<b><a name="line843">843    </a></b>	 @param[in]  params - aes keywrap parameter structure
+<b><a name="line844">844    </a></b>	 @param[out] ret    - trigger result
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	 @return    Check trigger reuslt.
+<b><a name="line847">847    </a></b>	 @retval     1U - trigger done
+<b><a name="line848">848    </a></b>	 @retval     0U - trigger not finished
+<b><a name="line849">849    </a></b>	
+<b><a name="line850">850    </a></b>	 @note
+<b><a name="line851">851    </a></b>	
+<b><a name="line852">852    </a></b>	 - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line853">853    </a></b>	
+<b><a name="line854">854    </a></b>	 */
+<b><a name="line855">855    </a></b>	U8 hal_sec_aes_keywrap_polling(SEC_KEYWRAP_PARAMS_T_PTR params)
+<b><a name="line856">856    </a></b>	{
+<b><a name="line857">857    </a></b>	    U8 trigger_done = SEC_NO;
+<b><a name="line858">858    </a></b>	    U32 targ_addr_remap = ((params->targ_addr.all > 0xFFFFFFFFUL) ? ((U32)(params->targ_addr.all - 0x80000000ULL)) : (params->targ_addr.low));
+<b><a name="line859">859    </a></b>	    U32 tmp_addr_remap = ((params->setkey.tmp_addr.all > 0xFFFFFFFFUL) ? ((U32)(params->setkey.tmp_addr.all - 0x80000000ULL)) : (params->setkey.tmp_addr.low));
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	    if (params->setkey.timeout_val == 0U)
+<b><a name="line862">862    </a></b>	    {
+<b><a name="line863">863    </a></b>	        if (0U == dal_sec_aes_ofl_get_keywrap_trig())
+<b><a name="line864">864    </a></b>	        {
+<b><a name="line865">865    </a></b>	            if (1U == dal_sec_aes_ofl_get_keywrap_result((U32 *)(targ_addr_remap), params->setkey.timeout_val))
+<b><a name="line866">866    </a></b>	            {
+<b><a name="line867">867    </a></b>	                trigger_done = SEC_YES;
+<b><a name="line868">868    </a></b>	            }
+<b><a name="line869">869    </a></b>	        }
+<b><a name="line870">870    </a></b>	    }
+<b><a name="line871">871    </a></b>	    else if (params->setkey.timeout_val < HAL_SEC_BLOCKING_TIME_VAL)
+<b><a name="line872">872    </a></b>	    {
+<b><a name="line873">873    </a></b>	        U8 is_timeout = SEC_NO;
+<b><a name="line874">874    </a></b>	
+<b><a name="line875">875    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line876">876    </a></b>	
+<b><a name="line877">877    </a></b>	        while (1U == dal_sec_aes_ofl_get_keywrap_trig())
+<b><a name="line878">878    </a></b>	        {
+<b><a name="line879">879    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line880">880    </a></b>	            {
+<b><a name="line881">881    </a></b>	                gSecAesTimeout = SEC_YES;
+<b><a name="line882">882    </a></b>	                is_timeout = SEC_YES;
+<b><a name="line883">883    </a></b>	                break;
+<b><a name="line884">884    </a></b>	            }
+<b><a name="line885">885    </a></b>	        }
+<b><a name="line886">886    </a></b>	
+<b><a name="line887">887    </a></b>	        if (0U == dal_sec_aes_ofl_get_keywrap_result((U32 *)(targ_addr_remap), params->setkey.timeout_val))
+<b><a name="line888">888    </a></b>	        {
+<b><a name="line889">889    </a></b>	            gSecAesTimeout = SEC_YES;
+<b><a name="line890">890    </a></b>	            is_timeout = SEC_YES;
+<b><a name="line891">891    </a></b>	        }
+<b><a name="line892">892    </a></b>	
+<b><a name="line893">893    </a></b>	        if (dal_sec_aes_ofl_get_keywrap_toram() == 0U)
+<b><a name="line894">894    </a></b>	        {
+<b><a name="line895">895    </a></b>	            (void)memcpy((void *)(U32 *)((U32)(targ_addr_remap + 8U)), (void *)(U32 *)((U32)(tmp_addr_remap)), params->src_len);
+<b><a name="line896">896    </a></b>	            ASM_DSB();
+<b><a name="line897">897    </a></b>	        }
+<b><a name="line898">898    </a></b>	
+<b><a name="line899">899    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line900">900    </a></b>	        {
+<b><a name="line901">901    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line902">902    </a></b>	        }
+<b><a name="line903">903    </a></b>	    }
+<b><a name="line904">904    </a></b>	    else
+<b><a name="line905">905    </a></b>	    {
+<b><a name="line906">906    </a></b>	        while (1U == dal_sec_aes_ofl_get_keywrap_trig()) {};
+<b><a name="line907">907    </a></b>	
+<b><a name="line908">908    </a></b>	        (void)dal_sec_aes_ofl_get_keywrap_result((U32 *)(targ_addr_remap), params->setkey.timeout_val);
+<b><a name="line909">909    </a></b>	
+<b><a name="line910">910    </a></b>	        if (dal_sec_aes_ofl_get_keywrap_toram() == 0U)
+<b><a name="line911">911    </a></b>	        {
+<b><a name="line912">912    </a></b>	            (void)memcpy((void *)(U32 *)((U32)(targ_addr_remap + 8U)), (void *)(U32 *)((U32)(tmp_addr_remap)), params->src_len);
+<b><a name="line913">913    </a></b>	            ASM_DSB();
+<b><a name="line914">914    </a></b>	        }
+<b><a name="line915">915    </a></b>	
+<b><a name="line916">916    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line917">917    </a></b>	    }
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    return trigger_done;
+<b><a name="line920">920    </a></b>	}
+<b><a name="line921">921    </a></b>	
+<b><a name="line922">922    </a></b>	/*!
+<b><a name="line923">923    </a></b>	 @brief      aes otf direct path trigger blocking mode, which would wait the result done
+<b><a name="line924">924    </a></b>	 @param[in]  params  - aes otf direct path parameter structure
+<b><a name="line925">925    </a></b>	 @note
+<b><a name="line926">926    </a></b>	
+<b><a name="line927">927    </a></b>	 - None
+<b><a name="line928">928    </a></b>	
+<b><a name="line929">929    </a></b>	 */
+<b><a name="line930">930    </a></b>	void hal_sec_aesotf_direct_path_blocking(SEC_AES_DIRECT_PARAMS_PTR params)
+<b><a name="line931">931    </a></b>	{
+<b><a name="line932">932    </a></b>	    ASSERT(0U, params->comm.setkey.tmp_size >= params->comm.src_len);
+<b><a name="line933">933    </a></b>	    ASSERT(0U, params->comm.is_xts_cts_mode == SEC_NO);
+<b><a name="line934">934    </a></b>	
+<b><a name="line935">935    </a></b>	    U32 lba;
+<b><a name="line936">936    </a></b>	    U32 lbas[4] = {0};
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    U8 *tmp_src_ptr  = (U8 *)(params->comm.setkey.tmp_addr.low);
+<b><a name="line939">939    </a></b>	    U8 *tmp_targ_ptr = (U8 *)(params->comm.targ_addr.low);
+<b><a name="line940">940    </a></b>	
+<b><a name="line941">941    </a></b>	    U32 cal_blk_size = 16UL;
+<b><a name="line942">942    </a></b>	    U32 sec_cnt      = (params->comm.src_len + (cal_blk_size - 1U) ) / cal_blk_size;
+<b><a name="line943">943    </a></b>	
+<b><a name="line944">944    </a></b>	    // must load key
+<b><a name="line945">945    </a></b>	    params->comm.setkey.aes_mode = params->comm.aes_mode;
+<b><a name="line946">946    </a></b>	    phal_sec_aes_set_ram_key(&(params->comm.setkey));
+<b><a name="line947">947    </a></b>	
+<b><a name="line948">948    </a></b>	    if ((params->comm.setkey.tmp_addr.all >> 32UL) != 0UL)
+<b><a name="line949">949    </a></b>	    {
+<b><a name="line950">950    </a></b>	        // TODO: deal with DDR address
+<b><a name="line951">951    </a></b>	    }
+<b><a name="line952">952    </a></b>	
+<b><a name="line953">953    </a></b>	    if ((params->comm.targ_addr.all >> 32UL) != 0UL)
+<b><a name="line954">954    </a></b>	    {
+<b><a name="line955">955    </a></b>	        // TODO: deal with DDR address
+<b><a name="line956">956    </a></b>	    }
+<b><a name="line957">957    </a></b>	
+<b><a name="line958">958    </a></b>	    if (params->comm.src_len > 0U)
+<b><a name="line959">959    </a></b>	    {
+<b><a name="line960">960    </a></b>	        (void)memcpy((void *)(tmp_src_ptr), (void *)(U8 *)(params->comm.src_addr.low), params->comm.src_len);
+<b><a name="line961">961    </a></b>	        ASM_DSB();
+<b><a name="line962">962    </a></b>	    }
+<b><a name="line963">963    </a></b>	    else
+<b><a name="line964">964    </a></b>	    {
+<b><a name="line965">965    </a></b>	        ASSERT(0U, params->comm.src_len != 0U);
+<b><a name="line966">966    </a></b>	    }
+<b><a name="line967">967    </a></b>	
+<b><a name="line968">968    </a></b>	    if (params->comm.aes_mode == HAL_SEC_AES_XTS_MODE)
+<b><a name="line969">969    </a></b>	    {
+<b><a name="line970">970    </a></b>	        dal_sec_aes_otf_direct_path_init(params->comm.core_idx, 0UL, 1UL, params->comm.dup_core_sel);
+<b><a name="line971">971    </a></b>	
+<b><a name="line972">972    </a></b>	        lba = ((U32)(params->comm.lba_h >> 32) & 0xFFFFFFFFUL);
+<b><a name="line973">973    </a></b>	        hal_sec_api_reverse_endian(&lbas[0], &lba, 4UL);
+<b><a name="line974">974    </a></b>	
+<b><a name="line975">975    </a></b>	        lba = ((U32)(params->comm.lba_h & 0xFFFFFFFFUL));
+<b><a name="line976">976    </a></b>	        hal_sec_api_reverse_endian(&lbas[1], &lba, 4UL);
+<b><a name="line977">977    </a></b>	
+<b><a name="line978">978    </a></b>	        lba = ((U32)(params->comm.lba_l >> 32) & 0xFFFFFFFFUL);
+<b><a name="line979">979    </a></b>	        hal_sec_api_reverse_endian(&lbas[2], &lba, 4UL);
+<b><a name="line980">980    </a></b>	
+<b><a name="line981">981    </a></b>	        lba = ((U32)(params->comm.lba_l & 0xFFFFFFFFUL));
+<b><a name="line982">982    </a></b>	        hal_sec_api_reverse_endian(&lbas[3], &lba, 4UL);
+<b><a name="line983">983    </a></b>	
+<b><a name="line984">984    </a></b>	        dal_sec_aes_otf_direct_path_lba_trigger((U32 *)lbas);
+<b><a name="line985">985    </a></b>	    }
+<b><a name="line986">986    </a></b>	    else
+<b><a name="line987">987    </a></b>	    {
+<b><a name="line988">988    </a></b>	        // ECB
+<b><a name="line989">989    </a></b>	        dal_sec_aes_otf_direct_path_init(params->comm.core_idx, 1UL, params->comm.lba_core, params->comm.dup_core_sel);
+<b><a name="line990">990    </a></b>	    }
+<b><a name="line991">991    </a></b>	
+<b><a name="line992">992    </a></b>	    for (U32 i = 0UL; i < sec_cnt; i++)
+<b><a name="line993">993    </a></b>	    {
+<b><a name="line994">994    </a></b>	        dal_sec_aes_otf_direct_path_trigger(params->comm.encrypt, (U32 *)(void *)tmp_src_ptr);
+<b><a name="line995">995    </a></b>	        hal_sec_aes_otf_polling((U32 *)(void *)tmp_targ_ptr);
+<b><a name="line996">996    </a></b>	
+<b><a name="line997">997    </a></b>	        tmp_src_ptr  += cal_blk_size;
+<b><a name="line998">998    </a></b>	        tmp_targ_ptr += cal_blk_size;
+<b><a name="line999">999    </a></b>	    }
+<b><a name="line1000">1000    </a></b>	
+<b><a name="line1001">1001    </a></b>	    dal_sec_aes_otf_clr_direct_path_reg();
+<b><a name="line1002">1002    </a></b>	}
+<b><a name="line1003">1003    </a></b>	
+<b><a name="line1004">1004    </a></b>	/*!
+<b><a name="line1005">1005    </a></b>	 @brief      aesotf direct path polling
+<b><a name="line1006">1006    </a></b>	 @param[in]  targ_ptr      - result will output to this parameter
+<b><a name="line1007">1007    </a></b>	 @note
+<b><a name="line1008">1008    </a></b>	 - None
+<b><a name="line1009">1009    </a></b>	 */
+<b><a name="line1010">1010    </a></b>	void hal_sec_aes_otf_polling(U32 *targ_ptr)
+<b><a name="line1011">1011    </a></b>	{
+<b><a name="line1012">1012    </a></b>	    while (1U == dal_sec_aes_otf_get_dir_trig()) {}
+<b><a name="line1013">1013    </a></b>	    dal_sec_aes_otf_get_direct_rlt(targ_ptr);
+<b><a name="line1014">1014    </a></b>	}
+<b><a name="line1015">1015    </a></b>	
+<b><a name="line1016">1016    </a></b>	/*!
+<b><a name="line1017">1017    </a></b>	 @brief      init OTF_KIDX_INI
+<b><a name="line1018">1018    </a></b>	 @param[in]  timeout_val - setting timeout value
+<b><a name="line1019">1019    </a></b>	 @note
+<b><a name="line1020">1020    </a></b>	
+<b><a name="line1021">1021    </a></b>	  - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line1022">1022    </a></b>	
+<b><a name="line1023">1023    </a></b>	 */
+<b><a name="line1024">1024    </a></b>	void hal_sec_aes_otf_set_kidx_init(U64 timeout_val)
+<b><a name="line1025">1025    </a></b>	{
+<b><a name="line1026">1026    </a></b>	    if (0U == dal_sec_aes_otf_set_kidx_init(timeout_val))
+<b><a name="line1027">1027    </a></b>	    {
+<b><a name="line1028">1028    </a></b>	        gSecAesTimeout = SEC_YES;
+<b><a name="line1029">1029    </a></b>	    }
+<b><a name="line1030">1030    </a></b>	}
+<b><a name="line1031">1031    </a></b>	
+<b><a name="line1032">1032    </a></b>	/*!
+<b><a name="line1033">1033    </a></b>	 @brief      [for ICV] set ram key to hw and related setting with mask
+<b><a name="line1034">1034    </a></b>	 @param[in]  params         - aes set key parameter structure
+<b><a name="line1035">1035    </a></b>	 @param[in]  is_cpu_set_key - use cpu set key or not
+<b><a name="line1036">1036    </a></b>	 @param[in]  r1_enable      - r1 enable or not
+<b><a name="line1037">1037    </a></b>	 @param[in]  ip_src         - source from which cpu
+<b><a name="line1038">1038    </a></b>	 @param[out] ret            - set key pass or fail
+<b><a name="line1039">1039    </a></b>	
+<b><a name="line1040">1040    </a></b>	 @note
+<b><a name="line1041">1041    </a></b>	
+<b><a name="line1042">1042    </a></b>	  - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line1043">1043    </a></b>	
+<b><a name="line1044">1044    </a></b>	 */
+<b><a name="line1045">1045    </a></b>	
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	/*!
+<b><a name="line1048">1048    </a></b>	 @brief      [for ICV] set ram key to hw and related setting with mask
+<b><a name="line1049">1049    </a></b>	 @param[in]  params         - aes set key parameter structure
+<b><a name="line1050">1050    </a></b>	 @param[in]  is_cpu_set_key - use cpu set key or not
+<b><a name="line1051">1051    </a></b>	 @param[in]  mask_en        - mask enable or not
+<b><a name="line1052">1052    </a></b>	
+<b><a name="line1053">1053    </a></b>	 @note
+<b><a name="line1054">1054    </a></b>	
+<b><a name="line1055">1055    </a></b>	  - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line1056">1056    </a></b>	
+<b><a name="line1057">1057    </a></b>	 */
+<b><a name="line1058">1058    </a></b>	
+<b><a name="line1059">1059    </a></b>	/*!
+<b><a name="line1060">1060    </a></b>	 @brief      [For ICV] perform aes_keywrap software, which would wait the result done
+<b><a name="line1061">1061    </a></b>	 @param[in]  params - aes keywrap parameter structure
+<b><a name="line1062">1062    </a></b>	 @return     check result
+<b><a name="line1063">1063    </a></b>	 @retval  1U - trigger done
+<b><a name="line1064">1064    </a></b>	 @retval  0U - trigger not finished
+<b><a name="line1065">1065    </a></b>	 @note
+<b><a name="line1066">1066    </a></b>	 - [wrap] known answer test
+<b><a name="line1067">1067    </a></b>	   1.  input data: 0x0011223344556677 0x8899AABBCCDDEEFF 0x0001020304050607 0x08090A0B0C0D0E0F (input len  = 32)
+<b><a name="line1068">1068    </a></b>	   2.          iv: 0xA6A6A6A6A6A6A6A6
+<b><a name="line1069">1069    </a></b>	   3. 256-bit KEK: 0x0001020304050607 0x08090A0B0C0D0E0F 0x1011121314151617 0x18191A1B1C1D1E1F (key type = 1)
+<b><a name="line1070">1070    </a></b>	   4. output data: 0x28C9F404C4B810F4(IV) + 0xCBCCB35CFB87F826 0x3F5786E2D80ED326 0xCBC7F0E71A99F43B 0xFB988B9B7A02DD21 (output len  = 40)
+<b><a name="line1071">1071    </a></b>	
+<b><a name="line1072">1072    </a></b>	 - [unwrap] known answer test
+<b><a name="line1073">1073    </a></b>	   1.  input data: 0x28C9F404C4B810F4(IV) + 0xCBCCB35CFB87F826 0x3F5786E2D80ED326 0xCBC7F0E71A99F43B 0xFB988B9B7A02DD21 (input len  = 40)
+<b><a name="line1074">1074    </a></b>	   2.          iv: 0x28C9F404C4B810F4
+<b><a name="line1075">1075    </a></b>	   3. output data: 0xA6A6A6A6A6A6A6A6(IV) + 0x0011223344556677 0x8899AABBCCDDEEFF 0x0001020304050607 0x08090A0B0C0D0E0F (output len  = 40)
+<b><a name="line1076">1076    </a></b>	
+<b><a name="line1077">1077    </a></b>	 */
+<b><a name="line1078">1078    </a></b>	U8 hal_sec_aes_ofl_keywrap_sw(SEC_KEYWRAP_PARAMS_T_PTR params)
+<b><a name="line1079">1079    </a></b>	{
+<b><a name="line1080">1080    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line1081">1081    </a></b>	
+<b><a name="line1082">1082    </a></b>	    U32 n_blk = params->src_len >> 3U;
+<b><a name="line1083">1083    </a></b>	    U32 *ctx = (U32 *)params->targ_addr.low;
+<b><a name="line1084">1084    </a></b>	
+<b><a name="line1085">1085    </a></b>	    U32 *a = (U32 *)ctx;
+<b><a name="line1086">1086    </a></b>	    U32 *r = (U32 *)ctx + (8U >> 2U);
+<b><a name="line1087">1087    </a></b>	    U32 *b = (U32 *)params->setkey.tmp_addr.low;
+<b><a name="line1088">1088    </a></b>	
+<b><a name="line1089">1089    </a></b>	    U64 tmp;
+<b><a name="line1090">1090    </a></b>	
+<b><a name="line1091">1091    </a></b>	    (void)memcpy((void *)a, (void *)params->iv_ptr, 8U);
+<b><a name="line1092">1092    </a></b>	    (void)memcpy((void *)r, (void *)(U32 *)params->src_addr.low, n_blk << 3U);
+<b><a name="line1093">1093    </a></b>	
+<b><a name="line1094">1094    </a></b>	    SEC_AESOFL_PARAMS_T aesofl;
+<b><a name="line1095">1095    </a></b>	    (void)memset((void *)&aesofl, 0, sizeof(SEC_AESOFL_PARAMS_T));
+<b><a name="line1096">1096    </a></b>	
+<b><a name="line1097">1097    </a></b>	    aesofl.comm.aes_mode    = HAL_SEC_AES_ECB_MODE;
+<b><a name="line1098">1098    </a></b>	    aesofl.comm.src_addr    = params->setkey.tmp_addr;
+<b><a name="line1099">1099    </a></b>	    aesofl.comm.src_len     = params->src_len;
+<b><a name="line1100">1100    </a></b>	    aesofl.comm.targ_addr   = params->setkey.tmp_addr;
+<b><a name="line1101">1101    </a></b>	    //aesofl.comm.iv_ptr      = params->iv_ptr; // max tag_len is 128
+<b><a name="line1102">1102    </a></b>	    aesofl.comm.encrypt     = params->encrypt;
+<b><a name="line1103">1103    </a></b>	    aesofl.comm.sm4_en      = params->setkey.sm4_en;
+<b><a name="line1104">1104    </a></b>	    aesofl.comm.set_key_en  = SEC_YES;
+<b><a name="line1105">1105    </a></b>	
+<b><a name="line1106">1106    </a></b>	    aesofl.comm.setkey.kidx        = params->setkey.kidx;
+<b><a name="line1107">1107    </a></b>	    aesofl.comm.setkey.kram_wid    = params->setkey.kram_wid;
+<b><a name="line1108">1108    </a></b>	    aesofl.comm.setkey.tmp_addr    = params->setkey.tmp_addr;
+<b><a name="line1109">1109    </a></b>	    aesofl.comm.setkey.key_ptr     = params->setkey.key_ptr;
+<b><a name="line1110">1110    </a></b>	    aesofl.comm.setkey.aes_mode    = HAL_SEC_AES_ECB_MODE;
+<b><a name="line1111">1111    </a></b>	    aesofl.comm.setkey.key_type    = params->setkey.key_type;
+<b><a name="line1112">1112    </a></b>	    aesofl.comm.setkey.is_otf_type = params->setkey.is_otf_type;
+<b><a name="line1113">1113    </a></b>	    aesofl.comm.setkey.is_otf_core = params->setkey.is_otf_core;
+<b><a name="line1114">1114    </a></b>	    aesofl.comm.setkey.gen_key_en  = SEC_NO;
+<b><a name="line1115">1115    </a></b>	    aesofl.comm.setkey.timeout_val = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line1116">1116    </a></b>	
+<b><a name="line1117">1117    </a></b>	    //Calculate intermediate values.
+<b><a name="line1118">1118    </a></b>	    /*
+<b><a name="line1119">1119    </a></b>	        * For j = 0 to 5
+<b><a name="line1120">1120    </a></b>	        *     For i=1 to n
+<b><a name="line1121">1121    </a></b>	        *         B = AES(K, A | R[i])
+<b><a name="line1122">1122    </a></b>	        *         A = MSB(64, B) ^ t where t = (n*j)+i
+<b><a name="line1123">1123    </a></b>	        *         R[i] = LSB(64, B)
+<b><a name="line1124">1124    </a></b>	        *
+<b><a name="line1125">1125    </a></b>	     */
+<b><a name="line1126">1126    </a></b>	    for (U8 j = 0U; j <= 5U; j++)
+<b><a name="line1127">1127    </a></b>	    {
+<b><a name="line1128">1128    </a></b>	        r = ctx + (8U >> 2U);
+<b><a name="line1129">1129    </a></b>	
+<b><a name="line1130">1130    </a></b>	        for (U32 i = 1U; i <= n_blk; i++)
+<b><a name="line1131">1131    </a></b>	        {
+<b><a name="line1132">1132    </a></b>	            (void)memcpy((void *)b, (void *)a, 8U);
+<b><a name="line1133">1133    </a></b>	            (void)memcpy((void *)(b + 2U), (void *)r, 8U);
+<b><a name="line1134">1134    </a></b>	
+<b><a name="line1135">1135    </a></b>	            ASM_DSB();
+<b><a name="line1136">1136    </a></b>	
+<b><a name="line1137">1137    </a></b>	            ret = phal_sec_aes_ofl_blocking(&aesofl);
+<b><a name="line1138">1138    </a></b>	
+<b><a name="line1139">1139    </a></b>	            if (ret == SEC_NO)
+<b><a name="line1140">1140    </a></b>	            {
+<b><a name="line1141">1141    </a></b>	                break;
+<b><a name="line1142">1142    </a></b>	            }
+<b><a name="line1143">1143    </a></b>	
+<b><a name="line1144">1144    </a></b>	            for (U32 k = 0U; k < (8U >> 2U); k++)
+<b><a name="line1145">1145    </a></b>	            {
+<b><a name="line1146">1146    </a></b>	                hal_sec_api_reverse_endian(&b[k], &b[k], 4UL);
+<b><a name="line1147">1147    </a></b>	            }
+<b><a name="line1148">1148    </a></b>	
+<b><a name="line1149">1149    </a></b>	            (void)memcpy((void *)a, (void *)b, 8U);
+<b><a name="line1150">1150    </a></b>	
+<b><a name="line1151">1151    </a></b>	            tmp = ((U64)((a)[0])) << 32U | (U64)(a[1]);
+<b><a name="line1152">1152    </a></b>	            //tmp ^= (n_blk * j + i);
+<b><a name="line1153">1153    </a></b>	
+<b><a name="line1154">1154    </a></b>	            a[0] = (U32)(tmp >> 32U);
+<b><a name="line1155">1155    </a></b>	            //a[1] = (U32)(tmp);
+<b><a name="line1156">1156    </a></b>	            a[1] = (U32)(tmp) ^ (n_blk * j + i);
+<b><a name="line1157">1157    </a></b>	
+<b><a name="line1158">1158    </a></b>	            for (U32 k = 0U; k < (8U >> 2U); k++)
+<b><a name="line1159">1159    </a></b>	            {
+<b><a name="line1160">1160    </a></b>	                hal_sec_api_reverse_endian(&a[k], &a[k], 4U);
+<b><a name="line1161">1161    </a></b>	            }
+<b><a name="line1162">1162    </a></b>	
+<b><a name="line1163">1163    </a></b>	            (void)memcpy((void *)r, (void *)(b + 2U), 8U);
+<b><a name="line1164">1164    </a></b>	
+<b><a name="line1165">1165    </a></b>	            r += 2U;
+<b><a name="line1166">1166    </a></b>	        }
+<b><a name="line1167">1167    </a></b>	
+<b><a name="line1168">1168    </a></b>	        if (ret == SEC_NO)
+<b><a name="line1169">1169    </a></b>	        {
+<b><a name="line1170">1170    </a></b>	            break;
+<b><a name="line1171">1171    </a></b>	        }
+<b><a name="line1172">1172    </a></b>	    }
+<b><a name="line1173">1173    </a></b>	
+<b><a name="line1174">1174    </a></b>	    return ret;
+<b><a name="line1175">1175    </a></b>	}
+<b><a name="line1176">1176    </a></b>	
+<b><a name="line1177">1177    </a></b>	/*!
+<b><a name="line1178">1178    </a></b>	 @brief   [For ICV] Check AESOFL register with default value
+<b><a name="line1179">1179    </a></b>	 @param[out]  ret       - check pass or not
+<b><a name="line1180">1180    </a></b>	
+<b><a name="line1181">1181    </a></b>	 @return  check result
+<b><a name="line1182">1182    </a></b>	 @retval    1U - check pass
+<b><a name="line1183">1183    </a></b>	 @retval    0U - check fail
+<b><a name="line1184">1184    </a></b>	 @note
+<b><a name="line1185">1185    </a></b>	 - None
+<b><a name="line1186">1186    </a></b>	*/
+<b><a name="line1187">1187    </a></b>	
+<b><a name="line1188">1188    </a></b>	/*!
+<b><a name="line1189">1189    </a></b>	 @brief   [For ICV] Check AESOTF register with default value
+<b><a name="line1190">1190    </a></b>	 @param[out]  ret       - check pass or not
+<b><a name="line1191">1191    </a></b>	
+<b><a name="line1192">1192    </a></b>	 @return  check result
+<b><a name="line1193">1193    </a></b>	 @retval    1U - check pass
+<b><a name="line1194">1194    </a></b>	 @retval    0U - check fail
+<b><a name="line1195">1195    </a></b>	 @note
+<b><a name="line1196">1196    </a></b>	 - None
+<b><a name="line1197">1197    </a></b>	*/
+<b><a name="line1198">1198    </a></b>	
+<b><a name="line1199">1199    </a></b>	
+<b><a name="line1200">1200    </a></b>	/*!
+<b><a name="line1201">1201    </a></b>	 @brief      [For ICV] setting all kram to random value by AESOTF
+<b><a name="line1202">1202    </a></b>	 @param[in]  key_type - aes key length mode selection, 128/256 bit(0: 128bit, 1: 256bit)
+<b><a name="line1203">1203    </a></b>	 @param[in]  sm4_en   - SM4 or not
+<b><a name="line1204">1204    </a></b>	 @note
+<b><a name="line1205">1205    </a></b>	
+<b><a name="line1206">1206    </a></b>	  - None
+<b><a name="line1207">1207    </a></b>	
+<b><a name="line1208">1208    </a></b>	 */
+<b><a name="line1209">1209    </a></b>	
+<b><a name="line1210">1210    </a></b>	
+<b><a name="line1211">1211    </a></b>	/*!
+<b><a name="line1212">1212    </a></b>	 @brief      [For ICV] get aesofl register address
+<b><a name="line1213">1213    </a></b>	 @param[out]  address          - aesofl register address
+<b><a name="line1214">1214    </a></b>	 @return aesofl register address
+<b><a name="line1215">1215    </a></b>	 @note
+<b><a name="line1216">1216    </a></b>	 - None
+<b><a name="line1217">1217    </a></b>	*/
+<b><a name="line1218">1218    </a></b>	
+<b><a name="line1219">1219    </a></b>	
+<b><a name="line1220">1220    </a></b>	/*!
+<b><a name="line1221">1221    </a></b>	 @brief      get AESOFL_START register
+<b><a name="line1222">1222    </a></b>	 @param[out]  reg_val          - AESOFL_START register value
+<b><a name="line1223">1223    </a></b>	 @return AESOFL_START register value
+<b><a name="line1224">1224    </a></b>	 @note
+<b><a name="line1225">1225    </a></b>	 - None
+<b><a name="line1226">1226    </a></b>	*/
+<b><a name="line1227">1227    </a></b>	U32 hal_sec_aes_ofl_get_start(void)
+<b><a name="line1228">1228    </a></b>	{
+<b><a name="line1229">1229    </a></b>	    return (dal_sec_aes_ofl_get_start());
+<b><a name="line1230">1230    </a></b>	}
+<b><a name="line1231">1231    </a></b>	
+<b><a name="line1232">1232    </a></b>	/*!
+<b><a name="line1233">1233    </a></b>	 @brief      set AESOFL_START register
+<b><a name="line1234">1234    </a></b>	 @note
+<b><a name="line1235">1235    </a></b>	 - None
+<b><a name="line1236">1236    </a></b>	*/
+<b><a name="line1237">1237    </a></b>	void hal_sec_aes_ofl_set_start(void)
+<b><a name="line1238">1238    </a></b>	{
+<b><a name="line1239">1239    </a></b>	    dal_sec_aes_ofl_set_start();
+<b><a name="line1240">1240    </a></b>	}
+<b><a name="line1241">1241    </a></b>	
+<b><a name="line1242">1242    </a></b>	/*!
+<b><a name="line1243">1243    </a></b>	 @brief      set AESOFL_GCM_ULS_BYTE register
+<b><a name="line1244">1244    </a></b>	 @param[in]  uls_byte          - set uls_byte to AESOFL_GCM_ULS_BYTE register
+<b><a name="line1245">1245    </a></b>	 @note
+<b><a name="line1246">1246    </a></b>	 - None
+<b><a name="line1247">1247    </a></b>	*/
+<b><a name="line1248">1248    </a></b>	void hal_sec_aes_ofl_gcm_set_uls_byte(U32 uls_byte)
+<b><a name="line1249">1249    </a></b>	{
+<b><a name="line1250">1250    </a></b>	    dal_sec_aes_ofl_gcm_set_uls_byte(uls_byte);
+<b><a name="line1251">1251    </a></b>	}
+<b><a name="line1252">1252    </a></b>	
+<b><a name="line1253">1253    </a></b>	/*!
+<b><a name="line1254">1254    </a></b>	 @brief      set AESOFL_R1_EN register
+<b><a name="line1255">1255    </a></b>	 @param[in]  enable          - enable/disable AESOFL_R1_EN register
+<b><a name="line1256">1256    </a></b>	 @note
+<b><a name="line1257">1257    </a></b>	 - None
+<b><a name="line1258">1258    </a></b>	*/
+<b><a name="line1259">1259    </a></b>	void hal_sec_aes_ofl_set_r1_en(U8 enable)
+<b><a name="line1260">1260    </a></b>	{
+<b><a name="line1261">1261    </a></b>	    dal_sec_aes_ofl_set_r1_en(enable);
+<b><a name="line1262">1262    </a></b>	}
+<b><a name="line1263">1263    </a></b>	
+<b><a name="line1264">1264    </a></b>	/*!
+<b><a name="line1265">1265    </a></b>	 @brief      set AESOFL_DYN_CLK_GAT_EN register
+<b><a name="line1266">1266    </a></b>	 @param[in]  enable          - enable/disable AESOFL_DYN_CLK_GAT_EN register
+<b><a name="line1267">1267    </a></b>	 @note
+<b><a name="line1268">1268    </a></b>	 - None
+<b><a name="line1269">1269    </a></b>	*/
+<b><a name="line1270">1270    </a></b>	void hal_sec_aes_ofl_set_dyn_clk_gat_en(U8 enable)
+<b><a name="line1271">1271    </a></b>	{
+<b><a name="line1272">1272    </a></b>	    dal_sec_aes_ofl_set_dyn_clk_gat_en(enable);
+<b><a name="line1273">1273    </a></b>	}
+<b><a name="line1274">1274    </a></b>	
+<b><a name="line1275">1275    </a></b>	/*!
+<b><a name="line1276">1276    </a></b>	 @brief      set AES_BYPASS register
+<b><a name="line1277">1277    </a></b>	 @param[in]  enable          - enable/disable AES_BYPASS register
+<b><a name="line1278">1278    </a></b>	 @note
+<b><a name="line1279">1279    </a></b>	 - None
+<b><a name="line1280">1280    </a></b>	*/
+<b><a name="line1281">1281    </a></b>	void hal_sec_aes_otf_set_aes_bypass(U8 enable)
+<b><a name="line1282">1282    </a></b>	{
+<b><a name="line1283">1283    </a></b>	    dal_sec_aes_otf_set_aes_bypass(enable);
+<b><a name="line1284">1284    </a></b>	}
+<b><a name="line1285">1285    </a></b>	
+<b><a name="line1286">1286    </a></b>	/*!
+<b><a name="line1287">1287    </a></b>	 @brief      set OTF_BYPASS register
+<b><a name="line1288">1288    </a></b>	 @param[in]  enable          - enable/disable OTF_BYPASS register
+<b><a name="line1289">1289    </a></b>	 @note
+<b><a name="line1290">1290    </a></b>	 - None
+<b><a name="line1291">1291    </a></b>	*/
+<b><a name="line1292">1292    </a></b>	void hal_sec_aes_otf_set_otf_bypass(U8 enable)
+<b><a name="line1293">1293    </a></b>	{
+<b><a name="line1294">1294    </a></b>	    dal_sec_aes_otf_set_otf_bypass(enable);
+<b><a name="line1295">1295    </a></b>	}
+<b><a name="line1296">1296    </a></b>	
+<b><a name="line1297">1297    </a></b>	/*!
+<b><a name="line1298">1298    </a></b>	 @brief      get OTF_BYPASS register
+<b><a name="line1299">1299    </a></b>	 @param[out]  reg_val          - OTF_BYPASS register value
+<b><a name="line1300">1300    </a></b>	 @return OTF_BYPASS register value
+<b><a name="line1301">1301    </a></b>	 @note
+<b><a name="line1302">1302    </a></b>	 - None
+<b><a name="line1303">1303    </a></b>	*/
+<b><a name="line1304">1304    </a></b>	U32 hal_sec_aes_otf_get_otf_bypass(void)
+<b><a name="line1305">1305    </a></b>	{
+<b><a name="line1306">1306    </a></b>	    return dal_sec_aes_otf_get_otf_bypass();
+<b><a name="line1307">1307    </a></b>	}
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	/*!
+<b><a name="line1310">1310    </a></b>	 @brief      [For ICV] enable/disable to read out key by CPU path
+<b><a name="line1311">1311    </a></b>	 @param[in]  enable  - enable/disable to read out key by CPU path
+<b><a name="line1312">1312    </a></b>	 @note
+<b><a name="line1313">1313    </a></b>	
+<b><a name="line1314">1314    </a></b>	 - None
+<b><a name="line1315">1315    </a></b>	
+<b><a name="line1316">1316    </a></b>	*/
+<b><a name="line1317">1317    </a></b>	void hal_sec_aes_otf_set_key_re_dis(U8 enable)
+<b><a name="line1318">1318    </a></b>	{
+<b><a name="line1319">1319    </a></b>	    dal_sec_aes_otf_set_key_re_dis(enable);
+<b><a name="line1320">1320    </a></b>	}
+<b><a name="line1321">1321    </a></b>	
+<b><a name="line1322">1322    </a></b>	/*!
+<b><a name="line1323">1323    </a></b>	 @brief      set SM4_EN register
+<b><a name="line1324">1324    </a></b>	 @param[in]  enable          - enable/disable SM4_EN register
+<b><a name="line1325">1325    </a></b>	 @note
+<b><a name="line1326">1326    </a></b>	 - None
+<b><a name="line1327">1327    </a></b>	*/
+<b><a name="line1328">1328    </a></b>	void hal_sec_aes_otf_set_sm4_en(U8 enable)
+<b><a name="line1329">1329    </a></b>	{
+<b><a name="line1330">1330    </a></b>	    dal_sec_aes_otf_set_sm4_en(enable);
+<b><a name="line1331">1331    </a></b>	}
+<b><a name="line1332">1332    </a></b>	
+<b><a name="line1333">1333    </a></b>	/*!
+<b><a name="line1334">1334    </a></b>	 @brief      set KEYOP_SEL register
+<b><a name="line1335">1335    </a></b>	 @param[in]  sel          - set sel to KEYOP_SEL register
+<b><a name="line1336">1336    </a></b>	 @note
+<b><a name="line1337">1337    </a></b>	 - None
+<b><a name="line1338">1338    </a></b>	*/
+<b><a name="line1339">1339    </a></b>	void hal_sec_aes_otf_set_keyop_sel(U8 sel)
+<b><a name="line1340">1340    </a></b>	{
+<b><a name="line1341">1341    </a></b>	    dal_sec_aes_otf_set_keyop_sel(sel);
+<b><a name="line1342">1342    </a></b>	}
+<b><a name="line1343">1343    </a></b>	
+<b><a name="line1344">1344    </a></b>	/*!
+<b><a name="line1345">1345    </a></b>	 @brief      set KPIO_DIS register
+<b><a name="line1346">1346    </a></b>	 @param[in]  enable          - enable/disable KPIO_DIS register
+<b><a name="line1347">1347    </a></b>	 @note
+<b><a name="line1348">1348    </a></b>	 - None
+<b><a name="line1349">1349    </a></b>	*/
+<b><a name="line1350">1350    </a></b>	void hal_sec_aes_otf_set_kpio_dis(U8 enable)
+<b><a name="line1351">1351    </a></b>	{
+<b><a name="line1352">1352    </a></b>	    dal_sec_aes_otf_set_kpio_dis(enable);
+<b><a name="line1353">1353    </a></b>	}
+<b><a name="line1354">1354    </a></b>	
+<b><a name="line1355">1355    </a></b>	/*!
+<b><a name="line1356">1356    </a></b>	 @brief      set OTF_RBUF_CHK_EN register
+<b><a name="line1357">1357    </a></b>	 @param[in]  enable          - enable/disable OTF_RBUF_CHK_EN register
+<b><a name="line1358">1358    </a></b>	 @note
+<b><a name="line1359">1359    </a></b>	 - None
+<b><a name="line1360">1360    </a></b>	*/
+<b><a name="line1361">1361    </a></b>	void hal_sec_aes_otf_set_otf_rbuf_chk_en(U8 enable)
+<b><a name="line1362">1362    </a></b>	{
+<b><a name="line1363">1363    </a></b>	    dal_sec_aes_otf_set_otf_rbuf_chk_en(enable);
+<b><a name="line1364">1364    </a></b>	}
+<b><a name="line1365">1365    </a></b>	
+<b><a name="line1366">1366    </a></b>	/*!
+<b><a name="line1367">1367    </a></b>	 @brief      set WSTRB_MASK_EN register
+<b><a name="line1368">1368    </a></b>	 @param[in]  enable          - enable/disable WSTRB_MASK_EN register
+<b><a name="line1369">1369    </a></b>	 @note
+<b><a name="line1370">1370    </a></b>	 - None
+<b><a name="line1371">1371    </a></b>	*/
+<b><a name="line1372">1372    </a></b>	void hal_sec_aes_otf_set_wstrb_mask_en(U8 enable)
+<b><a name="line1373">1373    </a></b>	{
+<b><a name="line1374">1374    </a></b>	    dal_sec_aes_otf_set_wstrb_mask_en(enable);
+<b><a name="line1375">1375    </a></b>	}
+<b><a name="line1376">1376    </a></b>	
+<b><a name="line1377">1377    </a></b>	/*!
+<b><a name="line1378">1378    </a></b>	 @brief      set KEY_CHG_DIR register
+<b><a name="line1379">1379    </a></b>	 @param[in]  dir          - set direction to KEY_CHG_DIR register
+<b><a name="line1380">1380    </a></b>	
+<b><a name="line1381">1381    </a></b>	 @note
+<b><a name="line1382">1382    </a></b>	
+<b><a name="line1383">1383    </a></b>	 - 0:key register -> key ram
+<b><a name="line1384">1384    </a></b>	 - 1:key ram -> key register
+<b><a name="line1385">1385    </a></b>	
+<b><a name="line1386">1386    </a></b>	*/
+<b><a name="line1387">1387    </a></b>	void hal_sec_aes_otf_set_key_chg_dir(U8 dir)
+<b><a name="line1388">1388    </a></b>	{
+<b><a name="line1389">1389    </a></b>	    dal_sec_aes_otf_set_key_chg_dir(dir);
+<b><a name="line1390">1390    </a></b>	}
+<b><a name="line1391">1391    </a></b>	
+<b><a name="line1392">1392    </a></b>	/*!
+<b><a name="line1393">1393    </a></b>	 @brief      set KEY_CHG register
+<b><a name="line1394">1394    </a></b>	 @note
+<b><a name="line1395">1395    </a></b>	 - None
+<b><a name="line1396">1396    </a></b>	*/
+<b><a name="line1397">1397    </a></b>	void hal_sec_aes_otf_set_key_chg(void)
+<b><a name="line1398">1398    </a></b>	{
+<b><a name="line1399">1399    </a></b>	    dal_sec_aes_otf_set_key_chg();
+<b><a name="line1400">1400    </a></b>	}
+<b><a name="line1401">1401    </a></b>	
+<b><a name="line1402">1402    </a></b>	/*!
+<b><a name="line1403">1403    </a></b>	 @brief      get KEY_CHG register
+<b><a name="line1404">1404    </a></b>	 @param[out]  reg_val          - KEY_CHG register value
+<b><a name="line1405">1405    </a></b>	 @return KEY_CHG register value
+<b><a name="line1406">1406    </a></b>	 @note
+<b><a name="line1407">1407    </a></b>	 - None
+<b><a name="line1408">1408    </a></b>	*/
+<b><a name="line1409">1409    </a></b>	U32 hal_sec_aes_otf_get_key_chg(void)
+<b><a name="line1410">1410    </a></b>	{
+<b><a name="line1411">1411    </a></b>	    return dal_sec_aes_otf_get_key_chg();
+<b><a name="line1412">1412    </a></b>	}
+<b><a name="line1413">1413    </a></b>	
+<b><a name="line1414">1414    </a></b>	/*!
+<b><a name="line1415">1415    </a></b>	 @brief      set KEY_GEN register
+<b><a name="line1416">1416    </a></b>	 @note
+<b><a name="line1417">1417    </a></b>	 - None
+<b><a name="line1418">1418    </a></b>	*/
+<b><a name="line1419">1419    </a></b>	void hal_sec_aes_otf_set_key_gen(void)
+<b><a name="line1420">1420    </a></b>	{
+<b><a name="line1421">1421    </a></b>	    dal_sec_aes_otf_set_key_gen();
+<b><a name="line1422">1422    </a></b>	}
+<b><a name="line1423">1423    </a></b>	
+<b><a name="line1424">1424    </a></b>	/*!
+<b><a name="line1425">1425    </a></b>	 @brief      get KEY_GEN register
+<b><a name="line1426">1426    </a></b>	 @param[out]  reg_val          - KEY_GEN register value
+<b><a name="line1427">1427    </a></b>	 @return KEY_GEN register value
+<b><a name="line1428">1428    </a></b>	 @note
+<b><a name="line1429">1429    </a></b>	 - None
+<b><a name="line1430">1430    </a></b>	*/
+<b><a name="line1431">1431    </a></b>	U32 hal_sec_aes_otf_get_key_gen(void)
+<b><a name="line1432">1432    </a></b>	{
+<b><a name="line1433">1433    </a></b>	    return dal_sec_aes_otf_get_key_gen();
+<b><a name="line1434">1434    </a></b>	}
+<b><a name="line1435">1435    </a></b>	
+<b><a name="line1436">1436    </a></b>	/*!
+<b><a name="line1437">1437    </a></b>	 @brief      set MASK_EN register
+<b><a name="line1438">1438    </a></b>	 @param[in]  enable          - enable/disable MASK_EN register
+<b><a name="line1439">1439    </a></b>	 @note
+<b><a name="line1440">1440    </a></b>	 - None
+<b><a name="line1441">1441    </a></b>	*/
+<b><a name="line1442">1442    </a></b>	void hal_sec_aes_otf_set_mask_en(U8 enable)
+<b><a name="line1443">1443    </a></b>	{
+<b><a name="line1444">1444    </a></b>	    dal_sec_aes_otf_set_mask_en(enable);
+<b><a name="line1445">1445    </a></b>	}
+<b><a name="line1446">1446    </a></b>	
+<b><a name="line1447">1447    </a></b>	/*!
+<b><a name="line1448">1448    </a></b>	 @brief      set R2_RELOAD register
+<b><a name="line1449">1449    </a></b>	 @note
+<b><a name="line1450">1450    </a></b>	 - None
+<b><a name="line1451">1451    </a></b>	*/
+<b><a name="line1452">1452    </a></b>	void hal_sec_aes_otf_set_r2_reload(void)
+<b><a name="line1453">1453    </a></b>	{
+<b><a name="line1454">1454    </a></b>	    dal_sec_aes_otf_set_r2_reload();
+<b><a name="line1455">1455    </a></b>	}
+<b><a name="line1456">1456    </a></b>	
+<b><a name="line1457">1457    </a></b>	/*!
+<b><a name="line1458">1458    </a></b>	 @brief      set R2_UPDATE register
+<b><a name="line1459">1459    </a></b>	 @note
+<b><a name="line1460">1460    </a></b>	 - None
+<b><a name="line1461">1461    </a></b>	*/
+<b><a name="line1462">1462    </a></b>	void hal_sec_aes_otf_set_r2_update(void)
+<b><a name="line1463">1463    </a></b>	{
+<b><a name="line1464">1464    </a></b>	    dal_sec_aes_otf_set_r2_update();
+<b><a name="line1465">1465    </a></b>	}
+<b><a name="line1466">1466    </a></b>	
+<b><a name="line1467">1467    </a></b>	/*!
+<b><a name="line1468">1468    </a></b>	 @brief      get KEY256OTF register
+<b><a name="line1469">1469    </a></b>	 @param[out]  reg_val          - KEY256OTF register value
+<b><a name="line1470">1470    </a></b>	 @return KEY256OTF register value
+<b><a name="line1471">1471    </a></b>	 @note
+<b><a name="line1472">1472    </a></b>	 - None
+<b><a name="line1473">1473    </a></b>	*/
+<b><a name="line1474">1474    </a></b>	U32 hal_sec_aes_otf_get_key_mode(void)
+<b><a name="line1475">1475    </a></b>	{
+<b><a name="line1476">1476    </a></b>	    return dal_sec_aes_otf_get_key_mode();
+<b><a name="line1477">1477    </a></b>	}
+<b><a name="line1478">1478    </a></b>	
+<b><a name="line1479">1479    </a></b>	/*!
+<b><a name="line1480">1480    </a></b>	 @brief      set KEY256OTF register
+<b><a name="line1481">1481    </a></b>	 @param[in]  key_type          - set key_type to KEY256OTF register
+<b><a name="line1482">1482    </a></b>	 @note
+<b><a name="line1483">1483    </a></b>	 - None
+<b><a name="line1484">1484    </a></b>	*/
+<b><a name="line1485">1485    </a></b>	void hal_sec_aes_otf_set_key256otf(U8 key_type)
+<b><a name="line1486">1486    </a></b>	{
+<b><a name="line1487">1487    </a></b>	    dal_sec_aes_otf_set_key256otf(key_type);
+<b><a name="line1488">1488    </a></b>	}
+<b><a name="line1489">1489    </a></b>	
+<b><a name="line1490">1490    </a></b>	/*!
+<b><a name="line1491">1491    </a></b>	 @brief      set LBAFIX0 register
+<b><a name="line1492">1492    </a></b>	 @param[in]  enable          - enable/disable LBAFIX0 register
+<b><a name="line1493">1493    </a></b>	 @note
+<b><a name="line1494">1494    </a></b>	 - None
+<b><a name="line1495">1495    </a></b>	*/
+<b><a name="line1496">1496    </a></b>	void hal_sec_aes_otf_set_lbafix0(U8 enable)
+<b><a name="line1497">1497    </a></b>	{
+<b><a name="line1498">1498    </a></b>	    dal_sec_aes_otf_set_lbafix0(enable);
+<b><a name="line1499">1499    </a></b>	}
+<b><a name="line1500">1500    </a></b>	
+<b><a name="line1501">1501    </a></b>	/*!
+<b><a name="line1502">1502    </a></b>	 @brief      set LSBFST register
+<b><a name="line1503">1503    </a></b>	 @param[in]  enable          - enable/disable LSBFST register
+<b><a name="line1504">1504    </a></b>	 @note
+<b><a name="line1505">1505    </a></b>	 - None
+<b><a name="line1506">1506    </a></b>	*/
+<b><a name="line1507">1507    </a></b>	void hal_sec_aes_otf_set_lsbfst(U8 enable)
+<b><a name="line1508">1508    </a></b>	{
+<b><a name="line1509">1509    </a></b>	    dal_sec_aes_otf_set_lsbfst(enable);
+<b><a name="line1510">1510    </a></b>	}
+<b><a name="line1511">1511    </a></b>	
+<b><a name="line1512">1512    </a></b>	/*!
+<b><a name="line1513">1513    </a></b>	 @brief      set OTF_KIDX_INI register
+<b><a name="line1514">1514    </a></b>	 @note
+<b><a name="line1515">1515    </a></b>	 - None
+<b><a name="line1516">1516    </a></b>	*/
+<b><a name="line1517">1517    </a></b>	void hal_sec_aes_otf_set_kidx_ini(void)
+<b><a name="line1518">1518    </a></b>	{
+<b><a name="line1519">1519    </a></b>	    dal_sec_aes_otf_set_kidx_ini();
+<b><a name="line1520">1520    </a></b>	}
+<b><a name="line1521">1521    </a></b>	
+<b><a name="line1522">1522    </a></b>	/*!
+<b><a name="line1523">1523    </a></b>	 @brief      get OTF_KIDX_INI register
+<b><a name="line1524">1524    </a></b>	 @param[out]  reg_val          - OTF_KIDX_INI register value
+<b><a name="line1525">1525    </a></b>	 @return OTF_KIDX_INI register value
+<b><a name="line1526">1526    </a></b>	 @note
+<b><a name="line1527">1527    </a></b>	 - None
+<b><a name="line1528">1528    </a></b>	*/
+<b><a name="line1529">1529    </a></b>	U32 hal_sec_aes_otf_get_kidx_ini(void)
+<b><a name="line1530">1530    </a></b>	{
+<b><a name="line1531">1531    </a></b>	    return dal_sec_aes_otf_get_kidx_ini();
+<b><a name="line1532">1532    </a></b>	}
+<b><a name="line1533">1533    </a></b>	
+<b><a name="line1534">1534    </a></b>	/*!
+<b><a name="line1535">1535    </a></b>	 @brief      set LAYER_IDX register
+<b><a name="line1536">1536    </a></b>	 @param[in]  idx          - set idx to LAYER_IDX register
+<b><a name="line1537">1537    </a></b>	 @note
+<b><a name="line1538">1538    </a></b>	 - None
+<b><a name="line1539">1539    </a></b>	*/
+<b><a name="line1540">1540    </a></b>	void hal_sec_aes_otf_set_layer_idx(U8 idx)
+<b><a name="line1541">1541    </a></b>	{
+<b><a name="line1542">1542    </a></b>	    dal_sec_aes_otf_set_layer_idx(idx);
+<b><a name="line1543">1543    </a></b>	}
+<b><a name="line1544">1544    </a></b>	
+<b><a name="line1545">1545    </a></b>	/*!
+<b><a name="line1546">1546    </a></b>	 @brief      set KRAM_WID_MSB_ONLY register
+<b><a name="line1547">1547    </a></b>	 @param[in]  enable          - enable/disable KRAM_WID_MSB_ONLY register
+<b><a name="line1548">1548    </a></b>	 @note
+<b><a name="line1549">1549    </a></b>	 - None
+<b><a name="line1550">1550    </a></b>	*/
+<b><a name="line1551">1551    </a></b>	void hal_sec_aes_otf_set_kram_wid_msb_only(U8 enable)
+<b><a name="line1552">1552    </a></b>	{
+<b><a name="line1553">1553    </a></b>	    dal_sec_aes_otf_set_kram_wid_msb_only(enable);
+<b><a name="line1554">1554    </a></b>	}
+<b><a name="line1555">1555    </a></b>	
+<b><a name="line1556">1556    </a></b>	/*!
+<b><a name="line1557">1557    </a></b>	 @brief      set KRAM_WID register
+<b><a name="line1558">1558    </a></b>	 @param[in]  wid          - set wid to KRAM_WID register
+<b><a name="line1559">1559    </a></b>	 @note
+<b><a name="line1560">1560    </a></b>	 - None
+<b><a name="line1561">1561    </a></b>	*/
+<b><a name="line1562">1562    </a></b>	void hal_sec_aes_otf_set_key_ram_wid(U32 wid)
+<b><a name="line1563">1563    </a></b>	{
+<b><a name="line1564">1564    </a></b>	    dal_sec_aes_otf_set_key_ram_wid(wid);
+<b><a name="line1565">1565    </a></b>	}
+<b><a name="line1566">1566    </a></b>	
+<b><a name="line1567">1567    </a></b>	/*!
+<b><a name="line1568">1568    </a></b>	 @brief      set MEMK_SCR_EN register
+<b><a name="line1569">1569    </a></b>	 @param[in]  enable          - enable/disable MEMK_SCR_EN register
+<b><a name="line1570">1570    </a></b>	 @note
+<b><a name="line1571">1571    </a></b>	 - None
+<b><a name="line1572">1572    </a></b>	*/
+<b><a name="line1573">1573    </a></b>	void hal_sec_aes_otf_set_memk_scr_en(U8 enable)
+<b><a name="line1574">1574    </a></b>	{
+<b><a name="line1575">1575    </a></b>	    dal_sec_aes_otf_set_memk_scr_en(enable);
+<b><a name="line1576">1576    </a></b>	}
+<b><a name="line1577">1577    </a></b>	
+<b><a name="line1578">1578    </a></b>	/*!
+<b><a name="line1579">1579    </a></b>	 @brief      get MEMK_SCR_EN register
+<b><a name="line1580">1580    </a></b>	 @param[out]  reg_val          - MEMK_SCR_EN register value
+<b><a name="line1581">1581    </a></b>	 @return MEMK_SCR_EN register value
+<b><a name="line1582">1582    </a></b>	 @note
+<b><a name="line1583">1583    </a></b>	 - None
+<b><a name="line1584">1584    </a></b>	*/
+<b><a name="line1585">1585    </a></b>	U32 hal_sec_aes_otf_get_memk_scr_en(void)
+<b><a name="line1586">1586    </a></b>	{
+<b><a name="line1587">1587    </a></b>	    return dal_sec_aes_otf_get_memk_scr_en();
+<b><a name="line1588">1588    </a></b>	}
+<b><a name="line1589">1589    </a></b>	
+<b><a name="line1590">1590    </a></b>	/*!
+<b><a name="line1591">1591    </a></b>	 @brief      get MEMK_SCR_BUSY register
+<b><a name="line1592">1592    </a></b>	 @param[out]  reg_val          - MEMK_SCR_BUSY register value
+<b><a name="line1593">1593    </a></b>	 @return MEMK_SCR_BUSY register value
+<b><a name="line1594">1594    </a></b>	 @note
+<b><a name="line1595">1595    </a></b>	 - None
+<b><a name="line1596">1596    </a></b>	*/
+<b><a name="line1597">1597    </a></b>	U32 hal_sec_aes_otf_get_memk_scr_busy(void)
+<b><a name="line1598">1598    </a></b>	{
+<b><a name="line1599">1599    </a></b>	    return dal_sec_aes_otf_get_memk_scr_busy();
+<b><a name="line1600">1600    </a></b>	}
+<b><a name="line1601">1601    </a></b>	
+<b><a name="line1602">1602    </a></b>	/*!
+<b><a name="line1603">1603    </a></b>	 @brief      set MEMK_SCR_STOP register
+<b><a name="line1604">1604    </a></b>	 @param[in]  enable          - enable/disable MEMK_SCR_STOP register
+<b><a name="line1605">1605    </a></b>	 @note
+<b><a name="line1606">1606    </a></b>	 - None
+<b><a name="line1607">1607    </a></b>	*/
+<b><a name="line1608">1608    </a></b>	void hal_sec_aes_otf_set_memk_scr_stop(U8 enable)
+<b><a name="line1609">1609    </a></b>	{
+<b><a name="line1610">1610    </a></b>	    dal_sec_aes_otf_set_memk_scr_stop(enable);
+<b><a name="line1611">1611    </a></b>	}
+<b><a name="line1612">1612    </a></b>	
+<b><a name="line1613">1613    </a></b>	/*!
+<b><a name="line1614">1614    </a></b>	 @brief      get MEMK_SCR_STOP register
+<b><a name="line1615">1615    </a></b>	 @param[out]  reg_val          - MEMK_SCR_STOP register value
+<b><a name="line1616">1616    </a></b>	 @return MEMK_SCR_STOP register value
+<b><a name="line1617">1617    </a></b>	 @note
+<b><a name="line1618">1618    </a></b>	 - None
+<b><a name="line1619">1619    </a></b>	*/
+<b><a name="line1620">1620    </a></b>	U32 hal_sec_aes_otf_get_memk_scr_stop(void)
+<b><a name="line1621">1621    </a></b>	{
+<b><a name="line1622">1622    </a></b>	    return dal_sec_aes_otf_get_memk_scr_stop();
+<b><a name="line1623">1623    </a></b>	}
+<b><a name="line1624">1624    </a></b>	
+<b><a name="line1625">1625    </a></b>	/*!
+<b><a name="line1626">1626    </a></b>	 @brief      set MEMK_INIT_EN register
+<b><a name="line1627">1627    </a></b>	 @param[in]  enable          - enable/disable MEMK_INIT_EN register
+<b><a name="line1628">1628    </a></b>	 @note
+<b><a name="line1629">1629    </a></b>	 - None
+<b><a name="line1630">1630    </a></b>	*/
+<b><a name="line1631">1631    </a></b>	void hal_sec_aes_otf_set_memk_init_en(U8 enable)
+<b><a name="line1632">1632    </a></b>	{
+<b><a name="line1633">1633    </a></b>	    dal_sec_aes_otf_set_memk_init_en(enable);
+<b><a name="line1634">1634    </a></b>	}
+<b><a name="line1635">1635    </a></b>	
+<b><a name="line1636">1636    </a></b>	/*!
+<b><a name="line1637">1637    </a></b>	 @brief      get MEMK_INIT_EN register
+<b><a name="line1638">1638    </a></b>	 @param[out]  reg_val          - MEMK_INIT_EN register value
+<b><a name="line1639">1639    </a></b>	 @return MEMK_INIT_EN register value
+<b><a name="line1640">1640    </a></b>	 @note
+<b><a name="line1641">1641    </a></b>	 - None
+<b><a name="line1642">1642    </a></b>	*/
+<b><a name="line1643">1643    </a></b>	U32 hal_sec_aes_otf_get_memk_init_en(void)
+<b><a name="line1644">1644    </a></b>	{
+<b><a name="line1645">1645    </a></b>	    return dal_sec_aes_otf_get_memk_init_en();
+<b><a name="line1646">1646    </a></b>	}
+<b><a name="line1647">1647    </a></b>	
+<b><a name="line1648">1648    </a></b>	/*!
+<b><a name="line1649">1649    </a></b>	 @brief      set MEMK_INIT_MODE register
+<b><a name="line1650">1650    </a></b>	 @param[in]  mode          - set mode to MEMK_INIT_MODE register
+<b><a name="line1651">1651    </a></b>	
+<b><a name="line1652">1652    </a></b>	 @note
+<b><a name="line1653">1653    </a></b>	
+<b><a name="line1654">1654    </a></b>	 - 1U- fill 1
+<b><a name="line1655">1655    </a></b>	 - 0U- fill 0
+<b><a name="line1656">1656    </a></b>	
+<b><a name="line1657">1657    </a></b>	*/
+<b><a name="line1658">1658    </a></b>	void hal_sec_aes_otf_set_memk_init_mode(U8 mode)
+<b><a name="line1659">1659    </a></b>	{
+<b><a name="line1660">1660    </a></b>	    dal_sec_aes_otf_set_memk_init_mode(mode);
+<b><a name="line1661">1661    </a></b>	}
+<b><a name="line1662">1662    </a></b>	
+<b><a name="line1663">1663    </a></b>	/*!
+<b><a name="line1664">1664    </a></b>	 @brief      set MEMK_INIT_STOP register
+<b><a name="line1665">1665    </a></b>	 @param[in]  enable          - enable/disable MEMK_INIT_STOP register
+<b><a name="line1666">1666    </a></b>	 @note
+<b><a name="line1667">1667    </a></b>	 - None
+<b><a name="line1668">1668    </a></b>	*/
+<b><a name="line1669">1669    </a></b>	void hal_sec_aes_otf_set_memk_init_stop(U8 enable)
+<b><a name="line1670">1670    </a></b>	{
+<b><a name="line1671">1671    </a></b>	    dal_sec_aes_otf_set_memk_init_stop(enable);
+<b><a name="line1672">1672    </a></b>	}
+<b><a name="line1673">1673    </a></b>	
+<b><a name="line1674">1674    </a></b>	/*!
+<b><a name="line1675">1675    </a></b>	 @brief      set MEMK_START_ADDR register
+<b><a name="line1676">1676    </a></b>	 @param[in]  addr          - set addr to MEMK_START_ADDR register
+<b><a name="line1677">1677    </a></b>	 @note
+<b><a name="line1678">1678    </a></b>	 - None
+<b><a name="line1679">1679    </a></b>	*/
+<b><a name="line1680">1680    </a></b>	void hal_sec_aes_otf_set_memk_start_addr(U32 addr)
+<b><a name="line1681">1681    </a></b>	{
+<b><a name="line1682">1682    </a></b>	    dal_sec_aes_otf_set_memk_start_addr(addr);
+<b><a name="line1683">1683    </a></b>	}
+<b><a name="line1684">1684    </a></b>	
+<b><a name="line1685">1685    </a></b>	/*!
+<b><a name="line1686">1686    </a></b>	 @brief      set MEMK_SIZE register
+<b><a name="line1687">1687    </a></b>	 @param[in]  size          - set size to MEMK_SIZE register
+<b><a name="line1688">1688    </a></b>	 @note
+<b><a name="line1689">1689    </a></b>	 - None
+<b><a name="line1690">1690    </a></b>	*/
+<b><a name="line1691">1691    </a></b>	void hal_sec_aes_otf_set_memk_size(U32 size)
+<b><a name="line1692">1692    </a></b>	{
+<b><a name="line1693">1693    </a></b>	    dal_sec_aes_otf_set_memk_size(size);
+<b><a name="line1694">1694    </a></b>	}
+<b><a name="line1695">1695    </a></b>	
+<b><a name="line1696">1696    </a></b>	/*!
+<b><a name="line1697">1697    </a></b>	 @brief      get CUR_ADDR register
+<b><a name="line1698">1698    </a></b>	 @param[out]  reg_val          - CUR_ADDR register value
+<b><a name="line1699">1699    </a></b>	 @return CUR_ADDR register value
+<b><a name="line1700">1700    </a></b>	 @note
+<b><a name="line1701">1701    </a></b>	 - None
+<b><a name="line1702">1702    </a></b>	*/
+<b><a name="line1703">1703    </a></b>	U32 hal_sec_aes_otf_get_cur_addr(void)
+<b><a name="line1704">1704    </a></b>	{
+<b><a name="line1705">1705    </a></b>	    return dal_sec_aes_otf_get_cur_addr();
+<b><a name="line1706">1706    </a></b>	}
+<b><a name="line1707">1707    </a></b>	
+<b><a name="line1708">1708    </a></b>	/*!
+<b><a name="line1709">1709    </a></b>	 @brief      get MASK_R2_L register
+<b><a name="line1710">1710    </a></b>	 @param[out]  reg_val          - MASK_R2_L register value
+<b><a name="line1711">1711    </a></b>	 @return MASK_R2_L register value
+<b><a name="line1712">1712    </a></b>	 @note
+<b><a name="line1713">1713    </a></b>	 - None
+<b><a name="line1714">1714    </a></b>	*/
+<b><a name="line1715">1715    </a></b>	U32 hal_sec_aes_otf_get_mask_r2_l(void)
+<b><a name="line1716">1716    </a></b>	{
+<b><a name="line1717">1717    </a></b>	    return (dal_sec_aes_otf_get_mask_r2_l());
+<b><a name="line1718">1718    </a></b>	}
+<b><a name="line1719">1719    </a></b>	
+<b><a name="line1720">1720    </a></b>	/*!
+<b><a name="line1721">1721    </a></b>	 @brief      get MASK_R2_H register
+<b><a name="line1722">1722    </a></b>	 @param[out]  reg_val          - MASK_R2_H register value
+<b><a name="line1723">1723    </a></b>	 @return MASK_R2_H register value
+<b><a name="line1724">1724    </a></b>	 @note
+<b><a name="line1725">1725    </a></b>	 - None
+<b><a name="line1726">1726    </a></b>	*/
+<b><a name="line1727">1727    </a></b>	U32 hal_sec_aes_otf_get_mask_r2_h(void)
+<b><a name="line1728">1728    </a></b>	{
+<b><a name="line1729">1729    </a></b>	    return (dal_sec_aes_otf_get_mask_r2_h());
+<b><a name="line1730">1730    </a></b>	}
+<b><a name="line1731">1731    </a></b>	
+<b><a name="line1732">1732    </a></b>	/*!
+<b><a name="line1733">1733    </a></b>	 @brief      set OTF_TIMEOUT_EN register
+<b><a name="line1734">1734    </a></b>	 @param[in]  enable          - enable/disable OTF_TIMEOUT_EN register
+<b><a name="line1735">1735    </a></b>	 @note
+<b><a name="line1736">1736    </a></b>	 - None
+<b><a name="line1737">1737    </a></b>	*/
+<b><a name="line1738">1738    </a></b>	void hal_sec_aes_otf_set_otf_to_en(U8 enable)
+<b><a name="line1739">1739    </a></b>	{
+<b><a name="line1740">1740    </a></b>	    dal_sec_aes_otf_set_otf_to_en(enable);
+<b><a name="line1741">1741    </a></b>	}
+<b><a name="line1742">1742    </a></b>	
+<b><a name="line1743">1743    </a></b>	/*!
+<b><a name="line1744">1744    </a></b>	 @brief      get OTF_TIMEOUT register
+<b><a name="line1745">1745    </a></b>	 @param[out]  reg_val          - OTF_TIMEOUT register value
+<b><a name="line1746">1746    </a></b>	 @return OTF_TIMEOUT register value
+<b><a name="line1747">1747    </a></b>	 @note
+<b><a name="line1748">1748    </a></b>	 - None
+<b><a name="line1749">1749    </a></b>	*/
+<b><a name="line1750">1750    </a></b>	U32 hal_sec_aes_otf_get_otf_to(void)
+<b><a name="line1751">1751    </a></b>	{
+<b><a name="line1752">1752    </a></b>	    return dal_sec_aes_otf_get_otf_to();
+<b><a name="line1753">1753    </a></b>	}
+<b><a name="line1754">1754    </a></b>	
+<b><a name="line1755">1755    </a></b>	/*!
+<b><a name="line1756">1756    </a></b>	 @brief      set OTF_TIMEOUT_CLR register
+<b><a name="line1757">1757    </a></b>	 @note
+<b><a name="line1758">1758    </a></b>	 - None
+<b><a name="line1759">1759    </a></b>	*/
+<b><a name="line1760">1760    </a></b>	void hal_sec_aes_otf_set_otf_to_clr(void)
+<b><a name="line1761">1761    </a></b>	{
+<b><a name="line1762">1762    </a></b>	    dal_sec_aes_otf_set_otf_to_clr();
+<b><a name="line1763">1763    </a></b>	}
+<b><a name="line1764">1764    </a></b>	
+<b><a name="line1765">1765    </a></b>	/*!
+<b><a name="line1766">1766    </a></b>	 @brief      set OTF_TIMEOUT_CNT register
+<b><a name="line1767">1767    </a></b>	 @param[in]  cnt          - set cnt to OTF_TIMEOUT_CNT register
+<b><a name="line1768">1768    </a></b>	 @note
+<b><a name="line1769">1769    </a></b>	 - None
+<b><a name="line1770">1770    </a></b>	*/
+<b><a name="line1771">1771    </a></b>	void hal_sec_aes_otf_set_otf_to_cnt(U32 cnt)
+<b><a name="line1772">1772    </a></b>	{
+<b><a name="line1773">1773    </a></b>	    dal_sec_aes_otf_set_otf_to_cnt(cnt);
+<b><a name="line1774">1774    </a></b>	}
+<b><a name="line1775">1775    </a></b>	
+<b><a name="line1776">1776    </a></b>	/*!
+<b><a name="line1777">1777    </a></b>	 @brief      get SEC_COR_ERR_CNT register
+<b><a name="line1778">1778    </a></b>	 @param[out]  reg_val          - SEC_COR_ERR_CNT register value
+<b><a name="line1779">1779    </a></b>	 @return SEC_COR_ERR_CNT register value
+<b><a name="line1780">1780    </a></b>	 @note
+<b><a name="line1781">1781    </a></b>	 - None
+<b><a name="line1782">1782    </a></b>	*/
+<b><a name="line1783">1783    </a></b>	U32 hal_sec_aes_otf_get_sec_cor_err_cnt(void)
+<b><a name="line1784">1784    </a></b>	{
+<b><a name="line1785">1785    </a></b>	    return dal_sec_aes_otf_get_sec_cor_err_cnt();
+<b><a name="line1786">1786    </a></b>	}
+<b><a name="line1787">1787    </a></b>	
+<b><a name="line1788">1788    </a></b>	/*!
+<b><a name="line1789">1789    </a></b>	 @brief      get SEC_DET_ERR_CNT register
+<b><a name="line1790">1790    </a></b>	 @param[out]  reg_val          - SEC_DET_ERR_CNT register value
+<b><a name="line1791">1791    </a></b>	 @return SEC_DET_ERR_CNT register value
+<b><a name="line1792">1792    </a></b>	 @note
+<b><a name="line1793">1793    </a></b>	 - None
+<b><a name="line1794">1794    </a></b>	*/
+<b><a name="line1795">1795    </a></b>	U32 hal_sec_aes_otf_get_sec_det_err_cnt(void)
+<b><a name="line1796">1796    </a></b>	{
+<b><a name="line1797">1797    </a></b>	    return dal_sec_aes_otf_get_sec_det_err_cnt();
+<b><a name="line1798">1798    </a></b>	}
+<b><a name="line1799">1799    </a></b>	
+<b><a name="line1800">1800    </a></b>	/*!
+<b><a name="line1801">1801    </a></b>	 @brief      get SEC_UNC_ERR_CNT register
+<b><a name="line1802">1802    </a></b>	 @param[out]  reg_val          - SEC_UNC_ERR_CNT register value
+<b><a name="line1803">1803    </a></b>	 @return SEC_UNC_ERR_CNT register value
+<b><a name="line1804">1804    </a></b>	 @note
+<b><a name="line1805">1805    </a></b>	 - None
+<b><a name="line1806">1806    </a></b>	*/
+<b><a name="line1807">1807    </a></b>	U32 hal_sec_aes_otf_get_sec_unc_err_cnt(void)
+<b><a name="line1808">1808    </a></b>	{
+<b><a name="line1809">1809    </a></b>	    return dal_sec_aes_otf_get_sec_unc_err_cnt();
+<b><a name="line1810">1810    </a></b>	}
+<b><a name="line1811">1811    </a></b>	
+<b><a name="line1812">1812    </a></b>	/*!
+<b><a name="line1813">1813    </a></b>	 @brief      get SEC_INT_ST register
+<b><a name="line1814">1814    </a></b>	 @param[out]  reg_val          - SEC_INT_ST register value
+<b><a name="line1815">1815    </a></b>	 @return SEC_INT_ST register value
+<b><a name="line1816">1816    </a></b>	 @note
+<b><a name="line1817">1817    </a></b>	 - None
+<b><a name="line1818">1818    </a></b>	*/
+<b><a name="line1819">1819    </a></b>	U32 hal_sec_aes_otf_get_sec_int_st(void)
+<b><a name="line1820">1820    </a></b>	{
+<b><a name="line1821">1821    </a></b>	    return dal_sec_aes_otf_get_sec_int_st();
+<b><a name="line1822">1822    </a></b>	}
+<b><a name="line1823">1823    </a></b>	
+<b><a name="line1824">1824    </a></b>	/*!
+<b><a name="line1825">1825    </a></b>	 @brief      set SEC_INT_MSK register
+<b><a name="line1826">1826    </a></b>	 @param[in]  bitmap      - set bitmap to SEC_INT_MSK register
+<b><a name="line1827">1827    </a></b>	
+<b><a name="line1828">1828    </a></b>	 @note
+<b><a name="line1829">1829    </a></b>	
+<b><a name="line1830">1830    </a></b>	 - BIT0 - mask corrected interrupt
+<b><a name="line1831">1831    </a></b>	 - BIT1 - mask detected interrupt
+<b><a name="line1832">1832    </a></b>	 - BIT2 - mask uncorrected interrupt
+<b><a name="line1833">1833    </a></b>	
+<b><a name="line1834">1834    </a></b>	*/
+<b><a name="line1835">1835    </a></b>	void hal_sec_aes_otf_set_sec_int_msk(U8 bitmap)
+<b><a name="line1836">1836    </a></b>	{
+<b><a name="line1837">1837    </a></b>	    dal_sec_aes_otf_set_sec_int_msk(bitmap);
+<b><a name="line1838">1838    </a></b>	}
+<b><a name="line1839">1839    </a></b>	
+<b><a name="line1840">1840    </a></b>	/*!
+<b><a name="line1841">1841    </a></b>	 @brief      clear OCP SEC_INT_ST
+<b><a name="line1842">1842    </a></b>	 @param[in]  bitmap      - set bitmap to SEC_INT_CLR register
+<b><a name="line1843">1843    </a></b>	
+<b><a name="line1844">1844    </a></b>	 @note
+<b><a name="line1845">1845    </a></b>	
+<b><a name="line1846">1846    </a></b>	 - BIT0 - clear corrected interrupt
+<b><a name="line1847">1847    </a></b>	 - BIT1 - clear detected interrupt
+<b><a name="line1848">1848    </a></b>	 - BIT2 - clear uncorrected interrupt
+<b><a name="line1849">1849    </a></b>	
+<b><a name="line1850">1850    </a></b>	*/
+<b><a name="line1851">1851    </a></b>	void hal_sec_aes_otf_set_sec_int_clr(U8 bitmap)
+<b><a name="line1852">1852    </a></b>	{
+<b><a name="line1853">1853    </a></b>	    dal_sec_aes_otf_set_sec_int_clr(bitmap);
+<b><a name="line1854">1854    </a></b>	}
+<b><a name="line1855">1855    </a></b>	
+<b><a name="line1856">1856    </a></b>	/*!
+<b><a name="line1857">1857    </a></b>	 @brief      get SEC_INT_CLR register
+<b><a name="line1858">1858    </a></b>	 @param[out]  reg_val          - SEC_INT_CLR register value
+<b><a name="line1859">1859    </a></b>	 @return SEC_INT_CLR register value
+<b><a name="line1860">1860    </a></b>	 @note
+<b><a name="line1861">1861    </a></b>	 - None
+<b><a name="line1862">1862    </a></b>	*/
+<b><a name="line1863">1863    </a></b>	U32 hal_sec_aes_otf_get_sec_int_clr(void)
+<b><a name="line1864">1864    </a></b>	{
+<b><a name="line1865">1865    </a></b>	    return dal_sec_aes_otf_get_sec_int_clr();
+<b><a name="line1866">1866    </a></b>	}
+<b><a name="line1867">1867    </a></b>	
+<b><a name="line1868">1868    </a></b>	/*!
+<b><a name="line1869">1869    </a></b>	 @brief      set OTF_DYN_CLK_GAT_EN register
+<b><a name="line1870">1870    </a></b>	 @param[in]  enable          - enable/disable OTF_DYN_CLK_GAT_EN register
+<b><a name="line1871">1871    </a></b>	 @note
+<b><a name="line1872">1872    </a></b>	 - None
+<b><a name="line1873">1873    </a></b>	*/
+<b><a name="line1874">1874    </a></b>	void hal_sec_aes_otf_set_otf_dyn_clk_gat_en(U8 enable)
+<b><a name="line1875">1875    </a></b>	{
+<b><a name="line1876">1876    </a></b>	    dal_sec_aes_otf_set_otf_dyn_clk_gat_en(enable);
+<b><a name="line1877">1877    </a></b>	}
+<b><a name="line1878">1878    </a></b>	
+<b><a name="line1879">1879    </a></b>	/*!
+<b><a name="line1880">1880    </a></b>	 @brief      set OTF_SM4_CLK_EN register
+<b><a name="line1881">1881    </a></b>	 @param[in]  enable          - enable/disable OTF_SM4_CLK_EN register
+<b><a name="line1882">1882    </a></b>	 @note
+<b><a name="line1883">1883    </a></b>	 - None
+<b><a name="line1884">1884    </a></b>	*/
+<b><a name="line1885">1885    </a></b>	void hal_sec_aes_otf_set_sm4_clk_en(U8 enable)
+<b><a name="line1886">1886    </a></b>	{
+<b><a name="line1887">1887    </a></b>	    dal_sec_aes_otf_set_sm4_clk_en(enable);
+<b><a name="line1888">1888    </a></b>	}
+<b><a name="line1889">1889    </a></b>	
+<b><a name="line1890">1890    </a></b>	/*!
+<b><a name="line1891">1891    </a></b>	 @brief      get OTF_TIMEOUT_ADR register
+<b><a name="line1892">1892    </a></b>	 @param[out]  reg_val          - OTF_TIMEOUT_ADR register value
+<b><a name="line1893">1893    </a></b>	 @return OTF_TIMEOUT_ADR register value
+<b><a name="line1894">1894    </a></b>	 @note
+<b><a name="line1895">1895    </a></b>	 - None
+<b><a name="line1896">1896    </a></b>	*/
+<b><a name="line1897">1897    </a></b>	U32 hal_sec_aes_otf_get_otf_to_adr(void)
+<b><a name="line1898">1898    </a></b>	{
+<b><a name="line1899">1899    </a></b>	    return dal_sec_aes_otf_get_otf_to_adr();
+<b><a name="line1900">1900    </a></b>	}
+<b><a name="line1901">1901    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1426">1426    </a></b>	        rsa_key.rsa.timeout_val = SEC_TIMEOUT_TICKS;
+<b><a name="line1427">1427    </a></b>	
+<b><a name="line1428">1428    </a></b>	        sal_log_tracker_set(sal_locate(0x30, TYPE_RSV6));
+<b><a name="line1429">1429    </a></b>	
+<b><a name="line1430">1430    </a></b>	
+<b><a name="line1431">1431    </a></b>	    switch (algorithm_type) {
+<b><a name="line1432">1432    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1433">1433    </a></b>	        Dump_SEC(tprintf("PKCS1 2v1"));
+<b><a name="line1434">1434    </a></b>	        rsa_key.salt_len     = MAX_SALT_SHA512_HASH_LENGTH;
+<b><a name="line1435">1435    </a></b>	        verify_status        = phal_rsa_pkcs1v21_verify(&rsa_key);
+<b><a name="line1436">1436    </a></b>	        memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1437">1437    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1438">1438    </a></b>	        break;
+<b><a name="line1439">1439    </a></b>	
+<b><a name="line1440">1440    </a></b>	    default:
+<b><a name="line1441">1441    </a></b>	        //This should never occur as algorithm_type has already been checked
+<b><a name="line1442">1442    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1443">1443    </a></b>	        //break;
+<b><a name="line1444">1444    </a></b>	    }
+<b><a name="line1445">1445    </a></b>	
+<b><a name="line1446">1446    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line1447">1447    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line1448">1448    </a></b>	    }
+<b><a name="line1449">1449    </a></b>	
+<b><a name="line1450">1450    </a></b>	    //TODO refine this, this is mixing verify_status and check_projet_binary_error
+<b><a name="line1451">1451    </a></b>	    if (verify_status != (((U32)HAL_SEC_RSA_ERR_CODE) | SEC_YES)) // E28 api return SEC_YES
+<b><a name="line1452">1452    </a></b>	    {
+<b><a name="line1453">1453    </a></b>	        result = PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line1454">1454    </a></b>	    }
+<b><a name="line1455">1455    </a></b>	    return result;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "result" from essential type "unsigned 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line1456">1456    </a></b>	}
+<b><a name="line1457">1457    </a></b>	
+<b><a name="line1458">1458    </a></b>	/**
+<b><a name="line1459">1459    </a></b>	 * Checks the Project Binary for correctness
+<b><a name="line1460">1460    </a></b>	 * The Header Marking and CRC will always be checked
+<b><a name="line1461">1461    </a></b>	 * The Code Signature will be checked depending on the values of the eFuse
+<b><a name="line1462">1462    </a></b>	 *
+<b><a name="line1463">1463    </a></b>	 * @param p_project_binary_header
+<b><a name="line1464">1464    </a></b>	 *  The location of the Project Binary to be checked
+<b><a name="line1465">1465    </a></b>	 *
+<b><a name="line1466">1466    </a></b>	 * @return
+<b><a name="line1467">1467    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred
+<b><a name="line1468">1468    </a></b>	 *      BIT0 (PROJECT_BINARY_ERROR_HEADER_CODE_SIGNATURE_MARKING)
+<b><a name="line1469">1469    </a></b>	 *          The Code Signature Marking field (offset 0x00, size 0x10) is incorrect
+<b><a name="line1470">1470    </a></b>	 *      BIT1 (PROJECT_BINARY_ERROR_HEADER_IC_VERSION)
+<b><a name="line1471">1471    </a></b>	 *          The IC Version field (offset 0x18, Size 0x08) is incorrect
+<b><a name="line1472">1472    </a></b>	 *      BIT2 (PROJECT_BINARY_ERROR_HEADER_UNKNOWN_KEY)
+<b><a name="line1473">1473    </a></b>	 *          The Certificate ID (offset 0x10, size 0x04) is incorrect
+<b><a name="line1474">1474    </a></b>	 *      BIT3 (PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE)
+<b><a name="line1475">1475    </a></b>	 *          The Algorithm Type (offset 0x17, size 0x01) is incorrect
+<b><a name="line1476">1476    </a></b>	 *      BIT8 (PROJECT_BINARY_ERROR_CRC)
+<b><a name="line1477">1477    </a></b>	 *          The CRC is incorrect
+<b><a name="line1478">1478    </a></b>	 *      BIT9 (PROJECT_BINARY_ERROR_CODE_SIGNATURE)
+<b><a name="line1479">1479    </a></b>	 *          The Code Signature is incorrect
+<b><a name="line1480">1480    </a></b>	 *      BIT12 (PROJECT_BINARY_ERROR_HW_EFUSE)
+<b><a name="line1481">1481    </a></b>	 *          The eFuse for checking Code Signature is enabled, but the required
+<b><a name="line1482">1482    </a></b>	 *          Hardware IP is disabled
+<b><a name="line1483">1483    </a></b>	 *      BIT13 (PROJECT_BINARY_ERROR_HW_ERROR)
+<b><a name="line1484">1484    </a></b>	 *          The hardware required to check the CRC has failed
+<b><a name="line1485">1485    </a></b>	 */
+<b><a name="line1486">1486    </a></b>	
+</pre></body>
+</html>

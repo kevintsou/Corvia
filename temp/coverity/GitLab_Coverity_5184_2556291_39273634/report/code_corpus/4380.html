@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line505">505    </a></b>	                    param->cmd_addr.addr[param->cmd_addr.addr_len] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line506">506    </a></b>	                    cmd_info_ptr->data_id ++;
+<b><a name="line507">507    </a></b>	                }
+<b><a name="line508">508    </a></b>	                param->cmd_addr.addr_len++;
+<b><a name="line509">509    </a></b>	            }
+<b><a name="line510">510    </a></b>	            cmd_info_ptr->op_id += 2U;
+<b><a name="line511">511    </a></b>	            break;
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	        case INST_DAT_C_0:
+<b><a name="line514">514    </a></b>	            data_ref_idx   = ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] >> DAT_ZERO_CYCLE_BIT_NUM) & DAT_REF_CYCLE_MASK);
+<b><a name="line515">515    </a></b>	            data_zero_num  = (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & DAT_ZERO_CYCLE_MASK);
+<b><a name="line516">516    </a></b>	            for (i = 0U; i < (data_ref_idx + data_zero_num + 1U); i++) {
+<b><a name="line517">517    </a></b>	                if (get_feat == FALSE) {
+<b><a name="line518">518    </a></b>	                    if (i == data_ref_idx) {
+<b><a name="line519">519    </a></b>	                        param->cmd_addr.dat_buf[param->cmd_addr.dat_len] = retry_tbl[i];
+<b><a name="line520">520    </a></b>	                    }
+<b><a name="line521">521    </a></b>	                }
+<b><a name="line522">522    </a></b>	                param->cmd_addr.dat_len++;
+<b><a name="line523">523    </a></b>	            }
+<b><a name="line524">524    </a></b>	            cmd_info_ptr->op_id += 2U;
+<b><a name="line525">525    </a></b>	            break;
+<b><a name="line526">526    </a></b>	
+<b><a name="line527">527    </a></b>	        case INST_PLANE_ADR_RTY:
+<b><a name="line528">528    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = gFplApiStruct.plane_adr_tbl[param->comm.plane];
+<b><a name="line529">529    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line530">530    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line531">531    </a></b>	            break;
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	        case INST_DIE_ADR:
+<b><a name="line534">534    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = param->comm.die;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "param->comm.die" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line535">535    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line536">536    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line537">537    </a></b>	            break;
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	        case INST_DAT_FEAT_RTY_C:
+<b><a name="line540">540    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line541">541    </a></b>	                for (i = 0U; i < DAT_FEAT_CYCLE_NUM; i++) {
+<b><a name="line542">542    </a></b>	                    param->cmd_addr.dat_buf[param->cmd_addr.dat_len] = retry_tbl[i];
+<b><a name="line543">543    </a></b>	                    param->cmd_addr.dat_len++;
+<b><a name="line544">544    </a></b>	                }
+<b><a name="line545">545    </a></b>	            }
+<b><a name="line546">546    </a></b>	            else {
+<b><a name="line547">547    </a></b>	                param->cmd_addr.dat_len += DAT_FEAT_CYCLE_NUM;
+<b><a name="line548">548    </a></b>	            }
+<b><a name="line549">549    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line550">550    </a></b>	            break;
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	        case INST_CMD_EFh:
+<b><a name="line553">553    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line554">554    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_EFh;
+<b><a name="line555">555    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line556">556    </a></b>	            }
+<b><a name="line557">557    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line558">558    </a></b>	            break;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	        case INST_CMD_EEh:
+<b><a name="line561">561    </a></b>	            if (get_feat == TRUE) {
+<b><a name="line562">562    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_EEh;
+<b><a name="line563">563    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line564">564    </a></b>	            }
+<b><a name="line565">565    </a></b>	            cmd_info_ptr->op_id ++;
+</pre></body>
+</html>

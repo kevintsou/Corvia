@@ -1,0 +1,532 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_NO_COMMENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{Empty else without comment.}}}}</description>
+<line>423</line>
+<column>9</column>
+</event>
+<extra>}</extra>
+<subcategory>ELSE_NO_COMMENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_NO_COMMENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{Empty else without comment.}}}}</description>
+<line>228</line>
+<column>13</column>
+</event>
+<extra>}</extra>
+<subcategory>ELSE_NO_COMMENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_NO_COMMENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{Empty else without comment.}}}}</description>
+<line>469</line>
+<column>9</column>
+</event>
+<extra>}</extra>
+<subcategory>ELSE_NO_COMMENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_get_rmp_addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>19</line>
+<column>10</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_get_rmp_addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>30</line>
+<column>10</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_get_rmp_addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>41</line>
+<column>10</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>host_api_pcie_check_perst_int_sts_and_link</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>970</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>232</line>
+<column>13</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>72</line>
+<column>17</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_fip_conf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>500</line>
+<column>9</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>record_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>2657</line>
+<column>17</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryGetMappingFwEventCode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>185</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>fw_download_chk_parm</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>1025</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</file>
+<function>GetSmbsBusCondition</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>24</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>hal_get_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>1269</line>
+<column>21</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>SubsystemManagementDataInit</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>477</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>Write1ClearDeviceResetControl</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>1493</line>
+<column>9</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>CheckIsBasicManagementCmdCode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>50</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>133</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_cq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>83</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>439</line>
+<column>13</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>441</line>
+<column>17</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_smbs_isr_protocol_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>417</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_nvme_nl_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>30</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>287</line>
+<column>13</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_code_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>3760</line>
+<column>9</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>spi_write_log</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>221</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.7</checker>
+<type>MISRA_C_2012_Rule_15.7</type>
+<subtype>ELSE_ABSENT</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</file>
+<function>SmbsProtocolHandler_BasicManagementCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_7_violation</tag>
+<description>{CovLStrv2{{t{No non-empty terminating {code{else}} statement.}}}}</description>
+<line>53</line>
+<column>13</column>
+</event>
+<extra></extra>
+<subcategory>ELSE_ABSENT</subcategory>
+</error>

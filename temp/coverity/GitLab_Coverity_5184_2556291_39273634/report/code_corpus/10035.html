@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1575">1575    </a></b>	    hal_sec_sm9_z256_modp_dbl(S2, S2);
+<b><a name="line1576">1576    </a></b>	    hal_sec_sm9_z256_modp_mont_sqr(X3, S2);
+<b><a name="line1577">1577    </a></b>	    hal_sec_sm9_z256_modp_sub(X3, H, X3);
+<b><a name="line1578">1578    </a></b>	    hal_sec_sm9_z256_modp_tri(Y3, II);
+<b><a name="line1579">1579    </a></b>	    hal_sec_sm9_z256_modp_add(X3, Y3, X3);
+<b><a name="line1580">1580    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(Y3, S2, X3);
+<b><a name="line1581">1581    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(H, H, Y1);
+<b><a name="line1582">1582    </a></b>	    hal_sec_sm9_z256_modp_dbl(H, H);
+<b><a name="line1583">1583    </a></b>	    hal_sec_sm9_z256_modp_sub(Y3, Y3, H);
+<b><a name="line1584">1584    </a></b>	    hal_sec_sm9_z256_modp_sub(X3, II, X3);
+<b><a name="line1585">1585    </a></b>	
+<b><a name="line1586">1586    </a></b>	    hal_sec_sm9_z256_copy(R->X, X3);
+<b><a name="line1587">1587    </a></b>	    hal_sec_sm9_z256_copy(R->Y, Y3);
+<b><a name="line1588">1588    </a></b>	    hal_sec_sm9_z256_copy(R->Z, Z3);
+<b><a name="line1589">1589    </a></b>	}
+<b><a name="line1590">1590    </a></b>	
+<b><a name="line1591">1591    </a></b>	void hal_sec_sm9_z256_point_sub_affine(HAL_SEC_SM9_Z256_POINT_T *R, HAL_SEC_SM9_Z256_POINT_T *P, HAL_SEC_SM9_Z256_AFFINE_POINT_T *QQ)
+<b><a name="line1592">1592    </a></b>	{
+<b><a name="line1593">1593    </a></b>	    HAL_SEC_SM9_Z256_AFFINE_POINT_T T, *T_ptr = &T;
+<b><a name="line1594">1594    </a></b>	
+<b><a name="line1595">1595    </a></b>	    hal_sec_sm9_z256_copy(T_ptr->X, QQ->X);
+<b><a name="line1596">1596    </a></b>	    hal_sec_sm9_z256_modp_neg(T_ptr->Y, QQ->Y);
+<b><a name="line1597">1597    </a></b>	    hal_sec_sm9_z256_point_add_affine(R, P, T_ptr);
+<b><a name="line1598">1598    </a></b>	}
+<b><a name="line1599">1599    </a></b>	
+<b><a name="line1600">1600    </a></b>	
+<b><a name="line1601">1601    </a></b>	void hal_sec_sm9_z256_point_mul_generator(HAL_SEC_SM9_Z256_POINT_T *R, HAL_SEC_SM9_Z256_T k, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buf)
+<b><a name="line1602">1602    </a></b>	{
+<b><a name="line1603">1603    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line1604">1604    </a></b>	    (void)memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&SM9_Z256_MONT_P1" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line1605">1605    </a></b>	    hal_sec_sm9_z256_point_mul(R, k, &sm9_z256_mont_p1, comm_buf);
+<b><a name="line1606">1606    </a></b>	}
+<b><a name="line1607">1607    </a></b>	
+<b><a name="line1608">1608    </a></b>	U8 hal_sec_sm9_z256_twist_point_is_at_infinity(HAL_SEC_SM9_Z256_TWIST_POINT_T *P)
+<b><a name="line1609">1609    </a></b>	{
+<b><a name="line1610">1610    </a></b>	    return hal_sec_sm9_z256_fp2_is_zero(P->Z);
+<b><a name="line1611">1611    </a></b>	}
+<b><a name="line1612">1612    </a></b>	
+<b><a name="line1613">1613    </a></b>	void hal_sec_sm9_z256_twist_point_set_infinity(HAL_SEC_SM9_Z256_TWIST_POINT_T *R)
+<b><a name="line1614">1614    </a></b>	{
+<b><a name="line1615">1615    </a></b>	    hal_sec_sm9_z256_fp2_set_one(R->X);
+<b><a name="line1616">1616    </a></b>	    hal_sec_sm9_z256_fp2_set_one(R->Y);
+<b><a name="line1617">1617    </a></b>	    hal_sec_sm9_z256_fp2_set_zero(R->Z);
+<b><a name="line1618">1618    </a></b>	}
+<b><a name="line1619">1619    </a></b>	
+<b><a name="line1620">1620    </a></b>	void hal_sec_sm9_z256_twist_point_get_xy(HAL_SEC_SM9_Z256_TWIST_POINT_T *P, HAL_SEC_SM9_Z256_FP2_T x, HAL_SEC_SM9_Z256_FP2_T y, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buf)
+<b><a name="line1621">1621    </a></b>	{
+<b><a name="line1622">1622    </a></b>	    HAL_SEC_SM9_Z256_FP2_T z_inv = {{0ULL}};
+<b><a name="line1623">1623    </a></b>	
+<b><a name="line1624">1624    </a></b>	    // TODO:
+<b><a name="line1625">1625    </a></b>	    // assert(!sm9_z256_fp2_is_zero(P->Z));
+<b><a name="line1626">1626    </a></b>	
+<b><a name="line1627">1627    </a></b>	    if (hal_sec_sm9_z256_fp2_is_one(P->Z) == 1U)
+<b><a name="line1628">1628    </a></b>	    {
+<b><a name="line1629">1629    </a></b>	        hal_sec_sm9_z256_fp2_copy(x, P->X);
+<b><a name="line1630">1630    </a></b>	        hal_sec_sm9_z256_fp2_copy(y, P->Y);
+<b><a name="line1631">1631    </a></b>	    }
+<b><a name="line1632">1632    </a></b>	
+<b><a name="line1633">1633    </a></b>	    hal_sec_sm9_z256_fp2_inv(z_inv, P->Z);
+<b><a name="line1634">1634    </a></b>	
+<b><a name="line1635">1635    </a></b>	    if (y != NULL)
+</pre></body>
+</html>

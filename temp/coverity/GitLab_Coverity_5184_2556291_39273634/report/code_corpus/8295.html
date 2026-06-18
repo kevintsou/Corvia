@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1927">1927    </a></b>	    U64 fw_slot_size;
+<b><a name="line1928">1928    </a></b>	
+<b><a name="line1929">1929    </a></b>	    sal_log_tracker_set(sal_locate(0x10, TYPE_RSV6));
+<b><a name="line1930">1930    </a></b>	
+<b><a name="line1931">1931    </a></b>	    p_fw_slot_status->state = FW_SLOT_STATE_LOADING;
+<b><a name="line1932">1932    </a></b>	
+<b><a name="line1933">1933    </a></b>	    error_firmware = check_fw_slot_info(p_fw_slot_info);
+<b><a name="line1934">1934    </a></b>	    if (error_firmware) {
+<b><a name="line1935">1935    </a></b>	        //The FW Slot Info is incorrect
+<b><a name="line1936">1936    </a></b>	        p_fw_slot_status->fw_slot_info_error = error_firmware;
+<b><a name="line1937">1937    </a></b>	        p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_INVALID_SLOT_INFO;
+<b><a name="line1938">1938    </a></b>	
+<b><a name="line1939">1939    </a></b>	        sal_log_tracker_set(sal_locate((error_firmware & 0xFF), TYPE_DATA));
+<b><a name="line1940">1940    </a></b>	
+<b><a name="line1941">1941    </a></b>	        return p_fw_slot_status->fw_slot_error;
+<b><a name="line1942">1942    </a></b>	    }
+<b><a name="line1943">1943    </a></b>	
+<b><a name="line1944">1944    </a></b>	    p_load_code_status->key_manifest_size = get_key_manifest_size_from_fw_slot_info(p_fw_slot_info);
+<b><a name="line1945">1945    </a></b>	
+<b><a name="line1946">1946    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line1947">1947    </a></b>	
+<b><a name="line1948">1948    </a></b>	    sal_log_tracker_set(sal_locate(0x11, TYPE_RSV6));
+<b><a name="line1949">1949    </a></b>	    error_firmware = load_fw_slot(p_fw_slot_info, project_binary_address, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_fw_slot_status, a_flash_error_channel_bitmap);
+<b><a name="line1950">1950    </a></b>	    if (error_firmware == 0) {
+<b><a name="line1951">1951    </a></b>	        sal_log_tracker_set(sal_locate(0x12, TYPE_RSV6));
+<b><a name="line1952">1952    </a></b>	    }
+<b><a name="line1953">1953    </a></b>	    else {
+<b><a name="line1954">1954    </a></b>	        sal_log_tracker_set(sal_locate(0x1F, TYPE_RSV6));
+<b><a name="line1955">1955    </a></b>	    }
+<b><a name="line1956">1956    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_5_LOAD_CODE, TYPE_TIMESTAMP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "11" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line1957">1957    </a></b>	
+<b><a name="line1958">1958    </a></b>	    if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><a name="line1959">1959    </a></b>	        host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line1960">1960    </a></b>	
+<b><a name="line1961">1961    </a></b>	        if (p_fw_slot_info->fw_encryption_key < EFUSE_FW_ENCRYPTION_KEY_COUNT) {
+<b><a name="line1962">1962    </a></b>	            Dump_LoadCode(tprintf("FW slot is encrypted with Key %d", p_fw_slot_info->fw_encryption_key));
+<b><a name="line1963">1963    </a></b>	            sal_log_tracker_set(sal_locate(0x13, TYPE_RSV6));
+<b><a name="line1964">1964    </a></b>	
+<b><a name="line1965">1965    </a></b>	            p_fw_encryption_key = get_efuse_fw_encryption_key(p_fw_slot_info->fw_encryption_key, &gEFuseAPI);
+<b><a name="line1966">1966    </a></b>	            fw_slot_size        = (U64)(p_fw_slot_info->total_wordline_count) * p_fw_slot_info->node_per_wordline * LC_BYTE_SIZE;
+<b><a name="line1967">1967    </a></b>	
+<b><a name="line1968">1968    </a></b>	
+<b><a name="line1969">1969    </a></b>	            if (NULL != p_fw_encryption_key) {
+<b><a name="line1970">1970    </a></b>	                U8 is_step_clock_enable   = 0U;
+<b><a name="line1971">1971    </a></b>	                U8 is_random_clock_enable = 0U;
+<b><a name="line1972">1972    </a></b>	
+<b><a name="line1973">1973    </a></b>	                get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line1974">1974    </a></b>	
+<b><a name="line1975">1975    </a></b>	                U8  sm4_load_code_decryption = get_efuse_sm4_load_code_decryption(&gEFuseAPI);
+<b><a name="line1976">1976    </a></b>	                U8  sm4_en;
+<b><a name="line1977">1977    </a></b>	                U32 key_type;
+<b><a name="line1978">1978    </a></b>	
+<b><a name="line1979">1979    </a></b>	                Dump_LoadCode(tprintf("Decrypt project binary "));
+<b><a name="line1980">1980    </a></b>	                if ((0U == sm4_load_code_decryption) || (SEC_NO == phal_get_dt_attribution_define())) {
+<b><a name="line1981">1981    </a></b>	                    Dump_LoadCode(tprintf("with AES 256"));
+<b><a name="line1982">1982    </a></b>	                    // Decrypt loader with AES256 XTS mode.
+<b><a name="line1983">1983    </a></b>	                    sm4_en   = SEC_NO;
+<b><a name="line1984">1984    </a></b>	                    key_type = HAL_SEC_AES_KEY256_MODE;
+<b><a name="line1985">1985    </a></b>	                }
+<b><a name="line1986">1986    </a></b>	                else {
+<b><a name="line1987">1987    </a></b>	                    Dump_LoadCode(tprintf("with SM4"));
+</pre></body>
+</html>

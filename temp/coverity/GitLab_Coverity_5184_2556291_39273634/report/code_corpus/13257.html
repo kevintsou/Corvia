@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/landmark.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line20">20    </a></b>	#include "top/timer_api.h"
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	/**
+<b><a name="line23">23    </a></b>	 * Handles the Landmark data structure by performing the indicated number of entries within the Landmark.
+<b><a name="line24">24    </a></b>	 * The Landmark is used as a way to change certain registers to affect the behavior of Boot Code.
+<b><a name="line25">25    </a></b>	 * The Landmark is not limited to the one within the ID Page.
+<b><a name="line26">26    </a></b>	 * Landmark Entry functionalities:
+<b><a name="line27">27    </a></b>	 *  Polling - Polls for a bit at the indicated memory location to become a 1 or 0. A timeout is
+<b><a name="line28">28    </a></b>	 *              also included to prevent indefinite polling.
+<b><a name="line29">29    </a></b>	 *  Idling  - Idles for the amount of time specified.
+<b><a name="line30">30    </a></b>	 *  Setting - Sets a 32Bit value that shod be 4 byte aligned to a value indicated in the entry.
+<b><a name="line31">31    </a></b>	 *
+<b><a name="line32">32    </a></b>	 * @param id_table_landmark_ptr
+<b><a name="line33">33    </a></b>	 *      The address to the first entry within the Landmark data structure
+<b><a name="line34">34    </a></b>	 * @param landmark_len
+<b><a name="line35">35    </a></b>	 *      The number of entries within the Landmark data structure
+<b><a name="line36">36    </a></b>	 * @return
+<b><a name="line37">37    </a></b>	 *      Returns the number of times polling has timed out.
+<b><a name="line38">38    </a></b>	 */
+<b><a name="line39">39    </a></b>	U32 id_table_general_landmark_handle(ID_TABLE_LANDMARK_PTR id_table_landmark_ptr, U32 landmark_len)
+<b><a name="line40">40    </a></b>	{
+<b><a name="line41">41    </a></b>	    U32 landmark_entry = 0;
+<b><a name="line42">42    </a></b>	    volatile U32 *address_base;
+<b><a name="line43">43    </a></b>	    U32 reg_data, poll_time_us, poll_status;
+<b><a name="line44">44    </a></b>	    U32 idle_unit_cnt;
+<b><a name="line45">45    </a></b>	    U32 fail_cnt;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    U64 poll_time_us_tmp;   // for coverity
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    Dump_LM(tprintf("Handling %d landmarks", landmark_len));
+<b><a name="line50">50    </a></b>	    for (landmark_entry = 0; landmark_entry < landmark_len; landmark_entry++) {
+<b><a name="line51">51    </a></b>	        Dump_LM(tprintf("BD %d: %x %x", landmark_entry, id_table_landmark_ptr[landmark_entry].reg.long_address, id_table_landmark_ptr[landmark_entry].data));
+<b><a name="line52">52    </a></b>	    }
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    fail_cnt = 0;
+<b><a name="line55">55    </a></b>	    for (landmark_entry = 0; landmark_entry < landmark_len; landmark_entry++) {
+<b><a name="line56">56    </a></b>	        Dump_LM(tprintf("BD %d: %x %x ", landmark_entry, id_table_landmark_ptr[landmark_entry].reg.long_address, id_table_landmark_ptr[landmark_entry].data));
+<b><a name="line57">57    </a></b>	        Dump_LM(tprintf("(Op %x Rsv %x Poll Status %x Address %x)", id_table_landmark_ptr[landmark_entry].reg.op, id_table_landmark_ptr[landmark_entry].reg.rsv, id_table_landmark_ptr[landmark_entry].reg.poll_status, id_table_landmark_ptr[landmark_entry].reg.address));
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	        //Polling: The Landmark Entry is for Polling a bit
+<b><a name="line60">60    </a></b>	        if (0xFFF == (id_table_landmark_ptr[landmark_entry].reg.op)) {
+<b><a name="line61">61    </a></b>	            Dump_LM(tprintf("Polling - "));
+<b><a name="line62">62    </a></b>	            address_base = (U32 *)((id_table_landmark_ptr[landmark_entry].data & 0xFFFF0000) | (id_table_landmark_ptr[landmark_entry].reg.address));
+<b><a name="line63">63    </a></b>	            reg_data = id_table_landmark_ptr[landmark_entry].data & 0xFF;
+<b><a name="line64">64    </a></b>	            Dump_LM(tprintf(" Addr %x Bit %d ", (U32)address_base, reg_data));
+<b><a name="line65">65    </a></b>	            Dump_LM(tprintf("(Value %x)", *address_base));
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	            poll_time_us = ((id_table_landmark_ptr[landmark_entry].data >> 8) & 0xFF) * 50; //update the spec
+<b><a name="line68">68    </a></b>	            if (0 == poll_time_us) {
+<b><a name="line69">69    </a></b>	                poll_time_us = 0x0100 * 50;
+<b><a name="line70">70    </a></b>	            }
+<b><a name="line71">71    </a></b>	            poll_status = (id_table_landmark_ptr[landmark_entry].reg.poll_status);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	            Dump_LM(tprintf(" for %db, time %dus", poll_status, poll_time_us));
+<b><a name="line74">74    </a></b>	            poll_time_us_tmp = poll_time_us;
+<b><a name="line75">75    </a></b>	            U32 mabiao_addr = MABIAO_SET_US(MABIAO_DB_LANDMARK, poll_time_us_tmp);
+<b><a name="line76">76    </a></b>	            while ((((*address_base) >> reg_data) & 0x01) != poll_status) {
+<b><a name="line77">77    </a></b>	                if ((TRUE == MABIAO_CHK(mabiao_addr)) && (poll_time_us != 0)) {
+<b><a name="line78">78    </a></b>	                    Dump_LM(tprintf(" Timeout"));
+<b><a name="line79">79    </a></b>	                    fail_cnt++;
+<b><a name="line80">80    </a></b>	                    break;
+<b><a name="line81">81    </a></b>	                }
+<b><a name="line82">82    </a></b>	            }
+<b><a name="line83">83    </a></b>	            Dump_LM(tprintf(" Done"));
+<b><a name="line84">84    </a></b>	        }
+<b><a name="line85">85    </a></b>	        //Idling: The Landmark Fill Entry is for idling for an amount of time
+<b><a name="line86">86    </a></b>	        else if (0xFFE == (id_table_landmark_ptr[landmark_entry].reg.op)) {
+<b><a name="line87">87    </a></b>	            Dump_LM(tprintf("Idling - "));
+<b><a name="line88">88    </a></b>	            idle_unit_cnt = id_table_landmark_ptr[landmark_entry].data;
+<b><a name="line89">89    </a></b>	            Dump_LM(tprintf("%d", idle_unit_cnt));
+<b><a name="line90">90    </a></b>	            switch (id_table_landmark_ptr[landmark_entry].reg.address) {
+<b><a name="line91">91    </a></b>	            case 0x0000:
+<b><a name="line92">92    </a></b>	                Dump_LM(tprintf("PC"));
+<b><a name="line93">93    </a></b>	                idle_pc(idle_unit_cnt);
+<b><a name="line94">94    </a></b>	                break;
+<b><a name="line95">95    </a></b>	            case 0x0001:
+<b><a name="line96">96    </a></b>	                Dump_LM(tprintf("uS"));
+<b><a name="line97">97    </a></b>	                MABIAO_IDLE_US(idle_unit_cnt);
+<b><a name="line98">98    </a></b>	                break;
+<b><a name="line99">99    </a></b>	            case 0x0002:
+<b><a name="line100">100    </a></b>	                Dump_LM(tprintf("mS"));
+<b><a name="line101">101    </a></b>	                MABIAO_IDLE_MS(idle_unit_cnt);
+<b><a name="line102">102    </a></b>	                break;
+<b><a name="line103">103    </a></b>	            default:
+<b><a name="line104">104    </a></b>	                Dump_LM(tprintf("S"));
+<b><a name="line105">105    </a></b>	                MABIAO_IDLE_S(idle_unit_cnt);
+<b><a name="line106">106    </a></b>	                break;
+<b><a name="line107">107    </a></b>	            }
+<b><a name="line108">108    </a></b>	        }
+<b><a name="line109">109    </a></b>	        //Setting: The Landmark Fill Entry is for Setting a 32-bit value
+<b><a name="line110">110    </a></b>	        else {
+<b><a name="line111">111    </a></b>	            Dump_LM(tprintf("Filling - "));
+<b><a name="line112">112    </a></b>	            address_base = (U32 *)(id_table_landmark_ptr[landmark_entry].reg.long_address);
+<b><a name="line113">113    </a></b>	            reg_data = id_table_landmark_ptr[landmark_entry].data;
+<b><a name="line114">114    </a></b>	            Dump_LM(tprintf("Addr %x Data %x (Orig %x)", address_base, reg_data, *address_base));
+<b><a name="line115">115    </a></b>	            *address_base = reg_data;
+<b><a name="line116">116    </a></b>	        }
+<b><a name="line117">117    </a></b>	    }
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    Dump_LM(tprintf("Landmark Handle at %x for %d fail %d times", (U32)id_table_landmark_ptr, landmark_len, fail_cnt));
+<b><a name="line120">120    </a></b>	    return fail_cnt;
+<b><a name="line121">121    </a></b>	}
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	/**
+<b><a name="line124">124    </a></b>	 * Handles the General Landmark within the ID Page by invoking landmark_handle().
+<b><a name="line125">125    </a></b>	 */
+<b><a name="line126">126    </a></b>	void id_table_general_landmark(ID_TABLE *p_id_table)
+<b><a name="line127">127    </a></b>	{
+<b><a name="line128">128    </a></b>	    id_table_general_landmark_handle((ID_TABLE_LANDMARK_PTR)(DBUF_API_BOOTCODE_ID_TABLE_BASE + p_id_table->general_landmark_pre.offset), p_id_table->general_landmark_pre.count);
+<b><a name="line129">129    </a></b>	}
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	void efuse_pcie_landmark_handle(EFUSE_PCIE_LANDMARK_PTR efuse_pcie_landmark_ptr, U32 landmard_byte_count)
+<b><a name="line133">133    </a></b>	{
+<b><a name="line134">134    </a></b>	
+<b><a name="line135">135    </a></b>	    EFUSE_PCIE_LANDMARK_PTR  efuse_ptr = (EFUSE_PCIE_LANDMARK_PTR )&efuse_pcie_landmark_ptr[0];
+<b><a name="line136">136    </a></b>	    volatile U32 pcie_phy_address;
+<b><a name="line137">137    </a></b>	    volatile U32 data;
+<b><a name="line138">138    </a></b>	    volatile U8  offset;
+<b><a name="line139">139    </a></b>	    volatile U32 align_4B_address;
+<b><a name="line140">140    </a></b>	    volatile U32 phy_write_data;
+<b><a name="line141">141    </a></b>	    volatile U32 mask;
+<b><a name="line142">142    </a></b>	    volatile U32 landmark_set_count = landmard_byte_count / sizeof(EFUSE_PCIE_LANDMARK);
+<b><a name="line143">143    </a></b>	
+<b><a name="line144">144    </a></b>	    for(U8 index = 0; index < landmark_set_count; index++)
+<b><a name="line145">145    </a></b>	    {
+<b><a name="line146">146    </a></b>	        if(efuse_ptr[index].pphy_vld)
+<b><a name="line147">147    </a></b>	        {
+<b><a name="line148">148    </a></b>	            sal_log_tracker_set(efuse_ptr[index].pphy_addr);
+<b><a name="line149">149    </a></b>	            sal_log_tracker_set(efuse_ptr[index].pphy_data);
+<b><a name="line150">150    </a></b>	
+<b><a name="line151">151    </a></b>	            offset = ((efuse_ptr[index].pphy_addr) & 0x3) << 3;
+<b><a name="line152">152    </a></b>	            align_4B_address = (U32)((efuse_ptr[index].pphy_addr) & 0xFFFFFFFC);
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	            pcie_phy_address = 0x314e000 + align_4B_address;
+<b><a name="line155">155    </a></b>	            data = efuse_ptr[index].pphy_data;
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	            mask = 0xFFFF << offset;
+<b><a name="line158">158    </a></b>	            Dump_LM(tprintf("read back %x",*((volatile U32 *) (pcie_phy_address))));
+<b><a name="line159">159    </a></b>	            phy_write_data = ((*((volatile U32 *) (pcie_phy_address))) & (~mask)) | (data << offset);
+<b><a name="line160">160    </a></b>	            sal_log_tracker_set(pcie_phy_address);
+<b><a name="line161">161    </a></b>	            sal_log_tracker_set(phy_write_data);
+<b><a name="line162">162    </a></b>	            Dump_LM(tprintf("pcie phy reg addr:%x data:%x efuse addr:%x data:%x ",pcie_phy_address, phy_write_data,efuse_ptr[index].pphy_addr,efuse_ptr[index].pphy_data));
+<b><a name="line163">163    </a></b>	            *((volatile U32 *) (pcie_phy_address)) = phy_write_data;
+<b><a name="line164">164    </a></b>	        }
+<b><a name="line165">165    </a></b>	        DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line166">166    </a></b>	    }
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	static void efuse_bootcode_landmark_handle(EFUSE_BOOTCODE_LANDMARK_PTR landmark)
+<b><a name="line170">170    </a></b>	{
+<b><a name="line171">171    </a></b>	    volatile U8 *address_base = 0;
+<b><a name="line172">172    </a></b>	    U32 reg_data, poll_time_us, poll_status;
+<b><a name="line173">173    </a></b>	    U32 idle_unit_cnt;
+<b><a name="line174">174    </a></b>	    U32 fail_cnt = 0;
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	    Dump_LM(tprintf("Data %x, Addr %x, Ctrl %x \r\n", landmark->data, landmark->addr, landmark->ctrl));
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	    if (landmark->ctrl == 0x0) { //nop
+<b><a name="line179">179    </a></b>	        return;
+<b><a name="line180">180    </a></b>	    }
+<b><a name="line181">181    </a></b>	    if (landmark->ctrl == 0x1) {
+<b><a name="line182">182    </a></b>	
+<b><a name="line183">183    </a></b>	        Dump_LM(tprintf("assign:"));
+<b><a name="line184">184    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line185">185    </a></b>	        reg_data = landmark->data;
+<b><a name="line186">186    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line187">187    </a></b>	        *address_base = reg_data;
+<b><a name="line188">188    </a></b>	    }
+<b><a name="line189">189    </a></b>	    else if (landmark->ctrl == 0x2) {
+<b><a name="line190">190    </a></b>	        Dump_LM(tprintf("and:"));
+<b><a name="line191">191    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line192">192    </a></b>	        reg_data = landmark->data;
+<b><a name="line193">193    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line194">194    </a></b>	        *address_base &= reg_data;
+<b><a name="line195">195    </a></b>	    }
+<b><a name="line196">196    </a></b>	    else if (landmark->ctrl == 0x3) {
+<b><a name="line197">197    </a></b>	        Dump_LM(tprintf("or:"));
+<b><a name="line198">198    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line199">199    </a></b>	        reg_data = landmark->data;
+<b><a name="line200">200    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line201">201    </a></b>	        *address_base |= reg_data;
+<b><a name="line202">202    </a></b>	    }
+<b><a name="line203">203    </a></b>	    else if (landmark->ctrl == 0x4) {
+<b><a name="line204">204    </a></b>	        Dump_LM(tprintf("xor:"));
+<b><a name="line205">205    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line206">206    </a></b>	        reg_data = landmark->data;
+<b><a name="line207">207    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line208">208    </a></b>	        *address_base ^= reg_data;
+<b><a name="line209">209    </a></b>	    }
+<b><a name="line210">210    </a></b>	    else if (landmark->ctrl == 0x5) { //idle
+<b><a name="line211">211    </a></b>	        Dump_LM(tprintf("idle:"));
+<b><a name="line212">212    </a></b>	        idle_unit_cnt = landmark->addr;
+<b><a name="line213">213    </a></b>	        Dump_LM(tprintf("idle %d ", idle_unit_cnt));
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	        switch (landmark->data) {
+<b><a name="line216">216    </a></b>	        case 0x0000:
+<b><a name="line217">217    </a></b>	            Dump_LM(tprintf("PC"));
+<b><a name="line218">218    </a></b>	            idle_pc(idle_unit_cnt);
+<b><a name="line219">219    </a></b>	            break;
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	        case 0x0001:
+<b><a name="line222">222    </a></b>	            Dump_LM(tprintf("uS"));
+<b><a name="line223">223    </a></b>	            MABIAO_IDLE_US(idle_unit_cnt);
+<b><a name="line224">224    </a></b>	            break;
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	        case 0x0002:
+<b><a name="line227">227    </a></b>	            Dump_LM(tprintf("mS"));
+<b><a name="line228">228    </a></b>	            MABIAO_IDLE_MS(idle_unit_cnt);
+<b><a name="line229">229    </a></b>	            break;
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	        default:
+<b><a name="line232">232    </a></b>	            Dump_LM(tprintf("S"));
+<b><a name="line233">233    </a></b>	            MABIAO_IDLE_S(idle_unit_cnt);
+<b><a name="line234">234    </a></b>	            break;
+<b><a name="line235">235    </a></b>	        }
+<b><a name="line236">236    </a></b>	    }
+<b><a name="line237">237    </a></b>	    else {      //polling
+<b><a name="line238">238    </a></b>	        if ((landmark->ctrl & 0x8) > 0) { // polling bit = 1
+<b><a name="line239">239    </a></b>	            poll_status = 1;
+<b><a name="line240">240    </a></b>	        }
+<b><a name="line241">241    </a></b>	        else {
+<b><a name="line242">242    </a></b>	            poll_status = 0;
+<b><a name="line243">243    </a></b>	        }
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	        Dump_LM(tprintf("Polling:"));
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line248">248    </a></b>	        reg_data = landmark->data;
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	        Dump_LM(tprintf("Addr %x Bit %x ", (U32)address_base, reg_data));
+<b><a name="line251">251    </a></b>	        Dump_LM(tprintf("(Value %x)", *address_base));
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	        poll_time_us = landmark->data * 50; //update the spec
+<b><a name="line254">254    </a></b>	        if (0 == poll_time_us) {
+<b><a name="line255">255    </a></b>	            poll_time_us = 0x0100 * 50;
+<b><a name="line256">256    </a></b>	        }
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	        Dump_LM(tprintf("for %db, time %dus", poll_status, poll_time_us));
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_DB_LANDMARK, 50);
+<b><a name="line261">261    </a></b>	        while ((((*address_base) >> reg_data) & 0x01) != poll_status) {
+<b><a name="line262">262    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line263">263    </a></b>	                Dump_LM(tprintf("Timeout"));
+<b><a name="line264">264    </a></b>	                fail_cnt++;
+<b><a name="line265">265    </a></b>	                break;
+<b><a name="line266">266    </a></b>	            }
+<b><a name="line267">267    </a></b>	        }
+<b><a name="line268">268    </a></b>	        Dump_LM(tprintf("Done"));
+<b><a name="line269">269    </a></b>	    }
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    Dump_LM(tprintf("fail_cnt is %d", fail_cnt));
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	void efuse_bootcode_landmark_index_api(EFUSE_API *p_efuse_api,U16 landmark_state)
+<b><a name="line275">275    </a></b>	{
+<b><a name="line276">276    </a></b>	    U16 landmark_idx;
+<b><a name="line277">277    </a></b>	    EFUSE_BOOTCODE_LANDMARK efuse_bootcode_landmark;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "efuse_bootcode_landmark" is already used to represent a type.</font>
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    for (landmark_idx = 0U; landmark_idx < EFUSE_BOOT_LANDMARK_INDEX_COUNT; landmark_idx++) {
+<b><a name="line280">280    </a></b>	        memset((void *)&efuse_bootcode_landmark, 0x00, sizeof(EFUSE_BOOTCODE_LANDMARK));
+<b><a name="line281">281    </a></b>	        (void)memcpy((void *)&efuse_bootcode_landmark.qw, (void *)((U8 *)(&p_efuse_api->efuse_boot_landmark.dword) + (EFUSE_BYTE_BOOT_LANDMARK_INDEX_SIZE * landmark_idx) + ((landmark_idx / EFUSE_BOOT_LANDMARK_BANK_SIZE) * 2)), EFUSE_BYTE_BOOT_LANDMARK_INDEX_SIZE);
+<b><a name="line282">282    </a></b>	        if (((U16)efuse_bootcode_landmark.state == landmark_state) && (efuse_bootcode_landmark.state != 0)) {
+<b><a name="line283">283    </a></b>	            efuse_bootcode_landmark_handle(&efuse_bootcode_landmark);
+<b><a name="line284">284    </a></b>	        }
+<b><a name="line285">285    </a></b>	    }
+<b><a name="line286">286    </a></b>	    return;
+<b><a name="line287">287    </a></b>	}
+<b><a name="line288">288    </a></b>	
+</pre></body>
+</html>

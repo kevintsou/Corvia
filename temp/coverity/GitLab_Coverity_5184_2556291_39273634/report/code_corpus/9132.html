@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line273">273    </a></b>	    // Then execute ISP Jump.
+<b><a name="line274">274    </a></b>	    U32 check_error = 0;
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    if (gBCodeGlobalStruct.parameter_config.xmodem_sideband_enable) {
+<b><a name="line277">277    </a></b>	        //Receive Burner file end or not
+<b><a name="line278">278    </a></b>	        if (XMOD_RCV_VALID_STATE == vuc_dispatch->xmod.rcv_state) {
+<b><a name="line279">279    </a></b>	            //Check Burner Valid or not
+<b><a name="line280">280    </a></b>	            check_error = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE, PROJECT_BINARY_SOURCE_HOST);
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	            if (0 == check_error) {
+<b><a name="line283">283    </a></b>	                Dump_Vendor(tprintf("\nCheck Burner PASS~"));
+<b><a name="line284">284    </a></b>	                //Disable interrupt
+<b><a name="line285">285    </a></b>	                DISABLE_ALL_IRQ();
+<b><a name="line286">286    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line287">287    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	                //Jump PRAM
+<b><a name="line290">290    </a></b>	                jump_pram((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE);
+<b><a name="line291">291    </a></b>	            }
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	            //Jump fail
+<b><a name="line294">294    </a></b>	            vuc_dispatch->state = VUC_HANDLER_WAIT;
+<b><a name="line295">295    </a></b>	        }
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	        if (VUC_HANDLER_WAIT == vuc_dispatch->state) {
+<b><a name="line298">298    </a></b>	            //Xmodem init to receive Burner
+<b><a name="line299">299    </a></b>	            //Note: "receive data size = 0"
+<b><a name="line300">300    </a></b>	            xmodem_rcv_init((&(vuc_dispatch->xmod)), 0);
+<b><a name="line301">301    </a></b>	            xmodem_rcv_ping(&(vuc_dispatch->xmod));
+<b><a name="line302">302    </a></b>	            mabiao_set2(MABIAO_MS, VUC_CMD_UART_RCV_DATA_WRITE_PATH_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line303">303    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_RCV_DATA);
+<b><a name="line304">304    </a></b>	        }
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	    }
+<b><a name="line307">307    </a></b>	}
+<b><a name="line308">308    </a></b>	
+<b><a name="line309">309    </a></b>	void vuc_uart_handler(VUC_DISPATCH_PTR vuc_dispatch)
+<b><a name="line310">310    </a></b>	{
+<b><a name="line311">311    </a></b>	    U16 cmd_crc;
+<b><a name="line312">312    </a></b>	    U8  enc_vuc = FALSE;
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	    //Check receive Burner from Xmodem
+<b><a name="line315">315    </a></b>	    vuc_check_burner_byXmodem(vuc_dispatch);
+<b><a name="line316">316    </a></b>	
+<b><a name="line317">317    </a></b>	    if (VUC_HANDLER_UART_MODE == vuc_dispatch->mode) {
+<b><a name="line318">318    </a></b>	        if (VUC_HANDLER_WAIT != vuc_dispatch->state) {
+<b><a name="line319">319    </a></b>	            if (MABIAO_CHK((U32)&(vuc_dispatch->cmd_timer))) {
+<b><a name="line320">320    </a></b>	                vuc_dispatch_reset(vuc_dispatch);
+<b><a name="line321">321    </a></b>	            }
+<b><a name="line322">322    </a></b>	        }
+<b><a name="line323">323    </a></b>	        else {
+<b><a name="line324">324    </a></b>	            if (vuc_dispatch->sq_rcv_flag) {
+<b><a name="line325">325    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_RCV_SQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line326">326    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_RCV_SQ);
+<b><a name="line327">327    </a></b>	            }
+<b><a name="line328">328    </a></b>	        }
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	        if (VUC_HANDLER_RCV_SQ == vuc_dispatch->state) {
+<b><a name="line331">331    </a></b>	            vuc_cq_reset();
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	            if ((VUC_OPC_ENC_DATA_IN == vuc_dispatch->sq_cmd.opc) || (VUC_OPC_ENC_DATA_OUT == vuc_dispatch->sq_cmd.opc) || (VUC_OPC_ENC_NO_DATA == vuc_dispatch->sq_cmd.opc)) {
+</pre></body>
+</html>

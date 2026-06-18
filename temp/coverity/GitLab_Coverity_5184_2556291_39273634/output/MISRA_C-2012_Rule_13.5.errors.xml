@@ -1,0 +1,1404 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.c</file>
+<function>bootcode_hal_rng_get_value</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{hal_rng_schk_pass_get()}}}}}}</description>
+<line>36</line>
+<column>77</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_schk_pass_get</function>
+<key>ab03f5558da77633e2cf11893d5600df</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>hal_rng_schk_pass_get</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.c</file>
+<function>bootcode_hal_rng_get_value</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{hal_rng_check_done()}}}}}}</description>
+<line>36</line>
+<column>43</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_check_done</function>
+<key>e5e15d24577731e7ff0e3870bfba9fe1</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>hal_rng_check_done</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.c</file>
+<function>bootcode_hal_rng_get_value</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{hal_rng_check_done()}}}}}}</description>
+<line>37</line>
+<column>43</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_check_done</function>
+<key>e5e15d24577731e7ff0e3870bfba9fe1</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>hal_rng_check_done</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>host_api_pcie_check_perst_int_sts_and_link</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{(U8 volatile *)0x3600300[33U]}}}}}}</description>
+<line>1065</line>
+<column>67</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_api_read_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{(U8 volatile *)gFlhRegTxChBase[ch][192U]}}}}}}</description>
+<line>292</line>
+<column>66</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_nand_ctrl_api_read_data_skip_highbyte</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{(U8 volatile *)gFlhRegTxChBase[ch][192U]}}}}}}</description>
+<line>573</line>
+<column>70</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_chk_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{hal_fip_chk_fctl_fag_sca_idle(ch)}}}}}}</description>
+<line>1013</line>
+<column>32</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/fip/hal_fip.c</file>
+<function>hal_fip_chk_fctl_fag_sca_idle</function>
+<key>1c7ff2bc88106321f7df3bc755b4d903</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>hal_fip_chk_fctl_fag_sca_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{hal_hw_cfg_get(8)}}}}}}</description>
+<line>1526</line>
+<column>47</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_miscl_api.c</file>
+<function>hal_hw_cfg_get</function>
+<key>40807f57625a18674552d02befb4138f</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>hal_hw_cfg_get</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>69</line>
+<column>31</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>68</line>
+<column>39</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>67</line>
+<column>35</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>66</line>
+<column>43</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>65</line>
+<column>36</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{sq}}}}}}</description>
+<line>64</line>
+<column>35</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>80</line>
+<column>35</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>79</line>
+<column>43</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/reset/host_reset_nvme_func.c</file>
+<function>hal_host_reset_wait_dma_cfmgr_idle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{dal_cmgr_get_cfmgr_idle(p_ofst)}}}}}}</description>
+<line>19</line>
+<column>9</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_cfmgr_idle</function>
+<key>95aa6d0f2e7529976d77ceb94211f157</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_cmgr_get_cfmgr_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/reset/host_reset_nvme_func.c</file>
+<function>hal_host_reset_wait_dma_cfmgr_idle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{dal_cmgr_get_wdma_idle(p_ofst)}}}}}}</description>
+<line>18</line>
+<column>9</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_wdma_idle</function>
+<key>afb719d37e0940ca80b6a177a365d778</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_cmgr_get_wdma_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>delete_db_cmd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{dal_cmgr_get_ct_vld(ctag)}}}}}}</description>
+<line>75</line>
+<column>26</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_ct_vld</function>
+<key>70ec80678258ff4c6bc29395a052ef60</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_cmgr_get_ct_vld</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>check_nvme_idle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{dal_nl_get_p_cplm_busy(0)}}}}}}</description>
+<line>138</line>
+<column>68</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_get_p_cplm_busy</function>
+<key>a84e1b1d3915921b290e862c7b9cf862</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_nl_get_p_cplm_busy</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;opc}}}}}}</description>
+<line>74</line>
+<column>47</column>
+</event>
+<extra>opc,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>74</line>
+<column>47</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;opc}}}}}}</description>
+<line>73</line>
+<column>46</column>
+</event>
+<extra>opc,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>73</line>
+<column>46</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>84</line>
+<column>59</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>84</line>
+<column>59</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>83</line>
+<column>49</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>83</line>
+<column>49</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>82</line>
+<column>58</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>82</line>
+<column>58</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>81</line>
+<column>62</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>81</line>
+<column>62</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>80</line>
+<column>60</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>80</line>
+<column>60</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>79</line>
+<column>54</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>79</line>
+<column>54</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;feature}}}}}}</description>
+<line>78</line>
+<column>57</column>
+</event>
+<extra>feature,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>78</line>
+<column>57</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq-&gt;opc}}}}}}</description>
+<line>92</line>
+<column>26</column>
+</event>
+<extra>opc,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{sq}}}}}}</description>
+<line>92</line>
+<column>26</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_redriver_initial</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{gpFwSimCtrl1Reg-&gt;jump_to_fw}}}}}}</description>
+<line>196</line>
+<column>48</column>
+</event>
+<extra>gpFwSimCtrl1Reg,jump_to_fw</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_redriver_initial</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{*gpFwSimCtrl1Reg}}}}}}</description>
+<line>196</line>
+<column>48</column>
+</event>
+<extra>gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_sq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.opc}}}}}}</description>
+<line>71</line>
+<column>87</column>
+</event>
+<extra>opc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_sq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.opc}}}}}}</description>
+<line>74</line>
+<column>94</column>
+</event>
+<extra>opc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_sq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.opc}}}}}}</description>
+<line>77</line>
+<column>92</column>
+</event>
+<extra>opc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{gpFwSimCtrl1Reg-&gt;activate_other_loader}}}}}}</description>
+<line>2958</line>
+<column>104</column>
+</event>
+<extra>activate_other_loader,gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{*gpFwSimCtrl1Reg}}}}}}</description>
+<line>2958</line>
+<column>104</column>
+</event>
+<extra>gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_api_read_status_by_lun</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{(U8 volatile *)gFlhRegTxChBase[ch][192U]}}}}}}</description>
+<line>390</line>
+<column>66</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_nand_api_read_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{(U8 volatile *)gFlhRegTxChBase[ch][192U]}}}}}}</description>
+<line>1023</line>
+<column>70</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_smbs_clear_unmatch_udid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{dal_smbs_api_get_udid_en(0)}}}}}}</description>
+<line>339</line>
+<column>68</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/smbus/dal_flow_smbs.c</file>
+<function>dal_smbs_api_get_udid_en</function>
+<key>40ac29feb597c4b5c40f0529ceb812b9</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_smbs_api_get_udid_en</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{||}}}{{code{phal_get_dt_attribution_define()}}}}}}</description>
+<line>1980</line>
+<column>68</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sec.c</file>
+<function>phal_get_dt_attribution_define</function>
+<key>dd44d885203cf4f0eefd8d71759d2125</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>phal_get_dt_attribution_define</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>host_normal_event</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{dal_pcie_get_pm_sel_aux_clk_ovrd(0UL)}}}}}}</description>
+<line>326</line>
+<column>96</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_pcie_get_pm_sel_aux_clk_ovrd</function>
+<key>582580c433b86403dab68cbba0bed5c3</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_pcie_get_pm_sel_aux_clk_ovrd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>host_normal_event</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{event-&gt;rst_flag}}}}}}</description>
+<line>326</line>
+<column>50</column>
+</event>
+<extra>event,rst_flag</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{gpFwSimCtrl1Reg-&gt;sqz_enable}}}}}}</description>
+<line>253</line>
+<column>52</column>
+</event>
+<extra>gpFwSimCtrl1Reg,sqz_enable</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{*gpFwSimCtrl1Reg}}}}}}</description>
+<line>253</line>
+<column>52</column>
+</event>
+<extra>gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{gpFwSimCtrl1Reg-&gt;sqz_enable}}}}}}</description>
+<line>257</line>
+<column>57</column>
+</event>
+<extra>gpFwSimCtrl1Reg,sqz_enable</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{*gpFwSimCtrl1Reg}}}}}}</description>
+<line>257</line>
+<column>57</column>
+</event>
+<extra>gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_normal</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{dal_cmgr_get_ct_opc(ctag)}}}}}}</description>
+<line>114</line>
+<column>10</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_ct_opc</function>
+<key>0f3d92967383578ec2473e69101fb410</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>dal_cmgr_get_ct_opc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{bootcode_hal_uart_api_get_rx_over_flow_err_sts()}}}}}}</description>
+<line>72</line>
+<column>61</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>bootcode_hal_uart_api_get_rx_over_flow_err_sts</function>
+<key>39582de1691a854eecd6c4b3d444bbd7</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_over_flow_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{bootcode_hal_uart_api_get_rx_parity_err_sts()}}}}}}</description>
+<line>77</line>
+<column>62</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>bootcode_hal_uart_api_get_rx_parity_err_sts</function>
+<key>09bfd300a4c0100d3c2819c93e5ca37c</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_parity_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{bootcode_hal_uart_api_get_rx_frame_err_sts()}}}}}}</description>
+<line>82</line>
+<column>61</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>bootcode_hal_uart_api_get_rx_frame_err_sts</function>
+<key>807a5274d06e230bae56ec2d47348ace</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_frame_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{bootcode_hal_uart_api_get_rx_fifo_not_empty_sts()}}}}}}</description>
+<line>87</line>
+<column>66</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>bootcode_hal_uart_api_get_rx_fifo_not_empty_sts</function>
+<key>a060ab54765594df63424ba88c38c46a</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_fifo_not_empty_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>program_loader_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{gpFwSimCtrl0Reg-&gt;disable_hw_force_boot}}}}}}</description>
+<line>279</line>
+<column>15</column>
+</event>
+<extra>disable_hw_force_boot,gpFwSimCtrl0Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>program_loader_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{*gpFwSimCtrl0Reg}}}}}}</description>
+<line>279</line>
+<column>15</column>
+</event>
+<extra>gpFwSimCtrl0Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.opc}}}}}}</description>
+<line>333</line>
+<column>148</column>
+</event>
+<extra>opc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.opc}}}}}}</description>
+<line>333</line>
+<column>95</column>
+</event>
+<extra>opc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{||}}}{{code{vuc_dispatch-&gt;sq_cmd.feature}}}}}}</description>
+<line>357</line>
+<column>92</column>
+</event>
+<extra>feature,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{gpFwSimCtrl1Reg-&gt;sqz_enable}}}}}}</description>
+<line>475</line>
+<column>61</column>
+</event>
+<extra>gpFwSimCtrl1Reg,sqz_enable</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of accessing to volatile object {1}.}{{code{&amp;&amp;}}}{{code{*gpFwSimCtrl1Reg}}}}}}</description>
+<line>475</line>
+<column>61</column>
+</event>
+<extra>gpFwSimCtrl1Reg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.5</checker>
+<type>MISRA_C_2012_Rule_13.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_5_violation</tag>
+<description>{CovLStrv2{{t{The right hand operand of a logical operator {0} has persistent side effects because of calling function {1}.}{{code{&amp;&amp;}}}{{code{phal_get_dt_attribution_define()}}}}}}</description>
+<line>21</line>
+<column>17</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sec.c</file>
+<function>phal_get_dt_attribution_define</function>
+<key>dd44d885203cf4f0eefd8d71759d2125</key>
+<id>1</id>
+</model_ptr>
+</event>
+<extra>phal_get_dt_attribution_define</extra>
+<subcategory>none</subcategory>
+</error>

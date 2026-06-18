@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/uart.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  uart.h                                                                */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _UART_H_
+<b><a name="line19">19    </a></b>	#define _UART_H_
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "user_conf.h"
+<b><a name="line22">22    </a></b>	#include "top/xmodem.h"
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	/*
+<b><a name="line25">25    </a></b>	 *  definitions
+<b><a name="line26">26    </a></b>	 *
+<b><a name="line27">27    </a></b>	 */
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	#define _WIN32_TRACE(x)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_WIN32_TRACE", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	enum UART_PARSING_STATE {
+<b><a name="line32">32    </a></b>	    UART_PARS_INIT = 0,
+<b><a name="line33">33    </a></b>	    UART_PARS_RECV_OP,
+<b><a name="line34">34    </a></b>	    UART_PARS_RECV_DEVICE
+<b><a name="line35">35    </a></b>	};
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	enum UART_MODE {
+<b><a name="line38">38    </a></b>	    UART_FIFO_MODE = 0,
+<b><a name="line39">39    </a></b>	    UART_OOB_MODE,
+<b><a name="line40">40    </a></b>	    UART_MODE_NUM
+<b><a name="line41">41    </a></b>	};
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	enum UART_PORT_ID {
+<b><a name="line44">44    </a></b>	    UART_PORT_1 = 0,
+<b><a name="line45">45    </a></b>	    UART_PORT_2,
+<b><a name="line46">46    </a></b>	    UART_PORT_3,
+<b><a name="line47">47    </a></b>	    UART_PORT_ID_NUM
+<b><a name="line48">48    </a></b>	};
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	enum UART_PORT_REG {
+<b><a name="line51">51    </a></b>	    UART_DATA = 0,
+<b><a name="line52">52    </a></b>	    UART_CTRL,
+<b><a name="line53">53    </a></b>	    UART_PORT_REG_NUM
+<b><a name="line54">54    </a></b>	};
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	enum BOOT_CODE_PORT_ID {
+<b><a name="line57">57    </a></b>	    XMODEM_PORT = 0,             //TX0
+<b><a name="line58">58    </a></b>	    LOG_PORT,                    //TX1
+<b><a name="line59">59    </a></b>	    BOOT_CODE_PORT_ID_NUM
+<b><a name="line60">60    </a></b>	};
+</pre></body>
+</html>

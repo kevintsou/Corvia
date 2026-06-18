@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line45">45    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line46">46    </a></b>	 * @return    Next FPU Base.
+<b><a name="line47">47    </a></b>	 * @note
+<b><a name="line48">48    </a></b>	 *
+<b><a name="line49">49    </a></b>	 */
+<b><a name="line50">50    </a></b>	U32 dal_fip_fpu_fill_rr_adr(U32 fpu_base, U8 num)
+<b><a name="line51">51    </a></b>	{
+<b><a name="line52">52    </a></b>	    DAL_FIP_FPU_RR_STRUCT_PTR ptr = (DAL_FIP_FPU_RR_STRUCT_PTR)fpu_base;
+<b><a name="line53">53    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line54">54    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RR;
+<b><a name="line55">55    </a></b>	    ptr->adr = 1U;
+<b><a name="line56">56    </a></b>	    ptr->num = num;
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line59">59    </a></b>	}
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	/*!
+<b><a name="line62">62    </a></b>	 * @brief
+<b><a name="line63">63    </a></b>	 *
+<b><a name="line64">64    </a></b>	 * - TODO:
+<b><a name="line65">65    </a></b>	 *
+<b><a name="line66">66    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line67">67    </a></b>	 * @return    Next FPU Base.
+<b><a name="line68">68    </a></b>	 * @note
+<b><a name="line69">69    </a></b>	 *
+<b><a name="line70">70    </a></b>	 */
+<b><a name="line71">71    </a></b>	U32 dal_fip_fpu_fill_rr_va(U32 fpu_base)
+<b><a name="line72">72    </a></b>	{
+<b><a name="line73">73    </a></b>	    DAL_FIP_FPU_RR_STRUCT_PTR ptr = (DAL_FIP_FPU_RR_STRUCT_PTR)fpu_base;
+<b><a name="line74">74    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line75">75    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RR;
+<b><a name="line76">76    </a></b>	    ptr->adr = 1U;
+<b><a name="line77">77    </a></b>	    ptr->va = 1U;
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line80">80    </a></b>	}
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	/*!
+<b><a name="line83">83    </a></b>	 * @brief
+<b><a name="line84">84    </a></b>	 *
+<b><a name="line85">85    </a></b>	 * - TODO:
+<b><a name="line86">86    </a></b>	 *
+<b><a name="line87">87    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line88">88    </a></b>	 * @return    Next FPU Base.
+<b><a name="line89">89    </a></b>	 * @note
+<b><a name="line90">90    </a></b>	 *
+<b><a name="line91">91    </a></b>	 */
+<b><a name="line92">92    </a></b>	U32 dal_fip_fpu_fill_rr_dat(U32 fpu_base, U8 num)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    DAL_FIP_FPU_RR_STRUCT_PTR ptr = (DAL_FIP_FPU_RR_STRUCT_PTR)fpu_base;
+<b><a name="line95">95    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line96">96    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RR;
+<b><a name="line97">97    </a></b>	    ptr->dat = 1;
+<b><a name="line98">98    </a></b>	    ptr->num = num;
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line101">101    </a></b>	}
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	/*!
+<b><a name="line104">104    </a></b>	 * @brief
+<b><a name="line105">105    </a></b>	 *
+</pre></body>
+</html>

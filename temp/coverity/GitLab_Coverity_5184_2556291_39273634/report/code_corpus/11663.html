@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line212">212    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&smk_t.Ppubs, mpk, &verify_buffer->comm_buf) != SEC_YES)
+<b><a name="line213">213    </a></b>	    {
+<b><a name="line214">214    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_RETRIEVE_KEY_ERR);
+<b><a name="line215">215    </a></b>	    }
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	    hal_sec_sm9_z256_from_bytes(sig_t.h, sig);
+<b><a name="line218">218    </a></b>	
+<b><a name="line219">219    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&sig_t.S, sig + HAL_SEC_SM9_SIG_H_LEN) != SEC_YES)
+<b><a name="line220">220    </a></b>	    {
+<b><a name="line221">221    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_CONVERT_KEY_ERR);
+<b><a name="line222">222    </a></b>	    }
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	    if (hal_sec_sm9_do_verify(&smk_t, id, id_len, msg, msg_len, &sig_t, verify_buffer) != 1U)
+<b><a name="line225">225    </a></b>	    {
+<b><a name="line226">226    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_VERIFY_ERR);
+<b><a name="line227">227    </a></b>	    }
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	    return HAL_SEC_SM9_ERROR(SEC_YES);
+<b><a name="line230">230    </a></b>	}
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	U8 hal_sec_sm9_do_sign(HAL_SEC_SM9_SIGN_KEY_T_PTR key_t, U8 *msg, U32 msg_len, HAL_SEC_SM9_SIG_T_PTR sig, U8 *rand_val, HAL_SEC_SM9_SIGN_BUF_T_PTR sign_buffer)
+<b><a name="line233">233    </a></b>	{
+<b><a name="line234">234    </a></b>	    HAL_SEC_SM9_Z256_T r;
+<b><a name="line235">235    </a></b>	    HAL_SEC_SM9_Z256_FP12_T g;
+<b><a name="line236">236    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sign_buffer->sign_wbuf_addr);
+<b><a name="line237">237    </a></b>	    U8 h_a[64];
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    // A1: g = e(P1, Ppubs)
+<b><a name="line240">240    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line241">241    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	    hal_sec_sm9_z256_pairing(g, &key_t->Ppubs, &sm9_z256_mont_p1, &sign_buffer->comm_buf);
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	    hal_sec_sm9_z256_from_bytes(r, rand_val);
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	    // A3: w = g^r
+<b><a name="line248">248    </a></b>	    hal_sec_sm9_z256_fp12_pow(g, g, r, &sign_buffer->comm_buf);
+<b><a name="line249">249    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(g, wbuf);
+<b><a name="line250">250    </a></b>	
+<b><a name="line251">251    </a></b>	    // A4: h = H2(M || w, N)
+<b><a name="line252">252    </a></b>	    hal_sec_sm9_hash_2(h_a, msg, msg_len, wbuf, &sign_buffer->comm_buf);
+<b><a name="line253">253    </a></b>	    hal_sec_sm9_z256_modn_from_hash(sig->h, h_a, &sign_buffer->comm_buf);
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	    // A5: l = (r - h) mod N, if l = 0, goto A2
+<b><a name="line256">256    </a></b>	    hal_sec_sm9_z256_modn_sub(r, r, sig->h);
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	    if (hal_sec_sm9_z256_is_zero(r) == 1U)
+<b><a name="line259">259    </a></b>	    {
+<b><a name="line260">260    </a></b>	        return SEC_NO;
+<b><a name="line261">261    </a></b>	    }
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	    // A6: S = l * dsA
+<b><a name="line264">264    </a></b>	    hal_sec_sm9_z256_point_mul(&sig->S, r, &key_t->ds, &sign_buffer->comm_buf);
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	    (void)memset(&r, 0, sizeof(r));
+<b><a name="line267">267    </a></b>	    (void)memset(&g, 0, sizeof(g));
+<b><a name="line268">268    </a></b>	    (void)memset(wbuf, 0, 32 * 12);
+<b><a name="line269">269    </a></b>	    (void)memset(h_a, 0, sizeof(h_a));
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    return SEC_YES;
+<b><a name="line272">272    </a></b>	}
+</pre></body>
+</html>

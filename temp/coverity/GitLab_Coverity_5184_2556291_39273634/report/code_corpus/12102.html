@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1168">1168    </a></b>	    signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><a name="line1169">1169    </a></b>	
+<b><a name="line1170">1170    </a></b>	    message_address = data_address;
+<b><a name="line1171">1171    </a></b>	    message_size = signature_address - data_address;
+<b><a name="line1172">1172    </a></b>	
+<b><a name="line1173">1173    </a></b>	    (void)memset(&sha2_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line1174">1174    </a></b>	    sha2_param.src_addr.all  = message_address;
+<b><a name="line1175">1175    </a></b>	    sha2_param.targ_addr.all = hash_buffer;
+<b><a name="line1176">1176    </a></b>	    sha2_param.src_len       = message_size;
+<b><a name="line1177">1177    </a></b>	    sha2_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line1178">1178    </a></b>	    (void)phal_sec_sha_blocking(&sha2_param);
+<b><a name="line1179">1179    </a></b>	    memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1180">1180    </a></b>	    memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1181">1181    </a></b>	
+<b><a name="line1182">1182    </a></b>	    verify_sts = phal_sec_pqc_kaz_verify((U8 *)hash_buffer, (U8 *)(U32 *)(signature_address), (U8 *)(U32 *)(key_address + 8U), sec_kaz_buf);
+<b><a name="line1183">1183    </a></b>	
+<b><a name="line1184">1184    </a></b>	    ret = (U8)(verify_sts == HAL_SEC_PQC_KAZ_ERROR(SEC_YES));
+<b><a name="line1185">1185    </a></b>	
+<b><a name="line1186">1186    </a></b>	    if (ret != SEC_YES)
+<b><a name="line1187">1187    </a></b>	    {
+<b><a name="line1188">1188    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line1189">1189    </a></b>	        Dump_SEC(tprintf("DSAV F!"));
+<b><a name="line1190">1190    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1191">1191    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1192">1192    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line1193">1193    </a></b>	    }
+<b><a name="line1194">1194    </a></b>	
+<b><a name="line1195">1195    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line1196">1196    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1197">1197    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line1198">1198    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line1199">1199    </a></b>	    }
+<b><a name="line1200">1200    </a></b>	
+<b><a name="line1201">1201    </a></b>	    Dump_SEC(tprintf("DSAV PA"));
+<b><a name="line1202">1202    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1203">1203    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line1204">1204    </a></b>	}
+<b><a name="line1205">1205    </a></b>	
+<b><a name="line1206">1206    </a></b>	/**
+<b><a name="line1207">1207    </a></b>	 * Checks the Code Signature of the specified Project Binary
+<b><a name="line1208">1208    </a></b>	 *
+<b><a name="line1209">1209    </a></b>	 * @param p_project_binary_header
+<b><a name="line1210">1210    </a></b>	 *  The location of the Project Binary to be checked
+<b><a name="line1211">1211    </a></b>	 *
+<b><a name="line1212">1212    </a></b>	 * @return
+<b><a name="line1213">1213    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred
+<b><a name="line1214">1214    </a></b>	 *      BIT2 (PROJECT_BINARY_ERROR_HEADER_UNKNOWN_KEY)
+<b><a name="line1215">1215    </a></b>	 *          The Certificate ID (offset 0x10, size 0x04) is incorrect
+<b><a name="line1216">1216    </a></b>	 *      BIT3 (PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE)
+<b><a name="line1217">1217    </a></b>	 *          The Algorithm Type (offset 0x17, size 0x01) is incorrect
+<b><a name="line1218">1218    </a></b>	 *      BIT9 (PROJECT_BINARY_ERROR_CODE_SIGNATURE)
+<b><a name="line1219">1219    </a></b>	 *          The Code Signature is incorrect
+<b><a name="line1220">1220    </a></b>	 *      BIT13 (PROJECT_BINARY_ERROR_HW_ERROR)
+<b><a name="line1221">1221    </a></b>	 *          The hardware required to check the Code Signature has failed
+<b><a name="line1222">1222    </a></b>	 */
+<b><a name="line1223">1223    </a></b>	
+<b><a name="line1224">1224    </a></b>	static U32 check_project_binary_code_sign(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U32 calculation_buffer_size, U8 *project_binary_hash)
+<b><a name="line1225">1225    </a></b>	{
+<b><a name="line1226">1226    </a></b>	    gSecAesTimeout = 0U; // clear flag
+<b><a name="line1227">1227    </a></b>	    gSecShaTimeout = 0U; // clear flag
+<b><a name="line1228">1228    </a></b>	    gSecPkeTimeout = 0U; // clear flag
+</pre></body>
+</html>

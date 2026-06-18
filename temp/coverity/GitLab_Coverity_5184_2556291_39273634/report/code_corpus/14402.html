@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line839">839    </a></b>	U8 dal_db_get_fw_cq2(void);
+<b><a name="line840">840    </a></b>	U8 dal_db_get_fw_sq3(void);
+<b><a name="line841">841    </a></b>	U8 dal_db_get_fw_cq3(void);
+<b><a name="line842">842    </a></b>	U8 dal_db_get_auto_r_cq(void);
+<b><a name="line843">843    </a></b>	U8 dal_db_get_bmu_wr_cq_2(void);
+<b><a name="line844">844    </a></b>	U8 dal_db_get_bmu_search_sq(void);
+<b><a name="line845">845    </a></b>	U8 dal_db_get_bmu_noblk_cq(void);
+<b><a name="line846">846    </a></b>	U8 dal_db_get_cop0_wr_sq_1(void);
+<b><a name="line847">847    </a></b>	U8 dal_db_get_auto_r_sq(void);
+<b><a name="line848">848    </a></b>	U8 dal_db_get_auto_hwpr_sq(void);
+<b><a name="line849">849    </a></b>	U8 dal_db_get_auto_fwpr_sq(void);
+<b><a name="line850">850    </a></b>	U8 dal_db_get_auto_w_sq(void);
+<b><a name="line851">851    </a></b>	U8 dal_db_get_auto_hwpr_cq(void);
+<b><a name="line852">852    </a></b>	U8 dal_db_get_auto_fwpr_cq(void);
+<b><a name="line853">853    </a></b>	U8 dal_db_get_dmac_high_sq_data_size(void);
+<b><a name="line854">854    </a></b>	U8 dal_db_get_dmac_high_cq_data_size(void);
+<b><a name="line855">855    </a></b>	U8 dal_db_get_dmac_norm_sq_data_size(void);
+<b><a name="line856">856    </a></b>	U8 dal_db_get_dmac_norm_cq_data_size(void);
+<b><a name="line857">857    </a></b>	U8 dal_db_get_bmu_noblk_sq_data_size(void);
+<b><a name="line858">858    </a></b>	U8 dal_db_get_bmu_blk_sq_data_size(void);
+<b><a name="line859">859    </a></b>	U8 dal_db_get_bmu_blk_cq_data_size(void);
+<b><a name="line860">860    </a></b>	U8 dal_db_get_bmu_noblk_cq_data_size(void);
+<b><a name="line861">861    </a></b>	U8 dal_db_get_bmu_wr_cq_data_size(void);
+<b><a name="line862">862    </a></b>	U8 dal_db_get_bmu_wr_cq_2_data_size(void);
+<b><a name="line863">863    </a></b>	U8 dal_db_get_bmu_search_sq_data_size(void);
+<b><a name="line864">864    </a></b>	U8 dal_db_get_apu_wr_sq_data_size(void);
+<b><a name="line865">865    </a></b>	U8 dal_db_get_apu_cmpl_sq_data_size(void);
+<b><a name="line866">866    </a></b>	U8 dal_db_get_apu_td_cq_data_size(void);
+<b><a name="line867">867    </a></b>	U8 dal_db_get_apu_cmd_cq_data_size(void);
+<b><a name="line868">868    </a></b>	U8 dal_db_get_apu_rd_cq_data_size(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_db_get_apu_rd_cq_data_size" is declared but never defined.</font>
+<b><a name="line869">869    </a></b>	U8 dal_db_get_xzip_sq_data_size(void);
+<b><a name="line870">870    </a></b>	U8 dal_db_get_xzip_cq_data_size(void);
+<b><a name="line871">871    </a></b>	U8 dal_db_get_cop0_wr_sq_data_size(void);
+<b><a name="line872">872    </a></b>	U8 dal_db_get_cop0_wr_sq_1_data_size(void);
+<b><a name="line873">873    </a></b>	U8 dal_db_get_cop0_rd_sq_data_size(void);
+<b><a name="line874">874    </a></b>	U8 dal_db_get_cop0_cq_data_size(void);
+<b><a name="line875">875    </a></b>	U8 dal_db_get_cop1_sq_data_size(void);
+<b><a name="line876">876    </a></b>	U8 dal_db_get_cop1_cq_data_size(void);
+<b><a name="line877">877    </a></b>	U8 dal_db_get_flh_msg_cq_data_size(void);
+<b><a name="line878">878    </a></b>	U8 dal_db_get_rs_msg_cq_data_size(void);
+<b><a name="line879">879    </a></b>	U8 dal_db_get_pic_cq_data_size(void);
+<b><a name="line880">880    </a></b>	U8 dal_db_get_log_msg_cq_data_size(void);
+<b><a name="line881">881    </a></b>	U8 dal_db_get_err_msg_cq_data_size(void);
+<b><a name="line882">882    </a></b>	U8 dal_db_get_fw_sq0_data_size(void);
+<b><a name="line883">883    </a></b>	U8 dal_db_get_fw_cq0_data_size(void);
+<b><a name="line884">884    </a></b>	U8 dal_db_get_fw_sq1_data_size(void);
+<b><a name="line885">885    </a></b>	U8 dal_db_get_fw_cq1_data_size(void);
+<b><a name="line886">886    </a></b>	U8 dal_db_get_fw_sq2_data_size(void);
+<b><a name="line887">887    </a></b>	U8 dal_db_get_fw_cq2_data_size(void);
+<b><a name="line888">888    </a></b>	U8 dal_db_get_fw_sq3_data_size(void);
+<b><a name="line889">889    </a></b>	U8 dal_db_get_fw_cq3_data_size(void);
+<b><a name="line890">890    </a></b>	U8 dal_db_get_auto_w_sq_data_size(void);
+<b><a name="line891">891    </a></b>	U8 dal_db_get_auto_w_cq_data_size(void);
+<b><a name="line892">892    </a></b>	U8 dal_db_get_auto_r_sq_data_size(void);
+<b><a name="line893">893    </a></b>	U8 dal_db_get_auto_r_cq_data_size(void);
+<b><a name="line894">894    </a></b>	U8 dal_db_get_auto_hwpr_sq_data_size(void);
+<b><a name="line895">895    </a></b>	U8 dal_db_get_auto_hwpr_cq_data_size(void);
+<b><a name="line896">896    </a></b>	U8 dal_db_get_auto_fwpr_sq_data_size(void);
+<b><a name="line897">897    </a></b>	U8 dal_db_get_auto_fwpr_cq_data_size(void);
+<b><a name="line898">898    </a></b>	U8 dal_db_get_dmac_high_sq_depth(void);
+<b><a name="line899">899    </a></b>	U8 dal_db_get_dmac_high_cq_depth(void);
+</pre></body>
+</html>

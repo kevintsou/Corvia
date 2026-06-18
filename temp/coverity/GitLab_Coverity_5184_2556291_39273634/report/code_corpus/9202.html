@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line21">21    </a></b>	 * Initializes XModem to be ready for a new transmission or a new packet
+<b><a name="line22">22    </a></b>	 */
+<b><a name="line23">23    </a></b>	static void xmodem_rcv_packet_refresh(XMOD_STRUCT_PTR xmodem, U32 rcv_byte_cnt)
+<b><a name="line24">24    </a></b>	{
+<b><a name="line25">25    </a></b>	#if 0
+<b><a name="line26">26    </a></b>	    U8 i;
+<b><a name="line27">27    </a></b>	    Dump_XModem(tprintf("1024 Byte packet\r\n"));
+<b><a name="line28">28    </a></b>	    for (i = 0; i < 8; i++) {
+<b><a name="line29">29    </a></b>	        Dump_XModem(tprintf("%02X ", xmodem->xmod_buf[i]));
+<b><a name="line30">30    </a></b>	        if ((i & 0xF) == 0xF) {
+<b><a name="line31">31    </a></b>	            Dump_XModem(tprintf("\r\n"));
+<b><a name="line32">32    </a></b>	        }
+<b><a name="line33">33    </a></b>	    }
+<b><a name="line34">34    </a></b>	#endif
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	    memset((void *)(xmodem->token), 0x00, XMODEM_TOK_TYPE);
+<b><a name="line37">37    </a></b>	    xmodem->rcv_byte_cnt += rcv_byte_cnt;
+<b><a name="line38">38    </a></b>	    xmodem->xmod_buf += rcv_byte_cnt;
+<b><a name="line39">39    </a></b>	    memset((void *)(xmodem->xmod_buf), 0x00, XMOD_STX_DATA_SIZE);
+<b><a name="line40">40    </a></b>	    xmodem->xmod_buf_idx = 0;
+<b><a name="line41">41    </a></b>	    xmodem->packet_size = 0;
+<b><a name="line42">42    </a></b>	}
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	void xmodem_rcv_init(XMOD_STRUCT_PTR xmodem, U32 trans_byte_cnt)
+<b><a name="line45">45    </a></b>	{
+<b><a name="line46">46    </a></b>	    xmodem->packet_id = 0;
+<b><a name="line47">47    </a></b>	    xmodem->protect_mode = XMOD_CRC16;
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    if (gBCodeGlobalStruct.parameter_config.xmodem_sideband_enable) {
+<b><a name="line50">50    </a></b>	        xmodem->xmod_buf = (U8 *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134742016UL" (unsigned) is not the same as that of the right operand "8192"(signed).</font>
+<b><a name="line51">51    </a></b>	    }
+<b><a name="line52">52    </a></b>	    else {
+<b><a name="line53">53    </a></b>	        xmodem->xmod_buf = (U8 *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE;
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    xmodem_rcv_packet_refresh(xmodem, 0);
+<b><a name="line57">57    </a></b>	    xmodem->rcv_byte_cnt = 0;
+<b><a name="line58">58    </a></b>	    xmodem->trans_byte_cnt = trans_byte_cnt;
+<b><a name="line59">59    </a></b>	    xmodem->retry_cnt = 0;
+<b><a name="line60">60    </a></b>	    xmodem->abort_type = XMOD_TRANS_SUCCESS;
+<b><a name="line61">61    </a></b>	    xmodem->rcv_state = XMOD_RCV_WAIT;
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    Dump_XModem(tprintf("Receive Host Buffer: 0x%x", xmodem->xmod_buf));
+<b><a name="line64">64    </a></b>	    Dump_XModem(tprintf("Receive Byte Count: 0x%x", xmodem->trans_byte_cnt));
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    mabiao_set2(MABIAO_MS, XMOD_TRAN_TIMEOUT_MS, sal_locate(MABIAO_XMOD, TYPE_STEP), &(xmodem->transfer_timer));
+<b><a name="line67">67    </a></b>	}
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	static U8 xmodem_rcv_check_packet(XMOD_STRUCT_PTR xmodem)
+<b><a name="line70">70    </a></b>	{
+<b><a name="line71">71    </a></b>	    U8 result = XMODEM_PACKET_CHK_PASS;
+<b><a name="line72">72    </a></b>	    U8 chk_sum;
+<b><a name="line73">73    </a></b>	    U16 crc;
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    /*
+<b><a name="line76">76    </a></b>	     *  To prevent overflow issue, (xmodem->packet_id + 1) should type cast to U8
+<b><a name="line77">77    </a></b>	     */
+<b><a name="line78">78    </a></b>	    if (xmodem->token[PACKET_TOK] == (U8)(xmodem->packet_id)) {
+<b><a name="line79">79    </a></b>	        result = XMODEM_PACKET_CHK_PACKET_RESEND;
+<b><a name="line80">80    </a></b>	        Dump_XModem(tprintf("Packet ID: 0x%x is resent 0x%x", xmodem->token[PACKET_TOK], (xmodem->packet_id)));
+<b><a name="line81">81    </a></b>	    }
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1414">1414    </a></b>	    if (u_addr > 0xFFFFFFFFULL)
+<b><a name="line1415">1415    </a></b>	    {
+<b><a name="line1416">1416    </a></b>	        u_addr = u_addr - 0x80000000ULL; // need to change according to DDR remapping address
+<b><a name="line1417">1417    </a></b>	        params->remap_u_addr = (U32)u_addr;
+<b><a name="line1418">1418    </a></b>	    }
+<b><a name="line1419">1419    </a></b>	    else
+<b><a name="line1420">1420    </a></b>	    {
+<b><a name="line1421">1421    </a></b>	        params->remap_u_addr = (U32)u_addr;
+<b><a name="line1422">1422    </a></b>	    }
+<b><a name="line1423">1423    </a></b>	
+<b><a name="line1424">1424    </a></b>	    (void)memset((void *)(U32 *)params->remap_u_addr, 0, (h_len_bit >> HAL_SEC_BYTE_BIT_TRANS_SHIFT) * 2UL);
+<b><a name="line1425">1425    </a></b>	
+<b><a name="line1426">1426    </a></b>	    for (U32 i = 1UL; i <= len; i++)
+<b><a name="line1427">1427    </a></b>	    {
+<b><a name="line1428">1428    </a></b>	        (void)memset((void *)(U32 *)params->remap_t_addr, 0, (h_len_bit >> HAL_SEC_BYTE_BIT_TRANS_SHIFT));
+<b><a name="line1429">1429    </a></b>	
+<b><a name="line1430">1430    </a></b>	        i_int[0U] = (U8)(i >> 24);
+<b><a name="line1431">1431    </a></b>	        i_int[1U] = (U8)(i >> 16);
+<b><a name="line1432">1432    </a></b>	        i_int[2U] = (U8)(i >> 8);
+<b><a name="line1433">1433    </a></b>	        i_int[3U] = (U8)i;
+<b><a name="line1434">1434    </a></b>	
+<b><a name="line1435">1435    </a></b>	        //sec_sha2_concat((params->salt), params->salt_len, (U8 *)i_int, 4, src_addr);
+<b><a name="line1436">1436    </a></b>	        (void)memcpy((void *)(U32 *)params->remap_u_addr, (void *)(params->salt), params->salt_len);
+<b><a name="line1437">1437    </a></b>	        (void)memcpy((void *)(U32 *)(params->remap_u_addr + params->salt_len), (void *)i_int, 4); /* parasoft-suppress BD-PB-OVERFWR "ignore" */
+<b><a name="line1438">1438    </a></b>	        ASM_DSB();
+<b><a name="line1439">1439    </a></b>	
+<b><a name="line1440">1440    </a></b>	        // E22 HW: PBKDF2 implemented the inner loop for j=1 to c, so the source address is (salt || i), and the data length is (salt_len+4).
+<b><a name="line1441">1441    </a></b>	        // The content of MK must be concatenated by yourself.
+<b><a name="line1442">1442    </a></b>	        dal_sec_sha_set_pbkdf2_loop_cnt((U16)(params->c));
+<b><a name="line1443">1443    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "23088" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1444">1444    </a></b>	        dal_sec_sha_set_pbkdf2_start();
+<b><a name="line1445">1445    </a></b>	
+<b><a name="line1446">1446    </a></b>	        while (dal_sec_sha_get_pbkdf2_start() == 1UL)
+<b><a name="line1447">1447    </a></b>	        {
+<b><a name="line1448">1448    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line1449">1449    </a></b>	            {
+<b><a name="line1450">1450    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line1451">1451    </a></b>	                break;
+<b><a name="line1452">1452    </a></b>	            }
+<b><a name="line1453">1453    </a></b>	        }
+<b><a name="line1454">1454    </a></b>	
+<b><a name="line1455">1455    </a></b>	        if (gSecShaTimeout == SEC_YES)
+<b><a name="line1456">1456    </a></b>	        {
+<b><a name="line1457">1457    </a></b>	            break;
+<b><a name="line1458">1458    </a></b>	        }
+<b><a name="line1459">1459    </a></b>	
+<b><a name="line1460">1460    </a></b>	        //CPU_DCACHE_REGION_INVALIDATE((U32)output, (h_len_bit >> 3));
+<b><a name="line1461">1461    </a></b>	
+<b><a name="line1462">1462    </a></b>	        if (i == len)
+<b><a name="line1463">1463    </a></b>	        {
+<b><a name="line1464">1464    </a></b>	            (void)memcpy((void *)(U32 *)(params->remap_output_addr), (void *)(U32 *)(params->remap_t_addr), remain);
+<b><a name="line1465">1465    </a></b>	        }
+<b><a name="line1466">1466    </a></b>	        else
+<b><a name="line1467">1467    </a></b>	        {
+<b><a name="line1468">1468    </a></b>	            (void)memcpy((void *)(U32 *)(params->remap_output_addr), (void *)(U32 *)(params->remap_t_addr), (h_len_bit >> HAL_SEC_BYTE_BIT_TRANS_SHIFT));
+<b><a name="line1469">1469    </a></b>	        }
+<b><a name="line1470">1470    </a></b>	
+<b><a name="line1471">1471    </a></b>	        ASM_DSB();
+<b><a name="line1472">1472    </a></b>	        params->remap_output_addr += (U32)(h_len_bit >> HAL_SEC_BYTE_BIT_TRANS_SHIFT);
+<b><a name="line1473">1473    </a></b>	    }
+<b><a name="line1474">1474    </a></b>	}
+</pre></body>
+</html>

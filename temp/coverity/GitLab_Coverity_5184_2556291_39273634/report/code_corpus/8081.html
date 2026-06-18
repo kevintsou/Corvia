@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    }
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    Dump_LoadCode(tprintf("CRC : %x @ %x, Start %x for Size %x", *p_crc, p_crc, crc_address, crc_length));
+<b><a name="line377">377    </a></b>	
+<b><a name="line378">378    </a></b>	    crc_calc = 0;
+<b><a name="line379">379    </a></b>	    crc_bin = *p_crc;
+<b><a name="line380">380    </a></b>	    *p_crc = 0;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	    crc_calc = phal_dmac_crc32((U32)crc_address, crc_length, CRC_CHK_BINARY);
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    //Restore the Binary CRC after calculation has finished
+<b><a name="line385">385    </a></b>	    *p_crc = crc_bin;
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	    Dump_LoadCode(tprintf("CRC Bin: %x, CRC Calc: %x", crc_bin, crc_calc));
+<b><a name="line388">388    </a></b>	
+<b><a name="line389">389    </a></b>	    if (crc_calc != crc_bin) {
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	        Dump_LoadCode(tprintf("!!!Header CRC Compare Error"));
+<b><a name="line392">392    </a></b>	        check_project_binary_error |= PROJECT_BINARY_ERROR_CRC_HEADER;
+<b><a name="line393">393    </a></b>	    }
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	    // Clear crc
+<b><a name="line396">396    </a></b>	    crc_calc = 0;
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    //2. Check CRC of all the sections
+<b><a name="line399">399    </a></b>	    p_crc = &(p_project_binary_header->section_crc);
+<b><a name="line400">400    </a></b>	    crc_bin = *p_crc;
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	    crc_address = (U32)(p_project_binary_header) + (SECTOR_SIZE * p_project_binary_header->project_binary_header_sector_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "512" (signed) is not the same as that of the right operand "p_project_binary_header->project_binary_header_sector_size"(unsigned).</font>
+<b><a name="line403">403    </a></b>	    crc_length = (SECTOR_SIZE * (p_project_binary_header->project_binary_sector_size - p_project_binary_header->project_binary_header_sector_size));
+<b><a name="line404">404    </a></b>	
+<b><a name="line405">405    </a></b>	    Dump_LoadCode(tprintf("Check CRC: Section Data CRC %x @ %x, Start %x for Size %x", *p_crc, p_crc, crc_address, crc_length));
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	    crc_calc =  phal_dmac_crc32((U32)crc_address, crc_length, CRC_CHK_BINARY);
+<b><a name="line408">408    </a></b>	
+<b><a name="line409">409    </a></b>	    Dump_LoadCode(tprintf("CRC Bin: %x, CRC Calc: %x", (U64)crc_bin, (U64)crc_calc));
+<b><a name="line410">410    </a></b>	
+<b><a name="line411">411    </a></b>	    if (crc_calc != crc_bin) {
+<b><a name="line412">412    </a></b>	        Dump_LoadCode(tprintf("!!!Section Data CRC Compare Error"));
+<b><a name="line413">413    </a></b>	        check_project_binary_error |= PROJECT_BINARY_ERROR_CRC_DATA;
+<b><a name="line414">414    </a></b>	    }
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	    // Clear crc
+<b><a name="line417">417    </a></b>	    crc_calc = 0;
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    return check_project_binary_error;
+<b><a name="line420">420    </a></b>	}
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	static U32 check_code_signature_key_validity(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U8 project_binary_type, U32 project_binary_source)
+<b><a name="line423">423    </a></b>	{
+<b><a name="line424">424    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	    const EFUSE_CODE_SIGN_KEY_HASH *p_efuse_code_sign_key_hash;
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	    // Get All key hash
+<b><a name="line429">429    </a></b>	    U8 compare_key_cnt = 0;
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	    //Components of the Project Binary
+<b><a name="line432">432    </a></b>	    U32 data_address, data_size;
+<b><a name="line433">433    </a></b>	    U32 key_address, key_size;
+</pre></body>
+</html>

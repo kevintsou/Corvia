@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "user_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	void sec_sqz_kat_ALL(void){
+<b><a name="line4">4    </a></b>	#if KAT_AES_EN
+<b><a name="line5">5    </a></b>	    sec_sqz_kat_AES();
+<b><a name="line6">6    </a></b>	#endif
+<b><a name="line7">7    </a></b>	#if KAT_SHA_HMAC_EN
+<b><a name="line8">8    </a></b>	    sec_sqz_kat_HMAC();
+<b><a name="line9">9    </a></b>	    sec_sqz_kat_SHA256();
+<b><a name="line10">10    </a></b>	    sec_sqz_kat_SHA512();
+<b><a name="line11">11    </a></b>	    sec_sqz_kat_SHA3();
+<b><a name="line12">12    </a></b>	    sec_sqz_kat_SM3();
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "sec_sqz_kat_SM3" is unused.</font>
+<b><a name="line13">13    </a></b>	#endif
+<b><a name="line14">14    </a></b>	#if KAT_MLKEM_EN
+<b><a name="line15">15    </a></b>	    sec_sqz_kat_MLKEM();
+<b><a name="line16">16    </a></b>	#endif
+<b><a name="line17">17    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line18">18    </a></b>	    sec_sqz_kat_MLDSA();
+<b><a name="line19">19    </a></b>	#endif
+<b><a name="line20">20    </a></b>	#if KAT_DRBG_EN
+<b><a name="line21">21    </a></b>	    sec_sqz_kat_DRBG();
+<b><a name="line22">22    </a></b>	#endif
+<b><a name="line23">23    </a></b>	#if KAT_SM2_EN
+<b><a name="line24">24    </a></b>	    sec_sqz_kat_SM2();
+<b><a name="line25">25    </a></b>	#endif
+<b><a name="line26">26    </a></b>	#if KAT_SM9_EN
+<b><a name="line27">27    </a></b>	    sec_sqz_kat_SM9();       //FPGA run time 1 hr
+<b><a name="line28">28    </a></b>	#endif
+<b><a name="line29">29    </a></b>	#if KAT_LMS_EN
+<b><a name="line30">30    </a></b>	    sec_sqz_kat_LMS();
+<b><a name="line31">31    </a></b>	#endif
+<b><a name="line32">32    </a></b>	#if KAT_KAZ_EN
+<b><a name="line33">33    </a></b>	    sec_sqz_kat_KAZ();
+<b><a name="line34">34    </a></b>	#endif
+<b><a name="line35">35    </a></b>	#if KAT_RSA_EN
+<b><a name="line36">36    </a></b>	    sec_sqz_kat_RSAPSS();
+<b><a name="line37">37    </a></b>	    sec_sqz_kat_RSA();
+<b><a name="line38">38    </a></b>	#endif
+<b><a name="line39">39    </a></b>	#if KAT_KDF_EN
+<b><a name="line40">40    </a></b>	    sec_sqz_kat_KDF();
+<b><a name="line41">41    </a></b>	#endif
+<b><a name="line42">42    </a></b>	}
+<b><a name="line43">43    </a></b>	
+</pre></body>
+</html>

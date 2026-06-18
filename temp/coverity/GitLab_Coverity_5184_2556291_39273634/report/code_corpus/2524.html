@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_dice_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line274">274    </a></b>	    // Check metadata
+<b><a name="line275">275    </a></b>	    if (phal_sqz_get_metadata_type() == TRUE)
+<b><a name="line276">276    </a></b>	    {
+<b><a name="line277">277    </a></b>	        metadata = phal_sqz_get_metadata();
+<b><a name="line278">278    </a></b>	    }
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	    // Check context
+<b><a name="line281">281    </a></b>	    if (phal_sqz_get_pk_done() != TRUE)
+<b><a name="line282">282    </a></b>	    {
+<b><a name="line283">283    </a></b>	        dice_rslt |= DICE_CPTRA_CONTEXT_ERROR;
+<b><a name="line284">284    </a></b>	    }
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	    // Get context
+<b><a name="line287">287    </a></b>	    phal_sqz_get_pk_hash(context);
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // Calculate CDI by caliptra
+<b><a name="line290">290    </a></b>	    memcpy((void *)&(cptra_req_ptr->metadata[0]),    (void *)&(metadata),  sizeof(metadata));
+<b><a name="line291">291    </a></b>	    memcpy((void *)&(cptra_req_ptr->measurement[0]), (void *)digest_addr,  HAL_SEC_SHA2_384_DIGEST_LEN); // Get measurement SHA512t384
+<b><a name="line292">292    </a></b>	    memcpy((void *)&(cptra_req_ptr->context[0]),     (void *)context,      HAL_SEC_SHA2_384_DIGEST_LEN);
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    cptra_req_ptr->svn = phal_sqz_get_svn();
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    Dump_SEC(tprintf("C Dice"));
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	    if (phal_sqz_cptra_stash_measurement(cptra_req_ptr) == FAIL)
+<b><a name="line299">299    </a></b>	    {
+<b><a name="line300">300    </a></b>	        dice_rslt |= DICE_CPTRA_ERROR;
+<b><a name="line301">301    </a></b>	    }
+<b><a name="line302">302    </a></b>	
+<b><a name="line303">303    </a></b>	    sal_log_tracker_set(sal_locate(dice_rslt, TYPE_DATA));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0xffffffffa0000000 | ((U8)dice_rslt << 16) | 0x12f0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line304">304    </a></b>	    output_buf->error_code = dice_rslt;
+<b><a name="line305">305    </a></b>	}
+<b><a name="line306">306    </a></b>	
+</pre></body>
+</html>

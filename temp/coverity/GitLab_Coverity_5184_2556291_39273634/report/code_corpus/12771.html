@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/flibhal/flibhal.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _FLIBHAL_H_
+<b><a name="line2">2    </a></b>	#define _FLIBHAL_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FLIBHAL_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "flibhal_error_mark.h"
+<b><a name="line5">5    </a></b>	#include "flibhal_nvme.h"
+<b><a name="line6">6    </a></b>	#include "flibhal_pcie.h"
+<b><a name="line7">7    </a></b>	#include "flibhal_i2c.h"
+<b><a name="line8">8    </a></b>	#include "flibhal_smbus.h"
+<b><a name="line9">9    </a></b>	#include "filbhal_vua.h"
+<b><a name="line10">10    </a></b>	
+<b><a name="line11">11    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line12">12    </a></b>	#include "config/conf_dbuf.h"   // buffer arrangement
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	// doorbell
+<b><a name="line15">15    </a></b>	BOOL phal_db_check_hcmd_cq_exist(void);
+<b><a name="line16">16    </a></b>	void phal_db_pop_hcmd_cq(void);
+<b><a name="line17">17    </a></b>	U32 *phal_db_get_hcmd_cq_rptr(void);
+<b><a name="line18">18    </a></b>	U32 *phal_db_get_hcpl_sq_wptr(void);
+<b><a name="line19">19    </a></b>	#endif /* SAL_DEF_FE_FRAMEWORK_SUPPORT */
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#endif /*_FLIBHAL_H_*/
+<b><a name="line22">22    </a></b>	
+</pre></body>
+</html>

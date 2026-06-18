@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1840">1840    </a></b>	                status |= fip_api_chk_status(0U, (HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line1841">1841    </a></b>	            }
+<b><a name="line1842">1842    </a></b>	            if (fpl_ptr->die_bit > 0U) {
+<b><a name="line1843">1843    </a></b>	                die = 0U;
+<b><a name="line1844">1844    </a></b>	                hal_fip_api_die_sel(ch, bank, die, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1845">1845    </a></b>	            }
+<b><a name="line1846">1846    </a></b>	        }
+<b><a name="line1847">1847    </a></b>	        else if (reset_type == EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED) {
+<b><a name="line1848">1848    </a></b>	            FIP_DBG_INFO_PRINTF("EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED\r\n");
+<b><a name="line1849">1849    </a></b>	            (void)memset((void *)&nand_addr,  0U, sizeof(FIP_NAND_ADDR_STRUCT));
+<b><a name="line1850">1850    </a></b>	            for (die = 0U; die < (1U << fpl_ptr->die_bit); die++) {
+<b><a name="line1851">1851    </a></b>	                nand_addr.all  = ((U64)(die & gFplApiStruct.addr_rule->rule_die.mask) << gFplApiStruct.addr_rule->rule_die.shift);
+<b><a name="line1852">1852    </a></b>	
+<b><a name="line1853">1853    </a></b>	                for (i = 0U; i < MAX_ROW_ADDRESS_BYTE_COUNT; i++) {
+<b><a name="line1854">1854    </a></b>	                    addr[i] = (U8)(nand_addr.row_adr >> (i << 3U));
+<b><a name="line1855">1855    </a></b>	                }
+<b><a name="line1856">1856    </a></b>	                (void)hal_fip_api_read_status_by_lun(ch, bank, fpl_ptr->row_adr_byte_cnt, (U8 *)&addr[0], (U8 *)&data_buf
+<b><a name="line1857">1857    </a></b>	                    , gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l, (U32 *)&gFplApiStruct.ac_timing, gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+<b><a name="line1858">1858    </a></b>	                (void)hal_fip_api_hard_reset(ch, bank, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1859">1859    </a></b>	
+<b><a name="line1860">1860    </a></b>	                status |= fip_api_chk_status(0U, HAL_FLH_CHK_RDY_BUSY);
+<b><a name="line1861">1861    </a></b>	            }
+<b><a name="line1862">1862    </a></b>	            if (fpl_ptr->die_bit > 0U) {
+<b><a name="line1863">1863    </a></b>	                die = 0U;
+<b><a name="line1864">1864    </a></b>	                nand_addr.all  = ((U64)(die & gFplApiStruct.addr_rule->rule_die.mask) << gFplApiStruct.addr_rule->rule_die.shift);
+<b><a name="line1865">1865    </a></b>	                for (i = 0U; i < MAX_ROW_ADDRESS_BYTE_COUNT; i++) {
+<b><a name="line1866">1866    </a></b>	                    addr[i]  = (U8)(nand_addr.row_adr >> (i << 3U));
+<b><a name="line1867">1867    </a></b>	                }
+<b><a name="line1868">1868    </a></b>	                (void)hal_fip_api_read_status_by_lun(ch, bank, fpl_ptr->row_adr_byte_cnt, (U8 *)&addr[0], (U8 *)&data_buf
+<b><a name="line1869">1869    </a></b>	                    , gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l, (U32 *)&gFplApiStruct.ac_timing, gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(*gFplApiStruct.p_efuse_nand_setting).odt_prefix" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1870">1870    </a></b>	            }
+<b><a name="line1871">1871    </a></b>	        }
+<b><a name="line1872">1872    </a></b>	        else {
+<b><a name="line1873">1873    </a></b>	            FIP_DBG_INFO_PRINTF("EFUSE_FLH_HARD_RST_BY_WP_PIN\r\n");
+<b><a name="line1874">1874    </a></b>	            status |= hal_fip_api_wp_reset_ymtc(ch, bank, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1875">1875    </a></b>	        }
+<b><a name="line1876">1876    </a></b>	
+<b><a name="line1877">1877    </a></b>	    }
+<b><a name="line1878">1878    </a></b>	
+<b><a name="line1879">1879    </a></b>	    return status;
+<b><a name="line1880">1880    </a></b>	}
+<b><a name="line1881">1881    </a></b>	
+<b><a name="line1882">1882    </a></b>	void fip_set_data_size_mode(U8 ch, U8 ldpc_mode, U8 ldpc_2_mode)
+<b><a name="line1883">1883    </a></b>	{
+<b><a name="line1884">1884    </a></b>	    U8 meta_mode = DAL_FIP_META_DATA_MODE_0;
+<b><a name="line1885">1885    </a></b>	    U8 data_mode = DAL_FIP_DATA_MODE_4096B;
+<b><a name="line1886">1886    </a></b>	    U8 spr_mode = HAL_FIP_SPARE_MODE;
+<b><a name="line1887">1887    </a></b>	
+<b><a name="line1888">1888    </a></b>	    // Note: this part original from X2
+<b><a name="line1889">1889    </a></b>	    U8 ch_idx_sub = (U8)hal_fip_get_fipview_ch(ch) % 4U;
+<b><a name="line1890">1890    </a></b>	    //tprintf("fip_set_data_size_mode, cfg = %d, ch_idx_sub = %d", cfg, ch_idx_sub);
+<b><a name="line1891">1891    </a></b>	    // fip setting
+<b><a name="line1892">1892    </a></b>	    if (ch_idx_sub >= DAL_FIP_CH_NUM_PER_HD)
+<b><a name="line1893">1893    </a></b>	    {
+<b><a name="line1894">1894    </a></b>	        //ALWAYS_ASSERT(ch_idx_sub);
+<b><a name="line1895">1895    </a></b>	        Dump_Debug(tprintf("ch_idx_sub >= DAL_FIP_CH_NUM_PER_HD"));
+<b><a name="line1896">1896    </a></b>	    }
+<b><a name="line1897">1897    </a></b>	
+<b><a name="line1898">1898    </a></b>	    // case 0U:
+<b><a name="line1899">1899    </a></b>	    // fip setting
+<b><a name="line1900">1900    </a></b>	    w_DATA_META_MODE(ch, meta_mode);
+</pre></body>
+</html>

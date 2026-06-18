@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line496">496    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line497">497    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line500">500    </a></b>	        // reset
+<b><a name="line501">501    </a></b>	        memset((void *)data_buf, 0U, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line502">502    </a></b>	        return TRUE;
+<b><a name="line503">503    </a></b>	    }
+<b><a name="line504">504    </a></b>	}
+<b><a name="line505">505    </a></b>	
+<b><a name="line506">506    </a></b>	/**
+<b><a name="line507">507    </a></b>	 * @brief Reset VUC protection state
+<b><a name="line508">508    </a></b>	 *
+<b><a name="line509">509    </a></b>	 */
+<b><a name="line510">510    </a></b>	void vuc_disable_vuc(void)
+<b><a name="line511">511    </a></b>	{
+<b><a name="line512">512    </a></b>	    gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line513">513    </a></b>	}
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	/**
+<b><a name="line516">516    </a></b>	 * @brief Init flow for vuc protection
+<b><a name="line517">517    </a></b>	 *
+<b><a name="line518">518    </a></b>	 * @param p_vuc_protect vuc protect structure pointer
+<b><a name="line519">519    </a></b>	 * @param protect_level_default default vuc protect state
+<b><a name="line520">520    </a></b>	 */
+<b><a name="line521">521    </a></b>	void vuc_protect_init(U32 protect_level_default)
+<b><a name="line522">522    </a></b>	{
+<b><a name="line523">523    </a></b>	    U8 result;
+<b><a name="line524">524    </a></b>	    if(gBCodeGlobalStruct.p_efuse_security_setting->kat_enable){
+<b><a name="line525">525    </a></b>	        result = host_sec_kat_vuc(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134754304UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line526">526    </a></b>	        if (KAT_ERROR_NONE != result){
+<b><a name="line527">527    </a></b>	            gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line528">528    </a></b>	            gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line529">529    </a></b>	            return;
+<b><a name="line530">530    </a></b>	        }
+<b><a name="line531">531    </a></b>	    }
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	    gVUCProtect.protect_state_default = protect_level_default;
+<b><a name="line534">534    </a></b>	    gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	    gVUCProtect.verify_fail_count = 0;
+<b><a name="line537">537    </a></b>	
+<b><a name="line538">538    </a></b>	    memcpy((void *)(gVUCProtect.a_aes_cbc256_iv), (void *)(ga_aes_cbc_iv), sizeof(gVUCProtect.a_aes_cbc256_iv));
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	    return;
+<b><a name="line541">541    </a></b>	}
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	/**
+<b><a name="line544">544    </a></b>	 * @brief Decrypt the VUC command sent by host in encrypted format
+<b><a name="line545">545    </a></b>	 *
+<b><a name="line546">546    </a></b>	 * @param p_vuc_protect vuc protect structure pointer
+<b><a name="line547">547    </a></b>	 * @param sq_cmd sq pointer
+<b><a name="line548">548    </a></b>	 * @param calculation_buffer buffer address of host command payload
+<b><a name="line549">549    </a></b>	 */
+<b><a name="line550">550    </a></b>	void vuc_protect_decrypt_command(VUC_SQ_STRUCT_PTR sq_cmd, U32 calculation_buffer)
+<b><a name="line551">551    </a></b>	{
+<b><a name="line552">552    </a></b>	    //because the calculation_buffer just happen to be host_buf, so we need to backup original 32B in order not to dirty host_buf.
+<b><a name="line553">553    </a></b>	    //for example, in case of isp_program_pram.
+<b><a name="line554">554    </a></b>	    //the minimum src_size in sec_aes_ofl_blocking is 32B
+<b><a name="line555">555    </a></b>	    //and sec_aes_ofl_blocking temp_buf also takes up 32B
+<b><a name="line556">556    </a></b>	    U8 calculation_buffer_backup[32 + 32];
+</pre></body>
+</html>

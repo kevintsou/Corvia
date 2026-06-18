@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line637">637    </a></b>	 @param[in]   timeout_val     - setting timeout value
+<b><a name="line638">638    </a></b>	 @param[out]  ret             - stop sha dummy done or not
+<b><a name="line639">639    </a></b>	
+<b><a name="line640">640    </a></b>	 @return    Check stop sha dummy reuslt
+<b><a name="line641">641    </a></b>	 @retval     1U - Stop sha dummy done
+<b><a name="line642">642    </a></b>	 @retval     0U - Stop sha dummy not finished
+<b><a name="line643">643    </a></b>	
+<b><a name="line644">644    </a></b>	 @note
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line647">647    </a></b>	
+<b><a name="line648">648    </a></b>	 */
+<b><a name="line649">649    </a></b>	U8 hal_sec_sha_stop_dummy(U64 timeout_val)
+<b><a name="line650">650    </a></b>	{
+<b><a name="line651">651    </a></b>	    U8 trigger_done = SEC_NO;
+<b><a name="line652">652    </a></b>	
+<b><a name="line653">653    </a></b>	    dal_sec_sha_set_dum_en(0U);
+<b><a name="line654">654    </a></b>	
+<b><a name="line655">655    </a></b>	    if (timeout_val == 0U)
+<b><a name="line656">656    </a></b>	    {
+<b><a name="line657">657    </a></b>	        if (0U == dal_sec_sha_get_dum_bsy())
+<b><a name="line658">658    </a></b>	        {
+<b><a name="line659">659    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line660">660    </a></b>	        }
+<b><a name="line661">661    </a></b>	    }
+<b><a name="line662">662    </a></b>	    else if (timeout_val < HAL_SEC_BLOCKING_TIME_VAL)
+<b><a name="line663">663    </a></b>	    {
+<b><a name="line664">664    </a></b>	        U8 is_timeout = SEC_NO;
+<b><a name="line665">665    </a></b>	
+<b><a name="line666">666    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "666" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	        while (1U == dal_sec_sha_get_dum_bsy())
+<b><a name="line669">669    </a></b>	        {
+<b><a name="line670">670    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line671">671    </a></b>	            {
+<b><a name="line672">672    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line673">673    </a></b>	                is_timeout = SEC_YES;
+<b><a name="line674">674    </a></b>	                break;
+<b><a name="line675">675    </a></b>	            }
+<b><a name="line676">676    </a></b>	        }
+<b><a name="line677">677    </a></b>	
+<b><a name="line678">678    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line679">679    </a></b>	        {
+<b><a name="line680">680    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line681">681    </a></b>	        }
+<b><a name="line682">682    </a></b>	    }
+<b><a name="line683">683    </a></b>	    else
+<b><a name="line684">684    </a></b>	    {
+<b><a name="line685">685    </a></b>	        while (1U == dal_sec_sha_get_dum_bsy()) {};
+<b><a name="line686">686    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line687">687    </a></b>	    }
+<b><a name="line688">688    </a></b>	
+<b><a name="line689">689    </a></b>	    return trigger_done;
+<b><a name="line690">690    </a></b>	}
+<b><a name="line691">691    </a></b>	
+<b><a name="line692">692    </a></b>	/*!
+<b><a name="line693">693    </a></b>	 @brief       sha backup and restore trigger function of blocking mode, which would wait the result done
+<b><a name="line694">694    </a></b>	 @param[in]   params    - sha parameter structure
+<b><a name="line695">695    </a></b>	 @param[out]  ret       - trigger done or not
+<b><a name="line696">696    </a></b>	
+<b><a name="line697">697    </a></b>	 @return    Check trigger reuslt
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2177">2177    </a></b>	    copy_retry_max = p_fw_slot_info->copy_count;
+<b><a name="line2178">2178    </a></b>	
+<b><a name="line2179">2179    </a></b>	    node_max = p_fw_slot_info->node_per_wordline;
+<b><a name="line2180">2180    </a></b>	    if (FLH_MAX_LC_PER_PAGE < node_max) {
+<b><a name="line2181">2181    </a></b>	        //Sanitize to prevent accessing out of bound array elements in FIP_READ_PARAM_STRUCT
+<b><a name="line2182">2182    </a></b>	        //This is because information coming from NAND could be anything
+<b><a name="line2183">2183    </a></b>	        //Even though this has been validated outside, sanitize as an insurance
+<b><a name="line2184">2184    </a></b>	        node_max = FLH_MAX_LC_PER_PAGE;
+<b><a name="line2185">2185    </a></b>	    }
+<b><a name="line2186">2186    </a></b>	
+<b><a name="line2187">2187    </a></b>	    Dump_LoadCode(tprintf("Load FW Slot %d with %d copies, %d Wordlines * %d Nodes (=Size %x)", p_fw_slot_info->slot_id, copy_retry_max, wordline_max, node_max, (LC_BYTE_SIZE * (wordline_max * node_max))));
+<b><a name="line2188">2188    </a></b>	
+<b><a name="line2189">2189    </a></b>	    for (wordline = 0; wordline < wordline_max; wordline += copy_retry_max) {
+<b><a name="line2190">2190    </a></b>	        if ((wordline + copy_retry_max) >= wordline_max) {
+<b><a name="line2191">2191    </a></b>	            //Final round, may require less parallels than other rounds
+<b><a name="line2192">2192    </a></b>	            parallel_max = (wordline_max - wordline);
+<b><a name="line2193">2193    </a></b>	        }
+<b><a name="line2194">2194    </a></b>	        else {
+<b><a name="line2195">2195    </a></b>	            parallel_max = copy_retry_max;
+<b><a name="line2196">2196    </a></b>	        }
+<b><a name="line2197">2197    </a></b>	        //Mark the wordlines that has yet to be loaded in this round
+<b><a name="line2198">2198    </a></b>	        not_loaded_parallel_bitmap = ((1 << parallel_max) - 1);
+<b><a name="line2199">2199    </a></b>	
+<b><a name="line2200">2200    </a></b>	
+<b><a name="line2201">2201    </a></b>	        for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2202">2202    </a></b>	            //Mark the nodes within each wordline that has yet to be loaded in this round
+<b><a name="line2203">2203    </a></b>	            a_node_to_load_bitmap[parallel] = ((1 << node_max) - 1);
+<b><a name="line2204">2204    </a></b>	        }
+<b><a name="line2205">2205    </a></b>	
+<b><a name="line2206">2206    </a></b>	        if(0 != gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "(*gFplApiStruct.p_efuse_nand_setting).lru_disable"(unsigned).</font>
+<b><a name="line2207">2207    </a></b>	        {
+<b><a name="line2208">2208    </a></b>	            // disable lru need to reset res_read_offset_ch_bitmap
+<b><a name="line2209">2209    </a></b>	            res_read_offset_ch_bitmap = 0U;
+<b><a name="line2210">2210    </a></b>	        }
+<b><a name="line2211">2211    </a></b>	
+<b><a name="line2212">2212    </a></b>	        for (nand_retry = 0; nand_retry < nand_retry_max; nand_retry++) {
+<b><a name="line2213">2213    </a></b>	            if((0 == ((gLRURetryLevel + nand_retry) % total_rr_cnt)) && (0 != gLRURetryLevel))
+<b><a name="line2214">2214    </a></b>	            {
+<b><a name="line2215">2215    </a></b>	                scan_bitmap_restore_read_offset(gLRURetryLevel, res_read_offset_ch_bitmap);
+<b><a name="line2216">2216    </a></b>	            }
+<b><a name="line2217">2217    </a></b>	
+<b><a name="line2218">2218    </a></b>	            for (copy_retry = 0; copy_retry < copy_retry_max; copy_retry++) {
+<b><a name="line2219">2219    </a></b>	                Dump_LoadCode(tprintf("Wordline %d~%d, ", wordline, (wordline + parallel_max - 1)));
+<b><a name="line2220">2220    </a></b>	                Dump_LoadCode(tprintf("NAND Retry %d, ", nand_retry));
+<b><a name="line2221">2221    </a></b>	                Dump_LoadCode(tprintf("Copy Retry %d", copy_retry));
+<b><a name="line2222">2222    </a></b>	
+<b><a name="line2223">2223    </a></b>	                //Mark the parallels that has yet to be read in this retry setting
+<b><a name="line2224">2224    </a></b>	                loop_parallel_bitmap = not_loaded_parallel_bitmap;
+<b><a name="line2225">2225    </a></b>	
+<b><a name="line2226">2226    </a></b>	                //A loop consists of NAND reads from different channels
+<b><a name="line2227">2227    </a></b>	                //NAND reads from the same channel is separated into different loops.
+<b><a name="line2228">2228    </a></b>	                //The maximum possible number of loops is the same as the maximum possible
+<b><a name="line2229">2229    </a></b>	                //number of copies of the FW Slot
+<b><a name="line2230">2230    </a></b>	                for (loop_per_round = 0; loop_per_round < parallel_max; loop_per_round++) {
+<b><a name="line2231">2231    </a></b>	
+<b><a name="line2232">2232    </a></b>	                    Dump_LoadCode(tprintf("Loop %d", loop_per_round));
+<b><a name="line2233">2233    </a></b>	
+<b><a name="line2234">2234    </a></b>	                    //Indicate which parallels are being read in this loop
+<b><a name="line2235">2235    </a></b>	                    reading_parallel_bitmap = 0;
+<b><a name="line2236">2236    </a></b>	                    //Indicate which channels are being read in this loop
+<b><a name="line2237">2237    </a></b>	                    channel_bitmap = 0;
+</pre></body>
+</html>

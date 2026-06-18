@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line449">449    </a></b>	{
+<b><a name="line450">450    </a></b>	    U32 sec_cnt = (src_len + (blknum * 16U - 1U) ) / (blknum * 16U);
+<b><a name="line451">451    </a></b>	    U32 rem_len = 0UL;
+<b><a name="line452">452    </a></b>	
+<b><a name="line453">453    </a></b>	    if (DAL_SEC_AES_GCM_MODE == aes_mode)
+<b><a name="line454">454    </a></b>	    {
+<b><a name="line455">455    </a></b>	        DAL_SEC_AESOFL_SET_GCM_EN();
+<b><a name="line456">456    </a></b>	        DAL_SEC_AESOFL_SET_GCM_FIRSTR((U8)is_gcm_first);
+<b><a name="line457">457    </a></b>	        DAL_SEC_AESOFL_SET_GCM_FINALR((U8)is_gcm_final);
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	        rem_len = sec_cnt * blknum * 16UL - src_len;
+<b><a name="line460">460    </a></b>	    }
+<b><a name="line461">461    </a></b>	
+<b><a name="line462">462    </a></b>	    dal_sec_aes_ofl_gcm_set_uls_byte(rem_len);
+<b><a name="line463">463    </a></b>	
+<b><a name="line464">464    </a></b>	    // 6. set BLK_NUM & SEC_CNT
+<b><a name="line465">465    </a></b>	    dal_sec_aes_ofl_set_computation_data_len(blknum, sec_cnt);
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	    // 7. set SOC_ADR & TAR_ADR
+<b><a name="line468">468    </a></b>	    dal_sec_aes_ofl_set_addr(src_addr, targ_addr);
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    // 8. Trigger (and wait)
+<b><a name="line471">471    </a></b>	    DAL_SEC_AESOFL_SET_START();
+<b><a name="line472">472    </a></b>	}
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	U8 dal_sec_aes_init_iv(U32 *iv, U64 timeout_val)
+<b><a name="line475">475    </a></b>	{
+<b><a name="line476">476    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line477">477    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line478">478    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    for (U32 i = 0UL; i < 4UL; i++)
+<b><a name="line481">481    </a></b>	    {
+<b><a name="line482">482    </a></b>	        DAL_SEC_AESOFL_SET_INIV_LOC(3U - i);
+<b><a name="line483">483    </a></b>	        DAL_SEC_AESOFL_SET_INIV_VAL(SEC_INVERSE_LONG(iv[i]));
+<b><a name="line484">484    </a></b>	        DAL_SEC_AESOFL_SET_INIV_WR();
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	        while (1U == DAL_SEC_AESOFL_GET_INIV_WR())
+<b><a name="line487">487    </a></b>	        {
+<b><a name="line488">488    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line489">489    </a></b>	            {
+<b><a name="line490">490    </a></b>	                is_timeout = 1U;
+<b><a name="line491">491    </a></b>	                break;
+<b><a name="line492">492    </a></b>	            }
+<b><a name="line493">493    </a></b>	        }
+<b><a name="line494">494    </a></b>	    }
+<b><a name="line495">495    </a></b>	
+<b><a name="line496">496    </a></b>	    if (is_timeout == 0U)
+<b><a name="line497">497    </a></b>	    {
+<b><a name="line498">498    </a></b>	        trigger_done = 1U;
+<b><a name="line499">499    </a></b>	    }
+<b><a name="line500">500    </a></b>	
+<b><a name="line501">501    </a></b>	    return trigger_done;
+<b><a name="line502">502    </a></b>	}
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	U8 dal_sec_aes_ofl_set_lba(U8 loc, U64 lba, U64 timeout_val)
+<b><a name="line505">505    </a></b>	{
+<b><a name="line506">506    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line507">507    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line508">508    </a></b>	
+<b><a name="line509">509    </a></b>	    U32 temp_lba = 0U;
+</pre></body>
+</html>

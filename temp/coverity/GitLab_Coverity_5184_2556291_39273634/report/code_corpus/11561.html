@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1121">1121    </a></b>	
+<b><a name="line1122">1122    </a></b>	        // Invalid recovery image selection
+<b><a name="line1123">1123    </a></b>	        if ((RIS_STORED_ON_DEVICE == pACRotData->sRecoveryCtrl.ubRecoveryImageSelection &&
+<b><a name="line1124">1124    </a></b>	            (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btLocalCImageSupport)) ||
+<b><a name="line1125">1125    </a></b>	            (RIS_FROM_MEMORY_WINDOW == pACRotData->sRecoveryCtrl.ubRecoveryImageSelection &&
+<b><a name="line1126">1126    </a></b>	            (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btPushCImageSupport)))
+<b><a name="line1127">1127    </a></b>	        {
+<b><a name="line1128">1128    </a></b>	            M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_PARAMETER);
+<b><a name="line1129">1129    </a></b>	            bActivateAllowable = FALSE;
+<b><a name="line1130">1130    </a></b>	        }
+<b><a name="line1131">1131    </a></b>	
+<b><a name="line1132">1132    </a></b>	        Write1ClearActivateRecoveryImage(pACRotData, bActivateAllowable);
+<b><a name="line1133">1133    </a></b>	    }
+<b><a name="line1134">1134    </a></b>	}
+<b><a name="line1135">1135    </a></b>	
+<b><a name="line1136">1136    </a></b>	/*!
+<b><a name="line1137">1137    </a></b>	   @brief      Fill command data into INDIRECT_CTRL data register
+<b><a name="line1138">1138    </a></b>	
+<b><a name="line1139">1139    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1140">1140    </a></b>	   @param      ubDataCnt         total data byte count following by the command
+<b><a name="line1141">1141    </a></b>	   @param      pCmdData          data following by the command
+<b><a name="line1142">1142    </a></b>	 */
+<b><a name="line1143">1143    </a></b>	static void RpWriteIndirectCtrl(ACROT_DATA *pACRotData, U8 ubDataCnt, U8 *pCmdData)
+<b><a name="line1144">1144    </a></b>	{
+<b><a name="line1145">1145    </a></b>	    CMS_INFO *pCmsInfo;
+<b><a name="line1146">1146    </a></b>	
+<b><a name="line1147">1147    </a></b>	    if (FALSE == IsRpWriteDataOccurProtocolError(pACRotData, RECOVERY_CMD_INDIRECT_CTRL, ubDataCnt, pCmdData))
+<b><a name="line1148">1148    </a></b>	    {
+<b><a name="line1149">1149    </a></b>	        // Copy command data to ACROT
+<b><a name="line1150">1150    </a></b>	        memcpy((void *)&pACRotData->sIndirectCtrl, (void *)pCmdData, ubDataCnt);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line1151">1151    </a></b>	
+<b><a name="line1152">1152    </a></b>	        /**********************************************************************************
+<b><a name="line1153">1153    </a></b>	         *  1. Check error
+<b><a name="line1154">1154    </a></b>	         *      - N/A (will check in INDIRECT_DATA W/R)
+<b><a name="line1155">1155    </a></b>	         *
+<b><a name="line1156">1156    </a></b>	         *  2. Update affected ACROT R data
+<b><a name="line1157">1157    </a></b>	         *      - ubCMS -> [INDIRECT_STATUS] ubTypeOfRegion
+<b><a name="line1158">1158    </a></b>	         *              -> [INDIRECT_STATUS] ulIndirectSize
+<b><a name="line1159">1159    </a></b>	         *              -> [INDIRECT_CTRL] ulIMO (reset)
+<b><a name="line1160">1160    </a></b>	         *
+<b><a name="line1161">1161    </a></b>	         *  3. Following behavior
+<b><a name="line1162">1162    </a></b>	         *      - N/A
+<b><a name="line1163">1163    </a></b>	         **********************************************************************************/
+<b><a name="line1164">1164    </a></b>	        pCmsInfo = GetCurrentCmsInfoPtr(pACRotData->sIndirectCtrl.ubCMS);
+<b><a name="line1165">1165    </a></b>	        pACRotData->sIndirectStatus.ubTypeOfRegion = pCmsInfo->ubTypeOfRegion;
+<b><a name="line1166">1166    </a></b>	        pACRotData->sIndirectStatus.ulIndirectSize = (pCmsInfo->ulSize) >> 2; // 4B units
+<b><a name="line1167">1167    </a></b>	        M_OCP_RECOVERY_IMO_RESET(pACRotData);
+<b><a name="line1168">1168    </a></b>	    }
+<b><a name="line1169">1169    </a></b>	}
+<b><a name="line1170">1170    </a></b>	
+<b><a name="line1171">1171    </a></b>	/*!
+<b><a name="line1172">1172    </a></b>	   @brief      Fill command data into INDIRECT_DATA data register
+<b><a name="line1173">1173    </a></b>	
+<b><a name="line1174">1174    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1175">1175    </a></b>	   @param      ubDataCnt         total data byte count following by the command
+<b><a name="line1176">1176    </a></b>	   @param      pCmdData          data following by the command
+<b><a name="line1177">1177    </a></b>	 */
+<b><a name="line1178">1178    </a></b>	static void RpWriteIndirectData(ACROT_DATA *pACRotData, U8 ubDataCnt, U8 *pCmdData)
+<b><a name="line1179">1179    </a></b>	{
+<b><a name="line1180">1180    </a></b>	    U32 ulIndirectAddress;
+<b><a name="line1181">1181    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1027">1027    </a></b>	        }
+<b><a name="line1028">1028    </a></b>	
+<b><a name="line1029">1029    </a></b>	        /*
+<b><a name="line1030">1030    </a></b>	         *  [Spec p.13]
+<b><a name="line1031">1031    </a></b>	         *  Device Reset Control (DRC)
+<b><a name="line1032">1032    </a></b>	         *  Forced Recovery (FR)
+<b><a name="line1033">1033    </a></b>	         */
+<b><a name="line1034">1034    </a></b>	        if (FR_ENTER_RECOVERY_MODE_ON_NEXT_PLATFORM_RESET == pACRotData->sDeviceReset.ubForcedRecovery)
+<b><a name="line1035">1035    </a></b>	        {
+<b><a name="line1036">1036    </a></b>	            if (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btForcedRecovery)
+<b><a name="line1037">1037    </a></b>	            {
+<b><a name="line1038">1038    </a></b>	                RpDeviceStatusManagement(pACRotData, E_RP_STATE_FORCED_RECOVERY_WITH_PROT_CAP_DISABLE);
+<b><a name="line1039">1039    </a></b>	            }
+<b><a name="line1040">1040    </a></b>	            else
+<b><a name="line1041">1041    </a></b>	            {
+<b><a name="line1042">1042    </a></b>	                Dump_OCP(tprintf("    Forced Recovery"));
+<b><a name="line1043">1043    </a></b>	                RpDeviceStatusManagement(pACRotData, E_RP_STATE_FORCED_RECOVERY_WITH_PROT_CAP_ENABLE);
+<b><a name="line1044">1044    </a></b>	            }
+<b><a name="line1045">1045    </a></b>	        }
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	        /*
+<b><a name="line1048">1048    </a></b>	         *  [Spec p.26]
+<b><a name="line1049">1049    </a></b>	         *  Interface Control (IC)
+<b><a name="line1050">1050    </a></b>	         *  Interface control is used to enable target initiated transaction (e.g. Bus mastering in SMBus)
+<b><a name="line1051">1051    </a></b>	         *  The device must power-on to mastering disabled (see btInterfaceIsolation in PROT_CAP register)
+<b><a name="line1052">1052    </a></b>	         *  and the bust configuration solely managed by the RTRec
+<b><a name="line1053">1053    </a></b>	         */
+<b><a name="line1054">1054    </a></b>	        if (pACRotData->sProtCap.sCapabilities.sAgent.btInterfaceIsolation)
+<b><a name="line1055">1055    </a></b>	        {
+<b><a name="line1056">1056    </a></b>	            if ((TRUE == pACRotData->sDeviceReset.ubInterfaceControl) &&
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "1" (boolean) is not the same as that of the right operand "pACRotData->sDeviceReset.ubInterfaceControl"(unsigned).</font>
+<b><a name="line1057">1057    </a></b>	                (DS_DEVICE_HEALTHY == pACRotData->sDeviceStatus.ubDeviceStatus))
+<b><a name="line1058">1058    </a></b>	            {
+<b><a name="line1059">1059    </a></b>	                // The RA must enable mastering in the DEVICE_RESET register when it determines the device is healthy
+<b><a name="line1060">1060    </a></b>	
+<b><a name="line1061">1061    </a></b>	                // Do nothing as bootcode only triggers smbus mastering during mctp transaction
+<b><a name="line1062">1062    </a></b>	                // i.e. Bootcode will not cause denial-of-service to the recovery interface by mastering transaction
+<b><a name="line1063">1063    </a></b>	                //      that win arbitration in perpetuity
+<b><a name="line1064">1064    </a></b>	            }
+<b><a name="line1065">1065    </a></b>	            else
+<b><a name="line1066">1066    </a></b>	            {
+<b><a name="line1067">1067    </a></b>	                // The power up condition is already mastering disabled
+<b><a name="line1068">1068    </a></b>	
+<b><a name="line1069">1069    </a></b>	                // Do nothing as bootcode only triggers smbus mastering during mctp transaction
+<b><a name="line1070">1070    </a></b>	                // i.e. Bootcode will not cause denial-of-service to the recovery interface by mastering transaction
+<b><a name="line1071">1071    </a></b>	                //      that win arbitration in perpetuity
+<b><a name="line1072">1072    </a></b>	            }
+<b><a name="line1073">1073    </a></b>	        }
+<b><a name="line1074">1074    </a></b>	
+<b><a name="line1075">1075    </a></b>	        Write1ClearDeviceResetControl(pACRotData);
+<b><a name="line1076">1076    </a></b>	    }
+<b><a name="line1077">1077    </a></b>	}
+<b><a name="line1078">1078    </a></b>	
+<b><a name="line1079">1079    </a></b>	/*!
+<b><a name="line1080">1080    </a></b>	   @brief      Fill command data into RECOVERY_CTRL data register
+<b><a name="line1081">1081    </a></b>	
+<b><a name="line1082">1082    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1083">1083    </a></b>	   @param      ubDataCnt         total data byte count following by the command
+<b><a name="line1084">1084    </a></b>	   @param      pCmdData          data following by the command
+<b><a name="line1085">1085    </a></b>	 */
+<b><a name="line1086">1086    </a></b>	static void RpWriteRecoveryCtrl(ACROT_DATA *pACRotData, U8 ubDataCnt, U8 *pCmdData)
+<b><a name="line1087">1087    </a></b>	{
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // Check WEL of status
+<b><a name="line290">290    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WEL, SPI_STATUS_WEL)) {
+<b><a name="line291">291    </a></b>	        return;
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    w_spi_DMA_RW_DIR(1);                    // 0: read, 1: write
+<b><a name="line295">295    </a></b>	    // w_spi_IO_LATCH_POL(0);                  // 0: positive edge  1: negative dege
+<b><a name="line296">296    </a></b>	    w_spi_SPI_CS_H_CNT(0x07);               // 0x07 is hardware reset value
+<b><a name="line297">297    </a></b>	    w_spi_DUM_BYTE_EN(0);                   // 0: disable 1: enable Fast Read Mode and 2xIO/Read mode
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    spi_init();
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	    w_spi_SPI_START_ADDR(target_addr);      // Address
+<b><a name="line302">302    </a></b>	    w_spi_SPI_START_ADDR_LEN(0x03U);        // 3 byte address
+<b><a name="line303">303    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line304">304    </a></b>	    r32_w_SPI_CMMD_1(0x02U);                // page program
+<b><a name="line305">305    </a></b>	    r32_w_SPI_DMA_BCNT(SPI_ROM_PAGE_SIZE);
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_31_3(source_addr >> 3U);
+<b><a name="line308">308    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_39_32(source_addr >> 32U);
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	    w_spi_CMD_OD_1(0x01U);                  // Execute Command 6 (0x02, PAGE PROGRAM)
+<b><a name="line311">311    </a></b>	    w_spi_CMD_OD_2(0x0AU);                  // Address
+<b><a name="line312">312    </a></b>	    w_spi_CMD_OD_3(0x0DU);                  // Data
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	    w_spi_R_DATA_LOC(0);
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line317">317    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG(r_spi_SPI_DMA_TRIG(), SPI_GERNAL_TIMEOUT_THRESHOLD, MABIAO_SPI_TRIG_ERASE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	    // Check WIP of status
+<b><a name="line320">320    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WIP, 0U)) {
+<b><a name="line321">321    </a></b>	        return;
+<b><a name="line322">322    </a></b>	    }
+<b><a name="line323">323    </a></b>	}
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	void spi_erase_all(void)
+<b><a name="line326">326    </a></b>	{
+<b><a name="line327">327    </a></b>	    w_spi_DMA_RW_DIR(1);            // 0: read, 1: write
+<b><a name="line328">328    </a></b>	    w_spi_DUM_BYTE_EN(0);                   // 0: disable 1: enable Fast Read Mode and 2xIO/Read mode
+<b><a name="line329">329    </a></b>	    spi_init();
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line332">332    </a></b>	    w_spi_CMD2_LEN(0x01U);
+<b><a name="line333">333    </a></b>	    r32_w_SPI_CMMD_1(0xC7U);        // CHIP ERASE
+<b><a name="line334">334    </a></b>	    r32_w_SPI_CMMD_2(0x05U);        // READ STATUS
+<b><a name="line335">335    </a></b>	    w_spi_SPI_CMD_5(0x06U);         // WRITE ENABLE
+<b><a name="line336">336    </a></b>	    w_spi_SPI_CMD_7(0x00U);         // COMPARE VALUE
+<b><a name="line337">337    </a></b>	    w_spi_SPI_DMA_BYTE_CNT(0x00U);
+<b><a name="line338">338    </a></b>	    w_spi_CMD_OD_1(0x02U);          // Execute Command 2 (0x05, READ STATUS)
+<b><a name="line339">339    </a></b>	    w_spi_CMD_OD_2(0x0BU);          //
+<b><a name="line340">340    </a></b>	    w_spi_CMD_OD_3(0x07U);          // Execute Command 7 (0x00, READ DATA COMPARE VALUE)
+<b><a name="line341">341    </a></b>	    w_spi_CMD_OD_4(0x05U);          // Execute Command 5 (0x06, WRITE ENABLE)
+<b><a name="line342">342    </a></b>	    w_spi_CMD_OD_5(0x01U);          // Execute Command 1
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line345">345    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG(r_spi_SPI_DMA_TRIG(), SPI_GERNAL_TIMEOUT_THRESHOLD, MABIAO_SPI_TRIG_ERASE);
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    // Check WIP of status
+<b><a name="line348">348    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WIP, 0U)) {
+</pre></body>
+</html>

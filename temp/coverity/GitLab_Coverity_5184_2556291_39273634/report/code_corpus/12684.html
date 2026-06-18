@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_RSA_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_RSA_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_PHAL_RSA_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	U32 phal_rsa_pkcs1v21_verify(SEC_RSA_ENCODING_PARAMS_T_PTR rsa_key);
+<b><a name="line6">6    </a></b>	void phal_rsa4096_enc(U32 ulDecryptDesAdr, U32 ulSignatureSrcAdr, U32 *KeyBase);
+<b><a name="line7">7    </a></b>	#endif
+<b><a name="line8">8    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line894">894    </a></b>	            break;
+<b><a name="line895">895    </a></b>	        case PCIE_INT_STS3:
+<b><a name="line896">896    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line897">897    </a></b>	            {
+<b><a name="line898">898    </a></b>	                r32_w_INTERRUPT_STATUS3(port_id, bmp);
+<b><a name="line899">899    </a></b>	            }
+<b><a name="line900">900    </a></b>	            break;
+<b><a name="line901">901    </a></b>	        case PCIE_INT_STS4:
+<b><a name="line902">902    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line903">903    </a></b>	            {
+<b><a name="line904">904    </a></b>	                r32_w_INTERRUPT_STATUS4(port_id, bmp);
+<b><a name="line905">905    </a></b>	            }
+<b><a name="line906">906    </a></b>	            break;
+<b><a name="line907">907    </a></b>	        case PCIE_INT_STS5:
+<b><a name="line908">908    </a></b>	            mask = (1UL << PCIE_PL_LTR_ENABLE_REDGE_SHIFT);
+<b><a name="line909">909    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line910">910    </a></b>	            {
+<b><a name="line911">911    </a></b>	                r32_w_INTERRUPT_STATUS5(port_id, bmp & mask);
+<b><a name="line912">912    </a></b>	            }
+<b><a name="line913">913    </a></b>	            break;
+<b><a name="line914">914    </a></b>	        case PCIE_INT_STS6:
+<b><a name="line915">915    </a></b>	            mask = (1UL << (dal_pcie_int_msi_enable_rp() % 32UL));
+<b><a name="line916">916    </a></b>	            mask |= (1UL << (dal_pcie_int_msi_enable_fp() % 32UL));
+<b><a name="line917">917    </a></b>	            mask = ~mask;
+<b><a name="line918">918    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line919">919    </a></b>	            {
+<b><a name="line920">920    </a></b>	                r32_w_INTERRUPT_STATUS6(port_id, bmp & mask);
+<b><a name="line921">921    </a></b>	            }
+<b><a name="line922">922    </a></b>	            break;
+<b><a name="line923">923    </a></b>	        /*case PCIE_INT_STS7:
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line924">924    </a></b>	            //reserve
+<b><a name="line925">925    </a></b>	            break;
+<b><a name="line926">926    </a></b>	        case PCIE_INT_STS8:
+<b><a name="line927">927    </a></b>	            //reserve
+<b><a name="line928">928    </a></b>	            break;*/
+<b><a name="line929">929    </a></b>	        case PCIE_INT_STS9:
+<b><a name="line930">930    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line931">931    </a></b>	            {
+<b><a name="line932">932    </a></b>	                r32_w_INTERRUPT_STATUS9(port_id, bmp);
+<b><a name="line933">933    </a></b>	            }
+<b><a name="line934">934    </a></b>	            break;
+<b><a name="line935">935    </a></b>	        case PCIE_INT_STS10:
+<b><a name="line936">936    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line937">937    </a></b>	            {
+<b><a name="line938">938    </a></b>	                r32_w_INTERRUPT_STATUS10(port_id, bmp);
+<b><a name="line939">939    </a></b>	            }
+<b><a name="line940">940    </a></b>	            break;
+<b><a name="line941">941    </a></b>	        case PCIE_INT_STS11:
+<b><a name="line942">942    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line943">943    </a></b>	            {
+<b><a name="line944">944    </a></b>	                r32_w_INTERRUPT_STATUS11(port_id, bmp);
+<b><a name="line945">945    </a></b>	            }
+<b><a name="line946">946    </a></b>	            break;
+<b><a name="line947">947    </a></b>	        case PCIE_INT_STS12:
+<b><a name="line948">948    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line949">949    </a></b>	            {
+<b><a name="line950">950    </a></b>	                r32_w_INTERRUPT_STATUS12(port_id, bmp);
+<b><a name="line951">951    </a></b>	            }
+<b><a name="line952">952    </a></b>	            break;
+<b><a name="line953">953    </a></b>	        case PCIE_INT_STS13:
+<b><a name="line954">954    </a></b>	            // PCIE TODO: use #define & add port1
+</pre></body>
+</html>

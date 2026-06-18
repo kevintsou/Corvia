@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9628">9628    </a></b>	
+<b><a name="line9629">9629    </a></b>	    mldsa_buf_ptr->verify.temp_buf_ptr = (HAL_SEC_PQC_MLDSA_TEMP_BUF_S_PTR)(tmp_btcm_addr);
+<b><a name="line9630">9630    </a></b>	
+<b><a name="line9631">9631    </a></b>	    // verify, step 6
+<b><a name="line9632">9632    </a></b>	    phal_sec_pqc_sha3_blocking((U8 *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), HAL_SEC_PQC_MLDSA_CRH_LEN, (U8 *)(U32 *)(pk_addr), HAL_SEC_PQC_MLDSA_PUB_KEY_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line9633">9633    </a></b>	
+<b><a name="line9634">9634    </a></b>	    // verify, step 7 sha256(tr || msg), use hal_sec_sha_blocking here
+<b><a name="line9635">9635    </a></b>	    // tr 64 byte
+<b><a name="line9636">9636    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr), (void *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), HAL_SEC_PQC_MLDSA_CRH_LEN);
+<b><a name="line9637">9637    </a></b>	    // kat msg 128 bytes
+<b><a name="line9638">9638    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr + HAL_SEC_PQC_MLDSA_CRH_LEN), (void *)(pattern->msg_1), KAT_MSG_1_LEN);
+<b><a name="line9639">9639    </a></b>	
+<b><a name="line9640">9640    </a></b>	    params.src_addr.all   = (U64)msg_addr;
+<b><a name="line9641">9641    </a></b>	    params.targ_addr.all  = mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_targ;
+<b><a name="line9642">9642    </a></b>	    params.sha_mode       = HAL_SEC_SHA3_SHAKE_256_MODE;
+<b><a name="line9643">9643    </a></b>	    params.src_len        = HAL_SEC_PQC_MLDSA_CRH_LEN + KAT_MSG_1_LEN;
+<b><a name="line9644">9644    </a></b>	    params.shake_out_type = 3U;
+<b><a name="line9645">9645    </a></b>	    params.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line9646">9646    </a></b>	
+<b><a name="line9647">9647    </a></b>	    (void)phal_sec_sha_blocking(&params);
+<b><a name="line9648">9648    </a></b>	
+<b><a name="line9649">9649    </a></b>	    // make sure shake256 result put on verify_buf.verify_mu
+<b><a name="line9650">9650    </a></b>	    (void)memcpy((void *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), (void *)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_targ), HAL_SEC_PQC_MLDSA_CRH_LEN);
+<b><a name="line9651">9651    </a></b>	
+<b><a name="line9652">9652    </a></b>	    ret = (U8)(phal_sec_pqc_mldsa_verify((U8 *)(U32 *)(sig_addr), HAL_SEC_PQC_MLDSA_SIG_LEN, (U8 *)(U32 *)(msg_addr), KAT_MSG_1_LEN, (U8 *)(U32 *)(pk_addr), mldsa_buf_ptr, SEC_YES) == HAL_SEC_SET_PQC_MLDSA_ERROR(SEC_YES));
+<b><a name="line9653">9653    </a></b>	
+<b><a name="line9654">9654    </a></b>	    if (ret != SEC_YES)
+<b><a name="line9655">9655    </a></b>	    {
+<b><a name="line9656">9656    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9657">9657    </a></b>	        return (KAT_TYPE_MLDSA | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line9658">9658    </a></b>	    }
+<b><a name="line9659">9659    </a></b>	
+<b><a name="line9660">9660    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9661">9661    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9662">9662    </a></b>	        return (KAT_TYPE_MLDSA | KAT_ERROR_TIMEOUT);
+<b><a name="line9663">9663    </a></b>	    }
+<b><a name="line9664">9664    </a></b>	
+<b><a name="line9665">9665    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9666">9666    </a></b>	}
+<b><a name="line9667">9667    </a></b>	#endif
+<b><a name="line9668">9668    </a></b>	
+<b><a name="line9669">9669    </a></b>	#if KAT_KAZ_EN
+<b><a name="line9670">9670    </a></b>	U32 host_sec_kaz_verify_kat(U32 buf_addr)
+<b><a name="line9671">9671    </a></b>	{
+<b><a name="line9672">9672    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9673">9673    </a></b>	    Dump_SEC(tprintf("KAZ KAT"));
+<b><a name="line9674">9674    </a></b>	
+<b><a name="line9675">9675    </a></b>	    U32 sha_targ_addr = buf_addr;
+<b><a name="line9676">9676    </a></b>	    U32 sha_src_addr  = buf_addr + 64UL;
+<b><a name="line9677">9677    </a></b>	    U32 buffer_addr   = buf_addr + 0x2000UL;
+<b><a name="line9678">9678    </a></b>	
+<b><a name="line9679">9679    </a></b>	    U32 sig_addr = sha_src_addr + 64U;
+<b><a name="line9680">9680    </a></b>	    U32 pk_addr  = sig_addr + 68U;
+<b><a name="line9681">9681    </a></b>	
+<b><a name="line9682">9682    </a></b>	    HAL_SEC_PQC_KAZ_BUF_S_PTR sec_kaz_buf = (HAL_SEC_PQC_KAZ_BUF_S_PTR)(buffer_addr);
+<b><a name="line9683">9683    </a></b>	
+<b><a name="line9684">9684    </a></b>	    U32 verify_sts = 0UL;
+<b><a name="line9685">9685    </a></b>	
+<b><a name="line9686">9686    </a></b>	    SEC_SHA_PARAMS_T sha2_param;
+<b><a name="line9687">9687    </a></b>	
+<b><a name="line9688">9688    </a></b>	    (void)memcpy((void *)(U32 *)(sha_src_addr), (void *)(kaz_msg), sizeof(kaz_msg));
+</pre></body>
+</html>

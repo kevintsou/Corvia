@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbus_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line95">95    </a></b>	#define SMBM_PROTOCOL_WRITE_32                      (SMBM_WR_TYPE)
+<b><a name="line96">96    </a></b>	#define SMBM_PROTOCOL_READ_32                       (SMBM_RD_TYPE_R32 | SMBM_PROTOCOL_REPEATED_START)
+<b><a name="line97">97    </a></b>	#define SMBM_PROTOCOL_WRITE_64                      (SMBM_WR_TYPE)
+<b><a name="line98">98    </a></b>	#define SMBM_PROTOCOL_READ_64                       (SMBM_RD_TYPE_R64 | SMBM_PROTOCOL_REPEATED_START | SMBM_RD_64)
+<b><a name="line99">99    </a></b>	#define SMBM_PROTOCOL_WRITE_32_ACK                  (SMBM_RD_TYPE_NO_READ_DATA)
+<b><a name="line100">100    </a></b>	#define SMBM_PROTOCOL_WRITE_64_ACK                  (SMBM_RD_TYPE_NO_READ_DATA)
+<b><a name="line101">101    </a></b>	#define SMBM_PROTOCOL_READ_64_ACK                   (SMBM_RD_TYPE_R64 | SMBM_PROTOCOL_REPEATED_START)
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	#define smbus_master_quick_command(ent, u16_slave_address)                                                   sys_api_smbm_protocol_start(ent, (u16_slave_address), NULL, 0U, NULL, (U8)SMBM_PROTOCOL_QUICK_COMMAND)
+<b><a name="line104">104    </a></b>	#define smbus_master_send_byte(ent, u16_slave_address, p_smbm_tx)                                            sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, NULL, (U8)SMBM_PROTOCOL_SEND_BYTE)
+<b><a name="line105">105    </a></b>	#define smbus_master_receive_byte(ent, u16_slave_address, p_smbm_rx)                                         sys_api_smbm_protocol_start(ent, (u16_slave_address), NULL, 0U, (p_smbm_rx), (U8)SMBM_PROTOCOL_RECEIVE_BYTE)
+<b><a name="line106">106    </a></b>	#define smbus_master_write_byte(ent, u16_slave_address, p_smbm_tx)                                           sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 2U, NULL, (U8)SMBM_PROTOCOL_WRITE_BYTE)
+<b><a name="line107">107    </a></b>	#define smbus_master_write_word(ent, u16_slave_address, p_smbm_tx)                                           sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 3U, NULL, (U8)SMBM_PROTOCOL_WRITE_WORD)
+<b><a name="line108">108    </a></b>	#define smbus_master_read_byte(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                                 sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_rx), (U8)SMBM_PROTOCOL_READ_BYTE)
+<b><a name="line109">109    </a></b>	#define smbus_master_read_word(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                                 sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_rx), (U8)SMBM_PROTOCOL_READ_WORD)
+<b><a name="line110">110    </a></b>	#define smbus_master_process_call(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                              sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 3U, (p_smbm_rx), (U8)SMBM_PROTOCOL_PROCESS_CALL)
+<b><a name="line111">111    </a></b>	#define smbus_master_block_write(ent, u16_slave_address, p_smbm_tx, u16_tx_data_count)                       sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), ((u16_tx_data_count) + 2U), NULL, (U8)SMBM_PROTOCOL_BLOCK_WRITE)
+<b><a name="line112">112    </a></b>	#define smbus_master_block_read(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                                sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_tx), (U8)SMBM_PROTOCOL_BLOCK_READ)
+<b><a name="line113">113    </a></b>	#define smbus_master_block_process_call(ent, u16_slave_address, p_smbm_tx, u16_tx_data_count, p_smbm_rx)     sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), ((u16_tx_data_count) + 2U), (p_smbm_rx), (U8)SMBM_PROTOCOL_BLOCK_PROCESS_CALL)
+<b><a name="line114">114    </a></b>	#define smbus_master_write_32(ent, u16_slave_address, p_smbm_tx)                                             sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 5U, NULL, (U8)SMBM_PROTOCOL_WRITE_32)
+<b><a name="line115">115    </a></b>	#define smbus_master_read_32(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                                   sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_rx), (U8)SMBM_PROTOCOL_READ_32)
+<b><a name="line116">116    </a></b>	#define smbus_master_write_64(ent, u16_slave_address, p_smbm_tx)                                             sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 9U, NULL, (U8)SMBM_PROTOCOL_WRITE_64)
+<b><a name="line117">117    </a></b>	#define smbus_master_read_64(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                                   sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_rx), (U8)SMBM_PROTOCOL_READ_64)
+<b><a name="line118">118    </a></b>	#define smbus_master_write_32_ack(ent, u16_slave_address, p_smbm_tx)                                         sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 5U, NULL, (U8)SMBM_PROTOCOL_WRITE_32_ACK)
+<b><a name="line119">119    </a></b>	#define smbus_master_write_64_ack(ent, u16_slave_address, p_smbm_tx)                                         sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 9U, NULL, (U8)SMBM_PROTOCOL_WRITE_64_ACK)
+<b><a name="line120">120    </a></b>	#define smbus_master_read_64_ack(ent, u16_slave_address, p_smbm_tx, p_smbm_rx)                               sys_api_smbm_protocol_start(ent, (u16_slave_address), (p_smbm_tx), 1U, (p_smbm_rx), (U8)SMBM_PROTOCOL_READ_64_ACK)
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	typedef U32 (*SMBS_PROTOCOL_HDL_PTR)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);
+<b><a name="line124">124    </a></b>	typedef U32 (*SMBS_ERROR_HDL_PTR)(void *, U16, U32, SMBUS_BUFFER *);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Parameter name for function prototype has been omitted.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                                  ^</font>
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	typedef struct {
+<b><a name="line127">127    </a></b>	    void *p_object;
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	    SMBS_ARP_EXT arp_ext;
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    SMBS_PROTOCOL_HDL_PTR p_device_handler;
+<b><a name="line132">132    </a></b>	    SMBS_ERROR_HDL_PTR p_device_error_handler;
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	} SMBS_DEVICE;
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	typedef struct {
+<b><a name="line137">137    </a></b>	    //The 1st slave can have full ARP functionality as there is only 1 Assign
+<b><a name="line138">138    </a></b>	    //Address UDID in the IP.
+<b><a name="line139">139    </a></b>	    //The 2nd slave can support up to "Fixed, not Discoverable".
+<b><a name="line140">140    </a></b>	    //The 3rd slave is not supported as 1 address is set to 0xC2 (SMBus Device Default Address) for ARP to work
+<b><a name="line141">141    </a></b>	    SMBS_DEVICE a_slave[SMBS_SLAVE_DEVICE_COUNT];
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	    SMBUS_BUFFER rx;
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    SMBUS_BUFFER tx;
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	    U16 debug_address;
+<b><a name="line148">148    </a></b>	    volatile U16 slave_address;
+<b><a name="line149">149    </a></b>	    volatile U16 interrupt_status;
+<b><a name="line150">150    </a></b>	
+<b><a name="line151">151    </a></b>	} SMBS;
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	// ================ SMBus ================ //
+<b><a name="line155">155    </a></b>	void sys_api_smbus_init(void *p_smbm, void *p_smbs, U32 buffer_addr, U32 buffer_size, U8 edsff_enable_flag);
+</pre></body>
+</html>

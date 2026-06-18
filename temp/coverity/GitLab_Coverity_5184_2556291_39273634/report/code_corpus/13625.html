@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef DAL_FLOW_DB_H
+<b><a name="line2">2    </a></b>	#define DAL_FLOW_DB_H
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	//#include "dal_generic.h"
+<b><a name="line5">5    </a></b>	#include "build/sal_build_types.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	// dal api get cpu0 ~ cpu2 doorbell queue id
+<b><a name="line9">9    </a></b>	U8 dal_db_get_cpu0_sq0_dmac_high(void);
+<b><a name="line10">10    </a></b>	U8 dal_db_get_cpu0_sq1_dmac_norm(void);
+<b><a name="line11">11    </a></b>	U8 dal_db_get_cpu0_sq2_dmac_urgent(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_db_get_cpu0_sq2_dmac_urgent" is declared but never defined.</font>
+<b><a name="line12">12    </a></b>	U8 dal_db_get_cpu0_sq3_bmu_noblk(void);
+<b><a name="line13">13    </a></b>	U8 dal_db_get_cpu0_sq4_bmu_blk(void);
+<b><a name="line14">14    </a></b>	U8 dal_db_get_cpu0_sq5_apu_inset_hcmd(void);
+<b><a name="line15">15    </a></b>	U8 dal_db_get_cpu0_sq6_apu_compl(void);
+<b><a name="line16">16    </a></b>	U8 dal_db_get_cpu0_sq7_apu_byte_cmd(void);
+<b><a name="line17">17    </a></b>	U8 dal_db_get_cpu0_sq8_apu_rd_buf_rdy(void);
+<b><a name="line18">18    </a></b>	U8 dal_db_get_cpu0_sq9_apu_wr_buf_rdy(void);
+<b><a name="line19">19    </a></b>	U8 dal_db_get_cpu0_sq10_apu_aes(void);
+<b><a name="line20">20    </a></b>	U8 dal_db_get_cpu0_sq11_apu_ki(void);
+<b><a name="line21">21    </a></b>	U8 dal_db_get_cpu0_sq12_apu_dep_lock(void);
+<b><a name="line22">22    </a></b>	U8 dal_db_get_cpu0_sq13_apu_dep_unlock(void);
+<b><a name="line23">23    </a></b>	U8 dal_db_get_cpu0_sq14_apu_remap(void);
+<b><a name="line24">24    </a></b>	U8 dal_db_get_cpu0_sq15_apu_fw_cache(void);
+<b><a name="line25">25    </a></b>	U8 dal_db_get_cpu0_sq16_apu_pre_rd(void);
+<b><a name="line26">26    </a></b>	U8 dal_db_get_cpu0_sq17_axi_drive_log(void);
+<b><a name="line27">27    </a></b>	U8 dal_db_get_cpu0_sq18_cop0_wr(void);
+<b><a name="line28">28    </a></b>	U8 dal_db_get_cpu0_sq19_cop1(void);
+<b><a name="line29">29    </a></b>	U8 dal_db_get_cpu0_sq20_wa0(void);
+<b><a name="line30">30    </a></b>	U8 dal_db_get_cpu0_sq21_wa1(void);
+<b><a name="line31">31    </a></b>	U8 dal_db_get_cpu0_sq22_wa2(void);
+<b><a name="line32">32    </a></b>	U8 dal_db_get_cpu0_sq23_wa3(void);
+<b><a name="line33">33    </a></b>	U8 dal_db_get_cpu0_sq24_autoform_rd(void);
+<b><a name="line34">34    </a></b>	U8 dal_db_get_cpu0_sq25_autoform_prd(void);
+<b><a name="line35">35    </a></b>	U8 dal_db_get_cpu0_sq26_autoform_auto_trig(void);
+<b><a name="line36">36    </a></b>	U8 dal_db_get_cpu0_sq27_wa4(void);
+<b><a name="line37">37    </a></b>	U8 dal_db_get_cpu0_sq28_cop0_rd(void);
+<b><a name="line38">38    </a></b>	U8 dal_db_get_cpu0_sq29_cpu_sq(void);
+<b><a name="line39">39    </a></b>	U8 dal_db_get_cpu0_sq30_cpu_cq(void);
+<b><a name="line40">40    </a></b>	U8 dal_db_get_cpu1_sq31_dmac_high(void);
+<b><a name="line41">41    </a></b>	U8 dal_db_get_cpu1_sq32_dmac_norm(void);
+<b><a name="line42">42    </a></b>	U8 dal_db_get_cpu1_sq33_dmac_urgent(void);
+</pre></body>
+</html>

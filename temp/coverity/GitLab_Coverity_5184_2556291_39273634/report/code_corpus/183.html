@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	U8 dal_cmgr_get_int_en_p_rpf_hptr_ofst_err(U8 p_ofst)
+<b><a name="line338">338    </a></b>	{
+<b><a name="line339">339    </a></b>	    if (p_ofst == 0U)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        return r_all_CMGR_P0_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line342">342    </a></b>	    }
+<b><a name="line343">343    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line344">344    </a></b>	    {
+<b><a name="line345">345    </a></b>	        return r_all_CMGR_P1_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line346">346    </a></b>	    }
+<b><a name="line347">347    </a></b>	    else
+<b><a name="line348">348    </a></b>	    {
+<b><a name="line349">349    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line350">350    </a></b>	        return 0U;
+<b><a name="line351">351    </a></b>	    }
+<b><a name="line352">352    </a></b>	}
+<b><a name="line353">353    </a></b>	U8 dal_cmgr_get_int_en_p_wch_hptr_ofst_err(U8 p_ofst)
+<b><a name="line354">354    </a></b>	{
+<b><a name="line355">355    </a></b>	    if (p_ofst == 0U)
+<b><a name="line356">356    </a></b>	    {
+<b><a name="line357">357    </a></b>	        return r_all_CMGR_P0_WCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line358">358    </a></b>	    }
+<b><a name="line359">359    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line360">360    </a></b>	    {
+<b><a name="line361">361    </a></b>	        return r_all_CMGR_P1_WCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line362">362    </a></b>	    }
+<b><a name="line363">363    </a></b>	    else
+<b><a name="line364">364    </a></b>	    {
+<b><a name="line365">365    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line366">366    </a></b>	        return 0U;
+<b><a name="line367">367    </a></b>	    }
+<b><a name="line368">368    </a></b>	}
+<b><a name="line369">369    </a></b>	U8 dal_cmgr_get_int_en_p_iorch_hptr_ofst_err(U8 p_ofst)
+<b><a name="line370">370    </a></b>	{
+<b><a name="line371">371    </a></b>	    if (p_ofst == 0U)
+<b><a name="line372">372    </a></b>	    {
+<b><a name="line373">373    </a></b>	        return r_all_CMGR_P0_IORCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line374">374    </a></b>	    }
+<b><a name="line375">375    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line376">376    </a></b>	    {
+<b><a name="line377">377    </a></b>	        return r_all_CMGR_P1_IORCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line378">378    </a></b>	    }
+<b><a name="line379">379    </a></b>	    else
+<b><a name="line380">380    </a></b>	    {
+<b><a name="line381">381    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line382">382    </a></b>	        return 0U;
+<b><a name="line383">383    </a></b>	    }
+<b><a name="line384">384    </a></b>	}
+<b><a name="line385">385    </a></b>	U8 dal_cmgr_get_int_en_p_rch_lca_err(U8 p_ofst)
+<b><a name="line386">386    </a></b>	{
+<b><a name="line387">387    </a></b>	    if (p_ofst == 0U)
+<b><a name="line388">388    </a></b>	    {
+<b><a name="line389">389    </a></b>	        return r_all_CMGR_P0_RCH_LCA_ERR_INT_EN();
+<b><a name="line390">390    </a></b>	    }
+<b><a name="line391">391    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line392">392    </a></b>	    {
+<b><a name="line393">393    </a></b>	        return r_all_CMGR_P1_RCH_LCA_ERR_INT_EN();
+<b><a name="line394">394    </a></b>	    }
+<b><a name="line395">395    </a></b>	    else
+<b><a name="line396">396    </a></b>	    {
+</pre></body>
+</html>

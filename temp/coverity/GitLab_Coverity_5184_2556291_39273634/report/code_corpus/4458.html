@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1247">1247    </a></b>	
+<b><a name="line1248">1248    </a></b>	    memset((void *)ubData, 0x00, 4);
+<b><a name="line1249">1249    </a></b>	
+<b><a name="line1250">1250    </a></b>	    for (ubCH = 0; ubCH < FLH_MAX_CH_NUM; ubCH++) {
+<b><a name="line1251">1251    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ubCH, 1U) == TRUE){
+<b><a name="line1252">1252    </a></b>	
+<b><a name="line1253">1253    </a></b>	            //enable ce
+<b><a name="line1254">1254    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCe));
+<b><a name="line1255">1255    </a></b>	            w_DQ_BIT_REV_IDX(ubCH, ubCe);
+<b><a name="line1256">1256    </a></b>	
+<b><a name="line1257">1257    </a></b>	            M_FIP_CH_SET_PIO_CMD(ubCH, ubCmd);
+<b><a name="line1258">1258    </a></b>	            M_FIP_CH_SET_PIO_ADR(ubCH, ubAddr);
+<b><a name="line1259">1259    </a></b>	
+<b><a name="line1260">1260    </a></b>	            if (!gFplApiStruct.flash_if) {
+<b><a name="line1261">1261    </a></b>	                for (ulidx = 0; ulidx < 4; ulidx ++ ) {
+<b><a name="line1262">1262    </a></b>	                    ubData[ulidx] = (U16) M_FIP_CH_GET_PIO_DAT(ubCH);
+<b><a name="line1263">1263    </a></b>	                }
+<b><a name="line1264">1264    </a></b>	            } else {
+<b><a name="line1265">1265    </a></b>	                for (ulidx = 0; ulidx < 4; ulidx += 1 ) {
+<b><a name="line1266">1266    </a></b>	
+<b><a name="line1267">1267    </a></b>	                    M_FIP_CH_SET_PIO_DAT_MIDDLE(ubCH);
+<b><a name="line1268">1268    </a></b>	
+<b><a name="line1269">1269    </a></b>	                    if (ulidx == 0) {
+<b><a name="line1270">1270    </a></b>	                        M_FIP_CH_SET_PIO_DAT_FIRST(ubCH);
+<b><a name="line1271">1271    </a></b>	                    }
+<b><a name="line1272">1272    </a></b>	                    else if (ulidx == (4 - 1)) {
+<b><a name="line1273">1273    </a></b>	                        M_FIP_CH_SET_PIO_DAT_LAST(ubCH);
+<b><a name="line1274">1274    </a></b>	                    }
+<b><a name="line1275">1275    </a></b>	
+<b><a name="line1276">1276    </a></b>	                    ubData[ulidx] = (U16) M_FIP_CH_GET_PIO_DAT(ubCH);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(U16)(U32 volatile *)gFlhRegTxChBase[ubCH][5U]" from essential type "unsigned 16-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1277">1277    </a></b>	
+<b><a name="line1278">1278    </a></b>	                }
+<b><a name="line1279">1279    </a></b>	                M_FIP_CH_SET_PIO_DAT_DEFAULT(ubCH);
+<b><a name="line1280">1280    </a></b>	            }
+<b><a name="line1281">1281    </a></b>	
+<b><a name="line1282">1282    </a></b>	            idle_us(1);
+<b><a name="line1283">1283    </a></b>	
+<b><a name="line1284">1284    </a></b>	            U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 20);
+<b><a name="line1285">1285    </a></b>	            while (hal_fip_chk_rby_sts(0) == FALSE) {
+<b><a name="line1286">1286    </a></b>	                if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1287">1287    </a></b>	                    break;
+<b><a name="line1288">1288    </a></b>	                }
+<b><a name="line1289">1289    </a></b>	            }
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ubCe)));
+<b><a name="line1292">1292    </a></b>	
+<b><a name="line1293">1293    </a></b>	            Dump_Debug(tprintf("get feature addr : %x, data[0] = %x, data[1] = %x, data[2] = %x, data[3] = %x", ubAddr, ubData[0], ubData[1], ubData[2], ubData[2]));
+<b><a name="line1294">1294    </a></b>	        }
+<b><a name="line1295">1295    </a></b>	    }
+<b><a name="line1296">1296    </a></b>	}
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	#endif
+<b><a name="line1299">1299    </a></b>	
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	
+</pre></body>
+</html>

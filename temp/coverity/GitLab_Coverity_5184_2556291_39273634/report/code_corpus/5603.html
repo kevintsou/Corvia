@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3497">3497    </a></b>	            w_CR_FPHYA_RSTB_RX_CH14(reset);
+<b><a name="line3498">3498    </a></b>	            break;
+<b><a name="line3499">3499    </a></b>	
+<b><a name="line3500">3500    </a></b>	        case 15U:
+<b><a name="line3501">3501    </a></b>	            w_CR_FPHYA_RSTB_TX_CH15(reset);
+<b><a name="line3502">3502    </a></b>	            w_CR_FPHYA_RSTB_READ_CH15(reset);
+<b><a name="line3503">3503    </a></b>	            w_CR_FPHYA_RSTB_RX_CH15(reset);
+<b><a name="line3504">3504    </a></b>	            break;
+<b><a name="line3505">3505    </a></b>	        default:
+<b><a name="line3506">3506    </a></b>	            ASSERT(0U, 0U);
+<b><a name="line3507">3507    </a></b>	            break;
+<b><a name="line3508">3508    </a></b>	    }
+<b><a name="line3509">3509    </a></b>	}
+<b><a name="line3510">3510    </a></b>	
+<b><a name="line3511">3511    </a></b>	void dal_fip_set_fphy_rx(U8 ch, U8 enable)
+<b><a name="line3512">3512    </a></b>	{
+<b><a name="line3513">3513    </a></b>	    w_FLH_FPHI_REG_RX_RX_EN(ch, enable);
+<b><a name="line3514">3514    </a></b>	    w_FLH_FPHI_REG_RX_TX_EN_RD(ch, enable);
+<b><a name="line3515">3515    </a></b>	    w_FLH_FPHI_REG_RX_TX_EN_WT(ch, enable);
+<b><a name="line3516">3516    </a></b>	}
+<b><a name="line3517">3517    </a></b>	
+<b><a name="line3518">3518    </a></b>	void dal_fip_set_fphy_oe(U8 ch, U8 enable)
+<b><a name="line3519">3519    </a></b>	{
+<b><a name="line3520">3520    </a></b>	    w_FLH_FPHI_REG_TX_OE_ALE(ch, enable);
+<b><a name="line3521">3521    </a></b>	    ASSERT(r_FLH_FPHI_REG_TX_OE_ALE(ch), r_FLH_FPHI_REG_TX_OE_ALE(ch) == enable);
+<b><a name="line3522">3522    </a></b>	
+<b><a name="line3523">3523    </a></b>	    w_FLH_FPHI_REG_TX_OE_CLE(ch, enable);
+<b><a name="line3524">3524    </a></b>	    ASSERT(r_FLH_FPHI_REG_TX_OE_CLE(ch), r_FLH_FPHI_REG_TX_OE_CLE(ch) == enable);
+<b><a name="line3525">3525    </a></b>	
+<b><a name="line3526">3526    </a></b>	    w_FLH_FPHI_REG_RX_OE_CEB(ch, (enable == 1) ? FLH_FPHI_REG_RX_OE_CEB_MASK : 0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "enable" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line3527">3527    </a></b>	    w_FLH_FPHI_REG_RX_OE_REB(ch, enable);
+<b><a name="line3528">3528    </a></b>	    w_FLH_FPHI_REG_RX_OE_WEB(ch, enable);
+<b><a name="line3529">3529    </a></b>	    w_FLH_FPHI_REG_RX_OE_WPB(ch, (enable == 1U) ? FLH_FPHI_REG_RX_OE_WPB_MASK : 0U);
+<b><a name="line3530">3530    </a></b>	    w_FLH_FPHI_REG_TX_OE_DBI(ch, enable);
+<b><a name="line3531">3531    </a></b>	    w_FLH_FPHI_REG_RX_OE_DQS_MUX_SEL(ch, (enable == 1U) ? 0U : 1U);
+<b><a name="line3532">3532    </a></b>	    w_FLH_FPHI_REG_TX_OE_DQ_MUX_SEL(ch, (enable == 1U) ? 0U : 1U);
+<b><a name="line3533">3533    </a></b>	    w_FLH_FPHI_REG_TX_OE_DBI_MUX_SEL(ch, (enable == 1U) ? 0U : 1U);
+<b><a name="line3534">3534    </a></b>	}
+<b><a name="line3535">3535    </a></b>	
+<b><a name="line3536">3536    </a></b>	void dal_fip_set_fphy_rx_ref_en(U8 ch, U8 enable)
+<b><a name="line3537">3537    </a></b>	{
+<b><a name="line3538">3538    </a></b>	    w_FLH_FPHI_REG_RX_RX_REF_EN(ch, enable);
+<b><a name="line3539">3539    </a></b>	}
+<b><a name="line3540">3540    </a></b>	
+<b><a name="line3541">3541    </a></b>	void dal_fip_set_fphya_rstb(U8 ch, U8 reset)
+<b><a name="line3542">3542    </a></b>	{
+<b><a name="line3543">3543    </a></b>	    // TODO: optmize
+<b><a name="line3544">3544    </a></b>	
+<b><a name="line3545">3545    </a></b>	    switch (ch)
+<b><a name="line3546">3546    </a></b>	    {
+<b><a name="line3547">3547    </a></b>	        case 0U:
+<b><a name="line3548">3548    </a></b>	            w_CR_FPHYA_RSTB_READ_CH0(reset);
+<b><a name="line3549">3549    </a></b>	            w_CR_FPHYA_RSTB_TX_CH0(reset);
+<b><a name="line3550">3550    </a></b>	            w_CR_FPHYA_RSTB_RX_CH0(reset);
+<b><a name="line3551">3551    </a></b>	            break;
+<b><a name="line3552">3552    </a></b>	
+<b><a name="line3553">3553    </a></b>	        case 1U:
+<b><a name="line3554">3554    </a></b>	            w_CR_FPHYA_RSTB_READ_CH1(reset);
+<b><a name="line3555">3555    </a></b>	            w_CR_FPHYA_RSTB_TX_CH1(reset);
+<b><a name="line3556">3556    </a></b>	            w_CR_FPHYA_RSTB_RX_CH1(reset);
+<b><a name="line3557">3557    </a></b>	            break;
+</pre></body>
+</html>

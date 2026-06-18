@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10399">10399    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10400">10400    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10401">10401    </a></b>	    memset((void *)kat_buffer, 0U, 0x1380U);
+<b><a name="line10402">10402    </a></b>	#endif
+<b><a name="line10403">10403    </a></b>	    return kat_status;
+<b><a name="line10404">10404    </a></b>	}
+<b><a name="line10405">10405    </a></b>	
+<b><a name="line10406">10406    </a></b>	/**
+<b><a name="line10407">10407    </a></b>	 * Perform host KAT tests
+<b><a name="line10408">10408    </a></b>	 *
+<b><a name="line10409">10409    </a></b>	 * @param test_buffer
+<b><a name="line10410">10410    </a></b>	 *      A buffer used during KAT
+<b><a name="line10411">10411    </a></b>	 * @return
+<b><a name="line10412">10412    </a></b>	 *      0 - All KAT passed
+<b><a name="line10413">10413    </a></b>	 */
+<b><a name="line10414">10414    </a></b>	U32 host_sec_kat_vua(U32 kat_buffer)
+<b><a name="line10415">10415    </a></b>	{
+<b><a name="line10416">10416    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10417">10417    </a></b>	    U32 kat_count  = sizeof(gKatVUA) / sizeof(gKatVUA[0]);
+<b><a name="line10418">10418    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10419">10419    </a></b>	    {
+<b><a name="line10420">10420    </a></b>	        kat_status = gKatVUA[i](kat_buffer);
+<b><a name="line10421">10421    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10422">10422    </a></b>	            break;
+<b><a name="line10423">10423    </a></b>	        }
+<b><a name="line10424">10424    </a></b>	    }
+<b><a name="line10425">10425    </a></b>	
+<b><a name="line10426">10426    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10427">10427    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10428">10428    </a></b>	    memset((void *)kat_buffer, 0U, 0x110E0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line10429">10429    </a></b>	#endif
+<b><a name="line10430">10430    </a></b>	    return kat_status;
+<b><a name="line10431">10431    </a></b>	}
+<b><a name="line10432">10432    </a></b>	
+<b><a name="line10433">10433    </a></b>	U32 host_sec_kat_dice(U32 kat_buffer)
+<b><a name="line10434">10434    </a></b>	{
+<b><a name="line10435">10435    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10436">10436    </a></b>	    U32 kat_count = sizeof(gKatDice) / sizeof(gKatDice[0]);
+<b><a name="line10437">10437    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10438">10438    </a></b>	    {
+<b><a name="line10439">10439    </a></b>	        kat_status = gKatDice[i](kat_buffer);
+<b><a name="line10440">10440    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10441">10441    </a></b>	            break;
+<b><a name="line10442">10442    </a></b>	        }
+<b><a name="line10443">10443    </a></b>	    }
+<b><a name="line10444">10444    </a></b>	
+<b><a name="line10445">10445    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10446">10446    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10447">10447    </a></b>	    memset((void *)kat_buffer, 0U, 0x1240U);
+<b><a name="line10448">10448    </a></b>	#endif
+<b><a name="line10449">10449    </a></b>	    return kat_status;
+<b><a name="line10450">10450    </a></b>	}
+<b><a name="line10451">10451    </a></b>	
+<b><a name="line10452">10452    </a></b>	void security_fail_handle(U32 fail_type)
+<b><a name="line10453">10453    </a></b>	{
+<b><a name="line10454">10454    </a></b>	    phal_led_control(fail_type == SECURITY_FAIL_TYPE_KAT);
+<b><a name="line10455">10455    </a></b>	    while (1);
+<b><a name="line10456">10456    </a></b>	}
+<b><a name="line10457">10457    </a></b>	
+<b><a name="line10458">10458    </a></b>	
+</pre></body>
+</html>

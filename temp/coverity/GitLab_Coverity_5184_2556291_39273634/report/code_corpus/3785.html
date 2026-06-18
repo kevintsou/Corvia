@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2112">2112    </a></b>	}
+<b><a name="line2113">2113    </a></b>	
+<b><a name="line2114">2114    </a></b>	void dal_pcie_set_trsl_addr_lower(U32 port_id, U32 value)
+<b><a name="line2115">2115    </a></b>	{
+<b><a name="line2116">2116    </a></b>	
+<b><a name="line2117">2117    </a></b>	}
+<b><a name="line2118">2118    </a></b>	
+<b><a name="line2119">2119    </a></b>	U32 dal_pcie_get_trsl_addr_upper(U32 port_id)
+<b><a name="line2120">2120    </a></b>	{
+<b><a name="line2121">2121    </a></b>	    return (U32)FALSE;
+<b><a name="line2122">2122    </a></b>	}
+<b><a name="line2123">2123    </a></b>	
+<b><a name="line2124">2124    </a></b>	void dal_pcie_set_trsl_addr_upper(U32 port_id, U32 value)
+<b><a name="line2125">2125    </a></b>	{
+<b><a name="line2126">2126    </a></b>	
+<b><a name="line2127">2127    </a></b>	}
+<b><a name="line2128">2128    </a></b>	
+<b><a name="line2129">2129    </a></b>	U32 dal_pcie_get_expansion_rom_size_mask(U32 port_id)
+<b><a name="line2130">2130    </a></b>	{
+<b><a name="line2131">2131    </a></b>	    return (U32)FALSE;
+<b><a name="line2132">2132    </a></b>	}
+<b><a name="line2133">2133    </a></b>	
+<b><a name="line2134">2134    </a></b>	void dal_pcie_set_expansion_rom_size_mask(U32 port_id, U32 value)
+<b><a name="line2135">2135    </a></b>	{
+<b><a name="line2136">2136    </a></b>	
+<b><a name="line2137">2137    </a></b>	}
+<b><a name="line2138">2138    </a></b>	
+<b><a name="line2139">2139    </a></b>	BOOL dal_pcie_phy_chk_ofst_out_of_range (U32 offset)
+<b><a name="line2140">2140    </a></b>	{
+<b><a name="line2141">2141    </a></b>	    return (U8)FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(U8)0" from essential type "unsigned 8-bit int" to different or narrower essential type "boolean".</font>
+<b><a name="line2142">2142    </a></b>	}
+<b><a name="line2143">2143    </a></b>	
+<b><a name="line2144">2144    </a></b>	U32 dal_pcie_phy_get_val(U32 offset)
+<b><a name="line2145">2145    </a></b>	{
+<b><a name="line2146">2146    </a></b>	    return (U32)FALSE;
+<b><a name="line2147">2147    </a></b>	}
+<b><a name="line2148">2148    </a></b>	
+<b><a name="line2149">2149    </a></b>	void dal_pcie_phy_set_val(U32 offset, U32 value)
+<b><a name="line2150">2150    </a></b>	{
+<b><a name="line2151">2151    </a></b>	
+<b><a name="line2152">2152    </a></b>	}
+<b><a name="line2153">2153    </a></b>	
+<b><a name="line2154">2154    </a></b>	void dal_pcie_set_ltssm_en(U32 port_id, U32 value)
+<b><a name="line2155">2155    </a></b>	{
+<b><a name="line2156">2156    </a></b>	    w_PCIE_SNPS_APP_LTSSM_ENABLE(port_id, value);
+<b><a name="line2157">2157    </a></b>	}
+<b><a name="line2158">2158    </a></b>	
+<b><a name="line2159">2159    </a></b>	void dal_pcie_set_hold_phy_rst(U32 port_id, U32 value)
+<b><a name="line2160">2160    </a></b>	{
+<b><a name="line2161">2161    </a></b>	    w_PCIE_SNPS_APP_HOLD_PHY_RST(port_id, value);
+<b><a name="line2162">2162    </a></b>	}
+<b><a name="line2163">2163    </a></b>	
+<b><a name="line2164">2164    </a></b>	U32 dal_pcie_get_pm_sel_aux_clk_ovrd(U32 port_id)
+<b><a name="line2165">2165    </a></b>	{
+<b><a name="line2166">2166    </a></b>	    return r_PCIE_SYS_PM_SEL_AUX_CLK_OVRD(port_id);
+<b><a name="line2167">2167    </a></b>	}
+<b><a name="line2168">2168    </a></b>	
+<b><a name="line2169">2169    </a></b>	U32 dal_pcie_get_sys_perstn_intr(U32 port_id)
+<b><a name="line2170">2170    </a></b>	{
+<b><a name="line2171">2171    </a></b>	    return r_PCIE_SYS_SYS_PERSTN_INTR(port_id);
+<b><a name="line2172">2172    </a></b>	}
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line507">507    </a></b>	    p_nand_status_content->total_erase_fail_block_count_d1;
+<b><a name="line508">508    </a></b>	    p_nand_status_content->total_erase_fail_block_count_d2_d3;
+<b><a name="line509">509    </a></b>	    p_nand_status_content->total_program_fail_block_count_d1;
+<b><a name="line510">510    </a></b>	    p_nand_status_content->total_program_fail_block_count_d2_d3;
+<b><a name="line511">511    </a></b>	    p_nand_status_content->nand_read_count;
+<b><a name="line512">512    </a></b>	    p_nand_status_content->nand_write_count;
+<b><a name="line513">513    </a></b>	    */
+<b><a name="line514">514    </a></b>	    return;
+<b><a name="line515">515    </a></b>	}
+<b><a name="line516">516    </a></b>	
+<b><a name="line517">517    </a></b>	void vuc_read_system_info_thermal_status(THERMAL_STATUS *p_thermal_status_content)
+<b><a name="line518">518    </a></b>	{
+<b><a name="line519">519    </a></b>	    /*
+<b><a name="line520">520    </a></b>	    p_thermal_status_content->maximum_drive_temperature_after_drive_produce;
+<b><a name="line521">521    </a></b>	    p_thermal_status_content->minimum_drive_temperature_after_drive_produce;
+<b><a name="line522">522    </a></b>	    p_thermal_status_content->current_drive_temperature;
+<b><a name="line523">523    </a></b>	    p_thermal_status_content->current_chip_internal_temperature;
+<b><a name="line524">524    </a></b>	    p_thermal_status_content->current_nand_temperature;
+<b><a name="line525">525    </a></b>	    p_thermal_status_content->thermal_throttle_trig_counts;
+<b><a name="line526">526    </a></b>	    p_thermal_status_content->total_thermal_throttle_trig_minutes;
+<b><a name="line527">527    </a></b>	    */
+<b><a name="line528">528    </a></b>	    return;
+<b><a name="line529">529    </a></b>	}
+<b><a name="line530">530    </a></b>	#endif
+<b><a name="line531">531    </a></b>	
+<b><a name="line532">532    </a></b>	static void vuc_read_system_info_security_protect(SECURITY_PROTECT *p_system_security_protect_content)
+<b><a name="line533">533    </a></b>	{
+<b><a name="line534">534    </a></b>	    U32 asymmetric_key;
+<b><a name="line535">535    </a></b>	    if (gVucDispatch.lock_en) {
+<b><a name="line536">536    </a></b>	        if(!gVucDispatch.lock_by_sp800_227)      //56B
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "gVucDispatch.lock_by_sp800_227" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line537">537    </a></b>	        {
+<b><a name="line538">538    </a></b>	            p_system_security_protect_content->security_support_status     |= SYS_INFO_SEC_SUP_STATUS_VUC_PROT; // Support VUC protection
+<b><a name="line539">539    </a></b>	            p_system_security_protect_content->vuc_protect_mode             = READ_SYSTEM_INFO_VUC_PROTECT_MODE_V4;
+<b><a name="line540">540    </a></b>	            p_system_security_protect_content->vuc_protect_secure_key_index = READ_SYSTEM_INFO_PHISON_KEY_INDEX;
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	            if (gVUCProtect.protect_state < VUC_PROTECT_VERIFY_STATE_ENGINEERING) {
+<b><a name="line543">543    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_LOCK;
+<b><a name="line544">544    </a></b>	            }
+<b><a name="line545">545    </a></b>	            else if (gVUCProtect.protect_state < VUC_PROTECT_VERIFY_STATE_PASS) {
+<b><a name="line546">546    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line547">547    </a></b>	            }
+<b><a name="line548">548    </a></b>	            else {
+<b><a name="line549">549    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line550">550    </a></b>	            }
+<b><a name="line551">551    </a></b>	        }
+<b><a name="line552">552    </a></b>	        else    //227
+<b><a name="line553">553    </a></b>	        {
+<b><a name="line554">554    </a></b>	            p_system_security_protect_content->security_support_status     |= SYS_INFO_SEC_SUP_STATUS_VUC_PROT; // Support VUC protection
+<b><a name="line555">555    </a></b>	            p_system_security_protect_content->vuc_protect_mode             = READ_SYSTEM_INFO_VUC_PROTECT_MODE_V5;
+<b><a name="line556">556    </a></b>	            p_system_security_protect_content->vuc_protect_secure_key_index = READ_SYSTEM_INFO_PHISON_KEY_INDEX;
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	            if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_ENGINEERING) {
+<b><a name="line559">559    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_LOCK;
+<b><a name="line560">560    </a></b>	            }
+<b><a name="line561">561    </a></b>	            else if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_PASS) {
+<b><a name="line562">562    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line563">563    </a></b>	            }
+<b><a name="line564">564    </a></b>	            else {
+<b><a name="line565">565    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line566">566    </a></b>	            }
+<b><a name="line567">567    </a></b>	        }
+</pre></body>
+</html>

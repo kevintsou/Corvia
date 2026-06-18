@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line891">891    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line892">892    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line893">893    </a></b>	    }
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line896">896    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line897">897    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line898">898    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line899">899    </a></b>	    }
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	    Dump_SEC(tprintf("DSAV PA"));
+<b><a name="line902">902    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line903">903    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line904">904    </a></b>	}
+<b><a name="line905">905    </a></b>	
+<b><a name="line906">906    </a></b>	static void sec_mldsa_pure_batch_sha_calculate(U32 src_addr, U32 tar_addr, U32 pad_size, U32 msg_addr, U32 msg_size)
+<b><a name="line907">907    </a></b>	{
+<b><a name="line908">908    </a></b>	    U32 remain_data_len   = 0U;
+<b><a name="line909">909    </a></b>	    U32 max_msg_addr_size = HAL_SEC_SHA3_SHAKE_256_BLOCK_LEN * 0x787; //0x3FFB8
+<b><a name="line910">910    </a></b>	    U32 sha_copy_addr     = 0U;
+<b><a name="line911">911    </a></b>	    U32 sha_copy_size     = 0U;
+<b><a name="line912">912    </a></b>	
+<b><a name="line913">913    </a></b>	    SEC_SHA_PARAMS_T  sec_sha_param;
+<b><a name="line914">914    </a></b>	
+<b><a name="line915">915    </a></b>	    // CRH(64B) + 2B + CTX length(max 255B) --> align block len (136B)
+<b><a name="line916">916    </a></b>	    sha_copy_addr = msg_addr;
+<b><a name="line917">917    </a></b>	    sha_copy_size = max_msg_addr_size - pad_size;
+<b><a name="line918">918    </a></b>	    remain_data_len = msg_size - sha_copy_size;
+<b><a name="line919">919    </a></b>	
+<b><a name="line920">920    </a></b>	    (void)memcpy((void *)(U32 *)(src_addr + pad_size), (void *)sha_copy_addr, sha_copy_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "sha_copy_addr" of type "U32" is cast to type "void *".</font>
+<b><a name="line921">921    </a></b>	    sha_copy_addr += sha_copy_size;
+<b><a name="line922">922    </a></b>	
+<b><a name="line923">923    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line924">924    </a></b>	    sec_sha_param.src_addr.low   = (U32)src_addr;
+<b><a name="line925">925    </a></b>	    sec_sha_param.src_len        = pad_size + sha_copy_size;
+<b><a name="line926">926    </a></b>	    sec_sha_param.targ_addr.low  = (U32)tar_addr;
+<b><a name="line927">927    </a></b>	    sec_sha_param.sha_mode       =  HAL_SEC_SHA3_SHAKE_256_MODE;
+<b><a name="line928">928    </a></b>	    sec_sha_param.shake_out_type = 3U;
+<b><a name="line929">929    </a></b>	    sec_sha_param.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line930">930    </a></b>	    sec_sha_param.dummy_en       = FALSE;
+<b><a name="line931">931    </a></b>	    sec_sha_param.phase          = HAL_SEC_SHA_FIRST_MODE;
+<b><a name="line932">932    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line933">933    </a></b>	
+<b><a name="line934">934    </a></b>	    while (remain_data_len > max_msg_addr_size)
+<b><a name="line935">935    </a></b>	    {
+<b><a name="line936">936    </a></b>	        (void)memcpy((void *)(U32 *)(src_addr), (void *)sha_copy_addr, max_msg_addr_size);
+<b><a name="line937">937    </a></b>	        sha_copy_addr += max_msg_addr_size;
+<b><a name="line938">938    </a></b>	
+<b><a name="line939">939    </a></b>	        memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line940">940    </a></b>	        sec_sha_param.src_addr.low   = (U32)src_addr;
+<b><a name="line941">941    </a></b>	        sec_sha_param.src_len        = max_msg_addr_size;
+<b><a name="line942">942    </a></b>	        sec_sha_param.targ_addr.low  = (U32)tar_addr;
+<b><a name="line943">943    </a></b>	        sec_sha_param.sha_mode       =  HAL_SEC_SHA3_SHAKE_256_MODE;
+<b><a name="line944">944    </a></b>	        sec_sha_param.shake_out_type = 3U;
+<b><a name="line945">945    </a></b>	        sec_sha_param.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line946">946    </a></b>	        sec_sha_param.dummy_en       = FALSE;
+<b><a name="line947">947    </a></b>	        sec_sha_param.phase          = HAL_SEC_SHA_MIDDLE_MODE;
+<b><a name="line948">948    </a></b>	        phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line949">949    </a></b>	
+<b><a name="line950">950    </a></b>	        remain_data_len -= max_msg_addr_size;
+<b><a name="line951">951    </a></b>	    }
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line254">254    </a></b>	    if ((NVME_MI_SMBUS_PORT_ID == port_id)) {
+<b><a name="line255">255    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = p_transport->smbus_i2c_freq;
+<b><a name="line256">256    </a></b>	        Dump_SMBUS(tprintf("    >>>>> GET SMBUS FREQ : %x", p_transport->smbus_i2c_freq));
+<b><a name="line257">257    </a></b>	    }
+<b><a name="line258">258    </a></b>	    else {
+<b><a name="line259">259    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_PORTID; //error byte 11, error bit 0, port id error
+<b><a name="line260">260    </a></b>	    }
+<b><a name="line261">261    </a></b>	}
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	static void nvme_mi_message_configuration_get_mctp_trans_unit_size(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U8 port_id, MCTP_TRANSPORT *p_transport)
+<b><a name="line264">264    </a></b>	{
+<b><a name="line265">265    </a></b>	    if ((NVME_MI_SMBUS_PORT_ID == port_id)) {
+<b><a name="line266">266    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = p_transport->transmission_unit;
+<b><a name="line267">267    </a></b>	        Dump_SMBUS(tprintf("    >>>>> GET MCTP Transmission Unit Size : %x", p_transport->transmission_unit));
+<b><a name="line268">268    </a></b>	    }
+<b><a name="line269">269    </a></b>	    else {
+<b><a name="line270">270    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_PORTID; //error byte 11, error bit 0, port id error
+<b><a name="line271">271    </a></b>	    }
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	static void mctp_message_handle_nvme_mi_message_read_mi_struct(NVME_MI_CMD_REQ_MSG_PTR p_nvme_mi_cmd_req_msg, NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base)
+<b><a name="line275">275    </a></b>	{
+<b><a name="line276">276    </a></b>	    U16 ctrl_id;
+<b><a name="line277">277    </a></b>	    U8 port_id;
+<b><a name="line278">278    </a></b>	    U8 dtyp;
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Read MI Struct"));
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	    port_id = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.read_nvme_mi_data_struct.portid;
+<b><a name="line283">283    </a></b>	    ctrl_id = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.read_nvme_mi_data_struct.ctrlid;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "p_nvme_mi_cmd_req_msg->mngmt_req_dw0.read_nvme_mi_data_struct.ctrlid" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 16-bit int".</font>
+<b><a name="line284">284    </a></b>	    dtyp    = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.read_nvme_mi_data_struct.dtyp;
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	    Dump_SMBUS(tprintf("    >>>>> CTRLID : %x", ctrl_id));
+<b><a name="line287">287    </a></b>	    Dump_SMBUS(tprintf("    >>>>> PORTID : %x", port_id));
+<b><a name="line288">288    </a></b>	    Dump_SMBUS(tprintf("    >>>>> DTYP   : %x", dtyp));
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    switch (dtyp) {
+<b><a name="line291">291    </a></b>	    case NVME_MI_DTYP_NVM_SUBSYS_INFO:
+<b><a name="line292">292    </a></b>	        Dump_SMBUS(tprintf("    >>>>> NVM Subsystem Information"));
+<b><a name="line293">293    </a></b>	        nvme_mi_message_read_mi_struct_nvm_subsys_info(p_nvme_mi_cmd_resp_msg, response_data_base);
+<b><a name="line294">294    </a></b>	        break;
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    case NVME_MI_DTYP_PORT_INFO:
+<b><a name="line297">297    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Port Information"));
+<b><a name="line298">298    </a></b>	        nvme_mi_message_read_mi_struct_port_info(p_nvme_mi_cmd_resp_msg, response_data_base, port_id);
+<b><a name="line299">299    </a></b>	        break;
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	    case NVME_MI_DTYP_CTRL_LIST:
+<b><a name="line302">302    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Controller List"));
+<b><a name="line303">303    </a></b>	        nvme_mi_message_read_mi_struct_controller_list(p_nvme_mi_cmd_resp_msg, response_data_base, ctrl_id);
+<b><a name="line304">304    </a></b>	        break;
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	    case NVME_MI_DTYP_CTRL_INFO:
+<b><a name="line307">307    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Controller Information"));
+<b><a name="line308">308    </a></b>	        nvme_mi_message_read_mi_struct_controller_info(p_nvme_mi_cmd_resp_msg, response_data_base, ctrl_id);
+<b><a name="line309">309    </a></b>	        break;
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	    case NVME_MI_DTYP_OPT_SUP_CMD_LIST:
+<b><a name="line312">312    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Optional Command Support List"));
+<b><a name="line313">313    </a></b>	        nvme_mi_message_read_mi_struct_optional_command_support_list(p_nvme_mi_cmd_resp_msg, response_data_base);
+<b><a name="line314">314    </a></b>	        break;
+</pre></body>
+</html>

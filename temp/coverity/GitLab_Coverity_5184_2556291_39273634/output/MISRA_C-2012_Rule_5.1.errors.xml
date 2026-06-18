@@ -1,0 +1,4464 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>741</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>678</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_hang}}}}}}</description>
+<line>906</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrm_cmd_hang}}}}}}</description>
+<line>678</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_dec_idle}}}}}}</description>
+<line>742</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_dec_idle}}}}}}</description>
+<line>679</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_hang}}}}}}</description>
+<line>908</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrm_dat_hang}}}}}}</description>
+<line>679</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrm_rsp_hang}}}}}}</description>
+<line>907</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_0_0_mrm_rsp_hang}}}}}}</description>
+<line>743</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrs_cmd_hang}}}}}}</description>
+<line>965</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_0_0_mrs_cmd_hang}}}}}}</description>
+<line>796</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrs_dat_hang}}}}}}</description>
+<line>967</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_0_0_mrs_dat_hang}}}}}}</description>
+<line>797</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>798</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>707</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_hang}}}}}}</description>
+<line>966</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_0_0_mrs_rsp_hang}}}}}}</description>
+<line>707</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_0_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>755</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>686</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_hang}}}}}}</description>
+<line>920</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrm_cmd_hang}}}}}}</description>
+<line>686</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_dec_idle}}}}}}</description>
+<line>756</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_dec_idle}}}}}}</description>
+<line>687</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_hang}}}}}}</description>
+<line>922</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrm_dat_hang}}}}}}</description>
+<line>687</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrm_rsp_hang}}}}}}</description>
+<line>921</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_0_1_mrm_rsp_hang}}}}}}</description>
+<line>757</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrs_cmd_hang}}}}}}</description>
+<line>979</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_0_1_mrs_cmd_hang}}}}}}</description>
+<line>808</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrs_dat_hang}}}}}}</description>
+<line>981</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_0_1_mrs_dat_hang}}}}}}</description>
+<line>809</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>810</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>711</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_hang}}}}}}</description>
+<line>980</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_0_1_mrs_rsp_hang}}}}}}</description>
+<line>711</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_0_1_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>744</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>680</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_hang}}}}}}</description>
+<line>909</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrm_cmd_hang}}}}}}</description>
+<line>680</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_dec_idle}}}}}}</description>
+<line>745</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_dec_idle}}}}}}</description>
+<line>681</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_hang}}}}}}</description>
+<line>911</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrm_dat_hang}}}}}}</description>
+<line>681</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrm_rsp_hang}}}}}}</description>
+<line>910</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_1_0_mrm_rsp_hang}}}}}}</description>
+<line>746</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrs_cmd_hang}}}}}}</description>
+<line>968</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_1_0_mrs_cmd_hang}}}}}}</description>
+<line>799</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrs_dat_hang}}}}}}</description>
+<line>970</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_1_0_mrs_dat_hang}}}}}}</description>
+<line>800</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>801</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>708</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_hang}}}}}}</description>
+<line>969</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_1_0_mrs_rsp_hang}}}}}}</description>
+<line>708</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_0_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>758</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>688</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_hang}}}}}}</description>
+<line>923</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrm_cmd_hang}}}}}}</description>
+<line>688</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_dec_idle}}}}}}</description>
+<line>759</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_dec_idle}}}}}}</description>
+<line>689</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_hang}}}}}}</description>
+<line>925</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrm_dat_hang}}}}}}</description>
+<line>689</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrm_rsp_hang}}}}}}</description>
+<line>924</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_1_1_mrm_rsp_hang}}}}}}</description>
+<line>760</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrs_cmd_hang}}}}}}</description>
+<line>982</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_1_1_mrs_cmd_hang}}}}}}</description>
+<line>811</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrs_dat_hang}}}}}}</description>
+<line>984</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_1_1_mrs_dat_hang}}}}}}</description>
+<line>812</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>813</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>712</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_hang}}}}}}</description>
+<line>983</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_1_1_mrs_rsp_hang}}}}}}</description>
+<line>712</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_1_1_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>747</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>682</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_hang}}}}}}</description>
+<line>912</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrm_cmd_hang}}}}}}</description>
+<line>682</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_dec_idle}}}}}}</description>
+<line>748</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_dec_idle}}}}}}</description>
+<line>683</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_hang}}}}}}</description>
+<line>914</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrm_dat_hang}}}}}}</description>
+<line>683</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrm_rsp_hang}}}}}}</description>
+<line>913</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_2_0_mrm_rsp_hang}}}}}}</description>
+<line>749</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrs_cmd_hang}}}}}}</description>
+<line>973</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_2_0_mrs_cmd_hang}}}}}}</description>
+<line>802</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrs_dat_hang}}}}}}</description>
+<line>975</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_2_0_mrs_dat_hang}}}}}}</description>
+<line>803</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>804</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>709</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_hang}}}}}}</description>
+<line>974</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_2_0_mrs_rsp_hang}}}}}}</description>
+<line>709</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_0_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>761</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>690</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_hang}}}}}}</description>
+<line>926</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrm_cmd_hang}}}}}}</description>
+<line>690</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_dec_idle}}}}}}</description>
+<line>762</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_dec_idle}}}}}}</description>
+<line>691</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_hang}}}}}}</description>
+<line>928</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrm_dat_hang}}}}}}</description>
+<line>691</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrm_rsp_hang}}}}}}</description>
+<line>927</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_2_1_mrm_rsp_hang}}}}}}</description>
+<line>763</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrs_cmd_hang}}}}}}</description>
+<line>987</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_2_1_mrs_cmd_hang}}}}}}</description>
+<line>814</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrs_dat_hang}}}}}}</description>
+<line>989</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_2_1_mrs_dat_hang}}}}}}</description>
+<line>815</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>816</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>713</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_hang}}}}}}</description>
+<line>988</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_2_1_mrs_rsp_hang}}}}}}</description>
+<line>713</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_2_1_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>750</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>684</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_hang}}}}}}</description>
+<line>917</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrm_cmd_hang}}}}}}</description>
+<line>684</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_dec_idle}}}}}}</description>
+<line>751</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_dec_idle}}}}}}</description>
+<line>685</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_hang}}}}}}</description>
+<line>919</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrm_dat_hang}}}}}}</description>
+<line>685</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrm_rsp_hang}}}}}}</description>
+<line>918</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_3_0_mrm_rsp_hang}}}}}}</description>
+<line>754</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrs_cmd_hang}}}}}}</description>
+<line>976</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_3_0_mrs_cmd_hang}}}}}}</description>
+<line>805</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrs_dat_hang}}}}}}</description>
+<line>978</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_3_0_mrs_dat_hang}}}}}}</description>
+<line>806</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>807</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>710</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_hang}}}}}}</description>
+<line>977</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_3_0_mrs_rsp_hang}}}}}}</description>
+<line>710</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_0_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>764</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>692</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_hang}}}}}}</description>
+<line>931</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrm_cmd_hang}}}}}}</description>
+<line>692</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrm_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_dec_idle}}}}}}</description>
+<line>765</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_dec_idle}}}}}}</description>
+<line>693</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_hang}}}}}}</description>
+<line>933</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrm_dat_hang}}}}}}</description>
+<line>693</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrm_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrm_rsp_hang}}}}}}</description>
+<line>932</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrm_rsp_arb_idle}}}{{code{dal_mr_api_get_cop0_3_1_mrm_rsp_hang}}}}}}</description>
+<line>766</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrm_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrs_cmd_hang}}}}}}</description>
+<line>990</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_cop0_3_1_mrs_cmd_hang}}}}}}</description>
+<line>819</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrs_dat_hang}}}}}}</description>
+<line>992</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_cop0_3_1_mrs_dat_hang}}}}}}</description>
+<line>820</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>821</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>714</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_hang}}}}}}</description>
+<line>991</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop0_3_1_mrs_rsp_hang}}}}}}</description>
+<line>714</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop0_3_1_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop1_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>720</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop1_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop1_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>664</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop1_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop1_0_mrm_dat_dec_idle}}}}}}</description>
+<line>721</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop1_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop1_0_mrm_dat_dec_idle}}}}}}</description>
+<line>665</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop1_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop1_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>775</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop1_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop1_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>700</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop1_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop2_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>738</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop2_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cop2_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>676</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop2_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop2_0_mrm_dat_dec_idle}}}}}}</description>
+<line>739</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop2_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cop2_0_mrm_dat_dec_idle}}}}}}</description>
+<line>677</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop2_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cop2_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>795</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cop2_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cop2_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>706</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cop2_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>723</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cpu0_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>666</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_0_mrm_dat_dec_idle}}}}}}</description>
+<line>724</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cpu0_0_mrm_dat_dec_idle}}}}}}</description>
+<line>667</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>778</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cpu0_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>701</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>726</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cpu0_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>668</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_1_mrm_dat_dec_idle}}}}}}</description>
+<line>727</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cpu0_1_mrm_dat_dec_idle}}}}}}</description>
+<line>669</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>781</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cpu0_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>702</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_2_mrm_cmd_dec_idle}}}}}}</description>
+<line>729</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_2_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_cpu0_2_mrm_cmd_dec_idle}}}}}}</description>
+<line>670</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_2_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_2_mrm_dat_dec_idle}}}}}}</description>
+<line>730</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_2_mrm_dat_dc_err}}}{{code{dal_mr_api_get_cpu0_2_mrm_dat_dec_idle}}}}}}</description>
+<line>671</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_2_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_cpu0_2_mrs_rsp_dec_idle}}}}}}</description>
+<line>786</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_cpu0_2_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_cpu0_2_mrs_rsp_dec_idle}}}}}}</description>
+<line>703</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_cpu0_2_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_0_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1254</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_0_0_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_0_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1202</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_0_0_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_0_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1281</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_0_0_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_0_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1229</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_0_0_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_0_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1260</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_0_1_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_0_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1208</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_0_1_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_0_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1287</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_0_1_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_0_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1235</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_0_1_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_1_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1257</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_1_0_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_1_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1205</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_1_0_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_1_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1282</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_1_0_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_1_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1230</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_1_0_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_1_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1263</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_1_1_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_1_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1211</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_1_1_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_1_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1288</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_1_1_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_1_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1236</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_1_1_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_2_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1258</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_2_0_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_2_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1206</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_2_0_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_2_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1283</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_2_0_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_2_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1231</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_2_0_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_2_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1264</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_2_1_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_2_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1212</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_2_1_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_2_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1289</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_2_1_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_2_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1237</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_2_1_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_3_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1259</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_3_0_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_3_0_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1207</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_3_0_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_3_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1286</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_3_0_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_3_0_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1234</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_3_0_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_3_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1265</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_3_1_mrm_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_3_1_mrm_rsp_dat_cnt}}}}}}</description>
+<line>1213</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_3_1_mrm_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_db_cop0_3_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1292</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_db_cop0_3_1_mrs_cmd_rsp_cnt}}}{{code{dal_mr_api_get_db_cop0_3_1_mrs_rsp_dat_cnt}}}}}}</description>
+<line>1240</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_db_cop0_3_1_mrs_rsp_dat_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_hdma_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>770</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_hdma_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_hdma_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>698</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_hdma_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_hdma_0_mrm_dat_dec_idle}}}}}}</description>
+<line>771</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_hdma_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_hdma_0_mrm_dat_dec_idle}}}}}}</description>
+<line>699</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_hdma_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_hdma_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>827</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_hdma_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_hdma_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>716</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_hdma_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_cnt_1}}}}}}</description>
+<line>264</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_cnt_0}}}{{code{dal_mr_api_get_log_clr_buf_cnt_1}}}}}}</description>
+<line>262</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_cnt_2}}}}}}</description>
+<line>266</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_cnt_0}}}{{code{dal_mr_api_get_log_clr_buf_cnt_2}}}}}}</description>
+<line>262</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_full_1}}}}}}</description>
+<line>250</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_full_0}}}{{code{dal_mr_api_get_log_clr_buf_full_1}}}}}}</description>
+<line>248</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_full_2}}}}}}</description>
+<line>252</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_full_0}}}{{code{dal_mr_api_get_log_clr_buf_full_2}}}}}}</description>
+<line>248</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_int_1}}}}}}</description>
+<line>256</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_int_0}}}{{code{dal_mr_api_get_log_clr_buf_int_1}}}}}}</description>
+<line>254</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_clr_buf_int_2}}}}}}</description>
+<line>258</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_clr_buf_int_0}}}{{code{dal_mr_api_get_log_clr_buf_int_2}}}}}}</description>
+<line>254</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_log_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_rstore_buf_cnt_1}}}}}}</description>
+<line>508</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_log_rstore_buf_cnt_1}}}}}}</description>
+<line>504</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_log_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_log_rstore_buf_cnt_2}}}}}}</description>
+<line>512</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_log_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_log_rstore_buf_cnt_2}}}}}}</description>
+<line>504</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_log_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_cnt_1}}}}}}</description>
+<line>154</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_cnt_0}}}{{code{dal_mr_api_get_mon_clr_buf_cnt_1}}}}}}</description>
+<line>152</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_cnt_2}}}}}}</description>
+<line>156</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_cnt_0}}}{{code{dal_mr_api_get_mon_clr_buf_cnt_2}}}}}}</description>
+<line>152</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_full_1}}}}}}</description>
+<line>140</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_full_0}}}{{code{dal_mr_api_get_mon_clr_buf_full_1}}}}}}</description>
+<line>138</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_full_2}}}}}}</description>
+<line>142</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_full_0}}}{{code{dal_mr_api_get_mon_clr_buf_full_2}}}}}}</description>
+<line>138</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_int_1}}}}}}</description>
+<line>146</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_int_0}}}{{code{dal_mr_api_get_mon_clr_buf_int_1}}}}}}</description>
+<line>144</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_clr_buf_int_2}}}}}}</description>
+<line>148</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_clr_buf_int_0}}}{{code{dal_mr_api_get_mon_clr_buf_int_2}}}}}}</description>
+<line>144</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_mon_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_rstore_buf_cnt_1}}}}}}</description>
+<line>496</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_mon_rstore_buf_cnt_1}}}}}}</description>
+<line>492</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_mon_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_mon_rstore_buf_cnt_2}}}}}}</description>
+<line>500</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_mon_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_mon_rstore_buf_cnt_2}}}}}}</description>
+<line>492</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_mon_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_cnt_1}}}}}}</description>
+<line>374</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_cnt_0}}}{{code{dal_mr_api_get_nvm_clr_buf_cnt_1}}}}}}</description>
+<line>372</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_cnt_2}}}}}}</description>
+<line>376</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_cnt_0}}}{{code{dal_mr_api_get_nvm_clr_buf_cnt_2}}}}}}</description>
+<line>372</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_full_1}}}}}}</description>
+<line>360</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_full_0}}}{{code{dal_mr_api_get_nvm_clr_buf_full_1}}}}}}</description>
+<line>358</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_full_2}}}}}}</description>
+<line>362</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_full_0}}}{{code{dal_mr_api_get_nvm_clr_buf_full_2}}}}}}</description>
+<line>358</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_int_1}}}}}}</description>
+<line>366</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_int_0}}}{{code{dal_mr_api_get_nvm_clr_buf_int_1}}}}}}</description>
+<line>364</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_clr_buf_int_2}}}}}}</description>
+<line>368</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_clr_buf_int_0}}}{{code{dal_mr_api_get_nvm_clr_buf_int_2}}}}}}</description>
+<line>364</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvm_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_1}}}}}}</description>
+<line>520</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_1}}}}}}</description>
+<line>516</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_nvm_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_2}}}}}}</description>
+<line>524</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_0}}}{{code{dal_mr_api_get_nvm_rstore_buf_cnt_2}}}}}}</description>
+<line>516</line>
+<column>5</column>
+</event>
+<extra>dal_mr_api_get_nvm_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>732</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_0_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_nvme_0_mrm_cmd_dec_idle}}}}}}</description>
+<line>672</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_0_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_0_mrm_dat_dec_idle}}}}}}</description>
+<line>733</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_0_mrm_dat_dc_err}}}{{code{dal_mr_api_get_nvme_0_mrm_dat_dec_idle}}}}}}</description>
+<line>673</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_0_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>789</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_0_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_nvme_0_mrs_rsp_dec_idle}}}}}}</description>
+<line>704</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_0_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>735</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_1_mrm_cmd_dc_err}}}{{code{dal_mr_api_get_nvme_1_mrm_cmd_dec_idle}}}}}}</description>
+<line>674</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_1_mrm_cmd_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_1_mrm_dat_dec_idle}}}}}}</description>
+<line>736</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_1_mrm_dat_dc_err}}}{{code{dal_mr_api_get_nvme_1_mrm_dat_dec_idle}}}}}}</description>
+<line>675</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_1_mrm_dat_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_nvme_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>792</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_nvme_1_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_nvme_1_mrs_rsp_dec_idle}}}}}}</description>
+<line>705</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_nvme_1_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_qinfo01_sq_cq_pty_insr}}}}}}</description>
+<line>1297</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_qinfo01_sq_cq_pty_clr}}}{{code{dal_mr_api_get_qinfo01_sq_cq_pty_insr}}}}}}</description>
+<line>1300</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_qinfo01_sq_cq_pty_insr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_qinfo2_sq_cq_pty_insr}}}}}}</description>
+<line>1302</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_qinfo2_sq_cq_pty_clr}}}{{code{dal_mr_api_get_qinfo2_sq_cq_pty_insr}}}}}}</description>
+<line>1305</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_qinfo2_sq_cq_pty_insr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_sqz_n25_mrs_cmd_hang}}}}}}</description>
+<line>993</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_sqz_n25_mrs_cmd_arb_idle}}}{{code{dal_mr_api_get_sqz_n25_mrs_cmd_hang}}}}}}</description>
+<line>822</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_sqz_n25_mrs_cmd_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_sqz_n25_mrs_dat_hang}}}}}}</description>
+<line>995</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_sqz_n25_mrs_dat_arb_idle}}}{{code{dal_mr_api_get_sqz_n25_mrs_dat_hang}}}}}}</description>
+<line>823</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_sqz_n25_mrs_dat_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_dec_idle}}}}}}</description>
+<line>824</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_dec_idle}}}}}}</description>
+<line>715</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_sqz_n25_mrs_rsp_dec_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_hang}}}}}}</description>
+<line>994</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_dc_err}}}{{code{dal_mr_api_get_sqz_n25_mrs_rsp_hang}}}}}}</description>
+<line>715</line>
+<column>4</column>
+</event>
+<extra>dal_mr_api_get_sqz_n25_mrs_rsp_hang</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_cnt_1}}}}}}</description>
+<line>265</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_cnt_0}}}{{code{dal_mr_api_set_log_clr_buf_cnt_1}}}}}}</description>
+<line>263</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_cnt_2}}}}}}</description>
+<line>267</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_cnt_0}}}{{code{dal_mr_api_set_log_clr_buf_cnt_2}}}}}}</description>
+<line>263</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_full_1}}}}}}</description>
+<line>251</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_full_0}}}{{code{dal_mr_api_set_log_clr_buf_full_1}}}}}}</description>
+<line>249</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_full_2}}}}}}</description>
+<line>253</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_full_0}}}{{code{dal_mr_api_set_log_clr_buf_full_2}}}}}}</description>
+<line>249</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_int_1}}}}}}</description>
+<line>257</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_int_0}}}{{code{dal_mr_api_set_log_clr_buf_int_1}}}}}}</description>
+<line>255</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_clr_buf_int_2}}}}}}</description>
+<line>259</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_clr_buf_int_0}}}{{code{dal_mr_api_set_log_clr_buf_int_2}}}}}}</description>
+<line>255</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_rstore_buf_cnt_1}}}}}}</description>
+<line>509</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_log_rstore_buf_cnt_1}}}}}}</description>
+<line>505</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_log_rstore_buf_cnt_2}}}}}}</description>
+<line>513</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_log_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_log_rstore_buf_cnt_2}}}}}}</description>
+<line>505</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_log_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_cnt_1}}}}}}</description>
+<line>155</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_cnt_0}}}{{code{dal_mr_api_set_mon_clr_buf_cnt_1}}}}}}</description>
+<line>153</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_cnt_2}}}}}}</description>
+<line>157</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_cnt_0}}}{{code{dal_mr_api_set_mon_clr_buf_cnt_2}}}}}}</description>
+<line>153</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_full_1}}}}}}</description>
+<line>141</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_full_0}}}{{code{dal_mr_api_set_mon_clr_buf_full_1}}}}}}</description>
+<line>139</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_full_2}}}}}}</description>
+<line>143</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_full_0}}}{{code{dal_mr_api_set_mon_clr_buf_full_2}}}}}}</description>
+<line>139</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_int_1}}}}}}</description>
+<line>147</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_int_0}}}{{code{dal_mr_api_set_mon_clr_buf_int_1}}}}}}</description>
+<line>145</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_clr_buf_int_2}}}}}}</description>
+<line>149</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_clr_buf_int_0}}}{{code{dal_mr_api_set_mon_clr_buf_int_2}}}}}}</description>
+<line>145</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_rstore_buf_cnt_1}}}}}}</description>
+<line>497</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_mon_rstore_buf_cnt_1}}}}}}</description>
+<line>493</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_mon_rstore_buf_cnt_2}}}}}}</description>
+<line>501</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_mon_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_mon_rstore_buf_cnt_2}}}}}}</description>
+<line>493</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_mon_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_cnt_1}}}}}}</description>
+<line>375</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_cnt_0}}}{{code{dal_mr_api_set_nvm_clr_buf_cnt_1}}}}}}</description>
+<line>373</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_cnt_2}}}}}}</description>
+<line>377</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_cnt_0}}}{{code{dal_mr_api_set_nvm_clr_buf_cnt_2}}}}}}</description>
+<line>373</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_full_1}}}}}}</description>
+<line>361</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_full_0}}}{{code{dal_mr_api_set_nvm_clr_buf_full_1}}}}}}</description>
+<line>359</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_full_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_full_2}}}}}}</description>
+<line>363</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_full_0}}}{{code{dal_mr_api_set_nvm_clr_buf_full_2}}}}}}</description>
+<line>359</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_full_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_int_1}}}}}}</description>
+<line>367</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_int_0}}}{{code{dal_mr_api_set_nvm_clr_buf_int_1}}}}}}</description>
+<line>365</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_int_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_clr_buf_int_2}}}}}}</description>
+<line>369</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_clr_buf_int_0}}}{{code{dal_mr_api_set_nvm_clr_buf_int_2}}}}}}</description>
+<line>365</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_clr_buf_int_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_1}}}}}}</description>
+<line>521</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_1}}}}}}</description>
+<line>517</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_rstore_buf_cnt_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_2}}}}}}</description>
+<line>525</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_0}}}{{code{dal_mr_api_set_nvm_rstore_buf_cnt_2}}}}}}</description>
+<line>517</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_nvm_rstore_buf_cnt_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_qinfo01_sq_cq_pty_insr}}}}}}</description>
+<line>1298</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_qinfo01_sq_cq_pty_clr}}}{{code{dal_mr_api_set_qinfo01_sq_cq_pty_insr}}}}}}</description>
+<line>1301</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_qinfo01_sq_cq_pty_insr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_mr_api_set_qinfo2_sq_cq_pty_insr}}}}}}</description>
+<line>1303</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_mr_api_set_qinfo2_sq_cq_pty_clr}}}{{code{dal_mr_api_set_qinfo2_sq_cq_pty_insr}}}}}}</description>
+<line>1306</line>
+<column>6</column>
+</event>
+<extra>dal_mr_api_set_qinfo2_sq_cq_pty_insr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_fip_set_io_driving_iolh_ltt_up}}}}}}</description>
+<line>1968</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_fip_set_io_driving_iolh_ltt_dn}}}{{code{dal_fip_set_io_driving_iolh_ltt_up}}}}}}</description>
+<line>1978</line>
+<column>6</column>
+</event>
+<extra>dal_fip_set_io_driving_iolh_ltt_up</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_cmgr_get_ct_cmd_prinfo_err_cv}}}}}}</description>
+<line>4117</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_cmgr_get_ct_cmd_prinfo_err_copy}}}{{code{dal_cmgr_get_ct_cmd_prinfo_err_cv}}}}}}</description>
+<line>4127</line>
+<column>4</column>
+</event>
+<extra>dal_cmgr_get_ct_cmd_prinfo_err_cv</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_cmgr_get_ct_cmd_prinfo_err_wzc}}}}}}</description>
+<line>4122</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_cmgr_get_ct_cmd_prinfo_err_copy}}}{{code{dal_cmgr_get_ct_cmd_prinfo_err_wzc}}}}}}</description>
+<line>4127</line>
+<column>4</column>
+</event>
+<extra>dal_cmgr_get_ct_cmd_prinfo_err_wzc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{dal_cmgr_get_ct_md_sgl_len_err_short}}}}}}</description>
+<line>4297</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{dal_cmgr_get_ct_md_sgl_len_err_long}}}{{code{dal_cmgr_get_ct_md_sgl_len_err_short}}}}}}</description>
+<line>4302</line>
+<column>4</column>
+</event>
+<extra>dal_cmgr_get_ct_md_sgl_len_err_short</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{hal_sec_sha3_shake_sqz_blocking_old}}}}}}</description>
+<line>865</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{hal_sec_sha3_shake_sqz_blocking}}}{{code{hal_sec_sha3_shake_sqz_blocking_old}}}}}}</description>
+<line>758</line>
+<column>4</column>
+</event>
+<extra>hal_sec_sha3_shake_sqz_blocking_old</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{bootcode_hal_uart_api_get_rx_fifo_not_empty_en}}}}}}</description>
+<line>53</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{bootcode_hal_uart_api_get_rx_fifo_empty}}}{{code{bootcode_hal_uart_api_get_rx_fifo_not_empty_en}}}}}}</description>
+<line>68</line>
+<column>4</column>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_fifo_not_empty_en</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{bootcode_hal_uart_api_get_rx_fifo_not_empty_sts}}}}}}</description>
+<line>58</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{bootcode_hal_uart_api_get_rx_fifo_empty}}}{{code{bootcode_hal_uart_api_get_rx_fifo_not_empty_sts}}}}}}</description>
+<line>68</line>
+<column>4</column>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_fifo_not_empty_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{bootcode_hal_uart_api_get_rx_frame_err_sts}}}}}}</description>
+<line>43</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{bootcode_hal_uart_api_get_rx_frame_err_en}}}{{code{bootcode_hal_uart_api_get_rx_frame_err_sts}}}}}}</description>
+<line>38</line>
+<column>4</column>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_frame_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{bootcode_hal_uart_api_get_rx_over_flow_err_sts}}}}}}</description>
+<line>13</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{bootcode_hal_uart_api_get_rx_over_flow_err_en}}}{{code{bootcode_hal_uart_api_get_rx_over_flow_err_sts}}}}}}</description>
+<line>8</line>
+<column>4</column>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_over_flow_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{bootcode_hal_uart_api_get_rx_parity_err_sts}}}}}}</description>
+<line>28</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{bootcode_hal_uart_api_get_rx_parity_err_en}}}{{code{bootcode_hal_uart_api_get_rx_parity_err_sts}}}}}}</description>
+<line>23</line>
+<column>4</column>
+</event>
+<extra>bootcode_hal_uart_api_get_rx_parity_err_sts</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_handle_mctp_control_response}}}}}}</description>
+<line>343</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_handle_mctp_control}}}{{code{mctp_message_handle_mctp_control_response}}}}}}</description>
+<line>239</line>
+<column>5</column>
+</event>
+<extra>mctp_message_handle_mctp_control_response</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_handle_nvme_mi_message_response}}}}}}</description>
+<line>859</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_handle_nvme_mi_message}}}{{code{mctp_message_handle_nvme_mi_message_response}}}}}}</description>
+<line>781</line>
+<column>5</column>
+</event>
+<extra>mctp_message_handle_nvme_mi_message_response</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_check_timeup}}}}}}</description>
+<line>179</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_check_timeout}}}{{code{mctp_message_transmit_handler_check_timeup}}}}}}</description>
+<line>149</line>
+<column>5</column>
+</event>
+<extra>mctp_message_transmit_handler_check_timeup</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_find_idle}}}}}}</description>
+<line>248</line>
+<column>32</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_find_existing}}}{{code{mctp_message_transmit_handler_find_idle}}}}}}</description>
+<line>206</line>
+<column>32</column>
+</event>
+<extra>mctp_message_transmit_handler_find_idle</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_find_send}}}}}}</description>
+<line>230</line>
+<column>32</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_find_existing}}}{{code{mctp_message_transmit_handler_find_send}}}}}}</description>
+<line>206</line>
+<column>32</column>
+</event>
+<extra>mctp_message_transmit_handler_find_send</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_find_timeout}}}}}}</description>
+<line>265</line>
+<column>32</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_find_existing}}}{{code{mctp_message_transmit_handler_find_timeout}}}}}}</description>
+<line>206</line>
+<column>32</column>
+</event>
+<extra>mctp_message_transmit_handler_find_timeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_find_timeup}}}}}}</description>
+<line>293</line>
+<column>32</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_find_existing}}}{{code{mctp_message_transmit_handler_find_timeup}}}}}}</description>
+<line>206</line>
+<column>32</column>
+</event>
+<extra>mctp_message_transmit_handler_find_timeup</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.1</checker>
+<type>MISRA_C_2012_Rule_5.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_1_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is ambiguous.}{{code{mctp_message_transmit_handler_reset}}}}}}</description>
+<line>22</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{The first {0} characters of identifiers {1} and {2} are identical.}{31}{{code{mctp_message_transmit_handler_receive_assign}}}{{code{mctp_message_transmit_handler_reset}}}}}}</description>
+<line>67</line>
+<column>6</column>
+</event>
+<extra>mctp_message_transmit_handler_reset</extra>
+<subcategory>none</subcategory>
+</error>

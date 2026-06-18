@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line241">241    </a></b>	    {
+<b><a name="line242">242    </a></b>	        SPI_LOG_DESC* pt_data = (SPI_LOG_DESC*)dbuf_temp_addr;
+<b><a name="line243">243    </a></b>	        (void)memset((void *)pt_data, (S32)0, sizeof(SPI_LOG_DESC));
+<b><a name="line244">244    </a></b>	        pt_data->header.mark = bdbg_mark;
+<b><a name="line245">245    </a></b>	        pt_data->header.version = ver_num;
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	        (void)memcpy((void *)pt_data->assert_code, (void *)LOG_ERROR_BASE, sizeof(pt_data->assert_code));
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	        pt_data->sim_ctrl_reg0 = hal_sim_info_0_get();
+<b><a name="line250">250    </a></b>	        pt_data->sim_ctrl_reg1 = hal_sim_info_1_get();
+<b><a name="line251">251    </a></b>	        pt_data->sim_ctrl_reg2 = hal_sim_info_2_get();
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	        (void)memcpy((void *)(pt_data->dbuf_misc), (void *)DBUF_API_BOOTCODE_MISC_BASE, sizeof(pt_data->dbuf_misc));
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	        if (PASS == phal_spi_check_valid())
+<b><a name="line256">256    </a></b>	        {
+<b><a name="line257">257    </a></b>	            phal_spi_write_buffer(spi_addr[spi_write_flag], (U32)pt_data, sizeof(SPI_LOG_DESC));
+<b><a name="line258">258    </a></b>	        }
+<b><a name="line259">259    </a></b>	    }
+<b><a name="line260">260    </a></b>	    sal_log_tracker_set(sal_locate(0x32, TYPE_STEP));
+<b><a name="line261">261    </a></b>	}
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	U32 program_loader_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line264">264    </a></b>	{
+<b><a name="line265">265    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line266">266    </a></b>	    U32 reset_status;
+<b><a name="line267">267    </a></b>	    U32 fpl_status;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "270" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line271">271    </a></b>	    sal_log_info_char('N'); //Start of Load Code flow
+<b><a name="line272">272    </a></b>	    //TODO change how efuse is used, parse it first into load code status and use that
+<b><a name="line273">273    </a></b>	    //TODO check the efuse structure pointers, all must be valid to load code
+<b><a name="line274">274    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line275">275    </a></b>	    create_load_code_status(p_load_code_status, (ID_TABLE *)(DBUF_API_BOOTCODE_ID_TABLE_BASE), (CODE_POINTER *)(DBUF_API_BOOTCODE_CODE_POINTER_BASE), (PROJECT_BINARY_HEADER *)(DBUF_API_BOOTCODE_DATA_BUFFER_BASE), bc_ptr->p_efuse_nand_setting);
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    //TODO refine this, add recording status for all states
+<b><a name="line278">278    </a></b>	    if ((TRUE == bc_ptr->parameter_config.force_boot_flag) &&
+<b><a name="line279">279    </a></b>	        (0 == gpFwSimCtrl0Reg->disable_hw_force_boot) &&
+<b><a name="line280">280    </a></b>	        ((0 == bc_ptr->p_efuse_security_setting->debug_prohibit_enable) || (0 == gBCodeGlobalStruct.production_mode))) {
+<b><a name="line281">281    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line282">282    </a></b>	        //Hardware Force Boot Code and is not prohibited by Debug Prohibit Enable in eFuse
+<b><a name="line283">283    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE); //Part of 'N', Hardware Force Boot Code, '2'
+<b><a name="line284">284    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE;
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	        return LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE;
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	    else if (gpFwSimCtrl0Reg->no_load_code) {
+<b><a name="line289">289    </a></b>	        sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><a name="line290">290    </a></b>	        //Software Force Boot Code
+<b><a name="line291">291    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE); //Part of 'N', Software Force Boot Code, '3'
+<b><a name="line292">292    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE;
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	        return LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE;
+<b><a name="line295">295    </a></b>	    }
+<b><a name="line296">296    </a></b>	    else {
+<b><a name="line297">297    </a></b>	        sal_log_tracker_set(sal_locate(0x03, TYPE_RSV6));
+<b><a name="line298">298    </a></b>	        //Normal Load Code
+<b><a name="line299">299    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_NORMAL_LOAD_CODE); //Part of 'N', Normal Load Code, '4'
+<b><a name="line300">300    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_NORMAL_LOAD_CODE;
+<b><a name="line301">301    </a></b>	
+</pre></body>
+</html>

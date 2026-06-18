@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line327">327    </a></b>	    else
+<b><a name="line328">328    </a></b>	    {
+<b><a name="line329">329    </a></b>	        COP2_DMAC_CMD_STRUCT dmac_cmd;
+<b><a name="line330">330    </a></b>	        (void)memset((void *)(&dmac_cmd), 0, sizeof(COP2_DMAC_CMD_STRUCT));
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	        phal_cop2_set_mr_hdr(&dmac_cmd.mr_hdr, mr_tid, HAL_MR_HDR_LEN_OF(COP2_DMAC_SV_SQ_CMD));
+<b><a name="line333">333    </a></b>	        phal_cop2_dmac_fill_sv_cmd(&dmac_cmd, entry_size, rdn_en, cq_en, dependence, data_size, tar_addr, rdn_seed, value);
+<b><a name="line334">334    </a></b>	        phal_cop2_dmac_push_cmd(&dmac_cmd, tag, db_id);
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	    return (U8)PASS;
+<b><a name="line338">338    </a></b>	}
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	U8 phal_dmac_sv(U64 tar_addr, U32 value, U32 data_size, U32 rdn_seed, U8 rdn_en)
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	    COP2_DMAC_CQ cq;
+<b><a name="line344">344    </a></b>	    U32 set_value = value;
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    if ((U8)FAIL == phal_cop2_dmac_push_sv_sq(0, HAL_COP2_MR_TID_DMAC_L, tar_addr, &set_value, data_size, ENTRY_SIZE_4B, rdn_seed, rdn_en, TRUE, FALSE))
+<b><a name="line347">347    </a></b>	    {
+<b><a name="line348">348    </a></b>	        return (U8)FAIL;
+<b><a name="line349">349    </a></b>	    }
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	    U8 timeout = 0U;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    timeout |= phal_cop2_dmac_pop_cq(&cq);
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    if (timeout & HAL_COP2_CHECK_QUE_EMPTY_TIMEOUT)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "timeout & 1UL" does not have an essentially boolean type.</font>
+<b><a name="line357">357    </a></b>	    {
+<b><a name="line358">358    </a></b>	        return (U8)FAIL;
+<b><a name="line359">359    </a></b>	    }
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    ASSERT(0,cq.sv.fail == 0);
+<b><a name="line362">362    </a></b>	
+<b><a name="line363">363    </a></b>	    return (U8)PASS;
+<b><a name="line364">364    </a></b>	}
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	// -----------------------------------------------------------------------
+<b><a name="line368">368    </a></b>	// @ip       COP2
+<b><a name="line369">369    </a></b>	// @category DMAC MOVE
+<b><a name="line370">370    </a></b>	// @brief    cop2_dmac_unit_test_cmp_1
+<b><a name="line371">371    </a></b>	// @desc     Test DMAC CMP
+<b><a name="line372">372    </a></b>	// @desc     Memory coverage: DBUF
+<b><a name="line373">373    </a></b>	// @author   ch_tsai
+<b><a name="line374">374    </a></b>	// @status   pass
+<b><a name="line375">375    </a></b>	// @FW_ver   f1c00c1dd5c04d23a32c241fc1c957fae1f4ebeb
+<b><a name="line376">376    </a></b>	// @bitfile  HAPS_20241223_v0_r12422_COP4_SEC_auto
+<b><a name="line377">377    </a></b>	// -----------------------------------------------------------------------
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	#if 0
+<b><a name="line380">380    </a></b>	void cop2_dmac_unit_test_cmp_1(void)
+<b><a name="line381">381    </a></b>	{
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	    U32 data_size;
+<b><a name="line384">384    </a></b>	    U32 tmp_buffer;
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	    volatile U64 src0_buf_adr;
+<b><a name="line387">387    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_clkrst_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line822">822    </a></b>	
+<b><a name="line823">823    </a></b>	void hal_fphy_enable(U32 delay_time, U8 ftrack_en)
+<b><a name="line824">824    </a></b>	{
+<b><a name="line825">825    </a></b>	    // step1
+<b><a name="line826">826    </a></b>	    //run fphy_osc_enable
+<b><a name="line827">827    </a></b>	    // step2
+<b><a name="line828">828    </a></b>	    MABIAO_IDLE_US(2);    // step3(release FIP preset flow)
+<b><a name="line829">829    </a></b>	
+<b><a name="line830">830    </a></b>	    // step4
+<b><a name="line831">831    </a></b>	    MABIAO_IDLE_US(2);    // step5
+<b><a name="line832">832    </a></b>	    w_CR_FPHYA_RSTB_TX_CLK(1U);
+<b><a name="line833">833    </a></b>	    w_CR_FPHYA_RSTB_READ_CLK(1U);
+<b><a name="line834">834    </a></b>	    w_CR_FPHYA_EN_CLK_WRITE(1U);
+<b><a name="line835">835    </a></b>	    w_CR_FPHYA_EN_CLK_READ(1U);
+<b><a name="line836">836    </a></b>	    // step6
+<b><a name="line837">837    </a></b>	    MABIAO_IDLE_US(2);
+<b><a name="line838">838    </a></b>	    // step7
+<b><a name="line839">839    </a></b>	    if (ftrack_en == BOOT_DIS_FTRACK)
+<b><a name="line840">840    </a></b>	    {
+<b><a name="line841">841    </a></b>	        w_CR_EN_FOSC_FTRACK_FPHY(0U);
+<b><a name="line842">842    </a></b>	    } else {
+<b><a name="line843">843    </a></b>	        w_CR_RSTB_FOSC_PTRACK_FPHY(1U);
+<b><a name="line844">844    </a></b>	        __nop(); //delay 10ns
+<b><a name="line845">845    </a></b>	        __nop();
+<b><a name="line846">846    </a></b>	        __nop();
+<b><a name="line847">847    </a></b>	        __nop();
+<b><a name="line848">848    </a></b>	        __nop();
+<b><a name="line849">849    </a></b>	        w_CR_EN_FOSC_FTRACK_FPHY(1U);
+<b><a name="line850">850    </a></b>	
+<b><a name="line851">851    </a></b>	        U32 mabiao_addr = MABIAO_SET_US(MABIAO_FPHY_OSC, delay_time);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xffffffffff533530 | 0" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line852">852    </a></b>	        while((U8)FALSE == MABIAO_CHK(mabiao_addr)){
+<b><a name="line853">853    </a></b>	            if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_0()) {
+<b><a name="line854">854    </a></b>	                if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_0()) {
+<b><a name="line855">855    </a></b>	                    if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_1()) {
+<b><a name="line856">856    </a></b>	                        if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_1()) {
+<b><a name="line857">857    </a></b>	                            if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_2()) {
+<b><a name="line858">858    </a></b>	                                if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_2()) {
+<b><a name="line859">859    </a></b>	                                    if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_3()) {
+<b><a name="line860">860    </a></b>	                                        if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_3()) {
+<b><a name="line861">861    </a></b>	                                            if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_4()) {
+<b><a name="line862">862    </a></b>	                                                if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_4()) {
+<b><a name="line863">863    </a></b>	                                                    if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_5()) {
+<b><a name="line864">864    </a></b>	                                                        if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_5()) {
+<b><a name="line865">865    </a></b>	                                                            if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_6()) {
+<b><a name="line866">866    </a></b>	                                                                if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_6()) {
+<b><a name="line867">867    </a></b>	                                                                    if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_WT_FPHY_7()) {
+<b><a name="line868">868    </a></b>	                                                                        if (1U == (U8)r_FOSC_FP_TRACK_LOCK_RDY_RD_FPHY_7()) {
+<b><a name="line869">869    </a></b>	                                                                            break;
+<b><a name="line870">870    </a></b>	                                                                        }
+<b><a name="line871">871    </a></b>	                                                                    }
+<b><a name="line872">872    </a></b>	                                                                }
+<b><a name="line873">873    </a></b>	                                                            }
+<b><a name="line874">874    </a></b>	                                                        }
+<b><a name="line875">875    </a></b>	                                                    }
+<b><a name="line876">876    </a></b>	                                                }
+<b><a name="line877">877    </a></b>	                                            }
+<b><a name="line878">878    </a></b>	                                        }
+<b><a name="line879">879    </a></b>	                                    }
+<b><a name="line880">880    </a></b>	                                }
+<b><a name="line881">881    </a></b>	                            }
+<b><a name="line882">882    </a></b>	                        }
+</pre></body>
+</html>

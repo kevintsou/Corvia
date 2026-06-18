@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    U8 ubResult = PASS;
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	    w_spi_DMA_RW_DIR(0);            // 0: read, 1: write
+<b><a name="line36">36    </a></b>	    w_spi_DUM_BYTE_EN(0U);
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	    spi_init();
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line41">41    </a></b>	    r32_w_SPI_CMMD_1(0x05U);        // READ STATUS REGISTER
+<b><a name="line42">42    </a></b>	    r32_w_SPI_DMA_BCNT(0x01U);      // Read 1 Bytes Data
+<b><a name="line43">43    </a></b>	    w_spi_CMD_OD_1(0x01U);          // Execute Command 1
+<b><a name="line44">44    </a></b>	    w_spi_CMD_OD_2(0x0DU);          // Get Data
+<b><a name="line45">45    </a></b>	    w_spi_R_DATA_LOC(1);            // To Read register
+<b><a name="line46">46    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT((r_spi_SPI_DMA_TRIG() == TRUE), SPI_GERNAL_TIMEOUT_THRESHOLD, ERR_SPI_TRIG_READ_STATUS_TIMEOUT, ubResult, MABIAO_SPI_TRIG_READ_STATUS);
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    *pulStatusCheck = r_spi_SPI_R_DATA_BYTE0();
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    return ubResult;
+<b><a name="line53">53    </a></b>	}
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	static U8 spi_status_check(U8 ubCheckBit, U8 expBit_result)
+<b><a name="line56">56    </a></b>	{
+<b><a name="line57">57    </a></b>	    U8 ubReturn = PASS;
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    U32 ulStatusCheck = 0;
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_SPI_READ_STATUS, SPI_GERNAL_TIMEOUT_THRESHOLD);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line62">62    </a></b>	    do {
+<b><a name="line63">63    </a></b>	        if (PASS != spi_read_status(&ulStatusCheck)) {
+<b><a name="line64">64    </a></b>	            ubReturn = FAIL;
+<b><a name="line65">65    </a></b>	            break;
+<b><a name="line66">66    </a></b>	        }
+<b><a name="line67">67    </a></b>	        if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line68">68    </a></b>	            sal_log_info_num(ERR_SPI_READ_STATUS_TIMEOUT);
+<b><a name="line69">69    </a></b>	            ubReturn = FAIL;
+<b><a name="line70">70    </a></b>	            break;
+<b><a name="line71">71    </a></b>	        }
+<b><a name="line72">72    </a></b>	    } while ((ulStatusCheck & ubCheckBit) != expBit_result);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    return ubReturn;
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	// Read data from SPI ROM(source_addr) to SRAM(ddr/dbuf = target_addr)
+<b><a name="line78">78    </a></b>	// Read 'length' bytes
+<b><a name="line79">79    </a></b>	static U8 hal_spi_dma_fast_read_nbytes(U32 source_addr, U64 target_addr, U32 length)
+<b><a name="line80">80    </a></b>	{
+<b><a name="line81">81    </a></b>	    U8 ubResult = PASS;
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    if (source_addr > SPI_ROM_SIZE_512K) {
+<b><a name="line84">84    </a></b>	        //Dump_SPI(tprintf("Source address is over range!!!"));
+<b><a name="line85">85    </a></b>	        return FAIL;
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    if (length % 8U != 0U) {
+<b><a name="line89">89    </a></b>	        //Dump_SPI(tprintf("Length is not 8B aligned!!!"));
+<b><a name="line90">90    </a></b>	        return FAIL;
+<b><a name="line91">91    </a></b>	    }
+<b><a name="line92">92    </a></b>	
+</pre></body>
+</html>

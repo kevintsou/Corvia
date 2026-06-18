@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line923">923    </a></b>	        }
+<b><a name="line924">924    </a></b>	        else {
+<b><a name="line925">925    </a></b>	            hcpl_ptr->cmd_spec = (U32)feature_ptr->cq_num << 16 | (U32)feature_ptr->sq_num;
+<b><a name="line926">926    </a></b>	        }
+<b><a name="line927">927    </a></b>	        break;
+<b><a name="line928">928    </a></b>	
+<b><a name="line929">929    </a></b>	    case NVME_FID_INT_COALESCING:            // FEA_ID 8    (M)
+<b><a name="line930">930    </a></b>	        Dump_NVME(tprintf("      >> get feature: IC.\n\r"));
+<b><a name="line931">931    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line932">932    </a></b>	            hcpl_ptr->cmd_spec = SEL_NOT_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><a name="line933">933    </a></b>	        }
+<b><a name="line934">934    </a></b>	        else {
+<b><a name="line935">935    </a></b>	            hcpl_ptr->cmd_spec = feature_ptr->int_clsc;
+<b><a name="line936">936    </a></b>	        }
+<b><a name="line937">937    </a></b>	        break;
+<b><a name="line938">938    </a></b>	
+<b><a name="line939">939    </a></b>	    case NVME_FID_INT_VEC_CONFIG:            // FEA_ID 9    (M)
+<b><a name="line940">940    </a></b>	        Dump_NVME(tprintf("      >> get feature: INT VEC.\n\r"));
+<b><a name="line941">941    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line942">942    </a></b>	            hcpl_ptr->cmd_spec = SEL_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><a name="line943">943    </a></b>	        }
+<b><a name="line944">944    </a></b>	        else {
+<b><a name="line945">945    </a></b>	            hcpl_ptr->cmd_spec = feature_ptr->iv_conf;
+<b><a name="line946">946    </a></b>	        }
+<b><a name="line947">947    </a></b>	        break;
+<b><a name="line948">948    </a></b>	
+<b><a name="line949">949    </a></b>	    case NVME_FID_WR_ATOMIC_NORMAL:          // FEA_ID A    (M)
+<b><a name="line950">950    </a></b>	        Dump_NVME(tprintf("      >> get feature: Write Atomic Normal.\n\r"));
+<b><a name="line951">951    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line952">952    </a></b>	            hcpl_ptr->cmd_spec = SEL_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line953">953    </a></b>	        }
+<b><a name="line954">954    </a></b>	        else {
+<b><a name="line955">955    </a></b>	            hcpl_ptr->cmd_spec = feature_ptr->dn;
+<b><a name="line956">956    </a></b>	        }
+<b><a name="line957">957    </a></b>	        break;
+<b><a name="line958">958    </a></b>	
+<b><a name="line959">959    </a></b>	    case NVME_FID_ASYNC_EVENT_CONFIG:        // FEA_ID B    (M)
+<b><a name="line960">960    </a></b>	        Dump_NVME(tprintf("      >> get feature: AE Config.\n\r"));
+<b><a name="line961">961    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line962">962    </a></b>	            hcpl_ptr->cmd_spec = SEL_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><a name="line963">963    </a></b>	        }
+<b><a name="line964">964    </a></b>	        else {
+<b><a name="line965">965    </a></b>	            hcpl_ptr->cmd_spec = feature_ptr->aec;
+<b><a name="line966">966    </a></b>	        }
+<b><a name="line967">967    </a></b>	        break;
+<b><a name="line968">968    </a></b>	
+<b><a name="line969">969    </a></b>	    default:
+<b><a name="line970">970    </a></b>	        Dump_NVME(tprintf("      >> get feature: Invalid Field.\n\r"));
+<b><a name="line971">971    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line972">972    </a></b>	        break;
+<b><a name="line973">973    </a></b>	    }
+<b><a name="line974">974    </a></b>	}
+<b><a name="line975">975    </a></b>	
+<b><a name="line976">976    </a></b>	static void nvme_abort(  HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line977">977    </a></b>	{
+<b><a name="line978">978    </a></b>	    Dump_NVME(tprintf("  >> abort.\n\r"));
+<b><a name="line979">979    </a></b>	    host->hcpl.cmd_spec |= 0x1; // according to spec, if cmd is not aborted for any reason
+<b><a name="line980">980    </a></b>	}
+<b><a name="line981">981    </a></b>	
+<b><a name="line982">982    </a></b>	static void nvme_async_event(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line983">983    </a></b>	{
+</pre></body>
+</html>

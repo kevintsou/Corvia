@@ -1,0 +1,128 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 1.1</checker>
+<type>MISRA_C_2012_Rule_1.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_1_1_violation</tag>
+<description>redefinition of typedef 'FIP_CMD_INFO' is a C11 feature</description>
+<line>62</line>
+<column>53</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                    ^</description>
+<line>62</line>
+<column>53</column>
+</event>
+<event>
+<tag>note_previous_definition</tag>
+<description>previous definition is here</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>154</line>
+<column>41</column>
+</event>
+<extra>typedef struct fip_cmd_info                         FIP_CMD_INFO,               *FIP_CMD_INFO_PTR;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 1.1</checker>
+<type>MISRA_C_2012_Rule_1.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_1_1_violation</tag>
+<description>redefinition of typedef 'FIP_INST_STRUCT' is a C11 feature</description>
+<line>63</line>
+<column>53</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                    ^</description>
+<line>63</line>
+<column>53</column>
+</event>
+<event>
+<tag>note_previous_definition</tag>
+<description>previous definition is here</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>155</line>
+<column>41</column>
+</event>
+<extra>typedef struct fip_inst_struct                      FIP_INST_STRUCT,            *FIP_INST_STRUCT_PTR;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 1.1</checker>
+<type>MISRA_C_2012_Rule_1.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_1_1_violation</tag>
+<description>redefinition of typedef 'FIP_INST_STRUCT_PTR' is a C11 feature</description>
+<line>63</line>
+<column>82</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                                                 ^</description>
+<line>63</line>
+<column>82</column>
+</event>
+<event>
+<tag>note_previous_definition</tag>
+<description>previous definition is here</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>155</line>
+<column>59</column>
+</event>
+<extra>typedef struct fip_inst_struct                      FIP_INST_STRUCT,            *FIP_INST_STRUCT_PTR;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 1.1</checker>
+<type>MISRA_C_2012_Rule_1.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_1_1_violation</tag>
+<description>redefinition of typedef 'FIP_CMD_INFO_PTR' is a C11 feature</description>
+<line>62</line>
+<column>82</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                                                 ^</description>
+<line>62</line>
+<column>82</column>
+</event>
+<event>
+<tag>note_previous_definition</tag>
+<description>previous definition is here</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>154</line>
+<column>56</column>
+</event>
+<extra>typedef struct fip_cmd_info                         FIP_CMD_INFO,               *FIP_CMD_INFO_PTR;</extra>
+<subcategory>none</subcategory>
+</error>

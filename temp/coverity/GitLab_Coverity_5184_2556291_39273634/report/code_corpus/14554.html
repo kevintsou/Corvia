@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line991">991    </a></b>	U8 dal_db_get_bmu_noblk_sq_base(void);
+<b><a name="line992">992    </a></b>	U8 dal_db_get_bmu_blk_sq_base(void);
+<b><a name="line993">993    </a></b>	U8 dal_db_get_bmu_blk_cq_base(void);
+<b><a name="line994">994    </a></b>	U8 dal_db_get_bmu_wr_cq_base(void);
+<b><a name="line995">995    </a></b>	U8 dal_db_get_bmu_wr_cq_2_base(void);
+<b><a name="line996">996    </a></b>	U8 dal_db_get_bmu_search_sq_base(void);
+<b><a name="line997">997    </a></b>	U8 dal_db_get_bmu_noblk_cq_base(void);
+<b><a name="line998">998    </a></b>	U8 dal_db_get_apu_wr_sq_base(void);
+<b><a name="line999">999    </a></b>	U8 dal_db_get_apu_cmpl_sq_base(void);
+<b><a name="line1000">1000    </a></b>	U8 dal_db_get_apu_td_cq_base(void);
+<b><a name="line1001">1001    </a></b>	U8 dal_db_get_apu_cmd_cq_base(void);
+<b><a name="line1002">1002    </a></b>	U8 dal_db_get_apu_rd_cq_base(void);
+<b><a name="line1003">1003    </a></b>	U8 dal_db_get_xzip_sq_base(void);
+<b><a name="line1004">1004    </a></b>	U8 dal_db_get_xzip_cq_base(void);
+<b><a name="line1005">1005    </a></b>	U8 dal_db_get_cop0_wr_sq_base(void);
+<b><a name="line1006">1006    </a></b>	U8 dal_db_get_cop0_rd_sq_base(void);
+<b><a name="line1007">1007    </a></b>	U8 dal_db_get_cop0_cq_base(void);
+<b><a name="line1008">1008    </a></b>	U8 dal_db_get_cop1_sq_base(void);
+<b><a name="line1009">1009    </a></b>	U8 dal_db_get_cop1_cq_base(void);
+<b><a name="line1010">1010    </a></b>	U8 dal_db_get_flh_msg_cq_base(void);
+<b><a name="line1011">1011    </a></b>	U8 dal_db_get_rs_msg_cq_base(void);
+<b><a name="line1012">1012    </a></b>	U8 dal_db_get_pic_cq_base(void);
+<b><a name="line1013">1013    </a></b>	U8 dal_db_get_log_msg_cq_base(void);
+<b><a name="line1014">1014    </a></b>	U8 dal_db_get_err_msg_cq_base(void);
+<b><a name="line1015">1015    </a></b>	U8 dal_db_get_fw_sq0_base(void);
+<b><a name="line1016">1016    </a></b>	U8 dal_db_get_fw_cq0_base(void);
+<b><a name="line1017">1017    </a></b>	U8 dal_db_get_fw_sq1_base(void);
+<b><a name="line1018">1018    </a></b>	U8 dal_db_get_fw_cq1_base(void);
+<b><a name="line1019">1019    </a></b>	U8 dal_db_get_fw_sq2_base(void);
+<b><a name="line1020">1020    </a></b>	U8 dal_db_get_fw_cq2_base(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_db_get_fw_cq2_base" is declared but never defined.</font>
+<b><a name="line1021">1021    </a></b>	U8 dal_db_get_fw_sq3_base(void);
+<b><a name="line1022">1022    </a></b>	U8 dal_db_get_fw_cq3_base(void);
+<b><a name="line1023">1023    </a></b>	U8 dal_db_get_auto_w_sq_base(void);
+<b><a name="line1024">1024    </a></b>	U8 dal_db_get_auto_w_cq_base(void);
+<b><a name="line1025">1025    </a></b>	U8 dal_db_get_auto_r_sq_base(void);
+<b><a name="line1026">1026    </a></b>	U8 dal_db_get_auto_r_cq_base(void);
+<b><a name="line1027">1027    </a></b>	U8 dal_db_get_auto_hwpr_sq_base(void);
+<b><a name="line1028">1028    </a></b>	U8 dal_db_get_auto_hwpr_cq_base(void);
+<b><a name="line1029">1029    </a></b>	U8 dal_db_get_auto_fwpr_sq_base(void);
+<b><a name="line1030">1030    </a></b>	U8 dal_db_get_auto_fwpr_cq_base(void);
+<b><a name="line1031">1031    </a></b>	U8 dal_db_get_base_end(void);
+<b><a name="line1032">1032    </a></b>	
+<b><a name="line1033">1033    </a></b>	U32 dal_db_get_fbase_addr_mask(void);
+<b><a name="line1034">1034    </a></b>	U32 dal_db_get_fbase_sel_fbase(void);
+<b><a name="line1035">1035    </a></b>	U32 dal_db_get_fbase_sel_mask(void);
+<b><a name="line1036">1036    </a></b>	
+<b><a name="line1037">1037    </a></b>	//
+<b><a name="line1038">1038    </a></b>	U64 dal_db_api_get_empty_mask(void);
+<b><a name="line1039">1039    </a></b>	U8 dal_db_api_get_nonempty_status(U8 n);
+<b><a name="line1040">1040    </a></b>	U8 dal_db_api_get_empty_status(U8 n);
+<b><a name="line1041">1041    </a></b>	U8 dal_db_api_get_full_status(U8 n);
+<b><a name="line1042">1042    </a></b>	U32 dal_db_api_get_fbase_addr(U32 addr);
+<b><a name="line1043">1043    </a></b>	
+<b><a name="line1044">1044    </a></b>	
+<b><a name="line1045">1045    </a></b>	U32 dal_db_api_get_qbase_addr(U32 value);
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	U8 dal_db_get_data_size(U16 size);
+<b><a name="line1048">1048    </a></b>	
+<b><a name="line1049">1049    </a></b>	// 5303 reg api(manual)
+<b><a name="line1050">1050    </a></b>	U32 dal_db_api_get_base_adr(U8 n);
+<b><a name="line1051">1051    </a></b>	U32 dal_db_api_get_wptr(U8 n);
+</pre></body>
+</html>

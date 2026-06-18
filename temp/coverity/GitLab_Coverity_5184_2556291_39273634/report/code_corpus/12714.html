@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  hal_flh_fip_def.h                                                         */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	#include "sal_libs.h"
+<b><a name="line18">18    </a></b>	#include "top/lib.h"
+<b><a name="line19">19    </a></b>	#include "top/timer_api.h"
+<b><a name="line20">20    </a></b>	#include "top/scr_seed_ps.h"
+<b><a name="line21">21    </a></b>	#include "smbus/ocp/ocp_secure_firmware_recovery.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#ifndef _HAL_FLH_FIP_DEF_H_
+<b><a name="line24">24    </a></b>	#define _HAL_FLH_FIP_DEF_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_HAL_FLH_FIP_DEF_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	// id 0: read cmd, 1: dma cmd, 2: set feature, 3: retry set feature , 4: prefix for retry
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define INST_ID_READ_CMD                            (0U)
+<b><a name="line29">29    </a></b>	#define INST_ID_DMA_CMD                             (1U)
+<b><a name="line30">30    </a></b>	#define INST_ID_SET_FEAT                            (2U)
+<b><a name="line31">31    </a></b>	#define INST_ID_SET_FEAT_FOR_RETRY                  (3U)
+<b><a name="line32">32    </a></b>	#define INST_ID_PREFIX_FOR_RETRY                    (4U)
+<b><a name="line33">33    </a></b>	#define INST_ID_POR_RETRY                           (5U)
+<b><a name="line34">34    </a></b>	#define INST_ID_POLL_STASTUS                        (6U)
+<b><a name="line35">35    </a></b>	#define INST_ID_NUM                                 (7U)
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	#define FLH_MAX_LC_PER_PAGE                         (4U) // micron 32K
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	#define INST_NUM                                    (32U)
+<b><a name="line40">40    </a></b>	#define DATA_REF_LEN                                (32U)
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	#define INST_CMD_00h_IDX                            (0U)
+<b><a name="line43">43    </a></b>	#define INST_CMD_30h_IDX                            (1U)
+<b><a name="line44">44    </a></b>	#define INST_CMD_05h_IDX                            (2U)
+<b><a name="line45">45    </a></b>	#define INST_CMD_06h_IDX                            (3U)
+<b><a name="line46">46    </a></b>	#define INST_CMD_E0h_IDX                            (4U)
+<b><a name="line47">47    </a></b>	#define INST_CMD_A2h_IDX                            (5U)
+<b><a name="line48">48    </a></b>	#define INST_CMD_3Bh_IDX                            (6U)
+<b><a name="line49">49    </a></b>	#define INST_CMD_2Eh_IDX                            (7U)
+<b><a name="line50">50    </a></b>	#define INST_CMD_DAh_IDX                            (8U)
+<b><a name="line51">51    </a></b>	#define INST_CMD_5Dh_IDX                            (9U)
+<b><a name="line52">52    </a></b>	#define CMD_REMAP_TABLE_SIZE                        (10U)
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	#define INST_REF_ZERO_OP_CODE                       (0U)
+<b><a name="line55">55    </a></b>	#define INST_REF_ONE_OP_CODE                        (1U)
+</pre></body>
+</html>

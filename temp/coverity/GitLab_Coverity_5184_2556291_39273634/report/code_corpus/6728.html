@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line490">490    </a></b>	    Dump_NVME(tprintf("  >> sec receive.\n\r"));
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	    volatile ADM_GET_LOG_PTR            log_ptr = &host->sq_cmd.payload_opt.adm.get_log;
+<b><a name="line493">493    </a></b>	    U32  buf_base = host->buffer_base;
+<b><a name="line494">494    </a></b>	    U32  buf_addr = buf_base;
+<b><a name="line495">495    </a></b>	    U32  byte_cnt = host->sq_cmd.payload_opt.raw.cdw11;
+<b><a name="line496">496    </a></b>	    U8       secp = host->sq_cmd.payload_opt.adm.adm_sec_receive.secp;
+<b><a name="line497">497    </a></b>	    U8      spsp0 = host->sq_cmd.payload_opt.adm.adm_sec_receive.spsp0;
+<b><a name="line498">498    </a></b>	    U8 *buf_addr_ptr = (U8 *)(void *)buf_addr;
+<b><a name="line499">499    </a></b>	    U8 buf_addr_idx = 0;
+<b><a name="line500">500    </a></b>	    U8 sup_feat_num = 0;
+<b><a name="line501">501    </a></b>	
+<b><a name="line502">502    </a></b>	    VUC_DISPATCH_PTR vuc_dispatch = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    if (secp == 0x00) {
+<b><a name="line506">506    </a></b>	        if (byte_cnt != 0U) { // AL
+<b><a name="line507">507    </a></b>	            memset((void *)buf_addr, 0, byte_cnt); // init buffer space
+<b><a name="line508">508    </a></b>	            buf_addr_ptr[6] = 0x00; // security list length
+<b><a name="line509">509    </a></b>	            buf_addr_idx = 8;
+<b><a name="line510">510    </a></b>	            buf_addr_ptr[buf_addr_idx] = 0x00;
+<b><a name="line511">511    </a></b>	            buf_addr_idx++;
+<b><a name="line512">512    </a></b>	            sup_feat_num++;
+<b><a name="line513">513    </a></b>	            buf_addr_ptr[buf_addr_idx] = 0xFE;
+<b><a name="line514">514    </a></b>	            sup_feat_num++;
+<b><a name="line515">515    </a></b>	            buf_addr_ptr[7] = sup_feat_num; // security list length
+<b><a name="line516">516    </a></b>	            host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_READ);
+<b><a name="line517">517    </a></b>	        }
+<b><a name="line518">518    </a></b>	    }
+<b><a name="line519">519    </a></b>	    else if (secp == 0xFE && ((spsp0 == SCSI_PASS_THROUGH_READ_DATA) || (spsp0 == SCSI_PASS_THROUGH_READ_CQ))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "secp" (unsigned) is not the same as that of the right operand "254"(signed).</font>
+<b><a name="line520">520    </a></b>	        if (SCSI_PASS_THROUGH_READ_CQ == spsp0) {
+<b><a name="line521">521    </a></b>	            vuc_cq_send();
+<b><a name="line522">522    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line523">523    </a></b>	        }
+<b><a name="line524">524    </a></b>	        else if ((VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state)) { //(SCSI_PASS_THROUGH_READ_DATA == spsp0)
+<b><a name="line525">525    </a></b>	            if(byte_cnt < 16)
+<b><a name="line526">526    </a></b>	            {
+<b><a name="line527">527    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line528">528    </a></b>	                return;
+<b><a name="line529">529    </a></b>	            }
+<b><a name="line530">530    </a></b>	            else
+<b><a name="line531">531    </a></b>	            {
+<b><a name="line532">532    </a></b>	                vuc_packet_handler(vuc_dispatch);
+<b><a name="line533">533    </a></b>	            }
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	        }
+<b><a name="line536">536    </a></b>	        else {
+<b><a name="line537">537    </a></b>	            //PRINTF("\r\n security receive do nothing , spsp0 = %x\r\n",spsp0);
+<b><a name="line538">538    </a></b>	        }
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_READ);
+<b><a name="line541">541    </a></b>	    }
+<b><a name="line542">542    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_IDENTIFY) {
+<b><a name="line543">543    </a></b>	        host->sq_cmd.payload_opt.adm.identify.cns = NVME_CNS_CTRLR_DATA;
+<b><a name="line544">544    </a></b>	        nvme_identify(host, ctag);
+<b><a name="line545">545    </a></b>	    }
+<b><a name="line546">546    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_GET_LOG_PAGE) {
+<b><a name="line547">547    </a></b>	        log_ptr->lid = LID_SMART_INFO;
+<b><a name="line548">548    </a></b>	        nvme_get_log_page(host, ctag);
+<b><a name="line549">549    </a></b>	    }
+<b><a name="line550">550    </a></b>	    else {
+</pre></body>
+</html>

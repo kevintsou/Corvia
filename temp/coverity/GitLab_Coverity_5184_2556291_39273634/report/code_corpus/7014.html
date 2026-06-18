@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line36">36    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line37">37    </a></b>	                break;
+<b><a name="line38">38    </a></b>	            }
+<b><a name="line39">39    </a></b>	        }
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	        // To know the CTAG of the deleted command
+<b><a name="line42">42    </a></b>	        ctag = dal_cmgr_get_fw_del_cmd_ctag(PCIE_PORT_0);
+<b><a name="line43">43    </a></b>	        Dump_Reset(tprintf("Delete CMGR FCF cmd ctag=%x", ctag));
+<b><a name="line44">44    </a></b>	        if (dal_cmgr_get_ct_vld(ctag) == 1U) {
+<b><a name="line45">45    </a></b>	            // clear sync cmd auto lock
+<b><a name="line46">46    </a></b>	            nvme_clr_cmgr_hw_lock();
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	            // Clear the CTAG from the command table
+<b><a name="line49">49    </a></b>	            dal_cmgr_set_fw_clr_cvld_ctag(PCIE_PORT_0, ctag);
+<b><a name="line50">50    </a></b>	            dal_cmgr_set_fw_clr_cvld_req(PCIE_PORT_0);
+<b><a name="line51">51    </a></b>	            mabiao_addr = MABIAO_SET_MS(MABIAO_CTAG_CLR, 100);
+<b><a name="line52">52    </a></b>	            while (dal_cmgr_get_fw_clr_cvld_req(PCIE_PORT_0)) {
+<b><a name="line53">53    </a></b>	                if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line54">54    </a></b>	                    break;
+<b><a name="line55">55    </a></b>	                }
+<b><a name="line56">56    </a></b>	            }
+<b><a name="line57">57    </a></b>	        }
+<b><a name="line58">58    </a></b>	    }
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	}
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	static void delete_db_cmd(HOST_API_STRUCT_PTR host)
+<b><a name="line63">63    </a></b>	{
+<b><a name="line64">64    </a></b>	    U8  db_id   = HOST_MR_QID_CPU0_CQ_NVME_HCMD_SYNC;
+<b><a name="line65">65    </a></b>	    U16 db_size = (sizeof(HAL_APU_HCMD_HW) / 4);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "32U" (unsigned) is not the same as that of the right operand "4"(signed).</font>
+<b><a name="line66">66    </a></b>	    U16 rd_cnt;
+<b><a name="line67">67    </a></b>	    U16 ctag;
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    rd_cnt = hal_db_api_get_rd_cnt(db_id);
+<b><a name="line70">70    </a></b>	    rd_cnt = rd_cnt / db_size;
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    HAL_APU_HCMD_PTR hcmd_ptr = (HAL_APU_HCMD_PTR)hal_db_api_get_rptr(db_id);
+<b><a name="line73">73    </a></b>	    ctag = dal_apu_get_hcmd_ctag(hcmd_ptr);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    if ((rd_cnt > 0) && (dal_cmgr_get_ct_vld(ctag) == 0U)) {
+<b><a name="line76">76    </a></b>	        Dump_Reset(tprintf("Pop sync cmd ctag=%x", ctag));
+<b><a name="line77">77    </a></b>	        hal_db_api_set_rpiu(db_id, db_size); // pop this sync cmd
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	}
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	static void clr_queue_en(HOST_API_STRUCT_PTR host)
+<b><a name="line82">82    </a></b>	{
+<b><a name="line83">83    </a></b>	    U16 i;
+<b><a name="line84">84    </a></b>	    U8  rst_admin_q_reg = TRUE;
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    if (host->host_event.rst_flag & (RST_NVME_CC_DIS | RST_NVME_CC_SHN)) {
+<b><a name="line87">87    </a></b>	        rst_admin_q_reg = FALSE;
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    for (i = 0U; i < NVME_MAX_Q_CNT; i++) {
+<b><a name="line91">91    </a></b>	        host->host_info.ioq.iosq[i].en        = FALSE;
+<b><a name="line92">92    </a></b>	        host->host_info.ioq.iosq[i].cqid      = 0U;
+<b><a name="line93">93    </a></b>	        host->host_info.ioq.iosq[i].qsize     = 0U;
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	        hal_nvme_nl_clr_sq_en(i, rst_admin_q_reg);
+<b><a name="line96">96    </a></b>	    }
+</pre></body>
+</html>

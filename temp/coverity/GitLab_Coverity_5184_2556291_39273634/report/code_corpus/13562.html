@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10264">10264    </a></b>	const FP_KAT gKatLCP[] =
+<b><a name="line10265">10265    </a></b>	{
+<b><a name="line10266">10266    </a></b>	    kat_aes256_xts,
+<b><a name="line10267">10267    </a></b>	    kat_sha512,
+<b><a name="line10268">10268    </a></b>	    kat_rsa,
+<b><a name="line10269">10269    </a></b>	    kat_lms,
+<b><a name="line10270">10270    </a></b>	    kat_mldsa,
+<b><a name="line10271">10271    </a></b>	    kat_kaz,
+<b><a name="line10272">10272    </a></b>	    kat_sm4,
+<b><a name="line10273">10273    </a></b>	    kat_sm3,
+<b><a name="line10274">10274    </a></b>	    kat_sm2,
+<b><a name="line10275">10275    </a></b>	    kat_sm9,
+<b><a name="line10276">10276    </a></b>	};
+<b><a name="line10277">10277    </a></b>	
+<b><a name="line10278">10278    </a></b>	const FP_KAT gKatSIB[] =
+<b><a name="line10279">10279    </a></b>	{
+<b><a name="line10280">10280    </a></b>	    kat_aes256_cbc,
+<b><a name="line10281">10281    </a></b>	    kat_drbg,
+<b><a name="line10282">10282    </a></b>	};
+<b><a name="line10283">10283    </a></b>	
+<b><a name="line10284">10284    </a></b>	const FP_KAT gKatVUC[] =
+<b><a name="line10285">10285    </a></b>	{
+<b><a name="line10286">10286    </a></b>	    kat_aes256_cbc,
+<b><a name="line10287">10287    </a></b>	    kat_sha512,
+<b><a name="line10288">10288    </a></b>	    kat_hmac256,
+<b><a name="line10289">10289    </a></b>	    kat_rsa_enc,
+<b><a name="line10290">10290    </a></b>	    kat_drbg,
+<b><a name="line10291">10291    </a></b>	};
+<b><a name="line10292">10292    </a></b>	
+<b><a name="line10293">10293    </a></b>	const FP_KAT gKatVUA[] =
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'gKatVUA', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">             ^</font>
+<b><a name="line10294">10294    </a></b>	{
+<b><a name="line10295">10295    </a></b>	    kat_aes256_cbc,
+<b><a name="line10296">10296    </a></b>	    kat_sha512,
+<b><a name="line10297">10297    </a></b>	    kat_hmac512,
+<b><a name="line10298">10298    </a></b>	    kat_rsa_enc,
+<b><a name="line10299">10299    </a></b>	    kat_mlkem,
+<b><a name="line10300">10300    </a></b>	    kat_drbg,
+<b><a name="line10301">10301    </a></b>	};
+<b><a name="line10302">10302    </a></b>	
+<b><a name="line10303">10303    </a></b>	const FP_KAT gKatDice[] =
+<b><a name="line10304">10304    </a></b>	{
+<b><a name="line10305">10305    </a></b>	    kat_hmac512,
+<b><a name="line10306">10306    </a></b>	    kat_kdf,
+<b><a name="line10307">10307    </a></b>	    kat_sm3,
+<b><a name="line10308">10308    </a></b>	};
+<b><a name="line10309">10309    </a></b>	
+<b><a name="line10310">10310    </a></b>	/**
+<b><a name="line10311">10311    </a></b>	 * Perform load code KAT tests
+<b><a name="line10312">10312    </a></b>	 *
+<b><a name="line10313">10313    </a></b>	 * @param test_buffer
+<b><a name="line10314">10314    </a></b>	 *      A buffer used during KAT
+<b><a name="line10315">10315    </a></b>	 * @return
+<b><a name="line10316">10316    </a></b>	 *      0 - All KAT passed
+<b><a name="line10317">10317    </a></b>	 */
+<b><a name="line10318">10318    </a></b>	U32 host_sec_kat_load_code(U32 kat_buffer)
+<b><a name="line10319">10319    </a></b>	{
+<b><a name="line10320">10320    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP)); // load code kat start
+<b><a name="line10321">10321    </a></b>	
+<b><a name="line10322">10322    </a></b>	    // kat make error case
+<b><a name="line10323">10323    </a></b>	    if (gpFwSimCtrl1Reg->kat_make_error_test)
+<b><a name="line10324">10324    </a></b>	    {
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line186">186    </a></b>	            }
+<b><a name="line187">187    </a></b>	        }
+<b><a name="line188">188    </a></b>	        else
+<b><a name="line189">189    </a></b>	        {
+<b><a name="line190">190    </a></b>	            memset(&(p_efuse_api->a_efuse_code_sign_key_hash[key_hash_offset]), 0x00, sizeof(p_efuse_api->a_efuse_code_sign_key_hash[key_hash_offset]));
+<b><a name="line191">191    </a></b>	            p_efuse_api->a_efuse_code_sign_key_hash_read[key_hash_offset] = 0U;
+<b><a name="line192">192    </a></b>	        }
+<b><a name="line193">193    </a></b>	    }
+<b><a name="line194">194    </a></b>	    return &(p_efuse_api->a_efuse_code_sign_key_hash[0]);
+<b><a name="line195">195    </a></b>	}
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	EFUSE_VUC_PROTECT_KEY_HASH *get_efuse_vuc_protect_key_hash(EFUSE_API *p_efuse_api)
+<b><a name="line198">198    </a></b>	{
+<b><a name="line199">199    </a></b>	    U32 key_hash_offset;
+<b><a name="line200">200    </a></b>	    U32 bank;
+<b><a name="line201">201    </a></b>	    U32 vuc_protect_key_enable_state;
+<b><a name="line202">202    </a></b>	    U32 vuc_protect_key_disable_state;
+<b><a name="line203">203    </a></b>	    U8  ecc_cor_en;
+<b><a name="line204">204    </a></b>	
+<b><a name="line205">205    </a></b>	    if ((0U == p_efuse_api->efuse_security_setting_1_read) || (0U == p_efuse_api->efuse_security_setting_read)) {
+<b><a name="line206">206    </a></b>	        //TODO this should not happen, probably remove this check?
+<b><a name="line207">207    </a></b>	        return NULL;
+<b><a name="line208">208    </a></b>	    }
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    ecc_cor_en = (U8)p_efuse_api->efuse_security_setting.vuc_protect_key_ecc_en;
+<b><a name="line211">211    </a></b>	
+<b><a name="line212">212    </a></b>	    for (key_hash_offset = 0; key_hash_offset < EFUSE_VUC_PROTECT_KEY_HASH_COUNT; key_hash_offset++) {
+<b><a name="line213">213    </a></b>	        //The Key Hash is valid if
+<b><a name="line214">214    </a></b>	        //1. The enable state must be larger than the disable state
+<b><a name="line215">215    </a></b>	        if (key_hash_offset == 0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "key_hash_offset" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line216">216    </a></b>	            vuc_protect_key_enable_state = p_efuse_api->efuse_security_setting.vuc_protect_key0_enable_state;
+<b><a name="line217">217    </a></b>	            vuc_protect_key_disable_state = p_efuse_api->efuse_security_setting.vuc_protect_key0_disable_state;
+<b><a name="line218">218    </a></b>	        }
+<b><a name="line219">219    </a></b>	        else {
+<b><a name="line220">220    </a></b>	            vuc_protect_key_enable_state = p_efuse_api->efuse_security_setting.vuc_protect_key1_enable_state;
+<b><a name="line221">221    </a></b>	            vuc_protect_key_disable_state = p_efuse_api->efuse_security_setting.vuc_protect_key1_disable_state;
+<b><a name="line222">222    </a></b>	        }
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	        if (check_field_valid(vuc_protect_key_enable_state, vuc_protect_key_disable_state)) {
+<b><a name="line225">225    </a></b>	            if (0U == p_efuse_api->a_efuse_vuc_protect_key_hash_read[key_hash_offset]) {
+<b><a name="line226">226    </a></b>	                //Read out the eFuse into the eFuse API if it is not valid
+<b><a name="line227">227    </a></b>	                bank = EFUSE_BANK_VUC_PROTECT_KEY_HASH_0_OFFSET + (key_hash_offset * EFUSE_BANK_VUC_PROTECT_KEY_HASH_SIZE);
+<b><a name="line228">228    </a></b>	                if (0U == efuse_api_read_bank(
+<b><a name="line229">229    </a></b>	                        &(p_efuse_api->a_efuse_vuc_protect_key_hash[key_hash_offset].dword[0]),
+<b><a name="line230">230    </a></b>	                        ecc_cor_en,
+<b><a name="line231">231    </a></b>	                        bank,
+<b><a name="line232">232    </a></b>	                        EFUSE_BANK_VUC_PROTECT_KEY_HASH_SIZE,
+<b><a name="line233">233    </a></b>	                        &(p_efuse_api->a_efuse_bank_read_state[bank]))) {
+<b><a name="line234">234    </a></b>	                    //Record that the eFuse value has been read correctly
+<b><a name="line235">235    </a></b>	                    p_efuse_api->a_efuse_vuc_protect_key_hash_read[key_hash_offset] = 1U;
+<b><a name="line236">236    </a></b>	                }
+<b><a name="line237">237    </a></b>	            }
+<b><a name="line238">238    </a></b>	        }
+<b><a name="line239">239    </a></b>	    }
+<b><a name="line240">240    </a></b>	
+<b><a name="line241">241    </a></b>	    return &(p_efuse_api->a_efuse_vuc_protect_key_hash[0]);
+<b><a name="line242">242    </a></b>	}
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	const EFUSE_FW_ENCRYPTION_KEY *get_efuse_fw_encryption_key(const U32 key_offset, EFUSE_API *p_efuse_api)
+<b><a name="line245">245    </a></b>	{
+<b><a name="line246">246    </a></b>	    U32 bank;
+</pre></body>
+</html>

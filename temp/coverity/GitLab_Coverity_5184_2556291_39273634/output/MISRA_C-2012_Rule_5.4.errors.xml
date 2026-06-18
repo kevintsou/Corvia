@@ -1,0 +1,2717 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/sqz/dal_reg_sqz_secret_reg_reg.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{DB_ERR_CLR_MASK}}}}}}</description>
+<line>580</line>
+<column>13</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{DB_ERR_CLR_MASK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/cop0/dal_reg_cop0_ch_reg_reg.h</file>
+<line>486</line>
+<column>13</column>
+</event>
+<extra>DB_ERR_CLR_MASK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/sqz/dal_reg_sqz_secret_reg_reg.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PU_MRS0_DB_RD_EMPTY_ERR_MASK}}}}}}</description>
+<line>600</line>
+<column>13</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PU_MRS0_DB_RD_EMPTY_ERR_MASK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/cop0/dal_reg_cop0_ch_reg_reg.h</file>
+<line>889</line>
+<column>13</column>
+</event>
+<extra>PU_MRS0_DB_RD_EMPTY_ERR_MASK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/sqz/dal_reg_sqz_secret_reg_reg.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PU_MRS0_DB_WR_FULL_ERR_MASK}}}}}}</description>
+<line>603</line>
+<column>13</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PU_MRS0_DB_WR_FULL_ERR_MASK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/cop0/dal_reg_cop0_ch_reg_reg.h</file>
+<line>892</line>
+<column>13</column>
+</event>
+<extra>PU_MRS0_DB_WR_FULL_ERR_MASK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_0}}}}}}</description>
+<line>23</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_0}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>32</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_1}}}}}}</description>
+<line>24</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_1}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>33</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_2}}}}}}</description>
+<line>25</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_2}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>34</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_3}}}}}}</description>
+<line>26</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_3}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>35</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_3</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PF_0}}}}}}</description>
+<line>31</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PF_0}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>38</line>
+<column>9</column>
+</event>
+<extra>PCIE_PF_0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PF_1}}}}}}</description>
+<line>32</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PF_1}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>39</line>
+<column>9</column>
+</event>
+<extra>PCIE_PF_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_SEED_LEN}}}}}}</description>
+<line>12</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_SEED_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>21</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_SEED_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_SS_LEN}}}}}}</description>
+<line>13</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_SS_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>22</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_SS_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_POLY_LEN}}}}}}</description>
+<line>14</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_POLY_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>23</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_POLY_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_MSG_LEN}}}}}}</description>
+<line>16</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_MSG_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>25</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_MSG_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_N}}}}}}</description>
+<line>18</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_N}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>27</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_Q}}}}}}</description>
+<line>19</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_Q}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>28</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_Q</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_K}}}}}}</description>
+<line>20</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_K}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>29</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_K</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_ETA1}}}}}}</description>
+<line>21</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_ETA1}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>30</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_ETA1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_ETA2}}}}}}</description>
+<line>22</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_ETA2}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>31</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_ETA2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_MONT}}}}}}</description>
+<line>23</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_MONT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>32</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_MONT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_QINV}}}}}}</description>
+<line>24</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_QINV}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>33</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_QINV</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_COMPRESSED_POLYVEC_LEN}}}}}}</description>
+<line>26</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_COMPRESSED_POLYVEC_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>35</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_COMPRESSED_POLYVEC_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_PUB_KEY_LEN}}}}}}</description>
+<line>27</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_PUB_KEY_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>36</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_PUB_KEY_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_PRI_KEY_LEN}}}}}}</description>
+<line>28</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_PRI_KEY_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>37</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_PRI_KEY_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_CTX_LEN}}}}}}</description>
+<line>29</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_CTX_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>38</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_CTX_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_SEC_PQC_MLKEM_POLYVEC_LEN}}}}}}</description>
+<line>30</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_SEC_PQC_MLKEM_POLYVEC_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm.h</file>
+<line>39</line>
+<column>9</column>
+</event>
+<extra>HAL_SEC_PQC_MLKEM_POLYVEC_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{FPHY_SSC_DIS}}}}}}</description>
+<line>329</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{FPHY_SSC_DIS}}}}}}</description>
+<line>7</line>
+<column>9</column>
+</event>
+<extra>FPHY_SSC_DIS</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{FPHY_SSC_EN}}}}}}</description>
+<line>330</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{FPHY_SSC_EN}}}}}}</description>
+<line>8</line>
+<column>9</column>
+</event>
+<extra>FPHY_SSC_EN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{FPHY_RST_DIS}}}}}}</description>
+<line>338</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{FPHY_RST_DIS}}}}}}</description>
+<line>10</line>
+<column>9</column>
+</event>
+<extra>FPHY_RST_DIS</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{FPHY_RST_EN}}}}}}</description>
+<line>339</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{FPHY_RST_EN}}}}}}</description>
+<line>11</line>
+<column>9</column>
+</event>
+<extra>FPHY_RST_EN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_NUM_26}}}}}}</description>
+<line>35</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_NUM_26}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_mux_upif.h</file>
+<line>81</line>
+<column>9</column>
+</event>
+<extra>GPIO_NUM_26</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_I}}}}}}</description>
+<line>71</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_I}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>7</line>
+<column>9</column>
+</event>
+<extra>GPIO_I</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_O}}}}}}</description>
+<line>72</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_O}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>8</line>
+<column>9</column>
+</event>
+<extra>GPIO_O</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_OE}}}}}}</description>
+<line>73</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_OE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>9</line>
+<column>9</column>
+</event>
+<extra>GPIO_OE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_PU}}}}}}</description>
+<line>74</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_PU}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>10</line>
+<column>9</column>
+</event>
+<extra>GPIO_PU</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_PD}}}}}}</description>
+<line>75</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_PD}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>11</line>
+<column>9</column>
+</event>
+<extra>GPIO_PD</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_IN}}}}}}</description>
+<line>77</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_IN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>13</line>
+<column>9</column>
+</event>
+<extra>GPIO_IN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_OUT}}}}}}</description>
+<line>78</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_OUT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>14</line>
+<column>9</column>
+</event>
+<extra>GPIO_OUT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_padc_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{GPIO_DIRECTION_TYPE}}}}}}</description>
+<line>79</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{GPIO_DIRECTION_TYPE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_syspd0_padc_upif.h</file>
+<line>15</line>
+<column>9</column>
+</event>
+<extra>GPIO_DIRECTION_TYPE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HOST_MR_QID_CPU0_CQ_CPL_LOG}}}}}}</description>
+<line>99</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HOST_MR_QID_CPU0_CQ_CPL_LOG}}}}}}</description>
+<line>92</line>
+<column>9</column>
+</event>
+<extra>HOST_MR_QID_CPU0_CQ_CPL_LOG</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HOST_MR_TID_CPU0_CQ_CPL_LOG}}}}}}</description>
+<line>125</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HOST_MR_TID_CPU0_CQ_CPL_LOG}}}}}}</description>
+<line>119</line>
+<column>9</column>
+</event>
+<extra>HOST_MR_TID_CPU0_CQ_CPL_LOG</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_mr_def_ps5303.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_MR_HDR_LEN_OF}}}}}}</description>
+<line>591</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_MR_HDR_LEN_OF}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.h</file>
+<line>21</line>
+<column>9</column>
+</event>
+<extra>HAL_MR_HDR_LEN_OF</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_COP2_MR_IP_R5_0}}}}}}</description>
+<line>32</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_COP2_MR_IP_R5_0}}}}}}</description>
+<line>19</line>
+<column>9</column>
+</event>
+<extra>HAL_COP2_MR_IP_R5_0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_2800M}}}}}}</description>
+<line>341</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_2800M}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>121</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_2800M</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_3200M}}}}}}</description>
+<line>342</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_3200M}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>122</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_3200M</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_3600M}}}}}}</description>
+<line>343</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_3600M}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>123</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_3600M</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_4000M}}}}}}</description>
+<line>344</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_4000M}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>124</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_4000M</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_4400M}}}}}}</description>
+<line>345</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_4400M}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>125</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_4400M</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_CNT}}}}}}</description>
+<line>346</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_CNT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>126</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_CNT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_CLK_INVALID}}}}}}</description>
+<line>347</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_CLK_INVALID}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>127</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_CLK_INVALID</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_1}}}}}}</description>
+<line>349</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_1}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>131</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_2}}}}}}</description>
+<line>350</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_2}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>132</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_4}}}}}}</description>
+<line>351</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_4}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>133</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_4</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_8}}}}}}</description>
+<line>352</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_8}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>134</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_8</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_16}}}}}}</description>
+<line>353</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_16}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>135</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_16</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_32}}}}}}</description>
+<line>354</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_32}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>136</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_32</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_64}}}}}}</description>
+<line>355</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_64}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>137</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_64</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_128}}}}}}</description>
+<line>356</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_128}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>138</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_128</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_CNT}}}}}}</description>
+<line>357</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_CNT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>139</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_CNT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_FPL_OSC_DIV_INVALID}}}}}}</description>
+<line>358</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_FPL_OSC_DIV_INVALID}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>140</line>
+<column>9</column>
+</event>
+<extra>HAL_FPL_OSC_DIV_INVALID</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{M_I2CM_SET_THIGH_MIN_CNT}}}}}}</description>
+<line>57</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{M_I2CM_SET_THIGH_MIN_CNT}}}}}}</description>
+<line>44</line>
+<column>9</column>
+</event>
+<extra>M_I2CM_SET_THIGH_MIN_CNT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_ILM_LOCAL_BASE}}}}}}</description>
+<line>15</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_ILM_LOCAL_BASE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>76</line>
+<column>9</column>
+</event>
+<extra>SQZ_ILM_LOCAL_BASE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_ILM_GLOBAL_BASE}}}}}}</description>
+<line>16</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_ILM_GLOBAL_BASE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>77</line>
+<column>9</column>
+</event>
+<extra>SQZ_ILM_GLOBAL_BASE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_ILM_SIZE}}}}}}</description>
+<line>17</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_ILM_SIZE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>78</line>
+<column>9</column>
+</event>
+<extra>SQZ_ILM_SIZE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_DLM_LOCAL_BASE}}}}}}</description>
+<line>19</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_DLM_LOCAL_BASE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>80</line>
+<column>9</column>
+</event>
+<extra>SQZ_DLM_LOCAL_BASE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_DLM_GLOBAL_BASE}}}}}}</description>
+<line>20</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_DLM_GLOBAL_BASE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>81</line>
+<column>9</column>
+</event>
+<extra>SQZ_DLM_GLOBAL_BASE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SQZ_DLM_SIZE}}}}}}</description>
+<line>21</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SQZ_DLM_SIZE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/reg/dal_reg_generic.h</file>
+<line>82</line>
+<column>9</column>
+</event>
+<extra>SQZ_DLM_SIZE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_def.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{BITS_GET}}}}}}</description>
+<line>71</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{BITS_GET}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>190</line>
+<column>9</column>
+</event>
+<extra>BITS_GET</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{CHK_ONE_BIT}}}}}}</description>
+<line>368</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{CHK_ONE_BIT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/sys/dal_flow_gic.h</file>
+<line>448</line>
+<column>9</column>
+</event>
+<extra>CHK_ONE_BIT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/pcie/host_pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_MODE_DONT_CARE}}}}}}</description>
+<line>27</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_MODE_DONT_CARE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>19</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_MODE_DONT_CARE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/pcie/host_pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_MODE_SINGLE}}}}}}</description>
+<line>28</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_MODE_SINGLE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>20</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_MODE_SINGLE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/pcie/host_pcie.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{PCIE_PORT_MODE_DUAL}}}}}}</description>
+<line>29</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{PCIE_PORT_MODE_DUAL}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mctp/dal_mctp_func.h</file>
+<line>21</line>
+<column>9</column>
+</event>
+<extra>PCIE_PORT_MODE_DUAL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{EFUSE_FLH_HARD_RST_DISABLE}}}}}}</description>
+<line>115</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{EFUSE_FLH_HARD_RST_DISABLE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.h</file>
+<line>15</line>
+<column>9</column>
+</event>
+<extra>EFUSE_FLH_HARD_RST_DISABLE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{EFUSE_FLH_HARD_RST_DIE_SEL}}}}}}</description>
+<line>116</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{EFUSE_FLH_HARD_RST_DIE_SEL}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.h</file>
+<line>16</line>
+<column>9</column>
+</event>
+<extra>EFUSE_FLH_HARD_RST_DIE_SEL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED}}}}}}</description>
+<line>117</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.h</file>
+<line>17</line>
+<column>9</column>
+</event>
+<extra>EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{EFUSE_FLH_HARD_RST_BY_WP_PIN}}}}}}</description>
+<line>118</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{EFUSE_FLH_HARD_RST_BY_WP_PIN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.h</file>
+<line>18</line>
+<column>9</column>
+</event>
+<extra>EFUSE_FLH_HARD_RST_BY_WP_PIN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBUS_ADDRESS_MANAGEMENT_ENDPOINT}}}}}}</description>
+<line>56</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBUS_ADDRESS_MANAGEMENT_ENDPOINT}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/flibhal_smbus.h</file>
+<line>158</line>
+<column>9</column>
+</event>
+<extra>SMBUS_ADDRESS_MANAGEMENT_ENDPOINT</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBUS_ADDRESS_NVME_BASIC_MANAGEMENT_COMMAND}}}}}}</description>
+<line>58</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBUS_ADDRESS_NVME_BASIC_MANAGEMENT_COMMAND}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/flibhal_smbus.h</file>
+<line>159</line>
+<column>9</column>
+</event>
+<extra>SMBUS_ADDRESS_NVME_BASIC_MANAGEMENT_COMMAND</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_QUICK_COMMAND}}}}}}</description>
+<line>84</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_QUICK_COMMAND}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>96</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_QUICK_COMMAND</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_SEND_BYTE}}}}}}</description>
+<line>85</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_SEND_BYTE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>97</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_SEND_BYTE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_RECEIVE_BYTE}}}}}}</description>
+<line>86</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_RECEIVE_BYTE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>98</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_RECEIVE_BYTE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_BYTE}}}}}}</description>
+<line>87</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_BYTE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>99</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_BYTE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_WORD}}}}}}</description>
+<line>88</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_WORD}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>100</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_WORD</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_READ_BYTE}}}}}}</description>
+<line>89</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_READ_BYTE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>101</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_READ_BYTE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_READ_WORD}}}}}}</description>
+<line>90</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_READ_WORD}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>102</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_READ_WORD</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_PROCESS_CALL}}}}}}</description>
+<line>91</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_PROCESS_CALL}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>103</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_PROCESS_CALL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_BLOCK_WRITE}}}}}}</description>
+<line>92</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_BLOCK_WRITE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>104</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_BLOCK_WRITE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_BLOCK_READ}}}}}}</description>
+<line>93</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_BLOCK_READ}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>105</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_BLOCK_READ</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_BLOCK_PROCESS_CALL}}}}}}</description>
+<line>94</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_BLOCK_PROCESS_CALL}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>106</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_BLOCK_PROCESS_CALL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_32}}}}}}</description>
+<line>95</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_32}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>107</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_32</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_READ_32}}}}}}</description>
+<line>96</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_READ_32}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>108</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_READ_32</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_64}}}}}}</description>
+<line>97</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_64}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>109</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_64</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_READ_64}}}}}}</description>
+<line>98</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_READ_64}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>110</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_READ_64</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_32_ACK}}}}}}</description>
+<line>99</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_32_ACK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>111</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_32_ACK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_WRITE_64_ACK}}}}}}</description>
+<line>100</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_WRITE_64_ACK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>112</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_WRITE_64_ACK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{SMBM_PROTOCOL_READ_64_ACK}}}}}}</description>
+<line>101</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{SMBM_PROTOCOL_READ_64_ACK}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.h</file>
+<line>113</line>
+<column>9</column>
+</event>
+<extra>SMBM_PROTOCOL_READ_64_ACK</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{VUC_SQ_CMD_LEN}}}}}}</description>
+<line>27</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{VUC_SQ_CMD_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vuc/framework_vuc.h</file>
+<line>6</line>
+<column>9</column>
+</event>
+<extra>VUC_SQ_CMD_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{VUC_CQ_CMD_LEN}}}}}}</description>
+<line>28</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{VUC_CQ_CMD_LEN}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vuc/framework_vuc.h</file>
+<line>7</line>
+<column>9</column>
+</event>
+<extra>VUC_CQ_CMD_LEN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{VALID_STATUS}}}}}}</description>
+<line>81</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{VALID_STATUS}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>48</line>
+<column>9</column>
+</event>
+<extra>VALID_STATUS</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_COMMAND_OPCODE}}}}}}</description>
+<line>82</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_COMMAND_OPCODE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>49</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_COMMAND_OPCODE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_COMMAND_FEATURE_CODE}}}}}}</description>
+<line>83</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_COMMAND_FEATURE_CODE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>50</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_COMMAND_FEATURE_CODE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_PARAMETER_ERROR}}}}}}</description>
+<line>84</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_PARAMETER_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>51</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_PARAMETER_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_DATA_TRANSFER_ERROR}}}}}}</description>
+<line>85</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_DATA_TRANSFER_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>52</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_DATA_TRANSFER_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_INTERNAL_ERROR}}}}}}</description>
+<line>86</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_INTERNAL_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>53</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_INTERNAL_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_COMMAND_SEQUENCE_ERROR}}}}}}</description>
+<line>87</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_COMMAND_SEQUENCE_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>54</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_COMMAND_SEQUENCE_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_AP_KEY_DISABLE}}}}}}</description>
+<line>88</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_AP_KEY_DISABLE}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>55</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_AP_KEY_DISABLE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_VERIFICATION_ERROR}}}}}}</description>
+<line>89</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_VERIFICATION_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>56</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_VERIFICATION_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{INVALID_STATUS_CODE_SIGN_ERROR}}}}}}</description>
+<line>90</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{INVALID_STATUS_CODE_SIGN_ERROR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>57</line>
+<column>9</column>
+</event>
+<extra>INVALID_STATUS_CODE_SIGN_ERROR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/apu/hal_apu_cmd_proc.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{HAL_MR_HDR_LEN_OF}}}}}}</description>
+<line>6</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{HAL_MR_HDR_LEN_OF}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.h</file>
+<line>21</line>
+<column>9</column>
+</event>
+<extra>HAL_MR_HDR_LEN_OF</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.4</checker>
+<type>MISRA_C_2012_Rule_5.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_4_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0}, which is has already been used.}{{code{UCHAR}}}}}}</description>
+<line>79</line>
+<column>9</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Previous declaration of {0}.}{{code{UCHAR}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>128</line>
+<column>9</column>
+</event>
+<extra>UCHAR</extra>
+<subcategory>none</subcategory>
+</error>

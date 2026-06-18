@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/build/sal_build_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line331">331    </a></b>	#define CLR_BIT60           (~BIT60)
+<b><a name="line332">332    </a></b>	#define CLR_BIT61           (~BIT61)
+<b><a name="line333">333    </a></b>	#define CLR_BIT62           (~BIT62)
+<b><a name="line334">334    </a></b>	#define CLR_BIT63           (~BIT63)
+<b><a name="line335">335    </a></b>	
+<b><a name="line336">336    </a></b>	#define B_OFFSET_01H     (0x01 >> 0)
+<b><a name="line337">337    </a></b>	#define DW_OFFSET_04H     (0x04 >> 2)
+<b><a name="line338">338    </a></b>	#define QW_OFFSET_08H     (0x08 >> 3)
+<b><a name="line339">339    </a></b>	#define DW_OFFSET_40H     (0x40 >> 2)
+<b><a name="line340">340    </a></b>	#define DW_OFFSET_20H     (0x20 >> 2)
+<b><a name="line341">341    </a></b>	#define QW_OFFSET_40H     (0x40 >> 3)
+<b><a name="line342">342    </a></b>	#define QW_OFFSET_20H     (0x20 >> 3)
+<b><a name="line343">343    </a></b>	#define QW_OFFSET_10H     (0x10 >> 3)
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	typedef enum {
+<b><a name="line346">346    </a></b>	    SECResult_FAIL = 0x5A5A5A5A,
+<b><a name="line347">347    </a></b>	    SECResult_PASS = 0x19875031
+<b><a name="line348">348    </a></b>	} SECResult_e;
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	#define TEST_SEC (FALSE && ((IC_TYPE_FPGA_HAPS == IC_TYPE) || (IC_TYPE_FPGA_COBRA == IC_TYPE)))
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	//==========================================================
+<b><a name="line353">353    </a></b>	//  TIMEOUT threshold Define  (Unit:ms)
+<b><a name="line354">354    </a></b>	//==========================================================
+<b><a name="line355">355    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line356">356    </a></b>	#define GERNAL_TIMEOUT_THRESHOLD			(50)
+<b><a name="line357">357    </a></b>	#define PKE_TIMEOUT_THRESHOLD				(200)
+<b><a name="line358">358    </a></b>	#define SHA_TIMEOUT_THRESHOLD				(200)
+<b><a name="line359">359    </a></b>	#else /* (IC_TYPE == IC_TYPE_ASIC) */
+<b><a name="line360">360    </a></b>	#define GERNAL_TIMEOUT_THRESHOLD			(0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line361">361    </a></b>	#define PKE_TIMEOUT_THRESHOLD				(1000)
+<b><a name="line362">362    </a></b>	#define SHA_TIMEOUT_THRESHOLD				(1000)
+<b><a name="line363">363    </a></b>	#endif /* (IC_TYPE == IC_TYPE_ASIC) */
+<b><a name="line364">364    </a></b>	#define WAIT_FLAG_RDY_THRESHOLD             (100) //TODO: check me!
+<b><a name="line365">365    </a></b>	#define AES_OFL_TIMEOUT_THRESHOLD			(300)
+<b><a name="line366">366    </a></b>	#define NVME_NL_ISR_TIMEOUT_THRESHOLD       (300)
+<b><a name="line367">367    </a></b>	#define NVME_RESET_TIMEOUT_THRESHOLD        (500)
+<b><a name="line368">368    </a></b>	#define NVME_TIMEOUT_THRESHOLD				(100)
+<b><a name="line369">369    </a></b>	#define NVME_CMD_TIMEOUT_THRESHOLD			(2000)
+<b><a name="line370">370    </a></b>	#define YMTC_POWERONRESET_THRESHOLD_US		(1500)
+<b><a name="line371">371    </a></b>	#define SPI_GERNAL_TIMEOUT_THRESHOLD		(10000)
+<b><a name="line372">372    </a></b>	#define NAND_READ_TR_TIMEOUT_THRESHOLD		(1)		// 1ms, tR will not over 100us
+<b><a name="line373">373    </a></b>	#define NAND_TBERS_TIMEOUT_THRESHOLD		(15)	// 15ms, tBERS
+<b><a name="line374">374    </a></b>	#define DBUF_TIMEOUT_THRESHOLD		        (10000) //TODO 5963
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	// TODO: check timeout
+<b><a name="line377">377    </a></b>	#define SQZ_TIMEOUT_THRESHOLD               (0xFFFFFFFF)
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	//==========================================================
+<b><a name="line380">380    </a></b>	//  Common Parameter Define
+<b><a name="line381">381    </a></b>	//==========================================================
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	#define DEF_2B      (2)
+<b><a name="line384">384    </a></b>	#define DEF_4B      (4)
+<b><a name="line385">385    </a></b>	#define DEF_8B      (8)
+<b><a name="line386">386    </a></b>	#define DEF_16B     (16)
+<b><a name="line387">387    </a></b>	#define DEF_32B     (32)
+<b><a name="line388">388    </a></b>	#define DEF_64B     (64)
+<b><a name="line389">389    </a></b>	#define DEF_128B    (128)
+<b><a name="line390">390    </a></b>	#define DEF_256B    (256)
+<b><a name="line391">391    </a></b>	#define DEF_384B    (384)
+</pre></body>
+</html>

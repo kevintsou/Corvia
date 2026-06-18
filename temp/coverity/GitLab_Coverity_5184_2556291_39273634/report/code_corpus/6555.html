@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line556">556    </a></b>	            }
+<b><a name="line557">557    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line558">558    </a></b>	            break;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	        case INST_CMD_EEh:
+<b><a name="line561">561    </a></b>	            if (get_feat == TRUE) {
+<b><a name="line562">562    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_EEh;
+<b><a name="line563">563    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line564">564    </a></b>	            }
+<b><a name="line565">565    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line566">566    </a></b>	            break;
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	        case INST_CMD_36h:
+<b><a name="line569">569    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line570">570    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_36h;
+<b><a name="line571">571    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line572">572    </a></b>	            }
+<b><a name="line573">573    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line574">574    </a></b>	            break;
+<b><a name="line575">575    </a></b>	
+<b><a name="line576">576    </a></b>	        case INST_CMD_16h:
+<b><a name="line577">577    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line578">578    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_16h;
+<b><a name="line579">579    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line580">580    </a></b>	            }
+<b><a name="line581">581    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line582">582    </a></b>	            break;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	        case INST_CMD_37h:
+<b><a name="line585">585    </a></b>	            if (get_feat == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "get_feat" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line586">586    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_37h;
+<b><a name="line587">587    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line588">588    </a></b>	            }
+<b><a name="line589">589    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line590">590    </a></b>	            break;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	        default:
+<b><a name="line593">593    </a></b>	            //TODO do not assert, return fail, check the other _hang
+<b><a name="line594">594    </a></b>	            /* coverity[assert_side_effect] */
+<b><a name="line595">595    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_FLOW_FPL_FIP_INIT_FAIL, (_hang == FALSE));
+<b><a name="line596">596    </a></b>	            break;
+<b><a name="line597">597    </a></b>	        }
+<b><a name="line598">598    </a></b>	    }
+<b><a name="line599">599    </a></b>	}
+<b><a name="line600">600    </a></b>	
+<b><a name="line601">601    </a></b>	
+<b><a name="line602">602    </a></b>	U32 fip_set_feature_retry(FIP_CMD_INFO_PTR cmd_info_ptr, U8 *retry_tbl, U8 ch, U8 bank, U8 plane, U8 die, U8 *data_buf)
+<b><a name="line603">603    </a></b>	{
+<b><a name="line604">604    </a></b>	    FIP_PIO_PARAM_UNION param;
+<b><a name="line605">605    </a></b>	    U8 feat_adr_id;
+<b><a name="line606">606    </a></b>	    U32 status;
+<b><a name="line607">607    </a></b>	
+<b><a name="line608">608    </a></b>	    status      = 0U;
+<b><a name="line609">609    </a></b>	    feat_adr_id = 0U;
+<b><a name="line610">610    </a></b>	    (void)memset((void *)&param, 0U, sizeof(FIP_PIO_PARAM_UNION));
+<b><a name="line611">611    </a></b>	
+<b><a name="line612">612    </a></b>	    param.comm.ch                              = ch;
+<b><a name="line613">613    </a></b>	    param.comm.bank                            = bank;
+<b><a name="line614">614    </a></b>	    param.comm.die                             = die;
+<b><a name="line615">615    </a></b>	    param.comm.plane                           = plane;
+<b><a name="line616">616    </a></b>	    param.comm.odt_prefix                      = gFplApiStruct.p_efuse_nand_setting->odt_prefix;
+</pre></body>
+</html>

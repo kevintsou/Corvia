@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line289">289    </a></b>	        {
+<b><a name="line290">290    </a></b>	            return SEC_YES;
+<b><a name="line291">291    </a></b>	        }
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    return SEC_NO;
+<b><a name="line295">295    </a></b>	}
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	U8 hal_sec_pqc_kaz_genkey(U8 *kaz_ds_verify_key, U8 *kaz_ds_sign_key, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line298">298    </a></b>	{
+<b><a name="line299">299    </a></b>	    U8 rand_val_offset = 0U;
+<b><a name="line300">300    </a></b>	    U32 SKSIZE = 0UL;
+<b><a name="line301">301    </a></b>	    U32 V1SIZE = 0UL;
+<b><a name="line302">302    </a></b>	    U32 V2SIZE = 0UL;
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.a,      (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_a),      HAL_SEC_PQC_KAZ_GENKEY_A_LEN);
+<b><a name="line305">305    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.b,      (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_b),      HAL_SEC_PQC_KAZ_GENKEY_B_LEN);
+<b><a name="line306">306    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA,  (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_alpha),  HAL_SEC_PQC_KAZ_GENKEY_ALPHA_LEN);
+<b><a name="line307">307    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_omega1), HAL_SEC_PQC_KAZ_GENKEY_OMEGA1_LEN);
+<b><a name="line308">308    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.V1,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_v1),     HAL_SEC_PQC_KAZ_GENKEY_V1_LEN);
+<b><a name="line309">309    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.V2,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_v2),     HAL_SEC_PQC_KAZ_GENKEY_V2_LEN);
+<b><a name="line310">310    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.SK,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_sk),     HAL_SEC_PQC_KAZ_GENKEY_SK_LEN);
+<b><a name="line311">311    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.SKG1Q,  (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_skg1q),  HAL_SEC_PQC_KAZ_GENKEY_SKG1Q_LEN);
+<b><a name="line312">312    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.tmp,    (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_temp),   HAL_SEC_PQC_KAZ_GENKEY_TEMP_LEN);
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	    //Get all system parameters and precomputed parameters
+<b><a name="line315">315    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1,       sizeof(G1_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line316">316    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.q,        sizeof(q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><a name="line317">317    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.Q,        sizeof(Q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line318">318    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1Q,      sizeof(G1Q_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "G1Q_CHAR" to type "U8 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line319">319    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1qQ,     sizeof(G1qQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line320">320    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiG1,    sizeof(phiG1_CHAR),    sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiG1_CHAR);
+<b><a name="line321">321    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiphiG1, sizeof(phiphiG1_CHAR), sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiphiG1_CHAR);
+<b><a name="line322">322    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiQ,     sizeof(PHIQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line323">323    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.qQ,       sizeof(qQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    //1) Generate random prime a,  random OMEGA1
+<b><a name="line326">326    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.a, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line327">327    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line328">328    </a></b>	
+<b><a name="line329">329    </a></b>	    hal_sec_pqc_kaz_pke_find_next_prime(kaz_buf_ptr->genkey.genkey_local_var_s.a, kaz_buf_ptr->genkey.genkey_local_var_s.a, &kaz_buf_ptr->genkey.genkey_buf_s.next_prime_buf, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line332">332    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    //2) Compute b
+<b><a name="line335">335    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, kaz_buf_ptr->genkey.genkey_local_var_s.phiG1);
+<b><a name="line336">336    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->genkey.genkey_local_var_s.b, kaz_buf_ptr->genkey.genkey_local_var_s.a, kaz_buf_ptr->genkey.genkey_local_var_s.phiphiG1, kaz_buf_ptr->genkey.genkey_local_var_s.tmp, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	    //3) Generate random ALPHA
+<b><a name="line339">339    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, (HAL_SEC_PQC_KAZ_DS_SP_K + HAL_SEC_PQC_KAZ_DS_SP_LG1) / 8, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line340">340    </a></b>	    (void)hal_sec_pqc_kaz_pke_shf(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, HAL_SEC_PKE_SHIFT_L1);
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	    //4) Compute V1
+<b><a name="line343">343    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->genkey.genkey_local_var_s.V1, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.G1, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	    //5) Compute V2
+<b><a name="line346">346    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.phiQ, kaz_buf_ptr->genkey.genkey_local_var_s.b);
+<b><a name="line347">347    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.q, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line348">348    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.Q);
+<b><a name="line349">349    </a></b>	
+</pre></body>
+</html>

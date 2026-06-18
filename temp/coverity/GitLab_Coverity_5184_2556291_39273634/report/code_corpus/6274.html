@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/main.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line13">13    </a></b>	        && (bc_ptr->p_efuse_security_setting_1 != NULL)
+<b><a name="line14">14    </a></b>	        && ((bc_ptr->p_efuse_uds_kdk != NULL)
+<b><a name="line15">15    </a></b>	            || (check_uds_kdk_supported(bc_ptr->p_efuse_security_setting) == FALSE))) {
+<b><a name="line16">16    </a></b>	        //TODO refine this to modify the parsed out efuse values
+<b><a name="line17">17    </a></b>	        gBCodeGlobalStruct.production_mode = check_field_valid(gBCodeGlobalStruct.p_efuse_security_setting->production_state
+<b><a name="line18">18    </a></b>	                , gBCodeGlobalStruct.p_efuse_security_setting->rma_state);
+<b><a name="line19">19    </a></b>	        status = PASS;
+<b><a name="line20">20    </a></b>	        if ((0 != gBCodeGlobalStruct.production_mode)
+<b><a name="line21">21    </a></b>	            && (phal_get_dt_attribution_define() == SEC_YES)) {
+<b><a name="line22">22    </a></b>	            sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line23">23    </a></b>	            sal_log_info_char('s'); // sec self check
+<b><a name="line24">24    </a></b>	            // self test for China National Cryptography
+<b><a name="line25">25    </a></b>	            status = sec_self_check_process(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	            Dump_SEC(tprintf("self check = %x", status));
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_SEC_SELF_CHECK_FAIL, (PASS == status));
+<b><a name="line30">30    </a></b>	        }
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	        if (PASS == status) {
+<b><a name="line33">33    </a></b>	            status = KAT_ERROR_NONE; //clear status
+<b><a name="line34">34    </a></b>	            //  Perform load code KAT if necessary
+<b><a name="line35">35    </a></b>	            if (((bc_ptr->p_efuse_security_setting->kat_enable)
+<b><a name="line36">36    </a></b>	                    && (0 != gBCodeGlobalStruct.production_mode))
+<b><a name="line37">37    </a></b>	                && ((bc_ptr->p_efuse_security_setting->check_code_signature_enable)
+<b><a name="line38">38    </a></b>	                    && (0 != gBCodeGlobalStruct.production_mode))) {
+<b><a name="line39">39    </a></b>	                sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line40">40    </a></b>	                sal_log_info_char('K');
+<b><a name="line41">41    </a></b>	                //The KAT is only performed if Code Signature and KAT is enabled
+<b><a name="line42">42    </a></b>	                status = host_sec_kat_load_code(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134754304UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	                sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_4_KAT, TYPE_TIMESTAMP));
+<b><a name="line45">45    </a></b>	                sal_log_info_num(status);
+<b><a name="line46">46    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_FLOW_LOADCODE_KAT_FAIL, (0 == status));
+<b><a name="line47">47    </a></b>	            }
+<b><a name="line48">48    </a></b>	        }
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	        if (KAT_ERROR_NONE != status) {
+<b><a name="line51">51    </a></b>	            if (bc_ptr->p_efuse_security_setting->essential_kat_fail_stop) {
+<b><a name="line52">52    </a></b>	                sal_log_tracker_set(sal_locate(0x0C, TYPE_FATAL));
+<b><a name="line53">53    </a></b>	                //KAT failed, become stuck
+<b><a name="line54">54    </a></b>	                security_fail_handle(SECURITY_FAIL_TYPE_KAT);
+<b><a name="line55">55    </a></b>	            }
+<b><a name="line56">56    </a></b>	            else {
+<b><a name="line57">57    </a></b>	                //KAT failed, do not load code
+<b><a name="line58">58    </a></b>	            }
+<b><a name="line59">59    </a></b>	        }
+<b><a name="line60">60    </a></b>	        else {
+<b><a name="line61">61    </a></b>	            //KAT Pass or not performed
+<b><a name="line62">62    </a></b>	            //  Program loader initialization
+<b><a name="line63">63    </a></b>	            sal_log_tracker_set(sal_locate(0x0D, TYPE_STEP));
+<b><a name="line64">64    </a></b>	            program_loader_init(bc_ptr);
+<b><a name="line65">65    </a></b>	        }
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	        //Clear the UDS KDK that may have been read out
+<b><a name="line68">68    </a></b>	        clear_uds_kdk(&gEFuseAPI);
+<b><a name="line69">69    </a></b>	        clear_sec_key_hash_and_data(&gEFuseAPI);
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	        //  Initialize the parts that may be uninitialized in the DBUF
+<b><a name="line72">72    </a></b>	        //status = sys_dbuf_init(DBUF_HOST_ZONE);
+<b><a name="line73">73    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_dice_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line140">140    </a></b>	            phal_sec_hmac_sha2_kdf_counter_mode_blocking(&kdf_param);
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	            // CDI = HMAC(UDS, Level 0 firmware measurement || Device_Security_Profile)
+<b><a name="line143">143    </a></b>	            (void)memset((void *)input_addr, 0x00, SECTOR_SIZE);
+<b><a name="line144">144    </a></b>	            tmp_len = 0;
+<b><a name="line145">145    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)dice_param->loader_measure_addr, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line146">146    </a></b>	            tmp_len += HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line147">147    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->dice_boot_confg_efuse_setting), sizeof(dice_param->dice_boot_confg_efuse_setting));
+<b><a name="line148">148    </a></b>	            tmp_len += sizeof(dice_param->dice_boot_confg_efuse_setting);
+<b><a name="line149">149    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->sec_mode_confg_efuse_setting),  sizeof(dice_param->sec_mode_confg_efuse_setting));
+<b><a name="line150">150    </a></b>	            tmp_len += sizeof(dice_param->sec_mode_confg_efuse_setting);
+<b><a name="line151">151    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->device_product_id_setting),     sizeof(dice_param->device_product_id_setting));
+<b><a name="line152">152    </a></b>	            tmp_len += sizeof(dice_param->device_product_id_setting);
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	            hmac_sha_param.key_addr.low         = uds_buf_addr + HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line155">155    </a></b>	            hmac_sha_param.key_len              = digest_size;
+<b><a name="line156">156    </a></b>	            hmac_sha_param.sha.sha_mode         = sha_mode;
+<b><a name="line157">157    </a></b>	            hmac_sha_param.sha.src_addr.low     = input_addr;
+<b><a name="line158">158    </a></b>	            hmac_sha_param.sha.src_len          = tmp_len;
+<b><a name="line159">159    </a></b>	            hmac_sha_param.sha.targ_addr.low    = (U32)&output_buf->cdi[0U];
+<b><a name="line160">160    </a></b>	            hmac_sha_param.sha.r1_enable        = FALSE;
+<b><a name="line161">161    </a></b>	            hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line162">162    </a></b>	
+<b><a name="line163">163    </a></b>	            phal_sec_hmac_sha_blocking(&hmac_sha_param);
+<b><a name="line164">164    </a></b>	        }
+<b><a name="line165">165    </a></b>	        else
+<b><a name="line166">166    </a></b>	        {
+<b><a name="line167">167    </a></b>	            Dump_SEC(tprintf("P Dice"));
+<b><a name="line168">168    </a></b>	            sal_log_tracker_set(sal_locate(0x15, TYPE_STEP));
+<b><a name="line169">169    </a></b>	            (void)memcpy((void *)input_addr, (void *)dice_param->loader_measure_addr, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "dice_param->loader_measure_addr" of type "U32" is cast to type "void *".</font>
+<b><a name="line170">170    </a></b>	
+<b><a name="line171">171    </a></b>	            hmac_sha_param.key_addr.low         = uds_buf_addr;
+<b><a name="line172">172    </a></b>	            hmac_sha_param.key_len              = digest_size;
+<b><a name="line173">173    </a></b>	            hmac_sha_param.sha.sha_mode         = sha_mode;
+<b><a name="line174">174    </a></b>	            hmac_sha_param.sha.src_addr.low     = input_addr;
+<b><a name="line175">175    </a></b>	            hmac_sha_param.sha.src_len          = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line176">176    </a></b>	            hmac_sha_param.sha.targ_addr.low    = (U32)&output_buf->cdi[0U];
+<b><a name="line177">177    </a></b>	            hmac_sha_param.sha.r1_enable        = FALSE;
+<b><a name="line178">178    </a></b>	            hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line179">179    </a></b>	            // hmac_sha_param.timeout_val      = SEC_TIMEOUT_TICKS;
+<b><a name="line180">180    </a></b>	            phal_sec_hmac_sha_blocking(&hmac_sha_param);
+<b><a name="line181">181    </a></b>	        }
+<b><a name="line182">182    </a></b>	
+<b><a name="line183">183    </a></b>	        (void)memset((void *)uds_buf_addr, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line184">184    </a></b>	        (void)memset((void *)input_addr, 0x00, SECTOR_SIZE);
+<b><a name="line185">185    </a></b>	    }
+<b><a name="line186">186    </a></b>	    else {
+<b><a name="line187">187    </a></b>	        dice_rslt |= DICE_KAT_FAIL;
+<b><a name="line188">188    </a></b>	    }
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout | (dice_rslt == FALSE)) {
+<b><a name="line191">191    </a></b>	        dice_rslt |= DICE_TIMEOUT;
+<b><a name="line192">192    </a></b>	    }
+<b><a name="line193">193    </a></b>	
+<b><a name="line194">194    </a></b>	    if (dice_rslt != DICE_NO_ERROR) {
+<b><a name="line195">195    </a></b>	        for (i = 0U; i < digest_size; i += 4U) {
+<b><a name="line196">196    </a></b>	            memcpy((void *)(output_buf->cdi + i), (void *)&dice_error_value, 4U);
+<b><a name="line197">197    </a></b>	        }
+<b><a name="line198">198    </a></b>	    }
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    sal_log_tracker_set(sal_locate(dice_rslt, TYPE_DATA));
+</pre></body>
+</html>

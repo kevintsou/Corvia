@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2405">2405    </a></b>	void dal_fip_set_irq_map_rd(U8 ch)
+<b><a name="line2406">2406    </a></b>	{
+<b><a name="line2407">2407    </a></b>	    //r32_IRQ_MAP_RD_SET(ch);   //inst base
+<b><a name="line2408">2408    </a></b>	}
+<b><a name="line2409">2409    </a></b>	
+<b><a name="line2410">2410    </a></b>	/*!
+<b><a name="line2411">2411    </a></b>	 * @brief
+<b><a name="line2412">2412    </a></b>	 *
+<b><a name="line2413">2413    </a></b>	 *  -
+<b><a name="line2414">2414    </a></b>	 *
+<b><a name="line2415">2415    </a></b>	 * @param[in] int_msg
+<b><a name="line2416">2416    </a></b>	 * @return    None
+<b><a name="line2417">2417    </a></b>	 * @note
+<b><a name="line2418">2418    </a></b>	 *
+<b><a name="line2419">2419    </a></b>	 * -
+<b><a name="line2420">2420    </a></b>	 *
+<b><a name="line2421">2421    </a></b>	 */
+<b><a name="line2422">2422    </a></b>	U8 dal_fip_get_int_msg_match_ch(DAL_FIP_INT_MSG_STRUCT_PTR int_msg)
+<b><a name="line2423">2423    </a></b>	{
+<b><a name="line2424">2424    </a></b>	    U8 ch;
+<b><a name="line2425">2425    </a></b>	    DAL_FIP_SRQ_ERR_MAP_INF_STRUCT err_map;
+<b><a name="line2426">2426    </a></b>	    memset((void*)&err_map, 0, sizeof(DAL_FIP_SRQ_ERR_MAP_INF_STRUCT));
+<b><a name="line2427">2427    </a></b>	    for (ch = 0; ch < DAL_FIP_CH_NUM; ch++) {
+<b><a name="line2428">2428    </a></b>	        dal_fip_get_int_map_info(ch, DAL_FIP_ERR_MAP_INT_VCT, &err_map);
+<b><a name="line2429">2429    </a></b>	        if (int_msg->int_vct == err_map.int_vct) {
+<b><a name="line2430">2430    </a></b>	            return ch; // find ch match the int_msg
+<b><a name="line2431">2431    </a></b>	        }
+<b><a name="line2432">2432    </a></b>	    }
+<b><a name="line2433">2433    </a></b>	
+<b><a name="line2434">2434    </a></b>	    ALWAYS_ASSERT(0U); // could not find which ch match the int_msg
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "!0U" is invariant.</font>
+<b><a name="line2435">2435    </a></b>	    return 0xFF;
+<b><a name="line2436">2436    </a></b>	}
+<b><a name="line2437">2437    </a></b>	
+<b><a name="line2438">2438    </a></b>	void dal_fip_set_gpo_we(U8 ch, BOOL is_we_en)
+<b><a name="line2439">2439    </a></b>	{
+<b><a name="line2440">2440    </a></b>	    w_GPO_WE(ch, is_we_en);
+<b><a name="line2441">2441    </a></b>	}
+<b><a name="line2442">2442    </a></b>	void dal_fip_set_gpo_re(U8 ch, BOOL is_re_en)
+<b><a name="line2443">2443    </a></b>	{
+<b><a name="line2444">2444    </a></b>	    w_GPO_RE(ch, is_re_en);
+<b><a name="line2445">2445    </a></b>	}
+<b><a name="line2446">2446    </a></b>	void dal_fip_set_gpo_cle(U8 ch, BOOL is_cle_en)
+<b><a name="line2447">2447    </a></b>	{
+<b><a name="line2448">2448    </a></b>	    w_GPO_CLE(ch, is_cle_en);
+<b><a name="line2449">2449    </a></b>	}
+<b><a name="line2450">2450    </a></b>	void dal_fip_set_gpo_ale(U8 ch, BOOL is_ale_en)
+<b><a name="line2451">2451    </a></b>	{
+<b><a name="line2452">2452    </a></b>	    w_GPO_ALE(ch, is_ale_en);
+<b><a name="line2453">2453    </a></b>	}
+<b><a name="line2454">2454    </a></b>	void dal_fip_set_gpo_dqs(U8 ch, BOOL is_dqs_en)
+<b><a name="line2455">2455    </a></b>	{
+<b><a name="line2456">2456    </a></b>	    w_GPO_DQS(ch, is_dqs_en);
+<b><a name="line2457">2457    </a></b>	}
+<b><a name="line2458">2458    </a></b>	void dal_fip_set_gpo_dqs_oe(U8 ch, BOOL is_dqs_oe_en)
+<b><a name="line2459">2459    </a></b>	{
+<b><a name="line2460">2460    </a></b>	    w_GPO_DQS_OE(ch, is_dqs_oe_en);
+<b><a name="line2461">2461    </a></b>	}
+<b><a name="line2462">2462    </a></b>	
+<b><a name="line2463">2463    </a></b>	void dal_fip_set_gpo_io(U8 ch, U8 io_value)
+<b><a name="line2464">2464    </a></b>	{
+<b><a name="line2465">2465    </a></b>	    w_GPO_IO(ch, io_value);
+</pre></body>
+</html>

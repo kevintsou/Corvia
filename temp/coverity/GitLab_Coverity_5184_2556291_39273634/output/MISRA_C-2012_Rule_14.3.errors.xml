@@ -1,0 +1,2283 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</file>
+<function>hal_sec_sha_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>224</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_comm_api.c</file>
+<function>hal_sec_get_digest_len</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>1603</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_init.c</file>
+<function>host_pcie_init_interrupt_resource</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be equal to {2}.}{{code{queue_cnt &gt; 1U}}}{{code{queue_cnt}}}{9}}}}</description>
+<line>248</line>
+<column>9</column>
+</event>
+<event>
+<tag>assignment</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{queue_cnt}}}{}{{code{9}}}}}}</description>
+<line>245</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{queue_cnt &gt; 1U}}}}}}</description>
+<line>248</line>
+<column>5</column>
+</event>
+<extra>queue_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_miscl_api.c</file>
+<function>hal_hw_cfg_get</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>40</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_chk_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1032</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_api_get_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>756</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_err_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>319</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_verify_key_hash</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>incr</tag>
+<description>{CovLStrv2{{t{Incrementing {0}.}{{code{idx}}}}{t{ The value of {0} is now {1}.}{{code{idx}}}{1}}}}</description>
+<line>78</line>
+<column>63</column>
+</event>
+<event>
+<tag>between</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be between {2} and {3}.}{{code{idx &lt; 2U}}}{{code{idx}}}{0}{1}}}}</description>
+<line>78</line>
+<column>22</column>
+</event>
+<event>
+<tag>assignment</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{idx}}}{}{{code{0}}}}}}</description>
+<line>78</line>
+<column>10</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch. Now the value of {1} is equal to {2}.}{{code{idx &lt; 2U}}}{{code{idx}}}{0}}}}</description>
+<line>78</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{idx &lt; 2U}}}}}}</description>
+<line>78</line>
+<column>5</column>
+</event>
+<extra>idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_cmgr_lock</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>26</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_set_int_p_cmgr_lock</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>762</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_get_cq_result</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1149</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>incr</tag>
+<description>{CovLStrv2{{t{Incrementing {0}.}{{code{idx}}}}{t{ The value of {0} is now {1}.}{{code{idx}}}{1}}}}</description>
+<line>170</line>
+<column>67</column>
+</event>
+<event>
+<tag>between</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be between {2} and {3}.}{{code{idx &lt; 2U}}}{{code{idx}}}{0}{1}}}}</description>
+<line>170</line>
+<column>26</column>
+</event>
+<event>
+<tag>assignment</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{idx}}}{}{{code{0}}}}}}</description>
+<line>170</line>
+<column>14</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch. Now the value of {1} is equal to {2}.}{{code{idx &lt; 2U}}}{{code{idx}}}{0}}}}</description>
+<line>170</line>
+<column>9</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{idx &lt; 2U}}}}}}</description>
+<line>170</line>
+<column>9</column>
+</event>
+<extra>idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_init_top_reg</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{16U == 0U}}}}}}</description>
+<line>457</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_fw_slot_info</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>between</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be between {2} and {3}.}{{code{copy &lt; 16UL}}}{{code{copy}}}{0}{15}}}}</description>
+<line>1883</line>
+<column>19</column>
+</event>
+<event>
+<tag>cond_between</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch. Now the value of {1} is between {2} and {3}.}{{code{copy &lt; 16UL}}}{{code{copy}}}{2}{15}}}}</description>
+<line>1883</line>
+<column>14</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch. Now the value of {1} is equal to {2}.}{{code{copy &lt; 16UL}}}{{code{copy}}}{1}}}}</description>
+<line>1883</line>
+<column>14</column>
+</event>
+<event>
+<tag>cond_between</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is between {2} and {3}.}{{code{copy &gt;= 16UL}}}{{code{copy}}}{2}{15}}}}</description>
+<line>1879</line>
+<column>9</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is equal to {2}.}{{code{copy &gt;= 16UL}}}{{code{copy}}}{1}}}}</description>
+<line>1879</line>
+<column>9</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is equal to {2}.}{{code{copy &gt;= 16UL}}}{{code{copy}}}{0}}}}</description>
+<line>1879</line>
+<column>9</column>
+</event>
+<event>
+<tag>incr</tag>
+<description>{CovLStrv2{{t{Incrementing {0}.}{{code{copy}}}}{t{ The value of {0} is now between {1} and {2} (inclusive).}{{code{copy}}}{3}{16}}}}</description>
+<line>1877</line>
+<column>55</column>
+</event>
+<event>
+<tag>incr</tag>
+<description>{CovLStrv2{{t{Incrementing {0}.}{{code{copy}}}}{t{ The value of {0} is now {1}.}{{code{copy}}}{2}}}}</description>
+<line>1877</line>
+<column>55</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{copy &lt; 16UL}}}}}}</description>
+<line>1883</line>
+<column>14</column>
+</event>
+<extra>copy</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>2181</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>2195</line>
+<column>31</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>2233</line>
+<column>26</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>992</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1007</line>
+<column>25</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1017</line>
+<column>25</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1024</line>
+<column>25</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1032</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if_parallel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1134</line>
+<column>29</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if_non_parallel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1175</line>
+<column>14</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>851</line>
+<column>22</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>896</line>
+<column>30</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>929</line>
+<column>29</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_nand_zq_calibration</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>391</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_nand_zq_calibration</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>403</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_dq_revert</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>260</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{100U &lt;= 10U}}}}}}</description>
+<line>1761</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1000U &lt;= 10U}}}}}}</description>
+<line>1762</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{70U &lt;= 10U}}}}}}</description>
+<line>1763</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{20U &lt;= 10U}}}}}}</description>
+<line>1764</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{400U &lt;= 10U}}}}}}</description>
+<line>1765</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{50U &lt;= 10U}}}}}}</description>
+<line>1766</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{500U &lt;= 10U}}}}}}</description>
+<line>1767</line>
+<column>23</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{30U &lt;= 10U}}}}}}</description>
+<line>1771</line>
+<column>43</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{50U &lt;= 10U}}}}}}</description>
+<line>1775</line>
+<column>43</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{100U &lt;= 10U}}}}}}</description>
+<line>1779</line>
+<column>43</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryGetMappingFwEventCode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pACRotData-&gt;sDeviceStatus.uwRecoveryReasonCode &gt;= 0U}}}}}}</description>
+<line>190</line>
+<column>14</column>
+</event>
+<extra>pACRotData,sDeviceStatus,uwRecoveryReasonCode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/uart/hal_uart_api.c</file>
+<function>hal_uart_interrupt_rx_enable</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>205</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>fw_download_chk_parm</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>dead_error_condition</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{255 == 255}}}}}}</description>
+<line>1014</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Execution cannot reach this statement: {0}.}{{code{if (1) {L}
+  fwug_byte_mask =...}}}}}}</description>
+<line>1017</line>
+<column>10</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>fw_download_chk_parm</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{5U &gt; 0U}}}}}}</description>
+<line>1025</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{6 &gt; 4}}}}}}</description>
+<line>2847</line>
+<column>79</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>dead_error_condition</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{6 &gt; 4}}}}}}</description>
+<line>2854</line>
+<column>17</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Execution cannot reach the expression {0} inside this statement: {1}.}{{code{4}}}{{code{a_fip_read_param[channel].s...}}}}}}</description>
+<line>2854</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_padc_api.c</file>
+<function>hal_mux_gpio_sel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>222</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_miscl_api.c</file>
+<function>hal_hw_cfg_dis_set</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>54</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{6 &gt; 4}}}}}}</description>
+<line>2283</line>
+<column>108</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pDeviceReset-&gt;ubDeviceResetControl &gt;= 0U}}}}}}</description>
+<line>1221</line>
+<column>41</column>
+</event>
+<extra>pDeviceReset,ubDeviceResetControl</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pDeviceReset-&gt;ubForcedRecovery &gt;= 0U}}}}}}</description>
+<line>1222</line>
+<column>41</column>
+</event>
+<extra>pDeviceReset,ubForcedRecovery</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pDeviceReset-&gt;ubInterfaceControl &gt;= 0U}}}}}}</description>
+<line>1223</line>
+<column>41</column>
+</event>
+<extra>pDeviceReset,ubInterfaceControl</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pRecoveryCtrl-&gt;ubRecoveryImageSelection &gt;= 0U}}}}}}</description>
+<line>1230</line>
+<column>41</column>
+</event>
+<extra>pRecoveryCtrl,ubRecoveryImageSelection</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{6 &gt; 4}}}}}}</description>
+<line>3242</line>
+<column>91</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</file>
+<function>GetSmbsBusCondition</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>notnull</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} cannot be {code{NULL}}.}{{code{NULL != pSmbsTx}}}{{code{pSmbsTx}}}}}}</description>
+<line>28</line>
+<column>36</column>
+</event>
+<event>
+<tag>cond_notnull</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is not {code{NULL}}.}{{code{NULL == pSmbsTx}}}{{code{pSmbsTx}}}}}}</description>
+<line>24</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{NULL != pSmbsTx}}}}}}</description>
+<line>28</line>
+<column>10</column>
+</event>
+<extra>pSmbsTx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1321</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1349</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>hal_set_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1214</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>hal_get_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1251</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>dal_sys_perstn_int_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>145</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_iorch_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>156</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>dal_pcie_plda_set_host_tool14</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>52</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_wch_lca_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>204</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_rdma_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>60</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_wch_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>365</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_wch_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>140</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_cmgr_ptr_ofst</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>333</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_sram_err_flag</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>462</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_rlbn_unflow_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>188</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>dal_pcie_set_snps_vendor_type1</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>32</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_clr_wrr_wei_st</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2502</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_wch_lca_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>429</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_spd_success</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>1673</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_rdma_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>285</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>dal_sys_perstn_int_dis</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>159</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_wdma_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>269</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_wdma_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>43</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_clr_cvld_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>92</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_ppaf_werr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>220</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_iorch_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>381</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_set_wrr_rcnt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2512</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_r_unc_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>76</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_r_unc_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>301</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_set_arb_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2430</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_get_hst_wr_st_fun_bitmap</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>334</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_sram_err_flag</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>237</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_cmgr_lock</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>253</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_rch_lca_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>172</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_rch_lca_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>397</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_set_wrr_wei_st</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2489</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_set_wrr_brcnt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2536</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_get_wrr_bur_cnt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2549</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>hal_pcie_set_pl_misc_r_vdms_header_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>17</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_rlbn_unflow_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>413</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/mctp/dal_mctp_func.c</file>
+<function>dal_pcie_snps_misc_get_ltssm_state</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>128</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_cmgr_ptr_ofst</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>108</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_ppaf_werr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>445</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_rpf_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>349</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_en_p_clr_cvld_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>317</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_int_p_rpf_hptr_ofst_err</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>124</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_set_group</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>123</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_hard_reset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{1U == 0U}}}}}}</description>
+<line>1828</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_get_int_msg_match_ch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>2434</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_itc.c</file>
+<function>hal_gic_set_configuration</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{!0U}}}}}}</description>
+<line>96</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{qsize &gt; 65535}}}}}}</description>
+<line>141</line>
+<column>31</column>
+</event>
+<extra>qsize</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_sq</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>at_least</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be at least {2}.}{{code{qsize &gt; 65535}}}{{code{qsize}}}{1}}}}</description>
+<line>141</line>
+<column>31</column>
+</event>
+<event>
+<tag>cannot_single</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} cannot be equal to {2}.}{{code{qsize &gt; 65535}}}{{code{qsize}}}{0}}}}</description>
+<line>141</line>
+<column>31</column>
+</event>
+<event>
+<tag>cond_at_least</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is at least {2}.}{{code{qsize == 0}}}{{code{qsize}}}{1}}}}</description>
+<line>141</line>
+<column>10</column>
+</event>
+<event>
+<tag>cond_cannot_single</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} cannot be equal to {2}.}{{code{qsize == 0}}}{{code{qsize}}}{0}}}}</description>
+<line>141</line>
+<column>10</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} cannot be true.}{{code{qsize &gt; 65535}}}}}}</description>
+<line>141</line>
+<column>10</column>
+</event>
+<extra>qsize</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_cq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{qsize &gt; 65535}}}}}}</description>
+<line>87</line>
+<column>31</column>
+</event>
+<extra>qsize</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_create_io_cq</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>at_least</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be at least {2}.}{{code{qsize &gt; 65535}}}{{code{qsize}}}{1}}}}</description>
+<line>87</line>
+<column>31</column>
+</event>
+<event>
+<tag>cannot_single</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} cannot be equal to {2}.}{{code{qsize &gt; 65535}}}{{code{qsize}}}{0}}}}</description>
+<line>87</line>
+<column>31</column>
+</event>
+<event>
+<tag>cond_at_least</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is at least {2}.}{{code{qsize == 0}}}{{code{qsize}}}{1}}}}</description>
+<line>87</line>
+<column>10</column>
+</event>
+<event>
+<tag>cond_cannot_single</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} cannot be equal to {2}.}{{code{qsize == 0}}}{{code{qsize}}}{0}}}}</description>
+<line>87</line>
+<column>10</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} cannot be true.}{{code{qsize &gt; 65535}}}}}}</description>
+<line>87</line>
+<column>10</column>
+</event>
+<extra>qsize</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{Controlling expression {0} is invariant.}{{code{pACRotData-&gt;sDeviceStatus.uwRecoveryReasonCode &gt;= 0U}}}}}}</description>
+<line>446</line>
+<column>26</column>
+</event>
+<extra>pACRotData,sDeviceStatus,uwRecoveryReasonCode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_receive_packet</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be equal to {2}.}{{code{0UL == message_assembly_status}}}{{code{message_assembly_status}}}{0}}}}</description>
+<line>234</line>
+<column>9</column>
+</event>
+<event>
+<tag>assignment</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{message_assembly_status}}}{}{{code{0UL}}}}}}</description>
+<line>206</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{0UL == message_assembly_status}}}}}}</description>
+<line>234</line>
+<column>5</column>
+</event>
+<extra>message_assembly_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>const</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} must be equal to {2}.}{{code{sqz_status == 2}}}{{code{sqz_status}}}{2}}}}</description>
+<line>299</line>
+<column>22</column>
+</event>
+<event>
+<tag>cond_const</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is equal to {2}.}{{code{sqz_status == 0}}}{{code{sqz_status}}}{2}}}}</description>
+<line>287</line>
+<column>13</column>
+</event>
+<event>
+<tag>assignment</tag>
+<description>{CovLStrv2{{t{Assigning: {0} {1}= {2}.}{{code{sqz_status}}}{}{{code{2}}}}}}</description>
+<line>255</line>
+<column>13</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{sqz_status == 2}}}}}}</description>
+<line>299</line>
+<column>18</column>
+</event>
+<extra>sqz_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>notnull</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} cannot be {code{NULL}}.}{{code{NULL == p_smbs_rx}}}{{code{p_smbs_rx}}}}}}</description>
+<line>159</line>
+<column>38</column>
+</event>
+<event>
+<tag>cond_notnull</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is not {code{NULL}}.}{{code{NULL == p_smbs_rx}}}{{code{p_smbs_rx}}}}}}</description>
+<line>154</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} cannot be true.}{{code{NULL == p_smbs_rx}}}}}}</description>
+<line>159</line>
+<column>10</column>
+</event>
+<extra>p_smbs_rx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.3</checker>
+<type>MISRA_C_2012_Rule_14.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>notnull</tag>
+<description>{CovLStrv2{{t{At condition {0}, the value of {1} cannot be {code{NULL}}.}{{code{NULL != p_smbs_tx}}}{{code{p_smbs_tx}}}}}}</description>
+<line>162</line>
+<column>13</column>
+</event>
+<event>
+<tag>cond_notnull</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch. Now the value of {1} is not {code{NULL}}.}{{code{NULL == p_smbs_tx}}}{{code{p_smbs_tx}}}}}}</description>
+<line>154</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_3_violation</tag>
+<description>{CovLStrv2{{t{The condition {0} must be true.}{{code{NULL != p_smbs_tx}}}}}}</description>
+<line>162</line>
+<column>9</column>
+</event>
+<extra>p_smbs_tx</extra>
+<subcategory>none</subcategory>
+</error>

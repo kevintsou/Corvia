@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line49">49    </a></b>	    gVUALock.ubVerifyFailCount = 0;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    memcpy((void *)(gVUALock.ulAESCipherBlockChainingInitializayionVector), (void *)(gaulVUCLockAesCBCIV), sizeof(gVUALock.ulAESCipherBlockChainingInitializayionVector));
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    U8 ControllerName[PARTY_U_INFO_LEN] = {0x50, 0x53, 0x35, 0x33, 0x30, 0x33, 0x00, 0x00};   // PS530300
+<b><a name="line54">54    </a></b>	    memcpy((void *)gVUALock.ubControllerName, (void *)ControllerName, PARTY_U_INFO_LEN);
+<b><a name="line55">55    </a></b>	}
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	void VUA_sha_blocking(U32 KeyAdr, U32 ulDesAdr, U32 KeyLen)
+<b><a name="line58">58    </a></b>	{
+<b><a name="line59">59    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line60">60    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line61">61    </a></b>	    sec_sha_param.src_addr.all     = KeyAdr;
+<b><a name="line62">62    </a></b>	    sec_sha_param.src_len          = KeyLen;
+<b><a name="line63">63    </a></b>	    sec_sha_param.targ_addr.all    = (U64)ulDesAdr;
+<b><a name="line64">64    </a></b>	    sec_sha_param.sha_mode         = HAL_SEC_SHA2_512_MODE;
+<b><a name="line65">65    </a></b>	    sec_sha_param.timeout_val      = SEC_TIMEOUT_TICKS;
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line68">68    </a></b>	}
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	SECResult_e VUA_verify_key_hash(U32 KeyHashAdr)
+<b><a name="line71">71    </a></b>	{
+<b><a name="line72">72    </a></b>	    U8 rng[6] = {0};
+<b><a name="line73">73    </a></b>	    EFUSE_VUC_PROTECT_KEY_HASH *pVUCKeyHash = (EFUSE_VUC_PROTECT_KEY_HASH *)gVUALock.ulVendorTmpBase;
+<b><a name="line74">74    </a></b>	    pVUCKeyHash = get_efuse_vuc_protect_key_hash(&gEFuseAPI);
+<b><a name="line75">75    </a></b>	    drbg_get_try_limit_rng_data(&gRnghealth, sizeof(rng), rng);
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	    // Compare all efuse key hash
+<b><a name="line78">78    </a></b>	    for (U8 idx = 0; idx < EFUSE_VUC_PROTECT_KEY_INDEX_COUNT; idx++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event incr:</font></b> <font face="Arial"; size="3"; color="#FF5959">Incrementing "idx". The value of "idx" is now 1.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event between:</font></b> <font face="Arial"; size="3"; color="#FF5959">At condition "idx < 2U", the value of "idx" must be between 0 and 1.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "idx" = "0".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event cond_const:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "idx < 2U", taking true branch. Now the value of "idx" is equal to 0.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition "idx < 2U" must be true.</font>
+<b><a name="line79">79    </a></b>	    {
+<b><a name="line80">80    </a></b>	        if (HAL_SEC_DMSCA_PASS == hal_sec_dmsca_def_cmp((U8 *)(pVUCKeyHash + idx), (U8 *)KeyHashAdr, 48, 48, rng))
+<b><a name="line81">81    </a></b>	        {
+<b><a name="line82">82    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line83">83    </a></b>	            Dump_SEC(tprintf("KV OK"));
+<b><a name="line84">84    </a></b>	#endif
+<b><a name="line85">85    </a></b>	            memset((void *)KeyHashAdr,  0U, sizeof(EFUSE_VUC_PROTECT_KEY_HASH));
+<b><a name="line86">86    </a></b>	            clear_vuc_key_hash(&gEFuseAPI);
+<b><a name="line87">87    </a></b>	            break;
+<b><a name="line88">88    </a></b>	        }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	        if ((idx + 1) == EFUSE_VUC_PROTECT_KEY_INDEX_COUNT)
+<b><a name="line91">91    </a></b>	        {
+<b><a name="line92">92    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line93">93    </a></b>	            Dump_SEC(tprintf("KV F!"));
+<b><a name="line94">94    </a></b>	#endif
+<b><a name="line95">95    </a></b>	            memset((void *)KeyHashAdr,  0U, sizeof(EFUSE_VUC_PROTECT_KEY_HASH));
+<b><a name="line96">96    </a></b>	            clear_vuc_key_hash(&gEFuseAPI);
+<b><a name="line97">97    </a></b>	            return SECResult_FAIL;
+<b><a name="line98">98    </a></b>	        }
+<b><a name="line99">99    </a></b>	    }
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	    return SECResult_PASS;
+<b><a name="line102">102    </a></b>	}
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	void VUA_RSAEncode(U32 ulDecryptDesAdr, U32 ulSignatureSrcAdr, U32 *KeyBase)
+<b><a name="line105">105    </a></b>	{
+<b><a name="line106">106    </a></b>	    RSAPublicKey_t *pRSAPublicKey = (RSAPublicKey_t *)gVUALock.ulHashCalBufBase;
+<b><a name="line107">107    </a></b>	    memcpy((void *)pRSAPublicKey, (void *)KeyBase, sizeof(RSAPublicKey_t));
+<b><a name="line108">108    </a></b>	
+<b><a name="line109">109    </a></b>	    phal_rsa4096_enc(ulDecryptDesAdr, ulSignatureSrcAdr, (U32 *)pRSAPublicKey);
+</pre></body>
+</html>

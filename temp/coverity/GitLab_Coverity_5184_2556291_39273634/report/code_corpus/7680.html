@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/key_manifest_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	        key_manifest_api_ptr->key_header_ptr = key_header_ptr;
+<b><a name="line30">30    </a></b>	    }
+<b><a name="line31">31    </a></b>	    return;
+<b><a name="line32">32    </a></b>	}
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	void set_key_manifest_proj_bin_header_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, PROJECT_BINARY_HEADER_PTR project_binary_header_ptr)
+<b><a name="line35">35    </a></b>	{
+<b><a name="line36">36    </a></b>	    U64 proj_bin_header_addr;
+<b><a name="line37">37    </a></b>	    U64 proj_bin_size_before_sign;
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    U64 public_key_size;
+<b><a name="line40">40    </a></b>	    U64 signature_size;
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    U64 manifest_key_proj_bin_addr;
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR key_manifest_proj_bin_header_ptr;
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    U32 algorithm_type;
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    proj_bin_header_addr = (U64)(U32)project_binary_header_ptr;
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    //size of header + section0 + section1
+<b><a name="line51">51    </a></b>	    proj_bin_size_before_sign = (U64)project_binary_header_ptr->project_binary_sector_size << SECTOR_SIZE_SHIFT;
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    if (project_binary_header_ptr->code_sign_finish) {
+<b><a name="line54">54    </a></b>	        algorithm_type = project_binary_header_ptr->algorithm_type;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	        public_key_size = get_key_size(algorithm_type);
+<b><a name="line57">57    </a></b>	        public_key_size = (public_key_size + (SECTOR_SIZE - 1)) & (~(SECTOR_SIZE - 1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "public_key_size" (unsigned) is not the same as that of the right operand "512 - 1"(signed).</font>
+<b><a name="line58">58    </a></b>	        signature_size  = get_sig_size(algorithm_type);
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	        if (signature_size == 0)
+<b><a name="line61">61    </a></b>	        {
+<b><a name="line62">62    </a></b>	            key_manifest_api_ptr->err_bit_map |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line63">63    </a></b>	        }
+<b><a name="line64">64    </a></b>	    }
+<b><a name="line65">65    </a></b>	    else {
+<b><a name="line66">66    </a></b>	        public_key_size = 0U;
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	        signature_size  = 0U;
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    if (key_manifest_api_ptr->err_bit_map == 0U) {
+<b><a name="line72">72    </a></b>	        manifest_key_proj_bin_addr  = proj_bin_header_addr;
+<b><a name="line73">73    </a></b>	        manifest_key_proj_bin_addr += proj_bin_size_before_sign;
+<b><a name="line74">74    </a></b>	        manifest_key_proj_bin_addr += public_key_size;
+<b><a name="line75">75    </a></b>	        manifest_key_proj_bin_addr += signature_size;
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	        key_manifest_proj_bin_header_ptr = (KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR)(U32)manifest_key_proj_bin_addr;
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	    else {
+<b><a name="line80">80    </a></b>	        key_manifest_proj_bin_header_ptr = NULL;
+<b><a name="line81">81    </a></b>	    }
+<b><a name="line82">82    </a></b>	    key_manifest_api_ptr->key_manifest_proj_bin_header_ptr = key_manifest_proj_bin_header_ptr;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    return;
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	void set_key_hash_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR key_manifest_proj_bin_header_ptr)
+</pre></body>
+</html>

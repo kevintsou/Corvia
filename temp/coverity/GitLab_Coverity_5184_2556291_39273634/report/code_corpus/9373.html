@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1323">1323    </a></b>	void dal_cmgr_set_fw_fc_set(void)
+<b><a name="line1324">1324    </a></b>	{
+<b><a name="line1325">1325    </a></b>	    w_all_CMGR_FW_FC_SET(1U);
+<b><a name="line1326">1326    </a></b>	}
+<b><a name="line1327">1327    </a></b>	
+<b><a name="line1328">1328    </a></b>	void dal_cmgr_set_cmt_thr(U32 cmt_thr)
+<b><a name="line1329">1329    </a></b>	{
+<b><a name="line1330">1330    </a></b>	    w_all_CMGR_CMT_THR(cmt_thr);
+<b><a name="line1331">1331    </a></b>	}
+<b><a name="line1332">1332    </a></b>	
+<b><a name="line1333">1333    </a></b>	U8 dal_cmgr_get_fw_fc_clr(void)
+<b><a name="line1334">1334    </a></b>	{
+<b><a name="line1335">1335    </a></b>	    return (U8)r_all_CMGR_FW_FC_CLR();
+<b><a name="line1336">1336    </a></b>	}
+<b><a name="line1337">1337    </a></b>	
+<b><a name="line1338">1338    </a></b>	U8 dal_cmgr_get_fw_fc_set(void)
+<b><a name="line1339">1339    </a></b>	{
+<b><a name="line1340">1340    </a></b>	    return (U8)r_all_CMGR_FW_FC_SET();
+<b><a name="line1341">1341    </a></b>	}
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	U32 dal_cmgr_get_cmt_thr(void)
+<b><a name="line1344">1344    </a></b>	{
+<b><a name="line1345">1345    </a></b>	    return r_all_CMGR_CMT_THR();
+<b><a name="line1346">1346    </a></b>	}
+<b><a name="line1347">1347    </a></b>	
+<b><a name="line1348">1348    </a></b>	U8 dal_cmgr_get_ctag_free(U16 ctag)
+<b><a name="line1349">1349    </a></b>	{
+<b><a name="line1350">1350    </a></b>	    U32 entry = DAL_NVNE_DW_NUM_ENTRY(ctag);
+<b><a name="line1351">1351    </a></b>	    U32 ofst = DAL_NVNE_DW_BIT_OFST(ctag);
+<b><a name="line1352">1352    </a></b>	    U8 value = (U8)((r32_CMGR_REG[r32_NVME_CMGR_FREE_CTAG_BIT(entry)] >> ofst) & BIT_MASK(1U, 0U));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "(U32 volatile *)0x3000000[1280UL + 4UL * (U32)entry >> 2U] >> ofst" (32 bits) is less that the right hand operand "1ULL" (64 bits).</font>
+<b><a name="line1353">1353    </a></b>	    return value;
+<b><a name="line1354">1354    </a></b>	}
+<b><a name="line1355">1355    </a></b>	
+<b><a name="line1356">1356    </a></b>	void dal_cmgr_clr_gpqw_log_setting(void)
+<b><a name="line1357">1357    </a></b>	{
+<b><a name="line1358">1358    </a></b>	    r32_w_NVME_CMGR_GP_LOG_IDX(0U);
+<b><a name="line1359">1359    </a></b>	}
+<b><a name="line1360">1360    </a></b>	
+<b><a name="line1361">1361    </a></b>	void dal_cmgr_set_gpqw_log_idx(U8 idx)
+<b><a name="line1362">1362    </a></b>	{
+<b><a name="line1363">1363    </a></b>	    w_all_CMGR_GP_LOG_IDX(idx);
+<b><a name="line1364">1364    </a></b>	}
+<b><a name="line1365">1365    </a></b>	
+<b><a name="line1366">1366    </a></b>	void dal_cmgr_set_gpqw_log_rw(U8 rw)
+<b><a name="line1367">1367    </a></b>	{
+<b><a name="line1368">1368    </a></b>	    w_all_CMGR_GP_LOG_RW(rw);
+<b><a name="line1369">1369    </a></b>	}
+<b><a name="line1370">1370    </a></b>	
+<b><a name="line1371">1371    </a></b>	void dal_cmgr_set_gpqw_log_sel(U8 sel)
+<b><a name="line1372">1372    </a></b>	{
+<b><a name="line1373">1373    </a></b>	    w_all_CMGR_GP_LOG_SEL(sel);
+<b><a name="line1374">1374    </a></b>	}
+<b><a name="line1375">1375    </a></b>	
+<b><a name="line1376">1376    </a></b>	U8 dal_cmgr_get_crcv_lock(void)
+<b><a name="line1377">1377    </a></b>	{
+<b><a name="line1378">1378    </a></b>	    return (U8)r_all_CMGR_CRCV_LOCK_EN();
+<b><a name="line1379">1379    </a></b>	}
+<b><a name="line1380">1380    </a></b>	
+<b><a name="line1381">1381    </a></b>	U64 dal_cmgr_get_gpqw_log_data(U8 type)
+<b><a name="line1382">1382    </a></b>	{
+<b><a name="line1383">1383    </a></b>	    U32 low_value, high_value;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1900">1900    </a></b>	        }
+<b><a name="line1901">1901    </a></b>	    }
+<b><a name="line1902">1902    </a></b>	
+<b><a name="line1903">1903    </a></b>	    return fw_slot_info_error;
+<b><a name="line1904">1904    </a></b>	}
+<b><a name="line1905">1905    </a></b>	
+<b><a name="line1906">1906    </a></b>	static U32 get_key_manifest_size_from_fw_slot_info(const FW_SLOT_INFO *p_fw_slot_info)
+<b><a name="line1907">1907    </a></b>	{
+<b><a name="line1908">1908    </a></b>	    U32 result;
+<b><a name="line1909">1909    </a></b>	
+<b><a name="line1910">1910    </a></b>	    result = ((U32)p_fw_slot_info->key_manifest_sector_size) << SECTOR_SIZE_SHIFT;
+<b><a name="line1911">1911    </a></b>	
+<b><a name="line1912">1912    </a></b>	    return result;
+<b><a name="line1913">1913    </a></b>	}
+<b><a name="line1914">1914    </a></b>	
+<b><a name="line1915">1915    </a></b>	static U8 use_fw_slot(const FW_SLOT_INFO *p_fw_slot_info, FW_SLOT_STATUS *p_fw_slot_status, U32 project_binary_address, LOAD_CODE_STATUS *p_load_code_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line1916">1916    </a></b>	{
+<b><a name="line1917">1917    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line1918">1918    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line1919">1919    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line1920">1920    </a></b>	
+<b><a name="line1921">1921    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line1922">1922    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting;
+<b><a name="line1923">1923    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line1924">1924    </a></b>	    const EFUSE_FW_ENCRYPTION_KEY *p_fw_encryption_key;
+<b><a name="line1925">1925    </a></b>	
+<b><a name="line1926">1926    </a></b>	    U8  error_firmware;
+<b><a name="line1927">1927    </a></b>	    U64 fw_slot_size;
+<b><a name="line1928">1928    </a></b>	
+<b><a name="line1929">1929    </a></b>	    sal_log_tracker_set(sal_locate(0x10, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "30864" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1930">1930    </a></b>	
+<b><a name="line1931">1931    </a></b>	    p_fw_slot_status->state = FW_SLOT_STATE_LOADING;
+<b><a name="line1932">1932    </a></b>	
+<b><a name="line1933">1933    </a></b>	    error_firmware = check_fw_slot_info(p_fw_slot_info);
+<b><a name="line1934">1934    </a></b>	    if (error_firmware) {
+<b><a name="line1935">1935    </a></b>	        //The FW Slot Info is incorrect
+<b><a name="line1936">1936    </a></b>	        p_fw_slot_status->fw_slot_info_error = error_firmware;
+<b><a name="line1937">1937    </a></b>	        p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_INVALID_SLOT_INFO;
+<b><a name="line1938">1938    </a></b>	
+<b><a name="line1939">1939    </a></b>	        sal_log_tracker_set(sal_locate((error_firmware & 0xFF), TYPE_DATA));
+<b><a name="line1940">1940    </a></b>	
+<b><a name="line1941">1941    </a></b>	        return p_fw_slot_status->fw_slot_error;
+<b><a name="line1942">1942    </a></b>	    }
+<b><a name="line1943">1943    </a></b>	
+<b><a name="line1944">1944    </a></b>	    p_load_code_status->key_manifest_size = get_key_manifest_size_from_fw_slot_info(p_fw_slot_info);
+<b><a name="line1945">1945    </a></b>	
+<b><a name="line1946">1946    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line1947">1947    </a></b>	
+<b><a name="line1948">1948    </a></b>	    sal_log_tracker_set(sal_locate(0x11, TYPE_RSV6));
+<b><a name="line1949">1949    </a></b>	    error_firmware = load_fw_slot(p_fw_slot_info, project_binary_address, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_fw_slot_status, a_flash_error_channel_bitmap);
+<b><a name="line1950">1950    </a></b>	    if (error_firmware == 0) {
+<b><a name="line1951">1951    </a></b>	        sal_log_tracker_set(sal_locate(0x12, TYPE_RSV6));
+<b><a name="line1952">1952    </a></b>	    }
+<b><a name="line1953">1953    </a></b>	    else {
+<b><a name="line1954">1954    </a></b>	        sal_log_tracker_set(sal_locate(0x1F, TYPE_RSV6));
+<b><a name="line1955">1955    </a></b>	    }
+<b><a name="line1956">1956    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_5_LOAD_CODE, TYPE_TIMESTAMP));
+<b><a name="line1957">1957    </a></b>	
+<b><a name="line1958">1958    </a></b>	    if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><a name="line1959">1959    </a></b>	        host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line1960">1960    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line296">296    </a></b>	    Dump_Vendor(tprintf(", Commit: %x", sq->commit));
+<b><a name="line297">297    </a></b>	    Dump_Vendor(tprintf(", Offset: %x", sq->offset));
+<b><a name="line298">298    </a></b>	    Dump_Vendor(tprintf(", sq->ndt: %x", sq->ndt));
+<b><a name="line299">299    </a></b>	    Dump_Vendor(tprintf(", Total size: %x", sq->total_size));
+<b><a name="line300">300    </a></b>	#endif  //  DB_VUC_ISP_PROGRAM_PRAM
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    if ((0 == gBCodeGlobalStruct.p_efuse_security_setting->production_prohibit_enable) || (0 == gBCodeGlobalStruct.production_mode)) {
+<b><a name="line303">303    </a></b>	        project_binary_address = DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line304">304    </a></b>	        project_binary_offset_address = DBUF_API_BOOTCODE_DATA_BUFFER_BASE + (U32)sq->offset;
+<b><a name="line305">305    </a></b>	        project_binary_partial_size = (sq->ndt * NDT_SIZE);
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (sq->scrambled) {
+<b><a name="line308">308    </a></b>	            err_status = decrypt_partial_project_binary((U32)param->host_buf, (sq->offset >> SECTOR_SIZE_SHIFT), (project_binary_partial_size >> SECTOR_SIZE_SHIFT));
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	            if (0 != err_status) {
+<b><a name="line311">311    </a></b>	                status_code = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line312">312    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	
+<b><a name="line317">317    </a></b>	        if (sq->type) {
+<b><a name="line318">318    </a></b>	            if (memcmp((void *)project_binary_offset_address, (void *)(param->host_buf), project_binary_partial_size)) {
+<b><a name="line319">319    </a></b>	                status_code = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line320">320    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line321">321    </a></b>	            }
+<b><a name="line322">322    </a></b>	        }
+<b><a name="line323">323    </a></b>	        else {
+<b><a name="line324">324    </a></b>	            if (gBurnerFailCount < BURNER_FAIL_COUNT_MAX) {
+<b><a name="line325">325    </a></b>	                phal_dmac_copy(project_binary_offset_address, (U32)param->host_buf, project_binary_partial_size, TRUE, TRUE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	                if (sq->commit) {
+<b><a name="line328">328    </a></b>	#if DB_VUC_ISP_PROGRAM_PRAM
+<b><a name="line329">329    </a></b>	                    Dump_Vendor(tprintf("\n\r ISP_PROGRAM_PRAM Commit!!"));
+<b><a name="line330">330    </a></b>	#endif  //  DB_VUC_ISP_PROGRAM_PRAM
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	                    err_status = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)project_binary_address, PROJECT_BINARY_SOURCE_HOST);
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	                    if (0 != err_status) {
+<b><a name="line335">335    </a></b>	                        status_code = INVALID_STATUS_CODE_SIGN_ERROR;
+<b><a name="line336">336    </a></b>	                        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	                        gBurnerFailCount++;
+<b><a name="line339">339    </a></b>	                    }
+<b><a name="line340">340    </a></b>	                }
+<b><a name="line341">341    </a></b>	            }
+<b><a name="line342">342    </a></b>	            else {
+<b><a name="line343">343    </a></b>	                status_code = INVALID_STATUS_CODE_SIGN_ERROR;
+<b><a name="line344">344    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line345">345    </a></b>	            }
+<b><a name="line346">346    </a></b>	        }
+<b><a name="line347">347    </a></b>	    }
+<b><a name="line348">348    </a></b>	    else {
+<b><a name="line349">349    </a></b>	        status_code = INVALID_STATUS_PARAMETER_ERROR;
+<b><a name="line350">350    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line351">351    </a></b>	    }
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line354">354    </a></b>	}
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	/*
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9950">9950    </a></b>	        {
+<b><a name="line9951">9951    </a></b>	#if KAT_SM9_EN
+<b><a name="line9952">9952    </a></b>	            if (phal_sqz_is_en()) {
+<b><a name="line9953">9953    </a></b>	                kat_status = sec_sqz_kat_SM9();
+<b><a name="line9954">9954    </a></b>	            }
+<b><a name="line9955">9955    </a></b>	            else {
+<b><a name="line9956">9956    </a></b>	                kat_status = host_sec_sm9_verify_kat(kat_buffer);
+<b><a name="line9957">9957    </a></b>	            }
+<b><a name="line9958">9958    </a></b>	            if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line9959">9959    </a></b>	                sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line9960">9960    </a></b>	                gSecKatRecord.rslt_kat_sm9 = FAIL;
+<b><a name="line9961">9961    </a></b>	            }
+<b><a name="line9962">9962    </a></b>	            else {
+<b><a name="line9963">9963    </a></b>	                gSecKatRecord.rslt_kat_sm9 = PASS;
+<b><a name="line9964">9964    </a></b>	            }
+<b><a name="line9965">9965    </a></b>	#endif
+<b><a name="line9966">9966    </a></b>	            gSecKatRecord.exec_kat_sm9 = 1;
+<b><a name="line9967">9967    </a></b>	        }
+<b><a name="line9968">9968    </a></b>	    }
+<b><a name="line9969">9969    </a></b>	
+<b><a name="line9970">9970    </a></b>	    return kat_status;
+<b><a name="line9971">9971    </a></b>	}
+<b><a name="line9972">9972    </a></b>	
+<b><a name="line9973">9973    </a></b>	static U32 kat_mldsa(U32 kat_buffer)
+<b><a name="line9974">9974    </a></b>	{
+<b><a name="line9975">9975    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line9976">9976    </a></b>	
+<b><a name="line9977">9977    </a></b>	    if ((0 == gBCodeGlobalStruct.p_efuse_security_setting->mldsa_hash_sha512_disable) ||
+<b><a name="line9978">9978    </a></b>	        (0 == gBCodeGlobalStruct.p_efuse_security_setting->mldsa_pure_disable)) {
+<b><a name="line9979">9979    </a></b>	        sal_log_tracker_set(sal_locate(0x09, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1787" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line9980">9980    </a></b>	        if (gSecKatRecord.exec_kat_mldsa == 0)
+<b><a name="line9981">9981    </a></b>	        {
+<b><a name="line9982">9982    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line9983">9983    </a></b>	            if (phal_sqz_is_en()) {
+<b><a name="line9984">9984    </a></b>	                kat_status = sec_sqz_kat_MLDSA();
+<b><a name="line9985">9985    </a></b>	            }
+<b><a name="line9986">9986    </a></b>	            else {
+<b><a name="line9987">9987    </a></b>	                kat_status = host_sec_mldsa_verify_kat(kat_buffer);
+<b><a name="line9988">9988    </a></b>	            }
+<b><a name="line9989">9989    </a></b>	            if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line9990">9990    </a></b>	                sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line9991">9991    </a></b>	                gSecKatRecord.rslt_kat_mldsa = FAIL;
+<b><a name="line9992">9992    </a></b>	            }
+<b><a name="line9993">9993    </a></b>	            else {
+<b><a name="line9994">9994    </a></b>	                gSecKatRecord.rslt_kat_mldsa = PASS;
+<b><a name="line9995">9995    </a></b>	            }
+<b><a name="line9996">9996    </a></b>	#endif
+<b><a name="line9997">9997    </a></b>	            gSecKatRecord.exec_kat_mldsa = 1;
+<b><a name="line9998">9998    </a></b>	        }
+<b><a name="line9999">9999    </a></b>	    }
+<b><a name="line10000">10000    </a></b>	
+<b><a name="line10001">10001    </a></b>	    return kat_status;
+<b><a name="line10002">10002    </a></b>	}
+<b><a name="line10003">10003    </a></b>	
+<b><a name="line10004">10004    </a></b>	static U32 kat_kaz(U32 kat_buffer)
+<b><a name="line10005">10005    </a></b>	{
+<b><a name="line10006">10006    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10007">10007    </a></b>	
+<b><a name="line10008">10008    </a></b>	    if (0 == gBCodeGlobalStruct.p_efuse_security_setting->kaz_disable) {
+<b><a name="line10009">10009    </a></b>	        sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line10010">10010    </a></b>	        if (gSecKatRecord.exec_kat_kaz == 0)
+</pre></body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  bootcode_hal_rng.c                                                    */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "proj_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	U8 gHealthTestEn;
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	U8 bootcode_hal_rng_get_value(U32 rand_len, U8 *rand_val)
+<b><a name="line23">23    </a></b>	{
+<b><a name="line24">24    </a></b>	    U8 result = PASS;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    do {
+<b><a name="line27">27    </a></b>	        hal_rng_run_enable();
+<b><a name="line28">28    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RNG_CHK, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line29">29    </a></b>	        while (1) {
+<b><a name="line30">30    </a></b>	            if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line31">31    </a></b>	                result = FAIL;
+<b><a name="line32">32    </a></b>	                rand_len = 0;
+<b><a name="line33">33    </a></b>	                break;
+<b><a name="line34">34    </a></b>	            }
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	            if (((gHealthTestEn == 1) && (hal_rng_check_done() == TRUE) && (hal_rng_schk_pass_get() == TRUE)) ||
+<b><a name="line37">37    </a></b>	                ((gHealthTestEn == 0) && (hal_rng_check_done() == TRUE)))
+<b><a name="line38">38    </a></b>	            {
+<b><a name="line39">39    </a></b>	                U32 sample_size = MIN(128, rand_len);
+<b><a name="line40">40    </a></b>	                (void)memcpy((void *)rand_val, (void *)(U32 *)(&r32_SQZ_RNG_REG[r32_RNG_REG0]), sample_size);
+<b><a name="line41">41    </a></b>	                rand_val += sample_size;
+<b><a name="line42">42    </a></b>	                rand_len -= sample_size;
+<b><a name="line43">43    </a></b>	                break;
+<b><a name="line44">44    </a></b>	            }
+<b><a name="line45">45    </a></b>	        }
+<b><a name="line46">46    </a></b>	        hal_rng_run_disable();
+<b><a name="line47">47    </a></b>	    } while(rand_len > 0);
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    return result;
+<b><a name="line50">50    </a></b>	}
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	U8 phal_init_rng(U32 repetition_count_test, U32 adaptive_proportion_test, U8 health_test_en)
+<b><a name="line53">53    </a></b>	{
+<b><a name="line54">54    </a></b>	    gHealthTestEn = (health_test_en == 1) ? TRUE : FALSE;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    // health test setting before rng init
+<b><a name="line57">57    </a></b>	    w_CR_RNG_SCHK_CUTOFF_REP_0((repetition_count_test & 0xFF));
+<b><a name="line58">58    </a></b>	    w_CR_RNG_SCHK_CUTOFF_REP_1(((repetition_count_test >> 8) & 0x3));
+<b><a name="line59">59    </a></b>	
+</pre></body>
+</html>

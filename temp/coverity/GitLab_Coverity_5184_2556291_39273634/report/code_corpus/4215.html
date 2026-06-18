@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line388">388    </a></b>	    //FIP_DBG_INFO_PRINTF("ZQ start\r\n");
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	    for (ch = 0U; ch < FLH_MAX_CH_NUM; ch ++) {
+<b><a name="line391">391    </a></b>	        if (BITS_GET(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) {
+<b><a name="line392">392    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == FALSE) {
+<b><a name="line393">393    </a></b>	                hal_fip_api_zq_calibration_long(ch, bank, die, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line394">394    </a></b>	            }
+<b><a name="line395">395    </a></b>	            else {
+<b><a name="line396">396    </a></b>	                hal_fip_api_cer_pre_fix(ch, bank, die, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line397">397    </a></b>	                hal_fip_api_zq_calibration_long(ch, bank, die, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line398">398    </a></b>	            }
+<b><a name="line399">399    </a></b>	        }
+<b><a name="line400">400    </a></b>	    }
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	    for (ch = 0U; ch < FLH_MAX_CH_NUM; ch ++) {
+<b><a name="line403">403    </a></b>	        if (BITS_GET(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) {
+<b><a name="line404">404    </a></b>	            status |= fip_api_chk_status(ch, (HAL_FLH_CHK_RDY_BUSY | HAL_FLH_CHK_NAND_BUSY));
+<b><a name="line405">405    </a></b>	            if (status != 0U) {
+<b><a name="line406">406    </a></b>	                status |= HAL_STATUS_NAND_ZQ_CAL_TIMEOUT;
+<b><a name="line407">407    </a></b>	            }
+<b><a name="line408">408    </a></b>	        }
+<b><a name="line409">409    </a></b>	    }
+<b><a name="line410">410    </a></b>	
+<b><a name="line411">411    </a></b>	    return status;
+<b><a name="line412">412    </a></b>	}
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	
+<b><a name="line415">415    </a></b>	void fpl_fip_conf(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line416">416    </a></b>	{
+<b><a name="line417">417    </a></b>	    U8 io_type = fpl_ptr->p_efuse_nand_setting->io_type;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(*fpl_ptr->p_efuse_nand_setting).io_type" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line418">418    </a></b>	    U8 rx_mode = fpl_ptr->p_efuse_nand_setting->rx_mode_dq;
+<b><a name="line419">419    </a></b>	    U8 tx_mode = fpl_ptr->p_efuse_nand_setting->tx_mode_dq;
+<b><a name="line420">420    </a></b>	    U8 edo_en = fpl_ptr->p_efuse_nand_setting->edo_mode;
+<b><a name="line421">421    </a></b>	    U8 gck_sel = fpl_ptr->p_efuse_nand_setting->gck_sel;
+<b><a name="line422">422    </a></b>	    U8 dis_dqsb = fpl_ptr->p_efuse_nand_setting->dis_dqsb;
+<b><a name="line423">423    </a></b>	    U8 dis_re = fpl_ptr->p_efuse_nand_setting->dis_re;
+<b><a name="line424">424    </a></b>	    U8 ch = 0U;
+<b><a name="line425">425    </a></b>	    U8 trpre[4] = {0, 3, 5, 10}; // trpre setting for redriver, 1 = 10ns FIP clk = 100MHz
+<b><a name="line426">426    </a></b>	    HAL_FIP_IO_DRV_STRUCT io_drv;
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	    //basic function initial
+<b><a name="line429">429    </a></b>	    hal_fip_basic_init();
+<b><a name="line430">430    </a></b>	    //time out unit = (flh_osc / 4) = (600MHz / 4) ~= 0.00666u sec
+<b><a name="line431">431    </a></b>	    //set 1u sec as time out threshold ~= 0x96
+<b><a name="line432">432    </a></b>	    hal_fip_dqs_time_out_init(0x96UL, 0xA55AUL);
+<b><a name="line433">433    </a></b>	    //sca mode initial
+<b><a name="line434">434    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->sca_mode_en) {
+<b><a name="line435">435    </a></b>	        hal_sca_mode_init(fpl_ptr->p_efuse_nand_setting->delay_mode_for_tWLCEL_CA, fpl_ptr->p_efuse_nand_setting->sce_dir_bit_en, fpl_ptr->p_efuse_nand_setting->ioe_en, fpl_ptr->p_efuse_nand_setting->lun_sel_en, fpl_ptr->p_efuse_nand_setting->dq_wkup_en);
+<b><a name="line436">436    </a></b>	    } else {
+<b><a name="line437">437    </a></b>	        hal_conv_mode_init();
+<b><a name="line438">438    </a></b>	    }
+<b><a name="line439">439    </a></b>	    //initial interface
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    hal_fip_set_io_init(io_type, rx_mode, tx_mode, edo_en, dis_dqsb, dis_re, (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider >= FIP_TEST_TOGGLE_200MT));
+<b><a name="line442">442    </a></b>	    //initial io driving
+<b><a name="line443">443    </a></b>	    io_drv.hal_odt_dq_dqs_en = fpl_ptr->p_efuse_nand_setting->odt_dq_en;
+<b><a name="line444">444    </a></b>	    io_drv.hal_odt_ctt_dq_dqs = fpl_ptr->p_efuse_nand_setting->odt_dq;
+<b><a name="line445">445    </a></b>	    io_drv.hal_odt_ltt_dq_dqs = fpl_ptr->p_efuse_nand_setting->odt_dq;
+<b><a name="line446">446    </a></b>	    io_drv.hal_drv_ctt_dq = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+<b><a name="line447">447    </a></b>	    io_drv.hal_drv_ctt_dqs = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+<b><a name="line448">448    </a></b>	    io_drv.hal_drv_ctt_reb = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+</pre></body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line443">443    </a></b>	U8 boot_sys_init_flow(BC_GLOBAL_STRUCT_PTR bc_ptr, HOST_API_STRUCT_PTR host)
+<b><a name="line444">444    </a></b>	{
+<b><a name="line445">445    </a></b>	    U8 status = 0;
+<b><a name="line446">446    </a></b>	    //  Init timer
+<b><a name="line447">447    </a></b>	    mabiao_init(SCAT_MABIAO_BASE, SCAT_MABIAO_SIZE);
+<b><a name="line448">448    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_0_PMU, TYPE_TIMESTAMP));
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	    //  Global Structure Initialization
+<b><a name="line451">451    </a></b>	    global_struct_init(bc_ptr);
+<b><a name="line452">452    </a></b>	    gRnghealth.remaining_cnt = 0;
+<b><a name="line453">453    </a></b>	
+<b><a name="line454">454    </a></b>	    //  Init db
+<b><a name="line455">455    </a></b>	    bootcode_hal_db_init();
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	    efuse_api_init(&gEFuseAPI);
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	    // Pre-Check SQZ status
+<b><a name="line460">460    </a></b>	    if (FAIL == phal_sqz_init(DBUF_API_BOOTCODE_SQZ_PARAM_BUFFER_BASE, TRUE))
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        security_fail_handle(SECURITY_FAIL_TYPE_SQZ_INIT);
+<b><a name="line463">463    </a></b>	    }
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    get_all_efuse_sys_landmark(&gEFuseAPI, (void *)bc_ptr);
+<b><a name="line466">466    </a></b>	    efuse_bootcode_landmark_index_api(&gEFuseAPI, 1);
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    hook_tp_efuse_update_debug_cap();
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    //  System related IP initialization.
+<b><a name="line471">471    </a></b>	    status = sys_init(bc_ptr);
+<b><a name="line472">472    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_1_SYS_INIT, TYPE_TIMESTAMP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                                  ^</font>
+<b><a name="line473">473    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_FLOW_SYS_INIT_FAIL, (0 == status));
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    if ((gpFwSimCtrl0Reg->not_aes_key_ram_clr == FALSE) && (gpFwSimCtrl1Reg->sqz_enable == FALSE)) {
+<b><a name="line476">476    </a></b>	        hal_sec_aes_kram_clr(SEC_TIMEOUT_TICKS);
+<b><a name="line477">477    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_SEC_AES_KEY_RAM_CLR_TIMEOUT, (0 == gSecAesTimeout));
+<b><a name="line478">478    </a></b>	    }
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    host->host_id_tbl.flow.all = 0;
+<b><a name="line481">481    </a></b>	    version_init();
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	#if (CONFIG_FLH != CONFIG_FLH_EFUSE)
+<b><a name="line484">484    </a></b>	    //When CONFIG_FLH is not CONFIG_FLH_EFUSE (0), the boot code is debug mode
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    //This is explicitly printed out in debug mode
+<b><a name="line487">487    </a></b>	#if (CONFIG_FLH == CONFIG_FLH_CUSTOM)
+<b><a name="line488">488    </a></b>	    Dump_Debug(tprintf("ROM Debug Mode Custom"));
+<b><a name="line489">489    </a></b>	#else
+<b><a name="line490">490    </a></b>	    Dump_Debug(tprintf("Version: %c%c%c%c", fw_version[0], fw_version[1], fw_version[2], fw_version[3]));
+<b><a name="line491">491    </a></b>	    Dump_Debug(tprintf("%c%c%c%c", fw_version[4], fw_version[5], fw_version[6], fw_version[7]));
+<b><a name="line492">492    </a></b>	#endif
+<b><a name="line493">493    </a></b>	    Dump_Debug(tprintf("Date: %s, Time: %s", __DATE__, __TIME__));
+<b><a name="line494">494    </a></b>	#endif
+<b><a name="line495">495    </a></b>	
+<b><a name="line496">496    </a></b>	    sal_log_info_char('\r'); //UART Token separator
+<b><a name="line497">497    </a></b>	    sal_log_info_char('\n');
+<b><a name="line498">498    </a></b>	    sal_log_info_char('R'); //Start of Boot Code
+<b><a name="line499">499    </a></b>	    sal_log_info_char('A' + phal_get_hw_ver()); //Part of 'R', Hardware Version
+<b><a name="line500">500    </a></b>	    sal_log_info_char('A' + BOOTCODE_MAIN_VERSION); //Part of 'R', Boot Code Main Version
+<b><a name="line501">501    </a></b>	    //sal_log_info_char(BOOTCODE_DEBUG_VERSION3); //Part of 'R', (Build Mode - 0: ROM, 1: SPI, 2: ICE)
+<b><a name="line502">502    </a></b>	
+<b><a name="line503">503    </a></b>	    //TODO:check use method
+</pre></body>
+</html>

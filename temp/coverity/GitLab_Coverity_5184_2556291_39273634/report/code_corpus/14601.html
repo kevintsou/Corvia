@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line286">286    </a></b>	U32 host_sec_ecdsa_verify_p521_kat(U32 buf_addr);
+<b><a name="line287">287    </a></b>	#endif
+<b><a name="line288">288    </a></b>	#endif // KAT_ECDSA_EN
+<b><a name="line289">289    </a></b>	#if KAT_RSA_EN
+<b><a name="line290">290    </a></b>	U32 host_sec_rsa_pkcs1_5_4096_verify_kat(U32 buf_addr);
+<b><a name="line291">291    </a></b>	U32 host_sec_rsa_pkcs1_5_2048_verify_kat(U32 buf_addr);
+<b><a name="line292">292    </a></b>	U32 host_sec_rsa_pkcs1_5_3072_verify_kat(U32 buf_addr);
+<b><a name="line293">293    </a></b>	U32 host_sec_rsa_pkcs2_1_2048_verify_kat(U32 buf_addr);
+<b><a name="line294">294    </a></b>	U32 host_sec_rsa_pkcs2_1_3072_verify_kat(U32 buf_addr);
+<b><a name="line295">295    </a></b>	#endif
+<b><a name="line296">296    </a></b>	#endif // BC_USE_EXTRA_KAT
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	// BC KAT Support ------
+<b><a name="line299">299    </a></b>	void sec_fill_kat_bin_header(U32 msg_addr, U8 *key_index, U8 file_format, U8 algorithm_type, U32 public_key_total_size, U8 *a_record_key_information, U8 *a_timestamp);
+<b><a name="line300">300    </a></b>	#if (KAT_AES_EN || KAT_SM4_EN)
+<b><a name="line301">301    </a></b>	void sec_aesofl_kat_init_param(SEC_AESOFL_PARAMS_T_PTR aesofl_param, U8 pat_idx, U32 ptx_addr, U32 ctx_addr, U32 kat_tag_addr, U8 is_sm4);
+<b><a name="line302">302    </a></b>	#endif
+<b><a name="line303">303    </a></b>	#if KAT_AES_EN //.....
+<b><a name="line304">304    </a></b>	U32 host_sec_aes_cbc_256_kat(U32 buf_addr);
+<b><a name="line305">305    </a></b>	U32 host_sec_aes_xts_256_kat(U32 buf_addr);
+<b><a name="line306">306    </a></b>	#endif
+<b><a name="line307">307    </a></b>	#if KAT_SM4_EN
+<b><a name="line308">308    </a></b>	U32 host_sec_aes_sm4_cbc_128_kat(U32 buf_addr);
+<b><a name="line309">309    </a></b>	U32 host_sec_aes_sm4_xts_128_kat(U32 buf_addr);
+<b><a name="line310">310    </a></b>	#endif
+<b><a name="line311">311    </a></b>	#if KAT_SHA_HMAC_EN
+<b><a name="line312">312    </a></b>	U32 host_sec_sha2_256_kat(U32 buf_addr);
+<b><a name="line313">313    </a></b>	U32 host_sec_sha2_512_kat(U32 buf_addr);
+<b><a name="line314">314    </a></b>	U32 host_sec_sha3_shake_128_kat(U32 buf_addr);
+<b><a name="line315">315    </a></b>	U32 host_sec_sha3_shake_256_kat(U32 buf_addr);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "host_sec_sha3_shake_256_kat" is declared but never defined.</font>
+<b><a name="line316">316    </a></b>	U32 host_sec_hmac_sha2_256_kat(U32 buf_addr);
+<b><a name="line317">317    </a></b>	U32 host_sec_hmac_sha2_512_kat(U32 buf_addr);
+<b><a name="line318">318    </a></b>	#endif
+<b><a name="line319">319    </a></b>	#if KAT_SM3_EN
+<b><a name="line320">320    </a></b>	U32 host_sec_sm3_kat(U32 buf_addr);
+<b><a name="line321">321    </a></b>	#endif
+<b><a name="line322">322    </a></b>	#if KAT_RSA_EN
+<b><a name="line323">323    </a></b>	void host_sec_rsa_verify_param_reverse(U32 signature_addr, U32 rr_endian_buffer, U32 r_endian_buffer, U32 n0_endian_buffer, U32 e_endian_buffer, U32 n_endian_buffer, RSA4096_PUBLIC_KEY_PTR public_key, U8 bledn);
+<b><a name="line324">324    </a></b>	U32 host_sec_rsa_pkcs2_1_4096_verify_kat(U32 buf_addr);
+<b><a name="line325">325    </a></b>	U32 host_sec_rsa4096_enc_kat(U32 buf_addr);
+<b><a name="line326">326    </a></b>	#endif
+<b><a name="line327">327    </a></b>	#if KAT_KDF_EN
+<b><a name="line328">328    </a></b>	U32 host_sec_kdf_512_pattern_1_kat(U32 buf_addr);
+<b><a name="line329">329    </a></b>	#endif
+<b><a name="line330">330    </a></b>	#if KAT_DRBG_EN
+<b><a name="line331">331    </a></b>	U32 host_sec_drbg_kat(U32 buf_addr);
+<b><a name="line332">332    </a></b>	#endif
+<b><a name="line333">333    </a></b>	#if KAT_SM2_EN
+<b><a name="line334">334    </a></b>	U32 host_sec_sw_sm2_verify_kat(U32 buf_addr);
+<b><a name="line335">335    </a></b>	#endif
+<b><a name="line336">336    </a></b>	#if KAT_LMS_EN
+<b><a name="line337">337    </a></b>	U32 host_sec_lms_verify_kat(U32 buf_addr);
+<b><a name="line338">338    </a></b>	#endif
+<b><a name="line339">339    </a></b>	#if KAT_SM9_EN
+<b><a name="line340">340    </a></b>	U32 host_sec_sm9_verify_kat(U32 buf_addr);
+<b><a name="line341">341    </a></b>	#endif
+<b><a name="line342">342    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line343">343    </a></b>	U32 host_sec_mldsa_verify_kat(U32 buf_addr);
+<b><a name="line344">344    </a></b>	#endif
+<b><a name="line345">345    </a></b>	#if KAT_KAZ_EN
+<b><a name="line346">346    </a></b>	U32 host_sec_kaz_verify_kat(U32 buf_addr);
+</pre></body>
+</html>

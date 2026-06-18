@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line661">661    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line662">662    </a></b>	    key_size  = sizeof(LMS_KEY_STRUCT);
+<b><a name="line663">663    </a></b>	
+<b><a name="line664">664    </a></b>	    //Key is located at after the original data
+<b><a name="line665">665    </a></b>	    key_address = data_address + data_size;
+<b><a name="line666">666    </a></b>	    //Signature is located right after the key, aligned to 512B
+<b><a name="line667">667    </a></b>	    signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	    message_address = data_address;
+<b><a name="line670">670    </a></b>	    message_size = signature_address - data_address;
+<b><a name="line671">671    </a></b>	    lms_key_struct_ptr = (LMS_KEY_STRUCT_PTR) key_address;
+<b><a name="line672">672    </a></b>	
+<b><a name="line673">673    </a></b>	
+<b><a name="line674">674    </a></b>	    if (ALGORITHM_SETTINGS_MMUL_64x64 != GET_ALGORITHM_SETTINGS_MMUL(p_project_binary_header->algorithm_settings)) {
+<b><a name="line675">675    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_SETTING;
+<b><a name="line676">676    </a></b>	    }
+<b><a name="line677">677    </a></b>	
+<b><a name="line678">678    </a></b>	    hash_buffer = calculation_buffer;
+<b><a name="line679">679    </a></b>	    buffer_addr_for_lms = calculation_buffer + SECTOR_SIZE;
+<b><a name="line680">680    </a></b>	
+<b><a name="line681">681    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line682">682    </a></b>	    sec_sha_param.src_addr.low  = (U32)message_address;
+<b><a name="line683">683    </a></b>	    sec_sha_param.src_len       = message_size;
+<b><a name="line684">684    </a></b>	    sec_sha_param.targ_addr.low = (U32)hash_buffer;
+<b><a name="line685">685    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_256_MODE;
+<b><a name="line686">686    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line687">687    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line688">688    </a></b>	    sec_sha_param.dummy_en      = TRUE;
+<b><a name="line689">689    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line690">690    </a></b>	    memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line691">691    </a></b>	    memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line692">692    </a></b>	
+<b><a name="line693">693    </a></b>	    disable_dmsca = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	    // sec_lms_reset_hash_buf(&lms_buffer, buffer_addr_for_lms);
+<b><a name="line696">696    </a></b>	
+<b><a name="line697">697    </a></b>	    sec_get_lms_info((U32)((U32 *)lms_key_struct_ptr->pk)[1], (U32)((U32 *)lms_key_struct_ptr->pk)[2], &signature_size);
+<b><a name="line698">698    </a></b>	
+<b><a name="line699">699    </a></b>	    if (phal_lms_verify((U8 *)lms_key_struct_ptr->pk, (void *)hash_buffer, 32, (U8 *)signature_address, signature_size, buffer_addr_for_lms, &lms_buffer, disable_dmsca) != SEC_YES) {
+<b><a name="line700">700    </a></b>	
+<b><a name="line701">701    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line702">702    </a></b>	        Dump_SEC(tprintf("LMS Code Sign verify fail"));
+<b><a name="line703">703    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line704">704    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line705">705    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line706">706    </a></b>	    }
+<b><a name="line707">707    </a></b>	
+<b><a name="line708">708    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line709">709    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line710">710    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line711">711    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line712">712    </a></b>	    }
+<b><a name="line713">713    </a></b>	
+<b><a name="line714">714    </a></b>	    Dump_SEC(tprintf("Signature Verify Pass"));
+<b><a name="line715">715    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line716">716    </a></b>	
+<b><a name="line717">717    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line718">718    </a></b>	}
+<b><a name="line719">719    </a></b>	
+<b><a name="line720">720    </a></b>	static U32 check_project_binary_code_sign_sm9(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U8 *project_binary_hash)
+<b><a name="line721">721    </a></b>	{
+</pre></body>
+</html>

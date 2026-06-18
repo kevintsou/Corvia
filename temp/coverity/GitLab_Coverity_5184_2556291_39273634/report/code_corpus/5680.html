@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line496">496    </a></b>	    if (is_timeout == 0U)
+<b><a name="line497">497    </a></b>	    {
+<b><a name="line498">498    </a></b>	        trigger_done = 1U;
+<b><a name="line499">499    </a></b>	    }
+<b><a name="line500">500    </a></b>	
+<b><a name="line501">501    </a></b>	    return trigger_done;
+<b><a name="line502">502    </a></b>	}
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	U8 dal_sec_aes_ofl_set_lba(U8 loc, U64 lba, U64 timeout_val)
+<b><a name="line505">505    </a></b>	{
+<b><a name="line506">506    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line507">507    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line508">508    </a></b>	
+<b><a name="line509">509    </a></b>	    U32 temp_lba = 0U;
+<b><a name="line510">510    </a></b>	
+<b><a name="line511">511    </a></b>	    DAL_SEC_AESOFL_SET_LBA_LOC(loc);
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	    if ((loc & 1U) == 0U)
+<b><a name="line514">514    </a></b>	    {
+<b><a name="line515">515    </a></b>	        temp_lba = (U32)(lba & 0xFFFFFFFFUL);
+<b><a name="line516">516    </a></b>	    }
+<b><a name="line517">517    </a></b>	    else
+<b><a name="line518">518    </a></b>	    {
+<b><a name="line519">519    </a></b>	        temp_lba = (U32)((lba & 0xFFFFFFFF00000000UL) >> 32U);
+<b><a name="line520">520    </a></b>	    }
+<b><a name="line521">521    </a></b>	
+<b><a name="line522">522    </a></b>	    DAL_SEC_AESOFL_SET_LBA_VAL(temp_lba);
+<b><a name="line523">523    </a></b>	    DAL_SEC_AESOFL_SET_LBA_WR();
+<b><a name="line524">524    </a></b>	
+<b><a name="line525">525    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line526">526    </a></b>	
+<b><a name="line527">527    </a></b>	
+<b><a name="line528">528    </a></b>	    while (1U == DAL_SEC_AESOFL_GET_LBA_WR())
+<b><a name="line529">529    </a></b>	    {
+<b><a name="line530">530    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line531">531    </a></b>	        {
+<b><a name="line532">532    </a></b>	            is_timeout = 1U;
+<b><a name="line533">533    </a></b>	            break;
+<b><a name="line534">534    </a></b>	        }
+<b><a name="line535">535    </a></b>	    }
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	    if (is_timeout == 0U)
+<b><a name="line538">538    </a></b>	    {
+<b><a name="line539">539    </a></b>	        trigger_done = 1U;
+<b><a name="line540">540    </a></b>	    }
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    return trigger_done;
+<b><a name="line543">543    </a></b>	}
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	U8 dal_sec_aes_ofl_gcm_set_aad(U64 aad_addr, U32 aad_len, U64 timeout_val)
+<b><a name="line546">546    </a></b>	{
+<b><a name="line547">547    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line548">548    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line549">549    </a></b>	
+<b><a name="line550">550    </a></b>	    DAL_SEC_AESOFL_SET_GCM_EN();
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	    // gcm set aad
+<b><a name="line553">553    </a></b>	    DAL_SEC_AESOFL_SET_SOC_ADR((U32)aad_addr);
+<b><a name="line554">554    </a></b>	    DAL_SEC_AESOFL_SET_SOC_BUF_BASE((U8)(aad_addr >> 32UL));
+<b><a name="line555">555    </a></b>	    DAL_SEC_AESOFL_SET_GCM_AAD_LEN((U8)aad_len);
+<b><a name="line556">556    </a></b>	    DAL_SEC_AESOFL_SET_GCM_AAD_START();
+</pre></body>
+</html>

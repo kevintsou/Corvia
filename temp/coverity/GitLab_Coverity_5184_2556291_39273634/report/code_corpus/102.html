@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line186">186    </a></b>	        memcpy((void *)&gVUALock.VUAPublicKey, (void *)pInputKey, sizeof(PublicKey_t));
+<b><a name="line187">187    </a></b>	        memcpy(&gVUALock.aubN_v, pInput->ucN_v, 64);
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	        ulStatus = VALID_STATUS;
+<b><a name="line190">190    </a></b>	        ulFailCode = STATUS_DEFAULT;
+<b><a name="line191">191    </a></b>	        gVUALock.ubVUCLockState = VUA_VERIFY_STATE_ENGINEERING;
+<b><a name="line192">192    </a></b>	
+<b><a name="line193">193    </a></b>	        Dump_SEC(tprintf("send key ok!"));
+<b><a name="line194">194    </a></b>	        return result;
+<b><a name="line195">195    </a></b>	    } while (0);
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	    VUA_FailHandle(&result, ulStatus, ulFailCode);
+<b><a name="line198">198    </a></b>	    Dump_SEC(tprintf("send key F!"));
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    return result;
+<b><a name="line201">201    </a></b>	}
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	/**
+<b><a name="line205">205    </a></b>	 * Host request to start the verification procedure
+<b><a name="line206">206    </a></b>	 *
+<b><a name="line207">207    </a></b>	 * @return ulFailCode
+<b><a name="line208">208    </a></b>	 */
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	VUAStatus_t VUA_sendHandshakeRequest(void)
+<b><a name="line211">211    </a></b>	{
+<b><a name="line212">212    </a></b>	    VUAStatus_t result;
+<b><a name="line213">213    </a></b>	    VUA_InitResult(&result);
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	    if (!MyAssert(gVUALock.ubEn)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "VUA_assert(gVUALock.ubEn, 215)" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line216">216    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line217">217    </a></b>	        return result;
+<b><a name="line218">218    </a></b>	    }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_ENGINEERING <= gVUALock.ubVUCLockState)) {
+<b><a name="line221">221    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line222">222    </a></b>	        return result;
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	    gVUALock.ubVUCLockState = VUA_VERIFY_STATE_HANDSHAKE_START;
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    return result;
+<b><a name="line228">228    </a></b>	}
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	/**
+<b><a name="line231">231    </a></b>	 * Host receives an encryption data from device
+<b><a name="line232">232    </a></b>	 *
+<b><a name="line233">233    </a></b>	 * @return ulFailCode
+<b><a name="line234">234    </a></b>	 */
+<b><a name="line235">235    </a></b>	
+<b><a name="line236">236    </a></b>	VUAStatus_t VUA_receiveEncryptionData(void)
+<b><a name="line237">237    </a></b>	{
+<b><a name="line238">238    </a></b>	    // For shared secret & chipertext calculation Parameters:
+<b><a name="line239">239    </a></b>	    U8 ubEncryptRandom[VUA_ENCRYPT_RANDOM_SIZE];
+<b><a name="line240">240    </a></b>	    U8 aubL[SECRET_KEYING_BIT_NUM_LEN]  = {0x00, 0x02, 0x00, 0x00};    //512
+<b><a name="line241">241    </a></b>	    U8 aubHmac_512[HMAC_ALGO_ID_LEN]    = {0x48, 0x4D, 0x41, 0x43, 0x2D, 0x35, 0x31, 0x32};//HMAC-512
+<b><a name="line242">242    </a></b>	    U8 aubIdv[PARTY_V_INFO_LEN]         = {0x50, 0x48, 0x49, 0x53, 0x4F, 0x4E, 0x30, 0x30};//PHISON00
+<b><a name="line243">243    </a></b>	    // U8 aubDefault_salt[DEFALUT_SALT_LEN] = {0x00};
+<b><a name="line244">244    </a></b>	    U8 aubDefault_salt[128] = {0x00};       // 128 byte for hmac512 block len, only use 64 byte
+<b><a name="line245">245    </a></b>	    U32 ulHMAC_input_size = 0;
+<b><a name="line246">246    </a></b>	    U8 aubIdu[PARTY_U_INFO_LEN]         = {0x00};//Controller Name
+</pre></body>
+</html>

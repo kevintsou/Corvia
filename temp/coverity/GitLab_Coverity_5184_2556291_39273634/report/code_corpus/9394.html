@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1302">1302    </a></b>	
+<b><a name="line1303">1303    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1304">1304    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1305">1305    </a></b>	
+<b><a name="line1306">1306    </a></b>	    // for the case that IC support bus switch,  bit 0: WP , bit1: bus switch control
+<b><a name="line1307">1307    </a></b>	    w_HW_WP_PIN_VALUE(ch, 0x1U);
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	    return status;
+<b><a name="line1310">1310    </a></b>	}
+<b><a name="line1311">1311    </a></b>	
+<b><a name="line1312">1312    </a></b>	void fpl_api_fw_gen_pat(U8 pat, U32 buf, U8 node_num, U8 value)
+<b><a name="line1313">1313    </a></b>	{
+<b><a name="line1314">1314    </a></b>	    volatile U8 *ptr;
+<b><a name="line1315">1315    </a></b>	    U8 node;
+<b><a name="line1316">1316    </a></b>	    U8 sector;
+<b><a name="line1317">1317    </a></b>	    U32 index;
+<b><a name="line1318">1318    </a></b>	    U32 data;
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    switch (pat) {
+<b><a name="line1321">1321    </a></b>	    case HAL_API_GEN_PAT_FIX:
+<b><a name="line1322">1322    </a></b>	        ptr = (volatile U8 *)buf;
+<b><a name="line1323">1323    </a></b>	        memset((void *)ptr, value, DAL_FIP_FRM_DATA_SIZE_4K * node_num);
+<b><a name="line1324">1324    </a></b>	        break;
+<b><a name="line1325">1325    </a></b>	
+<b><a name="line1326">1326    </a></b>	    case HAL_API_GEN_PAT_SEC:
+<b><a name="line1327">1327    </a></b>	        for (node = 0; node < node_num; node++) {
+<b><a name="line1328">1328    </a></b>	            for (sector = 0; sector < DAL_FIP_SEC_PER_FRM_4K; sector++) {
+<b><a name="line1329">1329    </a></b>	                ptr = (volatile U8 *)(buf + node * DAL_FIP_FRM_DATA_SIZE_4K + sector * DAL_FIP_SEC_DATA_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "node * 4096U" (16 bits) is less that the left hand operand "buf" (32 bits).</font>
+<b><a name="line1330">1330    </a></b>	                memset((void *)ptr, (node * 8U) + sector + value, DAL_FIP_SEC_DATA_SIZE);
+<b><a name="line1331">1331    </a></b>	            }
+<b><a name="line1332">1332    </a></b>	        }
+<b><a name="line1333">1333    </a></b>	        break;
+<b><a name="line1334">1334    </a></b>	
+<b><a name="line1335">1335    </a></b>	    case HAL_API_GEN_PAT_BYTE:
+<b><a name="line1336">1336    </a></b>	        for (node = 0U; node < node_num; node++) {
+<b><a name="line1337">1337    </a></b>	            for (index = 0U; index < (DAL_FIP_FRM_DATA_SIZE_4K >> 2U); index++) {
+<b><a name="line1338">1338    </a></b>	                data = ((index << 2U) + value) & 0xFFU;
+<b><a name="line1339">1339    </a></b>	                data |= (((data + 3U) << 24U) | ((data + 2U) << 16U) | ((data + 1U) << 8U));
+<b><a name="line1340">1340    </a></b>	                memcpy((void *)(buf + DAL_FIP_FRM_DATA_SIZE_4K * node + (index << 2U)), (void *)&data, 4U);
+<b><a name="line1341">1341    </a></b>	            }
+<b><a name="line1342">1342    </a></b>	        }
+<b><a name="line1343">1343    </a></b>	        break;
+<b><a name="line1344">1344    </a></b>	
+<b><a name="line1345">1345    </a></b>	    default:
+<b><a name="line1346">1346    </a></b>	        break;
+<b><a name="line1347">1347    </a></b>	    }
+<b><a name="line1348">1348    </a></b>	}
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	BOOL fpl_api_dmac_buf_cmp(U32 src_addr, U32 dst_addr, U32 byte_cnt)
+<b><a name="line1351">1351    </a></b>	{
+<b><a name="line1352">1352    </a></b>	    U32 i;
+<b><a name="line1353">1353    </a></b>	
+<b><a name="line1354">1354    </a></b>	    for (i = 0; i < byte_cnt; i++) {
+<b><a name="line1355">1355    </a></b>	        if (((U8 *)(src_addr))[i] != ((U8 *)(dst_addr))[i]) {
+<b><a name="line1356">1356    </a></b>	            FIP_DBG_INFO_PRINTF("data compare fail!!!\r\n");
+<b><a name="line1357">1357    </a></b>	            FIP_DBG_INFO_PRINTF("src addr = 0x%08x\r\n", src_addr);
+<b><a name="line1358">1358    </a></b>	            FIP_DBG_INFO_PRINTF("dst addr = 0x%08x\r\n", dst_addr);
+<b><a name="line1359">1359    </a></b>	            FIP_DBG_INFO_PRINTF("offset = 0x%08x\r\n", i);
+<b><a name="line1360">1360    </a></b>	            FIP_DBG_INFO_PRINTF("src data = 0x%08x\r\n", ((U32 *)(src_addr))[(i >> 2)]);
+</pre></body>
+</html>

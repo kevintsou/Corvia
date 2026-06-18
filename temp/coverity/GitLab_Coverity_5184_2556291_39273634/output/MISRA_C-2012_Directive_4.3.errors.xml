@@ -1,0 +1,18 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Directive 4.3</checker>
+<type>MISRA_C_2012_Directive_4.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_get_rmp_addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_directive_4_3_violation</tag>
+<description>{CovLStrv2{{t{Assembly language {0}is not encapsulated and isolated.}{{code{asm(&quot;mrc p15, 0, %0, c0, c0, 5&quot;: &quot;=&quot;(cpu_id));}}}}}}</description>
+<line>14</line>
+<column>6</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>

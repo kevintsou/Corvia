@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line421">421    </a></b>	    {
+<b><a name="line422">422    </a></b>	        db_base_addr = (U32 *)hal_db_api_get_base_adr(q_id);
+<b><a name="line423">423    </a></b>	        (void)memcpy((void *)data, (void *)db_queue_addr, db_remain_size);
+<b><a name="line424">424    </a></b>	        data_addr = (U32)((U32 *)data) + db_remain_size;
+<b><a name="line425">425    </a></b>	        data = (void *)((U32 *)data_addr);
+<b><a name="line426">426    </a></b>	        (void)memcpy((void *)data, (void *)db_base_addr, (U32)cq_size - db_remain_size);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    if (pop == TRUE)
+<b><a name="line430">430    </a></b>	    {
+<b><a name="line431">431    </a></b>	        ASM_DSB();
+<b><a name="line432">432    </a></b>	        dal_db_api_set_rpiu(q_id, cnt);
+<b><a name="line433">433    </a></b>	    }
+<b><a name="line434">434    </a></b>	}
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	/*!
+<b><a name="line437">437    </a></b>	 @brief hal_db_pop
+<b><a name="line438">438    </a></b>	 @param p_data data poniter
+<b><a name="line439">439    </a></b>	 @param size data size
+<b><a name="line440">440    </a></b>	 @param db_id DoorBell ID
+<b><a name="line441">441    </a></b>	 @note Pop command from specified queue
+<b><a name="line442">442    </a></b>	 */
+<b><a name="line443">443    </a></b>	U8 hal_db_pop(void *p_data, U16 size, U8 db_id)
+<b><a name="line444">444    </a></b>	{
+<b><a name="line445">445    </a></b>	    U32 ul_head;
+<b><a name="line446">446    </a></b>	    U32 ul_base;
+<b><a name="line447">447    </a></b>	    U16 cq_size;
+<b><a name="line448">448    </a></b>	    U16 db_remain_size;
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	    if (dal_db_api_get_rd_cnt(db_id) == 0)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "dal_db_api_get_rd_cnt(db_id)" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line451">451    </a></b>	    {
+<b><a name="line452">452    </a></b>	        //tprintf("no read count 1");
+<b><a name="line453">453    </a></b>	        return FAIL;
+<b><a name="line454">454    </a></b>	    }
+<b><a name="line455">455    </a></b>	    ul_base = hal_db_api_get_base_adr(db_id);
+<b><a name="line456">456    </a></b>	    ul_head = hal_db_api_get_rptr(db_id);
+<b><a name="line457">457    </a></b>	    if (size == 0)  //size = 0, pop 1 cmd, get data size from qinfo or header
+<b><a name="line458">458    </a></b>	    {
+<b><a name="line459">459    </a></b>	        cq_size = ((MR_HDR_STRUCT_PTR)ul_head)->len * 8U + 8U;
+<b><a name="line460">460    </a></b>	    }
+<b><a name="line461">461    </a></b>	    else
+<b><a name="line462">462    </a></b>	    {
+<b><a name="line463">463    </a></b>	        cq_size = size;
+<b><a name="line464">464    </a></b>	    }
+<b><a name="line465">465    </a></b>	
+<b><a name="line466">466    </a></b>	    /*Return FAIL if CQ is enpty (Readable count is 0)*/
+<b><a name="line467">467    </a></b>	    if (dal_db_api_get_rd_cnt(db_id) < (cq_size / 8U))
+<b><a name="line468">468    </a></b>	    {
+<b><a name="line469">469    </a></b>	        //tprintf("no read count 2");
+<b><a name="line470">470    </a></b>	        return FAIL;
+<b><a name="line471">471    </a></b>	    }
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    db_remain_size = dal_db_api_get_tail_r_rst(db_id) * HAL_DB_DATA_SIZE_8B;
+<b><a name="line474">474    </a></b>	    if (db_remain_size >= cq_size)
+<b><a name="line475">475    </a></b>	    {
+<b><a name="line476">476    </a></b>	        (void)memcpy((void *)p_data, (void *)ul_head, cq_size);
+<b><a name="line477">477    </a></b>	    }
+<b><a name="line478">478    </a></b>	    else
+<b><a name="line479">479    </a></b>	    {
+<b><a name="line480">480    </a></b>	        (void)memcpy((void *)p_data, (void *)ul_head, db_remain_size);
+<b><a name="line481">481    </a></b>	        (void)memcpy( (void *)(U32 *)((U32)(U32 *)p_data + db_remain_size), (void *)ul_base, (U32)cq_size - db_remain_size);
+</pre></body>
+</html>

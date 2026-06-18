@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line34">34    </a></b>	static U32 vuc_protect_crc32(U32 source_addr, U32 source_size){
+<b><a name="line35">35    </a></b>	    return crc_calc(source_addr, source_size, QMP_SEED, FIXED_CRC32_POLY, XOR_OUT_DISABLE, 32, TRUE);
+<b><a name="line36">36    </a></b>	}
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	static U8 vuc_protect_hmac(U32 sha_mode, U32 key_addr, U32 key_size, U32 src_addr, U32 src_size, U32 targ_addr){
+<b><a name="line39">39    </a></b>	    U8 ret = SEC_YES;
+<b><a name="line40">40    </a></b>	    SEC_HMAC_PARAMS_T sec_hmac_sha_param;
+<b><a name="line41">41    </a></b>	    memset((void *)&sec_hmac_sha_param, 0x00, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line42">42    </a></b>	    sec_hmac_sha_param.key_addr.all         = (U64)key_addr;
+<b><a name="line43">43    </a></b>	    sec_hmac_sha_param.key_len              = key_size;
+<b><a name="line44">44    </a></b>	    sec_hmac_sha_param.sha.sha_mode         = sha_mode;
+<b><a name="line45">45    </a></b>	    sec_hmac_sha_param.sha.src_addr.all     = (U64)src_addr;
+<b><a name="line46">46    </a></b>	    sec_hmac_sha_param.sha.src_len          = src_size;
+<b><a name="line47">47    </a></b>	    sec_hmac_sha_param.sha.targ_addr.all    = (U64)targ_addr;
+<b><a name="line48">48    </a></b>	    sec_hmac_sha_param.sha.r1_enable        = FALSE;
+<b><a name="line49">49    </a></b>	    sec_hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    ret = phal_sec_hmac_sha_blocking(&sec_hmac_sha_param);
+<b><a name="line52">52    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line53">53    </a></b>	        Dump_SEC(tprintf("HMAC F!"));
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	    return ret;
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	VUC_PROTECT gVUCProtect;
+<b><a name="line59">59    </a></b>	const U32 ga_aes_cbc_iv[4] = {
+<b><a name="line60">60    </a></b>	    0x8215C782,
+<b><a name="line61">61    </a></b>	    0x08E2AF38,
+<b><a name="line62">62    </a></b>	    0xEF5726E1,
+<b><a name="line63">63    </a></b>	    0x99731A09
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "2574457353U" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line64">64    </a></b>	};
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	/**
+<b><a name="line68">68    </a></b>	 * @brief Fill in status code for vuc command
+<b><a name="line69">69    </a></b>	 *
+<b><a name="line70">70    </a></b>	 * @param p_vuc_protect
+<b><a name="line71">71    </a></b>	 * @param param
+<b><a name="line72">72    </a></b>	 * @param status_code
+<b><a name="line73">73    </a></b>	 * @param status_code_type
+<b><a name="line74">74    </a></b>	 */
+<b><a name="line75">75    </a></b>	void vuc_protect_fail_handle(VUC_DISPATCH_PARAM_STRUCT_PTR param, U8 status_code, U8 status_code_type)
+<b><a name="line76">76    </a></b>	{
+<b><a name="line77">77    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_LOCK_DOWN != gVUCProtect.protect_state) {
+<b><a name="line78">78    </a></b>	        gVUCProtect.verify_fail_count++;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	        if (gVUCProtect.verify_fail_count >= VUC_PROTECT_MAX_VERIFY_FAIL_COUNT) {
+<b><a name="line81">81    </a></b>	            gVUCProtect.protect_state = VUC_PROTECT_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line82">82    </a></b>	        }
+<b><a name="line83">83    </a></b>	        else {
+<b><a name="line84">84    </a></b>	            gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line85">85    </a></b>	        }
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line89">89    </a></b>	    memset((void *)(gVUCProtect.a_session_key), 0x00, sizeof(gVUCProtect.a_session_key));
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return;
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	BOOL vuc_send_secure_info(VUC_DISPATCH_PARAM_STRUCT_PTR param, U32 host_buf){
+</pre></body>
+</html>

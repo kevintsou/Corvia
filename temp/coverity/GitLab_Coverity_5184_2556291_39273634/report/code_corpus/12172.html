@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line68">68    </a></b>	 @param[in]      r1_enable      - r1 mask enable
+<b><a name="line69">69    </a></b>	 @param[in]      timeout_val    - setting timeout value
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	 @note
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	 - set HMAC-SHA key
+<b><a name="line74">74    </a></b>	 - hmac key will be sha and key_len change to digest_len if key_len > block_len
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	 */
+<b><a name="line77">77    </a></b>	static void hal_sec_hmac_sha_set_key(U32 sha_mode, U64 key_addr, U32 key_len, U8 block_len, U32 digest_len, U32 r1_enable, U64 timeout_val)
+<b><a name="line78">78    </a></b>	{
+<b><a name="line79">79    </a></b>	    ASSERT(0U, (sha_mode <= HAL_SEC_SHAKE_UND_MODE));
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    U8 ret = SEC_YES;
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    U32 key_addr_remap = (U32)key_addr;
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    if (key_len > block_len)
+<b><a name="line86">86    </a></b>	    {
+<b><a name="line87">87    </a></b>	        SEC_SHA_PARAMS_T sha;
+<b><a name="line88">88    </a></b>	        (void)memset((void *)&sha, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	        sha.src_addr.all  = key_addr;
+<b><a name="line91">91    </a></b>	        sha.src_len       = key_len;
+<b><a name="line92">92    </a></b>	        sha.targ_addr.all = key_addr;
+<b><a name="line93">93    </a></b>	        sha.sha_mode      = sha_mode;
+<b><a name="line94">94    </a></b>	        sha.timeout_val   = timeout_val;
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	        hal_sec_sha_trigger(&sha);
+<b><a name="line97">97    </a></b>	        ret &= hal_sec_sha_polling(sha.timeout_val, SEC_NO);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value from "ret & hal_sec_sha_polling(sha.timeout_val, 0UL)" to "ret" here, but that stored value is not used.</font>
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	        ASSERT(0U, ret == SEC_YES);
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	        key_len = digest_len;
+<b><a name="line102">102    </a></b>	    }
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    // if key_addr use DDR address
+<b><a name="line105">105    </a></b>	    if (key_addr > 0xFFFFFFFFULL)
+<b><a name="line106">106    </a></b>	    {
+<b><a name="line107">107    </a></b>	        key_addr_remap = (U32)((key_addr - 0x80000000ULL) & 0xFFFFFFFFULL);
+<b><a name="line108">108    </a></b>	    }
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	    if (r1_enable == SEC_NO)
+<b><a name="line111">111    </a></b>	    {
+<b><a name="line112">112    </a></b>	        if (key_len <= block_len)
+<b><a name="line113">113    </a></b>	        {
+<b><a name="line114">114    </a></b>	            (void)memset((void *)(U32 *)(U32)(key_addr_remap + key_len), 0, (block_len - key_len));
+<b><a name="line115">115    </a></b>	        }
+<b><a name="line116">116    </a></b>	    }
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    //3. set key
+<b><a name="line119">119    </a></b>	    dal_sec_sha_set_hmac_key(block_len, (U32 *)(U32)(key_addr_remap), r1_enable);
+<b><a name="line120">120    </a></b>	}
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	/*!
+<b><a name="line123">123    </a></b>	 @brief execute sha init before trigger sha
+<b><a name="line124">124    </a></b>	 @param[in]      src_addr       - setting sha source address
+<b><a name="line125">125    </a></b>	 @param[in]      targ_addr      - setting sha target address
+<b><a name="line126">126    </a></b>	 @param[in]      sha_mode       - sha mode define (HAL_SEC_SHA2_160_MODE, HAL_SEC_SHA2_256_MODE, and etc...)
+<b><a name="line127">127    </a></b>	 @param[in]      nbits          - nbits parameter will be change according to sha mode
+<b><a name="line128">128    </a></b>	 @param[in]      block_len      - block_len parameter will be change according to sha mode
+</pre></body>
+</html>

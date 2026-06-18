@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1137">1137    </a></b>	            if(dal_detect_refclk_valid(p_ofst))
+<b><a name="line1138">1138    </a></b>	            {
+<b><a name="line1139">1139    </a></b>	                Dump_FastLink(tprintf("port:%d refclk valid set common clock \n\r", p_ofst));
+<b><a name="line1140">1140    </a></b>	                sal_log_tracker_set(sal_locate(0x0e, TYPE_STEP));
+<b><a name="line1141">1141    </a></b>	                dal_set_common_clock_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1142">1142    </a></b>	            }
+<b><a name="line1143">1143    </a></b>	            else
+<b><a name="line1144">1144    </a></b>	            {
+<b><a name="line1145">1145    </a></b>	                detect_xtal_mode = 1;
+<b><a name="line1146">1146    </a></b>	                *is_xtal_mode = 1;
+<b><a name="line1147">1147    </a></b>	                Dump_FastLink(tprintf("port:%d refclk not valid set xtal clock ssc_en:%d\n\r", p_ofst, ssc_en));
+<b><a name="line1148">1148    </a></b>	                sal_log_tracker_set(sal_locate(0x0f, TYPE_STEP));
+<b><a name="line1149">1149    </a></b>	                if(xtal_is_force_mode)
+<b><a name="line1150">1150    </a></b>	                {
+<b><a name="line1151">1151    </a></b>	                    if(ssc_en)
+<b><a name="line1152">1152    </a></b>	                    {
+<b><a name="line1153">1153    </a></b>	
+<b><a name="line1154">1154    </a></b>	                        sal_log_tracker_set(sal_locate(0xcf, TYPE_STEP));
+<b><a name="line1155">1155    </a></b>	                        dal_set_xtal_sris_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1156">1156    </a></b>	                    }
+<b><a name="line1157">1157    </a></b>	                    else
+<b><a name="line1158">1158    </a></b>	                    {
+<b><a name="line1159">1159    </a></b>	                        sal_log_tracker_set(sal_locate(0x8f, TYPE_STEP));
+<b><a name="line1160">1160    </a></b>	                        dal_set_xtal_srns_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1161">1161    </a></b>	                    }
+<b><a name="line1162">1162    </a></b>	                }
+<b><a name="line1163">1163    </a></b>	                else
+<b><a name="line1164">1164    </a></b>	                {
+<b><a name="line1165">1165    </a></b>	                    Dump_FastLink(tprintf("xtal default mode"));
+<b><a name="line1166">1166    </a></b>	                    sal_log_tracker_set(sal_locate(0xEf, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                                        ^</font>
+<b><a name="line1167">1167    </a></b>	                    dal_set_xtal_default_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1168">1168    </a></b>	                }
+<b><a name="line1169">1169    </a></b>	            }
+<b><a name="line1170">1170    </a></b>	        }
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	    }
+<b><a name="line1173">1173    </a></b>	    return xperst;
+<b><a name="line1174">1174    </a></b>	}
+<b><a name="line1175">1175    </a></b>	
+<b><a name="line1176">1176    </a></b>	void host_api_pcie_loader_update_phy_rom_without_isr(HOST_API_STRUCT_PTR host)
+<b><a name="line1177">1177    </a></b>	{
+<b><a name="line1178">1178    </a></b>	
+<b><a name="line1179">1179    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR   host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line1180">1180    </a></b>	    ID_TABLE *p_id_table = (ID_TABLE *)DBUF_API_BOOTCODE_ID_TABLE_BASE;
+<b><a name="line1181">1181    </a></b>	    Dump_FastLink(tprintf("host_api_pcie_loader_update_phy_rom_without_isr"));
+<b><a name="line1182">1182    </a></b>	
+<b><a name="line1183">1183    </a></b>	
+<b><a name="line1184">1184    </a></b>	    host->host_id_tbl_base = DBUF_API_BOOTCODE_ID_TABLE_BASE + p_id_table->pcie_landmark_pre.offset;
+<b><a name="line1185">1185    </a></b>	    host->host_id_tbl_size = p_id_table->pcie_landmark_pre.count * sizeof(ID_TABLE_LANDMARK);
+<b><a name="line1186">1186    </a></b>	    memcpy((void *)&host->host_id_tbl, (void *)&p_id_table->host_flow, sizeof(HOST_API_HOST_ID_TBL_STRUCT));
+<b><a name="line1187">1187    </a></b>	
+<b><a name="line1188">1188    </a></b>	    Dump_FastLink(tprintf("xtal_mode_ssc_off_p0:%d xtal_mode_ssc_off_p1:%d port_mode:%x", host_flow->attr.xtal_mode_ssc_off_p0, host_flow->attr.xtal_mode_ssc_off_p1, host_flow->attr.port_mode));
+<b><a name="line1189">1189    </a></b>	
+<b><a name="line1190">1190    </a></b>	    // foolproof for wrong port_mode, to avoid unable to build the link
+<b><a name="line1191">1191    </a></b>	    if ((host_flow->attr.port_mode < PCIE_PORT_MODE_SINGLE) ||
+<b><a name="line1192">1192    </a></b>	        (host_flow->attr.port_mode > PCIE_PORT_MODE_DUAL)) {
+<b><a name="line1193">1193    </a></b>	        host_flow->attr.port_mode = PCIE_PORT_MODE_SINGLE;
+<b><a name="line1194">1194    </a></b>	    }
+<b><a name="line1195">1195    </a></b>	    host_pcie_init(host);
+<b><a name="line1196">1196    </a></b>	    //update iccm
+<b><a name="line1197">1197    </a></b>	    host_api_set_pcie_iccm_dccm_landmark();
+</pre></body>
+</html>

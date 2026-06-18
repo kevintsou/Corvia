@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_nvm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  host_cmd_nvm.c                                                        */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define _HOST_CMD_NVM_C_
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#include "user_libs.h"
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	static void write_buffer_ready(HOST_API_STRUCT_PTR host, U64 lca, U16 nlc);
+<b><a name="line23">23    </a></b>	static void read_buffer_ready(HOST_API_STRUCT_PTR host, U64 lca, U16 nlc);
+<b><a name="line24">24    </a></b>	static void nvme_io_write(HOST_API_STRUCT_PTR host);
+<b><a name="line25">25    </a></b>	static void nvme_io_read(HOST_API_STRUCT_PTR host);
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	static void write_buffer_ready(HOST_API_STRUCT_PTR host, U64 lca, U16 nlc)
+<b><a name="line28">28    </a></b>	{
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	    HAL_HCMD_STRUCT_PTR hcmd = (HAL_HCMD_STRUCT_PTR)&host->hcmd;
+<b><a name="line31">31    </a></b>	    HAL_APU_WR_BUF_RDY_SQ_HW apu_sq;
+<b><a name="line32">32    </a></b>	    HAL_APU_TRIG_DMA_PARAM write_buf_ready;
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	    memset((void *)&write_buf_ready, 0x0U, sizeof(HAL_APU_TRIG_DMA_PARAM));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0U" from essential type "unsigned 8-bit int" to different or narrower essential type "signed 32-bit int".</font>
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	    write_buf_ready.ctag                = hcmd->payload.info.user.ctag;
+<b><a name="line37">37    </a></b>	    write_buf_ready.ud                  = 1U; // 1: user data
+<b><a name="line38">38    </a></b>	    write_buf_ready.dir                 = 1U;
+<b><a name="line39">39    </a></b>	    write_buf_ready.fst                 = (nlc == hcmd->payload.info.user.tnlc) ? TRUE : FALSE;
+<b><a name="line40">40    </a></b>	    write_buf_ready.lst                 = (nlc == 1U) ? TRUE : FALSE;
+<b><a name="line41">41    </a></b>	    write_buf_ready.node_tag            = 0U;
+<b><a name="line42">42    </a></b>	    write_buf_ready.buf_addr_l          = (U32)host->buffer_base;
+<b><a name="line43">43    </a></b>	    write_buf_ready.buf_addr_h          = 0;
+<b><a name="line44">44    </a></b>	    write_buf_ready.spr_addr_l          = (U32)host->spr_base;
+<b><a name="line45">45    </a></b>	    write_buf_ready.spr_addr_h          = 0;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    write_buf_ready.wr_buf_rdy.lcap     = lca;
+<b><a name="line48">48    </a></b>	    write_buf_ready.wr_buf_rdy.lca_h    = 0; // the high part LCA before remap(15bits)
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    if (write_buf_ready.fst == TRUE) {
+<b><a name="line51">51    </a></b>	        write_buf_ready.wr_buf_rdy.sv = hcmd->payload.info.user.ssv;
+<b><a name="line52">52    </a></b>	    }
+<b><a name="line53">53    </a></b>	    else if (write_buf_ready.lst == TRUE) {
+<b><a name="line54">54    </a></b>	        write_buf_ready.wr_buf_rdy.sv = hcmd->payload.info.user.esv;
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	    else {
+<b><a name="line57">57    </a></b>	        write_buf_ready.wr_buf_rdy.sv = 0xFF;
+<b><a name="line58">58    </a></b>	    }
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    write_buf_ready.wr_buf_rdy.am       = 1U;
+<b><a name="line61">61    </a></b>	    write_buf_ready.wr_buf_rdy.dma_done = 1U;
+<b><a name="line62">62    </a></b>	    write_buf_ready.wr_buf_rdy.err_info = 0U;
+<b><a name="line63">63    </a></b>	    write_buf_ready.wr_buf_rdy.e3dp     = 0U;
+<b><a name="line64">64    </a></b>	    write_buf_ready.wr_buf_rdy.e3d      = 0U;
+<b><a name="line65">65    </a></b>	    write_buf_ready.wr_buf_rdy.aes      = 0U;
+</pre></body>
+</html>

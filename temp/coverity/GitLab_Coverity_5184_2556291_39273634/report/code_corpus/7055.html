@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line816">816    </a></b>	
+<b><a name="line817">817    </a></b>	// check if PERST# is high then start PCIe link when ISR is not enabled
+<b><a name="line818">818    </a></b>	void host_api_chk_pcie_link_without_isr(HOST_API_STRUCT_PTR host)
+<b><a name="line819">819    </a></b>	{
+<b><a name="line820">820    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line821">821    </a></b>	
+<b><a name="line822">822    </a></b>	    //previous release cr_perst in host_pice_init and termination will stay in detect state
+<b><a name="line823">823    </a></b>	    //to use link training detect -> polling timeout to gain iccm update time
+<b><a name="line824">824    </a></b>	    //just skip in this time in order to jump to loader
+<b><a name="line825">825    </a></b>	    if(host_flow->attr.skip_fastlink_en)
+<b><a name="line826">826    </a></b>	    {
+<b><a name="line827">827    </a></b>	        PCIE_STRUCT_PTR pcie = &host->pcie;
+<b><a name="line828">828    </a></b>	        U8  p_cnt = (r_CR_DUALPORT_DBC() == 0) ? 2 : 1;
+<b><a name="line829">829    </a></b>	        //check dualport_en pad dbc
+<b><a name="line830">830    </a></b>	        // Set port count to maximum value.
+<b><a name="line831">831    </a></b>	        hal_set_port_cnt(pcie, p_cnt);
+<b><a name="line832">832    </a></b>	
+<b><a name="line833">833    </a></b>	        //default release cr_perst for P0 P1
+<b><a name="line834">834    </a></b>	        for(U8 idx = 0; idx < PCIE_MAXIMUM_PORT_CNT; idx ++)
+<b><a name="line835">835    </a></b>	        {
+<b><a name="line836">836    </a></b>	            dal_set_pcie_reset(idx, PCIE_DISABLE);
+<b><a name="line837">837    </a></b>	        }
+<b><a name="line838">838    </a></b>	        sal_log_info_char('G');
+<b><a name="line839">839    </a></b>	        sal_log_info_char('S');
+<b><a name="line840">840    </a></b>	        return;
+<b><a name="line841">841    </a></b>	    }
+<b><a name="line842">842    </a></b>	
+<b><a name="line843">843    </a></b>	    //	U8 i = 0U;
+<b><a name="line844">844    </a></b>	    Dump_FastLink(tprintf("host_api_chk_pcie_link_without_isr"));
+<b><a name="line845">845    </a></b>	    sal_log_tracker_set(sal_locate(0x06, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "845" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line846">846    </a></b>	    if (host_flow->attr.pcie_link_mode == PCIE_FAST_LINK)
+<b><a name="line847">847    </a></b>	    {
+<b><a name="line848">848    </a></b>	        if (gpFwSimCtrl0Reg->not_init_host_hw == FALSE)
+<b><a name="line849">849    </a></b>	        {
+<b><a name="line850">850    </a></b>	            if (host->host_event.pcie_init_done == FALSE)
+<b><a name="line851">851    </a></b>	            {
+<b><a name="line852">852    </a></b>	                host_pcie_init(host);
+<b><a name="line853">853    </a></b>	                //update iccm
+<b><a name="line854">854    </a></b>	                host_api_set_pcie_iccm_dccm_landmark();
+<b><a name="line855">855    </a></b>	            }
+<b><a name="line856">856    </a></b>	            host_api_pcie_check_perst_int_sts_and_link(host);
+<b><a name="line857">857    </a></b>	        }
+<b><a name="line858">858    </a></b>	    }
+<b><a name="line859">859    </a></b>	}
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	
+<b><a name="line862">862    </a></b>	static void host_api_pcie_toggle_perst(U8 p_ofst)
+<b><a name="line863">863    </a></b>	{
+<b><a name="line864">864    </a></b>	    // toggle cr_perst
+<b><a name="line865">865    </a></b>	    dal_set_pcie_reset(p_ofst, PCIE_ENABLE);
+<b><a name="line866">866    </a></b>	    // delay 1 us
+<b><a name="line867">867    </a></b>	    MABIAO_IDLE_US(1);
+<b><a name="line868">868    </a></b>	    dal_set_pcie_reset(p_ofst, PCIE_DISABLE);
+<b><a name="line869">869    </a></b>	}
+<b><a name="line870">870    </a></b>	
+<b><a name="line871">871    </a></b>	static void host_api_pcie_eanble_ssc_reg(U8 p_ofst)
+<b><a name="line872">872    </a></b>	{
+<b><a name="line873">873    </a></b>	    U8  port_mode_from_pad = (r_CR_DUALPORT_DBC() == 0) ? DAL_PCIE_DUAL_PORT : DAL_PCIE_SINGLE_PORT;
+<b><a name="line874">874    </a></b>	    //set ssc enable, need to check ssc_en and detect xtal mode
+<b><a name="line875">875    </a></b>	    sal_log_tracker_set(sal_locate(0xEE, TYPE_STEP));
+<b><a name="line876">876    </a></b>	    dal_set_ssc_enable(p_ofst, port_mode_from_pad);
+</pre></body>
+</html>

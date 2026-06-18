@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1009">1009    </a></b>	    U64 tot_xfer_byte_size = (numd + 1U) << 2;
+<b><a name="line1010">1010    </a></b>	    U64 byte_ofst          = (ofst << 2);
+<b><a name="line1011">1011    </a></b>	    U64 mdts_byte_size = ( (U64)1 << (NVME_MDTS + NVME_MPSMIN + 12U) );
+<b><a name="line1012">1012    </a></b>	    U64 fwug_byte_mask = LC_BYTE_SIZE_MASK;
+<b><a name="line1013">1013    </a></b>	
+<b><a name="line1014">1014    </a></b>	    if ( NVME_FWUG == 0xFF ) { // no restriction, only dw alignment is required
+<b><a name="line1015">1015    </a></b>	        fwug_byte_mask = ((U64)BIT2) - 1U; // mask = (1U << 2) - 1;
+<b><a name="line1016">1016    </a></b>	    }
+<b><a name="line1017">1017    </a></b>	    else if ( NVME_FWUG > 0 ) {
+<b><a name="line1018">1018    </a></b>	        fwug_byte_mask = ((U64)NVME_FWUG << LC_BYTE_SIZE_SHIFT) - 1U;
+<b><a name="line1019">1019    </a></b>	    }
+<b><a name="line1020">1020    </a></b>	    else { // not reported
+<b><a name="line1021">1021    </a></b>	        fwug_byte_mask = LC_BYTE_SIZE_MASK;
+<b><a name="line1022">1022    </a></b>	    }
+<b><a name="line1023">1023    </a></b>	
+<b><a name="line1024">1024    </a></b>	
+<b><a name="line1025">1025    </a></b>	    if ((NVME_MDTS > 0U) && (tot_xfer_byte_size > mdts_byte_size)) {
+<b><a name="line1026">1026    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1027">1027    </a></b>	
+<b><a name="line1028">1028    </a></b>	        is_chk_pass = FALSE;
+<b><a name="line1029">1029    </a></b>	    }
+<b><a name="line1030">1030    </a></b>	    else if ((tot_xfer_byte_size & fwug_byte_mask) > 0U) {
+<b><a name="line1031">1031    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_FW_OVERLAPPING_RANGE);
+<b><a name="line1032">1032    </a></b>	
+<b><a name="line1033">1033    </a></b>	        is_chk_pass = FALSE;
+<b><a name="line1034">1034    </a></b>	    }
+<b><a name="line1035">1035    </a></b>	    else if ((byte_ofst & fwug_byte_mask) > 0U) {
+<b><a name="line1036">1036    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_FW_OVERLAPPING_RANGE);
+<b><a name="line1037">1037    </a></b>	
+<b><a name="line1038">1038    </a></b>	        is_chk_pass = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1039">1039    </a></b>	    }
+<b><a name="line1040">1040    </a></b>	    else if (tot_xfer_byte_size > DBUF_API_BOOTCODE_HOST_BUFFER_SIZE) { // 128KB, Check host buffer size
+<b><a name="line1041">1041    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1042">1042    </a></b>	
+<b><a name="line1043">1043    </a></b>	        is_chk_pass = FALSE;
+<b><a name="line1044">1044    </a></b>	    }
+<b><a name="line1045">1045    </a></b>	    else if ((tot_xfer_byte_size + byte_ofst) > DBUF_API_BOOTCODE_DATA_BUFFER_SIZE) { // 2MB, Check system buffer size
+<b><a name="line1046">1046    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1047">1047    </a></b>	
+<b><a name="line1048">1048    </a></b>	        is_chk_pass = FALSE;
+<b><a name="line1049">1049    </a></b>	    }
+<b><a name="line1050">1050    </a></b>	
+<b><a name="line1051">1051    </a></b>	    return is_chk_pass;
+<b><a name="line1052">1052    </a></b>	}
+<b><a name="line1053">1053    </a></b>	
+<b><a name="line1054">1054    </a></b>	static void nvme_fw_commit(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line1055">1055    </a></b>	{
+<b><a name="line1056">1056    </a></b>	    U8 ca = (U8)host->sq_cmd.payload_opt.adm.adm_fw_commit.ca;
+<b><a name="line1057">1057    </a></b>	    U32 check_error;
+<b><a name="line1058">1058    </a></b>	
+<b><a name="line1059">1059    </a></b>	    // chk fw act cap
+<b><a name="line1060">1060    </a></b>	#if (NVME_FW_ACT_WITHOUT_RST_SUP == 0)
+<b><a name="line1061">1061    </a></b>	    if (ca == NVME_FW_STORE_ACTIVATE_NOW) {
+<b><a name="line1062">1062    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1063">1063    </a></b>	        return;
+<b><a name="line1064">1064    </a></b>	    }
+<b><a name="line1065">1065    </a></b>	#endif
+<b><a name="line1066">1066    </a></b>	    // commit action
+<b><a name="line1067">1067    </a></b>	    // todo: something to do here
+<b><a name="line1068">1068    </a></b>	
+<b><a name="line1069">1069    </a></b>	    // nvme spec. page 235
+</pre></body>
+</html>

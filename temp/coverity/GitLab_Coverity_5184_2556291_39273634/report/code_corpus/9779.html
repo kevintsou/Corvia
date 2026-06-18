@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  mctp_nvme_mi.c                                                        */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	static void nvme_mi_message_read_mi_struct_nvm_subsys_info(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base)
+<b><a name="line24">24    </a></b>	{
+<b><a name="line25">25    </a></b>	    MI_DTYP_NVM_SUBSYS_INFO_STRUCT nvmsubsys_info;
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    (void)memset((void *)(&nvmsubsys_info), 0, sizeof(MI_DTYP_NVM_SUBSYS_INFO_STRUCT));
+<b><a name="line28">28    </a></b>	    nvmsubsys_info.nump = NVME_MI_NUM_OF_PORT;
+<b><a name="line29">29    </a></b>	    nvmsubsys_info.mjr  = NVME_MI_MJR_VER;
+<b><a name="line30">30    </a></b>	    nvmsubsys_info.mnr  = NVME_MI_MNR_VER;
+<b><a name="line31">31    </a></b>	    p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = NVME_MI_NVM_SUBSYS_INFO_SIZE;   // in bytes
+<b><a name="line32">32    </a></b>	    memcpy((void *)response_data_base, (void *)(&nvmsubsys_info), NVME_MI_NVM_SUBSYS_INFO_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "response_data_base" of type "U32" is cast to type "void *".</font>
+<b><a name="line33">33    </a></b>	}
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	static void nvme_mi_message_read_mi_struct_port_info(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base, U8 port_id)
+<b><a name="line36">36    </a></b>	{
+<b><a name="line37">37    </a></b>	    MI_DTYP_PORT_INFO_STRUCT port_info;
+<b><a name="line38">38    </a></b>	    U8 port_cnt;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    port_cnt = NVME_MI_NUM_OF_PORT;
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    (void)memset((void *)(&port_info), 0, sizeof(MI_DTYP_PORT_INFO_STRUCT));
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    // Bootcode only support single port
+<b><a name="line45">45    </a></b>	    // Port 0 : PCIe Active
+<b><a name="line46">46    </a></b>	    // Port 1 : PCIe Inactive
+<b><a name="line47">47    </a></b>	    // Port 2 : PCIe Inactive
+<b><a name="line48">48    </a></b>	    // Port 3 : PCIe Inactive
+<b><a name="line49">49    </a></b>	    // Port 4 : SMBus
+<b><a name="line50">50    </a></b>	    switch (port_id)
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        case PCIE_PORT_0:
+<b><a name="line53">53    </a></b>	            port_info.ptyp  = NVME_MI_PORT_TYPE_PCIE;
+<b><a name="line54">54    </a></b>	            break;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	        case NVME_MI_SMBUS_PORT_ID:
+<b><a name="line57">57    </a></b>	            port_info.ptyp  = NVME_MI_PORT_TYPE_SMBUS;
+<b><a name="line58">58    </a></b>	            break;
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	        default:
+<b><a name="line61">61    </a></b>	            port_info.ptyp = NVME_MI_PORT_TYPE_INACTIVE;
+<b><a name="line62">62    </a></b>	            break;
+<b><a name="line63">63    </a></b>	    }
+</pre></body>
+</html>

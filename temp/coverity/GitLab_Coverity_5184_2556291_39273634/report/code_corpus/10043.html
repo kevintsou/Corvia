@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line387">387    </a></b>	    U32 len = ((Z256_SIZE64 * 2UL) + 1UL) * 4UL;
+<b><a name="line388">388    </a></b>	    //clear MEMA,MEMB,MEMC
+<b><a name="line389">389    </a></b>	    pke_init();
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	    // ---- ---- Initial ---- ---- //
+<b><a name="line392">392    </a></b>	    x_addr.sel = HAL_SEC_PKE_MEM_A_ADDR_IDX;
+<b><a name="line393">393    </a></b>	    x_addr.adr = 0x01U;
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	    y_addr.sel  = HAL_SEC_PKE_MEM_B_ADDR_IDX;
+<b><a name="line396">396    </a></b>	    y_addr.adr  = 0x01U;
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    z_addr.sel  = HAL_SEC_PKE_MEM_C_ADDR_IDX;
+<b><a name="line399">399    </a></b>	    //z_addr.adr  = 0x01U;
+<b><a name="line400">400    </a></b>	
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	    U64 *a_ptr = (U64 *)(void *)a;
+<b><a name="line403">403    </a></b>	
+<b><a name="line404">404    </a></b>	    //load data 1
+<b><a name="line405">405    </a></b>	    for (U32 i = 0UL; i < 4UL; i++)
+<b><a name="line406">406    </a></b>	    {
+<b><a name="line407">407    </a></b>	        p_addr = get_pke_mem(&x_addr);
+<b><a name="line408">408    </a></b>	        (void)memcpy((void *)p_addr, (void *)(U32 *)((U32)a_ptr + Z256_SIZE64 * i * 8UL), Z256_SIZE);
+<b><a name="line409">409    </a></b>	        x_addr.adr += ((U8)Z256_SIZE64 * 2U) + 1U;
+<b><a name="line410">410    </a></b>	    }
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	    (void)memcpy((void *)get_pke_mem(&y_addr), (void *)(U64 *)b, Z256_SIZE);
+<b><a name="line413">413    </a></b>	    y_addr.adr += (U8)Z256_SIZE64;
+<b><a name="line414">414    </a></b>	
+<b><a name="line415">415    </a></b>	    p_addr = get_pke_mem(&y_addr);
+<b><a name="line416">416    </a></b>	    (void)memcpy((void *)p_addr, (void *)(U64 *)SM9_Z256_P_PRIME, Z256_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "SM9_Z256_P_PRIME" to type "U64 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line417">417    </a></b>	    y_addr.adr += (U8)Z256_SIZE64;
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	
+<b><a name="line420">420    </a></b>	    p_addr = get_pke_mem(&y_addr);
+<b><a name="line421">421    </a></b>	    (void)memcpy((void *)p_addr, (void *)(U64 *)SM9_Z256_P, Z256_SIZE);
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	    //    step 1
+<b><a name="line424">424    </a></b>	    //    [a0, 0, a1, 0, a2, 0, a3, 0] * [b]
+<b><a name="line425">425    </a></b>	    // => [a0*b , a1*b , a2*b , a3*b ] = [a0' a1' a2' a3'] = [a0'l a0'h a1'l a1'h a2'l a2'h a3'l a3'h]
+<b><a name="line426">426    </a></b>	
+<b><a name="line427">427    </a></b>	    /// A : [0] [z<4*9>]
+<b><a name="line428">428    </a></b>	    /// B : [0] [b, b, b, b] [pr,pr,pr,pr] [p, p, p, p ] [z<4*9>]
+<b><a name="line429">429    </a></b>	    /// C : [0]
+<b><a name="line430">430    </a></b>	    hal_sec_pke_lib_mpy64(&pke_cmd, z_addr.sel, 1U, 81U, x_addr.sel, 1U, y_addr.sel, 1U, (U8)len, (U8)Z256_SIZE64);
+<b><a name="line431">431    </a></b>	    hal_sec_pke_set_en();
+<b><a name="line432">432    </a></b>	    while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line433">433    </a></b>	    hal_sec_pke_clr_en();
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    hal_sec_pke_lib_shf(&pke_cmd, 15U, (U16)len, x_addr.sel, 1U, y_addr.sel, 1U + (4U * 3U), HAL_SEC_PKE_SHIFT_NONE, 0U);
+<b><a name="line436">436    </a></b>	    hal_sec_pke_set_en();
+<b><a name="line437">437    </a></b>	    while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line438">438    </a></b>	    hal_sec_pke_clr_en();
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    hal_sec_sm9_vec_modp((HAL_SEC_SM9_Z256_T *)r, 4UL);
+<b><a name="line441">441    </a></b>	}
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	/// @brief Performs dot product of two polynomial
+<b><a name="line444">444    </a></b>	/// @param r output = [a0b0, a1b1, a2b2, ... anbn]
+<b><a name="line445">445    </a></b>	/// @param a poly1 = [a0, a1, a2, ..., an]
+<b><a name="line446">446    </a></b>	/// @param b poly2 = [b0, b1, b2, ..., bn]
+<b><a name="line447">447    </a></b>	/// @param unit Size of coefficients in bytes, must align 64B !
+</pre></body>
+</html>

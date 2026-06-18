@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8879">8879    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line8880">8880    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8881">8881    </a></b>	
+<b><a name="line8882">8882    </a></b>	    Dump_SEC(tprintf("SHA2-512 KAT"));
+<b><a name="line8883">8883    </a></b>	
+<b><a name="line8884">8884    </a></b>	    // SHA 512
+<b><a name="line8885">8885    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line8886">8886    </a></b>	    (void )memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+<b><a name="line8887">8887    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line8888">8888    </a></b>	    sec_sha_param.src_addr.low  = src_addr;
+<b><a name="line8889">8889    </a></b>	    sec_sha_param.src_len       = data_size;
+<b><a name="line8890">8890    </a></b>	    sec_sha_param.targ_addr.low = targ_addr;
+<b><a name="line8891">8891    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line8892">8892    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line8893">8893    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+<b><a name="line8894">8894    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line8895">8895    </a></b>	    ret = phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line8896">8896    </a></b>	
+<b><a name="line8897">8897    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8898">8898    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8899">8899    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TRIGGER);
+<b><a name="line8900">8900    </a></b>	    }
+<b><a name="line8901">8901    </a></b>	
+<b><a name="line8902">8902    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line8903">8903    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TIMEOUT);
+<b><a name="line8904">8904    </a></b>	    }
+<b><a name="line8905">8905    </a></b>	
+<b><a name="line8906">8906    </a></b>	    if (memcmp((U32 *)targ_addr, (U32 * )TEST_ANS1_512, HAL_SEC_SHA2_512_DIGEST_LEN) != 0) {
+<b><a name="line8907">8907    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line8908">8908    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line8909">8909    </a></b>	    }
+<b><a name="line8910">8910    </a></b>	
+<b><a name="line8911">8911    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line8912">8912    </a></b>	}
+<b><a name="line8913">8913    </a></b>	
+<b><a name="line8914">8914    </a></b>	#if 0 // MLDSA KAT can cover sha3 kat -> ref. https://confluence.phison.com:8443/x/B1MmNg
+<b><a name="line8915">8915    </a></b>	U32 host_sec_sha3_shake_128_kat(U32 buf_addr)
+<b><a name="line8916">8916    </a></b>	{
+<b><a name="line8917">8917    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line8918">8918    </a></b>	    U32 src_addr  = buf_addr;
+<b><a name="line8919">8919    </a></b>	    U32 targ_addr = buf_addr + 0x200U;
+<b><a name="line8920">8920    </a></b>	    U32 data_size;
+<b><a name="line8921">8921    </a></b>	    U8 TEST_DATA1[]              = {0x0e};
+<b><a name="line8922">8922    </a></b>	    U8 TEST_ANS1_SHA3_SHAKE128[] = {0xfa, 0x99, 0x6d, 0xaf, 0xaa, 0x20, 0x8d, 0x72, 0x28, 0x7c, 0x23, 0xbc, 0x4e, 0xd4, 0xbf, 0xd5};
+<b><a name="line8923">8923    </a></b>	    SEC_SHA_PARAMS_T         sec_sha_param;
+<b><a name="line8924">8924    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8925">8925    </a></b>	
+<b><a name="line8926">8926    </a></b>	    Dump_SEC(tprintf("SHA3-SHAKE128 KAT"));
+<b><a name="line8927">8927    </a></b>	
+<b><a name="line8928">8928    </a></b>	    // SHA3 SHAKE 128
+<b><a name="line8929">8929    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line8930">8930    </a></b>	    (void)memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+<b><a name="line8931">8931    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line8932">8932    </a></b>	    sec_sha_param.src_addr.low  = src_addr;
+<b><a name="line8933">8933    </a></b>	    sec_sha_param.src_len       = data_size;
+<b><a name="line8934">8934    </a></b>	    sec_sha_param.targ_addr.low = targ_addr;
+<b><a name="line8935">8935    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA3_SHAKE_128_MODE;
+<b><a name="line8936">8936    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA3_SHAKE_128_DIGEST_LEN;
+<b><a name="line8937">8937    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+<b><a name="line8938">8938    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line8939">8939    </a></b>	    ret = phal_sec_sha_blocking(&sec_sha_param);
+</pre></body>
+</html>

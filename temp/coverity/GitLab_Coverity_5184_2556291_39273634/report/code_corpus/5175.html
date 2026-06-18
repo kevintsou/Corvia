@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2788">2788    </a></b>	    Dump_ScanID(tprintf("ID Table scan times %d", end_scan));
+<b><a name="line2789">2789    </a></b>	
+<b><a name="line2790">2790    </a></b>	    //A for() instead of while(next_nand_retry < nand_retry_max) is used to
+<b><a name="line2791">2791    </a></b>	    //place a clear upper bound on the number of scans that could be performed
+<b><a name="line2792">2792    </a></b>	    //This is to prevent creating possible while(1) on unexpected conditions
+<b><a name="line2793">2793    </a></b>	    for (scan = 0; scan < end_scan; scan++) {
+<b><a name="line2794">2794    </a></b>	        //This exit condition is when all possible scanning parameters have
+<b><a name="line2795">2795    </a></b>	        //been iterated through without finding a Complete Code Pointer Block Set
+<b><a name="line2796">2796    </a></b>	        //This is checked first so that scan_code_pointer_block() will exit first
+<b><a name="line2797">2797    </a></b>	        //even if it is called again when the end condition is already reached
+<b><a name="line2798">2798    </a></b>	        if (p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max) {
+<b><a name="line2799">2799    </a></b>	            Dump_ScanID(tprintf("Scan Code Pointer Block Ended without finding a Complete Set"));
+<b><a name="line2800">2800    </a></b>	            break;
+<b><a name="line2801">2801    </a></b>	        }
+<b><a name="line2802">2802    </a></b>	
+<b><a name="line2803">2803    </a></b>	        //Record the current scanning location before it is incremented
+<b><a name="line2804">2804    </a></b>	        nand_retry = p_load_code_status->code_pointer_block_scan_nand_retry_next;
+<b><a name="line2805">2805    </a></b>	        block = p_load_code_status->code_pointer_block_scan_block_next;
+<b><a name="line2806">2806    </a></b>	        plane = p_load_code_status->code_pointer_block_scan_plane_next;
+<b><a name="line2807">2807    </a></b>	
+<b><a name="line2808">2808    </a></b>	        fsa_row =
+<b><a name="line2809">2809    </a></b>	            ((U64)block << gFplApiStruct.addr_rule->rule_block.shift) |
+<b><a name="line2810">2810    </a></b>	            ((U64)plane << gFplApiStruct.addr_rule->rule_plane.shift) |
+<b><a name="line2811">2811    </a></b>	            ((U64)id_page_offset << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line2812">2812    </a></b>	
+<b><a name="line2813">2813    </a></b>	        //Increment the scanning location first minimizes the chance that the
+<b><a name="line2814">2814    </a></b>	        //code skips the increment and never breaks out of this loop
+<b><a name="line2815">2815    </a></b>	        p_load_code_status->code_pointer_block_scan_plane_next++;
+<b><a name="line2816">2816    </a></b>	        if (p_load_code_status->code_pointer_block_scan_plane_next >= end_plane) {
+<b><a name="line2817">2817    </a></b>	            p_load_code_status->code_pointer_block_scan_plane_next = start_plane;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "start_plane" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2818">2818    </a></b>	            p_load_code_status->code_pointer_block_scan_block_next++;
+<b><a name="line2819">2819    </a></b>	            if (p_load_code_status->code_pointer_block_scan_block_next >= end_block) {
+<b><a name="line2820">2820    </a></b>	                p_load_code_status->code_pointer_block_scan_block_next = start_block;
+<b><a name="line2821">2821    </a></b>	                p_load_code_status->code_pointer_block_scan_nand_retry_next++;
+<b><a name="line2822">2822    </a></b>	            }
+<b><a name="line2823">2823    </a></b>	        }
+<b><a name="line2824">2824    </a></b>	
+<b><a name="line2825">2825    </a></b>	        if(((plane < p_load_code_status->boot_code_scan_skip_plane_index) && (block == p_load_code_status->boot_code_scan_skip_block_index)) || (block < p_load_code_status->boot_code_scan_skip_block_index))
+<b><a name="line2826">2826    </a></b>	        {
+<b><a name="line2827">2827    </a></b>	            continue;
+<b><a name="line2828">2828    </a></b>	        }
+<b><a name="line2829">2829    </a></b>	
+<b><a name="line2830">2830    </a></b>	        Dump_ScanID(tprintf("NAND Retry %d Block %x Plane %x Page %x == FSA Row %L", (U16)nand_retry, block, plane, id_page_offset, fsa_row));
+<b><a name="line2831">2831    </a></b>	
+<b><a name="line2832">2832    </a></b>	        reading_channel_bitmap = 0;
+<b><a name="line2833">2833    </a></b>	
+<b><a name="line2834">2834    </a></b>	        //Start the Read Trigger
+<b><a name="line2835">2835    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line2836">2836    </a></b>	            //Skip channels that are not being scanned
+<b><a name="line2837">2837    </a></b>	            if (0U == (scanning_channel_bitmap & (1U << channel))) {
+<b><a name="line2838">2838    </a></b>	                continue;
+<b><a name="line2839">2839    </a></b>	            }
+<b><a name="line2840">2840    </a></b>	
+<b><a name="line2841">2841    </a></b>	            a_fsa[channel] =
+<b><a name="line2842">2842    </a></b>	                fsa_row |
+<b><a name="line2843">2843    </a></b>	                ((U64)(channel) << gFplApiStruct.addr_rule->rule_ch.shift);
+<b><a name="line2844">2844    </a></b>	
+<b><a name="line2845">2845    </a></b>	            //Data and Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2846">2846    </a></b>	            data_address = data_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_BYTE_SIZE_SHIFT));
+<b><a name="line2847">2847    </a></b>	            spare_address = spare_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT));
+<b><a name="line2848">2848    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1262">1262    </a></b>	
+<b><a name="line1263">1263    </a></b>	    U8  dummy_en;
+<b><a name="line1264">1264    </a></b>	    U8  kat_mode;
+<b><a name="line1265">1265    </a></b>	
+<b><a name="line1266">1266    </a></b>	    verify_status = PASS;
+<b><a name="line1267">1267    </a></b>	    result        = PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line1268">1268    </a></b>	    memset((void *)&rsa_key, 0x00, sizeof(rsa_key));
+<b><a name="line1269">1269    </a></b>	
+<b><a name="line1270">1270    </a></b>	    Dump_SEC(tprintf("Check Code Signature"));
+<b><a name="line1271">1271    </a></b>	
+<b><a name="line1272">1272    </a></b>	    //TODO this needs to be cleaned up a lot
+<b><a name="line1273">1273    </a></b>	    check_project_binary_error = 0;
+<b><a name="line1274">1274    </a></b>	
+<b><a name="line1275">1275    </a></b>	    //Combine all HW Status so that the HW can be checked together and waited together
+<b><a name="line1276">1276    </a></b>	    hw_status = 0;
+<b><a name="line1277">1277    </a></b>	
+<b><a name="line1278">1278    </a></b>	    //Record all the fields in the Project Binary Header that will be used
+<b><a name="line1279">1279    </a></b>	    //This is to prevent any unexpected changes to the Project Binary Header
+<b><a name="line1280">1280    </a></b>	    //affecting the rest of the calculations
+<b><a name="line1281">1281    </a></b>	    algorithm_type = p_project_binary_header->algorithm_type;
+<b><a name="line1282">1282    </a></b>	    file_format = p_project_binary_header->file_format;
+<b><a name="line1283">1283    </a></b>	    algorithm_settings = p_project_binary_header->algorithm_settings;
+<b><a name="line1284">1284    </a></b>	    bledn = p_project_binary_header->pubkey_bledn_sig_bledn;
+<b><a name="line1285">1285    </a></b>	
+<b><a name="line1286">1286    </a></b>	    //tprintf("algorithm_type = %x, file_format = %x, algorithm_settings = %x, bledn = %x", algorithm_type, file_format, algorithm_settings, bledn);
+<b><a name="line1287">1287    </a></b>	
+<b><a name="line1288">1288    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line1289">1289    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	    sal_log_tracker_set(sal_locate((U8)(algorithm_type & 0xFF), TYPE_DATA));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0xffffffff83000000 | ((U8)(U8)(algorithm_type & 0xffUL) << 16) | 0x50b0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1292">1292    </a></b>	    //Check the accepted file format(0x16), settings(0x2A) for a given algorithm
+<b><a name="line1293">1293    </a></b>	    //As well as locate the different parts required for signature verification
+<b><a name="line1294">1294    </a></b>	    switch (algorithm_type) {
+<b><a name="line1295">1295    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1296">1296    </a></b>	        key_size = sizeof(RSA4096_PUBLIC_KEY); //0x610
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	        //File Format 5 for RSA4096_SHA512_PKCS1_V1_5 and RSA4096_SHA512_PKCS1_V2_1
+<b><a name="line1299">1299    </a></b>	        //includes the attached key and relevant paddings as part of the signed data
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	        //Key is located at after the original data
+<b><a name="line1302">1302    </a></b>	        key_address = data_address + data_size;
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	        //Signature is located right after the key, aligned to 512B
+<b><a name="line1305">1305    </a></b>	        signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><a name="line1306">1306    </a></b>	        signature_size = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line1307">1307    </a></b>	
+<b><a name="line1308">1308    </a></b>	        //The protected message starts from the start of the data to before the signature
+<b><a name="line1309">1309    </a></b>	        //This includes the key within the protected area
+<b><a name="line1310">1310    </a></b>	        message_address = data_address;
+<b><a name="line1311">1311    </a></b>	        message_size = signature_address - data_address;
+<b><a name="line1312">1312    </a></b>	
+<b><a name="line1313">1313    </a></b>	        //Make sure mmul64 is enabled
+<b><a name="line1314">1314    </a></b>	        // if (BIT1 != (algorithm_settings & (BIT2 | BIT1)))
+<b><a name="line1315">1315    </a></b>	        if (ALGORITHM_SETTINGS_MMUL_64x64 != GET_ALGORITHM_SETTINGS_MMUL(algorithm_settings)) {
+<b><a name="line1316">1316    </a></b>	            return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_SETTING;
+<b><a name="line1317">1317    </a></b>	        }
+<b><a name="line1318">1318    </a></b>	        break;
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3:
+<b><a name="line1321">1321    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sw_sm2_sm3(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1322">1322    </a></b>	        return check_project_binary_error;
+</pre></body>
+</html>

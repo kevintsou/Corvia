@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/i2c/i2c.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _HOST_I2C_H_
+<b><a name="line2">2    </a></b>	#define _HOST_I2C_H_
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "user_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	void i2c_nand_power_off_through_mcu(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "i2c_nand_power_off_through_mcu" is declared more than once.</font>
+<b><a name="line7">7    </a></b>	void i2c_nand_power_on_through_mcu(void);
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	#endif /* _HOST_I2C_H_ */
+<b><a name="line10">10    </a></b>	
+</pre></body>
+</html>

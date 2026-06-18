@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/hal_fw_nvme.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line124">124    </a></b>	    hal_fw_nvme_boot_code_nl_sram_init(time_out);
+<b><a name="line125">125    </a></b>	    hal_fw_nvme_boot_code_nl_setting_init(param);
+<b><a name="line126">126    </a></b>	    hal_fw_nvme_boot_code_nl_ctrl_reg_init(param);
+<b><a name="line127">127    </a></b>	    dal_nl_set_fw_ac();
+<b><a name="line128">128    </a></b>	}
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	void hal_fw_nvme_boot_code_cmgr_setting_init(HAL_CMGR_INIT_PARAM_PTR param)
+<b><a name="line131">131    </a></b>	{
+<b><a name="line132">132    </a></b>	    U16 opc;
+<b><a name="line133">133    </a></b>	    U8 pofst = 0U;
+<b><a name="line134">134    </a></b>	    U16 rsv_ctag_start = param->max_ctag_num;
+<b><a name="line135">135    </a></b>	    U16 rsv_ctag_end = NVME_MAX_CTAG_NUM_HW - 1;
+<b><a name="line136">136    </a></b>	    hal_cmgr_set_port_mode(pofst); //single port node
+<b><a name="line137">137    </a></b>	    hal_cmgr_set_ctag_num(pofst, param->max_ctag_num);
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	    for(U16 ctag_idx = rsv_ctag_start; ctag_idx <= rsv_ctag_end; ctag_idx++)
+<b><a name="line140">140    </a></b>	    {
+<b><a name="line141">141    </a></b>	        dal_cmgr_set_fw_fc(ctag_idx);
+<b><a name="line142">142    </a></b>	        dal_cmgr_set_fw_fc_clr();
+<b><a name="line143">143    </a></b>	    }
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    dal_cmgr_set_nvme_mdts(NVME_MDTS);
+<b><a name="line146">146    </a></b>	    dal_cmgr_clr_ic_zns();
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	    //initial each admin and io commmand cq tid to send to hcmd_sync db
+<b><a name="line149">149    </a></b>	    for (opc = 0U; opc < 256U; opc++) {
+<b><a name="line150">150    </a></b>	        hal_cmgr_set_adm_op_svpn(opc, param->admin_svpn);
+<b><a name="line151">151    </a></b>	        hal_cmgr_set_adm_op_type(opc, param->admin_type);
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	        hal_cmgr_set_io_op_svpn(opc, param->nvm_set_svpn);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "opc" from essential type "unsigned 16-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line154">154    </a></b>	        hal_cmgr_set_io_op_type(opc, param->nvm_set_type);
+<b><a name="line155">155    </a></b>	    }
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	    //disable all special case and command will send to according db defined by tid sram
+<b><a name="line158">158    </a></b>	    dal_cmgr_clr_db_err_en(0);
+<b><a name="line159">159    </a></b>	    dal_cmgr_clr_db_all_fuse_en(0);
+<b><a name="line160">160    </a></b>	    dal_cmgr_clr_db_fw_spc0_en(0);
+<b><a name="line161">161    </a></b>	    dal_cmgr_clr_db_fw_spc1_en(0);
+<b><a name="line162">162    </a></b>	    dal_cmgr_clr_db_rd_mbr_en(0);
+<b><a name="line163">163    </a></b>	    dal_cmgr_clr_db_rd_az_en(0);
+<b><a name="line164">164    </a></b>	    dal_cmgr_clr_db_cmp_mbr_en(0);
+<b><a name="line165">165    </a></b>	    dal_cmgr_clr_db_cmp_az_en(0);
+<b><a name="line166">166    </a></b>	    dal_cmgr_clr_db_vfy_mbr_en(0);
+<b><a name="line167">167    </a></b>	    dal_cmgr_clr_db_vfy_az_en(0);
+<b><a name="line168">168    </a></b>	    dal_cmgr_clr_db_rd_fuse_en(0);
+<b><a name="line169">169    </a></b>	    dal_cmgr_clr_db_wr_fuse_en(0);
+<b><a name="line170">170    </a></b>	    dal_cmgr_clr_db_ver_fuse_en(0);
+<b><a name="line171">171    </a></b>	    dal_cmgr_clr_db_wz_fuse_en(0);
+<b><a name="line172">172    </a></b>	    dal_cmgr_clr_db_cmp_fuse_en(0);
+<b><a name="line173">173    </a></b>	    dal_cmgr_clr_db_zap_fuse_en(0);
+<b><a name="line174">174    </a></b>	    dal_cmgr_clr_db_copy_fuse_en(0);
+<b><a name="line175">175    </a></b>	    dal_cmgr_clr_db_wunc_fuse_en(0);
+<b><a name="line176">176    </a></b>	    dal_cmgr_clr_db_wz_deac_en(0);
+<b><a name="line177">177    </a></b>	    dal_cmgr_clr_db_wz_nsz_en(0);
+<b><a name="line178">178    </a></b>	    dal_cmgr_clr_db_wz_spc_en(0);
+<b><a name="line179">179    </a></b>	    dal_cmgr_clr_db_wr_spc0_en(0);
+<b><a name="line180">180    </a></b>	    dal_cmgr_clr_db_wr_spc1_en(0);
+<b><a name="line181">181    </a></b>	    dal_cmgr_clr_db_ior_en(0);
+<b><a name="line182">182    </a></b>	    dal_cmgr_clr_db_rd_fua_en(0);
+<b><a name="line183">183    </a></b>	    dal_cmgr_clr_db_wr_fua_en(0);
+<b><a name="line184">184    </a></b>	    dal_cmgr_clr_db_ver_fua_en(0);
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line917">917    </a></b>	    }
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    return trigger_done;
+<b><a name="line920">920    </a></b>	}
+<b><a name="line921">921    </a></b>	
+<b><a name="line922">922    </a></b>	/*!
+<b><a name="line923">923    </a></b>	 @brief      aes otf direct path trigger blocking mode, which would wait the result done
+<b><a name="line924">924    </a></b>	 @param[in]  params  - aes otf direct path parameter structure
+<b><a name="line925">925    </a></b>	 @note
+<b><a name="line926">926    </a></b>	
+<b><a name="line927">927    </a></b>	 - None
+<b><a name="line928">928    </a></b>	
+<b><a name="line929">929    </a></b>	 */
+<b><a name="line930">930    </a></b>	void hal_sec_aesotf_direct_path_blocking(SEC_AES_DIRECT_PARAMS_PTR params)
+<b><a name="line931">931    </a></b>	{
+<b><a name="line932">932    </a></b>	    ASSERT(0U, params->comm.setkey.tmp_size >= params->comm.src_len);
+<b><a name="line933">933    </a></b>	    ASSERT(0U, params->comm.is_xts_cts_mode == SEC_NO);
+<b><a name="line934">934    </a></b>	
+<b><a name="line935">935    </a></b>	    U32 lba;
+<b><a name="line936">936    </a></b>	    U32 lbas[4] = {0};
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    U8 *tmp_src_ptr  = (U8 *)(params->comm.setkey.tmp_addr.low);
+<b><a name="line939">939    </a></b>	    U8 *tmp_targ_ptr = (U8 *)(params->comm.targ_addr.low);
+<b><a name="line940">940    </a></b>	
+<b><a name="line941">941    </a></b>	    U32 cal_blk_size = 16UL;
+<b><a name="line942">942    </a></b>	    U32 sec_cnt      = (params->comm.src_len + (cal_blk_size - 1U) ) / cal_blk_size;
+<b><a name="line943">943    </a></b>	
+<b><a name="line944">944    </a></b>	    // must load key
+<b><a name="line945">945    </a></b>	    params->comm.setkey.aes_mode = params->comm.aes_mode;
+<b><a name="line946">946    </a></b>	    phal_sec_aes_set_ram_key(&(params->comm.setkey));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "phal_sec_aes_set_ram_key" is unused.</font>
+<b><a name="line947">947    </a></b>	
+<b><a name="line948">948    </a></b>	    if ((params->comm.setkey.tmp_addr.all >> 32UL) != 0UL)
+<b><a name="line949">949    </a></b>	    {
+<b><a name="line950">950    </a></b>	        // TODO: deal with DDR address
+<b><a name="line951">951    </a></b>	    }
+<b><a name="line952">952    </a></b>	
+<b><a name="line953">953    </a></b>	    if ((params->comm.targ_addr.all >> 32UL) != 0UL)
+<b><a name="line954">954    </a></b>	    {
+<b><a name="line955">955    </a></b>	        // TODO: deal with DDR address
+<b><a name="line956">956    </a></b>	    }
+<b><a name="line957">957    </a></b>	
+<b><a name="line958">958    </a></b>	    if (params->comm.src_len > 0U)
+<b><a name="line959">959    </a></b>	    {
+<b><a name="line960">960    </a></b>	        (void)memcpy((void *)(tmp_src_ptr), (void *)(U8 *)(params->comm.src_addr.low), params->comm.src_len);
+<b><a name="line961">961    </a></b>	        ASM_DSB();
+<b><a name="line962">962    </a></b>	    }
+<b><a name="line963">963    </a></b>	    else
+<b><a name="line964">964    </a></b>	    {
+<b><a name="line965">965    </a></b>	        ASSERT(0U, params->comm.src_len != 0U);
+<b><a name="line966">966    </a></b>	    }
+<b><a name="line967">967    </a></b>	
+<b><a name="line968">968    </a></b>	    if (params->comm.aes_mode == HAL_SEC_AES_XTS_MODE)
+<b><a name="line969">969    </a></b>	    {
+<b><a name="line970">970    </a></b>	        dal_sec_aes_otf_direct_path_init(params->comm.core_idx, 0UL, 1UL, params->comm.dup_core_sel);
+<b><a name="line971">971    </a></b>	
+<b><a name="line972">972    </a></b>	        lba = ((U32)(params->comm.lba_h >> 32) & 0xFFFFFFFFUL);
+<b><a name="line973">973    </a></b>	        hal_sec_api_reverse_endian(&lbas[0], &lba, 4UL);
+<b><a name="line974">974    </a></b>	
+<b><a name="line975">975    </a></b>	        lba = ((U32)(params->comm.lba_h & 0xFFFFFFFFUL));
+<b><a name="line976">976    </a></b>	        hal_sec_api_reverse_endian(&lbas[1], &lba, 4UL);
+<b><a name="line977">977    </a></b>	
+</pre></body>
+</html>

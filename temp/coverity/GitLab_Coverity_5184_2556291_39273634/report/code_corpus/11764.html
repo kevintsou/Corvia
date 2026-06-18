@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line42">42    </a></b>	    fip_set_fta_addr(fta_addr, fip_read_param_struct_ptr, FLH_FTA_ROW_ADDR_MAX);
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    buf += sizeof(MR_HDR_STRUCT);
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    buf = (U8 *)fip_inst_api_insert_hd(buf, 0, 0, 0, 1);
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, ((U8)1U << fip_read_param_struct_ptr->nand_addr.bank));
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_BUS_SWITCH]);
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCS]);
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    buf = (U8 *)fip_inst_pasring(cmd_info_ptr, buf, fta_addr, die, plane, retry_tbl);
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    U32 sq_cmd_size_align = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    for (U32 i = 0; i < (sq_cmd_size_align - sq_cmd_size) ; i++)
+<b><a name="line67">67    </a></b>	    {
+<b><a name="line68">68    </a></b>	        inst_buf[i + sq_cmd_size]  = 0;
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    hal_flh_scq_mr_header(inst_buf, mr_target_id, mr_source_id, sq_cmd_size_align);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "hal_flh_scq_mr_header" is unused.</font>
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	U32 fip_inst_api_insert_hd(U8 *inst, U8 ce, U8 lun, U8 plane, U8 dma_rel)
+<b><a name="line78">78    </a></b>	{
+<b><a name="line79">79    </a></b>	    U8 is_sca = gFplApiStruct.p_efuse_nand_setting->sca_mode_en;
+<b><a name="line80">80    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    p->u32_val[0U]         = HAL_FIP_INST_OP_HD;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    p->hd.ce                = ce;
+<b><a name="line85">85    </a></b>	    p->hd.lun               = lun;
+<b><a name="line86">86    </a></b>	    p->hd.pln               = (is_sca == 1) ? plane : 0U;
+<b><a name="line87">87    </a></b>	    p->hd.dma_rel           = dma_rel;
+<b><a name="line88">88    </a></b>	    p->hd.ignore_phi_rvalid = 0U;
+<b><a name="line89">89    </a></b>	    p->hd.sync_bypass       = (is_sca == 1) ? 1U : 0U;
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_HD_STRUCT)];
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	U32 fip_inst_gen_end(U8 *inst)
+<b><a name="line95">95    </a></b>	{
+<b><a name="line96">96    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line97">97    </a></b>	    p->u32_val[0U]         = HAL_FIP_INST_OP_END;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_END_STRUCT)];
+<b><a name="line100">100    </a></b>	}
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	U32 fip_inst_gen_ce(U8 *inst, U8 ce_bmp)
+</pre></body>
+</html>

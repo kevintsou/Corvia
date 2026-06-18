@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1264">1264    </a></b>	    }
+<b><a name="line1265">1265    </a></b>	
+<b><a name="line1266">1266    </a></b>	    hal_sec_sm9_z256_modp_mont_inv(z_inv, P->Z);
+<b><a name="line1267">1267    </a></b>	
+<b><a name="line1268">1268    </a></b>	    if (y != NULL)
+<b><a name="line1269">1269    </a></b>	    {
+<b><a name="line1270">1270    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(y, P->Y, z_inv);
+<b><a name="line1271">1271    </a></b>	    }
+<b><a name="line1272">1272    </a></b>	
+<b><a name="line1273">1273    </a></b>	    hal_sec_sm9_z256_modp_mont_sqr(z_inv, z_inv);
+<b><a name="line1274">1274    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(x, P->X, z_inv);
+<b><a name="line1275">1275    </a></b>	    hal_sec_sm9_z256_modp_from_mont(x, x);
+<b><a name="line1276">1276    </a></b>	
+<b><a name="line1277">1277    </a></b>	    if (y != NULL)
+<b><a name="line1278">1278    </a></b>	    {
+<b><a name="line1279">1279    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(y, y, z_inv);
+<b><a name="line1280">1280    </a></b>	        hal_sec_sm9_z256_modp_from_mont(y, y);
+<b><a name="line1281">1281    </a></b>	    }
+<b><a name="line1282">1282    </a></b>	}
+<b><a name="line1283">1283    </a></b>	
+<b><a name="line1284">1284    </a></b>	U8 hal_sec_sm9_z256_point_is_on_curve(HAL_SEC_SM9_Z256_POINT_T *PP)
+<b><a name="line1285">1285    </a></b>	{
+<b><a name="line1286">1286    </a></b>	    HAL_SEC_SM9_Z256_T t0 = {0ULL};
+<b><a name="line1287">1287    </a></b>	    HAL_SEC_SM9_Z256_T t1 = {0ULL};
+<b><a name="line1288">1288    </a></b>	    HAL_SEC_SM9_Z256_T t2 = {0ULL};
+<b><a name="line1289">1289    </a></b>	
+<b><a name="line1290">1290    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_modp_mont_one;
+<b><a name="line1291">1291    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_modp_mont_five;
+<b><a name="line1292">1292    </a></b>	    (void)memcpy(sm9_z256_modp_mont_one, SM9_Z256_MODP_MONT_ONE, sizeof(SM9_Z256_MODP_MONT_ONE));
+<b><a name="line1293">1293    </a></b>	    (void)memcpy(sm9_z256_modp_mont_five, SM9_Z256_MODP_MONT_FIVE, sizeof(SM9_Z256_MODP_MONT_FIVE));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "SM9_Z256_MODP_MONT_FIVE" of type "HAL_SEC_SM9_Z256_T const *" is cast to type "U64 const *".</font>
+<b><a name="line1294">1294    </a></b>	
+<b><a name="line1295">1295    </a></b>	    if (hal_sec_sm9_z256_equ(PP->Z, sm9_z256_modp_mont_one) == 1U)
+<b><a name="line1296">1296    </a></b>	    {
+<b><a name="line1297">1297    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t0, PP->Y);
+<b><a name="line1298">1298    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t1, PP->X);
+<b><a name="line1299">1299    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(t1, t1, PP->X);
+<b><a name="line1300">1300    </a></b>	        hal_sec_sm9_z256_modp_add(t1, t1, sm9_z256_modp_mont_five);
+<b><a name="line1301">1301    </a></b>	    }
+<b><a name="line1302">1302    </a></b>	    else
+<b><a name="line1303">1303    </a></b>	    {
+<b><a name="line1304">1304    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t0, PP->X);
+<b><a name="line1305">1305    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(t0, t0, PP->X);
+<b><a name="line1306">1306    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t1, PP->Z);
+<b><a name="line1307">1307    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t2, t1);
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(t1, t1, t2);
+<b><a name="line1310">1310    </a></b>	        hal_sec_sm9_z256_modp_mont_mul_pke(t1, t1, sm9_z256_modp_mont_five);
+<b><a name="line1311">1311    </a></b>	        hal_sec_sm9_z256_modp_add(t1, t0, t1);
+<b><a name="line1312">1312    </a></b>	        hal_sec_sm9_z256_modp_mont_sqr(t0, PP->Y);
+<b><a name="line1313">1313    </a></b>	    }
+<b><a name="line1314">1314    </a></b>	
+<b><a name="line1315">1315    </a></b>	    if (hal_sec_sm9_z256_equ(t0, t1) != 1U)
+<b><a name="line1316">1316    </a></b>	    {
+<b><a name="line1317">1317    </a></b>	        return SEC_NO;
+<b><a name="line1318">1318    </a></b>	    }
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    return SEC_YES;
+<b><a name="line1321">1321    </a></b>	}
+<b><a name="line1322">1322    </a></b>	
+<b><a name="line1323">1323    </a></b>	void hal_sec_sm9_z256_point_dbl(HAL_SEC_SM9_Z256_POINT_T *RR, HAL_SEC_SM9_Z256_POINT_T *PP)
+<b><a name="line1324">1324    </a></b>	{
+</pre></body>
+</html>

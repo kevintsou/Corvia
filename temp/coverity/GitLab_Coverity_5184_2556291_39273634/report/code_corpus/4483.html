@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line192">192    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line193">193    </a></b>	            break;
+<b><a name="line194">194    </a></b>	        }
+<b><a name="line195">195    </a></b>	    }
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	    hal_nvme_nl_del_req(0U, PCIE_PF_0, fid, qid, HAL_NVME_DEL_TYPE_QUEUE, 100);
+<b><a name="line198">198    </a></b>	
+<b><a name="line199">199    </a></b>	    dal_nl_clr_p_blk_cmd_en(PCIE_PORT_0);
+<b><a name="line200">200    </a></b>	
+<b><a name="line201">201    </a></b>	    dal_nl_clr_port_mask(PCIE_PORT_0);
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	    dal_nl_clr_sq_en(qid);
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	    dal_nl_clr_iosq_mask(qid);
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    host->host_info.ioq.iosq[qid].en       = FALSE;
+<b><a name="line211">211    </a></b>	    host->host_info.ioq.iosq[qid].cqid     = 0;
+<b><a name="line212">212    </a></b>	    host->host_info.ioq.iosq[qid].qsize    = 0;
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    Dump_NVME(tprintf("End nvme_delete_io_sq\n\r"));
+<b><a name="line215">215    </a></b>	}
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	static void nvme_delete_io_cq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line218">218    </a></b>	{
+<b><a name="line219">219    </a></b>	    Dump_NVME(tprintf("  >> delete IO CQ.\n\r"));
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	    U8         fid = host->hcmd.payload.info.nonuser.fid;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "host->hcmd.payload.info.nonuser.fid" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line222">222    </a></b>	    U16        qid = host->sq_cmd.payload_opt.adm.delete_sq.qid;
+<b><a name="line223">223    </a></b>	    U16 max_num_cq = (host->nvme_feature.cq_num + 1);
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	    if ((qid == 0) || (qid > max_num_cq) || (host->host_info.ioq.iocq[qid].en == FALSE)) {
+<b><a name="line227">227    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line228">228    </a></b>	        return;
+<b><a name="line229">229    </a></b>	    }
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	    for ( U16 sqid = 1; sqid < NVME_MAX_Q_CNT; ++sqid ) {
+<b><a name="line232">232    </a></b>	        if ( (host->host_info.ioq.iosq[sqid].cqid == qid) &&
+<b><a name="line233">233    </a></b>	            (host->host_info.ioq.iosq[sqid].en   == TRUE) ) { // a sq is still attched to deleted cq
+<b><a name="line234">234    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_DEL);
+<b><a name="line235">235    </a></b>	            return;
+<b><a name="line236">236    </a></b>	        }
+<b><a name="line237">237    </a></b>	    }
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line240">240    </a></b>	    dal_nl_clr_cq_en(qid);
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	    host->host_info.ioq.iocq[qid].en       = FALSE;
+<b><a name="line243">243    </a></b>	    host->host_info.ioq.iocq[qid].intr_en  = FALSE;
+<b><a name="line244">244    </a></b>	    host->host_info.ioq.iocq[qid].qsize    = 0;
+<b><a name="line245">245    </a></b>	}
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	static void fill_cns_ns_data(HOST_API_STRUCT_PTR host, U32 buf_addr, U32 nsid)
+<b><a name="line248">248    </a></b>	{
+<b><a name="line249">249    </a></b>	    IDEN_NS_DATA_PTR ns_data_ptr = (IDEN_NS_DATA_PTR)buf_addr;
+<b><a name="line250">250    </a></b>	    U64              nlb         = host->host_info.total_lba;
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	    ns_data_ptr->lbaFormat[0].lbads = SECTOR_SIZE_SHIFT;// lbads = 2^9 = 512
+</pre></body>
+</html>

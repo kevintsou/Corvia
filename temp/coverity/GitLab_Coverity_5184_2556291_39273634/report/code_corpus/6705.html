@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line262">262    </a></b>	    ns_data_ptr->mc        = 0;
+<b><a name="line263">263    </a></b>	    ns_data_ptr->dpc       = 0;
+<b><a name="line264">264    </a></b>	    ns_data_ptr->dps       = 0;
+<b><a name="line265">265    </a></b>	    ns_data_ptr->nmic      = 0;
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	    //ns_data_ptr->nvmsetid = HAL_NVME_CMGR_GET_NS_NVMSETID(0) + 1;
+<b><a name="line268">268    </a></b>	}
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	static void fill_cns_ctrl_data(HOST_API_STRUCT_PTR host, U32 buf_addr)
+<b><a name="line271">271    </a></b>	{
+<b><a name="line272">272    </a></b>	    IDEN_CTRL_DATA_PTR ctrl_data_ptr = (IDEN_CTRL_DATA_PTR)buf_addr;
+<b><a name="line273">273    </a></b>	    U32 i;
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	    memset( ctrl_data_ptr, 0, sizeof(IDEN_CTRL_DATA) );
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    // Controller Capabilities and Features 0-255
+<b><a name="line278">278    </a></b>	    ctrl_data_ptr->vid   = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line279">279    </a></b>	    ctrl_data_ptr->ssvid = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    // [23:04]
+<b><a name="line282">282    </a></b>	    memcpy((void *) & (ctrl_data_ptr->sn[0]), (void *) & (serial_number[0]), HOST_SN_BYTES);
+<b><a name="line283">283    </a></b>	    // [63:24]
+<b><a name="line284">284    </a></b>	    memcpy((void *) & (ctrl_data_ptr->mn[0]), (void *) & (model_number[0]), HOST_MN_BYTES);
+<b><a name="line285">285    </a></b>	    // [71:64]
+<b><a name="line286">286    </a></b>	    memcpy((void *) & (ctrl_data_ptr->fr[0]), (void *) & (fw_version[0]), HOST_FW_VER_BYTES);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	    ctrl_data_ptr->rab = 1;                     // [72]
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    for (i = 0; i < 3; i++) {                   // [75:73]
+<b><a name="line291">291    </a></b>	        ctrl_data_ptr->ieee_oui[i] = (U8)(IEEE_OUI_ID >> (i * 8));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "i" (unsigned) is not the same as that of the right operand "8"(signed).</font>
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    //ctrl_data_ptr->cmic = 0x00;
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    ctrl_data_ptr->mdts      = NVME_MDTS;        // [77]
+<b><a name="line297">297    </a></b>	    ctrl_data_ptr->cntlid    = 0;                // [79:78]
+<b><a name="line298">298    </a></b>	    ctrl_data_ptr->ver       = NVME_VER_1_4;     // [83:80]
+<b><a name="line299">299    </a></b>	    ctrl_data_ptr->rtd3r     = NVME_RTD3R;       // [87:84]
+<b><a name="line300">300    </a></b>	    ctrl_data_ptr->rtd3e     = NVME_RTD3E;       // [91:88]
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    ctrl_data_ptr->ctrl_type = 1U;               // [111] I/O controller
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    ctrl_data_ptr->nvmsr     = 0U;               // [253]
+<b><a name="line305">305    </a></b>	    ctrl_data_ptr->mec       = 1U;               // [255] NVM Subsystem contains a Management Endpoint on an SMBus/I2C port.
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	    // Admin Command Set Attributes 256~511
+<b><a name="line308">308    </a></b>	    ctrl_data_ptr->oacs     = NVME_OACS;        // [257:256]
+<b><a name="line309">309    </a></b>	    ctrl_data_ptr->acl      = NVME_ACL;         // [258]
+<b><a name="line310">310    </a></b>	    ctrl_data_ptr->aerl     = host->nvme_feature.aerl; // [259]
+<b><a name="line311">311    </a></b>	    ctrl_data_ptr->frmw     = NVME_FW_ACT_WITHOUT_RST_SUP << 4 | NVME_FW_SLOT_NUM << 1 | NVME_1ST_FW_SLOT_RO;      // [260]
+<b><a name="line312">312    </a></b>	    ctrl_data_ptr->lpa      = NVME_LPA;         // [261]
+<b><a name="line313">313    </a></b>	    ctrl_data_ptr->elpe     = NVME_ELPE;        // [262]
+<b><a name="line314">314    </a></b>	    ctrl_data_ptr->npss     = NVME_NPSS;        // [263]
+<b><a name="line315">315    </a></b>	    ctrl_data_ptr->apsta    = NVME_APSTA;       // [265]
+<b><a name="line316">316    </a></b>	    ctrl_data_ptr->avscc    = NVME_AVSCC;       // [264]
+<b><a name="line317">317    </a></b>	    ctrl_data_ptr->wctemp   = NVME_WCTEMP;      // [267:266]
+<b><a name="line318">318    </a></b>	    ctrl_data_ptr->cctemp   = NVME_CCTEMP;      // [269:268]
+<b><a name="line319">319    </a></b>	    ctrl_data_ptr->fwug     = NVME_FWUG;        // [319]
+<b><a name="line320">320    </a></b>	    ctrl_data_ptr->pels     = 0x01;             // [355:352]
+<b><a name="line321">321    </a></b>	    ctrl_data_ptr->sqes     = 0x66;              // [512]    --> 2^6=64 bytes
+<b><a name="line322">322    </a></b>	    ctrl_data_ptr->cqes     = 0x44;              // [513]    --> 2^4=16 bytes
+</pre></body>
+</html>

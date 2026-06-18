@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/build/sal_build_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_BUILD_DEF_H_
+<b><a name="line2">2    </a></b>	#define _SAL_BUILD_DEF_H_
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_build_env.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define TRUE                (1)
+<b><a name="line7">7    </a></b>	#define FALSE               (0)
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	#define PASS                (0)
+<b><a name="line10">10    </a></b>	#define FAIL                (1)
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#ifndef NULL
+<b><a name="line13">13    </a></b>	#define NULL                 0
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "NULL", which is a reserved identifier or macro name described in Section 7, "Library", of the C standard.</font>
+<b><a name="line14">14    </a></b>	#endif
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define BOOT_CODE_UNUSED   (0)
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define STATIC_ASSERT(EXPR, MSG) _Static_assert((EXPR), MSG)
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#ifndef PARASOFT_CPPTEST // for avoiding parasoft cpptest parsing error
+<b><a name="line21">21    </a></b>	#define TYPE_SIZE_CHECK(TYPE, SIZE_IN_BYTE) _Static_assert(sizeof(TYPE)==(SIZE_IN_BYTE), #TYPE " Size Error!")
+<b><a name="line22">22    </a></b>	#define TYPE_SIZE_CHECK_MSG(OP,TYPE, SIZE_IN_BYTE,MSG) _Static_assert(((OP)> 0 ?((SIZE_IN_BYTE)>=sizeof(TYPE)):((SIZE_IN_BYTE)==sizeof(TYPE))), MSG)
+<b><a name="line23">23    </a></b>	#else
+<b><a name="line24">24    </a></b>	#define TYPE_SIZE_CHECK(TYPE, SIZE_IN_BYTE)
+<b><a name="line25">25    </a></b>	#define TYPE_SIZE_CHECK_MSG(OP,TYPE, SIZE_IN_BYTE,MSG)
+<b><a name="line26">26    </a></b>	#endif
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	// Command In Path = Nvme Host , Uart , Security Pass Through ?
+<b><a name="line29">29    </a></b>	#define CMD_IN_UART		(0)
+<b><a name="line30">30    </a></b>	#define CMD_IN_NVME		(1)
+<b><a name="line31">31    </a></b>	#define CMD_IN_SECURITY (2)
+<b><a name="line32">32    </a></b>	#define CMD_IN_SATA		(3)
+<b><a name="line33">33    </a></b>	#define CMD_IN_UFS		(4)
+<b><a name="line34">34    </a></b>	#define CMD_IN_MCTP		(5)
+<b><a name="line35">35    </a></b>	#define CMD_IN_USB		(6)
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	#define PIO_TIMEOUT_THRESHOLD			(7)
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	#define SMSK(X, Y, Z)           ((U32)(((X) << (Y)) & Z))
+<b><a name="line40">40    </a></b>	#define BITMSK(LENGTH, OFFSET)  ((~((~0ULL) << (LENGTH))) << (OFFSET))
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	// #define WAIT_REG(REG, MASK, VAL) while (((REG) & (MASK)) != (VAL)){}
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	//UFS
+</pre></body>
+</html>

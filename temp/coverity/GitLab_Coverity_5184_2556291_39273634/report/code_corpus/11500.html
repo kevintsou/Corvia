@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/host/nvme/handler/nvme_adm_cmd_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line399">399    </a></b>	{
+<b><a name="line400">400    </a></b>	    // TBD
+<b><a name="line401">401    </a></b>	}
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	/*!
+<b><a name="line404">404    </a></b>	   @brief      Admin command - Set Feature
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line407">407    </a></b>	 */
+<b><a name="line408">408    </a></b>	static void AdmCmd_SetFeature(HOST_GM_T *pHostGM)
+<b><a name="line409">409    </a></b>	{
+<b><a name="line410">410    </a></b>	    ADM_CMD_SET_FEATURES_T *pSetFeature = &pHostGM->sCmd.sNVMe.uSqEntry.uPayload.uAdmCmd.sSetFeatures;
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	    /*
+<b><a name="line413">413    </a></b>	        If the Feature Identifier specified in the Set Features command is not saveable by the controller
+<b><a name="line414">414    </a></b>	        and the controller receives a Set Features command with the Save bit set to one,
+<b><a name="line415">415    </a></b>	        then the command shall be aborted with a status of Feature Identifier Not Saveable.
+<b><a name="line416">416    </a></b>	     */
+<b><a name="line417">417    </a></b>	    if ((FALSE == ONCS_SAVE_SELECT_FILED_EN) && (TRUE == pSetFeature->btSV))
+<b><a name="line418">418    </a></b>	    {
+<b><a name="line419">419    </a></b>	        phal_nvme_set_hcpl_status(pHostGM->sCmd.sApu.pHCpl, SCT_COMMAND_SPECIFIC_STATUS, SC_CSS_FEATURE_IDENTIFIER_NOT_SAVEABLE);
+<b><a name="line420">420    </a></b>	        return;
+<b><a name="line421">421    </a></b>	    }
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	    switch (pSetFeature->ubFID)
+<b><a name="line424">424    </a></b>	    {
+<b><a name="line425">425    </a></b>	        // TBD
+<b><a name="line426">426    </a></b>	        case FID_ARBITRATION:
+<b><a name="line427">427    </a></b>	        default:
+<b><a name="line428">428    </a></b>	            break;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement does not have a non-empty default clause.</font>
+<b><a name="line429">429    </a></b>	    }
+<b><a name="line430">430    </a></b>	}
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	/*!
+<b><a name="line433">433    </a></b>	   @brief      Admin command - Get Feature
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line436">436    </a></b>	 */
+<b><a name="line437">437    </a></b>	static void AdmCmd_GetFeature(HOST_GM_T *pHostGM)
+<b><a name="line438">438    </a></b>	{
+<b><a name="line439">439    </a></b>	    // TBD
+<b><a name="line440">440    </a></b>	}
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	/*!
+<b><a name="line443">443    </a></b>	   @brief      Admin command - Async Event Request
+<b><a name="line444">444    </a></b>	
+<b><a name="line445">445    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line446">446    </a></b>	 */
+<b><a name="line447">447    </a></b>	static void AdmCmd_AsyncEventRequest(HOST_GM_T *pHostGM)
+<b><a name="line448">448    </a></b>	{
+<b><a name="line449">449    </a></b>	    // TBD
+<b><a name="line450">450    </a></b>	}
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	/*!
+<b><a name="line453">453    </a></b>	   @brief      Admin command - Firmware Commit
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	   @param      pHostGM           pointer to host gm
+<b><a name="line456">456    </a></b>	 */
+<b><a name="line457">457    </a></b>	static void AdmCmd_FirmwareCommit(HOST_GM_T *pHostGM)
+<b><a name="line458">458    </a></b>	{
+<b><a name="line459">459    </a></b>	    // TBD
+</pre></body>
+</html>

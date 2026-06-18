@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1028">1028    </a></b>	    }
+<b><a name="line1029">1029    </a></b>	
+<b><a name="line1030">1030    </a></b>	    for(p_idx = PCIE_PORT_OFST_0; p_idx <= PCIE_PORT_OFST_1; p_idx ++)
+<b><a name="line1031">1031    </a></b>	    {
+<b><a name="line1032">1032    </a></b>	        if (chk_rslt[p_idx] == TRUE)
+<b><a name="line1033">1033    </a></b>	        {
+<b><a name="line1034">1034    </a></b>	            conti_run[p_idx] = host_api_pcie_link_without_isr(host, host_flow->attr.port_mode, p_idx, ssc_en[p_idx], &is_xtal_mode[p_idx]);
+<b><a name="line1035">1035    </a></b>	        }
+<b><a name="line1036">1036    </a></b>	    }
+<b><a name="line1037">1037    </a></b>	
+<b><a name="line1038">1038    </a></b>	    if((chk_rslt[0] == TRUE) || (chk_rslt[1] == TRUE))
+<b><a name="line1039">1039    </a></b>	    {
+<b><a name="line1040">1040    </a></b>	        for(p_idx = PCIE_PORT_OFST_0; p_idx <= PCIE_PORT_OFST_1; p_idx ++)
+<b><a name="line1041">1041    </a></b>	        {
+<b><a name="line1042">1042    </a></b>	            if(conti_run[p_idx])
+<b><a name="line1043">1043    </a></b>	            {
+<b><a name="line1044">1044    </a></b>	                host_api_pcie_toggle_perst(p_idx);
+<b><a name="line1045">1045    </a></b>	            }
+<b><a name="line1046">1046    </a></b>	        }
+<b><a name="line1047">1047    </a></b>	
+<b><a name="line1048">1048    </a></b>	        if(conti_run[0] &&
+<b><a name="line1049">1049    </a></b>	            is_xtal_mode[0] &&
+<b><a name="line1050">1050    </a></b>	            ssc_en[0] &&
+<b><a name="line1051">1051    </a></b>	            host->host_id_tbl.flow.attr.xtal_force_mode)
+<b><a name="line1052">1052    </a></b>	        {
+<b><a name="line1053">1053    </a></b>	            host_api_pcie_eanble_ssc_reg(0);
+<b><a name="line1054">1054    </a></b>	        }
+<b><a name="line1055">1055    </a></b>	
+<b><a name="line1056">1056    </a></b>	        if(conti_run[1] &&
+<b><a name="line1057">1057    </a></b>	            is_xtal_mode[1] &&
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "is_xtal_mode[1]" of non-boolean essential type is being interpreted as a boolean value for the operator "&&".</font>
+<b><a name="line1058">1058    </a></b>	            ssc_en[1] &&
+<b><a name="line1059">1059    </a></b>	            host->host_id_tbl.flow.attr.xtal_force_mode)
+<b><a name="line1060">1060    </a></b>	        {
+<b><a name="line1061">1061    </a></b>	            host_api_pcie_eanble_ssc_reg(1);
+<b><a name="line1062">1062    </a></b>	        }
+<b><a name="line1063">1063    </a></b>	
+<b><a name="line1064">1064    </a></b>	
+<b><a name="line1065">1065    </a></b>	        if((host_flow->attr.port_mode == PCIE_PORT_MODE_DUAL) && (r_CR_DUALPORT_DBC() == 0))
+<b><a name="line1066">1066    </a></b>	        {
+<b><a name="line1067">1067    </a></b>	            dal_set_sup_link_width(0, 0, 2);
+<b><a name="line1068">1068    </a></b>	            dal_set_sup_link_width(1, 0, 2);
+<b><a name="line1069">1069    </a></b>	        }
+<b><a name="line1070">1070    </a></b>	
+<b><a name="line1071">1071    </a></b>	
+<b><a name="line1072">1072    </a></b>	        for(p_idx = PCIE_PORT_OFST_0; p_idx <= PCIE_PORT_OFST_1; p_idx ++)
+<b><a name="line1073">1073    </a></b>	        {
+<b><a name="line1074">1074    </a></b>	            if(conti_run[p_idx])
+<b><a name="line1075">1075    </a></b>	            {
+<b><a name="line1076">1076    </a></b>	                host_api_pcie_open_port_link(host, p_idx, host_flow->attr.port_mode);
+<b><a name="line1077">1077    </a></b>	            }
+<b><a name="line1078">1078    </a></b>	        }
+<b><a name="line1079">1079    </a></b>	    }
+<b><a name="line1080">1080    </a></b>	}
+<b><a name="line1081">1081    </a></b>	
+<b><a name="line1082">1082    </a></b>	// start PCIe link when ISR is not enabled (or missed) if PERST# is high
+<b><a name="line1083">1083    </a></b>	U8 host_api_pcie_link_without_isr(HOST_API_STRUCT_PTR host, U8 port_mode, U8 p_ofst, U8 ssc_en, U8 *is_xtal_mode)
+<b><a name="line1084">1084    </a></b>	{
+<b><a name="line1085">1085    </a></b>	    U8  xtal_is_force_mode = host->host_id_tbl.flow.attr.xtal_force_mode;
+<b><a name="line1086">1086    </a></b>	    U8  xperst   = 0U;
+<b><a name="line1087">1087    </a></b>	    U32 mabiao_addr;
+<b><a name="line1088">1088    </a></b>	    U8  detect_xtal_mode = 0;
+</pre></body>
+</html>

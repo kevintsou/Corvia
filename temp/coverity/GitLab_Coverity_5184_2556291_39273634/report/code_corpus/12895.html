@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/utility.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  utility.h                                                             */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _UTILITY_H_
+<b><a name="line19">19    </a></b>	#define _UTILITY_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_UTILITY_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "user_conf.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	extern void idle_pc(U32 count);
+<b><a name="line24">24    </a></b>	extern U32 my_log2(U32 x);
+<b><a name="line25">25    </a></b>	extern U8 calculate_chksum (U32 addr, U16 len);
+<b><a name="line26">26    </a></b>	extern U32 crc_calculate(U32 data_base, U32 data_size, U32 crc, U32 polynomial, U32 xor_value, U32 bit_width, U32 reverse);
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	//These CRC polynomials are in the normal representations
+<b><a name="line29">29    </a></b>	#define CRC_POLYNOMIAL_CRC8_CCIT            (0x07U) //(x^8 + x^2 + x^1 + x^0)
+<b><a name="line30">30    </a></b>	#define CRC_POLYNOMIAL_CRC32                (0x04C11DB7U) //(x^32 + x^26 + x^23 + x^22 + x^16 + x^12 + x^11 + x^10 + x^8 + x^7 + x^5 + x^4 + x^2 + x^1 + x^0)
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	#define CRC_CALC_REVERSE_INPUT              BIT0
+<b><a name="line33">33    </a></b>	#define CRC_CALC_REVERSE_OUTPUT             BIT1
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	//Name : "CRC-32C"
+<b><a name="line36">36    </a></b>	//Width : 32
+<b><a name="line37">37    </a></b>	//Poly : 1EDC6F41h
+<b><a name="line38">38    </a></b>	//Init : FFFFFFFFh
+<b><a name="line39">39    </a></b>	//RefIn : True
+<b><a name="line40">40    </a></b>	//RefOut : True
+<b><a name="line41">41    </a></b>	//XorOut : FFFFFFFFh
+<b><a name="line42">42    </a></b>	//Check : E3069283h
+<b><a name="line43">43    </a></b>	#define CRC_32C_INIT    0xFFFFFFFF
+<b><a name="line44">44    </a></b>	#define CRC_32C(data_base, data_size, crc) \
+<b><a name="line45">45    </a></b>	crc_calculate((data_base), (data_size), (crc), 0x1EDC6F41, 0xFFFFFFFF, 32, (CRC_CALC_REVERSE_INPUT | CRC_CALC_REVERSE_OUTPUT))
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	#endif /* END OF _UTILITY_H_ */
+<b><a name="line49">49    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line561">561    </a></b>	            else if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_PASS) {
+<b><a name="line562">562    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line563">563    </a></b>	            }
+<b><a name="line564">564    </a></b>	            else {
+<b><a name="line565">565    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line566">566    </a></b>	            }
+<b><a name="line567">567    </a></b>	        }
+<b><a name="line568">568    </a></b>	    }
+<b><a name="line569">569    </a></b>	    else
+<b><a name="line570">570    </a></b>	    {
+<b><a name="line571">571    </a></b>	        p_system_security_protect_content->vuc_protect_mode = READ_SYSTEM_INFO_VUC_PROTECT_MODE_NO_SUPPORT;
+<b><a name="line572">572    </a></b>	        p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_NOT_PROTECT;
+<b><a name="line573">573    </a></b>	    }
+<b><a name="line574">574    </a></b>	
+<b><a name="line575">575    </a></b>	    if ((gBCodeGlobalStruct.p_efuse_security_setting->check_code_signature_enable) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line576">576    </a></b>	        p_system_security_protect_content->security_support_status |= SYS_INFO_SEC_SUP_STATUS_CODE_SIGN;
+<b><a name="line577">577    </a></b>	    }
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    //Return all valid Code Sign Key index
+<b><a name="line580">580    </a></b>	    p_system_security_protect_content->code_sign_key_index = 0;
+<b><a name="line581">581    </a></b>	    for (asymmetric_key = 0; asymmetric_key < EFUSE_CODE_SIGN_KEY_HASH_COUNT; asymmetric_key++) {
+<b><a name="line582">582    </a></b>	        if (check_field_valid(
+<b><a name="line583">583    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line584">584    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line585">585    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << asymmetric_key); // get host valid key index
+<b><a name="line586">586    </a></b>	        }
+<b><a name="line587">587    </a></b>	        if (check_field_valid(
+<b><a name="line588">588    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line589">589    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line590">590    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << (asymmetric_key + EFUSE_CODE_SIGN_KEY_HASH_COUNT)); // get nand valid key index
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1 << asymmetric_key + 5UL" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line591">591    </a></b>	        }
+<b><a name="line592">592    </a></b>	    }
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	    return;
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	#if 0
+<b><a name="line598">598    </a></b>	void vuc_read_system_info_drive_status(DRIVE_STATUS *p_drive_status_content)
+<b><a name="line599">599    </a></b>	{
+<b><a name="line600">600    </a></b>	    /*
+<b><a name="line601">601    </a></b>	    p_drive_status_content->fw_assert_code = gBCodeGlobalStruct.err_history.info[0];
+<b><a name="line602">602    </a></b>	    p_drive_status_content->fw_error_condition = gBCodeGlobalStruct.err_history.err_idx;
+<b><a name="line603">603    </a></b>	    p_drive_status_content->write_protect_status = 0xFF;
+<b><a name="line604">604    </a></b>	    p_drive_status_content->drive_life_percent_used;
+<b><a name="line605">605    </a></b>	    p_drive_status_content->e3d_error_count;
+<b><a name="line606">606    </a></b>	    p_drive_status_content->crc_error_count;
+<b><a name="line607">607    </a></b>	    p_drive_status_content->fw_code_update_count;
+<b><a name="line608">608    </a></b>	    p_drive_status_content->power_cycle_count;
+<b><a name="line609">609    </a></b>	    p_drive_status_content->abnormal_power_cycle_count;
+<b><a name="line610">610    </a></b>	    p_drive_status_content->power_on_time_second = timer_get_time() / 1000U;         //add variable to record how long does it take to initalize host   //check with AAron
+<b><a name="line611">611    </a></b>	    p_drive_status_content->host_protocol_phy_error;
+<b><a name="line612">612    </a></b>	    p_drive_status_content->host_read_count;
+<b><a name="line613">613    </a></b>	    p_drive_status_content->host_write_count;
+<b><a name="line614">614    </a></b>	    */
+<b><a name="line615">615    </a></b>	}
+<b><a name="line616">616    </a></b>	
+<b><a name="line617">617    </a></b>	void vuc_read_system_info_flash_status_log(FLASH_STATUS_LOG *p_flash_status_content)
+<b><a name="line618">618    </a></b>	{
+<b><a name="line619">619    </a></b>	    /*
+<b><a name="line620">620    </a></b>	    p_flash_status_content->maximum_erase_count_d1;
+<b><a name="line621">621    </a></b>	    p_flash_status_content->maximum_erase_count_d2_d3;
+</pre></body>
+</html>

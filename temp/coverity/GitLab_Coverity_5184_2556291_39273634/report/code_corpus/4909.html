@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line207">207    </a></b>	    drbg_update_hmac(drbg_api_struct_ptr, provided_data, provided_data_len, 0x00U);
+<b><a name="line208">208    </a></b>	    (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.key, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    //2.  V = HMAC (K, V).
+<b><a name="line211">211    </a></b>	    drbg_update_hmac(drbg_api_struct_ptr, NULL, 0U, 0U);
+<b><a name="line212">212    </a></b>	    (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.value, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    //3.  If (provided_data = Null), then return K and V.
+<b><a name="line215">215    </a></b>	    if (provided_data_len > 0U) {
+<b><a name="line216">216    </a></b>	        //4.  K = HMAC (K, V || 0x01 || provided_data).
+<b><a name="line217">217    </a></b>	        drbg_update_hmac(drbg_api_struct_ptr, provided_data, provided_data_len, 0x01U);
+<b><a name="line218">218    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.key, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	        //5.  V = HMAC (K, V).
+<b><a name="line221">221    </a></b>	        drbg_update_hmac(drbg_api_struct_ptr, NULL, 0U, 0U);
+<b><a name="line222">222    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.value, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line223">223    </a></b>	        //6.  Return K and V.
+<b><a name="line224">224    </a></b>	    }
+<b><a name="line225">225    </a></b>	}
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	/*!
+<b><a name="line228">228    </a></b>	 @brief DRBG instantiation
+<b><a name="line229">229    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line230">230    </a></b>	 @return NONE
+<b><a name="line231">231    </a></b>	 @note
+<b><a name="line232">232    </a></b>	 - NONE
+<b><a name="line233">233    </a></b>	 */
+<b><a name="line234">234    </a></b>	void drbg_instantiation(DRBG_API_STRUCT_PTR drbg_api_struct_ptr)
+<b><a name="line235">235    </a></b>	{
+<b><a name="line236">236    </a></b>	    U8 fail = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line237">237    </a></b>	    drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_SUCCESS;
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    if (drbg_api_struct_ptr->drbg_material.req_security_strength > drbg_api_struct_ptr->drbg_info.max_security_strength) {
+<b><a name="line240">240    </a></b>	        drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_SS_OVER_MAX_SS;
+<b><a name="line241">241    </a></b>	        fail = TRUE;
+<b><a name="line242">242    </a></b>	    }
+<b><a name="line243">243    </a></b>	    else if (drbg_api_struct_ptr->drbg_material.personal_str_len > drbg_api_struct_ptr->drbg_info.max_persional_str_len) {
+<b><a name="line244">244    </a></b>	        drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_PERSON_STR_TOO_LONG;
+<b><a name="line245">245    </a></b>	        fail = TRUE;
+<b><a name="line246">246    </a></b>	    }
+<b><a name="line247">247    </a></b>	    else {
+<b><a name="line248">248    </a></b>	        if (drbg_api_struct_ptr->drbg_material.req_security_strength == DRBG_SS_112) {
+<b><a name="line249">249    </a></b>	            drbg_api_struct_ptr->drbg_material.security_strength_val = 112U;
+<b><a name="line250">250    </a></b>	        }
+<b><a name="line251">251    </a></b>	        else if (drbg_api_struct_ptr->drbg_material.req_security_strength == DRBG_SS_128) {
+<b><a name="line252">252    </a></b>	            drbg_api_struct_ptr->drbg_material.security_strength_val = 128U;
+<b><a name="line253">253    </a></b>	        }
+<b><a name="line254">254    </a></b>	        else if (drbg_api_struct_ptr->drbg_material.req_security_strength == DRBG_SS_192) {
+<b><a name="line255">255    </a></b>	            drbg_api_struct_ptr->drbg_material.security_strength_val = 192U;
+<b><a name="line256">256    </a></b>	        }
+<b><a name="line257">257    </a></b>	        else if (drbg_api_struct_ptr->drbg_material.req_security_strength == DRBG_SS_256) {
+<b><a name="line258">258    </a></b>	            drbg_api_struct_ptr->drbg_material.security_strength_val = 256U;
+<b><a name="line259">259    </a></b>	        }
+<b><a name="line260">260    </a></b>	        else {
+<b><a name="line261">261    </a></b>	            drbg_api_struct_ptr->drbg_material.security_strength_val = 256U;
+<b><a name="line262">262    </a></b>	        }
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	        drbg_api_struct_ptr->drbg_material.min_entropy = drbg_api_struct_ptr->drbg_material.security_strength_val * 15U / 10U;
+<b><a name="line265">265    </a></b>	    }
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	    if (fail == FALSE) {
+</pre></body>
+</html>

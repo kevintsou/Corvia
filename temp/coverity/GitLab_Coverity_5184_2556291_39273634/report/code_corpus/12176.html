@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line765">765    </a></b>	    rule->mask = (1 << rule->bit_no) - 1;
+<b><a name="line766">766    </a></b>	}
+<b><a name="line767">767    </a></b>	
+<b><a name="line768">768    </a></b>	void fpl_rule_init(FPL_API_STRUCT_PTR fpl_ptr, ADDR_RULE_STRUCT_PTR addr_rule)
+<b><a name="line769">769    </a></b>	{
+<b><a name="line770">770    </a></b>	    U8 frm_start;
+<b><a name="line771">771    </a></b>	    U8 frm_mask;
+<b><a name="line772">772    </a></b>	    U8 alu_vld_bmp;
+<b><a name="line773">773    </a></b>	    U8 alu_src[HAL_FIP_ALU_RULE_NUM];
+<b><a name="line774">774    </a></b>	    U8 alu_tar[HAL_FIP_ALU_RULE_NUM];
+<b><a name="line775">775    </a></b>	    U8 alu_len[HAL_FIP_ALU_RULE_NUM];
+<b><a name="line776">776    </a></b>	    const U8 row_start_ofs = 16U;
+<b><a name="line777">777    </a></b>	    //	HAL_FIP_ADG_SETTING_STRUCT adg_setting;
+<b><a name="line778">778    </a></b>	
+<b><a name="line779">779    </a></b>	    memset((void *)addr_rule, 0, sizeof(ADDR_RULE_STRUCT));
+<b><a name="line780">780    </a></b>	    fpl_ptr->addr_rule = addr_rule;
+<b><a name="line781">781    </a></b>	
+<b><a name="line782">782    </a></b>	    //The first 3 rules are independent on the NAND attached
+<b><a name="line783">783    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_node),      NULL,                           ADDR_RULE_LC_PER_PAGE);
+<b><a name="line784">784    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_ch),        &(addr_rule->rule_node),        FLH_MAX_CH_NUM);
+<b><a name="line785">785    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_phy_bank),  &(addr_rule->rule_ch),          FLH_MAX_CE_PER_CH);
+<b><a name="line786">786    </a></b>	
+<b><a name="line787">787    </a></b>	    //The next 4 rules are dependent on the NAND attached, the attributes are defined by eFuse
+<b><a name="line788">788    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_page),      &(addr_rule->rule_phy_bank),    (1 << fpl_ptr->page_bit));
+<b><a name="line789">789    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_plane),     &(addr_rule->rule_page),        (1 << fpl_ptr->plane_bit));
+<b><a name="line790">790    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_block),     &(addr_rule->rule_plane),       (1 << fpl_ptr->block_bit));
+<b><a name="line791">791    </a></b>	    fpl_set_addr_rule(&(addr_rule->rule_die),       &(addr_rule->rule_block),       (1 << fpl_ptr->die_bit));
+<b><a name="line792">792    </a></b>	
+<b><a name="line793">793    </a></b>	    alu_vld_bmp = (U8)BIT_MASK(HAL_ALU_RULE_CNT, 0U);
+<b><a name="line794">794    </a></b>	    frm_start = addr_rule->rule_node.shift;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value from "addr_rule->rule_node.shift" to "frm_start" here, but that stored value is not used.</font>
+<b><a name="line795">795    </a></b>	    frm_mask = (U8)BIT_MASK(addr_rule->rule_node.bit_no, 0U);
+<b><a name="line796">796    </a></b>	
+<b><a name="line797">797    </a></b>	    alu_src[HAL_ALU_RULE_PAGE] = (U8)addr_rule->rule_page.shift;
+<b><a name="line798">798    </a></b>	    alu_tar[HAL_ALU_RULE_PAGE] = (U8)row_start_ofs;
+<b><a name="line799">799    </a></b>	    alu_len[HAL_ALU_RULE_PAGE] = (U8)addr_rule->rule_page.bit_no;
+<b><a name="line800">800    </a></b>	
+<b><a name="line801">801    </a></b>	    alu_src[HAL_ALU_RULE_PLANE] = (U8)addr_rule->rule_plane.shift;
+<b><a name="line802">802    </a></b>	    alu_tar[HAL_ALU_RULE_PLANE] = (U8)row_start_ofs + addr_rule->rule_page.bit_no;
+<b><a name="line803">803    </a></b>	    alu_len[HAL_ALU_RULE_PLANE] = (U8)addr_rule->rule_plane.bit_no;
+<b><a name="line804">804    </a></b>	
+<b><a name="line805">805    </a></b>	    alu_src[HAL_ALU_RULE_BLOCK] = (U8)addr_rule->rule_block.shift;
+<b><a name="line806">806    </a></b>	    alu_tar[HAL_ALU_RULE_BLOCK] = (U8)row_start_ofs + addr_rule->rule_page.bit_no + addr_rule->rule_plane.bit_no;
+<b><a name="line807">807    </a></b>	    alu_len[HAL_ALU_RULE_BLOCK] = (U8)addr_rule->rule_block.bit_no;
+<b><a name="line808">808    </a></b>	
+<b><a name="line809">809    </a></b>	    alu_src[HAL_ALU_RULE_LUN] = (U8)addr_rule->rule_die.shift;
+<b><a name="line810">810    </a></b>	    alu_tar[HAL_ALU_RULE_LUN] = (U8)row_start_ofs + addr_rule->rule_page.bit_no + addr_rule->rule_plane.bit_no + addr_rule->rule_block.bit_no;
+<b><a name="line811">811    </a></b>	    alu_len[HAL_ALU_RULE_LUN] = (U8)addr_rule->rule_die.bit_no;
+<b><a name="line812">812    </a></b>	
+<b><a name="line813">813    </a></b>	#if 0
+<b><a name="line814">814    </a></b>	    tprintf("[rule_init](node)shift:%d bit_no:%d, mask = %x", addr_rule->rule_node.shift, addr_rule->rule_node.bit_no, addr_rule->rule_node.mask);
+<b><a name="line815">815    </a></b>	    tprintf("[rule_init](ch)shift:%d bit_no:%d, mask = %x", addr_rule->rule_ch.shift, addr_rule->rule_ch.bit_no, addr_rule->rule_ch.mask);
+<b><a name="line816">816    </a></b>	    tprintf("[rule_init](bank)shift:%d bit_no:%d, mask = %x", addr_rule->rule_phy_bank.shift, addr_rule->rule_phy_bank.bit_no, addr_rule->rule_phy_bank.mask);
+<b><a name="line817">817    </a></b>	    tprintf("[rule_init](page)shift:%d bit_no:%d, mask = %x", addr_rule->rule_page.shift, addr_rule->rule_page.bit_no, addr_rule->rule_page.mask);
+<b><a name="line818">818    </a></b>	    tprintf("[rule_init](plane)shift:%d bit_no:%d, mask = %x", addr_rule->rule_plane.shift, addr_rule->rule_plane.bit_no, addr_rule->rule_plane.mask);
+<b><a name="line819">819    </a></b>	    tprintf("[rule_init](block)shift:%d bit_no:%d, mask = %x", addr_rule->rule_block.shift, addr_rule->rule_block.bit_no, addr_rule->rule_block.mask);
+<b><a name="line820">820    </a></b>	    tprintf("[rule_init](die)shift:%d bit_no:%d, mask = %x", addr_rule->rule_die.shift, addr_rule->rule_die.bit_no, addr_rule->rule_die.mask);
+<b><a name="line821">821    </a></b>	#endif
+<b><a name="line822">822    </a></b>	}
+<b><a name="line823">823    </a></b>	
+<b><a name="line824">824    </a></b>	
+<b><a name="line825">825    </a></b>	U32 fpl_por_retry(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr)
+</pre></body>
+</html>

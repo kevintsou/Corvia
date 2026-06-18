@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1226">1226    </a></b>	
+<b><a name="line1227">1227    </a></b>	    VUC_CQ_STRUCT                       cq;
+<b><a name="line1228">1228    </a></b>	    U32 buf_addr = host->buffer_base;
+<b><a name="line1229">1229    </a></b>	    U32 buf_size = host->buffer_size;
+<b><a name="line1230">1230    </a></b>	    U32 byte_cnt = (host->sq_cmd.payload_opt.raw.cdw10) << 2; // cdw10: #Dwords in data transfer
+<b><a name="line1231">1231    </a></b>	
+<b><a name="line1232">1232    </a></b>	    (void)memset((void *)(&cq), 0, sizeof(VUC_CQ_STRUCT));
+<b><a name="line1233">1233    </a></b>	
+<b><a name="line1234">1234    </a></b>	    vendor_cmd_dispatch((VUC_SQ_STRUCT_PTR)(&(host->sq_cmd)), &cq, (U8 *)host->buffer_base, HOST_SERVICE_NVME_TYPE);
+<b><a name="line1235">1235    </a></b>	    nvme_set_cpl_sts(host, cq.status_code_type, cq.status_code);
+<b><a name="line1236">1236    </a></b>	
+<b><a name="line1237">1237    </a></b>	    byte_cnt = (byte_cnt > buf_size) ? buf_size : byte_cnt; // limited by buffer size
+<b><a name="line1238">1238    </a></b>	
+<b><a name="line1239">1239    </a></b>	    if (nvme_check_cpl_err_status(host)) {
+<b><a name="line1240">1240    </a></b>	        return;
+<b><a name="line1241">1241    </a></b>	    }
+<b><a name="line1242">1242    </a></b>	
+<b><a name="line1243">1243    </a></b>	    host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_READ);
+<b><a name="line1244">1244    </a></b>	
+<b><a name="line1245">1245    </a></b>	}
+<b><a name="line1246">1246    </a></b>	
+<b><a name="line1247">1247    </a></b>	/*
+<b><a name="line1248">1248    </a></b>	 * public
+<b><a name="line1249">1249    </a></b>	 */
+<b><a name="line1250">1250    </a></b>	
+<b><a name="line1251">1251    </a></b>	void vuc_nvme_identify(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line1252">1252    </a></b>	{
+<b><a name="line1253">1253    </a></b>	    Dump_NVME(tprintf("  >> VUC identify\n\r"));
+<b><a name="line1254">1254    </a></b>	    HOST_API_STRUCT_PTR  host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line1255">1255    </a></b>	    volatile VUC_IDENTIFY_PARAM_PTR sq = (VUC_IDENTIFY_PARAM_PTR)param->sq;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "param->sq" of type "VUC_SQ_STRUCT_PTR volatile" is cast to type "VUC_IDENTIFY_PARAM_PTR".</font>
+<b><a name="line1256">1256    </a></b>	    U32 buf_addr = host->buffer_base;
+<b><a name="line1257">1257    </a></b>	
+<b><a name="line1258">1258    </a></b>	    // prepare 4K buf for returned data structure
+<b><a name="line1259">1259    </a></b>	    memset((void *)buf_addr, 0, LC_BYTE_SIZE);
+<b><a name="line1260">1260    </a></b>	
+<b><a name="line1261">1261    </a></b>	    switch (sq->cns) {
+<b><a name="line1262">1262    </a></b>	    case NVME_CNS_NS_DATA: // cns = 0, identify ns
+<b><a name="line1263">1263    </a></b>	        Dump_NVME(tprintf("      >> identify NS.\n\r"));
+<b><a name="line1264">1264    </a></b>	        fill_cns_ns_data(host, buf_addr, NS1);
+<b><a name="line1265">1265    </a></b>	        break;
+<b><a name="line1266">1266    </a></b>	
+<b><a name="line1267">1267    </a></b>	    case NVME_CNS_CTRLR_DATA: // cns = 1, identify controller
+<b><a name="line1268">1268    </a></b>	        // fill data structure
+<b><a name="line1269">1269    </a></b>	        Dump_NVME(tprintf("      >> identify CTRL.\n\r"));
+<b><a name="line1270">1270    </a></b>	        fill_cns_ctrl_data(host, buf_addr);
+<b><a name="line1271">1271    </a></b>	        break;
+<b><a name="line1272">1272    </a></b>	
+<b><a name="line1273">1273    </a></b>	    case NVME_CNS_ACT_NSID_LIST: // cns = 2, identify controller
+<b><a name="line1274">1274    </a></b>	        // fill data structure
+<b><a name="line1275">1275    </a></b>	        Dump_NVME(tprintf("      >> identify NSID list.\n\r"));
+<b><a name="line1276">1276    </a></b>	        fill_cns_nsid_list(buf_addr);
+<b><a name="line1277">1277    </a></b>	        break;
+<b><a name="line1278">1278    </a></b>	
+<b><a name="line1279">1279    </a></b>	    case NVME_CNS_NSID_DES_LIST: // cns = 3
+<b><a name="line1280">1280    </a></b>	        Dump_NVME(tprintf("      >> identify NSID des list.\n\r"));
+<b><a name="line1281">1281    </a></b>	        fill_cns_nsid_des_list(buf_addr, NS1);
+<b><a name="line1282">1282    </a></b>	        break;
+<b><a name="line1283">1283    </a></b>	
+<b><a name="line1284">1284    </a></b>	    default:
+<b><a name="line1285">1285    </a></b>	        vuc_cq_report_status(param->cq, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1286">1286    </a></b>	        break;
+</pre></body>
+</html>

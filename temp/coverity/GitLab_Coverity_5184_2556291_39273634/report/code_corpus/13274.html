@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_mldsa_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2048">2048    </a></b>	    // step 9
+<b><a name="line2049">2049    </a></b>	    hal_sec_pqc_sha3_blocking(mldsa_buf_ptr->genkey.genkey_buf.genkey_tr, HAL_SEC_PQC_MLDSA_TR_LEN, pk, HAL_SEC_PQC_MLDSA_PUB_KEY_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->genkey.genkey_buf.genkey_hash_buffer);
+<b><a name="line2050">2050    </a></b>	
+<b><a name="line2051">2051    </a></b>	    // step 10
+<b><a name="line2052">2052    </a></b>	    hal_sec_pqc_mldsa_pack_sk(sk, mldsa_buf_ptr->genkey.genkey_buf.genkey_seedbuf, \
+<b><a name="line2053">2053    </a></b>	                              mldsa_buf_ptr->genkey.genkey_buf.genkey_tr, \
+<b><a name="line2054">2054    </a></b>	                              mldsa_buf_ptr->genkey.genkey_buf.genkey_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_CRH_LEN, \
+<b><a name="line2055">2055    </a></b>	                              (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->genkey.genkey_buf.genkey_t0), \
+<b><a name="line2056">2056    </a></b>	                              (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->genkey.genkey_buf.genkey_s1), \
+<b><a name="line2057">2057    </a></b>	                              (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->genkey.genkey_buf.genkey_s2));
+<b><a name="line2058">2058    </a></b>	
+<b><a name="line2059">2059    </a></b>	    return SEC_YES;
+<b><a name="line2060">2060    </a></b>	}
+<b><a name="line2061">2061    </a></b>	
+<b><a name="line2062">2062    </a></b>	/*************************************************
+<b><a name="line2063">2063    </a></b>	 * Name:        hal_sec_pqc_mldsa_crypto_sign_signature
+<b><a name="line2064">2064    </a></b>	 *
+<b><a name="line2065">2065    </a></b>	 * Description: Computes signature.
+<b><a name="line2066">2066    </a></b>	 *
+<b><a name="line2067">2067    </a></b>	 * Arguments:   - U8 *sig:   pointer to output signature (of length hal_sec_pqc_mldsa_CRYPTO_BYTES)
+<b><a name="line2068">2068    </a></b>	 *              - U32 *siglen: pointer to output length of signature
+<b><a name="line2069">2069    </a></b>	 *              - U8 *m:     pointer to message to be signed
+<b><a name="line2070">2070    </a></b>	 *              - U32 mlen:    length of message
+<b><a name="line2071">2071    </a></b>	 *              - U8 *sk:    pointer to bit-packed secret key
+<b><a name="line2072">2072    </a></b>	 *
+<b><a name="line2073">2073    </a></b>	 * Returns 0 (success)
+<b><a name="line2074">2074    </a></b>	 **************************************************/
+<b><a name="line2075">2075    </a></b>	U32 hal_sec_pqc_mldsa_sign(U8 *sig, U32 *siglen, U8 *m, U32 mlen, U8 *sk, U8 *rnd_val, U32 retry_times, HAL_SEC_PQC_MLDSA_BUF_S_PTR mldsa_buf_ptr)
+<b><a name="line2076">2076    </a></b>	{
+<b><a name="line2077">2077    </a></b>	    U8 *tr, *key, *mu, *rhoprime, *rnd;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line2078">2078    </a></b>	    U16 nonce = 0;
+<b><a name="line2079">2079    </a></b>	    U32 bound_temp = 0UL; // for fix coverity 10.8
+<b><a name="line2080">2080    </a></b>	
+<b><a name="line2081">2081    </a></b>	    //rho------------tr------------key-------------rnd------------mu--------------rhoprime
+<b><a name="line2082">2082    </a></b>	    //|------32B------|-----64B-----|------32------|-------32------|--------64-------|
+<b><a name="line2083">2083    </a></b>	
+<b><a name="line2084">2084    </a></b>	    tr       = mldsa_buf_ptr->sign.sign_buf.sign_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN;
+<b><a name="line2085">2085    </a></b>	    key      = mldsa_buf_ptr->sign.sign_buf.sign_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_TR_LEN;
+<b><a name="line2086">2086    </a></b>	    rnd      = mldsa_buf_ptr->sign.sign_buf.sign_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_TR_LEN + HAL_SEC_PQC_MLDSA_SEED_LEN;
+<b><a name="line2087">2087    </a></b>	    mu       = mldsa_buf_ptr->sign.sign_buf.sign_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_TR_LEN + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_RAND_LEN;
+<b><a name="line2088">2088    </a></b>	    rhoprime = mldsa_buf_ptr->sign.sign_buf.sign_seedbuf + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_TR_LEN + HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_RAND_LEN + HAL_SEC_PQC_MLDSA_CRH_LEN;
+<b><a name="line2089">2089    </a></b>	
+<b><a name="line2090">2090    </a></b>	    // step 1
+<b><a name="line2091">2091    </a></b>	    hal_sec_pqc_mldsa_unpack_sk(mldsa_buf_ptr->sign.sign_buf.sign_seedbuf, tr, key, (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_t0), (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s1), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s2), sk);
+<b><a name="line2092">2092    </a></b>	
+<b><a name="line2093">2093    </a></b>	    // step 2~4
+<b><a name="line2094">2094    </a></b>	    hal_sec_pqc_mldsa_polyvecl_ntt((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s1), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2095">2095    </a></b>	    hal_sec_pqc_mldsa_polyveck_ntt((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s2), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2096">2096    </a></b>	    hal_sec_pqc_mldsa_polyveck_ntt((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_t0), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2097">2097    </a></b>	
+<b><a name="line2098">2098    </a></b>	    /* Expand matrix and transform vectors */
+<b><a name="line2099">2099    </a></b>	    // step 5
+<b><a name="line2100">2100    </a></b>	    hal_sec_pqc_mldsa_polyvec_expand_matrix((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_mat), mldsa_buf_ptr->sign.sign_buf.sign_seedbuf, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer, mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2101">2101    </a></b>	
+<b><a name="line2102">2102    </a></b>	    /* Compute mu = CRH(tr, msg) */
+<b><a name="line2103">2103    </a></b>	    // step 6, move to outside
+<b><a name="line2104">2104    </a></b>	
+<b><a name="line2105">2105    </a></b>	    // step 7
+<b><a name="line2106">2106    </a></b>	    (void)memcpy((void *)(rnd), (void *)(rnd_val), HAL_SEC_PQC_MLDSA_RAND_LEN);
+<b><a name="line2107">2107    </a></b>	    hal_sec_pqc_sha3_blocking(rhoprime, HAL_SEC_PQC_MLDSA_CRH_LEN, key, HAL_SEC_PQC_MLDSA_SEED_LEN + HAL_SEC_PQC_MLDSA_RAND_LEN + HAL_SEC_PQC_MLDSA_CRH_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2108">2108    </a></b>	
+<b><a name="line2109">2109    </a></b>	    while (retry_times > 0UL)
+<b><a name="line2110">2110    </a></b>	    {
+<b><a name="line2111">2111    </a></b>	        /* Sample intermediate vector y */
+<b><a name="line2112">2112    </a></b>	        // step 11~13
+<b><a name="line2113">2113    </a></b>	        hal_sec_pqc_mldsa_polyvecl_gamma1_uniform((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_y), rhoprime, nonce++, (U32)mldsa_buf_ptr->sign.sign_buf.sign_uni_gamma, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2114">2114    </a></b>	        /* Matrix-vector multiplication */
+<b><a name="line2115">2115    </a></b>	        *(HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z) = *(HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_y);
+<b><a name="line2116">2116    </a></b>	
+<b><a name="line2117">2117    </a></b>	        hal_sec_pqc_mldsa_polyvecl_ntt((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2118">2118    </a></b>	
+<b><a name="line2119">2119    </a></b>	        hal_sec_pqc_mldsa_polyvec_matrix_pointwise_montgomery((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), \
+<b><a name="line2120">2120    </a></b>	                (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_mat), \
+<b><a name="line2121">2121    </a></b>	                (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), \
+<b><a name="line2122">2122    </a></b>	                mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2123">2123    </a></b>	
+<b><a name="line2124">2124    </a></b>	        hal_sec_pqc_mldsa_polyveck_reduce((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2125">2125    </a></b>	        hal_sec_pqc_mldsa_polyveck_invntt_tomont((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2126">2126    </a></b>	
+<b><a name="line2127">2127    </a></b>	        // step 15
+<b><a name="line2128">2128    </a></b>	        /* Decompose w and call the random oracle */
+<b><a name="line2129">2129    </a></b>	        hal_sec_pqc_mldsa_polyveck_caddq((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2130">2130    </a></b>	        hal_sec_pqc_mldsa_polyveck_decompose((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1));
+<b><a name="line2131">2131    </a></b>	        hal_sec_pqc_mldsa_polyveck_pack_w1(sig, (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2132">2132    </a></b>	
+<b><a name="line2133">2133    </a></b>	        hal_sec_pqc_hash_absorb(mu, HAL_SEC_PQC_MLDSA_CRH_LEN, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2134">2134    </a></b>	        hal_sec_pqc_hash_absorb(sig, HAL_SEC_PQC_MLDSA_K * HAL_SEC_PQC_MLDSA_PACKED_POLYW1_LEN, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2135">2135    </a></b>	        hal_sec_pqc_hash_finalize(sig, HAL_SEC_PQC_MLDSA_CTILD_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2136">2136    </a></b>	        hal_sec_pqc_hash_free(&mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2137">2137    </a></b>	
+<b><a name="line2138">2138    </a></b>	        // step 16~17
+<b><a name="line2139">2139    </a></b>	        hal_sec_pqc_mldsa_poly_challenge((HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_cp), sig, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer, mldsa_buf_ptr->sign.temp_buf_ptr); /* uses only the first HAL_SEC_PQC_MLDSA_SEED_LEN bytes of sig */
+<b><a name="line2140">2140    </a></b>	        hal_sec_pqc_mldsa_poly_ntt((HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_cp), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2141">2141    </a></b>	
+<b><a name="line2142">2142    </a></b>	        /* Compute z, reject if it reveals secret */
+<b><a name="line2143">2143    </a></b>	
+<b><a name="line2144">2144    </a></b>	        // step 18~21
+<b><a name="line2145">2145    </a></b>	        hal_sec_pqc_mldsa_polyvecl_poly_pointwise_montgomery((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), \
+<b><a name="line2146">2146    </a></b>	                (HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_cp), \
+<b><a name="line2147">2147    </a></b>	                (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s1), \
+<b><a name="line2148">2148    </a></b>	                mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2149">2149    </a></b>	
+<b><a name="line2150">2150    </a></b>	        hal_sec_pqc_mldsa_polyvecl_invntt_tomont((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2151">2151    </a></b>	        hal_sec_pqc_mldsa_polyvecl_add((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_y));
+<b><a name="line2152">2152    </a></b>	        hal_sec_pqc_mldsa_polyvecl_reduce((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z));
+<b><a name="line2153">2153    </a></b>	
+<b><a name="line2154">2154    </a></b>	        bound_temp = HAL_SEC_PQC_MLDSA_GAMMA1 - HAL_SEC_PQC_MLDSA_BETA;
+<b><a name="line2155">2155    </a></b>	        if (hal_sec_pqc_mldsa_polyvecl_chknorm((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), (S32)(bound_temp), mldsa_buf_ptr->sign.temp_buf_ptr) != 0)
+<b><a name="line2156">2156    </a></b>	        {
+<b><a name="line2157">2157    </a></b>	            retry_times--;
+<b><a name="line2158">2158    </a></b>	            continue;
+<b><a name="line2159">2159    </a></b>	        }
+<b><a name="line2160">2160    </a></b>	
+<b><a name="line2161">2161    </a></b>	        // step 23
+<b><a name="line2162">2162    </a></b>	        hal_sec_pqc_mldsa_polyveck_pointwise_poly_montgomery((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), \
+<b><a name="line2163">2163    </a></b>	                (HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_cp), \
+<b><a name="line2164">2164    </a></b>	                (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_s2), \
+<b><a name="line2165">2165    </a></b>	                mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2166">2166    </a></b>	
+<b><a name="line2167">2167    </a></b>	        hal_sec_pqc_mldsa_polyveck_invntt_tomont((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2168">2168    </a></b>	        hal_sec_pqc_mldsa_polyveck_sub((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h));
+<b><a name="line2169">2169    </a></b>	        hal_sec_pqc_mldsa_polyveck_reduce((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2170">2170    </a></b>	
+<b><a name="line2171">2171    </a></b>	        bound_temp = HAL_SEC_PQC_MLDSA_GAMMA2 - HAL_SEC_PQC_MLDSA_BETA;
+<b><a name="line2172">2172    </a></b>	        if (hal_sec_pqc_mldsa_polyveck_chknorm((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), (S32)(bound_temp)) != 0)
+<b><a name="line2173">2173    </a></b>	        {
+<b><a name="line2174">2174    </a></b>	            retry_times--;
+<b><a name="line2175">2175    </a></b>	            continue;
+<b><a name="line2176">2176    </a></b>	        }
+<b><a name="line2177">2177    </a></b>	
+<b><a name="line2178">2178    </a></b>	        // step 25~26
+<b><a name="line2179">2179    </a></b>	        hal_sec_pqc_mldsa_polyveck_pointwise_poly_montgomery((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), \
+<b><a name="line2180">2180    </a></b>	                (HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_cp), \
+<b><a name="line2181">2181    </a></b>	                (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_t0), \
+<b><a name="line2182">2182    </a></b>	                mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2183">2183    </a></b>	
+<b><a name="line2184">2184    </a></b>	        hal_sec_pqc_mldsa_polyveck_invntt_tomont((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2185">2185    </a></b>	        hal_sec_pqc_mldsa_polyveck_reduce((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2186">2186    </a></b>	
+<b><a name="line2187">2187    </a></b>	        // step 28
+<b><a name="line2188">2188    </a></b>	        bound_temp = HAL_SEC_PQC_MLDSA_GAMMA2;
+<b><a name="line2189">2189    </a></b>	        if (hal_sec_pqc_mldsa_polyveck_chknorm((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), (S32)(bound_temp)) != 0)
+<b><a name="line2190">2190    </a></b>	        {
+<b><a name="line2191">2191    </a></b>	            retry_times--;
+<b><a name="line2192">2192    </a></b>	            continue;
+<b><a name="line2193">2193    </a></b>	        }
+<b><a name="line2194">2194    </a></b>	
+<b><a name="line2195">2195    </a></b>	        // step 26
+<b><a name="line2196">2196    </a></b>	        hal_sec_pqc_mldsa_polyveck_add((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), \
+<b><a name="line2197">2197    </a></b>	                                       (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), \
+<b><a name="line2198">2198    </a></b>	                                       (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), \
+<b><a name="line2199">2199    </a></b>	                                       mldsa_buf_ptr->sign.temp_buf_ptr);
+<b><a name="line2200">2200    </a></b>	
+<b><a name="line2201">2201    </a></b>	        if (hal_sec_pqc_mldsa_polyveck_make_hint((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w0), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_w1), mldsa_buf_ptr->sign.temp_buf_ptr) > HAL_SEC_PQC_MLDSA_OMEGA)
+<b><a name="line2202">2202    </a></b>	        {
+<b><a name="line2203">2203    </a></b>	            retry_times--;
+<b><a name="line2204">2204    </a></b>	            continue;
+<b><a name="line2205">2205    </a></b>	        }
+<b><a name="line2206">2206    </a></b>	        else
+<b><a name="line2207">2207    </a></b>	        {
+<b><a name="line2208">2208    </a></b>	            break;
+<b><a name="line2209">2209    </a></b>	        }
+<b><a name="line2210">2210    </a></b>	    }
+<b><a name="line2211">2211    </a></b>	
+<b><a name="line2212">2212    </a></b>	    if (retry_times == 0UL)
+<b><a name="line2213">2213    </a></b>	    {
+<b><a name="line2214">2214    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(HAL_SEC_PQC_MLDSA_ERROR_SIGN_FAIL);
+<b><a name="line2215">2215    </a></b>	    }
+<b><a name="line2216">2216    </a></b>	
+<b><a name="line2217">2217    </a></b>	    /* Write signature */
+<b><a name="line2218">2218    </a></b>	    // step 33
+<b><a name="line2219">2219    </a></b>	    hal_sec_pqc_mldsa_pack_sig(sig, sig, (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_z), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_h));
+<b><a name="line2220">2220    </a></b>	    *siglen = HAL_SEC_PQC_MLDSA_SIG_LEN;
+<b><a name="line2221">2221    </a></b>	
+<b><a name="line2222">2222    </a></b>	    return HAL_SEC_SET_PQC_MLDSA_ERROR(SEC_YES);
+<b><a name="line2223">2223    </a></b>	}
+<b><a name="line2224">2224    </a></b>	
+<b><a name="line2225">2225    </a></b>	/*************************************************
+<b><a name="line2226">2226    </a></b>	 * Name:        hal_sec_pqc_mldsa_crypto_sign_verify
+<b><a name="line2227">2227    </a></b>	 *
+<b><a name="line2228">2228    </a></b>	 * Description: Verifies signature.
+<b><a name="line2229">2229    </a></b>	 *
+<b><a name="line2230">2230    </a></b>	 * Arguments:   - U8 *m: pointer to input signature
+<b><a name="line2231">2231    </a></b>	 *              - U32 siglen: length of signature
+<b><a name="line2232">2232    </a></b>	 *              - U8 *m: pointer to message
+<b><a name="line2233">2233    </a></b>	 *              - U32 mlen: length of message
+<b><a name="line2234">2234    </a></b>	 *              - U8 *pk: pointer to bit-packed public key
+<b><a name="line2235">2235    </a></b>	 *
+<b><a name="line2236">2236    </a></b>	 * Returns 0 if signature could be verified correctly and -1 otherwise
+<b><a name="line2237">2237    </a></b>	 **************************************************/
+<b><a name="line2238">2238    </a></b>	U32 hal_sec_pqc_mldsa_verify(U8 *sig, U32 siglen, U8 *m, U32 mlen, U8 *pk, HAL_SEC_PQC_MLDSA_BUF_S_PTR mldsa_buf_ptr, U8 disable_dmsca)
+<b><a name="line2239">2239    </a></b>	{
+<b><a name="line2240">2240    </a></b>	    U32 bound_temp = 0UL;
+<b><a name="line2241">2241    </a></b>	
+<b><a name="line2242">2242    </a></b>	    if (siglen != HAL_SEC_PQC_MLDSA_SIG_LEN)
+<b><a name="line2243">2243    </a></b>	    {
+<b><a name="line2244">2244    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(HAL_SEC_PQC_MLDSA_ERROR_SIG_LEN_FAIL);
+<b><a name="line2245">2245    </a></b>	    }
+<b><a name="line2246">2246    </a></b>	
+<b><a name="line2247">2247    </a></b>	    // step 1
+<b><a name="line2248">2248    </a></b>	    hal_sec_pqc_mldsa_unpack_pk(mldsa_buf_ptr->verify.verify_buf.verify_rho, (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1), pk, mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2249">2249    </a></b>	
+<b><a name="line2250">2250    </a></b>	    // step 2
+<b><a name="line2251">2251    </a></b>	    if (hal_sec_pqc_mldsa_unpack_sig(mldsa_buf_ptr->verify.verify_buf.verify_c, (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_z), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_h), sig, mldsa_buf_ptr->verify.temp_buf_ptr) != 0)
+<b><a name="line2252">2252    </a></b>	    {
+<b><a name="line2253">2253    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(HAL_SEC_PQC_MLDSA_ERROR_UNPACK_SIG_FAIL);
+<b><a name="line2254">2254    </a></b>	    }
+<b><a name="line2255">2255    </a></b>	
+<b><a name="line2256">2256    </a></b>	    // step 3
+<b><a name="line2257">2257    </a></b>	    bound_temp = HAL_SEC_PQC_MLDSA_GAMMA1 - HAL_SEC_PQC_MLDSA_BETA;
+<b><a name="line2258">2258    </a></b>	    if (hal_sec_pqc_mldsa_polyvecl_chknorm((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_z), (S32)(bound_temp), mldsa_buf_ptr->verify.temp_buf_ptr) != 0)
+<b><a name="line2259">2259    </a></b>	    {
+<b><a name="line2260">2260    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(HAL_SEC_PQC_MLDSA_ERROR_CHKNORM_FAIL);
+<b><a name="line2261">2261    </a></b>	    }
+<b><a name="line2262">2262    </a></b>	
+<b><a name="line2263">2263    </a></b>	    // step 6+7 move to outside
+<b><a name="line2264">2264    </a></b>	
+<b><a name="line2265">2265    </a></b>	    /* Matrix-vector multiplication; compute Az - c2^dt1 */
+<b><a name="line2266">2266    </a></b>	    // step 8
+<b><a name="line2267">2267    </a></b>	    hal_sec_pqc_mldsa_poly_challenge((HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_cp), mldsa_buf_ptr->verify.verify_buf.verify_c, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer, mldsa_buf_ptr->verify.temp_buf_ptr); /* uses only the first HAL_SEC_PQC_MLDSA_SEED_LEN bytes of c */
+<b><a name="line2268">2268    </a></b>	    // step 5
+<b><a name="line2269">2269    </a></b>	    hal_sec_pqc_mldsa_polyvec_expand_matrix((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_mat), mldsa_buf_ptr->verify.verify_buf.verify_rho, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer, mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2270">2270    </a></b>	
+<b><a name="line2271">2271    </a></b>	    // step 9
+<b><a name="line2272">2272    </a></b>	    hal_sec_pqc_mldsa_polyvecl_ntt((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_z), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2273">2273    </a></b>	
+<b><a name="line2274">2274    </a></b>	    hal_sec_pqc_mldsa_polyvec_matrix_pointwise_montgomery((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), \
+<b><a name="line2275">2275    </a></b>	            (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_mat), \
+<b><a name="line2276">2276    </a></b>	            (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_z), \
+<b><a name="line2277">2277    </a></b>	            mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2278">2278    </a></b>	
+<b><a name="line2279">2279    </a></b>	    hal_sec_pqc_mldsa_poly_ntt((HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_cp), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2280">2280    </a></b>	    hal_sec_pqc_mldsa_polyveck_shiftl((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1));
+<b><a name="line2281">2281    </a></b>	    hal_sec_pqc_mldsa_polyveck_ntt((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2282">2282    </a></b>	
+<b><a name="line2283">2283    </a></b>	    hal_sec_pqc_mldsa_polyveck_pointwise_poly_montgomery((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1), \
+<b><a name="line2284">2284    </a></b>	            (HAL_SEC_PQC_MLDSA_POLY_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_cp), \
+<b><a name="line2285">2285    </a></b>	            (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1), \
+<b><a name="line2286">2286    </a></b>	            mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2287">2287    </a></b>	
+<b><a name="line2288">2288    </a></b>	    hal_sec_pqc_mldsa_polyveck_sub((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_t1));
+<b><a name="line2289">2289    </a></b>	    hal_sec_pqc_mldsa_polyveck_reduce((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2290">2290    </a></b>	    hal_sec_pqc_mldsa_polyveck_invntt_tomont((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2291">2291    </a></b>	
+<b><a name="line2292">2292    </a></b>	    // step 10
+<b><a name="line2293">2293    </a></b>	    /* Reconstruct w1 */
+<b><a name="line2294">2294    </a></b>	    hal_sec_pqc_mldsa_polyveck_caddq((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2295">2295    </a></b>	    hal_sec_pqc_mldsa_polyveck_use_hint((HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), \
+<b><a name="line2296">2296    </a></b>	                                        (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), \
+<b><a name="line2297">2297    </a></b>	                                        (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_h), \
+<b><a name="line2298">2298    </a></b>	                                        mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2299">2299    </a></b>	    hal_sec_pqc_mldsa_polyveck_pack_w1(mldsa_buf_ptr->verify.verify_buf.verify_buf, (HAL_SEC_PQC_MLDSA_POLYVECK_T_PTR)(void *)(mldsa_buf_ptr->verify.verify_buf.verify_w1), mldsa_buf_ptr->verify.temp_buf_ptr);
+<b><a name="line2300">2300    </a></b>	
+<b><a name="line2301">2301    </a></b>	    // step 12
+<b><a name="line2302">2302    </a></b>	    hal_sec_pqc_hash_absorb(mldsa_buf_ptr->verify.verify_buf.verify_mu, HAL_SEC_PQC_MLDSA_CRH_LEN, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line2303">2303    </a></b>	    hal_sec_pqc_hash_absorb(mldsa_buf_ptr->verify.verify_buf.verify_buf, HAL_SEC_PQC_MLDSA_K * HAL_SEC_PQC_MLDSA_PACKED_POLYW1_LEN, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line2304">2304    </a></b>	    hal_sec_pqc_hash_finalize(mldsa_buf_ptr->verify.verify_buf.verify_c2, HAL_SEC_PQC_MLDSA_CTILD_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line2305">2305    </a></b>	    hal_sec_pqc_hash_free(&mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line2306">2306    </a></b>	
+<b><a name="line2307">2307    </a></b>	    // step 13
+<b><a name="line2308">2308    </a></b>	    if (HAL_SEC_DMSCA_PASS != hal_sec_verify_signature_compare((U32)mldsa_buf_ptr->verify.verify_buf.verify_c, (U32)(mldsa_buf_ptr->verify.verify_buf.verify_c2), HAL_SEC_PQC_MLDSA_CTILD_LEN, disable_dmsca))
+<b><a name="line2309">2309    </a></b>	    {
+<b><a name="line2310">2310    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(HAL_SEC_PQC_MLDSA_ERROR_CTILDBYTES_FAIL);
+<b><a name="line2311">2311    </a></b>	    }
+<b><a name="line2312">2312    </a></b>	    else
+<b><a name="line2313">2313    </a></b>	    {
+<b><a name="line2314">2314    </a></b>	        return HAL_SEC_SET_PQC_MLDSA_ERROR(SEC_YES);
+<b><a name="line2315">2315    </a></b>	    }
+<b><a name="line2316">2316    </a></b>	}
+<b><a name="line2317">2317    </a></b>	
+<b><a name="line2318">2318    </a></b>	void hal_sec_pqc_mldsa_sign_hint(U8 *sig, HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR z, U8 *rhoprime, U8 nonce, HAL_SEC_PQC_MLDSA_BUF_S_PTR mldsa_buf_ptr)
+<b><a name="line2319">2319    </a></b>	{
+<b><a name="line2320">2320    </a></b>	    hal_sec_pqc_mldsa_polyvecl_gamma1_uniform((HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_y), rhoprime, nonce, (U32)mldsa_buf_ptr->sign.sign_buf.sign_uni_gamma, &mldsa_buf_ptr->sign.sign_buf.sign_hash_buffer);
+<b><a name="line2321">2321    </a></b>	    hal_sec_pqc_mldsa_polyvecl_add(z, z, (HAL_SEC_PQC_MLDSA_POLYVECL_T_PTR)(void *)(mldsa_buf_ptr->sign.sign_buf.sign_y));
+<b><a name="line2322">2322    </a></b>	    hal_sec_pqc_mldsa_polyvecl_reduce(z);
+<b><a name="line2323">2323    </a></b>	
+<b><a name="line2324">2324    </a></b>	    sig += HAL_SEC_PQC_MLDSA_CTILD_LEN;
+<b><a name="line2325">2325    </a></b>	
+<b><a name="line2326">2326    </a></b>	    for (U32 i = 0UL; i < HAL_SEC_PQC_MLDSA_L; ++i)
+<b><a name="line2327">2327    </a></b>	    {
+<b><a name="line2328">2328    </a></b>	        hal_sec_pqc_mldsa_poly_z_pack(sig + i * HAL_SEC_PQC_MLDSA_PACKED_POLYZ_LEN, &z->vec[i]);
+<b><a name="line2329">2329    </a></b>	    }
+<b><a name="line2330">2330    </a></b>	}
+<b><a name="line2331">2331    </a></b>	
+</pre></body>
+</html>

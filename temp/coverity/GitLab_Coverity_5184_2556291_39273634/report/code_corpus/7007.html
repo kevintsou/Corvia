@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_isr.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line59">59    </a></b>	                            event->rst_flag |= RST_NVME_CC_SHN;
+<b><a name="line60">60    </a></b>	                            dal_nl_set_csts_shst(FIDX_0, HAL_NL_SHUTDOWNING);
+<b><a name="line61">61    </a></b>	                        }
+<b><a name="line62">62    </a></b>	                        Dump_NVME(tprintf("CC.SHN = %d", shutdown));
+<b><a name="line63">63    </a></b>	                    }
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	                    if (etype & HAL_NVME_NL_ETYPE_INT_CCEN_CHG)
+<b><a name="line66">66    </a></b>	                    {
+<b><a name="line67">67    </a></b>	                        if (dal_nl_get_int_info_cc_en())
+<b><a name="line68">68    </a></b>	                        {
+<b><a name="line69">69    </a></b>	                            event->rst_flag |= RST_NVME_CC_EN;
+<b><a name="line70">70    </a></b>	                        }
+<b><a name="line71">71    </a></b>	                        else
+<b><a name="line72">72    </a></b>	                        {
+<b><a name="line73">73    </a></b>	                            event->rst_flag |= RST_NVME_CC_DIS;
+<b><a name="line74">74    </a></b>	                        }
+<b><a name="line75">75    </a></b>	                        Dump_NVME(tprintf("CC.EN = %d", dal_nl_get_int_info_cc_en()));
+<b><a name="line76">76    </a></b>	                    }
+<b><a name="line77">77    </a></b>	                    break;
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	                default:
+<b><a name="line82">82    </a></b>	                    Dump_NVME(tprintf("not support int type :%x etype:%x", int_type, etype));
+<b><a name="line83">83    </a></b>	                    break;
+<b><a name="line84">84    </a></b>	            }
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	            dal_nl_w1c_int_info_event(); // pop new one
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	            if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "1" (boolean) is not the same as that of the right operand "mabiao_chk(mabiao_addr)"(unsigned).</font>
+<b><a name="line89">89    </a></b>	                Dump_Debug(tprintf("FPHY PO TO 1"));
+<b><a name="line90">90    </a></b>	                break;
+<b><a name="line91">91    </a></b>	            }
+<b><a name="line92">92    </a></b>	        }
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    }
+<b><a name="line95">95    </a></b>	    else if (int_sts & HAL_APU_NL_AXI_ERR_INT)
+<b><a name="line96">96    </a></b>	    {
+<b><a name="line97">97    </a></b>	        int_bmp = dal_nl_get_int_fw_bitmap();
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	        Dump_NVME(tprintf("APU_NL_AXI_ERR_INT int_bmp: %x", int_bmp));
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	        dal_nl_w1c_int_fw_bitmap(int_bmp);
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    }
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	}
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	static void host_api_nvme_cmgr_isr(void)
+<b><a name="line108">108    </a></b>	{
+<b><a name="line109">109    </a></b>	    U32 int_flag = dal_cmgr_get_int_bitmap();
+<b><a name="line110">110    </a></b>	    U32 int_cmgr_err = dal_cmgr_get_int_p_bitmap(0);
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    Dump_NVME(tprintf("APU_CMGR_INT int_flag: %x", int_flag));
+<b><a name="line113">113    </a></b>	    Dump_NVME(tprintf("APU_CMGR_ERR_INT int_flag: %x",int_cmgr_err));
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    dal_cmgr_w1c_int_cmgr_port_err_bitmap(int_cmgr_err);
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    dal_cmgr_w1c_int_cmgr_bitmap(int_flag);
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	}
+</pre></body>
+</html>

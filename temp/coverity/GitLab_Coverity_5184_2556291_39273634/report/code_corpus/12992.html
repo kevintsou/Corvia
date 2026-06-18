@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9">9    </a></b>	{
+<b><a name="line10">10    </a></b>	    return dal_uart_api_get_rx_over_flow_err_en();
+<b><a name="line11">11    </a></b>	}
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	U8 bootcode_hal_uart_api_get_rx_over_flow_err_sts(void)
+<b><a name="line14">14    </a></b>	{
+<b><a name="line15">15    </a></b>	    return dal_uart_api_get_sts_rx_over_flow_err();
+<b><a name="line16">16    </a></b>	}
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	void bootcode_hal_uart_api_w_rx_over_flow_err_sts(U8 value)
+<b><a name="line19">19    </a></b>	{
+<b><a name="line20">20    </a></b>	    dal_uart_api_set_sts_rx_over_flow_err(value);
+<b><a name="line21">21    </a></b>	}
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	U8 bootcode_hal_uart_api_get_rx_parity_err_en(void)
+<b><a name="line24">24    </a></b>	{
+<b><a name="line25">25    </a></b>	    return dal_uart_api_get_rx_parity_err_en();
+<b><a name="line26">26    </a></b>	}
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	U8 bootcode_hal_uart_api_get_rx_parity_err_sts(void)
+<b><a name="line29">29    </a></b>	{
+<b><a name="line30">30    </a></b>	    return dal_uart_api_get_sts_rx_parity_err();
+<b><a name="line31">31    </a></b>	}
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	void bootcode_hal_uart_api_w_rx_parity_err_sts(U8 value)
+<b><a name="line34">34    </a></b>	{
+<b><a name="line35">35    </a></b>	    dal_uart_api_set_sts_rx_parity_err(value);
+<b><a name="line36">36    </a></b>	}
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	U8 bootcode_hal_uart_api_get_rx_frame_err_en(void)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "bootcode_hal_uart_api_get_rx_frame_err_en" and "bootcode_hal_uart_api_get_rx_frame_err_sts" are identical.</font>
+<b><a name="line39">39    </a></b>	{
+<b><a name="line40">40    </a></b>	    return dal_uart_api_get_rx_frame_err_en();
+<b><a name="line41">41    </a></b>	}
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	U8 bootcode_hal_uart_api_get_rx_frame_err_sts(void)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "bootcode_hal_uart_api_get_rx_frame_err_sts", which is ambiguous.</font>
+<b><a name="line44">44    </a></b>	{
+<b><a name="line45">45    </a></b>	    return dal_uart_api_get_sts_rx_frame_err();
+<b><a name="line46">46    </a></b>	}
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	void bootcode_hal_uart_api_w_rx_frame_err_sts(U8 value)
+<b><a name="line49">49    </a></b>	{
+<b><a name="line50">50    </a></b>	    dal_uart_api_set_sts_rx_frame_err(value);
+<b><a name="line51">51    </a></b>	}
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	U8 bootcode_hal_uart_api_get_rx_fifo_not_empty_en(void)
+<b><a name="line54">54    </a></b>	{
+<b><a name="line55">55    </a></b>	    return dal_uart_api_get_rx_fifo_not_empty_en();
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	U8 bootcode_hal_uart_api_get_rx_fifo_not_empty_sts(void)
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    return dal_uart_api_get_sts_rx_fifo_not_empty();
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	void bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(U8 value)
+<b><a name="line64">64    </a></b>	{
+<b><a name="line65">65    </a></b>	    dal_uart_api_set_sts_rx_fifo_not_empty(value);
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	U8 bootcode_hal_uart_api_get_rx_fifo_empty(void)
+<b><a name="line69">69    </a></b>	{
+<b><a name="line70">70    </a></b>	    return dal_uart_api_get_rx_fifo_empty();
+<b><a name="line71">71    </a></b>	}
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	void bootcode_hal_uart_api_w_baud_rate(U32 value)
+<b><a name="line74">74    </a></b>	{
+</pre></body>
+</html>

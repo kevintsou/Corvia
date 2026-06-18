@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line138">138    </a></b>	            break;
+<b><a name="line139">139    </a></b>	        }
+<b><a name="line140">140    </a></b>	
+<b><a name="line141">141    </a></b>	        U32 ulKeySize = sizeof(PublicKey_t);
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	        PublicKey_t *pInputKey = (PublicKey_t *)gVUALock.ulVendorTmpBase; // all little
+<b><a name="line144">144    </a></b>	        //Dump_SEC(tprintm((U32)info, ulKeySize));
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	        if (info.ubIsLittle) {
+<b><a name="line147">147    </a></b>	            /* coverity[overrun-buffer-arg] */
+<b><a name="line148">148    </a></b>	            memcpy((void *)&pInputKey->RsaPublicKey, (void *)info.pubKeyN, sizeof(RSAPublicKey_t));
+<b><a name="line149">149    </a></b>	        }
+<b><a name="line150">150    </a></b>	        else {
+<b><a name="line151">151    </a></b>	            //PublicKey_t *pBigKey = (PublicKey_t *)info.pubKeyN;
+<b><a name="line152">152    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubN,		    (void *)info.pubKeyN, 	VUA_RSA_BYTE_CNT);
+<b><a name="line153">153    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubE,		    (void *)info.pubKeyE,	VUA_RSA_BYTE_CNT_E);
+<b><a name="line154">154    </a></b>	            memcpy(		 		(void *)pInputKey->RsaPublicKey.ubN0,	        (void *)info.pubKeyN0,	VUA_RSA_BYTE_CNT_N0);	// alex: special case
+<b><a name="line155">155    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubR,		    (void *)info.pubKeyR, 	VUA_RSA_BYTE_CNT);
+<b><a name="line156">156    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubRR,	        (void *)info.pubKeyRR,	VUA_RSA_BYTE_CNT);
+<b><a name="line157">157    </a></b>	        }
+<b><a name="line158">158    </a></b>	        memcpy((void *)pInputKey->ubMlkemPubKey, (void *)info.pubKeyMlkem, VUA_MLKEM_PUB_KEY_LEN);
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	        Dump_SEC(tprintf("CIE"));
+<b><a name="line162">162    </a></b>	        // todo check SHA_CAL_BUF_SIZE
+<b><a name="line163">163    </a></b>	        // Hash RSA + MLKEM pubkey
+<b><a name="line164">164    </a></b>	        VUA_sha_blocking((U32)pInputKey, gVUALock.ulHashCalBufBase, ulKeySize);
+<b><a name="line165">165    </a></b>	
+<b><a name="line166">166    </a></b>	        if (gVUALock.ubFaultDelayEn) {
+<b><a name="line167">167    </a></b>	            Sec_FaultDelay(0x3FFF);
+<b><a name="line168">168    </a></b>	        }
+<b><a name="line169">169    </a></b>	#if DEBUG_VUA
+<b><a name="line170">170    </a></b>	        // Dump_SEC(tprintf("KeySize: %x", ulKeySize));
+<b><a name="line171">171    </a></b>	        // Dump_SEC(tprintf("Key Data"));
+<b><a name="line172">172    </a></b>	        // Dump_SEC(tprintm((U32)pInputKey, ulKeySize));
+<b><a name="line173">173    </a></b>	        Dump_SEC(tprintf("Key Hash"));
+<b><a name="line174">174    </a></b>	        Dump_SEC(tprint8h((U8 *)gVUALock.ulHashCalBufBase, VUA_KEY_HASH_SIZE));
+<b><a name="line175">175    </a></b>	#endif
+<b><a name="line176">176    </a></b>	
+<b><a name="line177">177    </a></b>	        // use gVUALock.ulHashCalBufBase to verify key hash
+<b><a name="line178">178    </a></b>	        if (!MyAssert(SECResult_PASS == VUA_verify_key_hash(gVUALock.ulHashCalBufBase))) {
+<b><a name="line179">179    </a></b>	            // Compare eFuse Key Hash Fail
+<b><a name="line180">180    </a></b>	            ulStatus   = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line181">181    </a></b>	            ulFailCode = STATUS_VERIFY_FAIL;
+<b><a name="line182">182    </a></b>	            Dump_SEC(tprintf("VK F!"));
+<b><a name="line183">183    </a></b>	            break;
+<b><a name="line184">184    </a></b>	        }
+<b><a name="line185">185    </a></b>	
+<b><a name="line186">186    </a></b>	        memcpy((void *)&gVUALock.VUAPublicKey, (void *)pInputKey, sizeof(PublicKey_t));
+<b><a name="line187">187    </a></b>	        memcpy(&gVUALock.aubN_v, pInput->ucN_v, 64);
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	        ulStatus = VALID_STATUS;
+<b><a name="line190">190    </a></b>	        ulFailCode = STATUS_DEFAULT;
+<b><a name="line191">191    </a></b>	        gVUALock.ubVUCLockState = VUA_VERIFY_STATE_ENGINEERING;
+<b><a name="line192">192    </a></b>	
+<b><a name="line193">193    </a></b>	        Dump_SEC(tprintf("send key ok!"));
+<b><a name="line194">194    </a></b>	        return result;
+<b><a name="line195">195    </a></b>	    } while (0);
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	    VUA_FailHandle(&result, ulStatus, ulFailCode);
+<b><a name="line198">198    </a></b>	    Dump_SEC(tprintf("send key F!"));
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    return result;
+<b><a name="line201">201    </a></b>	}
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	/**
+<b><a name="line205">205    </a></b>	 * Host request to start the verification procedure
+<b><a name="line206">206    </a></b>	 *
+<b><a name="line207">207    </a></b>	 * @return ulFailCode
+<b><a name="line208">208    </a></b>	 */
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	VUAStatus_t VUA_sendHandshakeRequest(void)
+<b><a name="line211">211    </a></b>	{
+<b><a name="line212">212    </a></b>	    VUAStatus_t result;
+<b><a name="line213">213    </a></b>	    VUA_InitResult(&result);
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	    if (!MyAssert(gVUALock.ubEn)) {
+<b><a name="line216">216    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line217">217    </a></b>	        return result;
+<b><a name="line218">218    </a></b>	    }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_ENGINEERING <= gVUALock.ubVUCLockState)) {
+<b><a name="line221">221    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line222">222    </a></b>	        return result;
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	    gVUALock.ubVUCLockState = VUA_VERIFY_STATE_HANDSHAKE_START;
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    return result;
+<b><a name="line228">228    </a></b>	}
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	/**
+<b><a name="line231">231    </a></b>	 * Host receives an encryption data from device
+<b><a name="line232">232    </a></b>	 *
+<b><a name="line233">233    </a></b>	 * @return ulFailCode
+<b><a name="line234">234    </a></b>	 */
+<b><a name="line235">235    </a></b>	
+<b><a name="line236">236    </a></b>	VUAStatus_t VUA_receiveEncryptionData(void)
+<b><a name="line237">237    </a></b>	{
+<b><a name="line238">238    </a></b>	    // For shared secret & chipertext calculation Parameters:
+<b><a name="line239">239    </a></b>	    U8 ubEncryptRandom[VUA_ENCRYPT_RANDOM_SIZE];
+<b><a name="line240">240    </a></b>	    U8 aubL[SECRET_KEYING_BIT_NUM_LEN]  = {0x00, 0x02, 0x00, 0x00};    //512
+<b><a name="line241">241    </a></b>	    U8 aubHmac_512[HMAC_ALGO_ID_LEN]    = {0x48, 0x4D, 0x41, 0x43, 0x2D, 0x35, 0x31, 0x32};//HMAC-512
+<b><a name="line242">242    </a></b>	    U8 aubIdv[PARTY_V_INFO_LEN]         = {0x50, 0x48, 0x49, 0x53, 0x4F, 0x4E, 0x30, 0x30};//PHISON00
+<b><a name="line243">243    </a></b>	    // U8 aubDefault_salt[DEFALUT_SALT_LEN] = {0x00};
+<b><a name="line244">244    </a></b>	    U8 aubDefault_salt[128] = {0x00};       // 128 byte for hmac512 block len, only use 64 byte
+<b><a name="line245">245    </a></b>	    U32 ulHMAC_input_size = 0;
+<b><a name="line246">246    </a></b>	    U8 aubIdu[PARTY_U_INFO_LEN]         = {0x00};//Controller Name
+<b><a name="line247">247    </a></b>	    memcpy((void *)(&aubIdu[0]), (void *)gVUALock.ubControllerName, 6);
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	    VUAStatus_t result;
+<b><a name="line250">250    </a></b>	    VUA_InitResult(&result);
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	    if (!MyAssert(gVUALock.ubEn)) {
+<b><a name="line253">253    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line254">254    </a></b>	        return result;
+<b><a name="line255">255    </a></b>	    }
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_HANDSHAKE_START == gVUALock.ubVUCLockState)) {
+<b><a name="line258">258    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line259">259    </a></b>	        return result;
+<b><a name="line260">260    </a></b>	    }
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	    typedef struct {
+<b><a name="line263">263    </a></b>	        U8 ubRsaCT[VUA_RSA_CT_LEN];                     // 512 byte (need check)
+<b><a name="line264">264    </a></b>	        U8 ubMlkemCT[VUA_MLKEM_CT_LEN];                 // 1568 byte
+<b><a name="line265">265    </a></b>	        U8 reserve[2012];
+<b><a name="line266">266    </a></b>	        U32 ulCRC;                                      // ---total 4096---
+<b><a name="line267">267    </a></b>	        U8 aubHMACParameter[608];
+<b><a name="line268">268    </a></b>	        U8 aubRsaSS[VUA_RSA_SS_LEN];                    // 64 byte
+<b><a name="line269">269    </a></b>	        U8 aubZ[512];
+<b><a name="line270">270    </a></b>	    } VUA_receiveEncryptionData_t;
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	    //Set value for the entire output data:
+<b><a name="line274">274    </a></b>	    VUA_receiveEncryptionData_t *pEncryptionData = (VUA_receiveEncryptionData_t *)gVUALock.ulVendorBufBase;
+<b><a name="line275">275    </a></b>	    memset((void *)pEncryptionData, 0x00, sizeof(VUA_receiveEncryptionData_t));
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	    //1 RNG -> Gen "Z" (32 Byte)
+<b><a name="line279">279    </a></b>	    if(0 != VUA_gen_rng((U8 *)(ubEncryptRandom))) {
+<b><a name="line280">280    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_INTERNAL_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line281">281    </a></b>	        return result;
+<b><a name="line282">282    </a></b>	    }
+<b><a name="line283">283    </a></b>	    // copy "Z" to aubZ for later use
+<b><a name="line284">284    </a></b>	    memcpy((void *)(pEncryptionData->aubZ), (void *)(ubEncryptRandom), VUA_ENCRYPT_RANDOM_SIZE);
+<b><a name="line285">285    </a></b>	    // Add Padding 0x0 480 Bytes
+<b><a name="line286">286    </a></b>	    memset((void *)(pEncryptionData->aubZ + VUA_ENCRYPT_RANDOM_SIZE), 0x0, 480);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // RSA to Gen "RsaCT", "RsaSS"
+<b><a name="line290">290    </a></b>	    VUA_RSAEncode((U32)pEncryptionData->ubRsaCT, (U32)pEncryptionData->aubZ, (U32 *)&gVUALock.VUAPublicKey.RsaPublicKey);
+<b><a name="line291">291    </a></b>	    memcpy((void *)(gVUALock.aubRsaCT), (void *)pEncryptionData->ubRsaCT, VUA_RSA_CT_LEN);
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	    memset((void *)pEncryptionData->aubHMACParameter, 0x00, sizeof(pEncryptionData->aubHMACParameter));
+<b><a name="line294">294    </a></b>	    //Otherinput = L || FixedInfo, FixedInfo = HMAC-512  || ID_u || ID_v || N_v
+<b><a name="line295">295    </a></b>	    //pEncryptionData->aubHMACParameter 512b
+<b><a name="line296">296    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter),                     (void *)pEncryptionData->aubZ,            512);           //512
+<b><a name="line297">297    </a></b>	    ulHMAC_input_size += sizeof(pEncryptionData->aubZ);
+<b><a name="line298">298    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubL,            sizeof(aubL));           //4
+<b><a name="line299">299    </a></b>	    ulHMAC_input_size += sizeof(aubL);
+<b><a name="line300">300    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubHmac_512,     sizeof(aubHmac_512));    //8
+<b><a name="line301">301    </a></b>	    ulHMAC_input_size += sizeof(aubHmac_512);
+<b><a name="line302">302    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdu,          sizeof(aubIdu));         //8
+<b><a name="line303">303    </a></b>	    ulHMAC_input_size += sizeof(aubIdu);
+<b><a name="line304">304    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdv,          sizeof(aubIdv));         //8
+<b><a name="line305">305    </a></b>	    ulHMAC_input_size += sizeof(aubIdv);
+<b><a name="line306">306    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubN_v, sizeof(gVUALock.aubN_v)); //64
+<b><a name="line307">307    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubN_v); //should be 604 Bytes
+<b><a name="line308">308    </a></b>	
+<b><a name="line309">309    </a></b>	    // use HMAC to gen RsaSS, with default_salt as key
+<b><a name="line310">310    </a></b>	    VUA_hmac_512((U8 *)aubDefault_salt, DEFALUT_SALT_LEN, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubRsaSS, ulHMAC_input_size);
+<b><a name="line311">311    </a></b>	    memcpy((void *)(gVUALock.aubRsaSS), (void *)pEncryptionData->aubRsaSS, VUA_RSA_SS_LEN);
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	    VUA_mlkem_enc((U8 *)pEncryptionData->ubMlkemCT, (U8 *)gVUALock.aubMlkemSS, (U8 *)gVUALock.VUAPublicKey.ubMlkemPubKey);
+<b><a name="line314">314    </a></b>	    memcpy((void *)(gVUALock.aubMlkemCT), (void *)pEncryptionData->ubMlkemCT, VUA_MLKEM_CT_LEN);
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	    VUA_DEBUG_UART("RsaCT", (U32)gVUALock.aubRsaCT, VUA_RSA_CT_LEN);
+<b><a name="line317">317    </a></b>	    VUA_DEBUG_UART("RsaSS", (U32)gVUALock.aubRsaSS, VUA_RSA_SS_LEN);
+<b><a name="line318">318    </a></b>	    VUA_DEBUG_UART("MlkemCT", (U32)gVUALock.aubMlkemCT, VUA_MLKEM_CT_LEN);
+<b><a name="line319">319    </a></b>	    VUA_DEBUG_UART("MlkemSS", (U32)gVUALock.aubMlkemSS, VUA_MLKEM_SS_LEN);
+<b><a name="line320">320    </a></b>	
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	    gVUALock.ubVUCLockState = VUA_VERIFY_STATE_ENCRYPTION_DATA_SENT;
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    sal_reverse_copy2(pEncryptionData->ubRsaCT, VUA_RSA_CT_LEN);
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	    // CRC calculate
+<b><a name="line327">327    </a></b>	    //pEncryptionData->ulCRC = VUA_crc32((U32)pEncryptionData);
+<b><a name="line328">328    </a></b>	    //tprintf("VUC CRC: %x", pEncryptionData->ulCRC);
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	    return result;
+<b><a name="line331">331    </a></b>	}
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	/**
+<b><a name="line334">334    </a></b>	 * Host sends the encryption data back to device for verification
+<b><a name="line335">335    </a></b>	 *
+<b><a name="line336">336    </a></b>	 *
+<b><a name="line337">337    </a></b>	 * @return ulFailCode
+<b><a name="line338">338    </a></b>	 */
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	VUAStatus_t VUA_sendEncryptionData(void)
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	    // For SK calculation Parameters:
+<b><a name="line343">343    </a></b>	    U8 aubi[COUNTER_LEN]                = {0x00, 0x00, 0x00, 0x01};//0x00000001(Big-Endian)
+<b><a name="line344">344    </a></b>	    U8 aubL[SECRET_KEYING_BIT_NUM_LEN]  = {0x00, 0x02, 0x00, 0x00};//L=512
+<b><a name="line345">345    </a></b>	    U8 aubHmac_512[HMAC_ALGO_ID_LEN]    = {0x48, 0x4D, 0x41, 0x43, 0x2D, 0x35, 0x31, 0x32};//HMAC-512
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    U8 aubIdv[PARTY_V_INFO_LEN]         = {0x50, 0x48, 0x49, 0x53, 0x4F, 0x4E, 0x30, 0x30};//PHISON00
+<b><a name="line348">348    </a></b>	    U8 aubDefault_salt[128] = {0x00};       // 128 byte for hmac512 block len, only use 64 byte
+<b><a name="line349">349    </a></b>	    U8 aubIdu[PARTY_U_INFO_LEN]         = {0x00};//Controller Name
+<b><a name="line350">350    </a></b>	    memcpy((void *)(&aubIdu[0]), (void *)gVUALock.ubControllerName, 6);
+<b><a name="line351">351    </a></b>	    U8 aubRsaParm[SECRET_KEYING_BIT_NUM_LEN] = {0x00, 0x10, 0x00, 0x00};
+<b><a name="line352">352    </a></b>	    U8 aubkyberN[SECRET_KEYING_BIT_NUM_LEN] = {0x00, 0x01, 0x00, 0x00};
+<b><a name="line353">353    </a></b>	    U8 aubkyberQ[SECRET_KEYING_BIT_NUM_LEN] = {0x01, 0x0D, 0x00, 0x00};
+<b><a name="line354">354    </a></b>	    U8 aubkyberK[SECRET_KEYING_BIT_NUM_LEN] = {0x04, 0x00, 0x00, 0x00};
+<b><a name="line355">355    </a></b>	    U8 aubkyberIta[SECRET_KEYING_BIT_NUM_LEN] = {0x02, 0x00, 0x00, 0x00};
+<b><a name="line356">356    </a></b>	    U8 aubkyberDu[SECRET_KEYING_BIT_NUM_LEN] = {0x0B, 0x00, 0x00, 0x00};
+<b><a name="line357">357    </a></b>	    U8 aubkyberDv[SECRET_KEYING_BIT_NUM_LEN] = {0x05, 0x00, 0x00, 0x00};
+<b><a name="line358">358    </a></b>	    U32 ulHMAC_input_size = 0UL;
+<b><a name="line359">359    </a></b>	    VUAStatus_t result;
+<b><a name="line360">360    </a></b>	    VUA_InitResult(&result);
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	    // For MacTagv calculation Parameters:
+<b><a name="line365">365    </a></b>	    U8 aubKC_1_D[MESSAGE_STRING_LEN] = {(U8)'K', (U8)'C', (U8)'_', (U8)'1', (U8)'_', (U8)'D'};
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	    if (!MyAssert(gVUALock.ubEn)) { // ignore coverity
+<b><a name="line368">368    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line369">369    </a></b>	        return result;
+<b><a name="line370">370    </a></b>	    }
+<b><a name="line371">371    </a></b>	
+<b><a name="line372">372    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_ENCRYPTION_DATA_SENT == gVUALock.ubVUCLockState)) {  // ignore coverity
+<b><a name="line373">373    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line374">374    </a></b>	        return result;
+<b><a name="line375">375    </a></b>	    }
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	    VUA_sendEncryptionData_t *pEncryptionData = (VUA_sendEncryptionData_t *)(gVUALock.ulVendorBufBase);
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	    // Step 1: Calculate SK
+<b><a name="line380">380    </a></b>	    // Z = K1 || K2
+<b><a name="line381">381    </a></b>	    // FixedInfo = HMAC-512 || IDu || IDv || N_v || RsaCT || MlkemCT || ek1 || ek2
+<b><a name="line382">382    </a></b>	    // Z||L||FixedInfo
+<b><a name="line383">383    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter),                     (void *)aubi,                                sizeof(aubi));           //4
+<b><a name="line384">384    </a></b>	    ulHMAC_input_size += sizeof(aubi);
+<b><a name="line385">385    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubRsaSS,                   sizeof(gVUALock.aubRsaSS));             //64
+<b><a name="line386">386    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubRsaSS);
+<b><a name="line387">387    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubMlkemSS,                 sizeof(gVUALock.aubMlkemSS));           //32
+<b><a name="line388">388    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubMlkemSS);
+<b><a name="line389">389    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubL,                                sizeof(aubL));           //4
+<b><a name="line390">390    </a></b>	    ulHMAC_input_size += sizeof(aubL);
+<b><a name="line391">391    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubHmac_512,                         sizeof(aubHmac_512));    //8
+<b><a name="line392">392    </a></b>	    ulHMAC_input_size += sizeof(aubHmac_512);
+<b><a name="line393">393    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdu,                              sizeof(aubIdu));         //8
+<b><a name="line394">394    </a></b>	    ulHMAC_input_size += sizeof(aubIdu);
+<b><a name="line395">395    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdv,                              sizeof(aubIdv));         //8
+<b><a name="line396">396    </a></b>	    ulHMAC_input_size += sizeof(aubIdv);
+<b><a name="line397">397    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubN_v,                     sizeof(gVUALock.aubN_v));    //64
+<b><a name="line398">398    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubN_v);
+<b><a name="line399">399    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubRsaCT,                   sizeof(gVUALock.aubRsaCT)); //512
+<b><a name="line400">400    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubRsaCT);
+<b><a name="line401">401    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubMlkemCT,                 sizeof(gVUALock.aubMlkemCT)); //1568
+<b><a name="line402">402    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubMlkemCT);
+<b><a name="line403">403    </a></b>	    sal_reverse_copy((void *)pEncryptionData->aubHMACParameter + ulHMAC_input_size,		(void *)gVUALock.VUAPublicKey.RsaPublicKey.ubN, 	VUA_RSA_BYTE_CNT);
+<b><a name="line404">404    </a></b>	    ulHMAC_input_size += VUA_RSA_BYTE_CNT;
+<b><a name="line405">405    </a></b>	    sal_reverse_copy((void *)pEncryptionData->aubHMACParameter + ulHMAC_input_size,		(void *)gVUALock.VUAPublicKey.RsaPublicKey.ubE,	VUA_RSA_BYTE_CNT_E);
+<b><a name="line406">406    </a></b>	    ulHMAC_input_size += VUA_RSA_BYTE_CNT_E;
+<b><a name="line407">407    </a></b>	    memcpy((void *)pEncryptionData->aubHMACParameter + ulHMAC_input_size,       (void *)gVUALock.VUAPublicKey.RsaPublicKey.ubN0,	VUA_RSA_BYTE_CNT_N0);	// alex: special case
+<b><a name="line408">408    </a></b>	    ulHMAC_input_size += VUA_RSA_BYTE_CNT_N0;
+<b><a name="line409">409    </a></b>	    sal_reverse_copy((void *)pEncryptionData->aubHMACParameter + ulHMAC_input_size,		(void *)gVUALock.VUAPublicKey.RsaPublicKey.ubR, 	VUA_RSA_BYTE_CNT);
+<b><a name="line410">410    </a></b>	    ulHMAC_input_size += VUA_RSA_BYTE_CNT;
+<b><a name="line411">411    </a></b>	    sal_reverse_copy((void *)pEncryptionData->aubHMACParameter + ulHMAC_input_size,	    (void *)gVUALock.VUAPublicKey.RsaPublicKey.ubRR,	VUA_RSA_BYTE_CNT);
+<b><a name="line412">412    </a></b>	    ulHMAC_input_size += VUA_RSA_BYTE_CNT;
+<b><a name="line413">413    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.VUAPublicKey.ubMlkemPubKey, sizeof(gVUALock.VUAPublicKey.ubMlkemPubKey)); //MLKEM pubkey 1568
+<b><a name="line414">414    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.VUAPublicKey.ubMlkemPubKey);
+<b><a name="line415">415    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubRsaParm, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line416">416    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line417">417    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberN, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line418">418    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line419">419    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberQ, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line420">420    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line421">421    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberK, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line422">422    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line423">423    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberIta, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line424">424    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line425">425    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberIta, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line426">426    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line427">427    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberDu, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line428">428    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line429">429    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubkyberDv, SECRET_KEYING_BIT_NUM_LEN);
+<b><a name="line430">430    </a></b>	    ulHMAC_input_size += SECRET_KEYING_BIT_NUM_LEN;
+<b><a name="line431">431    </a></b>	    //should be 5416
+<b><a name="line432">432    </a></b>	
+<b><a name="line433">433    </a></b>	
+<b><a name="line434">434    </a></b>	    //Check "i || Z || L || otherinput" & "default Salt"
+<b><a name="line435">435    </a></b>	    VUA_DEBUG_UART("i||Z||L||OtherInput:", (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line436">436    </a></b>	    VUA_DEBUG_UART("default Salt:", (U32)aubDefault_salt, DEFALUT_SALT_LEN);
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    // Use HMAC API to calculate "Session Key"
+<b><a name="line439">439    </a></b>	    VUA_hmac_512((U8 *)aubDefault_salt, DEFALUT_SALT_LEN, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubSessionKey, ulHMAC_input_size);
+<b><a name="line440">440    </a></b>	    //Copy Session Key to gVUALock
+<b><a name="line441">441    </a></b>	    memcpy((void *)gVUALock.aubASessionKey, (void *)pEncryptionData->aubSessionKey, VUA_SESSION_KEY_SIZE);
+<b><a name="line442">442    </a></b>	    VUA_DEBUG_UART("gVUALock.aubASessionKey",  (U32)gVUALock.aubASessionKey, VUA_SESSION_KEY_SIZE);
+<b><a name="line443">443    </a></b>	    Dump_SEC(tprintf("Session Key "));
+<b><a name="line444">444    </a></b>	    Dump_SEC(tprintm((U32)gVUALock.aubASessionKey, VUA_SESSION_KEY_SIZE));
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // Step 2:
+<b><a name="line447">447    </a></b>	    // Calculate MacTagv = HMAC-SHA512(key = sk , KC_1_D || IDu || IDv || N_v || RsaCT || MlkemCT)
+<b><a name="line448">448    </a></b>	    ulHMAC_input_size = 0;
+<b><a name="line449">449    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter),                   (void *)aubKC_1_D,       sizeof(aubKC_1_D));      //6
+<b><a name="line450">450    </a></b>	    ulHMAC_input_size += sizeof(aubKC_1_D);
+<b><a name="line451">451    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdu,          sizeof(aubIdu));         //8
+<b><a name="line452">452    </a></b>	    ulHMAC_input_size += sizeof(aubIdu);
+<b><a name="line453">453    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdv,          sizeof(aubIdv));         //8
+<b><a name="line454">454    </a></b>	    ulHMAC_input_size += sizeof(aubIdv);
+<b><a name="line455">455    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubN_v, sizeof(gVUALock.aubN_v)); //64
+<b><a name="line456">456    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubN_v);
+<b><a name="line457">457    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubRsaCT, sizeof(gVUALock.aubRsaCT)); //512
+<b><a name="line458">458    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubRsaCT);
+<b><a name="line459">459    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubMlkemCT, sizeof(gVUALock.aubMlkemCT)); //1568
+<b><a name="line460">460    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubMlkemCT);
+<b><a name="line461">461    </a></b>	    //should be 2166 Bytes
+<b><a name="line462">462    </a></b>	
+<b><a name="line463">463    </a></b>	    // Check MacDataV (KC_1_D || IDu || IDv || RsaCT || MlkemCT || N_v)
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    VUA_DEBUG_UART("MacDataV",  (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line466">466    </a></b>	    //Dump_SEC(tprintm((U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size));
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    // Use HMAC API to calculate MacTagv (saved in aubHMACParameter buffer)
+<b><a name="line469">469    </a></b>	    memcpy((void *)aubDefault_salt, (void *)pEncryptionData->aubSessionKey + VUA_SESSION_KEY_SIZE, VUA_SESSION_KEY_SIZE);
+<b><a name="line470">470    </a></b>	    //HMAC(MODE_SEL_SHA_512, (U8 *)pEncryptionData->aubSessionKey, sizeof(pEncryptionData->aubSessionKey), (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size, ENABLE);
+<b><a name="line471">471    </a></b>	    //VUA_hmac_512((U8 *)(pEncryptionData->aubSessionKey + 32), 32, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line472">472    </a></b>	    VUA_hmac_512((U8 *)(aubDefault_salt), VUA_SESSION_KEY_SIZE, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    // Step 3: Compare MacTagv
+<b><a name="line476">476    </a></b>	    // Fault Delay
+<b><a name="line477">477    </a></b>	    if (gVUALock.ubFaultDelayEn) {
+<b><a name="line478">478    </a></b>	        Sec_FaultDelay(0x3FFF);
+<b><a name="line479">479    </a></b>	    }
+<b><a name="line480">480    </a></b>	
+<b><a name="line481">481    </a></b>	    Dump_SEC(tprintf("MacTagv from dev"));
+<b><a name="line482">482    </a></b>	    Dump_SEC(tprintm((U32)pEncryptionData->aubHMACParameter, DEF_8B));
+<b><a name="line483">483    </a></b>	    Dump_SEC(tprintf("MacTagv from Host"));
+<b><a name="line484">484    </a></b>	    Dump_SEC(tprintm((U32)pEncryptionData->aubMacTagv_Rec, sizeof(pEncryptionData->aubMacTagv_Rec)));
+<b><a name="line485">485    </a></b>	    //VUA_DEBUG_UART("MacTagv from dev",  (U32)pEncryptionData->aubHMACParameter, DEF_8B);
+<b><a name="line486">486    </a></b>	    //VUA_DEBUG_UART("MacTagv from Host", (U32)pEncryptionData->aubMacTagv_Rec, sizeof(pEncryptionData->aubMacTagv_Rec));
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	    SECResult_e eRlt = SECResult_FAIL;
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    // Compare MacTagv
+<b><a name="line491">491    </a></b>	    if (SECResult_PASS == sec_memcmp((void *)(pEncryptionData->aubMacTagv_Rec), (void *)(pEncryptionData->aubHMACParameter), DEF_8B)) {
+<b><a name="line492">492    </a></b>	        eRlt = SECResult_PASS;
+<b><a name="line493">493    </a></b>	    }
+<b><a name="line494">494    </a></b>	    else {
+<b><a name="line495">495    </a></b>	        Dump_Vendor(tprintf("MacTagv Different"));
+<b><a name="line496">496    </a></b>	    }
+<b><a name="line497">497    </a></b>	
+<b><a name="line498">498    </a></b>	    // Step 4: Update VUCLOCK state
+<b><a name="line499">499    </a></b>	    if (!MyAssert(SECResult_PASS == eRlt)) {
+<b><a name="line500">500    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_VERIFY_FAIL);
+<b><a name="line501">501    </a></b>	        return result;
+<b><a name="line502">502    </a></b>	    }
+<b><a name="line503">503    </a></b>	    else {
+<b><a name="line504">504    </a></b>	        VUA_PassHandle();
+<b><a name="line505">505    </a></b>	    }
+<b><a name="line506">506    </a></b>	
+<b><a name="line507">507    </a></b>	    return result;
+<b><a name="line508">508    </a></b>	}
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	VUAStatus_t VUA_lock(void)
+<b><a name="line511">511    </a></b>	{
+<b><a name="line512">512    </a></b>	    VUAStatus_t result = {0};
+<b><a name="line513">513    </a></b>	    result.ubStatus = VALID_STATUS;
+<b><a name="line514">514    </a></b>	    if (!MyAssert(gVUALock.ubEn)) { // ignore coverity
+<b><a name="line515">515    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line516">516    </a></b>	        return result;
+<b><a name="line517">517    </a></b>	    }
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	    if (gVUALock.ubVUCLockState > gVUALock.ubVUCLockStateDefault) {  // ignore coverity
+<b><a name="line520">520    </a></b>	        gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line521">521    </a></b>	    }
+<b><a name="line522">522    </a></b>	    return result;
+<b><a name="line523">523    </a></b>	}
+<b><a name="line524">524    </a></b>	
+<b><a name="line525">525    </a></b>	void VUA_decryptCommand(U32 DecAdr)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "VUA_decryptCommand".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">     ^</font>
+<b><a name="line526">526    </a></b>	{
+<b><a name="line527">527    </a></b>	    U8 ubDecryptedSize = 16;
+<b><a name="line528">528    </a></b>	    U32 ulDecryptedBuf = DecAdr;
+<b><a name="line529">529    </a></b>	    U32 ulDecTmpBuf = gVUALock.ulHashCalBufBase;
+<b><a name="line530">530    </a></b>	
+<b><a name="line531">531    </a></b>	    memcpy((void *)ulDecTmpBuf, (void *)ulDecryptedBuf, ubDecryptedSize);
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	    VUA_aes_dec((U32 *)&gVUALock.aubASessionKey[0],
+<b><a name="line534">534    </a></b>	    gVUALock.ulAESCipherBlockChainingInitializayionVector,
+<b><a name="line535">535    </a></b>	    ulDecTmpBuf, ubDecryptedSize);
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	    memcpy((void *)ulDecryptedBuf, (void *)ulDecTmpBuf, ubDecryptedSize);
+<b><a name="line538">538    </a></b>	}
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	U16 VUA_readSysInfo16B(U32 ulDstAdr)
+<b><a name="line543">543    </a></b>	{
+<b><a name="line544">544    </a></b>	    typedef struct {
+<b><a name="line545">545    </a></b>	        U8 ubTag[2];	// 0
+<b><a name="line546">546    </a></b>	        U8 ubEn;		// 2
+<b><a name="line547">547    </a></b>	        U8 ubHwRng;		// 3
+<b><a name="line548">548    </a></b>	        U8 ubFaultDly;	// 4
+<b><a name="line549">549    </a></b>	        U8 ubEFUSEKey;	// 5
+<b><a name="line550">550    </a></b>	        U8 ubStateDef;	// 6
+<b><a name="line551">551    </a></b>	        U8 ubState;		// 7
+<b><a name="line552">552    </a></b>	        U8 ubFailCnt;	// 8
+<b><a name="line553">553    </a></b>	        U8 rsv[3];		// 9
+<b><a name="line554">554    </a></b>	        U32 ulAsciiErrorLine;	// C
+<b><a name="line555">555    </a></b>	    } SysInfo_t;
+<b><a name="line556">556    </a></b>	    TYPE_SIZE_CHECK(SysInfo_t, DEF_16B);
+</pre></body>
+</html>

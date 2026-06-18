@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/platform_env.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PLATFORM_ENV_H_
+<b><a name="line2">2    </a></b>	#define _PLATFORM_ENV_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_PLATFORM_ENV_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define FULL_DUBF_ACCESS    (0 || (IC_TYPE_ASIC == IC_TYPE))
+<b><a name="line7">7    </a></b>	#define sal_uart_printf(f, ...)
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	#define BYTE0(x)                    ((x) & 0xFFU)
+<b><a name="line10">10    </a></b>	#define BYTE1(x)                    (((x) >> 8U) & 0xFFU)
+<b><a name="line11">11    </a></b>	#define BYTE2(x)                    (((x) >> 16U) & 0xFFU)
+<b><a name="line12">12    </a></b>	#define BYTE3(x)                    (((x) >> 24U) & 0xFFU)
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	#define LoBYTE(x)                   ((x) & 0xFFU)
+<b><a name="line15">15    </a></b>	#define HiBYTE(x)                   (((x) >> 8U) & 0xFFU)
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	#define LoWORD(x)                   ((x) & 0xFFFFU)
+<b><a name="line18">18    </a></b>	#define HiWORD(x)                   (((x) >> 16U) & 0xFFFFU)
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	//#define BIT_MASK(length, offset)    ((~((~0ULL) << (length))) << (offset))
+<b><a name="line21">21    </a></b>	#define BIT_MASK32                  (0xFFFFFFFFUL)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	typedef             uint8_t     U8_t;
+<b><a name="line24">24    </a></b>	typedef             uint16_t    U16_t;
+<b><a name="line25">25    </a></b>	typedef             uint32_t    U32_t;
+<b><a name="line26">26    </a></b>	typedef             uint64_t    U64_t;
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	typedef             uint8_t    *ADDR8_t;
+<b><a name="line29">29    </a></b>	typedef             uint16_t   *ADDR16_t;
+<b><a name="line30">30    </a></b>	typedef             uint32_t   *ADDR32_t;
+<b><a name="line31">31    </a></b>	typedef             uint64_t   *ADDR64_t;
+<b><a name="line32">32    </a></b>	typedef volatile    ADDR8_t     VOL_ADDR8_t;
+<b><a name="line33">33    </a></b>	typedef volatile    ADDR16_t    VOL_ADDR16_t;
+</pre></body>
+</html>

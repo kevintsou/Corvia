@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sec.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line116">116    </a></b>	        }
+<b><a name="line117">117    </a></b>	    }
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    return ret;
+<b><a name="line120">120    </a></b>	}
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	U8 phal_get_dt_attribution_define(void)
+<b><a name="line123">123    </a></b>	{
+<b><a name="line124">124    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line125">125    </a></b>	    U8 is_dt_function = (U8)(r_PMU_IS_DT_FUNCTION() == 0x01U);
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	    // for 5303
+<b><a name="line128">128    </a></b>	    // PMU register reg43 [31] is_dt_function: This bit is used to mean dt_function enable(1) or not(0).
+<b><a name="line129">129    </a></b>	    // SYS PD0 miscl 0x50 DW20 [0:15] HW_CFG_PMU is_dt_function
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    if ( (r_CR_IS_DT_FUNCTION() == 0xA5CDU) && (is_dt_function == SEC_YES) )
+<b><a name="line132">132    </a></b>	    {
+<b><a name="line133">133    </a></b>	        ret = SEC_YES;
+<b><a name="line134">134    </a></b>	    }
+<b><a name="line135">135    </a></b>	    return ret;
+<b><a name="line136">136    </a></b>	}
+<b><a name="line137">137    </a></b>	
+<b><a name="line138">138    </a></b>	U16 phal_sec_verify_signature_compare(U32 data_buf_addr, U32 cmp_buf_addr, U32 compare_len, U8 disable_dmsca)
+<b><a name="line139">139    </a></b>	{
+<b><a name="line140">140    </a></b>	    U8 rng[6] = {0};
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	    if (SEC_NO == disable_dmsca)
+<b><a name="line143">143    </a></b>	    {
+<b><a name="line144">144    </a></b>	        // dmsca cmp use 6 bytes random.
+<b><a name="line145">145    </a></b>	        phal_sec_get_true_rand(sizeof(rng), (U8 *)rng);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "phal_sec_get_true_rand" is unused.</font>
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	        // Use dmsca cmp.
+<b><a name="line148">148    </a></b>	        return hal_sec_dmsca_def_cmp((U8 *)(U32 *)data_buf_addr, (U8 *)(U32 *)cmp_buf_addr, compare_len, compare_len, (U8 *)rng);
+<b><a name="line149">149    </a></b>	    }
+<b><a name="line150">150    </a></b>	    else
+<b><a name="line151">151    </a></b>	    {
+<b><a name="line152">152    </a></b>	        // dmsca cmp is disabled, use memcmp
+<b><a name="line153">153    </a></b>	        if (0 != memcmp((void *)(U32 *)data_buf_addr, (void *)(U32 *)cmp_buf_addr, compare_len))
+<b><a name="line154">154    </a></b>	        {
+<b><a name="line155">155    </a></b>	            return HAL_SEC_DMSCA_FAIL;
+<b><a name="line156">156    </a></b>	        }
+<b><a name="line157">157    </a></b>	        else
+<b><a name="line158">158    </a></b>	        {
+<b><a name="line159">159    </a></b>	            return HAL_SEC_DMSCA_PASS;
+<b><a name="line160">160    </a></b>	        }
+<b><a name="line161">161    </a></b>	    }
+<b><a name="line162">162    </a></b>	}
+<b><a name="line163">163    </a></b>	
+</pre></body>
+</html>

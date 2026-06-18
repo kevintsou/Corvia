@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	        // sync to oob nvme-mi admin response dw 0
+<b><a name="line380">380    </a></b>	        host->hcpl.dw0  = 0;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	        // sync to oob nvme-mi admin response dw 1
+<b><a name="line383">383    </a></b>	        host->hcpl.dw1  = 0;
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	        // sync to oob nvme-mi admin response dw 3
+<b><a name="line386">386    </a></b>	        host->hcpl.sc   = 0;
+<b><a name="line387">387    </a></b>	        host->hcpl.sct  = 0;
+<b><a name="line388">388    </a></b>	        host->hcpl.more = 0;
+<b><a name="line389">389    </a></b>	        host->hcpl.dnr  = 0;
+<b><a name="line390">390    </a></b>	    }
+<b><a name="line391">391    </a></b>	}
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	static void host_nud_dma(U32 buf_addr, U32 spr_addr, U16 ctag, U32 byte_cnt, U8 op)
+<b><a name="line394">394    </a></b>	{
+<b><a name="line395">395    </a></b>	    HAL_APU_FW_BCMD_SQ_HW apu_sq;
+<b><a name="line396">396    </a></b>	    HAL_APU_TRIG_DMA_PARAM fw_buf_ready;
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    U32 cur_buf_addr  = buf_addr;
+<b><a name="line399">399    </a></b>	    U32 cur_4k_cnt    = 0;
+<b><a name="line400">400    </a></b>	    U32 total_4k_cnt  = get_4k_cnt(byte_cnt);
+<b><a name="line401">401    </a></b>	    U32 remain_4K_cnt = total_4k_cnt;
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    hal_cmgr_set_ct_rlbn(ctag, total_4k_cnt);
+<b><a name="line404">404    </a></b>	
+<b><a name="line405">405    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_DMA_RDY, 200);
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	    while ( remain_4K_cnt ) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "remain_4K_cnt", taking true branch.</font>
+<b><a name="line408">408    </a></b>	        memset((void *)&fw_buf_ready, 0x0U, sizeof(HAL_APU_TRIG_DMA_PARAM));
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	        fw_buf_ready.ctag              = ctag;
+<b><a name="line411">411    </a></b>	        fw_buf_ready.ud                = 0U;
+<b><a name="line412">412    </a></b>	        fw_buf_ready.fst               = (cur_4k_cnt == 0U) ? TRUE : FALSE;                // first 4k
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "cur_4k_cnt == 0U", taking true branch.</font>
+<b><a name="line413">413    </a></b>	        fw_buf_ready.lst               = (cur_4k_cnt == total_4k_cnt - 1) ? TRUE : FALSE;  // last 4K
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "cur_4k_cnt == total_4k_cnt - 1", taking true branch.</font>
+<b><a name="line414">414    </a></b>	        fw_buf_ready.dir               = (op == NUD_DMA_WRITE) ? NUD_DMA_WRITE : NUD_DMA_READ;
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "op == 1", taking true branch.</font>
+<b><a name="line415">415    </a></b>	        fw_buf_ready.node_tag          = 0U;
+<b><a name="line416">416    </a></b>	        fw_buf_ready.buf_addr_l        = (U32)(cur_buf_addr);
+<b><a name="line417">417    </a></b>	        fw_buf_ready.buf_addr_h        = 0;
+<b><a name="line418">418    </a></b>	        fw_buf_ready.spr_addr_l        = spr_addr;
+<b><a name="line419">419    </a></b>	        fw_buf_ready.spr_addr_h        = 0;
+<b><a name="line420">420    </a></b>	        fw_buf_ready.fw_bcmd.tbc       = byte_cnt;
+<b><a name="line421">421    </a></b>	        fw_buf_ready.fw_bcmd.offset    = 0U;
+<b><a name="line422">422    </a></b>	        fw_buf_ready.fw_bcmd.dma_done  = 0U;
+<b><a name="line423">423    </a></b>	        fw_buf_ready.fw_bcmd.err_info  = 0U;
+<b><a name="line424">424    </a></b>	        fw_buf_ready.fw_bcmd.acpl      = 0U;
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	        hal_apu_fill_fw_bcmd_sq(&apu_sq, &fw_buf_ready);
+<b><a name="line427">427    </a></b>	        Dump_NVME(tprintf("NUD DMA %x %x %x %x %x",apu_sq.header, apu_sq.all[0], apu_sq.all[1], apu_sq.all[2], apu_sq.all[3]));
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_db_api_get_full(2U) == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 == mabiao_chk(mabiao_addr)", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_db_api_get_full(2U) == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 == mabiao_chk(mabiao_addr)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Breaking from loop.</font>
+<b><a name="line430">430    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_push(&apu_sq, sizeof(HAL_APU_FW_BCMD_SQ_HW), HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xff << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "255", is not allowed.  The shift amount is 24.</font>
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	        cur_buf_addr = cur_buf_addr + LC_BYTE_SIZE;
+<b><a name="line433">433    </a></b>	        --remain_4K_cnt;
+<b><a name="line434">434    </a></b>	        ++cur_4k_cnt;
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line437">437    </a></b>	            break;
+<b><a name="line438">438    </a></b>	        }
+<b><a name="line439">439    </a></b>	    }
+<b><a name="line440">440    </a></b>	}
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	static void nvme_security_send(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line443">443    </a></b>	{
+<b><a name="line444">444    </a></b>	    Dump_NVME(tprintf("  >> sec send.\n\r"));
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    U32 buf_base  = host->buffer_base;
+<b><a name="line447">447    </a></b>	    U32 buf_addr  = buf_base;
+<b><a name="line448">448    </a></b>	    U32 byte_cnt  = host->sq_cmd.payload_opt.raw.cdw11;
+<b><a name="line449">449    </a></b>	    U8      secp  = host->sq_cmd.payload_opt.adm.adm_sec_send.secp;
+<b><a name="line450">450    </a></b>	    U8     spsp0  = host->sq_cmd.payload_opt.adm.adm_sec_send.spsp0;
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    VUC_DISPATCH_PTR vuc_dispatch = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><a name="line453">453    </a></b>	
+<b><a name="line454">454    </a></b>	    if (secp == 0xFE && ((spsp0 == SCSI_PASS_THROUGH_SEND_SQ) || (spsp0 == SCSI_PASS_THROUGH_WRITE_DATA))) {
+<b><a name="line455">455    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_WRITE);
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	        if (SCSI_PASS_THROUGH_SEND_SQ == spsp0) {
+<b><a name="line458">458    </a></b>	            Dump_NVME(tprintf("      >> Send SQ.\n\r "));
+<b><a name="line459">459    </a></b>	            vuc_dispatch->mode = VUC_HANDLER_PACKET_MODE;
+<b><a name="line460">460    </a></b>	            vuc_sq_rcv();
+<b><a name="line461">461    </a></b>	            vuc_packet_handler(vuc_dispatch);
+</pre></body>
+</html>

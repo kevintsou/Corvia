@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line213">213    </a></b>	                {
+<b><a name="line214">214    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, &addr[ADR_FTA_ROW_ADR_OFST], row_addr_num);
+<b><a name="line215">215    </a></b>	                }
+<b><a name="line216">216    </a></b>	                else
+<b><a name="line217">217    </a></b>	                {
+<b><a name="line218">218    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, addr, (col_addr_num + row_addr_num));
+<b><a name="line219">219    </a></b>	                }
+<b><a name="line220">220    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line221">221    </a></b>	                break;
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	            case INST_ADR:      //0x02
+<b><a name="line224">224    </a></b>	            case INST_ADR_RTY:  //0x0A
+<b><a name="line225">225    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &(cmd_info_ptr->data[cmd_info_ptr->data_id]), 1U);
+<b><a name="line226">226    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line227">227    </a></b>	                cmd_info_ptr->data_id ++;
+<b><a name="line228">228    </a></b>	                break;
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	            case INST_PLANE_ADR_RTY:    //0x0C
+<b><a name="line231">231    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &gFplApiStruct.plane_adr_tbl[plane], 1U);
+<b><a name="line232">232    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line233">233    </a></b>	                break;
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	            case INST_DIE_ADR:      //0x0F
+<b><a name="line236">236    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &die, 1U);
+<b><a name="line237">237    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line238">238    </a></b>	                break;
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	            case INST_ACRR_ADR:     //0x0B
+<b><a name="line241">241    </a></b>	                memset((void *)retry_addr, 0U, sizeof(retry_addr));
+<b><a name="line242">242    </a></b>	                retry_addr_num = 1U + ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U]) & ACRR_ADR_RTY_CYCLE_MASK);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1UL + (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & 0x1fUL)" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line243">243    </a></b>	                if (retry_tbl == NULL)   // NOR READ SEQ
+<b><a name="line244">244    </a></b>	                {
+<b><a name="line245">245    </a></b>	                    if (gFplApiStruct.acrr_enable == TRUE)
+<b><a name="line246">246    </a></b>	                    {
+<b><a name="line247">247    </a></b>	                        buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);    // micron 1 addr = 0x00 , hynix V6 4 addr = 0x00
+<b><a name="line248">248    </a></b>	                    }
+<b><a name="line249">249    </a></b>	                }
+<b><a name="line250">250    </a></b>	                else    // RETRY SEQ
+<b><a name="line251">251    </a></b>	                {
+<b><a name="line252">252    </a></b>	                    if (gFplApiStruct.adr_rty_en == FALSE)
+<b><a name="line253">253    </a></b>	                    {
+<b><a name="line254">254    </a></b>	                        memcpy((void*)retry_addr, (void*)retry_tbl, EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line255">255    </a></b>	                    }
+<b><a name="line256">256    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);
+<b><a name="line257">257    </a></b>	                }
+<b><a name="line258">258    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line259">259    </a></b>	                break;
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	            case INST_ADR_RTY_C:        //0x09
+<b><a name="line262">262    </a></b>	                gFplApiStruct.adr_rty_en = TRUE;
+<b><a name="line263">263    </a></b>	                memset((void *)retry_addr, 0U, sizeof(retry_addr));
+<b><a name="line264">264    </a></b>	                retry_addr_num = 1U + ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U]) & ACRR_ADR_RTY_CYCLE_MASK);
+<b><a name="line265">265    </a></b>	                if (retry_tbl != NULL)
+<b><a name="line266">266    </a></b>	                {
+<b><a name="line267">267    </a></b>	                    memcpy((void*)retry_addr, (void*)retry_tbl, EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line268">268    </a></b>	                }
+<b><a name="line269">269    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);
+<b><a name="line270">270    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line271">271    </a></b>	                break;
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	            case INST_CMD_00h:      //0x10
+</pre></body>
+</html>

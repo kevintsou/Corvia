@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/nvme_mi/framework_nvme_mi.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _FRAMEWORK_NVME_MI_H_
+<b><a name="line2">2    </a></b>	#define _FRAMEWORK_NVME_MI_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FRAMEWORK_NVME_MI_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// NVMe Management Interface v2.1
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line9">9    </a></b>	/*************************************************************************************************
+<b><a name="line10">10    </a></b>	 * NVMe Management Interface v2.0
+<b><a name="line11">11    </a></b>	 *************************************************************************************************/
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	/*************************************************************************************************
+<b><a name="line14">14    </a></b>	 * 2. Physical Layer
+<b><a name="line15">15    </a></b>	 *************************************************************************************************/
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	/*************************************************************************************************
+<b><a name="line18">18    </a></b>	 * 3. Message Transport
+<b><a name="line19">19    </a></b>	 *************************************************************************************************/
+<b><a name="line20">20    </a></b>	// 3.1 NVMe-MI Messages
+<b><a name="line21">21    </a></b>	#define NVME_MI_MESSAGE_MAX_SIZE        (4224U)     // 4KB + 128B
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	/*************************************************************************************************
+<b><a name="line25">25    </a></b>	 * 5. Management Interface Command Set
+<b><a name="line26">26    </a></b>	 *************************************************************************************************/
+<b><a name="line27">27    </a></b>	// Figure 66: NVMe-MI Command Request Message Format
+<b><a name="line28">28    </a></b>	typedef struct {
+<b><a name="line29">29    </a></b>	    // byte 0
+<b><a name="line30">30    </a></b>	    U32 bMsgType                : 7;
+<b><a name="line31">31    </a></b>	    U32 btIntegrityCheck        : 1;
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    // byte 1
+</pre></body>
+</html>

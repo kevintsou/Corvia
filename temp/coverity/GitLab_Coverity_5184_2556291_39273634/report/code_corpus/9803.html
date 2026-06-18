@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line472">472    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line473">473    </a></b>	#endif
+<b><a name="line474">474    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 32U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line475">475    </a></b>	
+<b><a name="line476">476    </a></b>	    // Dump mactag
+<b><a name="line477">477    </a></b>	    Dump_Debug(tprintf("Dump mactag : "));
+<b><a name="line478">478    </a></b>	    Dump_Debug(tprintm((U32)(data_buf + 2048), 8));
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    // Dump mactag
+<b><a name="line481">481    </a></b>	    Dump_Debug(tprintf("Dump mactag from host: "));
+<b><a name="line482">482    </a></b>	    Dump_Debug(tprintm((U32)mactagv, 8));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    drbg_get_try_limit_rng_data(&gRnghealth, sizeof(rng), rng);
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    if (HAL_SEC_DMSCA_PASS == hal_sec_dmsca_def_cmp((U8 *)mactagv, (U8 *)(data_buf + 2048), 8U, 8U, rng)) {
+<b><a name="line487">487    </a></b>	        p_vuc_protect->verify_fail_count = 0;
+<b><a name="line488">488    </a></b>	        p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_PASS;
+<b><a name="line489">489    </a></b>	        vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line490">490    </a></b>	        Dump_Debug(tprintf("VUCL P"));
+<b><a name="line491">491    </a></b>	        // reset
+<b><a name="line492">492    </a></b>	        memset((void *)data_buf, 0U, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line493">493    </a></b>	        return FALSE;
+<b><a name="line494">494    </a></b>	    }
+<b><a name="line495">495    </a></b>	    else {
+<b><a name="line496">496    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line497">497    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line500">500    </a></b>	        // reset
+<b><a name="line501">501    </a></b>	        memset((void *)data_buf, 0U, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "data_buf" of type "U32" is cast to type "void *".</font>
+<b><a name="line502">502    </a></b>	        return TRUE;
+<b><a name="line503">503    </a></b>	    }
+<b><a name="line504">504    </a></b>	}
+<b><a name="line505">505    </a></b>	
+<b><a name="line506">506    </a></b>	/**
+<b><a name="line507">507    </a></b>	 * @brief Reset VUC protection state
+<b><a name="line508">508    </a></b>	 *
+<b><a name="line509">509    </a></b>	 */
+<b><a name="line510">510    </a></b>	void vuc_disable_vuc(void)
+<b><a name="line511">511    </a></b>	{
+<b><a name="line512">512    </a></b>	    gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line513">513    </a></b>	}
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	/**
+<b><a name="line516">516    </a></b>	 * @brief Init flow for vuc protection
+<b><a name="line517">517    </a></b>	 *
+<b><a name="line518">518    </a></b>	 * @param p_vuc_protect vuc protect structure pointer
+<b><a name="line519">519    </a></b>	 * @param protect_level_default default vuc protect state
+<b><a name="line520">520    </a></b>	 */
+<b><a name="line521">521    </a></b>	void vuc_protect_init(U32 protect_level_default)
+<b><a name="line522">522    </a></b>	{
+<b><a name="line523">523    </a></b>	    U8 result;
+<b><a name="line524">524    </a></b>	    if(gBCodeGlobalStruct.p_efuse_security_setting->kat_enable){
+<b><a name="line525">525    </a></b>	        result = host_sec_kat_vuc(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><a name="line526">526    </a></b>	        if (KAT_ERROR_NONE != result){
+<b><a name="line527">527    </a></b>	            gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line528">528    </a></b>	            gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line529">529    </a></b>	            return;
+<b><a name="line530">530    </a></b>	        }
+<b><a name="line531">531    </a></b>	    }
+<b><a name="line532">532    </a></b>	
+</pre></body>
+</html>

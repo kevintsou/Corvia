@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line890">890    </a></b>	    return uwByteCount;
+<b><a name="line891">891    </a></b>	}
+<b><a name="line892">892    </a></b>	
+<b><a name="line893">893    </a></b>	/*!
+<b><a name="line894">894    </a></b>	   @brief      Return total return length including (1) byte cnt length and (2) data length
+<b><a name="line895">895    </a></b>	
+<b><a name="line896">896    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line897">897    </a></b>	   @return     U8
+<b><a name="line898">898    </a></b>	 */
+<b><a name="line899">899    </a></b>	static U8 RpReadGetTotalReturnLength(SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line900">900    </a></b>	{
+<b><a name="line901">901    </a></b>	    return (SMBUS_BYTE_CNT_LEN + pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST] + SMBUS_PEC_LEN);
+<b><a name="line902">902    </a></b>	}
+<b><a name="line903">903    </a></b>	
+<b><a name="line904">904    </a></b>	/*!
+<b><a name="line905">905    </a></b>	   @brief      For invalid read commands, need to return value, otherwise the smbus clock will be busy
+<b><a name="line906">906    </a></b>	
+<b><a name="line907">907    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line908">908    </a></b>	   @param      ubCmdCode         recovery command code
+<b><a name="line909">909    </a></b>	   @param      eErrReadCase      enum of error read case
+<b><a name="line910">910    </a></b>	 */
+<b><a name="line911">911    </a></b>	static void RpReadErrorHandler(SMBUS_BUFFER_T *pSmbsTx, U8 ubCmdCode, RP_ERR_READ_CASE eErrReadCase)
+<b><a name="line912">912    </a></b>	{
+<b><a name="line913">913    </a></b>	    Dump_OCP(tprintf("  - Error (return all %x)", eErrReadCase));
+<b><a name="line914">914    </a></b>	
+<b><a name="line915">915    </a></b>	    pSmbsTx->uwOffset = 0U;
+<b><a name="line916">916    </a></b>	    pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST] = RpReadGetFollowingDataByteCount(ubCmdCode);
+<b><a name="line917">917    </a></b>	    pSmbsTx->uwCount = RpReadGetTotalReturnLength(pSmbsTx);
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    memset((void *)&pSmbsTx->pdata.pu8[SMBS_TX_DATA_OFST], eErrReadCase, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line920">920    </a></b>	
+<b><a name="line921">921    </a></b>	    bRpReadUnsupportedCmd = FALSE;
+<b><a name="line922">922    </a></b>	}
+<b><a name="line923">923    </a></b>	
+<b><a name="line924">924    </a></b>	
+<b><a name="line925">925    </a></b>	
+<b><a name="line926">926    </a></b>	
+<b><a name="line927">927    </a></b>	
+<b><a name="line928">928    </a></b>	/*******************************************************************************************************
+<b><a name="line929">929    </a></b>	 * Recovery Process - Write Command Handler
+<b><a name="line930">930    </a></b>	 *******************************************************************************************************/
+<b><a name="line931">931    </a></b>	
+<b><a name="line932">932    </a></b>	 /*!
+<b><a name="line933">933    </a></b>	   @brief      OCP recovery process write command handler
+<b><a name="line934">934    </a></b>	
+<b><a name="line935">935    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line936">936    </a></b>	   @param      ubCmdCode         recovery command code
+<b><a name="line937">937    </a></b>	   @param      pSmbsRx           pointer to SMBus slave RX buffer
+<b><a name="line938">938    </a></b>	 */
+<b><a name="line939">939    </a></b>	static void RpWriteCmdHandler(ACROT_DATA *pACRotData, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsRx)
+<b><a name="line940">940    </a></b>	{
+<b><a name="line941">941    </a></b>	    /*
+<b><a name="line942">942    </a></b>	     *  Data format recieved in SMBS RX:
+<b><a name="line943">943    </a></b>	     *  Block Write: cmd_code + data_cnt (may be 0) + data_1 + data_2 + ... + data_255(max) + PEC (1 byte)
+<b><a name="line944">944    </a></b>	     *  PEC is caculated from cmd_code to the final data
+<b><a name="line945">945    </a></b>	     *
+<b><a name="line946">946    </a></b>	     *  e.g. Received data = 0x40 0x02 0x82 0x99 0x10
+<b><a name="line947">947    </a></b>	     *  In this case, pSmbsRx->uwCount = 5 (total received byte cnt)
+<b><a name="line948">948    </a></b>	     *  0x40: (byte 0) cmd_code
+<b><a name="line949">949    </a></b>	     *  0x02: (byte 1) data_cnt -> depends on recovery command data size (e.g. DEVICE_RESET = 0x03)
+<b><a name="line950">950    </a></b>	     *  0x82: (byte 2) data_1
+</pre></body>
+</html>

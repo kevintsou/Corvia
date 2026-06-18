@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	        //Key is located at after the original data
+<b><a name="line1302">1302    </a></b>	        key_address = data_address + data_size;
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	        //Signature is located right after the key, aligned to 512B
+<b><a name="line1305">1305    </a></b>	        signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><a name="line1306">1306    </a></b>	        signature_size = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line1307">1307    </a></b>	
+<b><a name="line1308">1308    </a></b>	        //The protected message starts from the start of the data to before the signature
+<b><a name="line1309">1309    </a></b>	        //This includes the key within the protected area
+<b><a name="line1310">1310    </a></b>	        message_address = data_address;
+<b><a name="line1311">1311    </a></b>	        message_size = signature_address - data_address;
+<b><a name="line1312">1312    </a></b>	
+<b><a name="line1313">1313    </a></b>	        //Make sure mmul64 is enabled
+<b><a name="line1314">1314    </a></b>	        // if (BIT1 != (algorithm_settings & (BIT2 | BIT1)))
+<b><a name="line1315">1315    </a></b>	        if (ALGORITHM_SETTINGS_MMUL_64x64 != GET_ALGORITHM_SETTINGS_MMUL(algorithm_settings)) {
+<b><a name="line1316">1316    </a></b>	            return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_SETTING;
+<b><a name="line1317">1317    </a></b>	        }
+<b><a name="line1318">1318    </a></b>	        break;
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3:
+<b><a name="line1321">1321    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sw_sm2_sm3(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1322">1322    </a></b>	        return check_project_binary_error;
+<b><a name="line1323">1323    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192:
+<b><a name="line1324">1324    </a></b>	        check_project_binary_error = check_project_binary_code_sign_lms_sha256_192(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1325">1325    </a></b>	        return check_project_binary_error;
+<b><a name="line1326">1326    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9:
+<b><a name="line1327">1327    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sm9(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1328">1328    </a></b>	        return check_project_binary_error;
+<b><a name="line1329">1329    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH:
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">This switch clause does not end with an unconditional break statement.</font>
+<b><a name="line1330">1330    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, FALSE);
+<b><a name="line1331">1331    </a></b>	        return check_project_binary_error;
+<b><a name="line1332">1332    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE:
+<b><a name="line1333">1333    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, TRUE);
+<b><a name="line1334">1334    </a></b>	        return check_project_binary_error;
+<b><a name="line1335">1335    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ:
+<b><a name="line1336">1336    </a></b>	        check_project_binary_error = check_project_binary_code_sign_kaz(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1337">1337    </a></b>	        return check_project_binary_error;
+<b><a name="line1338">1338    </a></b>	    default:
+<b><a name="line1339">1339    </a></b>	        // This should never occur as algorithm_type is checked earlier
+<b><a name="line1340">1340    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1341">1341    </a></b>	    }
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	    //Set the various buffers required for verification
+<b><a name="line1344">1344    </a></b>	    switch (algorithm_type) {
+<b><a name="line1345">1345    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1346">1346    </a></b>	
+<b><a name="line1347">1347    </a></b>	        hash_buffer       = calculation_buffer;
+<b><a name="line1348">1348    </a></b>	        decryption_buffer = hash_buffer + SECTOR_SIZE;
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	        //TODO this should be done when copying into the PKE buffers, instead of
+<b><a name="line1351">1351    </a></b>	        //TODO Maybe split it up so that a function gives out the address of all the components
+<b><a name="line1352">1352    </a></b>	        //A buffer to store key in the correct endian for input to the PKE
+<b><a name="line1353">1353    </a></b>	        signature_endian_buffer = decryption_buffer       + SECTOR_SIZE;
+<b><a name="line1354">1354    </a></b>	        mgf_buffer              = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1355">1355    </a></b>	        mask_buffer             = mgf_buffer              + SECTOR_SIZE;
+<b><a name="line1356">1356    </a></b>	        temp_buffer             = mask_buffer             + SECTOR_SIZE;
+<b><a name="line1357">1357    </a></b>	        key_endian_buffer       = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1358">1358    </a></b>	
+<b><a name="line1359">1359    </a></b>	        memcpy((void *)signature_endian_buffer, (void *)signature_address, signature_size);
+<b><a name="line1360">1360    </a></b>	        memcpy((void *)key_endian_buffer, (void *)key_address, key_size);
+</pre></body>
+</html>

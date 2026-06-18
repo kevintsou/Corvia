@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2108">2108    </a></b>	            ret = 0U;
+<b><a name="line2109">2109    </a></b>	            break;
+<b><a name="line2110">2110    </a></b>	        }
+<b><a name="line2111">2111    </a></b>	    }
+<b><a name="line2112">2112    </a></b>	
+<b><a name="line2113">2113    </a></b>	    return ret;
+<b><a name="line2114">2114    </a></b>	}
+<b><a name="line2115">2115    </a></b>	
+<b><a name="line2116">2116    </a></b>	/*!
+<b><a name="line2117">2117    </a></b>	 * @brief end of mdll tracking. return non-zero if mdll tracking was failed
+<b><a name="line2118">2118    </a></b>	 *
+<b><a name="line2119">2119    </a></b>	 * -
+<b><a name="line2120">2120    </a></b>	 *
+<b><a name="line2121">2121    </a></b>	 * @return    0: pass, other: fail
+<b><a name="line2122">2122    </a></b>	 * @note
+<b><a name="line2123">2123    </a></b>	 *
+<b><a name="line2124">2124    </a></b>	 * -
+<b><a name="line2125">2125    </a></b>	 *
+<b><a name="line2126">2126    </a></b>	 */
+<b><a name="line2127">2127    </a></b>	U8 dal_fip_mdll_tracking_end(void)
+<b><a name="line2128">2128    </a></b>	{
+<b><a name="line2129">2129    </a></b>	    U8 ch;
+<b><a name="line2130">2130    </a></b>	    U8 ret = 0U;
+<b><a name="line2131">2131    </a></b>	
+<b><a name="line2132">2132    </a></b>	    // -----------------------------------------------
+<b><a name="line2133">2133    </a></b>	    // Tracking Done
+<b><a name="line2134">2134    </a></b>	    // -----------------------------------------------
+<b><a name="line2135">2135    </a></b>	    for (ch = 0U; ch < DAL_FIP_CH_NUM; ch++) {
+<b><a name="line2136">2136    </a></b>	        ret = r_FLH_DLL_MDLL_TRK_FAIL(ch);
+<b><a name="line2137">2137    </a></b>	        if (ret != 0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "ret" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line2138">2138    </a></b>	            goto end;
+<b><a name="line2139">2139    </a></b>	        }
+<b><a name="line2140">2140    </a></b>	        w_FLH_FPHI_CTL_RX_RDLL_MD(ch, 0U);
+<b><a name="line2141">2141    </a></b>	        w_FLH_FPHI_CTL_RX_RDLL_MD_D180(ch, 0U);
+<b><a name="line2142">2142    </a></b>	#if 0   //PS5303: TBC
+<b><a name="line2143">2143    </a></b>	        w_FLH_FPHI_CTL_RX_RDLL_MD_D360(ch, 0U);
+<b><a name="line2144">2144    </a></b>	#endif
+<b><a name="line2145">2145    </a></b>	        w_FLH_FPHI_CTL_TX_WDLL_MD(ch, 0U);
+<b><a name="line2146">2146    </a></b>	    }
+<b><a name="line2147">2147    </a></b>	
+<b><a name="line2148">2148    </a></b>	end:
+<b><a name="line2149">2149    </a></b>	    return ret;
+<b><a name="line2150">2150    </a></b>	}
+<b><a name="line2151">2151    </a></b>	
+<b><a name="line2152">2152    </a></b>	/*!
+<b><a name="line2153">2153    </a></b>	 * @brief
+<b><a name="line2154">2154    </a></b>	 *
+<b><a name="line2155">2155    </a></b>	 * -
+<b><a name="line2156">2156    </a></b>	 *
+<b><a name="line2157">2157    </a></b>	 * @return    None
+<b><a name="line2158">2158    </a></b>	 * @note
+<b><a name="line2159">2159    </a></b>	 *
+<b><a name="line2160">2160    </a></b>	 * -
+<b><a name="line2161">2161    </a></b>	 *
+<b><a name="line2162">2162    </a></b>	 */
+<b><a name="line2163">2163    </a></b>	void dal_fip_set_mdll_tracking(void)
+<b><a name="line2164">2164    </a></b>	{
+<b><a name="line2165">2165    </a></b>	    U8 fn_ret;
+<b><a name="line2166">2166    </a></b>	
+<b><a name="line2167">2167    </a></b>	    dal_fip_mdll_tracking_trig();
+<b><a name="line2168">2168    </a></b>	
+</pre></body>
+</html>

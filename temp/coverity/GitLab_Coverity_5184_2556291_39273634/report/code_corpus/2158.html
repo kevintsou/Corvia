@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9016">9016    </a></b>	
+<b><a name="line9017">9017    </a></b>	    test_key = (U8 *)(buf_addr + 0x400U);
+<b><a name="line9018">9018    </a></b>	    for (idx = 0U; idx < 32U; idx++) {
+<b><a name="line9019">9019    </a></b>	        test_key[idx] = idx;
+<b><a name="line9020">9020    </a></b>	    }
+<b><a name="line9021">9021    </a></b>	
+<b><a name="line9022">9022    </a></b>	    data_size = sizeof(TEST_HMAC_KAT_DATA2);
+<b><a name="line9023">9023    </a></b>	    (void)memcpy((void *)(U32 *)src_addr, (void *)&TEST_HMAC_KAT_DATA2[0], data_size);
+<b><a name="line9024">9024    </a></b>	    memset((void *)&sec_hmac_sha_param, 0, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line9025">9025    </a></b>	    sec_hmac_sha_param.key_addr.low         = (U32)&test_key[0];
+<b><a name="line9026">9026    </a></b>	    sec_hmac_sha_param.key_len              = 32U;
+<b><a name="line9027">9027    </a></b>	    sec_hmac_sha_param.sha.sha_mode         = HAL_SEC_SHA2_256_MODE;
+<b><a name="line9028">9028    </a></b>	    sec_hmac_sha_param.sha.src_addr.low     = src_addr;
+<b><a name="line9029">9029    </a></b>	    sec_hmac_sha_param.sha.src_len          = data_size;
+<b><a name="line9030">9030    </a></b>	    sec_hmac_sha_param.sha.targ_addr.low    = (U32)targ_addr;
+<b><a name="line9031">9031    </a></b>	    sec_hmac_sha_param.sha.digest_len       = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line9032">9032    </a></b>	    // sec_hmac_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line9033">9033    </a></b>	    ret = hal_sec_hmac_sha_blocking(&sec_hmac_sha_param);
+<b><a name="line9034">9034    </a></b>	
+<b><a name="line9035">9035    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line9036">9036    </a></b>	         return (KAT_TYPE_HMAC);
+<b><a name="line9037">9037    </a></b>	    }
+<b><a name="line9038">9038    </a></b>	
+<b><a name="line9039">9039    </a></b>	
+<b><a name="line9040">9040    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line9041">9041    </a></b>	        return (KAT_TYPE_HMAC | KAT_ERROR_TIMEOUT);
+<b><a name="line9042">9042    </a></b>	    }
+<b><a name="line9043">9043    </a></b>	
+<b><a name="line9044">9044    </a></b>	    if (memcmp((U32 *)targ_addr, (U32 * )TEST_HMAC_KAT_MAC_256_ANS2, HAL_SEC_SHA2_256_DIGEST_LEN) != 0) {
+<b><a name="line9045">9045    </a></b>	        return (KAT_TYPE_HMAC | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "64" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line9046">9046    </a></b>	    }
+<b><a name="line9047">9047    </a></b>	
+<b><a name="line9048">9048    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9049">9049    </a></b>	}
+<b><a name="line9050">9050    </a></b>	
+<b><a name="line9051">9051    </a></b>	U32 host_sec_hmac_sha2_512_kat(U32 buf_addr)
+<b><a name="line9052">9052    </a></b>	{
+<b><a name="line9053">9053    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line9054">9054    </a></b>	    U8 *test_key;
+<b><a name="line9055">9055    </a></b>	    U8 idx        = 0U;
+<b><a name="line9056">9056    </a></b>	    U32 data_size = 0U;
+<b><a name="line9057">9057    </a></b>	    U32 src_addr   = buf_addr;
+<b><a name="line9058">9058    </a></b>	    U32 targ_addr  = buf_addr + 0x200U;
+<b><a name="line9059">9059    </a></b>	    SEC_HMAC_PARAMS_T sec_hmac_sha_param;
+<b><a name="line9060">9060    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9061">9061    </a></b>	    // TEST_HMAC_KAT_DATA2 = { "Sample message for keylen<blocklen" };
+<b><a name="line9062">9062    </a></b>	    U8 TEST_HMAC_KAT_DATA2[] = {0x53U, 0x61U, 0x6DU, 0x70U, 0x6CU, 0x65U, 0x20U, 0x6DU, 0x65U, 0x73U, 0x73U, 0x61U, 0x67U, 0x65U, 0x20U, 0x66U, 0x6FU, 0x72U, 0x20U, 0x6BU, 0x65U, 0x79U, 0x6CU, 0x65U, 0x6EU, 0x3CU, 0x62U, 0x6CU, 0x6FU, 0x63U, 0x6BU, 0x6CU, 0x65U, 0x6EU};
+<b><a name="line9063">9063    </a></b>	    U8 TEST_HMAC_KAT_MAC_512_ANS2[] = {
+<b><a name="line9064">9064    </a></b>	        0xFDU, 0x44U, 0xC1U, 0x8BU, 0xDAU, 0x0BU, 0xB0U, 0xA6U, 0xCEU, 0x0EU, 0x82U, 0xB0U, 0x31U, 0xBFU, 0x28U, 0x18U, 0xF6U, 0x53U, 0x9BU, 0xD5U,
+<b><a name="line9065">9065    </a></b>	        0x6EU, 0xC0U, 0x0BU, 0xDCU, 0x10U, 0xA8U, 0xA2U, 0xD7U, 0x30U, 0xB3U, 0x63U, 0x4DU, 0xE2U, 0x54U, 0x5DU, 0x63U, 0x9BU, 0x0FU, 0x2CU, 0xF7U,
+<b><a name="line9066">9066    </a></b>	        0x10U, 0xD0U, 0x69U, 0x2CU, 0x72U, 0xA1U, 0x89U, 0x6FU, 0x1FU, 0x21U, 0x1CU, 0x2BU, 0x92U, 0x2DU, 0x1AU, 0x96U, 0xC3U, 0x92U, 0xE0U, 0x7EU,
+<b><a name="line9067">9067    </a></b>	        0x7EU, 0xA9U, 0xFEU, 0xDCU
+<b><a name="line9068">9068    </a></b>	    };
+<b><a name="line9069">9069    </a></b>	
+<b><a name="line9070">9070    </a></b>	    test_key = (U8 *)(buf_addr + 0x400U);
+<b><a name="line9071">9071    </a></b>	    for (idx = 0U; idx < 64U; idx++) {
+<b><a name="line9072">9072    </a></b>	        test_key[idx] = idx;
+<b><a name="line9073">9073    </a></b>	    }
+<b><a name="line9074">9074    </a></b>	
+<b><a name="line9075">9075    </a></b>	    Dump_SEC(tprintf("HMAC SHA2-512 KAT"));
+<b><a name="line9076">9076    </a></b>	
+</pre></body>
+</html>

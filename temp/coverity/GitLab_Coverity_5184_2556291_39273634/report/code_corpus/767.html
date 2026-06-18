@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	U8 bootcode_hal_uart_api_get_rx_fifo_not_empty_sts(void)
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    return dal_uart_api_get_sts_rx_fifo_not_empty();
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	void bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(U8 value)
+<b><a name="line64">64    </a></b>	{
+<b><a name="line65">65    </a></b>	    dal_uart_api_set_sts_rx_fifo_not_empty(value);
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	U8 bootcode_hal_uart_api_get_rx_fifo_empty(void)
+<b><a name="line69">69    </a></b>	{
+<b><a name="line70">70    </a></b>	    return dal_uart_api_get_rx_fifo_empty();
+<b><a name="line71">71    </a></b>	}
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	void bootcode_hal_uart_api_w_baud_rate(U32 value)
+<b><a name="line74">74    </a></b>	{
+<b><a name="line75">75    </a></b>	    dal_uart_api_set_baud_rate(value);
+<b><a name="line76">76    </a></b>	}
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	void bootcode_hal_uart_api_set_rx_lat_posi(U8 value)
+<b><a name="line79">79    </a></b>	{
+<b><a name="line80">80    </a></b>	    dal_uart_api_set_rx_lat_posi(value);
+<b><a name="line81">81    </a></b>	}
+<b><a name="line82">82    </a></b>	extern U8 gUartInitDone;
+<b><a name="line83">83    </a></b>	void phal_uart_putc(char ubData)
+<b><a name="line84">84    </a></b>	{
+<b><a name="line85">85    </a></b>	    if (!gUartInitDone) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "gUartInitDone" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line86">86    </a></b>	        return;
+<b><a name="line87">87    </a></b>	    }
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	    if (gDisUart == (U8)TRUE) {
+<b><a name="line90">90    </a></b>	        return;
+<b><a name="line91">91    </a></b>	    }
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    // Wait until Tx serial FIFO 1 is empty
+<b><a name="line94">94    </a></b>	    while (dal_uart_api_get_tx_fifo_full(gUartFifo) == (U8)TRUE) {};
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    // Push data to Tx serial FIFO 1
+<b><a name="line97">97    </a></b>	    dal_uart_api_set_tx_fifo_wdata(gUartFifo, ubData);
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    // Wait until Tx serial FIFO 1 is empty
+<b><a name="line100">100    </a></b>	    while (dal_uart_api_get_tx_fifo_full(gUartFifo) == (U8)TRUE) {};
+<b><a name="line101">101    </a></b>	}
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	void phal_uart_put_hex(char ubData)
+<b><a name="line104">104    </a></b>	{
+<b><a name="line105">105    </a></b>	    U8 HexTable[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+<b><a name="line106">106    </a></b>	    phal_uart_putc(HexTable[ubData / 16]);
+<b><a name="line107">107    </a></b>	    phal_uart_putc(HexTable[ubData % 16]);
+<b><a name="line108">108    </a></b>	}
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line403">403    </a></b>	    p_flash_info_content->flash_page_number_per_block  = (1 << gFplApiStruct.page_bit);
+<b><a name="line404">404    </a></b>	    p_flash_info_content->physical_block_number_per_ce = 1U << (gFplApiStruct.block_bit);
+<b><a name="line405">405    </a></b>	    //p_flash_info_content->logical_block_size;
+<b><a name="line406">406    </a></b>	    //p_flash_info_content->die_number_per_ce;
+<b><a name="line407">407    </a></b>	    //p_flash_info_content->current_plane_number = gFplApiStruct.plane_count;       //even, maybe from plane bit / plane count?
+<b><a name="line408">408    </a></b>	
+<b><a name="line409">409    </a></b>	    if (gFplApiStruct.flash_if == 0) {
+<b><a name="line410">410    </a></b>	        p_flash_info_content->current_transfer_mode = 0; //legacy
+<b><a name="line411">411    </a></b>	    }
+<b><a name="line412">412    </a></b>	    else {
+<b><a name="line413">413    </a></b>	        p_flash_info_content->current_transfer_mode = 10;//toggle 1.0
+<b><a name="line414">414    </a></b>	    }
+<b><a name="line415">415    </a></b>	    /*
+<b><a name="line416">416    </a></b>	    p_flash_info_content->flash_pe_cycle_d1;
+<b><a name="line417">417    </a></b>	    p_flash_info_content->flash_pe_cycle_d2_d3;
+<b><a name="line418">418    </a></b>	    */
+<b><a name="line419">419    </a></b>	    p_flash_info_content->flash_ce_bitmap[0] = gFplApiStruct.channel_exist_bitmap; //only for bank0
+<b><a name="line420">420    </a></b>	    //p_flash_info_content->flash_ce_error_bitmap[32];
+<b><a name="line421">421    </a></b>	    p_flash_info_content->physical_block_size = FLH_MAX_LC_PER_PAGE * (1 << gFplApiStruct.page_bit) * gFplApiStruct.plane_count;
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	
+<b><a name="line424">424    </a></b>	
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	    return;
+<b><a name="line427">427    </a></b>	}
+<b><a name="line428">428    </a></b>	#endif
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	void vuc_read_system_info_drive_information(DRIVE_INFORMATION *p_drive_information_content)
+<b><a name="line431">431    </a></b>	{
+<b><a name="line432">432    </a></b>	    /*
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line433">433    </a></b>	    p_drive_information_content->cpu_clock         = 233; //233Mhz
+<b><a name="line434">434    </a></b>	    p_drive_information_content->system_clock      = 280; //28Mhz
+<b><a name="line435">435    </a></b>	    p_drive_information_content->security_clock    = 350; //350Mhz
+<b><a name="line436">436    </a></b>	    p_drive_information_content->flash_read_speed  = 33; //33Mhz? even check
+<b><a name="line437">437    </a></b>	    p_drive_information_content->flash_write_speed = 33; //33Mhz even check
+<b><a name="line438">438    </a></b>	    */
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    memset((void *)(p_drive_information_content->chip_identifier), 0x00, sizeof(p_drive_information_content->chip_identifier));
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_0]  = (U8)BYTE0(hal_chip_id_31_0_get());
+<b><a name="line443">443    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_1]  = (U8)BYTE1(hal_chip_id_31_0_get());
+<b><a name="line444">444    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_2]  = (U8)BYTE2(hal_chip_id_31_0_get());
+<b><a name="line445">445    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_3]  = (U8)BYTE3(hal_chip_id_31_0_get());
+<b><a name="line446">446    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_4]  = (U8)BYTE0(hal_chip_id_63_32_get());
+<b><a name="line447">447    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_5]  = (U8)BYTE1(hal_chip_id_63_32_get());
+<b><a name="line448">448    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_6]  = (U8)BYTE2(hal_chip_id_63_32_get());
+<b><a name="line449">449    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_7]  = (U8)BYTE3(hal_chip_id_63_32_get());
+<b><a name="line450">450    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_8]  = (U8)BYTE0(hal_chip_id_95_64_get());
+<b><a name="line451">451    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_9]  = (U8)BYTE1(hal_chip_id_95_64_get());
+<b><a name="line452">452    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_10] = (U8)BYTE2(hal_chip_id_95_64_get());
+<b><a name="line453">453    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_11] = (U8)BYTE3(hal_chip_id_95_64_get());
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	    /*
+<b><a name="line456">456    </a></b>	    p_drive_information_content->ddr_speed = 2400;//2400Mhz
+<b><a name="line457">457    </a></b>	    p_drive_information_content->ddr_size;
+<b><a name="line458">458    </a></b>	    p_drive_information_content->ddr_type;
+<b><a name="line459">459    </a></b>	    p_drive_information_content->form_factor;
+<b><a name="line460">460    </a></b>	    p_drive_information_content->security_state;
+<b><a name="line461">461    </a></b>	    p_drive_information_content->tcg_status;
+<b><a name="line462">462    </a></b>	    p_drive_information_content->drive_support_attribute;
+<b><a name="line463">463    </a></b>	    p_drive_information_content->write_buffer_size;
+</pre></body>
+</html>

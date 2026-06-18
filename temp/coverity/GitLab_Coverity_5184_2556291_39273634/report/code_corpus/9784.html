@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line140">140    </a></b>	        cid_cnt = *(U16 *)(void *)response_data_base;
+<b><a name="line141">141    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = ((U32)cid_cnt + 1U) * sizeof(U16);
+<b><a name="line142">142    </a></b>	    }
+<b><a name="line143">143    </a></b>	    else {
+<b><a name="line144">144    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_READ_MI_CTRLID; //error byte 8, error bit 0, CTRLID error
+<b><a name="line145">145    </a></b>	    }
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	static void nvme_mi_message_read_mi_struct_controller_info(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base, U16 ctrl_id)
+<b><a name="line149">149    </a></b>	{
+<b><a name="line150">150    </a></b>	    MI_DTYP_CTRL_INFO_STRUCT ctrl_info;
+<b><a name="line151">151    </a></b>	    U16 last_ctrlid;
+<b><a name="line152">152    </a></b>	    U16 routing_id;
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	    routing_id = (U16)(((U16)phal_pcie_get_bus_number(PCIE_PORT_0) << 8U) | (((U16)phal_pcie_get_device_number(PCIE_PORT_0) & 0x1FU) << 3U) | ((U16)0U & 0x7U));
+<b><a name="line155">155    </a></b>	
+<b><a name="line156">156    </a></b>	    (void)memset((void *)(&ctrl_info), 0, sizeof(MI_DTYP_CTRL_INFO_STRUCT));
+<b><a name="line157">157    </a></b>	    ctrl_info.portid    = PCIE_PORT_0;
+<b><a name="line158">158    </a></b>	    ctrl_info.prii      = (U8)phal_pcie_get_routing_id_valid(PCIE_PORT_0);
+<b><a name="line159">159    </a></b>	    ctrl_info.pri       = routing_id;
+<b><a name="line160">160    </a></b>	    ctrl_info.pci_vid   = (U16)phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line161">161    </a></b>	    ctrl_info.pci_did   = (U16)phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line162">162    </a></b>	    ctrl_info.pci_svid  = (U16)phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line163">163    </a></b>	    ctrl_info.pci_sdid  = (U16)phal_pcie_get_subsystem_device_id(PCIE_PORT_0);
+<b><a name="line164">164    </a></b>	
+<b><a name="line165">165    </a></b>	    last_ctrlid = (U16)PCIE_PORT_0;
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	    if (ctrl_id <= last_ctrlid) {
+<b><a name="line168">168    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = sizeof(MI_DTYP_CTRL_INFO_STRUCT);   //in bytes
+<b><a name="line169">169    </a></b>	        (void)memcpy((void *)response_data_base, (void *)(&ctrl_info), sizeof(MI_DTYP_CTRL_INFO_STRUCT));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "response_data_base" of type "U32" is cast to type "void *".</font>
+<b><a name="line170">170    </a></b>	    }
+<b><a name="line171">171    </a></b>	    else {
+<b><a name="line172">172    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_READ_MI_CTRLID; //error byte 8, error bit 0, CTRLID error
+<b><a name="line173">173    </a></b>	    }
+<b><a name="line174">174    </a></b>	}
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	static void nvme_mi_message_read_mi_struct_optional_command_support_list(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base)
+<b><a name="line177">177    </a></b>	{
+<b><a name="line178">178    </a></b>	    MI_DTYP_OPT_SUP_CMD_LIST opt_sup_cmd_list;
+<b><a name="line179">179    </a></b>	
+<b><a name="line180">180    </a></b>	    (void)memset((void *)(&opt_sup_cmd_list), 0, sizeof(MI_DTYP_OPT_SUP_CMD_LIST));
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	    // need support at least one command
+<b><a name="line183">183    </a></b>	    opt_sup_cmd_list.numcmd = 1U;
+<b><a name="line184">184    </a></b>	    opt_sup_cmd_list.opt_supt_cmd.cmdtype.nmimt  = NMIMT_NVME_MI_COMMAND;
+<b><a name="line185">185    </a></b>	    opt_sup_cmd_list.opt_supt_cmd.opcode = NVME_MI_CMD_READ_MI_STRUCT;
+<b><a name="line186">186    </a></b>	
+<b><a name="line187">187    </a></b>	    p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = (U32)(opt_sup_cmd_list.numcmd * sizeof(MI_DTYP_OPT_SUP_CMD_LIST)); // in bytes
+<b><a name="line188">188    </a></b>	    (void)memcpy((void *)response_data_base, (void *)(&opt_sup_cmd_list), sizeof(MI_DTYP_OPT_SUP_CMD_LIST));
+<b><a name="line189">189    </a></b>	}
+<b><a name="line190">190    </a></b>	
+<b><a name="line191">191    </a></b>	static void nvme_mi_message_configuration_set_smbus_freq(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U8 port_id, U8 smbus_i2c_freq, MCTP_TRANSPORT *p_transport)
+<b><a name="line192">192    </a></b>	{
+<b><a name="line193">193    </a></b>	    if ((NVME_MI_SMBUS_PORT_ID == port_id) && (0x0U < smbus_i2c_freq) && (smbus_i2c_freq <= NVME_MI_CFGID_SMBUS_FREQ_1M)) {
+<b><a name="line194">194    </a></b>	        p_transport->smbus_i2c_freq = smbus_i2c_freq;
+<b><a name="line195">195    </a></b>	        p_transport->need_set_freq = TRUE;
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	        //Check if need to set SMBus freq (received Configuration Set before)
+<b><a name="line198">198    </a></b>	        if (p_transport->need_set_freq == TRUE) {
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	            hal_smbm_reset_2();
+</pre></body>
+</html>

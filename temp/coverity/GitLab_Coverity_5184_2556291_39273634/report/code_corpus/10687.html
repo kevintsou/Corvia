@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/log/sal_log.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line82">82    </a></b>	    if (gsSalLogInfo.mlog_en)
+<b><a name="line83">83    </a></b>	    {
+<b><a name="line84">84    </a></b>	        if ((log->offset + sizeof(U32)) <= log->size) {
+<b><a name="line85">85    </a></b>	            *(U32*)&log->start[log->offset] = value;
+<b><a name="line86">86    </a></b>	            log->offset += sizeof(U32);
+<b><a name="line87">87    </a></b>	        }
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	void sal_log_info_init(U32 base, U16 size, U8 uart_en)
+<b><a name="line92">92    </a></b>	{
+<b><a name="line93">93    </a></b>	    sal_log_init(&gsSalLogInfo, base, size, 'I', uart_en);
+<b><a name="line94">94    </a></b>	}
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	void sal_log_info_char(char log_char)
+<b><a name="line97">97    </a></b>	{
+<b><a name="line98">98    </a></b>	    if (gsSalLogInfo.uart_en)
+<b><a name="line99">99    </a></b>	    {
+<b><a name="line100">100    </a></b>	        if (sal_print_is_en())
+<b><a name="line101">101    </a></b>	        {
+<b><a name="line102">102    </a></b>	            phal_uart_putc('\r');
+<b><a name="line103">103    </a></b>	            phal_uart_putc('\n');
+<b><a name="line104">104    </a></b>	        }
+<b><a name="line105">105    </a></b>	        phal_uart_putc(log_char);
+<b><a name="line106">106    </a></b>	    }
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	    if (gsSalLogInfo.mlog_en)
+<b><a name="line109">109    </a></b>	    {
+<b><a name="line110">110    </a></b>	        if (gsSalLogInfo.offset < gsSalLogInfo.size) {
+<b><a name="line111">111    </a></b>	            gsSalLogInfo.start[gsSalLogInfo.offset] = log_char;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">More than one unsequenced read of volatile variable is found in "gsSalLogInfo.start + gsSalLogInfo.offset".</font>
+<b><a name="line112">112    </a></b>	            gsSalLogInfo.offset++;
+<b><a name="line113">113    </a></b>	        }
+<b><a name="line114">114    </a></b>	    }
+<b><a name="line115">115    </a></b>	}
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	void sal_log_info_num(U64 log_num)
+<b><a name="line118">118    </a></b>	{
+<b><a name="line119">119    </a></b>	    U8 nibble_offset;
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    for (nibble_offset = (sizeof(log_num) * 2) - 1; nibble_offset > 0; nibble_offset--) {
+<b><a name="line122">122    </a></b>	        if (0 != ((log_num >> (nibble_offset * 4)) & 0x0F)) {
+<b><a name="line123">123    </a></b>	            break;
+<b><a name="line124">124    </a></b>	        }
+<b><a name="line125">125    </a></b>	    }
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	    for (nibble_offset = (nibble_offset + 1); nibble_offset > 0; nibble_offset--) {
+<b><a name="line128">128    </a></b>	        sal_log_info_char("0123456789abcdef"[((log_num >> ((nibble_offset - 1) * 4)) & 0x0F)]);
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    return;
+<b><a name="line132">132    </a></b>	}
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	char* sal_log_info_get_base(void)
+<b><a name="line135">135    </a></b>	{
+<b><a name="line136">136    </a></b>	    return gsSalLogInfo.start;
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	U16 sal_log_info_get_size(void)
+<b><a name="line140">140    </a></b>	{
+<b><a name="line141">141    </a></b>	    return gsSalLogInfo.size;
+<b><a name="line142">142    </a></b>	}
+</pre></body>
+</html>

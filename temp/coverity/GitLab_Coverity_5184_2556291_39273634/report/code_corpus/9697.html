@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8833">8833    </a></b>	    U32 data_size;
+<b><a name="line8834">8834    </a></b>	    U8 TEST_DATA1[]        = {0x61, 0x62, 0x63};//"abc" ;
+<b><a name="line8835">8835    </a></b>	    U8 TEST_ANS1_256[]     = {0xBAU, 0x78U, 0x16U, 0xBFU, 0x8FU, 0x01U, 0xCFU, 0xEAU, 0x41U, 0x41U, 0x40U, 0xDEU, 0x5DU, 0xAEU, 0x22U, 0x23U, 0xB0U, 0x03U, 0x61U, 0xA3U, 0x96U, 0x17U, 0x7AU, 0x9CU, 0xB4U, 0x10U, 0xFFU, 0x61U, 0xF2U, 0x00U, 0x15U, 0xADU};
+<b><a name="line8836">8836    </a></b>	    SEC_SHA_PARAMS_T         sec_sha_param;
+<b><a name="line8837">8837    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8838">8838    </a></b>	
+<b><a name="line8839">8839    </a></b>	    Dump_SEC(tprintf("SHA2-256 KAT"));
+<b><a name="line8840">8840    </a></b>	    // SHA2 256
+<b><a name="line8841">8841    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line8842">8842    </a></b>	    (void)memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+<b><a name="line8843">8843    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line8844">8844    </a></b>	    sec_sha_param.src_addr.low  = src_addr;
+<b><a name="line8845">8845    </a></b>	    sec_sha_param.src_len       = data_size;
+<b><a name="line8846">8846    </a></b>	    sec_sha_param.targ_addr.low = targ_addr;
+<b><a name="line8847">8847    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_256_MODE;
+<b><a name="line8848">8848    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line8849">8849    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+<b><a name="line8850">8850    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line8851">8851    </a></b>	    ret = phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line8852">8852    </a></b>	
+<b><a name="line8853">8853    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8854">8854    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8855">8855    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TRIGGER);
+<b><a name="line8856">8856    </a></b>	    }
+<b><a name="line8857">8857    </a></b>	
+<b><a name="line8858">8858    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line8859">8859    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TIMEOUT);
+<b><a name="line8860">8860    </a></b>	    }
+<b><a name="line8861">8861    </a></b>	
+<b><a name="line8862">8862    </a></b>	    if (memcmp((U32 *)targ_addr, (U32 * )TEST_ANS1_256, HAL_SEC_SHA2_256_DIGEST_LEN) != 0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "TEST_ANS1_256" of type "U8 *" is cast to type "U32 *".</font>
+<b><a name="line8863">8863    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line8864">8864    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><a name="line8865">8865    </a></b>	    }
+<b><a name="line8866">8866    </a></b>	
+<b><a name="line8867">8867    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line8868">8868    </a></b>	}
+<b><a name="line8869">8869    </a></b>	
+<b><a name="line8870">8870    </a></b>	U32 host_sec_sha2_512_kat(U32 buf_addr)
+<b><a name="line8871">8871    </a></b>	{
+<b><a name="line8872">8872    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line8873">8873    </a></b>	    //	U8 idx;
+<b><a name="line8874">8874    </a></b>	    U32 src_addr  = buf_addr;
+<b><a name="line8875">8875    </a></b>	    U32 targ_addr = buf_addr + 0x200U;
+<b><a name="line8876">8876    </a></b>	    U32 data_size;
+<b><a name="line8877">8877    </a></b>	    U8 TEST_DATA1[]        = {0x61, 0x62, 0x63};//"abc" ;
+<b><a name="line8878">8878    </a></b>	    U8 TEST_ANS1_512[]     = {0xDDU, 0xAFU, 0x35U, 0xA1U, 0x93U, 0x61U, 0x7AU, 0xBAU, 0xCCU, 0x41U, 0x73U, 0x49U, 0xAEU, 0x20U, 0x41U, 0x31U, 0x12U, 0xE6U, 0xFAU, 0x4EU, 0x89U, 0xA9U, 0x7EU, 0xA2U, 0x0AU, 0x9EU, 0xEEU, 0xE6U, 0x4BU, 0x55U, 0xD3U, 0x9AU, 0x21U, 0x92U, 0x99U, 0x2AU, 0x27U, 0x4FU, 0xC1U, 0xA8U, 0x36U, 0xBAU, 0x3CU, 0x23U, 0xA3U, 0xFEU, 0xEBU, 0xBDU, 0x45U, 0x4DU, 0x44U, 0x23U, 0x64U, 0x3CU, 0xE8U, 0x0EU, 0x2AU, 0x9AU, 0xC9U, 0x4FU, 0xA5U, 0x4CU, 0xA4U, 0x9FU};
+<b><a name="line8879">8879    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line8880">8880    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8881">8881    </a></b>	
+<b><a name="line8882">8882    </a></b>	    Dump_SEC(tprintf("SHA2-512 KAT"));
+<b><a name="line8883">8883    </a></b>	
+<b><a name="line8884">8884    </a></b>	    // SHA 512
+<b><a name="line8885">8885    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line8886">8886    </a></b>	    (void )memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+<b><a name="line8887">8887    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line8888">8888    </a></b>	    sec_sha_param.src_addr.low  = src_addr;
+<b><a name="line8889">8889    </a></b>	    sec_sha_param.src_len       = data_size;
+<b><a name="line8890">8890    </a></b>	    sec_sha_param.targ_addr.low = targ_addr;
+<b><a name="line8891">8891    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line8892">8892    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line8893">8893    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+</pre></body>
+</html>

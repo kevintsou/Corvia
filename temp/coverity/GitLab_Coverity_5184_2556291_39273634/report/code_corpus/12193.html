@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1760">1760    </a></b>	                    command_status |= fip_api_res_read_offset(&a_fip_read_param[channel]);
+<b><a name="line1761">1761    </a></b>	                }
+<b><a name="line1762">1762    </a></b>	            }
+<b><a name="line1763">1763    </a></b>	            else {
+<b><a name="line1764">1764    </a></b>	                a_fip_read_param[channel].nand_addr.all = 0U;
+<b><a name="line1765">1765    </a></b>	                a_fip_read_param[channel].nand_addr.all = ((U64)(channel) << gFplApiStruct.addr_rule->rule_ch.shift);
+<b><a name="line1766">1766    </a></b>	
+<b><a name="line1767">1767    </a></b>	                command_status |= fip_api_res_read_offset(&a_fip_read_param[channel]);
+<b><a name="line1768">1768    </a></b>	            }
+<b><a name="line1769">1769    </a></b>	
+<b><a name="line1770">1770    </a></b>	            if (command_status & HAL_STATUS_SET_FEAT_DAT_CMP_FAIL) {
+<b><a name="line1771">1771    </a></b>	                Dump_LoadCode(tprintf("!!!Channel %d ", channel));
+<b><a name="line1772">1772    </a></b>	                Dump_LoadCode(tprintf("(FSA %x) ", a_fip_read_param[channel].nand_addr.all));
+<b><a name="line1773">1773    </a></b>	                Dump_LoadCode(tprintf("Restore Read Offset Error 0x%x", command_status));
+<b><a name="line1774">1774    </a></b>	                sal_log_info_char('O');
+<b><a name="line1775">1775    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all);
+<b><a name="line1776">1776    </a></b>	            }
+<b><a name="line1777">1777    </a></b>	            if (command_status & HAL_STATUS_CQ_HANDLER_TIMEOUT) {
+<b><a name="line1778">1778    </a></b>	                sal_log_info_char('T');
+<b><a name="line1779">1779    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line1780">1780    </a></b>	            }
+<b><a name="line1781">1781    </a></b>	        }
+<b><a name="line1782">1782    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line1783">1783    </a></b>	            if (0U == (ch_bitmap & (1U << channel))) {
+<b><a name="line1784">1784    </a></b>	                continue;
+<b><a name="line1785">1785    </a></b>	            }
+<b><a name="line1786">1786    </a></b>	            polling_status |= fip_api_chk_status(channel, HAL_FLH_CHK_NAND_BUSY);
+<b><a name="line1787">1787    </a></b>	
+<b><a name="line1788">1788    </a></b>	            if (polling_status != 0U) {
+<b><a name="line1789">1789    </a></b>	                a_fip_read_param[channel].nand_addr.all = 0U;
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value "0ULL" to "a_fip_read_param[channel].nand_addr.all" here, but that stored value is overwritten before it can be used.</font>
+<b><a name="line1790">1790    </a></b>	                a_fip_read_param[channel].nand_addr.all = ((U64)(channel) << gFplApiStruct.addr_rule->rule_ch.shift);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event value_overwrite:</font></b> <font face="Arial"; size="3"; color="#FF5959">Overwriting previous write to "a_fip_read_param[channel].nand_addr.all" with value from "(U64)channel << gFplApiStruct.addr_rule->rule_ch.shift".</font>
+<b><a name="line1791">1791    </a></b>	                sal_log_info_char('O');
+<b><a name="line1792">1792    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all);
+<b><a name="line1793">1793    </a></b>	            }
+<b><a name="line1794">1794    </a></b>	        }
+<b><a name="line1795">1795    </a></b>	    }
+<b><a name="line1796">1796    </a></b>	}
+<b><a name="line1797">1797    </a></b>	
+<b><a name="line1798">1798    </a></b>	
+<b><a name="line1799">1799    </a></b>	/**
+<b><a name="line1800">1800    </a></b>	 * Calculates the Chunk Info and Chunk Wordline offset from the
+<b><a name="line1801">1801    </a></b>	 * first Chunk Info of the copy and the Code Wordline.
+<b><a name="line1802">1802    </a></b>	 *
+<b><a name="line1803">1803    </a></b>	 * @param fw_chunk_info_start
+<b><a name="line1804">1804    </a></b>	 *  The first Chunk Info the copy
+<b><a name="line1805">1805    </a></b>	 * @param copy_wordline
+<b><a name="line1806">1806    </a></b>	 *  The Wordline within the copy
+<b><a name="line1807">1807    </a></b>	 */
+<b><a name="line1808">1808    </a></b>	
+<b><a name="line1809">1809    </a></b>	static U32 get_fw_chunk_info_from_slot_wordline(const FW_CHUNK_INFO *a_fw_chunk_info_start, U32 *p_chunk, U32 *p_wordline)
+<b><a name="line1810">1810    </a></b>	{
+<b><a name="line1811">1811    </a></b>	    U32 start_chunk;
+<b><a name="line1812">1812    </a></b>	    U32 wordline_offset;
+<b><a name="line1813">1813    </a></b>	
+<b><a name="line1814">1814    </a></b>	    U8 chunk;
+<b><a name="line1815">1815    </a></b>	
+<b><a name="line1816">1816    </a></b>	    Dump_LoadCode(tprintf("Slot Wordline %d ", (U16)*p_wordline));
+<b><a name="line1817">1817    </a></b>	
+<b><a name="line1818">1818    </a></b>	    //The chunk at input is the starting chunk of this copy
+<b><a name="line1819">1819    </a></b>	    start_chunk = *p_chunk;
+<b><a name="line1820">1820    </a></b>	    //The wordline at input is the logical slot wordline to look for
+<b><a name="line1821">1821    </a></b>	    wordline_offset = *p_wordline;
+</pre></body>
+</html>

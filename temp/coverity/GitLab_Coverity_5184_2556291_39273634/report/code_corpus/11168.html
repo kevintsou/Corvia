@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line781">781    </a></b>	U32 mctp_message_handle_nvme_mi_message(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line782">782    </a></b>	{
+<b><a name="line783">783    </a></b>	    U32 crc_32c;
+<b><a name="line784">784    </a></b>	    U32 message_response_status;
+<b><a name="line785">785    </a></b>	    NVME_MI_MSG_HEADER_PTR p_nvme_mi_msg_header = (NVME_MI_MSG_HEADER_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line786">786    </a></b>	    NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line787">787    </a></b>	
+<b><a name="line788">788    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line789">789    </a></b>	
+<b><a name="line790">790    </a></b>	    //TODO the NVME MI message response should be initialized here and the buffer passed into relevant handling functions
+<b><a name="line791">791    </a></b>	
+<b><a name="line792">792    </a></b>	    //The MCTP Message must have enough data to form the header (MCTP Header + Message Type specific header)
+<b><a name="line793">793    </a></b>	    //There is no Message Type specific header to be parsed at this level
+<b><a name="line794">794    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count < sizeof(NVME_MI_MSG_HEADER)) {
+<b><a name="line795">795    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line796">796    </a></b>	    }
+<b><a name="line797">797    </a></b>	
+<b><a name="line798">798    </a></b>	    // This bit indicates whether the message is a Request Message or Response Message.
+<b><a name="line799">799    </a></b>	    // This bit is cleared to ���0��� for Request Messages. This bit is set to ���1��� for Response Messages.
+<b><a name="line800">800    </a></b>	    if (ROR_REQUEST != p_nvme_mi_msg_header->ror) {
+<b><a name="line801">801    </a></b>	        message_response_status |= PEL_ROR;
+<b><a name="line802">802    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] ROR != Request"));
+<b><a name="line803">803    </a></b>	    }
+<b><a name="line804">804    </a></b>	
+<b><a name="line805">805    </a></b>	    // All NVMe-MI Messages in the out-of-band mechanism shall be protected by a CRC
+<b><a name="line806">806    </a></b>	    // and thus this bit shall be set to ���1��� in all out-of-band NVMe-MI Messages.
+<b><a name="line807">807    </a></b>	    if (1U == p_nvme_mi_msg_header->ic) {
+<b><a name="line808">808    </a></b>	        crc_32c = CRC_32C((U32)p_transmit_handler->request_message_handler.buffer.p_base, (p_transmit_handler->request_message_handler.byte_count - 4U), CRC_32C_INIT);
+<b><a name="line809">809    </a></b>	
+<b><a name="line810">810    </a></b>	        if (memcmp((void *) & (crc_32c), (void *) & (p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_count - 4U]), sizeof(U32))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "memcmp((void *)&crc_32c, (void *)&p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_count - 4UL], 4U)" does not have an essentially boolean type.</font>
+<b><a name="line811">811    </a></b>	            Dump_SMBUS(tprintf(" [MCTP] CRC_32C Is Different"));
+<b><a name="line812">812    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Calculate CRC_32C : %x", crc_32c));
+<b><a name="line813">813    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Message   CRC_32C : %x", (U32)((U32 *)&p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_count - 4U])[0U]));
+<b><a name="line814">814    </a></b>	            message_response_status |= PEL((p_transmit_handler->request_message_handler.byte_count - 4U), 0U);
+<b><a name="line815">815    </a></b>	        }
+<b><a name="line816">816    </a></b>	    }
+<b><a name="line817">817    </a></b>	    else {
+<b><a name="line818">818    </a></b>	        message_response_status |= PEL_IC;
+<b><a name="line819">819    </a></b>	    }
+<b><a name="line820">820    </a></b>	
+<b><a name="line821">821    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line822">822    </a></b>	        switch (p_nvme_mi_msg_header->nmimt) {
+<b><a name="line823">823    </a></b>	        case NMIMT_NVME_MI_COMMAND:
+<b><a name="line824">824    </a></b>	            mctp_message_handle_nvme_mi_command(p_transmit_handler);
+<b><a name="line825">825    </a></b>	            break;
+<b><a name="line826">826    </a></b>	
+<b><a name="line827">827    </a></b>	        case NMIMT_NVME_ADMIN_COMMAND:
+<b><a name="line828">828    </a></b>	            mctp_message_handle_nvme_mi_admin_command(p_transmit_handler);
+<b><a name="line829">829    </a></b>	            break;
+<b><a name="line830">830    </a></b>	
+<b><a name="line831">831    </a></b>	        default :
+<b><a name="line832">832    </a></b>	            message_response_status |= PEL_NMIMT;
+<b><a name="line833">833    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] Bootcode not support message type"));
+<b><a name="line834">834    </a></b>	            break;
+<b><a name="line835">835    </a></b>	        }
+<b><a name="line836">836    </a></b>	    }
+<b><a name="line837">837    </a></b>	
+<b><a name="line838">838    </a></b>	    // response mi format
+<b><a name="line839">839    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS != message_response_status) {
+<b><a name="line840">840    </a></b>	        memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line841">841    </a></b>	
+</pre></body>
+</html>

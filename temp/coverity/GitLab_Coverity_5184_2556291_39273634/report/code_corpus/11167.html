@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_control.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line299">299    </a></b>	                break;
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	            case MCTP_CTRL_MSG_OPC_GET_MCTP_VERSION_SUPPORT:
+<b><a name="line302">302    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_GET_VER_SUP))
+<b><a name="line303">303    </a></b>	                {
+<b><a name="line304">304    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line305">305    </a></b>	                }
+<b><a name="line306">306    </a></b>	                else
+<b><a name="line307">307    </a></b>	                {
+<b><a name="line308">308    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_get_mctp_version_support(p_transmit_handler);
+<b><a name="line309">309    </a></b>	                }
+<b><a name="line310">310    </a></b>	                break;
+<b><a name="line311">311    </a></b>	
+<b><a name="line312">312    </a></b>	            case MCTP_CTRL_MSG_OPC_GET_MESSAGE_TYPE_SUPPORT:
+<b><a name="line313">313    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_GET_MSG_TYPE_SUP))
+<b><a name="line314">314    </a></b>	                {
+<b><a name="line315">315    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line316">316    </a></b>	                }
+<b><a name="line317">317    </a></b>	                else
+<b><a name="line318">318    </a></b>	                {
+<b><a name="line319">319    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_get_message_type_support(p_transmit_handler);
+<b><a name="line320">320    </a></b>	                }
+<b><a name="line321">321    </a></b>	                break;
+<b><a name="line322">322    </a></b>	
+<b><a name="line323">323    </a></b>	            default :
+<b><a name="line324">324    </a></b>	                //Other bootcode not support
+<b><a name="line325">325    </a></b>	                p_mctp_control_resp->param.cpl_code |= MCTP_CTRL_CPL_ERROR_UNSUPPORTED_CMD;
+<b><a name="line326">326    </a></b>	                break;
+<b><a name="line327">327    </a></b>	        }
+<b><a name="line328">328    </a></b>	    } while(0);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "0" does not have an essentially boolean type.</font>
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	    if (MCTP_CTRL_CPL_SUCCESS != p_mctp_control_resp->param.cpl_code)
+<b><a name="line331">331    </a></b>	    {
+<b><a name="line332">332    </a></b>	        response_data_size = 1U; // response completion code
+<b><a name="line333">333    </a></b>	    }
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line336">336    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	    mctp_message_handle_mctp_control_response(&p_transmit_handler->message_info, p_mctp_control_header->instance_id, p_mctp_control_header->command_code, (U8 *)response_data_base, response_data_size);
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	    return 0UL;
+<b><a name="line341">341    </a></b>	}
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	U32 mctp_message_handle_mctp_control_response(MCTP_MESSAGE_INFO *p_source_mctp_message_info, U8 instance_id, U8 command_code, U8 *p_response_data, U32 response_data_size)
+<b><a name="line344">344    </a></b>	{
+<b><a name="line345">345    </a></b>	    U32 send_status;
+<b><a name="line346">346    </a></b>	    MCTP_CONTROL_HEADER mctp_control_header;
+<b><a name="line347">347    </a></b>	    DATA_DESCRIPTOR a_message_descriptor[MCTP_MESSAGE_PARTS_COUNT];
+<b><a name="line348">348    </a></b>	    MCTP_MESSAGE_INFO destination_mctp_message_info;
+<b><a name="line349">349    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	    //-----MCTP Information
+<b><a name="line352">352    </a></b>	    destination_mctp_message_info.p_transport = p_source_mctp_message_info->p_transport;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    switch (destination_mctp_message_info.p_transport->binding) {
+<b><a name="line355">355    </a></b>	    case MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_SMBUS:
+<b><a name="line356">356    </a></b>	        //The defined Slave Address should match Transmit Handler's recorded Slave Address
+<b><a name="line357">357    </a></b>	        mctp_transport_info_init_smbus((MCTP_TRANSPORT_INFO_SMBUS *) & (destination_mctp_message_info.source_transport_info), ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_source_mctp_message_info->source_transport_info))->slave_address);
+<b><a name="line358">358    </a></b>	        destination_mctp_message_info.hdr_verions = MCTP_HEADER_VERSION_MCTP_BASE_1_0_SMBUS_TRANSPORT;
+<b><a name="line359">359    </a></b>	        break;
+</pre></body>
+</html>

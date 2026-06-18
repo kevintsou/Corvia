@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9313">9313    </a></b>	    Dump_SEC(tprintf("KDF-512 KAT"));
+<b><a name="line9314">9314    </a></b>	
+<b><a name="line9315">9315    </a></b>	    memcpy((void *)(U32)key_addr, (void *)&key[0], sizeof(key));
+<b><a name="line9316">9316    </a></b>	    memcpy((void *)(U32)src_addr, (void *)&fixed_input_data[0], sizeof(fixed_input_data));
+<b><a name="line9317">9317    </a></b>	    memcpy((void *)(U32)ans_addr, (void *)&ans[0], sizeof(ans));
+<b><a name="line9318">9318    </a></b>	
+<b><a name="line9319">9319    </a></b>	    // n = 1
+<b><a name="line9320">9320    </a></b>	    memset((void *)&kdf_param, 0U, sizeof(SEC_KDF_PARAMS_T));
+<b><a name="line9321">9321    </a></b>	    kdf_param.key_addr      = key_addr;
+<b><a name="line9322">9322    </a></b>	    kdf_param.key_len       = 64U;
+<b><a name="line9323">9323    </a></b>	    kdf_param.src_addr      = src_addr;
+<b><a name="line9324">9324    </a></b>	    kdf_param.src_len       = 60U;
+<b><a name="line9325">9325    </a></b>	    kdf_param.targ_addr     = targ_addr;
+<b><a name="line9326">9326    </a></b>	    kdf_param.l_len_bit     = 128U;
+<b><a name="line9327">9327    </a></b>	    kdf_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line9328">9328    </a></b>	    kdf_param.r_len_bit     = 8;
+<b><a name="line9329">9329    </a></b>	    kdf_param.timeout_val   = SEC_TIMEOUT_KDF;
+<b><a name="line9330">9330    </a></b>	    ret = phal_sec_hmac_sha2_kdf_counter_mode_blocking(&kdf_param);
+<b><a name="line9331">9331    </a></b>	
+<b><a name="line9332">9332    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line9333">9333    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line9334">9334    </a></b>	        return (KAT_TYPE_KDF | KAT_ERROR_TRIGGER);
+<b><a name="line9335">9335    </a></b>	    }
+<b><a name="line9336">9336    </a></b>	
+<b><a name="line9337">9337    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line9338">9338    </a></b>	        return (KAT_TYPE_KDF | KAT_ERROR_TIMEOUT);
+<b><a name="line9339">9339    </a></b>	    }
+<b><a name="line9340">9340    </a></b>	    if (memcmp((void *)(U32 *)(targ_addr), (void *)(U32 *)(ans_addr), 0x10) != 0) {
+<b><a name="line9341">9341    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9342">9342    </a></b>	        return (KAT_TYPE_KDF | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line9343">9343    </a></b>	    }
+<b><a name="line9344">9344    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9345">9345    </a></b>	}
+<b><a name="line9346">9346    </a></b>	#endif
+<b><a name="line9347">9347    </a></b>	#if KAT_DRBG_EN
+<b><a name="line9348">9348    </a></b>	U32 host_sec_drbg_kat(U32 buf_addr)
+<b><a name="line9349">9349    </a></b>	{
+<b><a name="line9350">9350    </a></b>	    Dump_SEC(tprintf("DRBG KAT"));
+<b><a name="line9351">9351    </a></b>	
+<b><a name="line9352">9352    </a></b>	    U8 status = FALSE;
+<b><a name="line9353">9353    </a></b>	    U32 tmp_len = 0;
+<b><a name="line9354">9354    </a></b>	
+<b><a name="line9355">9355    </a></b>	    U32 out = buf_addr;
+<b><a name="line9356">9356    </a></b>	    tmp_len += 0x100;
+<b><a name="line9357">9357    </a></b>	
+<b><a name="line9358">9358    </a></b>	    DRBG_API_STRUCT_PTR drbg_api_struct_ptr = (DRBG_API_STRUCT_PTR)(buf_addr + 0x100);
+<b><a name="line9359">9359    </a></b>	    tmp_len += 0x200;
+<b><a name="line9360">9360    </a></b>	
+<b><a name="line9361">9361    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr   = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9362">9362    </a></b>	    tmp_len += 0x200;
+<b><a name="line9363">9363    </a></b>	    drbg_api_struct_ptr->drbg_material.seed_material_ptr    = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9364">9364    </a></b>	    tmp_len += 0x200;
+<b><a name="line9365">9365    </a></b>	    drbg_api_struct_ptr->drbg_material.entropy_input_ptr    = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9366">9366    </a></b>	    tmp_len += 0x200;
+<b><a name="line9367">9367    </a></b>	    drbg_api_struct_ptr->drbg_material.personal_str_ptr     = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9368">9368    </a></b>	    tmp_len += 0x200;
+<b><a name="line9369">9369    </a></b>	    drbg_api_struct_ptr->drbg_material.additional_input_ptr = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9370">9370    </a></b>	    tmp_len += 0x200;
+<b><a name="line9371">9371    </a></b>	    drbg_api_struct_ptr->drbg_material.nonce_ptr            = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9372">9372    </a></b>	    tmp_len += 0x200;
+<b><a name="line9373">9373    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_key_buf_ptr     = (U8 *)(buf_addr + tmp_len);
+</pre></body>
+</html>

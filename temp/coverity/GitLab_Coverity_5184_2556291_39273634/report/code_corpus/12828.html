@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_pqc.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_PQC_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_PQC_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_PQC_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	#include "phal/phal_sqz.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	// MLDSA
+<b><a name="line8">8    </a></b>	#define MLDSA_PUBLIC_KEY_BYTE_OFFSET         (8)
+<b><a name="line9">9    </a></b>	#define MLDSA_PUBLIC_KEY_SIZE                (2592)
+<b><a name="line10">10    </a></b>	#define MLDSA_PUBLIC_KEY_PADDING             (472)
+<b><a name="line11">11    </a></b>	#define MLDSA_PK_SECTOR_SIZE                 (MLDSA_PUBLIC_KEY_BYTE_OFFSET + MLDSA_PUBLIC_KEY_SIZE + MLDSA_PUBLIC_KEY_PADDING)
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	#define MLDSA_CTX_DATA_BYTE_OFFSET           (4)
+<b><a name="line14">14    </a></b>	#define CTX_SECTOR_SIZE                      (512)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	void sec_get_lms_info(U32 lms_mode, U32 lmots_mode, U32 *lms_sig_len);
+<b><a name="line17">17    </a></b>	U8  phal_lms_verify(U8 *public_key, void *message, U32 message_len, U8 *signature, U32 signature_len, U32 buffer_addr, LMS_HASH_BUF_T_PTR hash_buf, U8 disable_dmsca);
+<b><a name="line18">18    </a></b>	U32 phal_sec_pqc_mldsa_verify(U8 *sig, U32 siglen, U8 *m, U32 mlen, U8 *pk, HAL_SEC_PQC_MLDSA_BUF_S_PTR mldsa_buf_ptr, U8 disable_dmsca);
+<b><a name="line19">19    </a></b>	U8  phal_mlkem_enc(U8 *pChiperText, U8 *pSharedSecret, U8 *pMLKEMPublicKey, U8 *pMessage, U32 buf_addr);
+<b><a name="line20">20    </a></b>	U32 phal_sec_pqc_kaz_verify(U8 *digest, U8 *sm, U8 *pk, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr);
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	#endif
+<b><a name="line23">23    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9253">9253    </a></b>	
+<b><a name="line9254">9254    </a></b>	    if (phal_rsa_pkcs1v21_verify(&rsa_encode_param) != (((U32)HAL_SEC_RSA_ERR_CODE) | SEC_YES)) {
+<b><a name="line9255">9255    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9256">9256    </a></b>	        return (KAT_TYPE_PKCS | KAT_ERROR_VERIFY);
+<b><a name="line9257">9257    </a></b>	    }
+<b><a name="line9258">9258    </a></b>	
+<b><a name="line9259">9259    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9260">9260    </a></b>	}
+<b><a name="line9261">9261    </a></b>	U32 host_sec_rsa4096_enc_kat(U32 buf_addr){
+<b><a name="line9262">9262    </a></b>	
+<b><a name="line9263">9263    </a></b>	    U32 ptx_addr  = buf_addr;
+<b><a name="line9264">9264    </a></b>	    U32 ctx_addr  = ptx_addr + 512UL;
+<b><a name="line9265">9265    </a></b>	    U32 KeyBase   = ctx_addr + 512UL;
+<b><a name="line9266">9266    </a></b>	
+<b><a name="line9267">9267    </a></b>	    const U8 rsa4096_textbook_ptx[] =
+<b><a name="line9268">9268    </a></b>	    {
+<b><a name="line9269">9269    </a></b>	        0x6e, 0x6f, 0x68, 0x74, 0x79, 0x50, 0x20, 0x6e, 0x69, 0x20, 0x41, 0x53, 0x52, 0x20, 0x6b, 0x6f,
+<b><a name="line9270">9270    </a></b>	        0x6f, 0x62, 0x74, 0x78, 0x65, 0x54
+<b><a name="line9271">9271    </a></b>	    };
+<b><a name="line9272">9272    </a></b>	
+<b><a name="line9273">9273    </a></b>	    struct _RSAPublicKey_t {
+<b><a name="line9274">9274    </a></b>	        U8 ubN[512];
+<b><a name="line9275">9275    </a></b>	        U8 ubE[4];
+<b><a name="line9276">9276    </a></b>	        U8 ubN0[8];
+<b><a name="line9277">9277    </a></b>	        U8 ubR[512];
+<b><a name="line9278">9278    </a></b>	        U8 ubRR[512];
+<b><a name="line9279">9279    </a></b>	    };
+<b><a name="line9280">9280    </a></b>	    struct _RSAPublicKey_t *pRSAPublicKey = (struct _RSAPublicKey_t *)((U32)KeyBase);
+<b><a name="line9281">9281    </a></b>	
+<b><a name="line9282">9282    </a></b>	    hal_sec_api_reverse_endian((void *)(U32 *)(pRSAPublicKey->ubN),   (void *)(rsa4096_textbook_n),   512);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "pRSAPublicKey->ubN" of type "U8 *" is cast to type "U32 *".</font>
+<b><a name="line9283">9283    </a></b>	    hal_sec_api_reverse_endian((void *)(U32 *)(pRSAPublicKey->ubR),   (void *)(rsa4096_textbook_r),   512);
+<b><a name="line9284">9284    </a></b>	    hal_sec_api_reverse_endian((void *)(U32 *)(pRSAPublicKey->ubRR),  (void *)(rsa4096_textbook_rr),  512);
+<b><a name="line9285">9285    </a></b>	    hal_sec_api_reverse_endian((void *)(U32 *)(pRSAPublicKey->ubE),   (void *)(rsa_e),   4);
+<b><a name="line9286">9286    </a></b>	    (void)memcpy((void *)(U32 *)(pRSAPublicKey->ubN0),  (void *)(rsa4096_textbook_n0),  8);
+<b><a name="line9287">9287    </a></b>	    (void)memset((void *)(U32 *)(ptx_addr),  0U,  512U); // 512B ptx
+<b><a name="line9288">9288    </a></b>	    (void)memcpy((void *)(U32 *)(ptx_addr),  (void *)(rsa4096_textbook_ptx),  sizeof(rsa4096_textbook_ptx));
+<b><a name="line9289">9289    </a></b>	    Dump_SEC(tprintf("RSA ENC KAT"));
+<b><a name="line9290">9290    </a></b>	
+<b><a name="line9291">9291    </a></b>	    phal_rsa4096_enc(ctx_addr, ptx_addr, (U32 *)KeyBase);
+<b><a name="line9292">9292    </a></b>	    if(memcmp((void *)ctx_addr, (void *)rsa4096_textbook_ctx, sizeof(rsa4096_textbook_ctx)))
+<b><a name="line9293">9293    </a></b>	    {
+<b><a name="line9294">9294    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9295">9295    </a></b>	        return (KAT_TYPE_PKCS | KAT_ERROR_VERIFY);
+<b><a name="line9296">9296    </a></b>	    }
+<b><a name="line9297">9297    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9298">9298    </a></b>	}
+<b><a name="line9299">9299    </a></b>	#endif
+<b><a name="line9300">9300    </a></b>	#if KAT_KDF_EN
+<b><a name="line9301">9301    </a></b>	U32 host_sec_kdf_512_pattern_1_kat(U32 buf_addr)
+<b><a name="line9302">9302    </a></b>	{
+<b><a name="line9303">9303    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line9304">9304    </a></b>	
+<b><a name="line9305">9305    </a></b>	    U32 key_addr  = buf_addr;
+<b><a name="line9306">9306    </a></b>	    U32 ans_addr  = key_addr + 0x100U;
+<b><a name="line9307">9307    </a></b>	    U32 src_addr  = ans_addr + 0x100U;
+<b><a name="line9308">9308    </a></b>	    U32 targ_addr = src_addr + 0x1000U;
+<b><a name="line9309">9309    </a></b>	
+<b><a name="line9310">9310    </a></b>	    SEC_KDF_PARAMS_T         kdf_param;
+<b><a name="line9311">9311    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9312">9312    </a></b>	
+<b><a name="line9313">9313    </a></b>	    Dump_SEC(tprintf("KDF-512 KAT"));
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line75">75    </a></b>	    (void)memcpy((U64 *)temp, (U64 *)p1, sizeof(HAL_SEC_SM9_Z256_T));
+<b><a name="line76">76    </a></b>	    (void)memcpy((U64 *)p1, (U64 *)p2, sizeof(HAL_SEC_SM9_Z256_T));
+<b><a name="line77">77    </a></b>	    (void)memcpy((U64 *)p2, (U64 *)temp, sizeof(HAL_SEC_SM9_Z256_T));
+<b><a name="line78">78    </a></b>	}
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	void hal_sec_sm9_vec_modp(HAL_SEC_SM9_Z256_T *r, U32 length)
+<b><a name="line81">81    </a></b>	{
+<b><a name="line82">82    </a></b>	    U32 len = ((Z256_SIZE64 * 2UL) + 1UL) * length;
+<b><a name="line83">83    </a></b>	    U32 max_block_size = 63UL;
+<b><a name="line84">84    </a></b>	    U32 block_len = len / max_block_size;
+<b><a name="line85">85    </a></b>	    U32 remain = len % max_block_size;
+<b><a name="line86">86    </a></b>	    SEC_PKECMD_T pke_cmd;
+<b><a name="line87">87    </a></b>	    SEC_PKE_MSA_T x_addr;
+<b><a name="line88">88    </a></b>	    SEC_PKE_MSA_T y_addr;
+<b><a name="line89">89    </a></b>	    SEC_PKE_MSA_T z_addr;
+<b><a name="line90">90    </a></b>	    U64 *p_addr;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    // ---- ---- Initial ---- ---- //
+<b><a name="line93">93    </a></b>	    x_addr.sel = HAL_SEC_PKE_MEM_A_ADDR_IDX;
+<b><a name="line94">94    </a></b>	    // x_addr.adr = 0x01U;
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    y_addr.sel  = HAL_SEC_PKE_MEM_B_ADDR_IDX;
+<b><a name="line97">97    </a></b>	    // y_addr.adr  = 0x01U;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    z_addr.sel  = HAL_SEC_PKE_MEM_C_ADDR_IDX;
+<b><a name="line100">100    </a></b>	    // z_addr.adr  = 0x01U;
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    // load p prime
+<b><a name="line103">103    </a></b>	    y_addr.adr = 5U;
+<b><a name="line104">104    </a></b>	    (void)memcpy((void *)get_pke_mem(&y_addr), (void *)(U64 *)SM9_Z256_P_PRIME, Z256_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "SM9_Z256_P_PRIME" to type "U64 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line105">105    </a></b>	    y_addr.adr += (U8)Z256_SIZE64;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    // load p
+<b><a name="line108">108    </a></b>	    (void)memcpy((void *)get_pke_mem(&y_addr), (void *)(U64 *)SM9_Z256_P, Z256_SIZE);
+<b><a name="line109">109    </a></b>	    // y_addr.adr += (U8)Z256_SIZE64;
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    //    step 2
+<b><a name="line112">112    </a></b>	    //      t = low(z) * [P_PRIME]
+<b><a name="line113">113    </a></b>	    /// A : [0] [t<12*9>]
+<b><a name="line114">114    </a></b>	    /// B : [0] [0,0,0,0] [pr,pr,pr,pr] [p, p, p, p ] [z<12*9>]
+<b><a name="line115">115    </a></b>	    /// C : [0]
+<b><a name="line116">116    </a></b>	    x_addr.adr = 5U;
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    for (U32 i = 0UL; i < length; i++)
+<b><a name="line119">119    </a></b>	    {
+<b><a name="line120">120    </a></b>	        (void)memset((void *)get_pke_mem(&x_addr), 0, Z256_SIZE + 8UL);
+<b><a name="line121">121    </a></b>	        x_addr.adr += (2U * (U8)Z256_SIZE64) + 1U;
+<b><a name="line122">122    </a></b>	    }
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    for (U32 i = 0UL; i < block_len; i++)
+<b><a name="line125">125    </a></b>	    {
+<b><a name="line126">126    </a></b>	        hal_sec_pke_lib_mpy64(&pke_cmd, z_addr.sel, 1U, 180U, x_addr.sel, 1U + ((U8)max_block_size * (U8)i), y_addr.sel, 5U, (U8)max_block_size, (U8)Z256_SIZE64);
+<b><a name="line127">127    </a></b>	        hal_sec_pke_set_en();
+<b><a name="line128">128    </a></b>	        while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line129">129    </a></b>	        hal_sec_pke_clr_en();
+<b><a name="line130">130    </a></b>	    }
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	    if (remain > 0UL)
+<b><a name="line133">133    </a></b>	    {
+<b><a name="line134">134    </a></b>	        hal_sec_pke_lib_mpy64(&pke_cmd, z_addr.sel, 1U, 180U, x_addr.sel, 1U + ((U8)max_block_size * (U8)block_len), y_addr.sel, 5U, (U8)remain, (U8)Z256_SIZE64);
+<b><a name="line135">135    </a></b>	        hal_sec_pke_set_en();
+</pre></body>
+</html>

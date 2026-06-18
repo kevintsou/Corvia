@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line900">900    </a></b>	                                memset((void *)set_feat_dat, 0x00, sizeof(set_feat_dat));
+<b><a name="line901">901    </a></b>	                                memset((void *)get_feat_dat, 0x00, sizeof(get_feat_dat));
+<b><a name="line902">902    </a></b>	
+<b><a name="line903">903    </a></b>	                                tmp_status |= fip_set_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), fpl_ptr->por_rty_tbl[retry_idx], ch, 0U, 0U, 0U, set_feat_dat);
+<b><a name="line904">904    </a></b>	
+<b><a name="line905">905    </a></b>	                                if (tmp_status == 0U) {
+<b><a name="line906">906    </a></b>	                                    tmp_status |= fip_get_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), fpl_ptr->por_rty_tbl[retry_idx], ch, 0U, 0U, 0U, get_feat_dat);
+<b><a name="line907">907    </a></b>	
+<b><a name="line908">908    </a></b>	                                    if (tmp_status == 0U) {
+<b><a name="line909">909    </a></b>	                                        if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line910">910    </a></b>	                                            break;
+<b><a name="line911">911    </a></b>	                                        }
+<b><a name="line912">912    </a></b>	                                    }
+<b><a name="line913">913    </a></b>	                                    else {
+<b><a name="line914">914    </a></b>	                                        status |= tmp_status;
+<b><a name="line915">915    </a></b>	                                    }
+<b><a name="line916">916    </a></b>	                                }
+<b><a name="line917">917    </a></b>	                                else {
+<b><a name="line918">918    </a></b>	                                    status |= tmp_status;
+<b><a name="line919">919    </a></b>	                                }
+<b><a name="line920">920    </a></b>	                                cnt++;
+<b><a name="line921">921    </a></b>	                            } while ((cnt < FLH_SET_FEAT_CNT_MAX) && (tmp_status == 0U));
+<b><a name="line922">922    </a></b>	
+<b><a name="line923">923    </a></b>	                            if (cnt == FLH_SET_FEAT_CNT_MAX) {
+<b><a name="line924">924    </a></b>	                                status |= HAL_STATUS_SET_FEAT_DAT_CMP_FAIL;
+<b><a name="line925">925    </a></b>	                            }
+<b><a name="line926">926    </a></b>	                        }
+<b><a name="line927">927    </a></b>	                    }
+<b><a name="line928">928    </a></b>	                    for (ch = 0U ; ch < FLH_MAX_CH_NUM; ch++) {
+<b><a name="line929">929    </a></b>	                        if (BITS_GET(ch_bitmap, ch, 1U) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "ch_bitmap >> ch" (32 bits) is less that the right hand operand "1ULL" (64 bits).</font>
+<b><a name="line930">930    </a></b>	                            hal_fip_api_reset(ch, 0U, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line931">931    </a></b>	                            status |= fip_api_chk_status(ch, HAL_FLH_CHK_RDY_BUSY);
+<b><a name="line932">932    </a></b>	                        }
+<b><a name="line933">933    </a></b>	                    }
+<b><a name="line934">934    </a></b>	                    retry_idx++;
+<b><a name="line935">935    </a></b>	                }
+<b><a name="line936">936    </a></b>	                else {
+<b><a name="line937">937    </a></b>	                    tmp_status = 0U;
+<b><a name="line938">938    </a></b>	                    cnt = 0U;
+<b><a name="line939">939    </a></b>	                    do {
+<b><a name="line940">940    </a></b>	                        memset((void *)set_feat_dat, 0x00, sizeof(set_feat_dat));
+<b><a name="line941">941    </a></b>	                        memset((void *)get_feat_dat, 0x00, sizeof(get_feat_dat));
+<b><a name="line942">942    </a></b>	
+<b><a name="line943">943    </a></b>	                        tmp_status |= fip_set_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), (U8 *)&rty_tbl, ch, 0U, 0U, 0U, set_feat_dat);
+<b><a name="line944">944    </a></b>	
+<b><a name="line945">945    </a></b>	                        if (tmp_status == 0U) {
+<b><a name="line946">946    </a></b>	                            tmp_status |= fip_get_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), (U8 *)&rty_tbl, ch, 0U, 0U, 0U, get_feat_dat);
+<b><a name="line947">947    </a></b>	
+<b><a name="line948">948    </a></b>	                            if (tmp_status == 0U) {
+<b><a name="line949">949    </a></b>	                                if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line950">950    </a></b>	                                    break;
+<b><a name="line951">951    </a></b>	                                }
+<b><a name="line952">952    </a></b>	                            }
+<b><a name="line953">953    </a></b>	                            else {
+<b><a name="line954">954    </a></b>	                                status |= tmp_status;
+<b><a name="line955">955    </a></b>	                            }
+<b><a name="line956">956    </a></b>	                        }
+<b><a name="line957">957    </a></b>	                        else {
+<b><a name="line958">958    </a></b>	                            status |= tmp_status;
+<b><a name="line959">959    </a></b>	                        }
+<b><a name="line960">960    </a></b>	                        cnt++;
+</pre></body>
+</html>

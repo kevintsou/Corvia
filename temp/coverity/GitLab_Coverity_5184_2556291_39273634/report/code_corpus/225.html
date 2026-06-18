@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    if (aes_mode == DAL_SEC_AES_XTS_MODE)
+<b><a name="line300">300    </a></b>	    {
+<b><a name="line301">301    </a></b>	        for (i = 0U; i < key_type_num; i++)
+<b><a name="line302">302    </a></b>	        {
+<b><a name="line303">303    </a></b>	            key_num = key_type_num - 1UL - i;
+<b><a name="line304">304    </a></b>	            ASM_DSB(); // TODO: check is need or not by compiler optimization level & bitfile
+<b><a name="line305">305    </a></b>	            SEC_MASK_R1_AES_SET_LBA_KEY(key_idx, i, key_arr[key_num + key_type_offset]);
+<b><a name="line306">306    </a></b>	            ASM_DSB(); // TODO: check is need or not by compiler optimization level & bitfile
+<b><a name="line307">307    </a></b>	        }
+<b><a name="line308">308    </a></b>	    }
+<b><a name="line309">309    </a></b>	}
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	U8 dal_sec_aes_init_key_ofl_core(U32 key_type, U64 tmp_addr, U32 kidx, U8 lsbfst, U32 is_sm4, U64 timeout_val)
+<b><a name="line312">312    </a></b>	{
+<b><a name="line313">313    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line314">314    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	    dal_sec_aes_ofl_set_key_type_and_key_idx(key_type, kidx);
+<b><a name="line317">317    </a></b>	
+<b><a name="line318">318    </a></b>	    DAL_SEC_AESOFL_SET_KEY_GEN_EN();
+<b><a name="line319">319    </a></b>	
+<b><a name="line320">320    </a></b>	    dal_sec_aes_ofl_set_computation_data_len(2UL, 1UL);
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	    /* for normal use, we must use LSB, it determine the data input permutation */
+<b><a name="line323">323    </a></b>	    dal_sec_aes_ofl_mode_set(DAL_SEC_AES_ECB_MODE, lsbfst, 1U, is_sm4);
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    dal_sec_aes_ofl_set_addr(tmp_addr, tmp_addr);
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line328">328    </a></b>	
+<b><a name="line329">329    </a></b>	    DAL_SEC_AESOFL_SET_START();
+<b><a name="line330">330    </a></b>	    while (1U == DAL_SEC_AESOFL_GET_START())
+<b><a name="line331">331    </a></b>	    {
+<b><a name="line332">332    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line333">333    </a></b>	        {
+<b><a name="line334">334    </a></b>	            is_timeout = 1U;
+<b><a name="line335">335    </a></b>	            break;
+<b><a name="line336">336    </a></b>	        }
+<b><a name="line337">337    </a></b>	    }
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	    if (is_timeout == 0U)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        trigger_done = 1U;
+<b><a name="line342">342    </a></b>	    }
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    DAL_SEC_AESOFL_CLR_KEY_GEN_EN();
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    return trigger_done;
+<b><a name="line347">347    </a></b>	}
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	U8 dal_sec_aes_init_key_otf_core(U32 key_type, U32 key_idx, U32 gen_key_en, U32 is_sm4, U64 timeout_val)
+<b><a name="line350">350    </a></b>	{
+<b><a name="line351">351    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line352">352    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    DAL_SEC_AESOTF_SET_SM4_EN((U8)is_sm4);
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    dal_sec_aes_otf_set_key_type_and_key_idx(key_type, key_idx);
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    // write key table to key register
+</pre></body>
+</html>

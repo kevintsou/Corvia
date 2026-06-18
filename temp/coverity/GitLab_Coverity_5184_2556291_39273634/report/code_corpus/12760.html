@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_sm2.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line46">46    </a></b>	    /*
+<b><a name="line47">47    </a></b>	     * init public key address related param
+<b><a name="line48">48    </a></b>	     */
+<b><a name="line49">49    </a></b>	    pub_key_ptr                  = (SW_SM2_KEY_STRUCT_PTR)key_addr;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    sm2_param_ptr->curve_bit     = (HAL_SEC_SM2_BYTE_NUM << 3);
+<b><a name="line52">52    </a></b>	    sm2_param_ptr->curve_size    = HAL_SEC_SM2_BYTE_NUM;
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    sm2_param_ptr->pubkey_ptr       = (HAL_SEC_ECC_PUBKEY_T_PTR)(void *)(U32 *)(sm2_calculate_buffer);
+<b><a name="line55">55    </a></b>	    sm2_param_ptr->pubkey_table_ptr = (HAL_SEC_ECC_PUBKEY_TABLE_T_PTR)(void *)(U32 *)(sm2_calculate_buffer + sizeof(HAL_SEC_ECC_PUBKEY_T));
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	#if CODE_SIGN_SM2_DEBUG
+<b><a name="line58">58    </a></b>	    key_addr = key_addr + 4; // Key id
+<b><a name="line59">59    </a></b>	    Dump_SEC(tprintf("key_addr         %x", key_addr));
+<b><a name="line60">60    </a></b>	    Dump_SEC(tprintf("pubkey_ptr       %x", &(sm2_param_ptr->pubkey_ptr->qx.data)));
+<b><a name="line61">61    </a></b>	#endif
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    hal_sec_api_reverse_endian((void *)sm2_param_ptr->a.data, (void *)&SWP256SM2_A,  sm2_param_ptr->curve_size);
+<b><a name="line64">64    </a></b>	    hal_sec_api_reverse_endian((void *)sm2_param_ptr->b.data, (void *)&SWP256SM2_B,  sm2_param_ptr->curve_size);
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->qx.data,    (void *)&(pub_key_ptr->qx[0]),      sm2_param_ptr->curve_size);
+<b><a name="line67">67    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->qy.data,    (void *)&(pub_key_ptr->qy[0]),      sm2_param_ptr->curve_size);
+<b><a name="line68">68    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->p.data,     (void *)&(pub_key_ptr->p[0]),       sm2_param_ptr->curve_size);
+<b><a name="line69">69    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->p_n0.data,  (void *)&(pub_key_ptr->p_n0[0]),    8);
+<b><a name="line70">70    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->pr.data,    (void *)&(pub_key_ptr->p_r[0]),     sm2_param_ptr->curve_size);
+<b><a name="line71">71    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->prr.data,   (void *)&(pub_key_ptr->p_rr[0]),    sm2_param_ptr->curve_size);
+<b><a name="line72">72    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->n.data,     (void *)&(pub_key_ptr->n[0]),       sm2_param_ptr->curve_size);
+<b><a name="line73">73    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->n_n0.data,  (void *)&(pub_key_ptr->n_n0[0]),    8);
+<b><a name="line74">74    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->nr.data,    (void *)&(pub_key_ptr->n_r[0]),     sm2_param_ptr->curve_size);
+<b><a name="line75">75    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->nrr.data,   (void *)&(pub_key_ptr->n_rr[0]),    sm2_param_ptr->curve_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_15_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Calling function "memcpy" with incompatible types "U8 (*)[72]" and "void *".</font>
+<b><a name="line76">76    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->gx.data,    (void *)&(pub_key_ptr->gx[0]),      sm2_param_ptr->curve_size);
+<b><a name="line77">77    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->gy.data,    (void *)&(pub_key_ptr->gy[0]),      sm2_param_ptr->curve_size);
+<b><a name="line78">78    </a></b>	    (void)memcpy(sm2_param_ptr->pubkey_ptr->ar.data,    (void *)&(pub_key_ptr->ar[0]),      sm2_param_ptr->curve_size);
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    (void)memcpy((void *)(sm2_param_ptr->sig_r.data), (void *)(U8 *)(((SM2_SIG_STRUCT_PTR)sig_addr)->r), sm2_param_ptr->curve_size);
+<b><a name="line81">81    </a></b>	    (void)memcpy((void *)(sm2_param_ptr->sig_s.data), (void *)(U8 *)(((SM2_SIG_STRUCT_PTR)sig_addr)->s), sm2_param_ptr->curve_size);
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    sm2_param_ptr->msg_addr.low     = sm2_msg_addr;
+<b><a name="line84">84    </a></b>	    sm2_param_ptr->digest_addr.low  = hash_addr;
+<b><a name="line85">85    </a></b>	    sm2_param_ptr->dumcnt           = 1U;
+<b><a name="line86">86    </a></b>	    sm2_param_ptr->timeout_val      = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line87">87    </a></b>	    return;
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	/**
+<b><a name="line91">91    </a></b>	 * @brief calculate Z_A value used in sm2 verification
+<b><a name="line92">92    </a></b>	 *
+<b><a name="line93">93    </a></b>	 * @param sm2_param_ptr param of SM2
+<b><a name="line94">94    </a></b>	 * @param id_addr address of ID
+<b><a name="line95">95    </a></b>	 * @param z_data_address temp buffer for input of Z_A
+<b><a name="line96">96    </a></b>	 * @param z_result_address output buffer
+<b><a name="line97">97    </a></b>	 * @param sha_mode which hash function is used
+<b><a name="line98">98    </a></b>	 */
+<b><a name="line99">99    </a></b>	void code_sign_sw_sm2_calculate_z(SEC_ECC_PARAMS_T *sm2_param_ptr, U32 id_addr, U32 z_data_address, U32 z_result_address, U8 sha_mode)
+<b><a name="line100">100    </a></b>	{
+<b><a name="line101">101    </a></b>	    Z_A_INPUT_VALUE *za_ptr;
+<b><a name="line102">102    </a></b>	    SEC_SHA_PARAMS_T sm3_param;
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    za_ptr = (Z_A_INPUT_VALUE *)z_data_address;
+<b><a name="line105">105    </a></b>	    // Z_A = H(ENTL_A || ID_A || a || b || x_G || y_G || x_A || y_A)
+<b><a name="line106">106    </a></b>	
+</pre></body>
+</html>

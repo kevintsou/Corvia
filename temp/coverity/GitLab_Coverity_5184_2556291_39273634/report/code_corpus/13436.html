@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm_mlkem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line23">23    </a></b>	    };
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	void hal_sec_pqc_sha3_blocking_new(U8 *output, U32 outlen, U8 *input, U32 inlen, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+<b><a name="line27">27    </a></b>	{
+<b><a name="line28">28    </a></b>	    SEC_SHA_PARAMS_T params;
+<b><a name="line29">29    </a></b>	    (void)memset(&params, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    (void)memcpy((void *)(U32 *)(pqc_hash_buf_ptr->hash_src), (void *)(input), inlen);
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    params.src_addr.low   = (U32)pqc_hash_buf_ptr->hash_src;
+<b><a name="line34">34    </a></b>	    params.targ_addr.low  = (U32)pqc_hash_buf_ptr->hash_targ;
+<b><a name="line35">35    </a></b>	    params.sha_mode       = mode;
+<b><a name="line36">36    </a></b>	    params.src_len        = inlen;
+<b><a name="line37">37    </a></b>	    params.shake_out_type = 3U;
+<b><a name="line38">38    </a></b>	    params.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    // (void)hal_sec_sha_blocking(&params);
+<b><a name="line41">41    </a></b>	    hal_sec_sha_trigger(&params);
+<b><a name="line42">42    </a></b>	    (void)hal_sec_sha_polling(params.timeout_val, SEC_NO);
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    (void)memcpy((void *)(output), (void *)(pqc_hash_buf_ptr->hash_targ), outlen);
+<b><a name="line46">46    </a></b>	}
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	void hal_sec_pqc_hash_absorb_new(U8 *input, U32 inlen, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+<b><a name="line49">49    </a></b>	{
+<b><a name="line50">50    </a></b>	    (void)memcpy((void *)(U32 *)((U32)pqc_hash_buf_ptr->hash_src + pqc_hash_buf_ptr->hash_buf_len), (void *)(input), inlen);
+<b><a name="line51">51    </a></b>	    pqc_hash_buf_ptr->hash_buf_len += inlen;
+<b><a name="line52">52    </a></b>	}
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	void hal_sec_pqc_hash_finalize_new(U8 *output, U32 outlen, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+<b><a name="line55">55    </a></b>	{
+<b><a name="line56">56    </a></b>	    //ASSERT(0U, ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) || (mode == HAL_SEC_SHA3_SHAKE_256_MODE) || (mode == HAL_SEC_SHA3_512_MODE)));
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    //U32 output_len = ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) ? (HAL_SEC_SHA3_SHAKE_128_BLOCK_LEN) : (HAL_SEC_SHA3_SHAKE_256_BLOCK_LEN));
+<b><a name="line59">59    </a></b>	    U32 output_len = 0;
+<b><a name="line60">60    </a></b>	    switch(mode){
+<b><a name="line61">61    </a></b>	        case HAL_SEC_SHA3_SHAKE_128_MODE:
+<b><a name="line62">62    </a></b>	            output_len = HAL_SEC_SHA3_SHAKE_128_BLOCK_LEN;
+<b><a name="line63">63    </a></b>	            break;
+<b><a name="line64">64    </a></b>	        case HAL_SEC_SHA3_SHAKE_256_MODE:
+<b><a name="line65">65    </a></b>	            output_len = HAL_SEC_SHA3_SHAKE_256_BLOCK_LEN;
+<b><a name="line66">66    </a></b>	            break;
+<b><a name="line67">67    </a></b>	        case HAL_SEC_SHA3_512_MODE:
+<b><a name="line68">68    </a></b>	            output_len = HAL_SEC_SHA3_512_BLOCK_LEN;
+<b><a name="line69">69    </a></b>	            break;
+<b><a name="line70">70    </a></b>	        default:
+<b><a name="line71">71    </a></b>	            ASSERT(0U, ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) || (mode == HAL_SEC_SHA3_SHAKE_256_MODE) || (mode == HAL_SEC_SHA3_512_MODE)));
+<b><a name="line72">72    </a></b>	            break;
+<b><a name="line73">73    </a></b>	    }
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    SEC_SHA_PARAMS_T params;
+<b><a name="line76">76    </a></b>	    (void)memset(&params, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	    params.src_addr.low   = (U32)pqc_hash_buf_ptr->hash_src;
+<b><a name="line79">79    </a></b>	    params.targ_addr.low  = (U32)pqc_hash_buf_ptr->hash_targ;
+<b><a name="line80">80    </a></b>	    params.sha_mode       = mode;
+<b><a name="line81">81    </a></b>	    params.src_len        = pqc_hash_buf_ptr->hash_buf_len;
+<b><a name="line82">82    </a></b>	    params.shake_out_type = 3U;
+<b><a name="line83">83    </a></b>	    params.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    // (void)hal_sec_sha_blocking(&params);
+<b><a name="line86">86    </a></b>	    hal_sec_sha_trigger(&params);
+<b><a name="line87">87    </a></b>	    (void)hal_sec_sha_polling(params.timeout_val, SEC_NO);
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	    (void)memcpy((void *)(output), (void *)(pqc_hash_buf_ptr->hash_targ), outlen <= output_len ? outlen : output_len);
+<b><a name="line90">90    </a></b>	}
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	void hal_sec_pqc_hash_sqz_new(U8 *output, U32 shake_out_blk_num, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "hal_sec_pqc_hash_sqz_new".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">     ^</font>
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    ASSERT(0U, ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) || (mode == HAL_SEC_SHA3_SHAKE_256_MODE)));
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    U32 shake_blk_len = ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) ? (HAL_SEC_SHA3_SHAKE_128_BLOCK_LEN) : (HAL_SEC_SHA3_SHAKE_256_BLOCK_LEN));
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    U32 shake_out_len_type2 = ((mode == HAL_SEC_SHA3_SHAKE_128_MODE) ? (160UL) : (128UL));
+<b><a name="line99">99    </a></b>	    U32 sqz_offset = 0UL;
+<b><a name="line100">100    </a></b>	    U32 first_trig_remain = 0UL;
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    if (shake_out_blk_num > 1UL)
+<b><a name="line103">103    </a></b>	    {
+<b><a name="line104">104    </a></b>	        (void)hal_sec_sha3_shake_sqz_blocking((U64)(pqc_hash_buf_ptr->hash_sqz), 2UL, shake_out_blk_num - 1UL, HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	        sqz_offset = (shake_out_blk_num - 1UL) * shake_out_len_type2;
+<b><a name="line107">107    </a></b>	        first_trig_remain = (shake_out_blk_num - 1UL) * first_trig_remain;
+<b><a name="line108">108    </a></b>	        sqz_offset += (first_trig_remain / 32UL);
+<b><a name="line109">109    </a></b>	    }
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    (void)hal_sec_sha3_shake_sqz_blocking((U64)((U64)pqc_hash_buf_ptr->hash_sqz + (U64)sqz_offset), 3UL, 1UL, HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    (void)memcpy((void *)(output), (void *)(pqc_hash_buf_ptr->hash_sqz), shake_out_blk_num * shake_blk_len);
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	}
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	void hal_sec_pqc_hash_free_new(HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+<b><a name="line118">118    </a></b>	{
+<b><a name="line119">119    </a></b>	    pqc_hash_buf_ptr->hash_buf_len = 0UL;
+<b><a name="line120">120    </a></b>	    // HAL_SEC_SHA3_CLR_SHAKE_EN();
+<b><a name="line121">121    </a></b>	}
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	void hal_sec_pqc_hash_stream_absorb_new(U8 *seed, U8 seed_len, U16 nonce, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2097">2097    </a></b>	
+<b><a name="line2098">2098    </a></b>	            sal_log_info_char('C'); //Checking Loader Proj Binary, Key Manifest Proj Binary
+<b><a name="line2099">2099    </a></b>	
+<b><a name="line2100">2100    </a></b>	            sal_log_tracker_set(sal_locate(0x16, TYPE_RSV6));
+<b><a name="line2101">2101    </a></b>	            p_fw_slot_status->project_binary_error = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)project_binary_address, PROJECT_BINARY_SOURCE_NAND);
+<b><a name="line2102">2102    </a></b>	
+<b><a name="line2103">2103    </a></b>	            sal_log_tracker_set(sal_locate((p_fw_slot_status->project_binary_error & 0xFF), TYPE_DATA));
+<b><a name="line2104">2104    </a></b>	            sal_log_tracker_set(sal_locate(((p_fw_slot_status->project_binary_error >> 4) & 0xFF), TYPE_DATA));
+<b><a name="line2105">2105    </a></b>	
+<b><a name="line2106">2106    </a></b>	            sal_log_info_num(p_fw_slot_status->project_binary_error); //Part of 'C'
+<b><a name="line2107">2107    </a></b>	            Dump_LoadCode(tprintf("Check Project Binary Error %x", p_fw_slot_status->project_binary_error));
+<b><a name="line2108">2108    </a></b>	
+<b><a name="line2109">2109    </a></b>	            if (0 != p_fw_slot_status->project_binary_error) {
+<b><a name="line2110">2110    </a></b>	                error_firmware |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHECK_ERROR;
+<b><a name="line2111">2111    </a></b>	            }
+<b><a name="line2112">2112    </a></b>	        }
+<b><a name="line2113">2113    </a></b>	    }
+<b><a name="line2114">2114    </a></b>	
+<b><a name="line2115">2115    </a></b>	    p_fw_slot_status->fw_slot_error = error_firmware;
+<b><a name="line2116">2116    </a></b>	
+<b><a name="line2117">2117    </a></b>	    //Any error other than CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED
+<b><a name="line2118">2118    </a></b>	    //and CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT means that it is unusable
+<b><a name="line2119">2119    </a></b>	    if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><a name="line2120">2120    </a></b>	        p_fw_slot_status->state = FW_SLOT_STATE_USABLE;
+<b><a name="line2121">2121    </a></b>	    }
+<b><a name="line2122">2122    </a></b>	    else {
+<b><a name="line2123">2123    </a></b>	        p_fw_slot_status->state = FW_SLOT_STATE_UNUSABLE;
+<b><a name="line2124">2124    </a></b>	    }
+<b><a name="line2125">2125    </a></b>	
+<b><a name="line2126">2126    </a></b>	    sal_log_tracker_set(sal_locate((error_firmware & 0xFF), TYPE_DATA));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line2127">2127    </a></b>	
+<b><a name="line2128">2128    </a></b>	    return error_firmware;
+<b><a name="line2129">2129    </a></b>	}
+<b><a name="line2130">2130    </a></b>	
+<b><a name="line2131">2131    </a></b>	//TODO input the fw slot sttatus isntead of this array for flash errors
+<b><a name="line2132">2132    </a></b>	//TODO remind me again why the retry table is required to be sent in and not stored directly in fpl?
+<b><a name="line2133">2133    </a></b>	U8 load_fw_slot(const FW_SLOT_INFO *p_fw_slot_info, U32 project_binary_address, U32 data_buffer, U32 spare_buffer, LOAD_CODE_STATUS *p_load_code_status, FW_SLOT_STATUS *p_fw_slot_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line2134">2134    </a></b>	{
+<b><a name="line2135">2135    </a></b>	    //TODO add decryption inside or outside of load_fw_slot
+<b><a name="line2136">2136    </a></b>	    U16 wordline, wordline_max;
+<b><a name="line2137">2137    </a></b>	    U8 nand_retry, nand_retry_max;
+<b><a name="line2138">2138    </a></b>	    U8 copy_retry, copy_retry_max;
+<b><a name="line2139">2139    </a></b>	
+<b><a name="line2140">2140    </a></b>	    //Indicates which Parallels have not been loaded
+<b><a name="line2141">2141    </a></b>	    U32 not_loaded_parallel_bitmap;
+<b><a name="line2142">2142    </a></b>	
+<b><a name="line2143">2143    </a></b>	    //Indicates which Parallels have not been read in the loops
+<b><a name="line2144">2144    </a></b>	    U32 loop_parallel_bitmap;
+<b><a name="line2145">2145    </a></b>	    U8 loop_per_round;
+<b><a name="line2146">2146    </a></b>	    U8 parallel, parallel_max;
+<b><a name="line2147">2147    </a></b>	
+<b><a name="line2148">2148    </a></b>	    //Indicates which Channels are being used in this loop
+<b><a name="line2149">2149    </a></b>	    U32 channel_bitmap;
+<b><a name="line2150">2150    </a></b>	    //Indicates which Parallels are being read in this loop
+<b><a name="line2151">2151    </a></b>	    U32 reading_parallel_bitmap;
+<b><a name="line2152">2152    </a></b>	
+<b><a name="line2153">2153    </a></b>	    //Indicates which channels are being restore read offset.
+<b><a name="line2154">2154    </a></b>	    U32 res_read_offset_ch_bitmap = 0U;
+<b><a name="line2155">2155    </a></b>	
+<b><a name="line2156">2156    </a></b>	    U32 a_node_to_load_bitmap[FW_SLOT_COPY_COUNT];
+<b><a name="line2157">2157    </a></b>	    U8 node, node_max;
+</pre></body>
+</html>

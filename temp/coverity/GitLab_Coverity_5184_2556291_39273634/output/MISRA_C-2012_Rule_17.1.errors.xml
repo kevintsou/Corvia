@@ -1,0 +1,216 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/sal_conf.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Using library {code{stdarg.h}}.}}}}</description>
+<line>9</line>
+<column>19</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>80</line>
+<column>38</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>83</line>
+<column>37</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>88</line>
+<column>35</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>92</line>
+<column>34</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>97</line>
+<column>34</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>101</line>
+<column>34</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_arg}}}}</description>
+<line>105</line>
+<column>34</column>
+</event>
+<extra>va_arg</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature va_list.}}}}</description>
+<line>66</line>
+<column>52</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_printf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature va_list.}}}}</description>
+<line>122</line>
+<column>5</column>
+</event>
+<extra>args</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_printf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_start}}}}</description>
+<line>123</line>
+<column>5</column>
+</event>
+<extra>va_start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 17.1</checker>
+<type>MISRA_C_2012_Rule_17.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_printf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_17_1_violation</tag>
+<description>{CovLStrv2{{t{Use of the stdarg.h feature {0}.}{va_end}}}}</description>
+<line>127</line>
+<column>5</column>
+</event>
+<extra>va_end</extra>
+<subcategory>none</subcategory>
+</error>

@@ -1,0 +1,187 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_info_char</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{gsSalLogInfo.offset &lt; gsSalLogInfo.size}}}}}}</description>
+<line>110</line>
+<column>13</column>
+</event>
+<extra>gsSalLogInfo,offset,size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_info_char</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{gsSalLogInfo.start + gsSalLogInfo.offset}}}}}}</description>
+<line>111</line>
+<column>13</column>
+</event>
+<extra>gsSalLogInfo,offset,start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_pcie_landmark_handle</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{(*((U32 volatile *)pcie_phy_address) &amp; ~mask) | (data &lt;&lt; offset)}}}}}}</description>
+<line>159</line>
+<column>30</column>
+</event>
+<extra>data,mask,offset,pcie_phy_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_pcie_landmark_handle</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{*((U32 volatile *)pcie_phy_address) &amp; ~mask}}}}}}</description>
+<line>159</line>
+<column>31</column>
+</event>
+<extra>mask,pcie_phy_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_pcie_landmark_handle</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{data &lt;&lt; offset}}}}}}</description>
+<line>159</line>
+<column>86</column>
+</event>
+<extra>data,offset</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_set_feature</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{((U32)feature_ptr-&gt;cq_num &lt;&lt; 16) | (U32)feature_ptr-&gt;sq_num}}}}}}</description>
+<line>830</line>
+<column>30</column>
+</event>
+<extra>cq_num,feature_ptr,sq_num</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_get_feature</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{More than one unsequenced read of volatile variable is found in {0}.}{{code{((U32)feature_ptr-&gt;cq_num &lt;&lt; 16) | (U32)feature_ptr-&gt;sq_num}}}}}}</description>
+<line>925</line>
+<column>34</column>
+</event>
+<extra>cq_num,feature_ptr,sq_num</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_controller_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{Dependence on evaluation order of {0} and {1} may occur.}{{code{phal_pcie_get_bus_number(0)}}}{{code{phal_pcie_get_device_number(0)}}}}}}</description>
+<line>154</line>
+<column>24</column>
+</event>
+<extra>phal_pcie_get_bus_number,phal_pcie_get_device_number</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_get_int_sts</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{Dependence on evaluation order of {0} and {1} may occur.}{{code{dal_smbs_api_get_int_en(ent)}}}{{code{dal_smbs_api_get_status(ent)}}}}}}</description>
+<line>234</line>
+<column>13</column>
+</event>
+<extra>dal_smbs_api_get_int_en,dal_smbs_api_get_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.2</checker>
+<type>MISRA_C_2012_Rule_13.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_2_violation</tag>
+<description>{CovLStrv2{{t{Dependence on evaluation order of {0} and {1} may occur.}{{code{bootcode_hal_pmu_get_core_vdt_cnt()}}}{{code{bootcode_hal_pmu_get_flh_vdt_cnt()}}}}}}</description>
+<line>504</line>
+<column>15</column>
+</event>
+<extra>bootcode_hal_pmu_get_core_vdt_cnt,bootcode_hal_pmu_get_flh_vdt_cnt</extra>
+<subcategory>none</subcategory>
+</error>

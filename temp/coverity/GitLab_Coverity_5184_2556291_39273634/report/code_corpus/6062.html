@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line89">89    </a></b>	        //Dump_SPI(tprintf("Length is not 8B aligned!!!"));
+<b><a name="line90">90    </a></b>	        return FAIL;
+<b><a name="line91">91    </a></b>	    }
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    // Check WIP of status
+<b><a name="line94">94    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WIP, 0U)) {
+<b><a name="line95">95    </a></b>	        return FAIL;
+<b><a name="line96">96    </a></b>	    }
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    w_spi_DMA_RW_DIR(0);                // 0: read, 1: write
+<b><a name="line99">99    </a></b>	    w_spi_DUM_BYTE_EN(1);               // 0: disable 1: enable Fast Read Mode and 2xIO/Read mode
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	    spi_init();
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    w_spi_SPI_START_ADDR(source_addr);  // Address
+<b><a name="line104">104    </a></b>	    w_spi_SPI_START_ADDR_LEN(0x03U);
+<b><a name="line105">105    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line106">106    </a></b>	    r32_w_SPI_CMMD_1(0x0BU);            // FAST READ
+<b><a name="line107">107    </a></b>	    r32_w_SPI_DMA_BCNT(length);
+<b><a name="line108">108    </a></b>	    w_spi_CMD_OD_1(0x01U);              // Execute Command 1
+<b><a name="line109">109    </a></b>	    w_spi_CMD_OD_2(0x0AU);              // Address
+<b><a name="line110">110    </a></b>	    w_spi_CMD_OD_3(0x0DU);
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_31_3(target_addr >> 3U);
+<b><a name="line113">113    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_39_32(target_addr >> 32U);
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    w_spi_R_DATA_LOC(0);            // DMA to sram
+<b><a name="line116">116    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT((r_spi_SPI_DMA_TRIG() == TRUE), SPI_GERNAL_TIMEOUT_THRESHOLD, ERR_SPI_TRIG_READ_DATA_TIMEOUT, ubResult, MABIAO_SPI_TRIG_READ_DATA);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "53542912" (unsigned) is not the same as that of the right operand "0x76 << 4"(signed).</font>
+<b><a name="line119">119    </a></b>	    //Dump_SPI(tprintf("ubResult: %x", ubResult));
+<b><a name="line120">120    </a></b>	    return ubResult;
+<b><a name="line121">121    </a></b>	}
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	// When using token B,DMA_read_write_direction bit should set to 1.
+<b><a name="line124">124    </a></b>	// And if you want to polling status by FW read, DMA_read_write_direction bit should set to 0.
+<b><a name="line125">125    </a></b>	static U32 spi_read_id(void)
+<b><a name="line126">126    </a></b>	{
+<b><a name="line127">127    </a></b>	    U32 read_data = 0U;
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	    w_spi_DMA_RW_DIR(0);                // 0: read, 1: write
+<b><a name="line130">130    </a></b>	    w_spi_DUM_BYTE_EN(0U);
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	    spi_init();
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line135">135    </a></b>	    r32_w_SPI_CMMD_1(0x9FU);            // JEDEC ID READ
+<b><a name="line136">136    </a></b>	    r32_w_SPI_DMA_BCNT(0x03U);          // Read 3 Bytes Data
+<b><a name="line137">137    </a></b>	    w_spi_CMD_OD_1(0x01U);              // Execute Command 1
+<b><a name="line138">138    </a></b>	    w_spi_CMD_OD_2(0x0DU);              // Get Data
+<b><a name="line139">139    </a></b>	    w_spi_R_DATA_LOC(1);                // To Read register
+<b><a name="line140">140    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	    WAIT_UNTIL_TIMEOUT((r_spi_SPI_DMA_TRIG() == TRUE), SPI_GERNAL_TIMEOUT_THRESHOLD, ERR_SPI_TRIG_READ_ID_TIMEOUT, MABIAO_SPI_TRIG_READ_ID);
+<b><a name="line143">143    </a></b>	
+<b><a name="line144">144    </a></b>	    read_data = r32_r_SPI_RDATA0();
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	    return read_data;
+<b><a name="line147">147    </a></b>	}
+<b><a name="line148">148    </a></b>	
+<b><a name="line149">149    </a></b>	// The WEL bit must be write enabled before any write operation,
+</pre></body>
+</html>

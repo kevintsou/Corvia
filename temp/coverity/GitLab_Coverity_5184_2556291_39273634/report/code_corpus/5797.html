@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line62">62    </a></b>	    a[6] = (U8)(val >> 8ULL);
+<b><a name="line63">63    </a></b>	    a[7] = (U8)(val & 0xffULL);
+<b><a name="line64">64    </a></b>	}
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	static inline void hal_aes_put_be32(U8 *a, U32 val)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	    a[0] = (U8)((val >> 24UL) & 0xffUL);
+<b><a name="line69">69    </a></b>	    a[1] = (U8)((val >> 16UL) & 0xffUL);
+<b><a name="line70">70    </a></b>	    a[2] = (U8)((val >> 8UL) & 0xffUL);
+<b><a name="line71">71    </a></b>	    a[3] = (U8)(val & 0xffUL);
+<b><a name="line72">72    </a></b>	}
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	/*
+<b><a name="line75">75    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line76">76    </a></b>	 *   public implementations
+<b><a name="line77">77    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line78">78    </a></b>	 */
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	/*!
+<b><a name="line81">81    </a></b>	 @brief  clear kram data
+<b><a name="line82">82    </a></b>	 @param[in]  timeout_val - setting timeout value
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	 @note
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	 - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	 */
+<b><a name="line89">89    </a></b>	void hal_sec_aes_kram_clr(U64 timeout_val)
+<b><a name="line90">90    </a></b>	{
+<b><a name="line91">91    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "91" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    dal_sec_aes_otf_set_memk_start_addr(0UL);
+<b><a name="line94">94    </a></b>	    dal_sec_aes_otf_set_memk_size((dal_sec_aes_get_key_ram_size() >> 5U));
+<b><a name="line95">95    </a></b>	    dal_sec_aes_otf_set_memk_init_mode(0U);
+<b><a name="line96">96    </a></b>	    dal_sec_aes_otf_set_memk_init_en(SEC_YES);
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    while (dal_sec_aes_otf_get_memk_init_en() == 1U)
+<b><a name="line99">99    </a></b>	    {
+<b><a name="line100">100    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line101">101    </a></b>	        {
+<b><a name="line102">102    </a></b>	            gSecAesTimeout = SEC_YES;
+<b><a name="line103">103    </a></b>	            break;
+<b><a name="line104">104    </a></b>	        }
+<b><a name="line105">105    </a></b>	    }
+<b><a name="line106">106    </a></b>	}
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	/*!
+<b><a name="line109">109    </a></b>	 @brief  [For ICV] get KRAM address
+<b><a name="line110">110    </a></b>	 @param[out]  key_ram_addr      - KRAM address
+<b><a name="line111">111    </a></b>	 @return KRAM address
+<b><a name="line112">112    </a></b>	 @note
+<b><a name="line113">113    </a></b>	 - None
+<b><a name="line114">114    </a></b>	 */
+<b><a name="line115">115    </a></b>	U32 hal_sec_aes_get_key_ram_addr(void)
+<b><a name="line116">116    </a></b>	{
+<b><a name="line117">117    </a></b>	    return dal_sec_aes_get_key_ram_addr();
+<b><a name="line118">118    </a></b>	}
+<b><a name="line119">119    </a></b>	
+<b><a name="line120">120    </a></b>	/*!
+<b><a name="line121">121    </a></b>	 @brief  [For ICV] get KRAM size
+<b><a name="line122">122    </a></b>	 @param[out]  key_ram_size      - KRAM size
+</pre></body>
+</html>

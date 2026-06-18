@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line285">285    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line286">286    </a></b>	 * @return    Next FPU Base.
+<b><a name="line287">287    </a></b>	 * @note
+<b><a name="line288">288    </a></b>	 *
+<b><a name="line289">289    </a></b>	 */
+<b><a name="line290">290    </a></b>	U32 dal_fip_fpu_fill_cmd_die_mode(U32 fpu_base)
+<b><a name="line291">291    </a></b>	{
+<b><a name="line292">292    </a></b>	    DAL_FIP_FPU_CMD_STRUCT_PTR ptr = (DAL_FIP_FPU_CMD_STRUCT_PTR)fpu_base;
+<b><a name="line293">293    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line294">294    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_CMD;
+<b><a name="line295">295    </a></b>	    ptr->die = 1;
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line298">298    </a></b>	}
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	/*!
+<b><a name="line302">302    </a></b>	 * @brief
+<b><a name="line303">303    </a></b>	 *
+<b><a name="line304">304    </a></b>	 * - TODO:
+<b><a name="line305">305    </a></b>	 *
+<b><a name="line306">306    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line307">307    </a></b>	 * @return    Next FPU Base.
+<b><a name="line308">308    </a></b>	 * @note
+<b><a name="line309">309    </a></b>	 *
+<b><a name="line310">310    </a></b>	 */
+<b><a name="line311">311    </a></b>	U32 dal_fip_fpu_fill_adr(U32 fpu_base, U8 num)
+<b><a name="line312">312    </a></b>	{
+<b><a name="line313">313    </a></b>	    DAL_FIP_FPU_ADR_STRUCT_PTR ptr = (DAL_FIP_FPU_ADR_STRUCT_PTR)fpu_base;
+<b><a name="line314">314    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line315">315    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_ADR;
+<b><a name="line316">316    </a></b>	    ptr->num    = num;
+<b><a name="line317">317    </a></b>	
+<b><a name="line318">318    </a></b>	    // NUM = 1: send one address. HW will send DAT
+<b><a name="line319">319    </a></b>	    // NUM = 2: send column address for FTA
+<b><a name="line320">320    </a></b>	    // NUM = 3: send 3 row address for FTA
+<b><a name="line321">321    </a></b>	    // NUM = 4: send 4 row address for FTA
+<b><a name="line322">322    </a></b>	    // NUM = 5: send 3 row and 2 column address for FTA
+<b><a name="line323">323    </a></b>	    // NUM = 6: send 4 row and 2 column address for FTA
+<b><a name="line324">324    </a></b>	    // NUM = 7: send 5 row and 2 column address for FTA
+<b><a name="line325">325    </a></b>	    // NUM = 8: send 5 row address for FTA
+<b><a name="line326">326    </a></b>	    // NUM = 9: send 6 row and 2 column address for FTA
+<b><a name="line327">327    </a></b>	    // NUM = 10: send 7 row and 2 column address for FTA
+<b><a name="line328">328    </a></b>	    // NUM = 11: send 8 row and 2 column address for FTA
+<b><a name="line329">329    </a></b>	    // NUM = 12: send 6 row address for FTA
+<b><a name="line330">330    </a></b>	    // NUM = 13: send 7 row address for FTA
+<b><a name="line331">331    </a></b>	    // NUM = 14: send 8 row address for FTA
+<b><a name="line332">332    </a></b>	    // NUM = 15: send one address. HW will send FPU_D*_CFG
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    ASSERT(num, num != 0U);
+<b><a name="line335">335    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	/*!
+<b><a name="line339">339    </a></b>	 * @brief
+<b><a name="line340">340    </a></b>	 *
+<b><a name="line341">341    </a></b>	 * - TODO:
+<b><a name="line342">342    </a></b>	 *
+<b><a name="line343">343    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line344">344    </a></b>	 * @return    Next FPU Base.
+<b><a name="line345">345    </a></b>	 * @note
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1110">1110    </a></b>	        else
+<b><a name="line1111">1111    </a></b>	        {
+<b><a name="line1112">1112    </a></b>	            w_PCIE_SNPS_APP_FLR_PF_DONE_63_32(port_id, r_PCIE_SNPS_APP_FLR_PF_DONE_63_32(port_id) | BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1113">1113    </a></b>	        }
+<b><a name="line1114">1114    </a></b>	    }
+<b><a name="line1115">1115    </a></b>	}
+<b><a name="line1116">1116    </a></b>	void dal_clr_pf_flr_ack(U32 port_id, U32 pf_id)
+<b><a name="line1117">1117    </a></b>	{
+<b><a name="line1118">1118    </a></b>	    U32 dw;
+<b><a name="line1119">1119    </a></b>	    dw = pf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1120">1120    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1121">1121    </a></b>	    {
+<b><a name="line1122">1122    </a></b>	        if (dw == 0)
+<b><a name="line1123">1123    </a></b>	        {
+<b><a name="line1124">1124    </a></b>	            w_PCIE_SNPS_APP_FLR_PF_DONE_31_0(port_id, r_PCIE_SNPS_APP_FLR_PF_DONE_31_0(port_id) & ~BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1125">1125    </a></b>	        }
+<b><a name="line1126">1126    </a></b>	        else
+<b><a name="line1127">1127    </a></b>	        {
+<b><a name="line1128">1128    </a></b>	            w_PCIE_SNPS_APP_FLR_PF_DONE_63_32(port_id, r_PCIE_SNPS_APP_FLR_PF_DONE_63_32(port_id) & ~BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1129">1129    </a></b>	        }
+<b><a name="line1130">1130    </a></b>	    }
+<b><a name="line1131">1131    </a></b>	}
+<b><a name="line1132">1132    </a></b>	
+<b><a name="line1133">1133    </a></b>	void dal_trig_vf_flr_ack(U32 port_id, U32 vf_id)
+<b><a name="line1134">1134    </a></b>	{
+<b><a name="line1135">1135    </a></b>	    U32 dw;
+<b><a name="line1136">1136    </a></b>	    dw = vf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1137">1137    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1138">1138    </a></b>	    {
+<b><a name="line1139">1139    </a></b>	        if (dw == 0)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "dw" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line1140">1140    </a></b>	        {
+<b><a name="line1141">1141    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_31_0(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_31_0(port_id) | BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1142">1142    </a></b>	        }
+<b><a name="line1143">1143    </a></b>	        else if (dw == 1)
+<b><a name="line1144">1144    </a></b>	        {
+<b><a name="line1145">1145    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_63_32(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_63_32(port_id) | BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1146">1146    </a></b>	        }
+<b><a name="line1147">1147    </a></b>	        else if (dw == 2)
+<b><a name="line1148">1148    </a></b>	        {
+<b><a name="line1149">1149    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_95_64(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_95_64(port_id) | BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1150">1150    </a></b>	        }
+<b><a name="line1151">1151    </a></b>	        else
+<b><a name="line1152">1152    </a></b>	        {
+<b><a name="line1153">1153    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_127_96(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_127_96(port_id) | BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1154">1154    </a></b>	        }
+<b><a name="line1155">1155    </a></b>	    }
+<b><a name="line1156">1156    </a></b>	}
+<b><a name="line1157">1157    </a></b>	
+<b><a name="line1158">1158    </a></b>	void dal_clr_vf_flr_ack(U32 port_id, U32 vf_id)
+<b><a name="line1159">1159    </a></b>	{
+<b><a name="line1160">1160    </a></b>	    U32 dw;
+<b><a name="line1161">1161    </a></b>	    dw = vf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1162">1162    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1163">1163    </a></b>	    {
+<b><a name="line1164">1164    </a></b>	        if (dw == 0)
+<b><a name="line1165">1165    </a></b>	        {
+<b><a name="line1166">1166    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_31_0(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_31_0(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1167">1167    </a></b>	        }
+<b><a name="line1168">1168    </a></b>	        else if (dw == 1)
+<b><a name="line1169">1169    </a></b>	        {
+<b><a name="line1170">1170    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_63_32(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_63_32(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+</pre></body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_key_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line139">139    </a></b>	        //N/NR/NRR
+<b><a name="line140">140    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->n, (void *)sm2_key_struct_ptr->n, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line141">141    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->n_r, (void *)sm2_key_struct_ptr->n_r, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line142">142    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->n_rr, (void *)sm2_key_struct_ptr->n_rr, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line143">143    </a></b>	    }
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    if (endian & BIT3) { // bit3 is 1 : big endian
+<b><a name="line146">146    </a></b>	        //P_N0
+<b><a name="line147">147    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->p_n0, (void *)sm2_key_struct_ptr->p_n0, 8);
+<b><a name="line148">148    </a></b>	    }
+<b><a name="line149">149    </a></b>	
+<b><a name="line150">150    </a></b>	    if (!(endian & BIT4)) { // bit4 is 0 : big endian
+<b><a name="line151">151    </a></b>	        //P/PR/PRR
+<b><a name="line152">152    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->p, (void *)sm2_key_struct_ptr->p, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line153">153    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->p_r, (void *)sm2_key_struct_ptr->p_r, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line154">154    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->p_rr, (void *)sm2_key_struct_ptr->p_rr, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line155">155    </a></b>	    }
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	    if (!(endian & BIT5)) { // bit5 is 0 : big endian
+<b><a name="line158">158    </a></b>	        //Qx/Qy/
+<b><a name="line159">159    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->qx, (void *)sm2_key_struct_ptr->qx, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line160">160    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->qy, (void *)sm2_key_struct_ptr->qy, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line161">161    </a></b>	    }
+<b><a name="line162">162    </a></b>	
+<b><a name="line163">163    </a></b>	    if (!(endian & BIT6)) { // bit6 is 0 : big endian
+<b><a name="line164">164    </a></b>	        //Ar
+<b><a name="line165">165    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->ar, (void *)sm2_key_struct_ptr->ar, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line166">166    </a></b>	    }
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	    if (!(endian & BIT7)) { // bit7 is 0 : big endian
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "endian & 0x80UL" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line169">169    </a></b>	        //Gx/Gy/P1Rx/P1Ry
+<b><a name="line170">170    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->gx, (void *)sm2_key_struct_ptr->gx, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line171">171    </a></b>	        hal_sec_api_reverse_endian((void *)sm2_key_struct_ptr->gy, (void *)sm2_key_struct_ptr->gy, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line172">172    </a></b>	    }
+<b><a name="line173">173    </a></b>	}
+<b><a name="line174">174    </a></b>	
+<b><a name="line175">175    </a></b>	
+</pre></body>
+</html>

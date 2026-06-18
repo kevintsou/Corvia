@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line850">850    </a></b>	            w_PIO_DQS_OE(ch, 1);
+<b><a name="line851">851    </a></b>	            w_PIO_DQS(ch, 0U);
+<b><a name="line852">852    </a></b>	        }
+<b><a name="line853">853    </a></b>	        //set parameter
+<b><a name="line854">854    </a></b>	        hal_nand_ctrl_api_write_data_dobule_byte(ch, (dat + (i * 8)), 1U);
+<b><a name="line855">855    </a></b>	        FIP_DBG_INFO_PRINTF(" - (%xh) - %xh", feat_adr[i], (dat + (i * 8))[i]);
+<b><a name="line856">856    </a></b>	    }
+<b><a name="line857">857    </a></b>	
+<b><a name="line858">858    </a></b>	    //cmd 16h
+<b><a name="line859">859    </a></b>	    w_PIO_CMD(ch, cmd[1]);
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	    FIP_DBG_INFO_PRINTF(" - %xh\r\n", cmd[1]);
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line864">864    </a></b>	        // restore nand odt
+<b><a name="line865">865    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line866">866    </a></b>	        //tODT on/off
+<b><a name="line867">867    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	        // restore controller odt
+<b><a name="line870">870    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line871">871    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line872">872    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line873">873    </a></b>	    }
+<b><a name="line874">874    </a></b>	
+<b><a name="line875">875    </a></b>	    // wait nand busy
+<b><a name="line876">876    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TPARAM]);
+<b><a name="line877">877    </a></b>	
+<b><a name="line878">878    </a></b>	    //Check R/B pin before read
+<b><a name="line879">879    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line880">880    </a></b>	    do {
+<b><a name="line881">881    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line882">882    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line883">883    </a></b>	            break;
+<b><a name="line884">884    </a></b>	        }
+<b><a name="line885">885    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line886">886    </a></b>	
+<b><a name="line887">887    </a></b>	    //tCH
+<b><a name="line888">888    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line889">889    </a></b>	    //dal_fip_pio_ce_disable(ch, ce); // micron need exit data input by ce high when set feature to feature addres 02h
+<b><a name="line890">890    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line891">891    </a></b>	
+<b><a name="line892">892    </a></b>	    return  status;
+<b><a name="line893">893    </a></b>	}
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	U32 hal_fip_api_get_parameter(U8 ch, U8 ce, U8 *cmd, U8 *feat_adr, U8 *dat, U8 data_cnt, U8 cmd_dqs_h, U8 odt_terminated, U32 *ac_timing, U32 chk_rdy)
+<b><a name="line896">896    </a></b>	{
+<b><a name="line897">897    </a></b>	    U32 status;
+<b><a name="line898">898    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line899">899    </a></b>	    U8 i;
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	    status      = 0U;
+<b><a name="line902">902    </a></b>	
+<b><a name="line903">903    </a></b>	    // get parameter
+<b><a name="line904">904    </a></b>	    if (is_sca == 0U) {
+<b><a name="line905">905    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line906">906    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line907">907    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line908">908    </a></b>	    }
+<b><a name="line909">909    </a></b>	    else {
+<b><a name="line910">910    </a></b>	        //set fip fetch pio data from ca bus
+</pre></body>
+</html>

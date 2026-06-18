@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2513">2513    </a></b>	}
+<b><a name="line2514">2514    </a></b>	
+<b><a name="line2515">2515    </a></b>	void hal_sec_pke_set_jmp_isr_clr(void)
+<b><a name="line2516">2516    </a></b>	{
+<b><a name="line2517">2517    </a></b>	    dal_sec_pke_set_jmp_isr_clr();
+<b><a name="line2518">2518    </a></b>	}
+<b><a name="line2519">2519    </a></b>	
+<b><a name="line2520">2520    </a></b>	U8 hal_sec_pke_get_jmp_isr_clr(void)
+<b><a name="line2521">2521    </a></b>	{
+<b><a name="line2522">2522    </a></b>	    return (dal_sec_pke_get_jmp_isr_clr());
+<b><a name="line2523">2523    </a></b>	}
+<b><a name="line2524">2524    </a></b>	
+<b><a name="line2525">2525    </a></b>	U8 hal_sec_pke_get_jmp_isr_st(void)
+<b><a name="line2526">2526    </a></b>	{
+<b><a name="line2527">2527    </a></b>	    return (dal_sec_pke_get_jmp_isr_st());
+<b><a name="line2528">2528    </a></b>	}
+<b><a name="line2529">2529    </a></b>	
+<b><a name="line2530">2530    </a></b>	void hal_sec_pke_set_jmp_isr_int_en(void)
+<b><a name="line2531">2531    </a></b>	{
+<b><a name="line2532">2532    </a></b>	    dal_sec_pke_set_jmp_isr_int_en();
+<b><a name="line2533">2533    </a></b>	}
+<b><a name="line2534">2534    </a></b>	
+<b><a name="line2535">2535    </a></b>	void hal_sec_pke_set_jmp_isr_int_clr(void)
+<b><a name="line2536">2536    </a></b>	{
+<b><a name="line2537">2537    </a></b>	    dal_sec_pke_set_jmp_isr_int_clr();
+<b><a name="line2538">2538    </a></b>	}
+<b><a name="line2539">2539    </a></b>	
+<b><a name="line2540">2540    </a></b>	U8 hal_sec_pke_get_jmp_isr_int_en(void)
+<b><a name="line2541">2541    </a></b>	{
+<b><a name="line2542">2542    </a></b>	    return (dal_sec_pke_get_jmp_isr_int_en());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "dal_sec_pke_get_jmp_isr_int_en()" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2543">2543    </a></b>	}
+<b><a name="line2544">2544    </a></b>	
+<b><a name="line2545">2545    </a></b>	/*!
+<b><a name="line2546">2546    </a></b>	 @brief      set PKE_DYN_CLK_GAT_EN register
+<b><a name="line2547">2547    </a></b>	 @param[in]  enable          - enable/disable PKE_DYN_CLK_GAT_EN register
+<b><a name="line2548">2548    </a></b>	 @note
+<b><a name="line2549">2549    </a></b>	 - None
+<b><a name="line2550">2550    </a></b>	*/
+<b><a name="line2551">2551    </a></b>	void hal_sec_pke_set_dyn_clk_gat_en(U8 enable)
+<b><a name="line2552">2552    </a></b>	{
+<b><a name="line2553">2553    </a></b>	    dal_sec_pke_set_dyn_clk_gat_en(enable);
+<b><a name="line2554">2554    </a></b>	}
+<b><a name="line2555">2555    </a></b>	
+<b><a name="line2556">2556    </a></b>	void hal_sec_pke_set_memr_split_en(U8 enable)
+<b><a name="line2557">2557    </a></b>	{
+<b><a name="line2558">2558    </a></b>	    dal_sec_pke_set_memr_split_en(enable);
+<b><a name="line2559">2559    </a></b>	}
+<b><a name="line2560">2560    </a></b>	
+<b><a name="line2561">2561    </a></b>	U8 hal_sec_pke_get_memr_split_en(void)
+<b><a name="line2562">2562    </a></b>	{
+<b><a name="line2563">2563    </a></b>	    return (dal_sec_pke_get_memr_split_en());
+<b><a name="line2564">2564    </a></b>	}
+<b><a name="line2565">2565    </a></b>	
+<b><a name="line2566">2566    </a></b>	/*!
+<b><a name="line2567">2567    </a></b>	 @brief  [For ICV] get PKE SRAM address
+<b><a name="line2568">2568    </a></b>	 @param[out]  pke_sram_addr      - PKE SRAM address
+<b><a name="line2569">2569    </a></b>	 @return PKE SRAM address
+<b><a name="line2570">2570    </a></b>	 @note
+<b><a name="line2571">2571    </a></b>	 - None
+<b><a name="line2572">2572    </a></b>	 */
+<b><a name="line2573">2573    </a></b>	U32 hal_sec_pke_get_pke_sram_addr(void)
+</pre></body>
+</html>

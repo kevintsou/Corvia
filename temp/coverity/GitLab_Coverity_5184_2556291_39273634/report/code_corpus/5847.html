@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2450">2450    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->q),      0x00, size_n);
+<b><a name="line2451">2451    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->q_inv),  0x00, size_n);
+<b><a name="line2452">2452    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->output), 0x00, (U32)size_n << 1UL);
+<b><a name="line2453">2453    </a></b>	
+<b><a name="line2454">2454    </a></b>	    // uM1, uM2 and P, Q, P needs to be odd number
+<b><a name="line2455">2455    </a></b>	    if ((modulus[0]->mp_d_ptr[0] & 1UL) == 1UL)  // odd
+<b><a name="line2456">2456    </a></b>	    {
+<b><a name="line2457">2457    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m1), (void *)(U8 *)(x[0]->mp_d_ptr),       (x[0]->mp_size << 2));
+<b><a name="line2458">2458    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->p),  (void *)(U8 *)(modulus[0]->mp_d_ptr), (modulus[0]->mp_size << 2));
+<b><a name="line2459">2459    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m2), (void *)(U8 *)(x[1]->mp_d_ptr),       (x[1]->mp_size << 2));
+<b><a name="line2460">2460    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->q),  (void *)(U8 *)(modulus[1]->mp_d_ptr), (modulus[1]->mp_size << 2));
+<b><a name="line2461">2461    </a></b>	    }
+<b><a name="line2462">2462    </a></b>	    else
+<b><a name="line2463">2463    </a></b>	    {
+<b><a name="line2464">2464    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m1), (void *)(U8 *)(x[1]->mp_d_ptr),       (x[1]->mp_size << 2));
+<b><a name="line2465">2465    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->p),  (void *)(U8 *)(modulus[1]->mp_d_ptr), (modulus[1]->mp_size << 2));
+<b><a name="line2466">2466    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m2), (void *)(U8 *)(x[0]->mp_d_ptr),       (x[0]->mp_size << 2));
+<b><a name="line2467">2467    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->q),  (void *)(U8 *)(modulus[0]->mp_d_ptr), (modulus[0]->mp_size << 2));
+<b><a name="line2468">2468    </a></b>	    }
+<b><a name="line2469">2469    </a></b>	
+<b><a name="line2470">2470    </a></b>	    // import P_RR, P_N0, QInv
+<b><a name="line2471">2471    </a></b>	    if (hal_sec_pqc_kaz_crt_gen_r_Inv((U8 *)kaz_powm_buf_ptr->p, (U8 *)kaz_powm_buf_ptr->q, size_n, (U8 *)kaz_powm_buf_ptr->p_rr, (U8 *)kaz_powm_buf_ptr->p_n0, (U8 *)kaz_powm_buf_ptr->q_inv, kaz_powm_buf_ptr) == SEC_YES)
+<b><a name="line2472">2472    </a></b>	    {
+<b><a name="line2473">2473    </a></b>	        if (hal_sec_pqc_kaz_pke_crt((size_n << 1U), (U8 *)kaz_powm_buf_ptr->m1, (U8 *)kaz_powm_buf_ptr->m2, (U8 *)kaz_powm_buf_ptr->p, size_n, (U8 *)kaz_powm_buf_ptr->p_rr, (U8 *)kaz_powm_buf_ptr->p_n0, (U8 *)kaz_powm_buf_ptr->q, size_n, (U8 *)kaz_powm_buf_ptr->q_inv, (U8 *)kaz_powm_buf_ptr->output) != SEC_YES)
+<b><a name="line2474">2474    </a></b>	        {
+<b><a name="line2475">2475    </a></b>	            return SEC_NO;
+<b><a name="line2476">2476    </a></b>	        }
+<b><a name="line2477">2477    </a></b>	
+<b><a name="line2478">2478    </a></b>	        U32 output_len = hal_sec_pqc_kaz_get_byte_size(modulus[0]->mp_d_ptr, (modulus[0]->mp_size << 2UL)) + hal_sec_pqc_kaz_get_byte_size(modulus[1]->mp_d_ptr, (modulus[1]->mp_size << 2UL)); //(modulus[0]->mp_size << 2) + (modulus[1]->mp_size << 2);//
+<b><a name="line2479">2479    </a></b>	        output_len = HAL_SEC_PQC_KAZ_SIZE_ALIGN_4BYTE(output_len);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "4UL" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line2480">2480    </a></b>	
+<b><a name="line2481">2481    </a></b>	        hal_sec_pqc_kaz_mp_import(crt, output_len, sizeof(U8), 0U, (U8 *)kaz_powm_buf_ptr->output);
+<b><a name="line2482">2482    </a></b>	    }
+<b><a name="line2483">2483    </a></b>	    else
+<b><a name="line2484">2484    </a></b>	    {
+<b><a name="line2485">2485    </a></b>	        return SEC_NO;
+<b><a name="line2486">2486    </a></b>	    }
+<b><a name="line2487">2487    </a></b>	
+<b><a name="line2488">2488    </a></b>	    return SEC_YES;
+<b><a name="line2489">2489    </a></b>	}
+<b><a name="line2490">2490    </a></b>	
+<b><a name="line2491">2491    </a></b>	
+<b><a name="line2492">2492    </a></b>	static const U8 primegap[] =
+<b><a name="line2493">2493    </a></b>	{
+<b><a name="line2494">2494    </a></b>	    2, 2, 4, 2, 4, 2, 4, 6, 2, 6, 4, 2, 4, 6, 6, 2, 6, 4, 2, 6, 4, 6, 8, 4, 2, 4, 2, 4, 14, 4, 6,
+<b><a name="line2495">2495    </a></b>	    2, 10, 2, 6, 6, 4, 6, 6, 2, 10, 2, 4, 2, 12, 12, 4, 2, 4, 6, 2, 10, 6, 6, 6, 2, 6, 4, 2, 10, 14, 4, 2,
+<b><a name="line2496">2496    </a></b>	    4, 14, 6, 10, 2, 4, 6, 8, 6, 6, 4, 6, 8, 4, 8, 10, 2, 10, 2, 6, 4, 6, 8, 4, 2, 4, 12, 8, 4, 8, 4, 6,
+<b><a name="line2497">2497    </a></b>	    12, 2, 18, 6, 10, 6, 6, 2, 6, 10, 6, 6, 2, 6, 6, 4, 2, 12, 10, 2, 4, 6, 6, 2, 12, 4, 6, 8, 10, 8, 10, 8,
+<b><a name="line2498">2498    </a></b>	    6, 6, 4, 8, 6, 4, 8, 4, 14, 10, 12, 2, 10, 2, 4, 2, 10, 14, 4, 2, 4, 14, 4, 2, 4, 20, 4, 8, 10, 8, 4, 6,
+<b><a name="line2499">2499    </a></b>	    6, 14, 4, 6, 6, 8, 6, 12
+<b><a name="line2500">2500    </a></b>	};
+<b><a name="line2501">2501    </a></b>	
+<b><a name="line2502">2502    </a></b>	U8 hal_sec_pqc_kaz_millerrabin(HAL_SEC_PQC_KAZ_MP_S_LIST p, HAL_SEC_PQC_KAZ_MP_S_LIST b, HAL_SEC_PQC_KAZ_NEXT_PRIME_BUF_S_PTR kaz_next_prime_buf_ptr, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_powm_buf_ptr)
+<b><a name="line2503">2503    </a></b>	{
+<b><a name="line2504">2504    </a></b>	    HAL_SEC_PQC_KAZ_MP_S_LIST p1, odd_r, even_r_tmp, y;
+<b><a name="line2505">2505    </a></b>	    U32 s, j;
+<b><a name="line2506">2506    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(p1, (U32 *)(void *)(kaz_next_prime_buf_ptr->next_prime_p1), HAL_SEC_PQC_KAZ_NEXT_PRIME_P1_LEN);
+<b><a name="line2507">2507    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(odd_r, (U32 *)(void *)(kaz_next_prime_buf_ptr->next_prime_odd_r), HAL_SEC_PQC_KAZ_NEXT_PRIME_ODD_R_LEN);
+<b><a name="line2508">2508    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(even_r_tmp, (U32 *)(void *)(kaz_next_prime_buf_ptr->next_prime_even_r), HAL_SEC_PQC_KAZ_NEXT_PRIME_EVEN_R_LEN);
+<b><a name="line2509">2509    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(y, (U32 *)(void *)(kaz_next_prime_buf_ptr->next_prime_mr_y_temp), HAL_SEC_PQC_KAZ_NEXT_PRIME_MR_Y_TEMP_LEN);
+<b><a name="line2510">2510    </a></b>	
+</pre></body>
+</html>

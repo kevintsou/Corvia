@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2280">2280    </a></b>	                            //Data Address depends on the slot wordline being loaded
+<b><a name="line2281">2281    </a></b>	                            //Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2282">2282    </a></b>	                            data_address = (project_binary_address + (parallel_slot_wordline * (node_max << LC_BYTE_SIZE_SHIFT)));
+<b><a name="line2283">2283    </a></b>	                            spare_address = (spare_buffer + (a_channel[parallel] * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT)));
+<b><a name="line2284">2284    </a></b>	
+<b><a name="line2285">2285    </a></b>	                            Dump_LoadCode(tprintf("Read Trigger Parallel %d", parallel));
+<b><a name="line2286">2286    </a></b>	                            Dump_LoadCode(tprintf("(Channel %d) ", a_channel[parallel]));
+<b><a name="line2287">2287    </a></b>	
+<b><a name="line2288">2288    </a></b>	                            Dump_LoadCode(tprintf("FSA %x to ", (U32)fsa));
+<b><a name="line2289">2289    </a></b>	                            Dump_LoadCode(tprintf("Data @ %x ", data_address));
+<b><a name="line2290">2290    </a></b>	                            Dump_LoadCode(tprintf("Spare @ %x", spare_address));
+<b><a name="line2291">2291    </a></b>	
+<b><a name="line2292">2292    </a></b>	                            Dump_LoadCode(tprintf("Bank %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_phy_bank.shift) & gFplApiStruct.addr_rule->rule_phy_bank.mask)));
+<b><a name="line2293">2293    </a></b>	                            Dump_LoadCode(tprintf("Channel %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask)));
+<b><a name="line2294">2294    </a></b>	                            Dump_LoadCode(tprintf("Die %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_die.shift) & gFplApiStruct.addr_rule->rule_die.mask)));
+<b><a name="line2295">2295    </a></b>	                            Dump_LoadCode(tprintf("Block %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask)));
+<b><a name="line2296">2296    </a></b>	                            Dump_LoadCode(tprintf("Plane %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask)));
+<b><a name="line2297">2297    </a></b>	                            Dump_LoadCode(tprintf("Page %x", (U32)((fsa >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2298">2298    </a></b>	
+<b><a name="line2299">2299    </a></b>	                            //Only read this copy if this channel is not already being read by another parallel
+<b><a name="line2300">2300    </a></b>	                            if (0 == (channel_bitmap & (1 << a_channel[parallel]))) {
+<b><a name="line2301">2301    </a></b>	                                //This parallel is read and can be skipped in subsequent loops
+<b><a name="line2302">2302    </a></b>	                                loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2303">2303    </a></b>	
+<b><a name="line2304">2304    </a></b>	                                Dump_LoadCode(tprintf("Read Trigger Parallel %d(Channel %d) FSA %L:, block %d, plane %d, page %d", parallel, a_channel[parallel], fsa, (U32)((fsa >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2305">2305    </a></b>	
+<b><a name="line2306">2306    </a></b>	                                //Set all the parameters needed by the read trigger and read DMA here
+<b><a name="line2307">2307    </a></b>	                                a_fip_read_param[parallel].nand_addr.all = fsa;
+<b><a name="line2308">2308    </a></b>	                                for (node = 0; node < node_max; node++) {
+<b><a name="line2309">2309    </a></b>	                                    if (a_node_to_load_bitmap[parallel] & (1 << node)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "a_node_to_load_bitmap[parallel] & (1 << node)" does not have an essentially boolean type.</font>
+<b><a name="line2310">2310    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_address + (node << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2311">2311    </a></b>	                                        Dump_LoadCode(tprintf("Data addr %x, node = %d ", a_fip_read_param[parallel].buf_addr[node], node));
+<b><a name="line2312">2312    </a></b>	                                    }
+<b><a name="line2313">2313    </a></b>	                                    else {
+<b><a name="line2314">2314    </a></b>	                                        //Node already loaded, load the data into the unused data_buffer
+<b><a name="line2315">2315    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_buffer + (((a_channel[parallel] * FLH_MAX_LC_PER_PAGE) + node) << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2316">2316    </a></b>	                                    }
+<b><a name="line2317">2317    </a></b>	
+<b><a name="line2318">2318    </a></b>	                                    a_fip_read_param[parallel].spr_addr[node] = spare_address + (node << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><a name="line2319">2319    </a></b>	                                }
+<b><a name="line2320">2320    </a></b>	                                a_fip_read_param[parallel].node_count = node_max;
+<b><a name="line2321">2321    </a></b>	
+<b><a name="line2322">2322    </a></b>	
+<b><a name="line2323">2323    </a></b>	                                command_status = fip_api_read_cmd(&a_fip_read_param[parallel], ((gLRURetryLevel + nand_retry) % total_rr_cnt));
+<b><a name="line2324">2324    </a></b>	                                if (0 == (command_status & (HAL_STATUS_SET_FEAT_DAT_CMP_FAIL | HAL_STATUS_TIMEOUT))) {
+<b><a name="line2325">2325    </a></b>	                                    //Mark this channel as being read
+<b><a name="line2326">2326    </a></b>	                                    channel_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2327">2327    </a></b>	
+<b><a name="line2328">2328    </a></b>	                                    //Mark this parallel as being read
+<b><a name="line2329">2329    </a></b>	                                    reading_parallel_bitmap |= (1 << parallel);
+<b><a name="line2330">2330    </a></b>	
+<b><a name="line2331">2331    </a></b>	                                    res_read_offset_ch_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2332">2332    </a></b>	                                }
+<b><a name="line2333">2333    </a></b>	                                else {
+<b><a name="line2334">2334    </a></b>	
+<b><a name="line2335">2335    </a></b>	                                    Dump_LoadCode(tprintf("!!!Parallel %d ", parallel));
+<b><a name="line2336">2336    </a></b>	                                    Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2337">2337    </a></b>	                                    Dump_LoadCode(tprintf("Read Trigger Error %x", (U64)command_status));
+<b><a name="line2338">2338    </a></b>	                                    sal_log_tracker_set(sal_locate(0xF0, TYPE_LOAD_CODE_ERR));
+<b><a name="line2339">2339    </a></b>	                                    sal_log_info_char('T');
+<b><a name="line2340">2340    </a></b>	                                    sal_log_info_num(a_fip_read_param[parallel].nand_addr.all); //Part of 'T'/'U', FSA of the read command
+</pre></body>
+</html>

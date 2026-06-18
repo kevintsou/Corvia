@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _HAL_FLH_FIP_API_C_
+<b><a name="line19">19    </a></b>	#define _HAL_FLH_FIP_API_C_
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "user_libs.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	extern FIP_INST_STRUCT      gFipInstStruct;
+<b><a name="line24">24    </a></b>	extern FIP_READ_INFO_STRUCT gFIPReadInfoStruct;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	void fip_inst_gen_read_cmd(FIP_CMD_INFO_PTR cmd_info_ptr, FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 *retry_tbl)
+<b><a name="line28">28    </a></b>	{
+<b><a name="line29">29    </a></b>	    U8  *inst_buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line30">30    </a></b>	    U8  *buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line31">31    </a></b>	    U32 sq_cmd_size = 0;
+<b><a name="line32">32    </a></b>	    U16 mr_target_id;
+<b><a name="line33">33    </a></b>	    U16 mr_source_id;
+<b><a name="line34">34    </a></b>	    U8  fta_addr[FLH_FTA_ADDR_MAX];
+<b><a name="line35">35    </a></b>	    U8  die = 0;
+<b><a name="line36">36    </a></b>	    U8  plane = 0;
+<b><a name="line37">37    </a></b>	    mr_target_id = MR_COP0_0_0_MVP(4U * fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line38">38    </a></b>	    mr_source_id = BE_MR_TID_CPU0_CQ_FIP_CH0;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    memset((void *)fta_addr, 0, sizeof(fta_addr));
+<b><a name="line41">41    </a></b>	    //memset((void *)inst_buf, 0x00, DBUF_API_BOOTCODE_TEMP_INST_BUFFER_SIZE);
+<b><a name="line42">42    </a></b>	    fip_set_fta_addr(fta_addr, fip_read_param_struct_ptr, FLH_FTA_ROW_ADDR_MAX);
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    buf += sizeof(MR_HDR_STRUCT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event local_pointer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Local variable "buf" is a pointer.</font>
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    buf = (U8 *)fip_inst_api_insert_hd(buf, 0, 0, 0, 1);
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_api_insert_hd", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_api_insert_hd(buf, 0, 0, 0, 1)".</font>
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, ((U8)1U << fip_read_param_struct_ptr->nand_addr.bank));
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_ce", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_ce(buf, 1 << fip_read_param_struct_ptr->nand_addr.bank)".</font>
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_BUS_SWITCH]);
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_dly", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[6U])".</font>
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCS]);
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_dly", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[2U])".</font>
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    buf = (U8 *)fip_inst_pasring(cmd_info_ptr, buf, fta_addr, die, plane, retry_tbl);
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 2 to function "fip_inst_pasring", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_pasring(cmd_info_ptr, buf, fta_addr, die, plane, retry_tbl)".</font>
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_dly", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[3U])".</font>
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_ce", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_ce(buf, 0)".</font>
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event identity_transfer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Passing "buf" as argument 1 to function "fip_inst_gen_end", which returns an offset off that argument.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event assign:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "buf" = "(U8 *)fip_inst_gen_end(buf)".</font>
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event local_pointer:</font></b> <font face="Arial"; size="3"; color="#FF5959">Local variable "inst_buf" is a pointer.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event misra_c_2012_rule_18_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The pointers "buf" and "inst_buf" do not address elements of the same array.</font>
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    U32 sq_cmd_size_align = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    for (U32 i = 0; i < (sq_cmd_size_align - sq_cmd_size) ; i++)
+<b><a name="line67">67    </a></b>	    {
+<b><a name="line68">68    </a></b>	        inst_buf[i + sq_cmd_size]  = 0;
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    hal_flh_scq_mr_header(inst_buf, mr_target_id, mr_source_id, sq_cmd_size_align);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	U32 fip_inst_api_insert_hd(U8 *inst, U8 ce, U8 lun, U8 plane, U8 dma_rel)
+<b><a name="line78">78    </a></b>	{
+<b><a name="line79">79    </a></b>	    U8 is_sca = gFplApiStruct.p_efuse_nand_setting->sca_mode_en;
+<b><a name="line80">80    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    p->u32_val[0U]         = HAL_FIP_INST_OP_HD;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    p->hd.ce                = ce;
+<b><a name="line85">85    </a></b>	    p->hd.lun               = lun;
+<b><a name="line86">86    </a></b>	    p->hd.pln               = (is_sca == 1) ? plane : 0U;
+<b><a name="line87">87    </a></b>	    p->hd.dma_rel           = dma_rel;
+<b><a name="line88">88    </a></b>	    p->hd.ignore_phi_rvalid = 0U;
+<b><a name="line89">89    </a></b>	    p->hd.sync_bypass       = (is_sca == 1) ? 1U : 0U;
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_HD_STRUCT)];
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+</pre></body>
+</html>

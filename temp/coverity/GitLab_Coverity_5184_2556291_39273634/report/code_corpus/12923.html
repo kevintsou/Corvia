@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_nvme.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line47">47    </a></b>	union hal_apu_cpl_sq
+<b><a name="line48">48    </a></b>	{
+<b><a name="line49">49    </a></b>	    U32 all[5];
+<b><a name="line50">50    </a></b>	    struct
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        //MR HEADER
+<b><a name="line53">53    </a></b>	        U32 tid         : 8;
+<b><a name="line54">54    </a></b>	        U32 len         : 5;
+<b><a name="line55">55    </a></b>	        U32 rsv         : 19;
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	        //DW0
+<b><a name="line58">58    </a></b>	        U32 ctag        : 9;
+<b><a name="line59">59    </a></b>	        U32 rsv1        : 3;
+<b><a name="line60">60    </a></b>	        U32 log_en      : 1;
+<b><a name="line61">61    </a></b>	        U32 rsv2        : 3;
+<b><a name="line62">62    </a></b>	        U32 status      : 15;
+<b><a name="line63">63    </a></b>	        U32 rsv3        : 1;
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	        //DW1
+<b><a name="line66">66    </a></b>	        U32 cmd_spec;
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	        //DW2
+<b><a name="line69">69    </a></b>	        U32 dw1;
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	        //DW3
+<b><a name="line72">72    </a></b>	        U32 rsv4;
+<b><a name="line73">73    </a></b>	    };
+<b><a name="line74">74    </a></b>	};
+<b><a name="line75">75    </a></b>	*/
+<b><a name="line76">76    </a></b>	/*
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line77">77    </a></b>	typedef union hal_apu_wr_buf_rdy      HAL_WR_BUF_RDY_STRUCT, *HAL_WR_BUF_RDY_STRUCT_PTR;
+<b><a name="line78">78    </a></b>	union hal_apu_wr_buf_rdy
+<b><a name="line79">79    </a></b>	{
+<b><a name="line80">80    </a></b>	    U32 all[5];
+<b><a name="line81">81    </a></b>	    struct
+<b><a name="line82">82    </a></b>	    {
+<b><a name="line83">83    </a></b>	        //MR HEADER
+<b><a name="line84">84    </a></b>	        U32 tid         : 8;
+<b><a name="line85">85    </a></b>	        U32 len         : 5;
+<b><a name="line86">86    </a></b>	        U32 rsv         : 19;
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	        //DW0
+<b><a name="line89">89    </a></b>	        U32 ctag        : 9;
+<b><a name="line90">90    </a></b>	        U32 rsv1        : 3;
+<b><a name="line91">91    </a></b>	        U32 ud          : 1;
+<b><a name="line92">92    </a></b>	        U32 dir         : 1;
+<b><a name="line93">93    </a></b>	        U32 lst         : 1;
+<b><a name="line94">94    </a></b>	        U32 fst         : 1;
+<b><a name="line95">95    </a></b>	        U32 node_tag    : 16;
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	        //DW1
+<b><a name="line98">98    </a></b>	        U32 lcap;
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	        //DW2
+<b><a name="line101">101    </a></b>	        U32 lcap_h      : 1;
+<b><a name="line102">102    </a></b>	        U32 lca_h       : 15;
+<b><a name="line103">103    </a></b>	        U32 sv          : 8;
+<b><a name="line104">104    </a></b>	        U32 nsid        : 8;
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	        //DW3
+<b><a name="line107">107    </a></b>	        U32 pb           : 19; //32B unit
+</pre></body>
+</html>

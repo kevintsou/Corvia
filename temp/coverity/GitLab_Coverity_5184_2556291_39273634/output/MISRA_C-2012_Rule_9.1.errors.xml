@@ -1,0 +1,775 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{signature_size}}}}}}</description>
+<line>648</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{(2UL /* 1UL &lt;&lt; 1 */) != (p_project_binary_header-&gt;algorithm_settings &amp; (6UL /* (1UL &lt;&lt; 1) | (1UL &lt;&lt; 2) */))}}}}}}</description>
+<line>674</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>676</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized value {0} when calling {1}.}{{code{signature_size}}}{{code{phal_lms_verify}}}}}}</description>
+<line>699</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_pqc.c</file>
+<function>phal_lms_verify</function>
+<key>1c543a23e7d10951fe73a200c83fb6d2</key>
+<id>10</id>
+</model_ptr>
+</event>
+<extra>signature_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{data}}}}}}</description>
+<line>26</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_UART_MODE == vuc_dispatcher-&gt;mode}}}}}}</description>
+<line>34</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_WAIT == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>35</line>
+<column>13</column>
+<path_event></path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized value {0} when calling {1}.}{{code{data}}}{{code{vuc_uart_rcv_sq}}}}}}</description>
+<line>36</line>
+<column>17</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_rcv_sq</function>
+<key>1926ee55ae9597c16566de8c465298d3</key>
+<id>6</id>
+</model_ptr>
+</event>
+<extra>data</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{data}}}}}}</description>
+<line>26</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_UART_MODE == vuc_dispatcher-&gt;mode}}}}}}</description>
+<line>34</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_WAIT == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>35</line>
+<column>13</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>38</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_RCV_SQ == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>38</line>
+<column>18</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>41</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_RCV_DATA == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>41</line>
+<column>18</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{0 == vuc_dispatcher-&gt;xmod.rcv_state}}}}}}</description>
+<line>42</line>
+<column>17</column>
+<path_event></path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized value {0} when calling {1}.}{{code{data}}}{{code{xmodem_rcv_handler}}}}}}</description>
+<line>45</line>
+<column>17</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_rcv_handler</function>
+<key>32f61a6dfc934736d54336624c048ffc</key>
+<id>9</id>
+</model_ptr>
+</event>
+<extra>data</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{data}}}}}}</description>
+<line>26</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_UART_MODE == vuc_dispatcher-&gt;mode}}}}}}</description>
+<line>34</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_WAIT == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>35</line>
+<column>13</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>38</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_RCV_SQ == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>38</line>
+<column>18</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>41</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_RCV_DATA == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>41</line>
+<column>18</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>47</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{VUC_HANDLER_CMD_DISPATCH == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>47</line>
+<column>18</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>50</line>
+<column>18</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{VUC_HANDLER_SEND_DATA == vuc_dispatcher-&gt;state}}}}}}</description>
+<line>50</line>
+<column>18</column>
+<path_event></path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized value {0} when calling {1}.}{{code{data}}}{{code{xmodem_send_handler}}}}}}</description>
+<line>51</line>
+<column>17</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_send_handler</function>
+<key>92ccbf47f18d998125124e492d34a5d0</key>
+<id>9</id>
+</model_ptr>
+</event>
+<extra>data</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &amp;int_struct)}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>196</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>198</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &amp;int_struct)}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>196</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_F), &amp;int_struct)}}}}}}</description>
+<line>198</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>202</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>204</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &amp;int_struct)}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>196</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_F), &amp;int_struct)}}}}}}</description>
+<line>198</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>202</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(PCLK_MIS_INTR), &amp;int_struct)}}}}}}</description>
+<line>204</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>208</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>210</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &amp;int_struct)}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>196</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_F), &amp;int_struct)}}}}}}</description>
+<line>198</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>202</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(PCLK_MIS_INTR), &amp;int_struct)}}}}}}</description>
+<line>204</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>208</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(SYS_PCLK_DETECT), &amp;int_struct)}}}}}}</description>
+<line>210</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>214</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>216</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.1</checker>
+<type>MISRA_C_2012_Rule_9.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_isr.c</file>
+<function>host_api_pcie_isr</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>var_decl</tag>
+<description>{CovLStrv2{{t{Declaring variable {0} without initializer.}{{code{int_struct}}}}}}</description>
+<line>176</line>
+<column>5</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &amp;int_struct)}}}}}}</description>
+<line>192</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>196</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_F), &amp;int_struct)}}}}}}</description>
+<line>198</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>202</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(PCLK_MIS_INTR), &amp;int_struct)}}}}}}</description>
+<line>204</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>208</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(SYS_PCLK_DETECT), &amp;int_struct)}}}}}}</description>
+<line>210</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>214</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{hal_chk_pcie_int_sts(hal_pcie_int_type(PF_FLR_REQ), &amp;int_struct)}}}}}}</description>
+<line>216</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>221</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_1_violation</tag>
+<description>{CovLStrv2{{t{Using uninitialized element of array {0} when calling {1}.}{{code{int_struct.dw}}}{{code{hal_chk_pcie_int_sts}}}}}}</description>
+<line>223</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_int.c</file>
+<function>hal_chk_pcie_int_sts</function>
+<key>6e2c0286d8b47f8c8f282eb83ca66336</key>
+<id>3</id>
+</model_ptr>
+</event>
+<extra>int_struct</extra>
+<subcategory>none</subcategory>
+</error>

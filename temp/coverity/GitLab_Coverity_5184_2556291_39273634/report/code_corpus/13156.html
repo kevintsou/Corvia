@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef HAL_SEC_PQC_COMM_MLKEM_H
+<b><a name="line2">2    </a></b>	#define HAL_SEC_PQC_COMM_MLKEM_H
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include <stdint.h>
+<b><a name="line5">5    </a></b>	#include "hal_sec_pqc_comm.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	/*************************************************************
+<b><a name="line9">9    </a></b>	 *  ****************KYBER PARAMETERS DEFINE******************
+<b><a name="line10">10    </a></b>	 *************************************************************/
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define HAL_SEC_PQC_MLKEM_SEED_LEN                   (32UL)   /* size in bytes of hashes, and seeds */
+<b><a name="line13">13    </a></b>	#define HAL_SEC_PQC_MLKEM_SS_LEN                     (32UL)   /* size in bytes of shared key */
+<b><a name="line14">14    </a></b>	#define HAL_SEC_PQC_MLKEM_POLY_LEN                   (384UL)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define HAL_SEC_PQC_MLKEM_MSG_LEN                    (HAL_SEC_PQC_MLKEM_SEED_LEN)
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define HAL_SEC_PQC_MLKEM_N                          (256UL)
+<b><a name="line19">19    </a></b>	#define HAL_SEC_PQC_MLKEM_Q                          (3329UL)
+<b><a name="line20">20    </a></b>	#define HAL_SEC_PQC_MLKEM_K                          (4UL)
+<b><a name="line21">21    </a></b>	#define HAL_SEC_PQC_MLKEM_ETA1                       (2UL)
+<b><a name="line22">22    </a></b>	#define HAL_SEC_PQC_MLKEM_ETA2                       (2UL)
+<b><a name="line23">23    </a></b>	#define HAL_SEC_PQC_MLKEM_MONT                       (-1044) // 2^16 mod q
+<b><a name="line24">24    </a></b>	#define HAL_SEC_PQC_MLKEM_QINV                       (-3327) // q^-1 mod 2^16
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	#define HAL_SEC_PQC_MLKEM_COMPRESSED_POLYVEC_LEN     (1408UL)
+<b><a name="line27">27    </a></b>	#define HAL_SEC_PQC_MLKEM_PUB_KEY_LEN                (1568UL)
+<b><a name="line28">28    </a></b>	#define HAL_SEC_PQC_MLKEM_PRI_KEY_LEN                (3168UL)
+<b><a name="line29">29    </a></b>	#define HAL_SEC_PQC_MLKEM_CTX_LEN                    (1568UL)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "HAL_SEC_PQC_MLKEM_CTX_LEN", which is has already been used.</font>
+<b><a name="line30">30    </a></b>	#define HAL_SEC_PQC_MLKEM_POLYVEC_LEN                (4UL * 384UL)
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	extern const S32 kyber_zetas[128];
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	typedef struct hal_sec_pqc_hash_buf_new_s HAL_SEC_PQC_HASH_BUF_NEW_T, *HAL_SEC_PQC_HASH_BUF_NEW_T_PTR;
+<b><a name="line35">35    </a></b>	struct hal_sec_pqc_hash_buf_new_s
+<b><a name="line36">36    </a></b>	{
+<b><a name="line37">37    </a></b>	    U8 hash_src[HAL_SEC_PQC_HASH_SRC_ADDR_LEN];
+<b><a name="line38">38    </a></b>	    U8 hash_targ[HAL_SEC_PQC_HASH_TARG_ADDR_LEN];
+<b><a name="line39">39    </a></b>	    U8 hash_sqz[HAL_SEC_PQC_HASH_SQZ_ADDR_LEN];
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    U32 hash_buf_len;
+<b><a name="line42">42    </a></b>	};
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	/********************************************************************
+<b><a name="line45">45    </a></b>	 *                  General one-stop sha3 utils
+<b><a name="line46">46    </a></b>	 *******************************************************************/
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	void hal_sec_pqc_sha3_blocking_new(U8 *output, U32 outlen, U8 *input, U32 inlen, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	void hal_sec_pqc_hash_absorb_new(U8 *input, U32 inlen, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line51">51    </a></b>	void hal_sec_pqc_hash_finalize_new(U8 *output, U32 outlen, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line52">52    </a></b>	void hal_sec_pqc_hash_sqz_new(U8 *output, U32 outlen, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line53">53    </a></b>	void hal_sec_pqc_hash_free_new(HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	void hal_sec_pqc_hash_stream_absorb_new(U8 *seed, U8 seed_len, U16 nonce, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	void hal_sec_pqc_hash_prf(U8 *out, U32 outlen, U8 key[HAL_SEC_PQC_MLKEM_SEED_LEN], U8 nonce, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line58">58    </a></b>	void hal_sec_pqc_hash_rkprf(U8 out[HAL_SEC_PQC_MLKEM_SS_LEN], U8 key[HAL_SEC_PQC_MLKEM_SEED_LEN], U8 *input, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr);
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	#endif
+<b><a name="line61">61    </a></b>	
+</pre></body>
+</html>

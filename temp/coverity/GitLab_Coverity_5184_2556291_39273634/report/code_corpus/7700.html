@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_dice_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line46">46    </a></b>	                //KAT failed, become stuck
+<b><a name="line47">47    </a></b>	                security_fail_handle(SECURITY_FAIL_TYPE_KAT);
+<b><a name="line48">48    </a></b>	            }
+<b><a name="line49">49    </a></b>	            else {
+<b><a name="line50">50    </a></b>	                sal_log_tracker_set(sal_locate(0x12, TYPE_STEP));
+<b><a name="line51">51    </a></b>	            }
+<b><a name="line52">52    </a></b>	            return FAIL;
+<b><a name="line53">53    </a></b>	        }
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    // KAT pass
+<b><a name="line57">57    </a></b>	    sal_log_tracker_set(sal_locate(0x13, TYPE_STEP));
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    return PASS;
+<b><a name="line60">60    </a></b>	}
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	/*!
+<b><a name="line63">63    </a></b>	@brief generate cdi
+<b><a name="line64">64    </a></b>	@param[in] dice_param                  dice parameter structure
+<b><a name="line65">65    </a></b>	@param[in] cal_buf_addr                require 1KB size, should be located in ddr or dbuffer(accessed by SHA HW IP)
+<b><a name="line66">66    </a></b>	@param[in] output_buf                  require 64B size, contain CDI, should be located in ddr or dbuffer
+<b><a name="line67">67    </a></b>	@return U8, dice pass or error
+<b><a name="line68">68    </a></b>	@note
+<b><a name="line69">69    </a></b>	- SHA HW IP
+<b><a name="line70">70    </a></b>	*/
+<b><a name="line71">71    </a></b>	void dice_gen_cdi(DICE_PARAM_PTR dice_param, U32 cal_buf_addr, DICE_OUTPUT_PTR output_buf)
+<b><a name="line72">72    </a></b>	{
+<b><a name="line73">73    </a></b>	    const U8  label[11]   = {'M', 'i', 'c', 'r', 'o', 'n', ' ', 'D', 'I', 'C', 'E'};
+<b><a name="line74">74    </a></b>	    const U8  context1[4] = {'H', 'M', 'A', 'C'};
+<b><a name="line75">75    </a></b>	    const U16 l           = (HAL_SEC_SHA2_512_DIGEST_LEN * 8);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "64U" (unsigned) is not the same as that of the right operand "8"(signed).</font>
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	    gSecAesTimeout = 0U; // clear flag
+<b><a name="line78">78    </a></b>	    gSecShaTimeout = 0U; // clear flag
+<b><a name="line79">79    </a></b>	    gSecPkeTimeout = 0U; // clear flag
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    SEC_HMAC_PARAMS_T        hmac_sha_param;
+<b><a name="line82">82    </a></b>	    SEC_KDF_PARAMS_T         kdf_param;
+<b><a name="line83">83    </a></b>	    U32 uds_buf_addr           = cal_buf_addr;
+<b><a name="line84">84    </a></b>	    U32 input_addr             = cal_buf_addr + SECTOR_SIZE;
+<b><a name="line85">85    </a></b>	    U32 dice_error_value       = SEC_DICE_CDI_ERROR_VALUE;
+<b><a name="line86">86    </a></b>	    U8  dice_rslt              = DICE_NO_ERROR;
+<b><a name="line87">87    </a></b>	    U8  i;
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	    // dice micron use
+<b><a name="line90">90    </a></b>	    U32 tmp_len = 0;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    U32 sha_mode;
+<b><a name="line93">93    </a></b>	    U32 digest_size;
+<b><a name="line94">94    </a></b>	    U8  is_dt_attribution = phal_get_dt_attribution_define();
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    memset((void *)&hmac_sha_param, 0, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line97">97    </a></b>	    memset((void *)&kdf_param,      0, sizeof(SEC_KDF_PARAMS_T));
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    if (is_dt_attribution == SEC_YES)
+<b><a name="line100">100    </a></b>	    {
+<b><a name="line101">101    </a></b>	        sha_mode    = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line102">102    </a></b>	        digest_size = HAL_SEC_SHA2_SM3_DIGEST_LEN;
+<b><a name="line103">103    </a></b>	    }
+<b><a name="line104">104    </a></b>	    else
+<b><a name="line105">105    </a></b>	    {
+<b><a name="line106">106    </a></b>	        sha_mode    = HAL_SEC_SHA2_512_MODE;
+</pre></body>
+</html>

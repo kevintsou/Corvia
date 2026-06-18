@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	EFUSE_UDS_KDK *get_uds_kdk(EFUSE_API *p_efuse_api)
+<b><a name="line291">291    </a></b>	{
+<b><a name="line292">292    </a></b>	    U32 uds_kdk_offset;
+<b><a name="line293">293    </a></b>	    U32 bank;
+<b><a name="line294">294    </a></b>	    U32 bank_offset;
+<b><a name="line295">295    </a></b>	    U8  ecc_cor_en;
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	    ecc_cor_en = p_efuse_api->efuse_security_setting.uds_kdk_ecc_cor_en;
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    //Set the offset to the count to indicate an attempt to read UDS KDK has been occurred
+<b><a name="line300">300    </a></b>	    p_efuse_api->efuse_uds_kdk_offset = EFUSE_UDS_KDK_COUNT;
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    for (uds_kdk_offset = 0U; uds_kdk_offset < EFUSE_UDS_KDK_COUNT; uds_kdk_offset++) {
+<b><a name="line303">303    </a></b>	        if (1U == p_efuse_api->efuse_security_setting.u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_valid) {
+<b><a name="line304">304    </a></b>	            if (0U == p_efuse_api->efuse_security_setting.u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_invalid) {
+<b><a name="line305">305    </a></b>	                if (0U == p_efuse_api->efuse_uds_kdk_read) {
+<b><a name="line306">306    </a></b>	                    bank = EFUSE_BANK_UDS_KDK_OFFSET + (uds_kdk_offset * EFUSE_BANK_UDS_KDK_SIZE);
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	                    if (0U == efuse_api_read_bank(
+<b><a name="line309">309    </a></b>	                            &(p_efuse_api->efuse_uds_kdk.dword[0U]),
+<b><a name="line310">310    </a></b>	                            ecc_cor_en,
+<b><a name="line311">311    </a></b>	                            bank,
+<b><a name="line312">312    </a></b>	                            EFUSE_BANK_UDS_KDK_SIZE,
+<b><a name="line313">313    </a></b>	                            &(p_efuse_api->a_efuse_bank_read_state[bank]))) {
+<b><a name="line314">314    </a></b>	                        //Record that the eFuse value has been read correctly
+<b><a name="line315">315    </a></b>	                        p_efuse_api->efuse_uds_kdk_read = 1U;
+<b><a name="line316">316    </a></b>	
+<b><a name="line317">317    </a></b>	                        //Record the UDS KDK read
+<b><a name="line318">318    </a></b>	                        p_efuse_api->efuse_uds_kdk_offset = uds_kdk_offset;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "uds_kdk_offset" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line319">319    </a></b>	                    }
+<b><a name="line320">320    </a></b>	                    else {
+<b><a name="line321">321    </a></b>	                        //Clear all temporary and partial values of UDS KDK on eFuse UECC
+<b><a name="line322">322    </a></b>	                        clear_uds_kdk(p_efuse_api);
+<b><a name="line323">323    </a></b>	                    }
+<b><a name="line324">324    </a></b>	                }
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	            }
+<b><a name="line327">327    </a></b>	            for (bank_offset = 0U; bank_offset < EFUSE_BANK_UDS_KDK_SIZE; bank_offset++) {
+<b><a name="line328">328    </a></b>	                //Disable Read Access to any UDS KDK that is marked as valid
+<b><a name="line329">329    </a></b>	                bank = (EFUSE_BANK_UDS_KDK_OFFSET + (uds_kdk_offset * EFUSE_BANK_UDS_KDK_SIZE)) + bank_offset;
+<b><a name="line330">330    </a></b>	                hal_efuse_disable_read_access(bank);
+<b><a name="line331">331    </a></b>	            }
+<b><a name="line332">332    </a></b>	        }
+<b><a name="line333">333    </a></b>	    }
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    if (p_efuse_api->efuse_uds_kdk_read) {
+<b><a name="line336">336    </a></b>	        return &(p_efuse_api->efuse_uds_kdk);
+<b><a name="line337">337    </a></b>	    }
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	    return NULL;
+<b><a name="line340">340    </a></b>	}
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	void clear_uds_kdk(EFUSE_API *p_efuse_api)
+<b><a name="line343">343    </a></b>	{
+<b><a name="line344">344    </a></b>	    memset((void *) & (p_efuse_api->efuse_uds_kdk), 0x00, sizeof(p_efuse_api->efuse_uds_kdk));
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    return;
+<b><a name="line347">347    </a></b>	}
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	void clear_sec_key_hash_and_data(EFUSE_API *p_efuse_api)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line205">205    </a></b>	                        }
+<b><a name="line206">206    </a></b>	                    }
+<b><a name="line207">207    </a></b>	                    mode = ISP_SPI_MODE;
+<b><a name="line208">208    </a></b>	                    break;
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	                case VUC_ISP_JUMP_SPI_MODE:
+<b><a name="line211">211    </a></b>	#if DB_VUC_ISP_JUMP
+<b><a name="line212">212    </a></b>	                    Dump_Vendor(tprintf("\n\r Jump to SPI Code"));
+<b><a name="line213">213    </a></b>	#endif
+<b><a name="line214">214    </a></b>	                    gpFwSimCtrl0Reg->no_load_code= 1;
+<b><a name="line215">215    </a></b>	                    gpFwSimCtrl0Reg->not_init_host_hw= 1;
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	                    if (host_service_type != HOST_SERVICE_UART_TYPE)
+<b><a name="line218">218    </a></b>	                    {
+<b><a name="line219">219    </a></b>	                        if (FALSE == host->hcmd.mctp_fake_hcmd)
+<b><a name="line220">220    </a></b>	                        {
+<b><a name="line221">221    </a></b>	                            gpFwSimCtrl0Reg->send_cpl= 1;
+<b><a name="line222">222    </a></b>	                        }
+<b><a name="line223">223    </a></b>	                        else
+<b><a name="line224">224    </a></b>	                        {
+<b><a name="line225">225    </a></b>	                            gpFwSimCtrl0Reg->smbus_send_cpl= 1;
+<b><a name="line226">226    </a></b>	                        }
+<b><a name="line227">227    </a></b>	                    }
+<b><a name="line228">228    </a></b>	                    mode = ISP_SPI_MODE;
+<b><a name="line229">229    </a></b>	                    break;
+<b><a name="line230">230    </a></b>	            }
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	            if (gpFwSimCtrl0Reg->send_cpl)
+<b><a name="line233">233    </a></b>	            {
+<b><a name="line234">234    </a></b>	                gpFwSimCtrl1Reg->ctag= gHostApiStruct.hcmd.payload.info.nonuser.ctag;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "gHostApiStruct.hcmd.payload.info.nonuser.ctag" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 16-bit int".</font>
+<b><a name="line235">235    </a></b>	            }
+<b><a name="line236">236    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line237">237    </a></b>	            else if (gpFwSimCtrl0Reg->smbus_send_cpl)
+<b><a name="line238">238    </a></b>	            {
+<b><a name="line239">239    </a></b>	                // The time interval from mi cmd (vuc jump) to send cpl is 73.72ms (HAPS L2, less than 100ms don't need MPR)
+<b><a name="line240">240    </a></b>	                mctp_smbus_send_cpl_after_jump(&gMCTP, &gSMBM);
+<b><a name="line241">241    </a></b>	            }
+<b><a name="line242">242    </a></b>	#endif
+<b><a name="line243">243    </a></b>	            isp_jump(mode);
+<b><a name="line244">244    </a></b>	            while (1);
+<b><a name="line245">245    </a></b>	        }
+<b><a name="line246">246    </a></b>	    }
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line249">249    </a></b>	}
+<b><a name="line250">250    </a></b>	void vuc_uart_test(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line251">251    </a></b>	{
+<b><a name="line252">252    </a></b>	    U8  status_code = VALID_STATUS;
+<b><a name="line253">253    </a></b>	    U8  status_code_type = VALID_STATUS_TYPE;
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	    VUC_UART_TEST_PARAM_PTR sq = (VUC_UART_TEST_PARAM_PTR)param->sq;
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	    Dump_Vendor(tprintf("sq->sub_feature = %x",  sq->sub_feature));
+<b><a name="line259">259    </a></b>	    Dump_Vendor(tprintf("sq->baudrate = %x",  sq->baudrate));
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	    if ((VUC_ISP_UART_TEST_BAUDRATE_CHANGE == sq->sub_feature)) {
+<b><a name="line263">263    </a></b>	        bootcode_hal_uart_api_w_baud_rate(ROUNDING((U32)UART_REFERENCE_CLOCK, (sq->baudrate * 100)));
+<b><a name="line264">264    </a></b>	        Dump_Vendor(tprintf("hal_uart_init_register_setting",  sq->baudrate * 100, TRUE));
+<b><a name="line265">265    </a></b>	    }
+</pre></body>
+</html>

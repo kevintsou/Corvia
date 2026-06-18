@@ -1,0 +1,18 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 9.3</checker>
+<type>MISRA_C_2012_Rule_9.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_9_3_violation</tag>
+<description>{CovLStrv2{{t{Arrays shall not be partially initialized.}}}}</description>
+<line>9427</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>

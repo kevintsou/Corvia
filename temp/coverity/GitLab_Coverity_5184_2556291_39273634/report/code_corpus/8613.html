@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3719">3719    </a></b>	U8 load_code_process(LOAD_CODE_STATUS *p_load_code_status)
+<b><a name="line3720">3720    </a></b>	{
+<b><a name="line3721">3721    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line3722">3722    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line3723">3723    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line3724">3724    </a></b>	
+<b><a name="line3725">3725    </a></b>	    ID_TABLE *a_id_table;
+<b><a name="line3726">3726    </a></b>	
+<b><a name="line3727">3727    </a></b>	    CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status;
+<b><a name="line3728">3728    </a></b>	
+<b><a name="line3729">3729    </a></b>	    U8 code_pointer_block_set_count;
+<b><a name="line3730">3730    </a></b>	    U8 code_pointer_block_set;
+<b><a name="line3731">3731    </a></b>	
+<b><a name="line3732">3732    </a></b>	    CODE_POINTER *p_code_pointer;
+<b><a name="line3733">3733    </a></b>	
+<b><a name="line3734">3734    </a></b>	    U8 load_status;
+<b><a name="line3735">3735    </a></b>	
+<b><a name="line3736">3736    </a></b>	    U32 project_binary_address;
+<b><a name="line3737">3737    </a></b>	
+<b><a name="line3738">3738    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line3739">3739    </a></b>	    //The location of where the possible maximum 2 scanned ID Tables will be stored
+<b><a name="line3740">3740    </a></b>	    a_id_table = p_load_code_status->a_id_table;
+<b><a name="line3741">3741    </a></b>	    //The location of where the Code Pointer used will be stored
+<b><a name="line3742">3742    </a></b>	    p_code_pointer = p_load_code_status->p_code_pointer;
+<b><a name="line3743">3743    </a></b>	    //The location of where the Project Binary will be loaded to
+<b><a name="line3744">3744    </a></b>	    project_binary_address = (U32)(p_load_code_status->p_project_binary_header);
+<b><a name="line3745">3745    </a></b>	    gLRURetryLevel = 0;
+<b><a name="line3746">3746    </a></b>	
+<b><a name="line3747">3747    </a></b>	    for (code_pointer_block_set_count = 0; code_pointer_block_set_count < CODE_POINTER_BLOCK_SET_COUNT_MAX; code_pointer_block_set_count++) {
+<b><a name="line3748">3748    </a></b>	        if(0 != code_pointer_block_set_count) // re-scan id page
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "code_pointer_block_set_count"(unsigned).</font>
+<b><a name="line3749">3749    </a></b>	        {
+<b><a name="line3750">3750    </a></b>	            gLRURetryLevel = 0;
+<b><a name="line3751">3751    </a></b>	            p_load_code_status->code_pointer_block_scan_nand_retry_next = 0;
+<b><a name="line3752">3752    </a></b>	            p_load_code_status->boot_code_scan_skip_plane_index = p_load_code_status->code_pointer_block_scan_plane_next;
+<b><a name="line3753">3753    </a></b>	            p_load_code_status->boot_code_scan_skip_block_index = p_load_code_status->code_pointer_block_scan_block_next;
+<b><a name="line3754">3754    </a></b>	        }
+<b><a name="line3755">3755    </a></b>	
+<b><a name="line3756">3756    </a></b>	        scan_code_pointer_block(p_load_code_status, a_id_table, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status->a_flash_error_channel_bitmap);
+<b><a name="line3757">3757    </a></b>	        code_pointer_block_set = determine_usable_code_pointer_block(p_load_code_status);
+<b><a name="line3758">3758    </a></b>	        p_load_code_status->code_pointer_block_set_use_count++;
+<b><a name="line3759">3759    </a></b>	        p_load_code_status->a_code_pointer_block_set_used[code_pointer_block_set_count] = code_pointer_block_set;
+<b><a name="line3760">3760    </a></b>	        if (code_pointer_block_set < CODE_POINTER_BLOCK_SET_COUNT_MAX) {
+<b><a name="line3761">3761    </a></b>	            p_code_pointer_block_status = &(p_load_code_status->a_code_pointer_block_status[code_pointer_block_set]);
+<b><a name="line3762">3762    </a></b>	            set_id_table_settings(&(a_id_table[code_pointer_block_set]), p_code_pointer_block_status);
+<b><a name="line3763">3763    </a></b>	
+<b><a name="line3764">3764    </a></b>	            load_status = use_id_table_active_fw_slot(&(a_id_table[code_pointer_block_set]), p_code_pointer_block_status, project_binary_address, p_load_code_status, p_load_code_status->a_flash_error_channel_bitmap);
+<b><a name="line3765">3765    </a></b>	            if (0 != load_status) {
+<b><a name="line3766">3766    </a></b>	                //The Active FW Slot inside the ID Table was not used or can not be used
+<b><a name="line3767">3767    </a></b>	                scan_code_pointer_offset(&(a_id_table[code_pointer_block_set].code_pointer_info), p_code_pointer, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_code_pointer_block_status, p_load_code_status->a_flash_error_channel_bitmap);
+<b><a name="line3768">3768    </a></b>	                if (0xFFFF != p_code_pointer_block_status->code_pointer_offset) {
+<b><a name="line3769">3769    </a></b>	                    load_status = use_code_pointer(p_code_pointer, p_code_pointer_block_status, project_binary_address, p_load_code_status, p_load_code_status->a_flash_error_channel_bitmap);
+<b><a name="line3770">3770    </a></b>	                }
+<b><a name="line3771">3771    </a></b>	            }
+<b><a name="line3772">3772    </a></b>	            Dump_LoadCode(tprintf("use_code_pointer status = %x", load_status));
+<b><a name="line3773">3773    </a></b>	            if (0U == load_status) {
+<b><a name="line3774">3774    </a></b>	                sal_log_tracker_set(sal_locate(0x06, TYPE_RSV6));
+<b><a name="line3775">3775    </a></b>	            }
+<b><a name="line3776">3776    </a></b>	            else {
+<b><a name="line3777">3777    </a></b>	                sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line3778">3778    </a></b>	            }
+<b><a name="line3779">3779    </a></b>	#if SEC_ATTACK_DEFENSE_EN
+</pre></body>
+</html>

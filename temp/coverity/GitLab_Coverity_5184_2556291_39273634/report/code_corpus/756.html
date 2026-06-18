@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_pmu_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line31">31    </a></b>	static void phal_pmu_pvt_set_dmac_rom_cpy(U32 grp, U32 src, U32 trg, U32 len)
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    switch (grp)
+<b><a name="line34">34    </a></b>	    {
+<b><a name="line35">35    </a></b>	        case 0:
+<b><a name="line36">36    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_SRC0(0U);
+<b><a name="line37">37    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_SRC0(src);
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_TAR0(0U);
+<b><a name="line40">40    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_TAR0(trg);
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	            w_COP2_CREG_PMU_SWITCH_ADDR0(0U);
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_LEN0(0U);
+<b><a name="line45">45    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_LEN0(len);
+<b><a name="line46">46    </a></b>	            break;
+<b><a name="line47">47    </a></b>	        case 1:
+<b><a name="line48">48    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_SRC1(0U);
+<b><a name="line49">49    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_SRC1(src);
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_TAR1(0U);
+<b><a name="line52">52    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_TAR1(trg);
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	            w_COP2_CREG_PMU_SWITCH_ADDR1(0U);
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_LEN1(0U);
+<b><a name="line57">57    </a></b>	            w_COP2_CREG_PMU_ROM_CPY_LEN1(len);
+<b><a name="line58">58    </a></b>	            break;
+<b><a name="line59">59    </a></b>	        default:
+<b><a name="line60">60    </a></b>	            ALWAYS_ASSERT(__LINE__);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "1" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line61">61    </a></b>	            break;
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	}
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	#define BOOT_CALCULATE_CRC (0)
+<b><a name="line66">66    </a></b>	static void phal_pmu_pvt_pmu_backup_init(U32 offset, U32 src, U32 trg, U32 len, U32 dmac_align)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	    U32 dmac_api_len;
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	    dmac_api_len = len >> phal_pmu_pvt_get_dmac_rom_cpy_len_shift(dmac_align);
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    phal_pmu_pvt_set_dmac_rom_cpy(offset, src, trg, dmac_api_len);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	#if BOOT_CALCULATE_CRC
+<b><a name="line75">75    </a></b>	    U32 crc_val;
+<b><a name="line76">76    </a></b>	    crc_val = phal_dmac_crc32((U32)src, (len - 4U), CRC_JUMP);
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	    Dump_Debug(tprintf("pmu crc value = %x", crc_val));
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    // Program CRC to end 4 byte
+<b><a name="line81">81    </a></b>	    *(volatile U32 *)(src + len - 0x4U) = crc_val;
+<b><a name="line82">82    </a></b>	#endif
+<b><a name="line83">83    </a></b>	}
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	void phal_pmu_md_en_set(U16 mode)
+<b><a name="line86">86    </a></b>	{
+<b><a name="line87">87    </a></b>	    // if (mode == PMU_MD_PRAM_EN)
+<b><a name="line88">88    </a></b>	    // {
+<b><a name="line89">89    </a></b>	    //     tprintf("MD PRAM EN")
+<b><a name="line90">90    </a></b>	    //     w_PMU_MD_PRAM_EN(1U);
+<b><a name="line91">91    </a></b>	    // }
+</pre></body>
+</html>

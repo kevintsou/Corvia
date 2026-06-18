@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line201">201    </a></b>	    // reset variables
+<b><a name="line202">202    </a></b>	    host_var_reset(host);
+<b><a name="line203">203    </a></b>	    gpFwSimCtrl0Reg->send_cpl = 0;
+<b><a name="line204">204    </a></b>	    gpFwSimCtrl1Reg->ctag = 0;
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	    // 9. RRS = 0
+<b><a name="line207">207    </a></b>	    hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_DISABLE);
+<b><a name="line208">208    </a></b>	
+<b><a name="line209">209    </a></b>	    Dump_Reset(tprintf("host_reset_flow done!\n\r"));
+<b><a name="line210">210    </a></b>	}
+<b><a name="line211">211    </a></b>	
+<b><a name="line212">212    </a></b>	static void host_normal_event(HOST_API_STRUCT_PTR host)
+<b><a name="line213">213    </a></b>	{
+<b><a name="line214">214    </a></b>	    HOST_API_EVENT_STRUCT_PTR     event = &gHostApiStruct.host_event;
+<b><a name="line215">215    </a></b>	    //HOST_API_HOST_FLOW_STRUCT_PTR host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line216">216    </a></b>	    //LOAD_CODE_STATUS              *p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line217">217    </a></b>	    PCIE_STRUCT_PTR               pcie = &host->pcie;
+<b><a name="line218">218    </a></b>	    U32 rst_bmp = 0;
+<b><a name="line219">219    </a></b>	    U32 flr_status = 0;
+<b><a name="line220">220    </a></b>	    //PCIE_INT_STS_STRUCT int_sts;
+<b><a name="line221">221    </a></b>	
+<b><a name="line222">222    </a></b>	    host_api_disable_host_int();
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	    Dump_PCIE(tprintf("rst_flag = %x", event->rst_flag));
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	    /*
+<b><a name="line227">227    </a></b>	     * Reset Flow
+<b><a name="line228">228    </a></b>	     */
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	    if (event->rst_flag & HOST_RST_EVENT) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (341UL /* ((((1UL << 0) | (1UL << 2)) | (1UL << 4)) | (1UL << 6)) | (1UL << 8) */)", taking true branch.</font>
+<b><a name="line231">231    </a></b>	        if ((event->rst_flag & RST_PCIE_PERST_F)) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (1UL /* 1UL << 0 */)", taking true branch.</font>
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	            if( dal_pcie_get_sys_perstn_intr(0) == 0 )
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "dal_pcie_get_sys_perstn_intr(0) == 0", taking false branch.</font>
+<b><a name="line234">234    </a></b>	            {
+<b><a name="line235">235    </a></b>	                return;
+<b><a name="line236">236    </a></b>	            }
+<b><a name="line237">237    </a></b>	            dal_set_pcie_reset(0, PCIE_ENABLE);
+<b><a name="line238">238    </a></b>	            Dump_PCIE(tprintf(">> perst_f"));
+<b><a name="line239">239    </a></b>	            rst_bmp |= RST_PCIE_PERST_F;
+<b><a name="line240">240    </a></b>	            #if 0 //AHTBD
+<b><a name="line241">241    </a></b>	            // clear PCIe INT status 0
+<b><a name="line242">242    </a></b>	            memset(&int_sts, 0, sizeof(PCIE_INT_STS_STRUCT));
+<b><a name="line243">243    </a></b>	            int_sts.dw[0U] = 0xFFFFFFFFU;
+<b><a name="line244">244    </a></b>	            pcie->op.clr_pcie_int_sts(pcie, &int_sts);
+<b><a name="line245">245    </a></b>	
+<b><a name="line246">246    </a></b>	            rst_bmp |= RST_PCIE_PERST_F;
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	            // re-init PCIe SRAM
+<b><a name="line249">249    </a></b>	            hal_fw_pcie_sram_init(PCIE_PORT_0);
+<b><a name="line250">250    </a></b>	
+<b><a name="line251">251    </a></b>	            if (host->host_event.perst_r_num > 0U) {
+<b><a name="line252">252    </a></b>	                host->host_event.perst_r_num --;
+<b><a name="line253">253    </a></b>	            }
+<b><a name="line254">254    </a></b>	            sal_log_tracker_set(sal_locate(0x00, TYPE_STEP));
+<b><a name="line255">255    </a></b>	            hal_pcie_hold_reset(pcie, PCIE_PORT_OFST_0, host_flow->attr.use_sys_reg_setting, host->host_event.perst_r_num);
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	            // RRS = 1 for reset_flow
+<b><a name="line258">258    </a></b>	            pcie->op.set_pf_cfg_not_rdy(pcie, PCIE_ENABLE);
+<b><a name="line259">259    </a></b>	            #endif
+<b><a name="line260">260    </a></b>	        }
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	        if (event->rst_flag & RST_PCIE_LINK_F) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (4UL /* 1UL << 2 */)", taking true branch.</font>
+<b><a name="line263">263    </a></b>	            Dump_PCIE(tprintf(">> link_f \n\r"));
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	            sal_log_tracker_set(sal_locate(0x01, TYPE_STEP));
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	            rst_bmp |= RST_PCIE_LINK_F;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	            // RRS = 1 for reset_flow
+<b><a name="line270">270    </a></b>	            hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_ENABLE);
+<b><a name="line271">271    </a></b>	        }
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	        if (event->rst_flag & RST_PCIE_FLR) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (16UL /* 1UL << 4 */)", taking true branch.</font>
+<b><a name="line274">274    </a></b>	            Dump_PCIE(tprintf(">> flr \n\r"));
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	            rst_bmp |= RST_PCIE_FLR;
+<b><a name="line277">277    </a></b>	        }
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	        if (event->rst_flag & RST_NVME_CC_DIS) {
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (64UL /* 1UL << 6 */)", taking true branch.</font>
+<b><a name="line280">280    </a></b>	            Dump_PCIE(tprintf(">> cc.en = 0 \n\r"));
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	            rst_bmp |= RST_NVME_CC_DIS;
+<b><a name="line283">283    </a></b>	        }
+<b><a name="line284">284    </a></b>	
+<b><a name="line285">285    </a></b>	        if (event->rst_flag & RST_NVME_CC_SHN) {
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (256UL /* 1UL << 8 */)", taking true branch.</font>
+<b><a name="line286">286    </a></b>	            Dump_PCIE(tprintf(">> cc.shn \n\r"));
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	            rst_bmp |= RST_NVME_CC_SHN;
+<b><a name="line289">289    </a></b>	        }
+<b><a name="line290">290    </a></b>	
+<b><a name="line291">291    </a></b>	        sal_log_tracker_set(sal_locate(0x02, TYPE_STEP));
+<b><a name="line292">292    </a></b>	        host_reset_flow(host);
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	        if (event->rst_flag & RST_PCIE_FLR) {
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (16UL /* 1UL << 4 */)", taking true branch.</font>
+<b><a name="line295">295    </a></b>	            hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_ENABLE);
+<b><a name="line296">296    </a></b>	            hal_func_trig_pf_flr_ack(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0);
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	           flr_status = dal_pcie_get_pf_flr_active(0, 0);
+<b><a name="line299">299    </a></b>	           while(flr_status & 0x01)
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flr_status & 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flr_status & 1", taking false branch.</font>
+<b><a name="line300">300    </a></b>	           {
+<b><a name="line301">301    </a></b>	                flr_status = dal_pcie_get_pf_flr_active(0, 0);
+<b><a name="line302">302    </a></b>	           }
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line303">303    </a></b>	           dal_clr_pf_flr_ack(0, 0);
+<b><a name="line304">304    </a></b>	           hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_DISABLE);
+<b><a name="line305">305    </a></b>	        }
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (event->rst_flag & RST_NVME_CC_SHN) {
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (256UL /* 1UL << 8 */)", taking true branch.</font>
+<b><a name="line308">308    </a></b>	            dal_nl_set_csts_shst(FIDX_0, HAL_NL_SHUTDOWN_CPL);
+<b><a name="line309">309    </a></b>	        }
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	        if (event->rst_flag & RST_NVME_CC_DIS) {
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (64UL /* 1UL << 6 */)", taking true branch.</font>
+<b><a name="line312">312    </a></b>	            dal_nl_clr_csts_rdy(FIDX_0);
+<b><a name="line313">313    </a></b>	            dal_nl_set_csts_shst(FIDX_0, HAL_NL_NO_SHUTDOWN);
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line317">317    </a></b>	        event->rst_flag &= ~(rst_bmp);
+<b><a name="line318">318    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line319">319    </a></b>	    }
+<b><a name="line320">320    </a></b>	
+<b><a name="line321">321    </a></b>	    /*
+<b><a name="line322">322    </a></b>	     * Activation Flow
+<b><a name="line323">323    </a></b>	     */
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    if (event->rst_flag & (RST_PCIE_PERST_R | RST_PCIE_PERST_R_POLL)) {
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (514UL /* (1UL << 1) | (1UL << 9) */)", taking true branch.</font>
+<b><a name="line326">326    </a></b>	        if ((dal_pcie_get_sys_perstn_intr(0) || (event->rst_flag & RST_PCIE_PERST_R_POLL)) && (dal_pcie_get_pm_sel_aux_clk_ovrd(0) == 0))
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "dal_pcie_get_sys_perstn_intr(0)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "dal_pcie_get_pm_sel_aux_clk_ovrd(0) == 0", taking true branch.</font>
+<b><a name="line327">327    </a></b>	        {
+<b><a name="line328">328    </a></b>	            Dump_PCIE(tprintf(">> perst_r"));
+<b><a name="line329">329    </a></b>	            sal_log_tracker_set(sal_locate(0x03, TYPE_STEP));
+<b><a name="line330">330    </a></b>	            // (icv: hevent_other_port_event_process)
+<b><a name="line331">331    </a></b>	            dal_set_pcie_reset(0, PCIE_DISABLE);
+<b><a name="line332">332    </a></b>	            dal_pcie_set_perst_trig(0, 0);
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	            // warm-reset flow
+<b><a name="line335">335    </a></b>	            dal_clr_sp_pcie_int(0, hal_pcie_int_type(SYS_PERSTN_INTR));// clr sys_perstn_intr status
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	            /********** Config space registers init flow start **********/
+<b><a name="line338">338    </a></b>	            host_snps_reg_init(pcie);
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	            // Set PF count to maximum value // init for eatch perst
+<b><a name="line341">341    </a></b>	            hal_func_set_pf_cnt(&pcie->pvt_cfg, 0, PCIE_DEFAULT_PF_CNT);
+<b><a name="line342">342    </a></b>	            /********** Config space registers init flow end **********/
+<b><a name="line343">343    </a></b>	            //Init MSI/MSI-X interrupt resource
+<b><a name="line344">344    </a></b>	            host_pcie_init_interrupt_resource();
+<b><a name="line345">345    </a></b>	            dal_set_all_func_cfg_not_rdy(0,PCIE_ENABLE);
+<b><a name="line346">346    </a></b>	            //  clear link_req_rst_not_contd_flsh
+<b><a name="line347">347    </a></b>	            dal_set_link_req_rst_not_contd_flsh(0, PCIE_DISABLE);
+<b><a name="line348">348    </a></b>	            dal_pcie_set_hold_phy_rst(0, PCIE_DISABLE);
+<b><a name="line349">349    </a></b>	            dal_pcie_set_ltssm_en(0, PCIE_ENABLE);
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	            DISABLE_ALL_IRQ();
+<b><a name="line352">352    </a></b>	            event->rst_flag &= ~(RST_PCIE_PERST_R | RST_PCIE_PERST_R_POLL);
+<b><a name="line353">353    </a></b>	            ENABLE_ALL_IRQ();
+<b><a name="line354">354    </a></b>	        }
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    }
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    if (event->rst_flag & RST_PCIE_LINK_R) {
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "event->rst_flag & (8UL /* 1UL << 3 */)", taking true branch.</font>
+<b><a name="line359">359    </a></b>	        Dump_PCIE(tprintf(">> link_r "));
+<b><a name="line360">360    </a></b>	        sal_log_tracker_set(sal_locate(0x04, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xf0 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "240", is not allowed.  The shift amount is 24.</font>
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	        // RRS = 0
+<b><a name="line363">363    </a></b>	        dal_set_all_func_cfg_not_rdy(0,PCIE_DISABLE);
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line367">367    </a></b>	        event->rst_flag &= ~(RST_PCIE_LINK_R);
+<b><a name="line368">368    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line369">369    </a></b>	    }
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    if (event->rst_flag & RST_PCIE_START_BIST) {
+<b><a name="line372">372    </a></b>	        Dump_PCIE(tprintf(">> start_bist"));
+<b><a name="line373">373    </a></b>	        sal_log_tracker_set(sal_locate(0x05, TYPE_STEP));
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line376">376    </a></b>	        hal_fw_pcie_set_pl_completion_code(PCIE_PORT_0, OcpRecoveryGetMappingFwEventCode());
+<b><a name="line377">377    </a></b>	#else
+<b><a name="line378">378    </a></b>	        hal_fw_pcie_set_pl_completion_code(PCIE_PORT_0, 0U);
+<b><a name="line379">379    </a></b>	#endif
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	        hal_fw_pcie_set_pl_bist_end(PCIE_PORT_0);
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line384">384    </a></b>	        event->rst_flag &= ~(RST_PCIE_START_BIST);
+<b><a name="line385">385    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line386">386    </a></b>	    }
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	    if (event->rst_flag & RST_NVME_CC_EN) {
+<b><a name="line389">389    </a></b>	        Dump_PCIE(tprintf(">> cc.en = 1 \n\r"));
+<b><a name="line390">390    </a></b>	        hal_nvme_ccen_0to1(PCIE_PORT_0, PCIE_PF_0, PCIE_PF_0, FIDX_0);
+<b><a name="line391">391    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line252">252    </a></b>	    {
+<b><a name="line253">253    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line254">254    </a></b>	        return 0U;
+<b><a name="line255">255    </a></b>	    }
+<b><a name="line256">256    </a></b>	}
+<b><a name="line257">257    </a></b>	U8 dal_cmgr_get_int_en_p_wdma_err(U8 p_ofst)
+<b><a name="line258">258    </a></b>	{
+<b><a name="line259">259    </a></b>	    if (p_ofst == 0U)
+<b><a name="line260">260    </a></b>	    {
+<b><a name="line261">261    </a></b>	        return r_all_CMGR_P0_WDMA_ERR_INT_EN();
+<b><a name="line262">262    </a></b>	    }
+<b><a name="line263">263    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line264">264    </a></b>	    {
+<b><a name="line265">265    </a></b>	        return r_all_CMGR_P1_WDMA_ERR_INT_EN();
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	    else
+<b><a name="line268">268    </a></b>	    {
+<b><a name="line269">269    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line270">270    </a></b>	        return 0U;
+<b><a name="line271">271    </a></b>	    }
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	U8 dal_cmgr_get_int_en_p_rdma_err(U8 p_ofst)
+<b><a name="line274">274    </a></b>	{
+<b><a name="line275">275    </a></b>	    if (p_ofst == 0U)
+<b><a name="line276">276    </a></b>	    {
+<b><a name="line277">277    </a></b>	        return r_all_CMGR_P0_RDMA_ERR_INT_EN();
+<b><a name="line278">278    </a></b>	    }
+<b><a name="line279">279    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line280">280    </a></b>	    {
+<b><a name="line281">281    </a></b>	        return r_all_CMGR_P1_RDMA_ERR_INT_EN();
+<b><a name="line282">282    </a></b>	    }
+<b><a name="line283">283    </a></b>	    else
+<b><a name="line284">284    </a></b>	    {
+<b><a name="line285">285    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line286">286    </a></b>	        return 0U;
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	}
+<b><a name="line289">289    </a></b>	U8 dal_cmgr_get_int_en_p_r_unc_err(U8 p_ofst)
+<b><a name="line290">290    </a></b>	{
+<b><a name="line291">291    </a></b>	    if (p_ofst == 0U)
+<b><a name="line292">292    </a></b>	    {
+<b><a name="line293">293    </a></b>	        return r_all_CMGR_P0_R_UNC_ERR_INT_EN();
+<b><a name="line294">294    </a></b>	    }
+<b><a name="line295">295    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line296">296    </a></b>	    {
+<b><a name="line297">297    </a></b>	        return r_all_CMGR_P1_R_UNC_ERR_INT_EN();
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	    else
+<b><a name="line300">300    </a></b>	    {
+<b><a name="line301">301    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line302">302    </a></b>	        return 0U;
+<b><a name="line303">303    </a></b>	    }
+<b><a name="line304">304    </a></b>	}
+<b><a name="line305">305    </a></b>	U8 dal_cmgr_get_int_en_p_clr_cvld_err(U8 p_ofst)
+<b><a name="line306">306    </a></b>	{
+<b><a name="line307">307    </a></b>	    if (p_ofst == 0U)
+<b><a name="line308">308    </a></b>	    {
+<b><a name="line309">309    </a></b>	        return r_all_CMGR_P0_CLR_CVLD_ERR_INT_EN();
+<b><a name="line310">310    </a></b>	    }
+<b><a name="line311">311    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line312">312    </a></b>	    {
+<b><a name="line313">313    </a></b>	        return r_all_CMGR_P1_CLR_CVLD_ERR_INT_EN();
+<b><a name="line314">314    </a></b>	    }
+<b><a name="line315">315    </a></b>	    else
+<b><a name="line316">316    </a></b>	    {
+<b><a name="line317">317    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line318">318    </a></b>	        return 0U;
+<b><a name="line319">319    </a></b>	    }
+<b><a name="line320">320    </a></b>	}
+<b><a name="line321">321    </a></b>	U8 dal_cmgr_get_int_en_p_cmgr_ptr_ofst(U8 p_ofst)
+<b><a name="line322">322    </a></b>	{
+<b><a name="line323">323    </a></b>	    if (p_ofst == 0U)
+<b><a name="line324">324    </a></b>	    {
+<b><a name="line325">325    </a></b>	        return r_all_CMGR_P0_CMGR_PTR_OFST_INT_EN();
+<b><a name="line326">326    </a></b>	    }
+<b><a name="line327">327    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line328">328    </a></b>	    {
+<b><a name="line329">329    </a></b>	        return r_all_CMGR_P1_CMGR_PTR_OFST_INT_EN();
+<b><a name="line330">330    </a></b>	    }
+<b><a name="line331">331    </a></b>	    else
+<b><a name="line332">332    </a></b>	    {
+<b><a name="line333">333    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line334">334    </a></b>	        return 0U;
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	U8 dal_cmgr_get_int_en_p_rpf_hptr_ofst_err(U8 p_ofst)
+<b><a name="line338">338    </a></b>	{
+<b><a name="line339">339    </a></b>	    if (p_ofst == 0U)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        return r_all_CMGR_P0_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line342">342    </a></b>	    }
+<b><a name="line343">343    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line344">344    </a></b>	    {
+<b><a name="line345">345    </a></b>	        return r_all_CMGR_P1_RPF_HPTR_OFST_ERR_INT_EN();
+<b><a name="line346">346    </a></b>	    }
+<b><a name="line347">347    </a></b>	    else
+<b><a name="line348">348    </a></b>	    {
+<b><a name="line349">349    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line350">350    </a></b>	        return 0U;
+<b><a name="line351">351    </a></b>	    }
+<b><a name="line352">352    </a></b>	}
+<b><a name="line353">353    </a></b>	U8 dal_cmgr_get_int_en_p_wch_hptr_ofst_err(U8 p_ofst)
+<b><a name="line354">354    </a></b>	{
+<b><a name="line355">355    </a></b>	    if (p_ofst == 0U)
+<b><a name="line356">356    </a></b>	    {
+<b><a name="line357">357    </a></b>	        return r_all_CMGR_P0_WCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line358">358    </a></b>	    }
+<b><a name="line359">359    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line360">360    </a></b>	    {
+<b><a name="line361">361    </a></b>	        return r_all_CMGR_P1_WCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line362">362    </a></b>	    }
+<b><a name="line363">363    </a></b>	    else
+<b><a name="line364">364    </a></b>	    {
+<b><a name="line365">365    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line366">366    </a></b>	        return 0U;
+<b><a name="line367">367    </a></b>	    }
+<b><a name="line368">368    </a></b>	}
+<b><a name="line369">369    </a></b>	U8 dal_cmgr_get_int_en_p_iorch_hptr_ofst_err(U8 p_ofst)
+<b><a name="line370">370    </a></b>	{
+<b><a name="line371">371    </a></b>	    if (p_ofst == 0U)
+<b><a name="line372">372    </a></b>	    {
+<b><a name="line373">373    </a></b>	        return r_all_CMGR_P0_IORCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line374">374    </a></b>	    }
+<b><a name="line375">375    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line376">376    </a></b>	    {
+<b><a name="line377">377    </a></b>	        return r_all_CMGR_P1_IORCH_HPTR_OFST_ERR_INT_EN();
+<b><a name="line378">378    </a></b>	    }
+<b><a name="line379">379    </a></b>	    else
+<b><a name="line380">380    </a></b>	    {
+<b><a name="line381">381    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line382">382    </a></b>	        return 0U;
+<b><a name="line383">383    </a></b>	    }
+<b><a name="line384">384    </a></b>	}
+<b><a name="line385">385    </a></b>	U8 dal_cmgr_get_int_en_p_rch_lca_err(U8 p_ofst)
+<b><a name="line386">386    </a></b>	{
+<b><a name="line387">387    </a></b>	    if (p_ofst == 0U)
+<b><a name="line388">388    </a></b>	    {
+<b><a name="line389">389    </a></b>	        return r_all_CMGR_P0_RCH_LCA_ERR_INT_EN();
+<b><a name="line390">390    </a></b>	    }
+<b><a name="line391">391    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line392">392    </a></b>	    {
+<b><a name="line393">393    </a></b>	        return r_all_CMGR_P1_RCH_LCA_ERR_INT_EN();
+<b><a name="line394">394    </a></b>	    }
+<b><a name="line395">395    </a></b>	    else
+<b><a name="line396">396    </a></b>	    {
+<b><a name="line397">397    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line398">398    </a></b>	        return 0U;
+<b><a name="line399">399    </a></b>	    }
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	U8 dal_cmgr_get_int_en_p_rlbn_unflow_err(U8 p_ofst)
+<b><a name="line402">402    </a></b>	{
+<b><a name="line403">403    </a></b>	    if (p_ofst == 0U)
+<b><a name="line404">404    </a></b>	    {
+<b><a name="line405">405    </a></b>	        return r_all_CMGR_P0_RLBN_UNFLOW_ERR_INT_EN();
+<b><a name="line406">406    </a></b>	    }
+<b><a name="line407">407    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line408">408    </a></b>	    {
+<b><a name="line409">409    </a></b>	        return r_all_CMGR_P1_RLBN_UNFLOW_ERR_INT_EN();
+<b><a name="line410">410    </a></b>	    }
+<b><a name="line411">411    </a></b>	    else
+<b><a name="line412">412    </a></b>	    {
+<b><a name="line413">413    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line414">414    </a></b>	        return 0U;
+<b><a name="line415">415    </a></b>	    }
+<b><a name="line416">416    </a></b>	}
+<b><a name="line417">417    </a></b>	U8 dal_cmgr_get_int_en_p_wch_lca_err(U8 p_ofst)
+<b><a name="line418">418    </a></b>	{
+<b><a name="line419">419    </a></b>	    if (p_ofst == 0U)
+<b><a name="line420">420    </a></b>	    {
+<b><a name="line421">421    </a></b>	        return r_all_CMGR_P0_WCH_LCA_ERR_INT_EN();
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line424">424    </a></b>	    {
+<b><a name="line425">425    </a></b>	        return r_all_CMGR_P1_WCH_LCA_ERR_INT_EN();
+<b><a name="line426">426    </a></b>	    }
+<b><a name="line427">427    </a></b>	    else
+<b><a name="line428">428    </a></b>	    {
+<b><a name="line429">429    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line430">430    </a></b>	        return 0U;
+<b><a name="line431">431    </a></b>	    }
+<b><a name="line432">432    </a></b>	}
+<b><a name="line433">433    </a></b>	U8 dal_cmgr_get_int_en_p_ppaf_werr(U8 p_ofst)
+<b><a name="line434">434    </a></b>	{
+<b><a name="line435">435    </a></b>	    if (p_ofst == 0U)
+<b><a name="line436">436    </a></b>	    {
+<b><a name="line437">437    </a></b>	        return r_all_CMGR_P0_PPAF_WERR_INT_EN();
+<b><a name="line438">438    </a></b>	    }
+<b><a name="line439">439    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line440">440    </a></b>	    {
+<b><a name="line441">441    </a></b>	        return r_all_CMGR_P1_PPAF_WERR_INT_EN();
+<b><a name="line442">442    </a></b>	    }
+<b><a name="line443">443    </a></b>	    else
+<b><a name="line444">444    </a></b>	    {
+<b><a name="line445">445    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line446">446    </a></b>	        return 0U;
+<b><a name="line447">447    </a></b>	    }
+<b><a name="line448">448    </a></b>	}
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	U8 dal_cmgr_get_int_en_p_sram_err_flag(U8 p_ofst)
+<b><a name="line451">451    </a></b>	{
+<b><a name="line452">452    </a></b>	    if (p_ofst == 0U)
+<b><a name="line453">453    </a></b>	    {
+<b><a name="line454">454    </a></b>	        return r_all_CMGR_P0_SRAM_ERR_FLAG_EN();
+<b><a name="line455">455    </a></b>	    }
+<b><a name="line456">456    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line457">457    </a></b>	    {
+<b><a name="line458">458    </a></b>	        return r_all_CMGR_P1_SRAM_ERR_FLAG_EN();
+<b><a name="line459">459    </a></b>	    }
+<b><a name="line460">460    </a></b>	    else
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line463">463    </a></b>	        return 0U;
+<b><a name="line464">464    </a></b>	    }
+<b><a name="line465">465    </a></b>	}
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	U8 dal_cmgr_get_int_ctm(void)
+<b><a name="line468">468    </a></b>	{
+<b><a name="line469">469    </a></b>	    return r_all_CMGR_CTM_INT();
+<b><a name="line470">470    </a></b>	}
+<b><a name="line471">471    </a></b>	
+<b><a name="line472">472    </a></b>	U8 dal_cmgr_get_int_cmgr_sram_err(void)
+<b><a name="line473">473    </a></b>	{
+<b><a name="line474">474    </a></b>	    return r_all_CMGR_SRAM_ERR_INT();
+<b><a name="line475">475    </a></b>	}
+<b><a name="line476">476    </a></b>	U8 dal_cmgr_get_int_p0_err(void)
+<b><a name="line477">477    </a></b>	{
+<b><a name="line478">478    </a></b>	    return r_all_CMGR_P0_ERR_INT();
+<b><a name="line479">479    </a></b>	}
+<b><a name="line480">480    </a></b>	U8 dal_cmgr_get_int_p1_err(void)
+<b><a name="line481">481    </a></b>	{
+<b><a name="line482">482    </a></b>	    return r_all_CMGR_P1_ERR_INT();
+<b><a name="line483">483    </a></b>	}
+<b><a name="line484">484    </a></b>	U8 dal_cmgr_get_int_en_ctm(void)
+<b><a name="line485">485    </a></b>	{
+<b><a name="line486">486    </a></b>	    return r_all_CMGR_CTM_INT_EN();
+<b><a name="line487">487    </a></b>	}
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	U8 dal_cmgr_get_int_en_sram_err(void)
+<b><a name="line490">490    </a></b>	{
+<b><a name="line491">491    </a></b>	    return r_all_CMGR_SRAM_ERR_INT_EN();
+<b><a name="line492">492    </a></b>	}
+<b><a name="line493">493    </a></b>	U8 dal_cmgr_get_int_en_p0_err(void)
+<b><a name="line494">494    </a></b>	{
+<b><a name="line495">495    </a></b>	    return r_all_CMGR_P0_ERR_INT_EN();
+<b><a name="line496">496    </a></b>	}
+<b><a name="line497">497    </a></b>	U8 dal_cmgr_get_int_en_p1_err(void)
+<b><a name="line498">498    </a></b>	{
+<b><a name="line499">499    </a></b>	    return r_all_CMGR_P1_ERR_INT_EN();
+<b><a name="line500">500    </a></b>	}
+<b><a name="line501">501    </a></b>	
+<b><a name="line502">502    </a></b>	//--- W1C func ---
+<b><a name="line503">503    </a></b>	void dal_cmgr_w1c_int_cmgr_bitmap(U32 bitmap)
+<b><a name="line504">504    </a></b>	{
+<b><a name="line505">505    </a></b>	    r32_w_NVME_CMGR_INT_0(bitmap);
+<b><a name="line506">506    </a></b>	}
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	void dal_cmgr_w1c_int_cmgr_port_err_bitmap(U32 bitamp)
+<b><a name="line509">509    </a></b>	{
+<b><a name="line510">510    </a></b>	    r32_w_NVME_CMGR_PORT0_ERR_INT(bitamp);
+<b><a name="line511">511    </a></b>	}
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	//--- SET EN func ---
+<b><a name="line514">514    </a></b>	void dal_cmgr_set_en_int_bitmap(DAL_CMGR_INT_PTR dal_cmgr_int)
+<b><a name="line515">515    </a></b>	{
+<b><a name="line516">516    </a></b>	    r32_w_NVME_CMGR_INT_EN(dal_cmgr_int->bitmap);
+<b><a name="line517">517    </a></b>	}
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	void dal_cmgr_set_en_int_p_bitmap(U8 p_ofst, DAL_CMGR_PORT_ERR_INT_PTR dal_cmgr_port_err_int)
+<b><a name="line520">520    </a></b>	{
+<b><a name="line521">521    </a></b>	    if (p_ofst == 0U)
+<b><a name="line522">522    </a></b>	    {
+<b><a name="line523">523    </a></b>	        r32_w_NVME_CMGR_PORT0_ERR_INT_EN(dal_cmgr_port_err_int->bitmap);
+<b><a name="line524">524    </a></b>	    }
+<b><a name="line525">525    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line526">526    </a></b>	    {
+<b><a name="line527">527    </a></b>	        r32_w_NVME_CMGR_PORT1_ERR_INT_EN(dal_cmgr_port_err_int->bitmap);
+<b><a name="line528">528    </a></b>	    }
+<b><a name="line529">529    </a></b>	    else
+<b><a name="line530">530    </a></b>	    {
+<b><a name="line531">531    </a></b>	        ALWAYS_ASSERT(p_ofst);
+<b><a name="line532">532    </a></b>	    }
+<b><a name="line533">533    </a></b>	}
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	//--- GET EN func ---
+<b><a name="line536">536    </a></b>	U32 dal_cmgr_get_en_int_bitmap(void)
+<b><a name="line537">537    </a></b>	{
+<b><a name="line538">538    </a></b>	    return r32_r_NVME_CMGR_INT_EN();
+<b><a name="line539">539    </a></b>	}
+<b><a name="line540">540    </a></b>	
+<b><a name="line541">541    </a></b>	U32 dal_cmgr_get_en_int_p_bitmap(U8 p_ofst)
+<b><a name="line542">542    </a></b>	{
+<b><a name="line543">543    </a></b>	    (void)p_ofst;
+<b><a name="line544">544    </a></b>	    return r32_r_NVME_CMGR_PORT0_ERR_INT_EN();
+<b><a name="line545">545    </a></b>	}
+<b><a name="line546">546    </a></b>	
+<b><a name="line547">547    </a></b>	//--- CLR EN func ---
+<b><a name="line548">548    </a></b>	void dal_cmgr_clr_en_int_bitmap(DAL_CMGR_INT_PTR dal_cmgr_int)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "dal_cmgr_int" is already used to represent a type.</font>
+<b><a name="line549">549    </a></b>	{
+<b><a name="line550">550    </a></b>	    U32 cur_bitmap = r32_r_NVME_CMGR_INT_EN();
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	    cur_bitmap &= (~dal_cmgr_int->bitmap);
+<b><a name="line553">553    </a></b>	    r32_w_NVME_CMGR_INT_EN(cur_bitmap);
+<b><a name="line554">554    </a></b>	}
+<b><a name="line555">555    </a></b>	
+<b><a name="line556">556    </a></b>	void dal_cmgr_clr_en_int_p_bitmap(U8 p_ofst, DAL_CMGR_PORT_ERR_INT_PTR dal_cmgr_port_err_int)
+<b><a name="line557">557    </a></b>	{
+<b><a name="line558">558    </a></b>	    U32 cur_bitmap;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	    if (p_ofst == 0U)
+<b><a name="line561">561    </a></b>	    {
+<b><a name="line562">562    </a></b>	        cur_bitmap = r32_r_NVME_CMGR_PORT0_ERR_INT_EN();
+<b><a name="line563">563    </a></b>	        cur_bitmap &= (~dal_cmgr_port_err_int->bitmap);
+<b><a name="line564">564    </a></b>	        r32_w_NVME_CMGR_PORT0_ERR_INT_EN(cur_bitmap);
+<b><a name="line565">565    </a></b>	    }
+<b><a name="line566">566    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line567">567    </a></b>	    {
+<b><a name="line568">568    </a></b>	        cur_bitmap = r32_r_NVME_CMGR_PORT1_ERR_INT_EN();
+<b><a name="line569">569    </a></b>	        cur_bitmap &= (~dal_cmgr_port_err_int->bitmap);
+<b><a name="line570">570    </a></b>	        r32_w_NVME_CMGR_PORT1_ERR_INT_EN(cur_bitmap);
+<b><a name="line571">571    </a></b>	    }
+<b><a name="line572">572    </a></b>	    else
+<b><a name="line573">573    </a></b>	    {
+<b><a name="line574">574    </a></b>	        ALWAYS_ASSERT(p_ofst);
+<b><a name="line575">575    </a></b>	    }
+<b><a name="line576">576    </a></b>	}
+<b><a name="line577">577    </a></b>	
+<b><a name="line578">578    </a></b>	U32 dal_cmgr_get_int_p_bitmap(U8 p_ofst)
+<b><a name="line579">579    </a></b>	{
+</pre></body>
+</html>

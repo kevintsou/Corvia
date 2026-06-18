@@ -1,0 +1,464 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line765">765    </a></b>	
+<b><a name="line766">766    </a></b>	                if (status == 0U) {
+<b><a name="line767">767    </a></b>	                    if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line768">768    </a></b>	                        break;
+<b><a name="line769">769    </a></b>	                    }
+<b><a name="line770">770    </a></b>	                }
+<b><a name="line771">771    </a></b>	            }
+<b><a name="line772">772    </a></b>	            cnt++;
+<b><a name="line773">773    </a></b>	        } while ((cnt < FLH_SET_FEAT_CNT_MAX) && (status == 0U));
+<b><a name="line774">774    </a></b>	
+<b><a name="line775">775    </a></b>	        if (cnt == FLH_SET_FEAT_CNT_MAX) {
+<b><a name="line776">776    </a></b>	            status |= HAL_STATUS_SET_FEAT_DAT_CMP_FAIL;
+<b><a name="line777">777    </a></b>	        }
+<b><a name="line778">778    </a></b>	
+<b><a name="line779">779    </a></b>	        if ((TRUE == gFplApiStruct.p_efuse_nand_setting->flow_for_nbs_test) && (1 == gFplApiStruct.p_efuse_nand_setting->lru_disable))
+<b><a name="line780">780    </a></b>	        {
+<b><a name="line781">781    </a></b>	            if (gFplApiStruct.retry_by_set_parm == TRUE)
+<b><a name="line782">782    </a></b>	            {
+<b><a name="line783">783    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line784">784    </a></b>	                status |= fip_api_chk_status(ch, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_RDY_BUSY | HAL_FLH_CHK_NAND_BUSY));
+<b><a name="line785">785    </a></b>	                //receive the cq result of the read trigger
+<b><a name="line786">786    </a></b>	                //status |= hal_fip_cq_handler_for_bootcode(&cq, &int_inf, &err_map_inf[0U]);
+<b><a name="line787">787    </a></b>	            }
+<b><a name="line788">788    </a></b>	        }
+<b><a name="line789">789    </a></b>	    }
+<b><a name="line790">790    </a></b>	
+<b><a name="line791">791    </a></b>	    return status;
+<b><a name="line792">792    </a></b>	}
+<b><a name="line793">793    </a></b>	
+<b><a name="line794">794    </a></b>	U32 fip_api_read_cmd(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 read_op)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "fip_api_read_cmd".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">    ^</font>
+<b><a name="line795">795    </a></b>	{
+<b><a name="line796">796    </a></b>	    U32 status;
+<b><a name="line797">797    </a></b>	    U8  cnt;
+<b><a name="line798">798    </a></b>	    U8  set_feat_dat[FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line799">799    </a></b>	    U8  get_feat_dat[FLH_MAX_CH_NUM][FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line800">800    </a></b>	    U8  ch;
+<b><a name="line801">801    </a></b>	    U8  bank;
+<b><a name="line802">802    </a></b>	    U8  die;
+<b><a name="line803">803    </a></b>	    U8  plane;
+<b><a name="line804">804    </a></b>	
+<b><a name="line805">805    </a></b>	    cnt          = 0U;
+<b><a name="line806">806    </a></b>	    ch           = PCA_2_CHANNEL(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line807">807    </a></b>	    bank         = PCA_2_BANK(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line808">808    </a></b>	    die          = PCA_2_DIE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line809">809    </a></b>	    plane        = PCA_2_PLANE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line810">810    </a></b>	    (void)memset((void *)set_feat_dat, 0U, sizeof(set_feat_dat));
+<b><a name="line811">811    </a></b>	    (void)memset((void *)get_feat_dat, 0U, sizeof(get_feat_dat));
+<b><a name="line812">812    </a></b>	
+<b><a name="line813">813    </a></b>	    status = fip_api_chk_status(fip_read_param_struct_ptr->nand_addr.ch, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY));
+<b><a name="line814">814    </a></b>	
+<b><a name="line815">815    </a></b>	    if ((status & (HAL_STATUS_TIMEOUT | HAL_STATUS_BUSY)) == 0U) {
+<b><a name="line816">816    </a></b>	        if ((FIP_READ_RETRY_0 <= read_op) && (read_op <= FIP_READ_RETRY_3)) {
+<b><a name="line817">817    </a></b>	            if (gFplApiStruct.retry_by_prefix == TRUE) {
+<b><a name="line818">818    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_PREFIX_FOR_RETRY]), fip_read_param_struct_ptr, gFplApiStruct.read_rty_tbl[(read_op - 1U)]);
+<b><a name="line819">819    </a></b>	            }
+<b><a name="line820">820    </a></b>	            else {
+<b><a name="line821">821    </a></b>	                do {
+<b><a name="line822">822    </a></b>	                    status |= fip_set_feature_retry(&(gFipInstStruct.inst[INST_ID_SET_FEAT_FOR_RETRY]), gFplApiStruct.read_rty_tbl[(read_op - 1U)], ch, bank, plane, die, set_feat_dat);
+<b><a name="line823">823    </a></b>	
+<b><a name="line824">824    </a></b>	                    if (status == 0U) {
+<b><a name="line825">825    </a></b>	                        status |= fip_get_feature_retry(&(gFipInstStruct.inst[INST_ID_SET_FEAT_FOR_RETRY]), gFplApiStruct.read_rty_tbl[(read_op - 1U)], ch, bank, plane, die, (U8 *)&get_feat_dat);
+<b><a name="line826">826    </a></b>	
+<b><a name="line827">827    </a></b>	                        if (status == 0U) {
+<b><a name="line828">828    </a></b>	                            if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line829">829    </a></b>	                                break;
+<b><a name="line830">830    </a></b>	                            }
+<b><a name="line831">831    </a></b>	                        }
+<b><a name="line832">832    </a></b>	                    }
+<b><a name="line833">833    </a></b>	                    cnt++;
+<b><a name="line834">834    </a></b>	                } while ((cnt < FLH_SET_FEAT_CNT_MAX) && (status == 0U));
+<b><a name="line835">835    </a></b>	
+<b><a name="line836">836    </a></b>	                if (cnt == FLH_SET_FEAT_CNT_MAX) {
+<b><a name="line837">837    </a></b>	                    status |= HAL_STATUS_SET_FEAT_DAT_CMP_FAIL;
+<b><a name="line838">838    </a></b>	                }
+<b><a name="line839">839    </a></b>	
+<b><a name="line840">840    </a></b>	                if (status == 0U) {
+<b><a name="line841">841    </a></b>	                    fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line842">842    </a></b>	                }
+<b><a name="line843">843    </a></b>	            }
+<b><a name="line844">844    </a></b>	        }
+<b><a name="line845">845    </a></b>	        else {
+<b><a name="line846">846    </a></b>	            //Normal Read
+<b><a name="line847">847    </a></b>	            if (gFplApiStruct.retry_by_prefix == TRUE) // TBD, need efuse ??
+<b><a name="line848">848    </a></b>	            {
+<b><a name="line849">849    </a></b>	                U8 default_read_level[EFUSE_PARAM_READ_RTY_DAT_SIZE] = {0, 0, 0, 0};
+<b><a name="line850">850    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_PREFIX_FOR_RETRY]), fip_read_param_struct_ptr, default_read_level);
+<b><a name="line851">851    </a></b>	            }
+<b><a name="line852">852    </a></b>	            else
+<b><a name="line853">853    </a></b>	            {
+<b><a name="line854">854    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line855">855    </a></b>	            }
+<b><a name="line856">856    </a></b>	        }
+<b><a name="line857">857    </a></b>	    }
+<b><a name="line858">858    </a></b>	
+<b><a name="line859">859    </a></b>	    return status;
+<b><a name="line860">860    </a></b>	}
+<b><a name="line861">861    </a></b>	
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	void fip_api_read_dma(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr)
+<b><a name="line864">864    </a></b>	{
+<b><a name="line865">865    </a></b>	    U8  *inst_buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line866">866    </a></b>	    U8  *buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line867">867    </a></b>	    U32 sq_cmd_size;
+<b><a name="line868">868    </a></b>	    U8  tag;
+<b><a name="line869">869    </a></b>	    U8  i;
+<b><a name="line870">870    </a></b>	    U16 mr_target_id;
+<b><a name="line871">871    </a></b>	    U16 mr_source_id;
+<b><a name="line872">872    </a></b>	    U8  fta_addr[FLH_FTA_ADDR_MAX];
+<b><a name="line873">873    </a></b>	    U32 scr_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line874">874    </a></b>	    U64 crc_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line875">875    </a></b>	    U32 page;
+<b><a name="line876">876    </a></b>	    U32 block;
+<b><a name="line877">877    </a></b>	    U8  pln;
+<b><a name="line878">878    </a></b>	    U32 opt;
+<b><a name="line879">879    </a></b>	    U8  ch;
+<b><a name="line880">880    </a></b>	
+<b><a name="line881">881    </a></b>	    //tprintf("fip_api_read_dma ch num = %x", fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line882">882    </a></b>	    opt           = 0U;
+<b><a name="line883">883    </a></b>	    i             = 0U;
+<b><a name="line884">884    </a></b>	    sq_cmd_size   = 0U;
+<b><a name="line885">885    </a></b>	    mr_target_id = MR_COP0_0_0_MVP(4U * fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line886">886    </a></b>	    mr_source_id = BE_MR_TID_CPU0_CQ_FIP_CH0;
+<b><a name="line887">887    </a></b>	    block         = PCA_2_BLOCK(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line888">888    </a></b>	    page          = PCA_2_PAGE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line889">889    </a></b>	    pln           = PCA_2_PLANE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line890">890    </a></b>	    ch            = PCA_2_CHANNEL(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line891">891    </a></b>	
+<b><a name="line892">892    </a></b>	    memset((void *)inst_buf, 0x00, DBUF_API_BOOTCODE_TEMP_INST_BUFFER_SIZE);
+<b><a name="line893">893    </a></b>	    memset((void *)fta_addr, 0x00, sizeof(fta_addr));
+<b><a name="line894">894    </a></b>	    memset((void *)scr_seed, 0x00, sizeof(scr_seed));
+<b><a name="line895">895    </a></b>	    memset((void *)crc_seed, 0x00, sizeof(crc_seed));
+<b><a name="line896">896    </a></b>	
+<b><a name="line897">897    </a></b>	    fip_set_fta_addr(fta_addr, fip_read_param_struct_ptr, FLH_FTA_ROW_ADDR_MAX);
+<b><a name="line898">898    </a></b>	    if(gFplApiStruct.p_efuse_nand_setting->gen_seed_by_pca == FALSE)
+<b><a name="line899">899    </a></b>	    {
+<b><a name="line900">900    </a></b>	        fip_cop0_pu_seed_get_seed(ch, block, 0, 0, page, 0xF, gFplApiStruct.p_efuse_nand_setting->rand_seed_4_to_7_en, scr_seed);
+<b><a name="line901">901    </a></b>	    }
+<b><a name="line902">902    </a></b>	    else
+<b><a name="line903">903    </a></b>	    {
+<b><a name="line904">904    </a></b>	        fip_gen_scr_and_crc_seed(scr_seed, crc_seed, page, block);
+<b><a name="line905">905    </a></b>	    }
+<b><a name="line906">906    </a></b>	
+<b><a name="line907">907    </a></b>	    buf += sizeof(MR_HDR_STRUCT);
+<b><a name="line908">908    </a></b>	
+<b><a name="line909">909    </a></b>	    buf = (U8 *)fip_inst_api_insert_hd(buf, 0, 0, pln, 1);
+<b><a name="line910">910    </a></b>	
+<b><a name="line911">911    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, ((U8)1U << fip_read_param_struct_ptr->nand_addr.bank));
+<b><a name="line912">912    </a></b>	
+<b><a name="line913">913    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_BUS_SWITCH]);
+<b><a name="line914">914    </a></b>	
+<b><a name="line915">915    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCS]);
+<b><a name="line916">916    </a></b>	
+<b><a name="line917">917    </a></b>	    buf = (U8 *)fip_inst_pasring(&gFipInstStruct.inst[INST_ID_DMA_CMD], buf, fta_addr, 0U, 0U, NULL);
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCCS]);
+<b><a name="line920">920    </a></b>	
+<b><a name="line921">921    </a></b>	    for (i = fip_read_param_struct_ptr->nand_addr.node; i < (fip_read_param_struct_ptr->nand_addr.node + fip_read_param_struct_ptr->node_count); i++)
+<b><a name="line922">922    </a></b>	    {
+<b><a name="line923">923    </a></b>	        opt = 0;
+<b><a name="line924">924    </a></b>	        if (i == fip_read_param_struct_ptr->nand_addr.node)
+<b><a name="line925">925    </a></b>	        {
+<b><a name="line926">926    </a></b>	            opt |= HAL_FIP_OP_OPT_FIRST;
+<b><a name="line927">927    </a></b>	        }
+<b><a name="line928">928    </a></b>	        if (i == ((fip_read_param_struct_ptr->nand_addr.node + fip_read_param_struct_ptr->node_count) - 1))
+<b><a name="line929">929    </a></b>	        {
+<b><a name="line930">930    </a></b>	            opt |= HAL_FIP_OP_OPT_LAST;
+<b><a name="line931">931    </a></b>	        }
+<b><a name="line932">932    </a></b>	        tag = ((fip_read_param_struct_ptr->nand_addr.ch * FIP_DMA_READ_TAG_PER_CH) + i);
+<b><a name="line933">933    </a></b>	        buf = (U8 *)fip_inst_gen_dmar(buf, scr_seed[i], crc_seed[i],  fip_read_param_struct_ptr->buf_addr[i], fip_read_param_struct_ptr->spr_addr[i], i, tag, opt);
+<b><a name="line934">934    </a></b>	    }
+<b><a name="line935">935    </a></b>	
+<b><a name="line936">936    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><a name="line939">939    </a></b>	
+<b><a name="line940">940    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><a name="line941">941    </a></b>	
+<b><a name="line942">942    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><a name="line943">943    </a></b>	    sq_cmd_size = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line944">944    </a></b>	
+<b><a name="line945">945    </a></b>	    hal_flh_scq_mr_header(inst_buf , mr_target_id, mr_source_id, sq_cmd_size);
+<b><a name="line946">946    </a></b>	
+<b><a name="line947">947    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line948">948    </a></b>	
+<b><a name="line949">949    </a></b>	}
+<b><a name="line950">950    </a></b>	
+<b><a name="line951">951    </a></b>	void fip_gen_scr_and_crc_seed(U32 *scr_seed, U64 *crc_seed , U32 page, U32 block)
+<b><a name="line952">952    </a></b>	{
+<b><a name="line953">953    </a></b>	    U8  i;
+<b><a name="line954">954    </a></b>	    U32 vb;
+<b><a name="line955">955    </a></b>	
+<b><a name="line956">956    </a></b>	    vb = (gFplApiStruct.scr_seed_vb_config == TRUE) ? (block) : (0U);
+<b><a name="line957">957    </a></b>	
+<b><a name="line958">958    </a></b>	    for (i = 0U; i < FLH_MAX_LC_PER_PAGE; i++)
+<b><a name="line959">959    </a></b>	    {
+<b><a name="line960">960    </a></b>	        scr_seed[i] = ps_rand_seed_gen(0U, vb, page, i);
+<b><a name="line961">961    </a></b>	        //scr_seed[i] = 0U;
+<b><a name="line962">962    </a></b>	        //crc_seed[i] = 0U;
+<b><a name="line963">963    </a></b>	    }
+<b><a name="line964">964    </a></b>	}
+<b><a name="line965">965    </a></b>	
+<b><a name="line966">966    </a></b>	void fip_cop0_pu_seed_get_seed(U8 ch, U16 block, U16 pe, U32 agitation, U16 pg, U8 frame_bitmap, U8 frame_4_to_7, U32 *seed)
+<b><a name="line967">967    </a></b>	{
+<b><a name="line968">968    </a></b>	    U16 vb = (gFplApiStruct.scr_seed_vb_config == TRUE) ? (block) : (0U);
+<b><a name="line969">969    </a></b>	    // clear valid flag
+<b><a name="line970">970    </a></b>	    w_FW_SEED_VALID(ch, 0U);
+<b><a name="line971">971    </a></b>	
+<b><a name="line972">972    </a></b>	    // fill parameters
+<b><a name="line973">973    </a></b>	    r32_w_FW_PU_SEED_INPUT_0_MULTI_WRITE(ch, vb, pe);
+<b><a name="line974">974    </a></b>	    r32_w_FW_PU_SEED_INPUT_1_MULTI_WRITE(ch, agitation);
+<b><a name="line975">975    </a></b>	    ASM_DSB();
+<b><a name="line976">976    </a></b>	
+<b><a name="line977">977    </a></b>	    // trigger
+<b><a name="line978">978    </a></b>	    r32_w_FW_PU_SEED_INPUT_2_MULTI_WRITE(ch, frame_bitmap, frame_4_to_7, pg, 1U/* trigger */);
+<b><a name="line979">979    </a></b>	
+<b><a name="line980">980    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 5);
+<b><a name="line981">981    </a></b>	    // wait hw process
+<b><a name="line982">982    </a></b>	    while (r_FW_SEED_VALID(ch) == 0U/* not ready */)
+<b><a name="line983">983    </a></b>	    {
+<b><a name="line984">984    </a></b>	        if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line985">985    </a></b>	            Dump_Debug(tprintf("COP0 generate seed timeout."));
+<b><a name="line986">986    </a></b>	            break;
+<b><a name="line987">987    </a></b>	        }
+<b><a name="line988">988    </a></b>	    }
+<b><a name="line989">989    </a></b>	
+<b><a name="line990">990    </a></b>	    // get result
+<b><a name="line991">991    </a></b>	    seed[0U] = (U32)r_FW_SEED_FRAME_0(ch);
+<b><a name="line992">992    </a></b>	    seed[1U] = (U32)r_FW_SEED_FRAME_1(ch);
+<b><a name="line993">993    </a></b>	    seed[2U] = (U32)r_FW_SEED_FRAME_2(ch);
+<b><a name="line994">994    </a></b>	    seed[3U] = (U32)r_FW_SEED_FRAME_3(ch);
+<b><a name="line995">995    </a></b>	}
+<b><a name="line996">996    </a></b>	
+<b><a name="line997">997    </a></b>	U32 fip_api_chk_status(U8 ch, U8 chk_sts_map)
+<b><a name="line998">998    </a></b>	{
+<b><a name="line999">999    </a></b>	    U32 status;
+<b><a name="line1000">1000    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1001">1001    </a></b>	
+<b><a name="line1002">1002    </a></b>	    status = 0U;
+<b><a name="line1003">1003    </a></b>	
+<b><a name="line1004">1004    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_FAG_BUSY) == HAL_FLH_CHK_FAG_BUSY) {
+<b><a name="line1005">1005    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_MDLL_TRACKING_TIMEOUT_LEN_MS + gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line1006">1006    </a></b>	        do {
+<b><a name="line1007">1007    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1008">1008    </a></b>	                Dump_Debug(tprintf("HAL_FLH_CHK_FAG_BUSY HAL_STATUS_TIMEOUT"));
+<b><a name="line1009">1009    </a></b>	                status |= HAL_STATUS_TIMEOUT;
+<b><a name="line1010">1010    </a></b>	                break;
+<b><a name="line1011">1011    </a></b>	            }
+<b><a name="line1012">1012    </a></b>	        } while (/*(hal_fip_chk_fpu_idle(ch) == FALSE) ||*/ (hal_fip_chk_fctl_fag_idle(ch) == FALSE) || \
+<b><a name="line1013">1013    </a></b>	            ((is_sca == 1U) ? (hal_fip_chk_fctl_fag_sca_idle(ch) == FALSE) : (FALSE)));
+<b><a name="line1014">1014    </a></b>	
+<b><a name="line1015">1015    </a></b>	        if ((status & HAL_STATUS_TIMEOUT) != 0U) {
+<b><a name="line1016">1016    </a></b>	            return status;
+<b><a name="line1017">1017    </a></b>	        }
+<b><a name="line1018">1018    </a></b>	    }
+<b><a name="line1019">1019    </a></b>	
+<b><a name="line1020">1020    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_RDY_BUSY) == HAL_FLH_CHK_RDY_BUSY) {
+<b><a name="line1021">1021    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_MDLL_TRACKING_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line1022">1022    </a></b>	        do {
+<b><a name="line1023">1023    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1024">1024    </a></b>	                status |= HAL_STATUS_TIMEOUT;
+<b><a name="line1025">1025    </a></b>	                Dump_Debug(tprintf("HAL_FLH_CHK_RDY_BUSY HAL_STATUS_TIMEOUT"));
+<b><a name="line1026">1026    </a></b>	                break;
+<b><a name="line1027">1027    </a></b>	            }
+<b><a name="line1028">1028    </a></b>	        } while (hal_fip_chk_rby_sts(0U) == FALSE);
+<b><a name="line1029">1029    </a></b>	    }
+<b><a name="line1030">1030    </a></b>	
+<b><a name="line1031">1031    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_NAND_BUSY) == HAL_FLH_CHK_NAND_BUSY) {
+<b><a name="line1032">1032    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) {
+<b><a name="line1033">1033    </a></b>	            status |= fip_chk_nand_status(ch, gFplApiStruct.poll_cmd, gFplApiStruct.status_mask, gFplApiStruct.status_cmp);
+<b><a name="line1034">1034    </a></b>	        }
+<b><a name="line1035">1035    </a></b>	    }
+<b><a name="line1036">1036    </a></b>	
+<b><a name="line1037">1037    </a></b>	    return status;
+<b><a name="line1038">1038    </a></b>	}
+<b><a name="line1039">1039    </a></b>	
+<b><a name="line1040">1040    </a></b>	#if 0   //x3 don't support MT(fpu)
+<b><a name="line1041">1041    </a></b>	void fip_api_get_error_map(FIP_READ_INFO_STRUCT_PTR fip_read_info_struct_ptr, U8 frame_num)
+<b><a name="line1042">1042    </a></b>	{
+<b><a name="line1043">1043    </a></b>	    U8 ch;
+<b><a name="line1044">1044    </a></b>	    U8 node, end_node;
+<b><a name="line1045">1045    </a></b>	    U8 cmd_type;
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	    HAL_FIP_INT_MSG_STRUCT cq_result;
+<b><a name="line1048">1048    </a></b>	    HAL_FIP_INT_INF_STRUCT int_inf;
+<b><a name="line1049">1049    </a></b>	    HAL_FIP_SRQ_ERR_MAP_INF_STRUCT err_map_inf[HAL_FIP_ERR_MAP_NUM];
+<b><a name="line1050">1050    </a></b>	
+<b><a name="line1051">1051    </a></b>	#if 1  // TODO: check - Edwin Arno
+<b><a name="line1052">1052    </a></b>	    ASSERT_NRDY(1);
+<b><a name="line1053">1053    </a></b>	    if (0) {
+<b><a name="line1054">1054    </a></b>	#else
+<b><a name="line1055">1055    </a></b>	    if (hal_db_api_get_rd_cnt(hal_db_get_cpu0_cq10_zflh()) >= HAL_FIP_INT_CQ_CNT) {
+<b><a name="line1056">1056    </a></b>	#endif
+<b><a name="line1057">1057    </a></b>	        if (hal_fip_cq_handler_for_bootcode(&cq_result, &int_inf, &err_map_inf[0U]) == 0U) {
+<b><a name="line1058">1058    </a></b>	            cmd_type = (cq_result.index & HAL_FIP_BOOTCODE_CMD_TYPE_MASK);
+<b><a name="line1059">1059    </a></b>	            ch   = ((cq_result.index >> HAL_FIP_BOOTCODE_CH_IDX_SHIFT) & HAL_FIP_BOOTCODE_CH_IDX_MASK);
+<b><a name="line1060">1060    </a></b>	            if (cmd_type == HAL_FIP_BOOTCODE_CMD_TYPE_READ_CMD) {
+<b><a name="line1061">1061    </a></b>	                if (cq_result.mt_stop || !cq_result.all_done) {
+<b><a name="line1062">1062    </a></b>	                    tprintf("  check read cmd cq fail !!!");
+<b><a name="line1063">1063    </a></b>	                    tprintf("  mt_stop:0x%x, all_done:0x%x", cq_result.mt_stop, cq_result.all_done);
+<b><a name="line1064">1064    </a></b>	                }
+<b><a name="line1065">1065    </a></b>	            }
+<b><a name="line1066">1066    </a></b>	            else {
+<b><a name="line1067">1067    </a></b>	                //HAL_FIP_BOOTCODE_CMD_TYPE_READ_DMA
+<b><a name="line1068">1068    </a></b>	                node = ((cq_result.index >> HAL_FIP_BOOTCODE_NODE_NUM_SHIFT) & HAL_FIP_BOOTCODE_NODE_NUM_MASK);
+<b><a name="line1069">1069    </a></b>	                if (cq_result.mt_stop || !cq_result.all_done || !cq_result.dma_done) {
+<b><a name="line1070">1070    </a></b>	                    tprintf("  check read dma cq fail !!!");
+<b><a name="line1071">1071    </a></b>	                    tprintf("  mt_stop:0x%x, all_done:0x%x, dma_done:0x%x", cq_result.mt_stop, cq_result.all_done, cq_result.dma_done);
+<b><a name="line1072">1072    </a></b>	                }
+<b><a name="line1073">1073    </a></b>	                if (int_inf.all) {
+<b><a name="line1074">1074    </a></b>	                    tprintf("  check int_inf:0x%x", int_inf.all);
+<b><a name="line1075">1075    </a></b>	                }
+<b><a name="line1076">1076    </a></b>	
+<b><a name="line1077">1077    </a></b>	                if (int_inf.timeout_int) {
+<b><a name="line1078">1078    </a></b>	                    fip_read_info_struct_ptr->dqs_timeout_map[ch] |= BITMSK(frame_num, 0U);
+<b><a name="line1079">1079    </a></b>	                }
+<b><a name="line1080">1080    </a></b>	                else {
+<b><a name="line1081">1081    </a></b>	                    end_node = (node + frame_num);
+<b><a name="line1082">1082    </a></b>	                    for (; node < end_node; node++) {
+<b><a name="line1083">1083    </a></b>	                        fip_read_info_struct_ptr->error_map[ch][node] = (int_inf.all & (FIP_READ_EMPTY_ERROR | FIP_READ_CRC_ERROR));
+<b><a name="line1084">1084    </a></b>	                        if (err_map_inf[HAL_FIP_ERR_MAP_UNC].unc_bmp_4k & BIT(node)) {
+<b><a name="line1085">1085    </a></b>	                            fip_read_info_struct_ptr->error_map[ch][node] |= FIP_READ_UECC_ERROR;
+<b><a name="line1086">1086    </a></b>	                        }
+<b><a name="line1087">1087    </a></b>	                    }
+<b><a name="line1088">1088    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][0U] = ((((U16)cq_result.bit_flip_cnt_1st_frame_15_7) << 7U) | cq_result.bit_flip_cnt_1st_frame_6_0);
+<b><a name="line1089">1089    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][1U] = cq_result.bit_flip_cnt_2nd_frame;
+<b><a name="line1090">1090    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][2U] = ((((U16)cq_result.bit_flip_cnt_3rd_frame_15_7) << 7U) | cq_result.bit_flip_cnt_3rd_frame_6_0);
+<b><a name="line1091">1091    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][3U] = cq_result.bit_flip_cnt_4th_frame;
+<b><a name="line1092">1092    </a></b>	                    fip_read_info_struct_ptr->node_cnt[ch] = frame_num;
+<b><a name="line1093">1093    </a></b>	                }
+<b><a name="line1094">1094    </a></b>	            }
+<b><a name="line1095">1095    </a></b>	            fip_read_info_struct_ptr->ch_map |= BIT(ch);
+<b><a name="line1096">1096    </a></b>	        }
+<b><a name="line1097">1097    </a></b>	    }
+<b><a name="line1098">1098    </a></b>	}
+<b><a name="line1099">1099    </a></b>	#else
+<b><a name="line1100">1100    </a></b>	
+<b><a name="line1101">1101    </a></b>	void fip_api_get_error_map(FIP_READ_INFO_STRUCT_PTR fip_read_info_struct_ptr, U8 frame_num)
+<b><a name="line1102">1102    </a></b>	{
+<b><a name="line1103">1103    </a></b>	    U8 ch;
+<b><a name="line1104">1104    </a></b>	    U8 node;
+<b><a name="line1105">1105    </a></b>	    HAL_FLH_SCQ_STRUCT cq_result;
+<b><a name="line1106">1106    </a></b>	
+<b><a name="line1107">1107    </a></b>	    (void)memset((void *)&cq_result, 0, sizeof(HAL_FLH_SCQ_STRUCT));
+<b><a name="line1108">1108    </a></b>	
+<b><a name="line1109">1109    </a></b>	    if (hal_db_pop((U8 *)(&cq_result), sizeof(HAL_FLH_SCQ_STRUCT), BE_MR_QID_CPU0_CQ_FIP_CH0) == PASS)
+<b><a name="line1110">1110    </a></b>	    {
+<b><a name="line1111">1111    </a></b>	        ch   = (cq_result.cmd_cq.dmar.tag / FIP_DMA_READ_TAG_PER_CH);
+<b><a name="line1112">1112    </a></b>	        node = (cq_result.cmd_cq.dmar.tag & FIP_DMA_READ_TAG_PER_CH_MASK);
+<b><a name="line1113">1113    </a></b>	
+<b><a name="line1114">1114    </a></b>	        if (cq_result.cmd_cq.out_nand_unresp.op_code == FIP_INST_UNRESP_OP_CODE)
+<b><a name="line1115">1115    </a></b>	        {
+<b><a name="line1116">1116    </a></b>	            fip_read_info_struct_ptr->dqs_timeout_map[ch] |= BIT(node);
+<b><a name="line1117">1117    </a></b>	        }
+<b><a name="line1118">1118    </a></b>	        else
+<b><a name="line1119">1119    </a></b>	        {
+<b><a name="line1120">1120    </a></b>	            fip_read_info_struct_ptr->error_map[ch][node] = (cq_result.cmd_cq.dmar.all[0U] & FIP_READ_ERROR_MASK);
+<b><a name="line1121">1121    </a></b>	            fip_read_info_struct_ptr->bit_correct[ch][node] = (cq_result.cmd_cq.dmar.bcf_01 + cq_result.cmd_cq.dmar.bcf_10);
+<b><a name="line1122">1122    </a></b>	            fip_read_info_struct_ptr->node_cnt[ch] ++;
+<b><a name="line1123">1123    </a></b>	        }
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	        if (fip_read_info_struct_ptr->node_cnt[ch] == frame_num)
+<b><a name="line1126">1126    </a></b>	        {
+<b><a name="line1127">1127    </a></b>	            fip_read_info_struct_ptr->ch_map |= BIT(ch);
+<b><a name="line1128">1128    </a></b>	        }
+<b><a name="line1129">1129    </a></b>	    }
+<b><a name="line1130">1130    </a></b>	}
+<b><a name="line1131">1131    </a></b>	#endif
+<b><a name="line1132">1132    </a></b>	
+<b><a name="line1133">1133    </a></b>	
+<b><a name="line1134">1134    </a></b>	U32 fip_api_get_cq_result(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 ch)
+<b><a name="line1135">1135    </a></b>	{
+<b><a name="line1136">1136    </a></b>	    U32  status;
+<b><a name="line1137">1137    </a></b>	    U8 frame_num;
+<b><a name="line1138">1138    </a></b>	    U32 mabiao_addr;
+<b><a name="line1139">1139    </a></b>	
+<b><a name="line1140">1140    </a></b>	    status    = 0U;
+<b><a name="line1141">1141    </a></b>	    frame_num = fip_read_param_struct_ptr->node_count;
+<b><a name="line1142">1142    </a></b>	
+<b><a name="line1143">1143    </a></b>	    if (!gFplApiStruct.flash_if) {
+<b><a name="line1144">1144    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_LEGACY_TIMEOUT_LEN_MS + gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line1145">1145    </a></b>	    } else {
+<b><a name="line1146">1146    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_TIMEOUT_LEN_MS + gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line1147">1147    </a></b>	    }
+<b><a name="line1148">1148    </a></b>	
+<b><a name="line1149">1149    </a></b>	    while ((BITS_GET(gFIPReadInfoStruct.ch_map, ch, 1U) == FALSE) && (status == 0U)) {
+<b><a name="line1150">1150    </a></b>	        fip_api_get_error_map(&gFIPReadInfoStruct, frame_num);
+<b><a name="line1151">1151    </a></b>	
+<b><a name="line1152">1152    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1153">1153    </a></b>	            status = FIP_READ_TIMEOUT;
+<b><a name="line1154">1154    </a></b>	        }
+<b><a name="line1155">1155    </a></b>	    }
+<b><a name="line1156">1156    </a></b>	
+<b><a name="line1157">1157    </a></b>	    if (status == 0U) {
+<b><a name="line1158">1158    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->dqs_timeout_map[ch]), (void *) & (gFIPReadInfoStruct.dqs_timeout_map[ch]),   sizeof(gFIPReadInfoStruct.dqs_timeout_map[ch]));
+<b><a name="line1159">1159    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->error_map),           (void *) & (gFIPReadInfoStruct.error_map[ch][0U]),     sizeof(gFIPReadInfoStruct.error_map[ch]));
+<b><a name="line1160">1160    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->bit_correct),         (void *) & (gFIPReadInfoStruct.bit_correct[ch][0U]),   sizeof(gFIPReadInfoStruct.bit_correct[ch]));
+<b><a name="line1161">1161    </a></b>	    }
+<b><a name="line1162">1162    </a></b>	
+<b><a name="line1163">1163    </a></b>	    gFIPReadInfoStruct.ch_map       &= ~BIT(ch);
+<b><a name="line1164">1164    </a></b>	    gFIPReadInfoStruct.node_cnt[ch] = 0U;
+<b><a name="line1165">1165    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.error_map[ch][0U]),   0, sizeof(gFIPReadInfoStruct.error_map[ch]));
+<b><a name="line1166">1166    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.bit_correct[ch][0U]), 0, sizeof(gFIPReadInfoStruct.bit_correct[ch]));
+<b><a name="line1167">1167    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.dqs_timeout_map[ch]), 0, sizeof(gFIPReadInfoStruct.dqs_timeout_map[ch]));
+<b><a name="line1168">1168    </a></b>	
+<b><a name="line1169">1169    </a></b>	    return status;
+<b><a name="line1170">1170    </a></b>	}
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	void buffer_init(U32 *prog_buf_addr, U32 *prog_spr_addr, U32 *read_buf_addr, U32 *read_spr_addr)
+<b><a name="line1173">1173    </a></b>	{
+<b><a name="line1174">1174    </a></b>	    U8 i;
+<b><a name="line1175">1175    </a></b>	
+<b><a name="line1176">1176    </a></b>	    for (i = 0; i < 4; i++) {
+<b><a name="line1177">1177    </a></b>	        prog_buf_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + (LC_BYTE_SIZE * i);
+<b><a name="line1178">1178    </a></b>	        prog_spr_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + (0x4000 + 64 * i);
+<b><a name="line1179">1179    </a></b>	
+<b><a name="line1180">1180    </a></b>	        memset((void *)prog_buf_addr[i], 0x00, LC_BYTE_SIZE);
+<b><a name="line1181">1181    </a></b>	        memset((void *)prog_spr_addr[i], 0x00, LC_SPARE_SIZE);
+<b><a name="line1182">1182    </a></b>	
+<b><a name="line1183">1183    </a></b>	        read_buf_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 0x5000 + (LC_BYTE_SIZE * i);
+<b><a name="line1184">1184    </a></b>	        read_spr_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 0x5000 + (0x5000 + 64 * i);
+<b><a name="line1185">1185    </a></b>	
+<b><a name="line1186">1186    </a></b>	        memset((void *)read_buf_addr[i], 0x00, LC_BYTE_SIZE);
+<b><a name="line1187">1187    </a></b>	        memset((void *)read_spr_addr[i], 0x00, LC_SPARE_SIZE);
+<b><a name="line1188">1188    </a></b>	    }
+<b><a name="line1189">1189    </a></b>	}
+<b><a name="line1190">1190    </a></b>	
+<b><a name="line1191">1191    </a></b>	void hal_api_set_get_feature(U8 ubAddr, U8 get_fea_en)
+<b><a name="line1192">1192    </a></b>	{
+<b><a name="line1193">1193    </a></b>	    U8 ubFeaData[4];
+<b><a name="line1194">1194    </a></b>	
+<b><a name="line1195">1195    </a></b>	    memset((void *)ubFeaData, 0x00, sizeof(ubFeaData));
+<b><a name="line1196">1196    </a></b>	    if (ubAddr == 0x01) {
+<b><a name="line1197">1197    </a></b>	        hal_get_feature(0xEE, ubAddr, ubFeaData);
+<b><a name="line1198">1198    </a></b>	        ubFeaData[0] = ubFeaData[0] | BIT1;
+<b><a name="line1199">1199    </a></b>	    }
+<b><a name="line1200">1200    </a></b>	
+<b><a name="line1201">1201    </a></b>	    hal_set_feature(0xEF, ubAddr, ubFeaData);
+<b><a name="line1202">1202    </a></b>	
+<b><a name="line1203">1203    </a></b>	    if (get_fea_en == TRUE) {
+<b><a name="line1204">1204    </a></b>	        hal_get_feature(0xEE, ubAddr, ubFeaData);
+<b><a name="line1205">1205    </a></b>	    }
+<b><a name="line1206">1206    </a></b>	}
+<b><a name="line1207">1207    </a></b>	
+<b><a name="line1208">1208    </a></b>	void hal_set_feature(U8 ubCmd, U8 ubAddr, U8 *ubData)
+<b><a name="line1209">1209    </a></b>	{
+<b><a name="line1210">1210    </a></b>	    U8 ubCH;
+<b><a name="line1211">1211    </a></b>	    U8 ubCe = 0;
+<b><a name="line1212">1212    </a></b>	
+<b><a name="line1213">1213    </a></b>	    for (ubCH = 0; ubCH < FLH_MAX_CH_NUM; ubCH++) {
+<b><a name="line1214">1214    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ubCH, 1U) == TRUE) {
+<b><a name="line1215">1215    </a></b>	
+<b><a name="line1216">1216    </a></b>	            //enable ce
+<b><a name="line1217">1217    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCe));
+<b><a name="line1218">1218    </a></b>	            w_DQ_BIT_REV_IDX(ubCH, ubCe);
+<b><a name="line1219">1219    </a></b>	
+<b><a name="line1220">1220    </a></b>	            M_FIP_CH_SET_PIO_CMD(ubCH, ubCmd);
+</pre></body>
+</html>

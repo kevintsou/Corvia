@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/key_manifest_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line72">72    </a></b>	        manifest_key_proj_bin_addr  = proj_bin_header_addr;
+<b><a name="line73">73    </a></b>	        manifest_key_proj_bin_addr += proj_bin_size_before_sign;
+<b><a name="line74">74    </a></b>	        manifest_key_proj_bin_addr += public_key_size;
+<b><a name="line75">75    </a></b>	        manifest_key_proj_bin_addr += signature_size;
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	        key_manifest_proj_bin_header_ptr = (KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR)(U32)manifest_key_proj_bin_addr;
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	    else {
+<b><a name="line80">80    </a></b>	        key_manifest_proj_bin_header_ptr = NULL;
+<b><a name="line81">81    </a></b>	    }
+<b><a name="line82">82    </a></b>	    key_manifest_api_ptr->key_manifest_proj_bin_header_ptr = key_manifest_proj_bin_header_ptr;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    return;
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	void set_key_hash_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR key_manifest_proj_bin_header_ptr)
+<b><a name="line89">89    </a></b>	{
+<b><a name="line90">90    </a></b>	    U64 manifest_key_proj_bin_addr;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    U64 section_header_addr;
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    U64 section_key_addr;
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    KEY_MANIFEST_HASH_PTR key_hash_ptr;   //pointer to all keys in section 1
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    if (key_manifest_proj_bin_header_ptr != NULL) {
+<b><a name="line99">99    </a></b>	        manifest_key_proj_bin_addr = (U64)(U32)key_manifest_proj_bin_header_ptr;
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	        section_header_addr = manifest_key_proj_bin_addr + (SECTOR_SIZE * key_manifest_proj_bin_header_ptr->project_binary_header_sector_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "512 * key_manifest_proj_bin_header_ptr->project_binary_header_sector_size" (32 bits) is less that the left hand operand "manifest_key_proj_bin_addr" (64 bits).</font>
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	        section_key_addr    = section_header_addr + (key_manifest_proj_bin_header_ptr->section_sector_size[KEY_MANIFEST_HEADER_SECTION_INDEX] << SECTOR_SIZE_SHIFT);
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	        key_hash_ptr = (KEY_MANIFEST_HASH_PTR)(U32)section_key_addr;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	        key_manifest_api_ptr->key_hash_ptr = key_hash_ptr;
+<b><a name="line108">108    </a></b>	    }
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	    return;
+<b><a name="line111">111    </a></b>	}
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	void sync_key_header_info(KEY_MANIFEST_API_PTR key_manifest_api_ptr)
+<b><a name="line114">114    </a></b>	{
+<b><a name="line115">115    </a></b>	    KEY_MANIFEST_HEADER_PTR key_header_ptr;
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    key_header_ptr = key_manifest_api_ptr->key_header_ptr;
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    if (key_header_ptr != NULL) {
+<b><a name="line120">120    </a></b>	        key_manifest_api_ptr->code_sign_key_index_ptr = &key_header_ptr->code_sign_key_index[0];
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	        key_manifest_api_ptr->sha2_mode           = key_header_ptr->sha2_mode;
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	        key_manifest_api_ptr->total_key_num       = key_header_ptr->total_key_num;
+<b><a name="line125">125    </a></b>	    }
+<b><a name="line126">126    </a></b>	    return;
+<b><a name="line127">127    </a></b>	
+<b><a name="line128">128    </a></b>	}
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	/**
+<b><a name="line131">131    </a></b>	 * @brief Init key manifest api structure.
+<b><a name="line132">132    </a></b>	 *
+</pre></body>
+</html>

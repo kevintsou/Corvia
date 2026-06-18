@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line203">203    </a></b>	#define HAL_DLY_TZQCL                               (11U)
+<b><a name="line204">204    </a></b>	#define HAL_DLY_TCEVDLY                             (12U)
+<b><a name="line205">205    </a></b>	#define HAL_DLY_TCEH2                               (13U)
+<b><a name="line206">206    </a></b>	#define HAL_DLY_TPARAM                              (14U)
+<b><a name="line207">207    </a></b>	#define HAL_DLY_BUS_SWITCH                          (15U)
+<b><a name="line208">208    </a></b>	#define HAL_DLY_NUM                                 (16U)
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	#define HAL_TIMEOUT_LEN_MS                      (30)                    //[ALEX] expba2 emulator test need adjust timeout from 20 -> 1000
+<b><a name="line212">212    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line213">213    </a></b>	#define HAL_LEGACY_TIMEOUT_LEN_MS               (50)
+<b><a name="line214">214    </a></b>	#else
+<b><a name="line215">215    </a></b>	#define HAL_LEGACY_TIMEOUT_LEN_MS               (500)
+<b><a name="line216">216    </a></b>	#endif
+<b><a name="line217">217    </a></b>	#define HAL_MSB_DLY_TRAINING_TIMEOUT_LEN_MS     (1)
+<b><a name="line218">218    </a></b>	#define HAL_MDLL_TRACKING_TIMEOUT_LEN_MS        (100)
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	#define HAL_STATUS_BUSY                         (BIT0)                  // internal busy, NOT allow to trigger next fpu command, this is basically the same as timeout and should be removed
+<b><a name="line221">221    </a></b>	#define HAL_STATUS_TIMEOUT                      (BIT1)                  // FIP handling timeout
+<b><a name="line222">222    </a></b>	#define HAL_STATUS_SET_FEAT_DAT_CMP_FAIL        (BIT2)
+<b><a name="line223">223    </a></b>	#define HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT     (BIT3)
+<b><a name="line224">224    </a></b>	#define HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT          (BIT4)
+<b><a name="line225">225    </a></b>	#define HAL_STATUS_NAND_ZQ_CAL_TIMEOUT          (BIT5)
+<b><a name="line226">226    </a></b>	#define HAL_STATUS_MSB_DLY_TRAINING_TIMEOUT     (BIT6)
+<b><a name="line227">227    </a></b>	#define HAL_STATUS_MDLL_TRACKING_TIMEOUT        (BIT7)
+<b><a name="line228">228    </a></b>	#define HAL_STATUS_MDLL_TRACKING_FAIL           (BIT8)
+<b><a name="line229">229    </a></b>	#define HAL_STATUS_POR_RETRY_FAIL               (BIT9)
+<b><a name="line230">230    </a></b>	#define HAL_STATUS_PIO_ABORT_HANDLER            (BIT10)
+<b><a name="line231">231    </a></b>	#define HAL_STATUS_CQ_HANDLER_TIMEOUT           (BIT11)
+<b><a name="line232">232    </a></b>	#define HAL_STATUS_INVALID                      (0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	// --------------------------------------------------------------
+<b><a name="line235">235    </a></b>	// fpl_api_fw_gen_pattern
+<b><a name="line236">236    </a></b>	// --------------------------------------------------------------
+<b><a name="line237">237    </a></b>	#define HAL_API_GEN_PAT_FIX         (0U)
+<b><a name="line238">238    </a></b>	#define HAL_API_GEN_PAT_SEC         (1U)
+<b><a name="line239">239    </a></b>	#define HAL_API_GEN_PAT_BYTE        (2U)
+<b><a name="line240">240    </a></b>	#define HAL_API_GEN_PAT_RAND        (3U)
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	// CQ
+<b><a name="line243">243    </a></b>	#define HAL_FIP_INT_CQ_CNT                                 (4U)
+<b><a name="line244">244    </a></b>	// error map index
+<b><a name="line245">245    </a></b>	#define HAL_FIP_ERR_MAP_INT_VCT                            (0U)
+<b><a name="line246">246    </a></b>	#define HAL_FIP_ERR_MAP_LDPC_MISCOR_ZIP_UNC                (1U)
+<b><a name="line247">247    </a></b>	#define HAL_FIP_ERR_MAP_SMK                                (2U)
+<b><a name="line248">248    </a></b>	#define HAL_FIP_ERR_MAP_EOT                                (3U)
+<b><a name="line249">249    </a></b>	#define HAL_FIP_ERR_MAP_ZINF                               (4U)
+<b><a name="line250">250    </a></b>	#define HAL_FIP_ERR_MAP_CMP_LCA_FW                         (5U)
+<b><a name="line251">251    </a></b>	#define HAL_FIP_ERR_MAP_PFA                                (6U)
+<b><a name="line252">252    </a></b>	#define HAL_FIP_ERR_MAP_STA                                (7U)
+<b><a name="line253">253    </a></b>	#define HAL_FIP_ERR_MAP_TIMEOUT                            (8U)
+<b><a name="line254">254    </a></b>	#define HAL_FIP_ERR_MAP_FPU_IRAM_PERR                      (9U)
+<b><a name="line255">255    </a></b>	#define HAL_FIP_ERR_MAP_UNC                                (10U)
+<b><a name="line256">256    </a></b>	#define HAL_FIP_ERR_MAP_RSV_0                              (11U)
+<b><a name="line257">257    </a></b>	#define HAL_FIP_ERR_MAP_ZIP_IRAM_PERR                      (12U)
+<b><a name="line258">258    </a></b>	#define HAL_FIP_ERR_MAP_E3D4K                              (13U)
+<b><a name="line259">259    </a></b>	#define HAL_FIP_ERR_MAP_CNT_0_1                            (14U)
+<b><a name="line260">260    </a></b>	#define HAL_FIP_ERR_MAP_RSENC_PERR                         (15U)
+<b><a name="line261">261    </a></b>	#define HAL_FIP_ERR_MAP_CRC16                              (16U)
+<b><a name="line262">262    </a></b>	#define HAL_FIP_ERR_MAP_MTQ_ID                             (17U)
+<b><a name="line263">263    </a></b>	#define HAL_FIP_ERR_MAP_RSV_1                              (18U)
+</pre></body>
+</html>

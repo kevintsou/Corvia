@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbus_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line45">45    </a></b>	void sys_api_smbus_buffer_init(SMBUS_BUFFER *smb_buffer, U8 *buffer_base, U16 buffer_size)
+<b><a name="line46">46    </a></b>	{
+<b><a name="line47">47    </a></b>	    smb_buffer->base.pu8 = buffer_base;
+<b><a name="line48">48    </a></b>	    smb_buffer->uwSize = buffer_size;
+<b><a name="line49">49    </a></b>	    smb_buffer->uwCount = 0U;
+<b><a name="line50">50    </a></b>	    smb_buffer->uwOffset = 0U;
+<b><a name="line51">51    </a></b>	}
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	void sys_api_smbus_buffer_reset(SMBUS_BUFFER *smb_buffer)
+<b><a name="line54">54    </a></b>	{
+<b><a name="line55">55    </a></b>	    smb_buffer->uwCount = 0U;
+<b><a name="line56">56    </a></b>	    smb_buffer->uwOffset = 0U;
+<b><a name="line57">57    </a></b>	}
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	// An extension of hal_smbs_init to avoid redefinition. Here, it is named as open.
+<b><a name="line60">60    </a></b>	void hal_smbs_open(U8 ent, SMBS *p_smbs)
+<b><a name="line61">61    </a></b>	{
+<b><a name="line62">62    </a></b>	    hal_smbs_reset_2(ent);
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    phal_smbs_disable_all_interrupt(SMBUS0);
+<b><a name="line65">65    </a></b>	    phal_smbs_disable_ocp_all_interrupt(SMBUS0);
+<b><a name="line66">66    </a></b>	    phal_smbs_clear_ocp_all_interrupt_status(SMBUS0);
+<b><a name="line67">67    </a></b>	    phal_smbs_clear_all_interrupt_status(SMBUS0);
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    phal_smbs_rx_full_int_all_dis(SMBUS0);
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    // when quick command enable, receive byte interrupt will not be detected
+<b><a name="line72">72    </a></b>	    phal_smbs_ctrl_en(SMBUS0, SMBS_CTRL_PEC_EN);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    phal_smbs_ctrl_ext_en(ent, SMBS_CTRL_EXT_BLK_W_PEC_CHK_EN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1UL << 2" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    phal_smbs_set_device_addr(ent, 0, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line77">77    </a></b>	    phal_smbs_set_device_addr(ent, 1, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line78">78    </a></b>	    phal_smbs_set_device_addr(ent, 2, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line79">79    </a></b>	    phal_smbs_set_device_addr(ent, 3, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line80">80    </a></b>	    phal_smbs_set_device_addr(ent, 4, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line81">81    </a></b>	    phal_smbs_set_device_addr(ent, 5, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line82">82    </a></b>	    phal_smbs_set_device_addr(ent, 6, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line83">83    </a></b>	    phal_smbs_set_device_addr(ent, 7, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line84">84    </a></b>	    phal_smbs_set_device_addr(ent, 8, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line85">85    </a></b>	    phal_smbs_set_device_addr(ent, 9, SMBUS_RESERVED_ADDRESS_INVALID);
+<b><a name="line86">86    </a></b>	    phal_smbs_set_debug_addr(ent, p_smbs->debug_address);
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    //No SMBus Slave is implemented, force NACK on everything
+<b><a name="line89">89    </a></b>	    //Force NACK on UDID general because no slave is register, this is for clearing to 0 when registering a slave
+<b><a name="line90">90    </a></b>	    phal_smbs_set_addr_enable(ent, (1 << SMBS_SLAVE_DEVICE_COUNT) - 1); //enable all slave addr
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    phal_smbs_set_force_nack(ent);
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    //Force NACK on arp error pec
+<b><a name="line95">95    </a></b>	    phal_smbs_nack_arp_pec_err_en(ent, SMBS_PTA_NACK_ERR_PEC | SMBS_RDG_NACK_ERR_PEC | SMBS_RDD_NACK_ERR_PEC | SMBS_AA_NACK_ERR_PEC);
+<b><a name="line96">96    </a></b>	    dal_smbs_api_set_udid_en(ent, 0U);
+<b><a name="line97">97    </a></b>	    dal_smbs_api_set_arp_directed_en(ent, 0U);
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    dal_smbs_api_set_smb_timeout_min_cnt(ent, (U32)0x98969UL); // 25ms (PIP clk = 25MHz)
+<b><a name="line100">100    </a></b>	    dal_smbs_api_set_smb_op_to_count(ent, (U32)0x9C4U);        // 100us (PIP clk = 25MHz)
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    /* only enable necessary interrupt */
+<b><a name="line103">103    </a></b>	    phal_smbs_int_en(SMBUS0, SMBS_PROTOCOL_INT_BITMAP | SMBS_ERROR_INT_BITMAP);
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+</pre></body>
+</html>

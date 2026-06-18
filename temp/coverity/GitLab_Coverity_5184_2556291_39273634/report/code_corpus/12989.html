@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line4268">4268    </a></b>	{
+<b><a name="line4269">4269    </a></b>	    return (U8)r_all_SGL_SEG_ERR_CSD(ctag);
+<b><a name="line4270">4270    </a></b>	}
+<b><a name="line4271">4271    </a></b>	
+<b><a name="line4272">4272    </a></b>	U8 dal_cmgr_get_ct_sgl_seg_err_len(U16 ctag)
+<b><a name="line4273">4273    </a></b>	{
+<b><a name="line4274">4274    </a></b>	    return (U8)r_all_SGL_SEG_ERR_LEN(ctag);
+<b><a name="line4275">4275    </a></b>	}
+<b><a name="line4276">4276    </a></b>	
+<b><a name="line4277">4277    </a></b>	U8 dal_cmgr_get_ct_sgl_seg_err_qw(U16 ctag)
+<b><a name="line4278">4278    </a></b>	{
+<b><a name="line4279">4279    </a></b>	    return (U8)r_all_SGL_SEG_ERR_QW(ctag);
+<b><a name="line4280">4280    </a></b>	}
+<b><a name="line4281">4281    </a></b>	
+<b><a name="line4282">4282    </a></b>	U8 dal_cmgr_get_ct_sgl_num_err(U16 ctag)
+<b><a name="line4283">4283    </a></b>	{
+<b><a name="line4284">4284    </a></b>	    return (U8)r_all_SGL_NUM_ERR(ctag);
+<b><a name="line4285">4285    </a></b>	}
+<b><a name="line4286">4286    </a></b>	
+<b><a name="line4287">4287    </a></b>	U8 dal_cmgr_get_ct_sgl_len_err_short(U16 ctag)
+<b><a name="line4288">4288    </a></b>	{
+<b><a name="line4289">4289    </a></b>	    return (U8)r_all_SGL_LEN_ERR_SHORT(ctag);
+<b><a name="line4290">4290    </a></b>	}
+<b><a name="line4291">4291    </a></b>	
+<b><a name="line4292">4292    </a></b>	U8 dal_cmgr_get_ct_sgl_len_err_long(U16 ctag)
+<b><a name="line4293">4293    </a></b>	{
+<b><a name="line4294">4294    </a></b>	    return (U8)r_all_SGL_LEN_ERR_LONG(ctag);
+<b><a name="line4295">4295    </a></b>	}
+<b><a name="line4296">4296    </a></b>	
+<b><a name="line4297">4297    </a></b>	U8 dal_cmgr_get_ct_md_sgl_len_err_short(U16 ctag)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "dal_cmgr_get_ct_md_sgl_len_err_short", which is ambiguous.</font>
+<b><a name="line4298">4298    </a></b>	{
+<b><a name="line4299">4299    </a></b>	    return (U8)r_all_MD_SGL_LEN_ERR_SHORT(ctag);
+<b><a name="line4300">4300    </a></b>	}
+<b><a name="line4301">4301    </a></b>	
+<b><a name="line4302">4302    </a></b>	U8 dal_cmgr_get_ct_md_sgl_len_err_long(U16 ctag)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "dal_cmgr_get_ct_md_sgl_len_err_long" and "dal_cmgr_get_ct_md_sgl_len_err_short" are identical.</font>
+<b><a name="line4303">4303    </a></b>	{
+<b><a name="line4304">4304    </a></b>	    return (U8)r_all_MD_SGL_LEN_ERR_LONG(ctag);
+<b><a name="line4305">4305    </a></b>	}
+<b><a name="line4306">4306    </a></b>	
+<b><a name="line4307">4307    </a></b>	U8 dal_cmgr_get_ct_sgl_type_err(U16 ctag)
+<b><a name="line4308">4308    </a></b>	{
+<b><a name="line4309">4309    </a></b>	    return (U8)r_all_SGL_TYPE_ERR(ctag);
+<b><a name="line4310">4310    </a></b>	}
+<b><a name="line4311">4311    </a></b>	
+<b><a name="line4312">4312    </a></b>	U8 dal_cmgr_get_ct_sgl_ofst_err(U16 ctag)
+<b><a name="line4313">4313    </a></b>	{
+<b><a name="line4314">4314    </a></b>	    return (U8)r_all_SGL_OFST_ERR(ctag);
+<b><a name="line4315">4315    </a></b>	}
+<b><a name="line4316">4316    </a></b>	
+<b><a name="line4317">4317    </a></b>	U8 dal_cmgr_get_ct_sec_e3dp_err(U16 ctag)
+<b><a name="line4318">4318    </a></b>	{
+<b><a name="line4319">4319    </a></b>	    return (U8)r_all_SEC_E3DP_ERR(ctag);
+<b><a name="line4320">4320    </a></b>	}
+<b><a name="line4321">4321    </a></b>	
+<b><a name="line4322">4322    </a></b>	U8 dal_cmgr_get_ct_sram_par_err(U16 ctag)
+<b><a name="line4323">4323    </a></b>	{
+<b><a name="line4324">4324    </a></b>	    return (U8)r_all_SRAM_PAR_ERR(ctag);
+<b><a name="line4325">4325    </a></b>	}
+<b><a name="line4326">4326    </a></b>	
+<b><a name="line4327">4327    </a></b>	U8 dal_cmgr_get_ct_e3d_err(U16 ctag)
+<b><a name="line4328">4328    </a></b>	{
+<b><a name="line4329">4329    </a></b>	    return (U8)r_all_E3D_ERR(ctag);
+<b><a name="line4330">4330    </a></b>	}
+<b><a name="line4331">4331    </a></b>	
+<b><a name="line4332">4332    </a></b>	U8 dal_cmgr_get_ct_runc_err(U16 ctag)
+<b><a name="line4333">4333    </a></b>	{
+</pre></body>
+</html>

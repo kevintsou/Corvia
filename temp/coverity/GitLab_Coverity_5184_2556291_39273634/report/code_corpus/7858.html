@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line425">425    </a></b>	    U16 mi_inter_packet_delay_time_ms;
+<b><a name="line426">426    </a></b>	    U8 disable_mem_log;
+<b><a name="line427">427    </a></b>	    U8 enable_debug_func;
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    memset((void *)&boot_landmark_0_buf[0], 0x00, EFUSE_BANK_SIZE);
+<b><a name="line430">430    </a></b>	    memset((void *)&boot_landmark_1_buf[0], 0x00, EFUSE_BANK_SIZE);
+<b><a name="line431">431    </a></b>	    memset((void *)&boot_landmark_2_buf[0], 0x00, EFUSE_BANK_SIZE);
+<b><a name="line432">432    </a></b>	
+<b><a name="line433">433    </a></b>	    eFuseToRam((U32)&boot_landmark_0_buf[0], EF_LM0_BANK, FALSE);
+<b><a name="line434">434    </a></b>	    eFuseToRam((U32)&boot_landmark_1_buf[0], EF_LM1_BANK, FALSE);
+<b><a name="line435">435    </a></b>	    eFuseToRam((U32)&boot_landmark_2_buf[0], EF_LM2_BANK, FALSE);
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	// TODO: remove EFUSE_API_SIMULATE
+<b><a name="line438">438    </a></b>	#if 0//(EFUSE_API_SIMULATE == EFUSE_API_SIMULATE_CODE)
+<b><a name="line439">439    </a></b>	    simulate_efuse_data_fw_access_bank9(&boot_landmark_0_buf[0U]);
+<b><a name="line440">440    </a></b>	    simulate_efuse_data_fw_access_bank31(&boot_landmark_1_buf[0U]);
+<b><a name="line441">441    </a></b>	    simulate_efuse_data_fw_access_bank63(&boot_landmark_2_buf[0U]);
+<b><a name="line442">442    </a></b>	#endif
+<b><a name="line443">443    </a></b>	
+<b><a name="line444">444    </a></b>	    memcpy((void *)&p_efuse_api->efuse_boot_landmark.lm0_boot_landmark, (void *)&boot_landmark_0_buf[EFUSE_BYTE_BOOT_LANDMARK_OFFSET], EFUSE_DWORD_PER_BANK * EFUSE_BYTE_PER_DWORD);
+<b><a name="line445">445    </a></b>	    memcpy((void *)&p_efuse_api->efuse_boot_landmark.lm1_boot_landmark, (void *)&boot_landmark_1_buf[EFUSE_BYTE_BOOT_LANDMARK_OFFSET], EFUSE_DWORD_PER_BANK * EFUSE_BYTE_PER_DWORD);
+<b><a name="line446">446    </a></b>	    memcpy((void *)&p_efuse_api->efuse_boot_landmark.lm2_boot_landmark, (void *)&boot_landmark_2_buf[EFUSE_BYTE_BOOT_LANDMARK_OFFSET], EFUSE_DWORD_PER_BANK * EFUSE_BYTE_PER_DWORD);
+<b><a name="line447">447    </a></b>	
+<b><a name="line448">448    </a></b>	    // get baudrate option
+<b><a name="line449">449    </a></b>	    baudrate_bd_data   = (U8)(boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0xF);
+<b><a name="line450">450    </a></b>	    bc_ptr->parameter_config.uart_baudrate_mode = (U8)((baudrate_bd_data & 0x03) | ((baudrate_bd_data >> 2U) & 0x03));
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    // get uart xmodem sideband enable
+<b><a name="line453">453    </a></b>	    xmodem_sideband_enable_data = (U8)((boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0x30) >> 4U);
+<b><a name="line454">454    </a></b>	    bc_ptr->parameter_config.xmodem_sideband_enable = ((xmodem_sideband_enable_data & 0x01) | ((xmodem_sideband_enable_data >> 1U) & 0x01));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "xmodem_sideband_enable_data" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line455">455    </a></b>	
+<b><a name="line456">456    </a></b>	    // get uart output message disable
+<b><a name="line457">457    </a></b>	    U8 uart_output_message_disable;
+<b><a name="line458">458    </a></b>	    uart_output_message_disable = (U8)((boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0xC0) >> 6U);
+<b><a name="line459">459    </a></b>	    bc_ptr->parameter_config.uart_output_message_disable = ((uart_output_message_disable & 0x01) | ((uart_output_message_disable >> 1U) & 0x01));
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	    // get uart rx latch position config enable
+<b><a name="line462">462    </a></b>	    uart_rx_latch_position_config_enable = (U8)(boot_landmark_0_buf[EFUSE_BYTE_UART_RX_LATCH_POSITION_OFFSET] & 0x3);
+<b><a name="line463">463    </a></b>	    bc_ptr->parameter_config.uart_rx_latch_position_config_enable = ((uart_rx_latch_position_config_enable & 0x01) | ((uart_rx_latch_position_config_enable >> 1U) & 0x01));
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    // get uart rx latch position
+<b><a name="line466">466    </a></b>	    uart_rx_latch_position = (U8)((boot_landmark_0_buf[EFUSE_BYTE_UART_RX_LATCH_POSITION_OFFSET] & 0xFC) >> 2);
+<b><a name="line467">467    </a></b>	    bc_ptr->parameter_config.uart_rx_latch_position = ((uart_rx_latch_position & 0x07) | ((uart_rx_latch_position >> 3U) & 0x07));
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    // MI inter packet delay time
+<b><a name="line471">471    </a></b>	    mi_inter_packet_delay_time_ms = ((*(U16 *)(&(boot_landmark_1_buf[EFUSE_BYTE_MI_INTER_PACKET_DELAY_TIME_MS]))) & 0x3FF);
+<b><a name="line472">472    </a></b>	    bc_ptr->parameter_config.mi_inter_packet_delay_time_ms = ((mi_inter_packet_delay_time_ms & 0x1F) | ((mi_inter_packet_delay_time_ms >> 5) & 0x1F));
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	    disable_mem_log = (U8)((boot_landmark_1_buf[EFUSE_BYTE_DEBUG_LOG] & 0x40) >> 6);
+<b><a name="line475">475    </a></b>	    bc_ptr->parameter_config.disable_mem_log = disable_mem_log;
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    enable_debug_func = (U8)((boot_landmark_1_buf[EFUSE_BYTE_DEBUG_LOG] & 0x80) >> 7);
+<b><a name="line478">478    </a></b>	    bc_ptr->parameter_config.enable_debug_func = enable_debug_func;
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    return;
+<b><a name="line481">481    </a></b>	}
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	U8 get_efuse_dmsca_compare_disable(EFUSE_API *p_efuse_api)
+<b><a name="line484">484    </a></b>	{
+<b><a name="line485">485    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting = get_efuse_security_setting(p_efuse_api);
+</pre></body>
+</html>

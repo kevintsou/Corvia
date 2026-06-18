@@ -1,0 +1,2610 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_set32</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;log-&gt;start[log-&gt;offset]}}}{{code{char *}}}{{code{U32 *}}}}}}</description>
+<line>85</line>
+<column>14</column>
+</event>
+<extra>log,offset,start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_neg</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>450</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_sub</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>401</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_add</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>377</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_add</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>387</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_haf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>427</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp2_set_one</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>519</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_add</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_NEG_N}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2274</line>
+<column>34</column>
+</event>
+<extra>SM9_Z256_NEG_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_add</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_N}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2284</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>108</line>
+<column>63</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>236</line>
+<column>41</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_ZERO}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>241</line>
+<column>41</column>
+</event>
+<extra>SM9_ZERO</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>273</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>282</line>
+<column>41</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_vec_modp</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_ZERO}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>287</line>
+<column>41</column>
+</event>
+<extra>SM9_ZERO</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_z256_fp4_broadcast_mul</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>421</line>
+<column>49</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_from_mont</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>464</line>
+<column>32</column>
+</event>
+<extra>SM9_Z256_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</file>
+<function>hal_sec_sm9_z256_fp2_broadcast_mul</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>577</line>
+<column>49</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modp_mont_pow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>481</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_type2_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA2}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1168</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_type2_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA4}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1169</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA4</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_from_hash</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2469</line>
+<column>32</column>
+</event>
+<extra>SM9_Z256_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_type3_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_BETA}}}{{code{HAL_SEC_SM9_Z256_FP2_T const *}}}{{code{HAL_SEC_SM9_Z256_T const *}}}}}}</description>
+<line>1193</line>
+<column>33</column>
+</event>
+<extra>SM9_MONT_BETA</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA1}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1137</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA2}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1138</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA3}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1139</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA3</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA4}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1140</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA4</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp12_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_ALPHA5}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1141</line>
+<column>35</column>
+</event>
+<extra>SM9_MONT_ALPHA5</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_to_affine</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2155</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp2_is_one</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>527</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_is_on_curve</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1292</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_is_on_curve</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_FIVE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1293</line>
+<column>43</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_FIVE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp2_from_bytes</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>560</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_from_raw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_P}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2498</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_P</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_from_raw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2518</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm.c</file>
+<function>hal_sec_pqc_sha3_blocking</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pqc_hash_buf_ptr-&gt;hash_src}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>134</line>
+<column>26</column>
+</event>
+<extra>hash_src,pqc_hash_buf_ptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_init.c</file>
+<function>host_pcie_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{efuse_pcie_landmark_data_buf}}}{{code{U8 *}}}{{code{EFUSE_PCIE_LANDMARK_PTR}}}}}}</description>
+<line>232</line>
+<column>36</column>
+</event>
+<extra>efuse_pcie_landmark_data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm_mlkem.c</file>
+<function>hal_sec_pqc_sha3_blocking_new</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pqc_hash_buf_ptr-&gt;hash_src}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>31</line>
+<column>26</column>
+</event>
+<extra>hash_src,pqc_hash_buf_ptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{mldsa_buf_ptr-&gt;verify.verify_buf.verify_mu}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>1062</line>
+<column>30</column>
+</event>
+<extra>mldsa_buf_ptr,verify,verify_buf,verify_mu</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_project_binary_header-&gt;a_ic_version}}}{{code{U8 const *}}}{{code{U32 *}}}}}}</description>
+<line>774</line>
+<column>46</column>
+</event>
+<extra>a_ic_version,p_project_binary_header</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{sm9_key_struct_ptr-&gt;mpk}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>780</line>
+<column>74</column>
+</event>
+<extra>mpk,sm9_key_struct_ptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{lms_key_struct_ptr-&gt;pk}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>697</line>
+<column>28</column>
+</event>
+<extra>lms_key_struct_ptr,pk</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{lms_key_struct_ptr-&gt;pk}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>697</line>
+<column>69</column>
+</event>
+<extra>lms_key_struct_ptr,pk</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</file>
+<function>mctp_message_transmit_handler_send_assign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_MSG_HEADER *}}}}}}</description>
+<line>131</line>
+<column>10</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;destination_mctp_message_info.source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>873</line>
+<column>40</column>
+</event>
+<extra>destination_mctp_message_info,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_source_mctp_message_info-&gt;source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>873</line>
+<column>128</column>
+</event>
+<extra>p_source_mctp_message_info,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_response_format}}}{{code{U8 *}}}{{code{NVME_MI_MSG_HEADER *}}}}}}</description>
+<line>895</line>
+<column>28</column>
+</event>
+<extra>p_response_format</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_message_transmit_handler_disassemble_message</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_packet_descriptor-&gt;p_base}}}{{code{U8 *}}}{{code{MCTP_TRANSPORT_HEADER *}}}}}}</description>
+<line>127</line>
+<column>26</column>
+</event>
+<extra>p_base,p_packet_descriptor</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>jump_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{ptr_project_binary_header-&gt;section_sector_size}}}{{code{U16 ( const *)[128]}}}{{code{U16 const *}}}}}}</description>
+<line>73</line>
+<column>23</column>
+</event>
+<extra>ptr_project_binary_header,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>jump_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{ptr_project_binary_header-&gt;section_sector_size}}}{{code{U16 ( const *)[128]}}}{{code{U16 const *}}}}}}</description>
+<line>76</line>
+<column>23</column>
+</event>
+<extra>ptr_project_binary_header,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_more_preocessing_required_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_CMD_REQ_MSG_PTR}}}}}}</description>
+<line>1028</line>
+<column>29</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_more_preocessing_required_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_CMD_RESP_MSG_PTR}}}}}}</description>
+<line>1029</line>
+<column>30</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_more_preocessing_required_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;message_info.p_transport-&gt;transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>1048</line>
+<column>31</column>
+</event>
+<extra>message_info,p_transmit_handler,p_transport,transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_more_preocessing_required_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;message_info.source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>1049</line>
+<column>37</column>
+</event>
+<extra>message_info,p_transmit_handler,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_more_preocessing_required_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_smbm-&gt;tx.base.pu8[0U]}}}{{code{U8 *}}}{{code{MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *}}}}}}</description>
+<line>1052</line>
+<column>32</column>
+</event>
+<extra>base,p_smbm,pu8,tx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_NVME_ADMIN_CMD_REQ_PTR}}}}}}</description>
+<line>967</line>
+<column>28</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_NVME_ADMIN_CMD_RESP_PTR}}}}}}</description>
+<line>968</line>
+<column>29</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;message_info.p_transport-&gt;transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>985</line>
+<column>31</column>
+</event>
+<extra>message_info,p_transmit_handler,p_transport,transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;message_info.source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>986</line>
+<column>37</column>
+</event>
+<extra>message_info,p_transmit_handler,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_smbus_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_smbm-&gt;tx.base.pu8[0U]}}}{{code{U8 *}}}{{code{MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *}}}}}}</description>
+<line>989</line>
+<column>32</column>
+</event>
+<extra>base,p_smbm,pu8,tx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_RSAEncode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey}}}{{code{RSAPublicKey_t *}}}{{code{U32 *}}}}}}</description>
+<line>109</line>
+<column>58</column>
+</event>
+<extra>pRSAPublicKey</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.c</file>
+<function>phal_cop2_dmac_push_move_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;dmac_cmd}}}{{code{COP2_DMAC_CMD_STRUCT *}}}{{code{U32 *}}}}}}</description>
+<line>114</line>
+<column>19</column>
+</event>
+<extra>dmac_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>vuc_nvme_identify</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;sq}}}{{code{VUC_SQ_STRUCT_PTR volatile}}}{{code{VUC_IDENTIFY_PARAM_PTR}}}}}}</description>
+<line>1255</line>
+<column>42</column>
+</event>
+<extra>param,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;sq}}}{{code{VUC_SQ_STRUCT_PTR volatile}}}{{code{VUC_ISP_JUMP_PARAM_PTR}}}}}}</description>
+<line>61</line>
+<column>42</column>
+</event>
+<extra>param,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_sendSecureInfo</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pInput-&gt;ucHMS_KeyIndex}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>107</line>
+<column>45</column>
+</event>
+<extra>pInput,ucHMS_KeyIndex</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>decrypt_partial_project_binary</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;gEncryptionKey_Burner.aes256_xts.encryption_key[0]}}}{{code{U8 const *}}}{{code{U32 *}}}}}}</description>
+<line>1706</line>
+<column>48</column>
+</event>
+<extra>aes256_xts,encryption_key,gEncryptionKey_Burner</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>vuc_nvme_get_log_page</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;sq}}}{{code{VUC_SQ_STRUCT_PTR volatile}}}{{code{VUC_GET_LOG_PARAM_PTR}}}}}}</description>
+<line>1295</line>
+<column>41</column>
+</event>
+<extra>param,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_receiveEncryptionData</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;gVUALock.VUAPublicKey.RsaPublicKey}}}{{code{RSAPublicKey_t *}}}{{code{U32 *}}}}}}</description>
+<line>290</line>
+<column>78</column>
+</event>
+<extra>RsaPublicKey,VUAPublicKey,gVUALock</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_read_system_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;host_buf}}}{{code{U8 *}}}{{code{VUC_READ_SYSTEM_INFO_TEMPLATE_PTR}}}}}}</description>
+<line>774</line>
+<column>46</column>
+</event>
+<extra>host_buf,param</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_uart_test</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;sq}}}{{code{VUC_SQ_STRUCT_PTR volatile}}}{{code{VUC_UART_TEST_PARAM_PTR}}}}}}</description>
+<line>255</line>
+<column>34</column>
+</event>
+<extra>param,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_decryptCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;gVUALock.aubASessionKey[0]}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>533</line>
+<column>17</column>
+</event>
+<extra>aubASessionKey,gVUALock</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_get_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;host_buf}}}{{code{U8 *}}}{{code{VUC_GET_STATUS_TEMPLATE_PTR}}}}}}</description>
+<line>808</line>
+<column>40</column>
+</event>
+<extra>host_buf,param</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_program_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{param-&gt;sq}}}{{code{VUC_SQ_STRUCT_PTR volatile}}}{{code{VUC_ISP_PROGRAM_PRAM_PARAM_PTR}}}}}}</description>
+<line>291</line>
+<column>50</column>
+</event>
+<extra>param,sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_aes_key}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>578</line>
+<column>44</column>
+</event>
+<extra>p_aes_key</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/apu/dal_apu_flow.c</file>
+<function>dal_apu_get_spr_msdf_struct_ptr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;(U8 volatile *)0x3080000[50U + spr_type]}}}{{code{U8 volatile *}}}{{code{DAL_APU_SPARE_MSDF_STRUCT_PTR}}}}}}</description>
+<line>10</line>
+<column>12</column>
+</event>
+<extra>spr_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/apu/dal_apu_flow.c</file>
+<function>dal_apu_get_ud_spr_struct_ptr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;(U8 volatile *)0x3080000[48U + ud_fmt]}}}{{code{U8 volatile *}}}{{code{DAL_APU_UD_SPARE_STRUCT_PTR}}}}}}</description>
+<line>5</line>
+<column>12</column>
+</event>
+<extra>ud_fmt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_fw_slot_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_slot_info-&gt;a_chunk_info}}}{{code{FW_CHUNK_INFO ( const *)[120]}}}{{code{FW_CHUNK_INFO const *}}}}}}</description>
+<line>1893</line>
+<column>67</column>
+</event>
+<extra>a_chunk_info,p_fw_slot_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_calculate_l0_measurement</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{ptr_project_binary_header-&gt;section_sector_size}}}{{code{U16 ( const *)[128]}}}{{code{U16 const *}}}}}}</description>
+<line>228</line>
+<column>30</column>
+</event>
+<extra>ptr_project_binary_header,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_vuc_cmd_no_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;host-&gt;sq_cmd}}}{{code{HAL_NVME_SQ_CMD *}}}{{code{VUC_SQ_STRUCT_PTR}}}}}}</description>
+<line>1198</line>
+<column>25</column>
+</event>
+<extra>host,sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_set_infinity</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1242</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;boot_landmark_1_buf[30U]}}}{{code{U8 *}}}{{code{U16 *}}}}}}</description>
+<line>471</line>
+<column>40</column>
+</event>
+<extra>boot_landmark_1_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_slot_info-&gt;a_chunk_info}}}{{code{FW_CHUNK_INFO ( const *)[120]}}}{{code{FW_CHUNK_INFO const *}}}}}}</description>
+<line>2263</line>
+<column>79</column>
+</event>
+<extra>a_chunk_info,p_fw_slot_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_slot_info-&gt;a_chunk_info}}}{{code{FW_CHUNK_INFO ( const *)[120]}}}{{code{FW_CHUNK_INFO const *}}}}}}</description>
+<line>2275</line>
+<column>33</column>
+</event>
+<extra>a_chunk_info,p_fw_slot_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_slot_info-&gt;a_chunk_info}}}{{code{FW_CHUNK_INFO ( const *)[120]}}}{{code{FW_CHUNK_INFO const *}}}}}}</description>
+<line>2276</line>
+<column>66</column>
+</event>
+<extra>a_chunk_info,p_fw_slot_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_get_xy</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1256</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>check_uds_kdk_supported</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{(*efuse_security_setting_ptr).u16_union.uds_kdk_state}}}{{code{struct __C588 ( const *)[2]}}}{{code{struct __C588 const *}}}}}}</description>
+<line>386</line>
+<column>23</column>
+</event>
+<extra>efuse_security_setting_ptr,u16_union,uds_kdk_state</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>check_uds_kdk_supported</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{(*efuse_security_setting_ptr).u16_union.uds_kdk_state}}}{{code{struct __C588 ( const *)[2]}}}{{code{struct __C588 const *}}}}}}</description>
+<line>387</line>
+<column>23</column>
+</event>
+<extra>efuse_security_setting_ptr,u16_union,uds_kdk_state</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pCmdData}}}{{code{U8 *}}}{{code{RC_DEVICE_RESET *}}}}}}</description>
+<line>1219</line>
+<column>39</column>
+</event>
+<extra>pCmdData</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pCmdData}}}{{code{U8 *}}}{{code{RC_RECOVERY_CTRL *}}}}}}</description>
+<line>1228</line>
+<column>39</column>
+</event>
+<extra>pCmdData</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pCmdData}}}{{code{U8 *}}}{{code{RC_INDIRECT_CTRL *}}}}}}</description>
+<line>1235</line>
+<column>39</column>
+</event>
+<extra>pCmdData</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;destination_mctp_message_info.source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>357</line>
+<column>40</column>
+</event>
+<extra>destination_mctp_message_info,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_source_mctp_message_info-&gt;source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>357</line>
+<column>128</column>
+</event>
+<extra>p_source_mctp_message_info,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_sub</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_NEG_N}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2297</line>
+<column>34</column>
+</event>
+<extra>SM9_Z256_NEG_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_get_eid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>73</line>
+<column>44</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_get_message_type_support</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>214</line>
+<column>44</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_set_eid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>25</line>
+<column>43</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_set_eid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>26</line>
+<column>44</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_get_mctp_version_support</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>112</line>
+<column>43</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_get_mctp_version_support</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>113</line>
+<column>44</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sha2_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{TEST_ANS1_256}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>8862</line>
+<column>34</column>
+</event>
+<extra>TEST_ANS1_256</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sm3_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{TEST_ANS1_SM3}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9144</line>
+<column>34</column>
+</event>
+<extra>TEST_ANS1_SM3</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey-&gt;ubN}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9282</line>
+<column>40</column>
+</event>
+<extra>pRSAPublicKey,ubN</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey-&gt;ubR}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9283</line>
+<column>40</column>
+</event>
+<extra>pRSAPublicKey,ubR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey-&gt;ubRR}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9284</line>
+<column>40</column>
+</event>
+<extra>pRSAPublicKey,ubRR</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey-&gt;ubE}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9285</line>
+<column>40</column>
+</event>
+<extra>pRSAPublicKey,ubE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{pRSAPublicKey-&gt;ubN0}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9286</line>
+<column>26</column>
+</event>
+<extra>pRSAPublicKey,ubN0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_hmac_sha2_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{TEST_HMAC_KAT_MAC_256_ANS2}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9044</line>
+<column>34</column>
+</event>
+<extra>TEST_HMAC_KAT_MAC_256_ANS2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_hmac_sha2_512_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{TEST_HMAC_KAT_MAC_512_ANS2}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>9099</line>
+<column>34</column>
+</event>
+<extra>TEST_HMAC_KAT_MAC_512_ANS2</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sha2_512_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{TEST_ANS1_512}}}{{code{U8 *}}}{{code{U32 *}}}}}}</description>
+<line>8906</line>
+<column>34</column>
+</event>
+<extra>TEST_ANS1_512</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp4_frobenius3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_BETA}}}{{code{HAL_SEC_SM9_Z256_FP2_T const *}}}{{code{HAL_SEC_SM9_Z256_T const *}}}}}}</description>
+<line>1115</line>
+<column>33</column>
+</event>
+<extra>SM9_MONT_BETA</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_fp4_frobenius</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_MONT_BETA}}}{{code{HAL_SEC_SM9_Z256_FP2_T const *}}}{{code{HAL_SEC_SM9_Z256_T const *}}}}}}</description>
+<line>1095</line>
+<column>33</column>
+</event>
+<extra>SM9_MONT_BETA</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_point_copy_affine</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_MODP_MONT_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>1540</line>
+<column>42</column>
+</event>
+<extra>SM9_Z256_MODP_MONT_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_vuc_cmd_data_out</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;host-&gt;sq_cmd}}}{{code{HAL_NVME_SQ_CMD *}}}{{code{VUC_SQ_STRUCT_PTR}}}}}}</description>
+<line>1234</line>
+<column>25</column>
+</event>
+<extra>host,sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_vuc_cmd_data_in</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;host-&gt;sq_cmd}}}{{code{HAL_NVME_SQ_CMD *}}}{{code{VUC_SQ_STRUCT_PTR}}}}}}</description>
+<line>1218</line>
+<column>25</column>
+</event>
+<extra>host,sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>mctp_transport_init_smbus</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transport-&gt;transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>35</line>
+<column>36</column>
+</event>
+<extra>p_transport,transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryUpdateSubsystemManagementData</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;pSubsystemManagementData[242U]}}}{{code{U8 *}}}{{code{VS_SECURITY_BOOT_REPORTING *}}}}}}</description>
+<line>388</line>
+<column>58</column>
+</event>
+<extra>pSubsystemManagementData</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_HEADER_PTR}}}}}}</description>
+<line>241</line>
+<column>53</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{MCTP_CONTROL_PTR}}}}}}</description>
+<line>242</line>
+<column>44</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_mul</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_N}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2357</line>
+<column>30</column>
+</event>
+<extra>SM9_Z256_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_mul</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_N}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2361</line>
+<column>13</column>
+</event>
+<extra>SM9_Z256_N</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_message_transmit_handler_assemble_message</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_packet_descriptor-&gt;p_base}}}{{code{U8 * const}}}{{code{MCTP_TRANSPORT_HEADER const *}}}}}}</description>
+<line>90</line>
+<column>26</column>
+</event>
+<extra>p_base,p_packet_descriptor</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_encryption_key}}}{{code{EFUSE_FW_ENCRYPTION_KEY const *}}}{{code{U32 *}}}}}}</description>
+<line>2017</line>
+<column>60</column>
+</event>
+<extra>p_fw_encryption_key</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_encryption_key}}}{{code{EFUSE_FW_ENCRYPTION_KEY const *}}}{{code{U32 *}}}}}}</description>
+<line>2037</line>
+<column>60</column>
+</event>
+<extra>p_fw_encryption_key</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_fw_encryption_key}}}{{code{EFUSE_FW_ENCRYPTION_KEY const *}}}{{code{U32 *}}}}}}</description>
+<line>2057</line>
+<column>60</column>
+</event>
+<extra>p_fw_encryption_key</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/fip/hal_fip.c</file>
+<function>hal_fip_collect_error_map</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;err_map_inf[err_map_idx]}}}{{code{struct hal_fip_srq_err_map_inf_struct *}}}{{code{DAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR}}}}}}</description>
+<line>1002</line>
+<column>51</column>
+</event>
+<extra>err_map_idx,err_map_inf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_code_pointer</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_code_pointer-&gt;header.a_slot_id}}}{{code{U16 ( const *)[4]}}}{{code{U16 const *}}}}}}</description>
+<line>3548</line>
+<column>19</column>
+</event>
+<extra>a_slot_id,header,p_code_pointer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_code_pointer</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_code_pointer-&gt;a_slot_info}}}{{code{FW_SLOT_INFO ( const *)[3]}}}{{code{FW_SLOT_INFO const *}}}}}}</description>
+<line>3556</line>
+<column>44</column>
+</event>
+<extra>a_slot_info,p_code_pointer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_fip_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).fpu_sequence}}}{{code{U8 const *}}}{{code{U16 *}}}}}}</description>
+<line>2282</line>
+<column>56</column>
+</event>
+<extra>fpl_ptr,fpu_sequence,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_send_packet_smbus</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transport-&gt;transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>55</line>
+<column>31</column>
+</event>
+<extra>p_transport,transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_send_packet_smbus</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;message_info.source_transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>56</line>
+<column>37</column>
+</event>
+<extra>message_info,p_transmit_handler,source_transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_send_packet_smbus</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_smbm-&gt;tx.base.pu8[0U]}}}{{code{U8 *}}}{{code{MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *}}}}}}</description>
+<line>60</line>
+<column>32</column>
+</event>
+<extra>base,p_smbm,pu8,tx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_receive_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_packet_descriptor-&gt;p_base}}}{{code{U8 *}}}{{code{MCTP_TRANSPORT_HEADER *}}}}}}</description>
+<line>212</line>
+<column>26</column>
+</event>
+<extra>p_base,p_packet_descriptor</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>hal_sec_sm9_z256_modn_pow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{SM9_Z256_ONE}}}{{code{HAL_SEC_SM9_Z256_T const *}}}{{code{U64 const *}}}}}}</description>
+<line>2399</line>
+<column>32</column>
+</event>
+<extra>SM9_Z256_ONE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/i2c/framework_i2c.c</file>
+<function>I2cTriggerBySenarios</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;pI2cInfo[1U]}}}{{code{I2C_INFO_T *}}}{{code{I2C_CMDSET_T *}}}}}}</description>
+<line>211</line>
+<column>32</column>
+</event>
+<extra>pI2cInfo</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_CMD_REQ_MSG *}}}}}}</description>
+<line>479</line>
+<column>29</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_CMD_RESP_MSG *}}}}}}</description>
+<line>480</line>
+<column>30</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_admin_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_NVME_ADMIN_CMD_REQ *}}}}}}</description>
+<line>574</line>
+<column>28</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_admin_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_NVME_ADMIN_CMD_RESP *}}}}}}</description>
+<line>575</line>
+<column>29</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;request_message_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_MSG_HEADER_PTR}}}}}}</description>
+<line>785</line>
+<column>51</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{p_transmit_handler-&gt;reponse_packet_handler.buffer.p_base}}}{{code{U8 *}}}{{code{NVME_MI_CMD_RESP_MSG_PTR}}}}}}</description>
+<line>786</line>
+<column>55</column>
+</event>
+<extra>buffer,p_base,p_transmit_handler,reponse_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp.c</file>
+<function>mctp_message_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_transmit_handler-&gt;request_message_handler.buffer.p_base[p_transmit_handler-&gt;request_message_handler.byte_offset]}}}{{code{U8 *}}}{{code{MCTP_MESSAGE_HEADER *}}}}}}</description>
+<line>71</line>
+<column>26</column>
+</event>
+<extra>buffer,byte_offset,p_base,p_transmit_handler,request_message_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_mctp_smbus-&gt;transport_info}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}}}}</description>
+<line>150</line>
+<column>36</column>
+</event>
+<extra>p_mctp_smbus,transport_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;p_smbs_rx-&gt;base.pu8[0U]}}}{{code{U8 *}}}{{code{MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *}}}}}}</description>
+<line>182</line>
+<column>36</column>
+</event>
+<extra>base,p_smbs_rx,pu8</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{packet_descriptor.p_base}}}{{code{U8 *}}}{{code{MCTP_TRANSPORT_HEADER *}}}}}}</description>
+<line>193</line>
+<column>30</column>
+</event>
+<extra>p_base,packet_descriptor</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.3</checker>
+<type>MISRA_C_2012_Rule_11.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_3_violation</tag>
+<description>{CovLStrv2{{t{The object pointer expression {0} of type {1} is cast to type {2}.}{{code{&amp;source_transport_info_specific}}}{{code{MCTP_TRANSPORT_INFO_SMBUS *}}}{{code{MCTP_TRANSPORT_INFO_GENERIC *}}}}}}</description>
+<line>210</line>
+<column>88</column>
+</event>
+<extra>source_transport_info_specific</extra>
+<subcategory>none</subcategory>
+</error>

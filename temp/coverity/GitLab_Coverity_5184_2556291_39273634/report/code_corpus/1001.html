@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_mabiao.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line95">95    </a></b>	    }
+<b><a name="line96">96    </a></b>	    else
+<b><a name="line97">97    </a></b>	    {
+<b><a name="line98">98    </a></b>	        if (NULL != gMabiaoInfo.fp_check_timeout)
+<b><a name="line99">99    </a></b>	        {
+<b><a name="line100">100    </a></b>	            return gMabiaoInfo.fp_check_timeout();
+<b><a name="line101">101    </a></b>	        }
+<b><a name="line102">102    </a></b>	        else
+<b><a name="line103">103    </a></b>	        {
+<b><a name="line104">104    </a></b>	            // never timeout
+<b><a name="line105">105    </a></b>	            return FALSE;
+<b><a name="line106">106    </a></b>	        }
+<b><a name="line107">107    </a></b>	    }
+<b><a name="line108">108    </a></b>	
+<b><a name="line109">109    </a></b>	    return 0;
+<b><a name="line110">110    </a></b>	}
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	U32 mabiao_time_diff(U32 time_start, U32 time_end)
+<b><a name="line114">114    </a></b>	{
+<b><a name="line115">115    </a></b>	    return ((time_end - time_start) & MABIAO_MAX_COUNT_MASK);
+<b><a name="line116">116    </a></b>	}
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	void mabiao_idle(U8 scale, U32 count)
+<b><a name="line119">119    </a></b>	{
+<b><a name="line120">120    </a></b>	    if(0 == count)
+<b><a name="line121">121    </a></b>	    {
+<b><a name="line122">122    </a></b>	        return;
+<b><a name="line123">123    </a></b>	    }
+<b><a name="line124">124    </a></b>	    U32 mabiao_addr = (scale == MABIAO_MS) ? MABIAO_SET_MS(MABIAO_IDLE, count) : MABIAO_SET_US(MABIAO_IDLE, count);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-10418240" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line125">125    </a></b>	    while (0 == MABIAO_CHK(mabiao_addr)) {};
+<b><a name="line126">126    </a></b>	}
+<b><a name="line127">127    </a></b>	
+</pre></body>
+</html>

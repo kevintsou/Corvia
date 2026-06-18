@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/i2c/framework_i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	    sal_log_tracker_set(sal_locate(0xA1, TYPE_STEP));
+<b><a name="line217">217    </a></b>	
+<b><a name="line218">218    </a></b>	    // 1. Init I2C
+<b><a name="line219">219    </a></b>	    I2cInit(pI2cInfo->sDw1.uwNmFreq, pI2cInfo->sDw1.uwHsFreq);
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	    // 2. Tirgger Process
+<b><a name="line222">222    </a></b>	    for (ubI2cCmdSetIdx = 0U; ubI2cCmdSetIdx < (pI2cInfo->sDw0.ubTotalCmdSet); ubI2cCmdSetIdx++)
+<b><a name="line223">223    </a></b>	    {
+<b><a name="line224">224    </a></b>	        Dump_I2C(tprintf("ubI2cCmdSetIdx = %d, Senario = %x", ubI2cCmdSetIdx, pI2cCmdSet[ubI2cCmdSetIdx].sDw0.ubSenario));
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	        sal_log_tracker_set(sal_locate(0xA2, TYPE_STEP));
+<b><a name="line227">227    </a></b>	
+<b><a name="line228">228    </a></b>	        // 3. Trigger i2c only when the senario is match
+<b><a name="line229">229    </a></b>	        if (eI2cSenario == pI2cCmdSet[ubI2cCmdSetIdx].sDw0.ubSenario)
+<b><a name="line230">230    </a></b>	        {
+<b><a name="line231">231    </a></b>	            sal_log_tracker_set(sal_locate(0xA3, TYPE_STEP));
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	            eI2cErr = I2cTriggerProcess(&pI2cCmdSet[ubI2cCmdSetIdx]);
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	            if (E_I2C_NO_ERR != eI2cErr)
+<b><a name="line236">236    </a></b>	            {
+<b><a name="line237">237    </a></b>	                Dump_I2C(tprintf("I2C trigger failed (cmdset = %d, errCode = %d)", ubI2cCmdSetIdx, eI2cErr));
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	                // 4. idle time after successfully trigger i2c
+<b><a name="line240">240    </a></b>	                mabiao_idle(pI2cCmdSet[ubI2cCmdSetIdx].sDw1.ubDelayTimeUnit, pI2cCmdSet[ubI2cCmdSetIdx].sDw1.uwDelayTime);
+<b><a name="line241">241    </a></b>	                sal_log_tracker_set(sal_locate(0xA4, TYPE_STEP));
+<b><a name="line242">242    </a></b>	            }
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	            sal_log_tracker_set(sal_locate(0xA5, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "-962265088" (unsigned) is not the same as that of the right operand "0xf4 << 4"(signed).</font>
+<b><a name="line245">245    </a></b>	        }
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	        sal_log_tracker_set(sal_locate(0xA6, TYPE_STEP));
+<b><a name="line248">248    </a></b>	    }
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	    sal_log_tracker_set(sal_locate(0xA7, TYPE_STEP));
+<b><a name="line251">251    </a></b>	}
+<b><a name="line252">252    </a></b>	#endif
+<b><a name="line253">253    </a></b>	
+</pre></body>
+</html>

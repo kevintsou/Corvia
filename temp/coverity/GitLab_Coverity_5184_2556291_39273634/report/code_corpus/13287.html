@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/apu/dal_apu_struct.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	        //DW3
+<b><a name="line505">505    </a></b>	        U32 dir          : 1;
+<b><a name="line506">506    </a></b>	        U32 ud           : 1;
+<b><a name="line507">507    </a></b>	        U32 ior          : 1;
+<b><a name="line508">508    </a></b>	        U32 fst          : 1;
+<b><a name="line509">509    </a></b>	        U32 lst          : 1;
+<b><a name="line510">510    </a></b>	        U32 csh_op       : 2;
+<b><a name="line511">511    </a></b>	        U32 aes          : 1;
+<b><a name="line512">512    </a></b>	        U32 e3dp         : 1;
+<b><a name="line513">513    </a></b>	        U32 e3d          : 1;
+<b><a name="line514">514    </a></b>	        U32 am           : 1;
+<b><a name="line515">515    </a></b>	        U32 acpl         : 1;
+<b><a name="line516">516    </a></b>	        U32 ei           : 1;
+<b><a name="line517">517    </a></b>	        U32 dn           : 1;
+<b><a name="line518">518    </a></b>	        U32 pi           : 1;
+<b><a name="line519">519    </a></b>	        U32 rt           : 1;
+<b><a name="line520">520    </a></b>	        U32 kis          : 1;
+<b><a name="line521">521    </a></b>	        U32 zap          : 1;
+<b><a name="line522">522    </a></b>	        U32 pl           : 1;
+<b><a name="line523">523    </a></b>	        U32 wz           : 1;
+<b><a name="line524">524    </a></b>	        U32 rsp          : 1;
+<b><a name="line525">525    </a></b>	        U32 abt          : 1;
+<b><a name="line526">526    </a></b>	        U32 lb_ofst      : 3;
+<b><a name="line527">527    </a></b>	        U32 lca_h        : 7;
+<b><a name="line528">528    </a></b>	
+<b><a name="line529">529    </a></b>	        //DW4
+<b><a name="line530">530    </a></b>	        union{
+<b><a name="line531">531    </a></b>	            U32 tbc          : 29;
+<b><a name="line532">532    </a></b>	            U32 fw_ofst      : 3;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_6_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Bit field "fw_ofst" declared as a member of union.</font>
+<b><a name="line533">533    </a></b>	
+<b><a name="line534">534    </a></b>	            U32 lca_l;
+<b><a name="line535">535    </a></b>	        };
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	
+<b><a name="line538">538    </a></b>	        //DW5
+<b><a name="line539">539    </a></b>	        U32 node_tag     : 16;
+<b><a name="line540">540    </a></b>	        U32 buf_addr_h   : 8;
+<b><a name="line541">541    </a></b>	        U32 spare_addr_h : 8;
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	        //DW6
+<b><a name="line544">544    </a></b>	        U32 buf_addr_l;
+<b><a name="line545">545    </a></b>	
+<b><a name="line546">546    </a></b>	        //DW7
+<b><a name="line547">547    </a></b>	        U32 spare_addr_l;
+<b><a name="line548">548    </a></b>	
+<b><a name="line549">549    </a></b>	        //DW8
+<b><a name="line550">550    </a></b>	        U32 damper;
+<b><a name="line551">551    </a></b>	    };
+<b><a name="line552">552    </a></b>	};
+<b><a name="line553">553    </a></b>	
+<b><a name="line554">554    </a></b>	typedef union dal_apu_fw_bcmd      DAL_APU_FW_BCMD, *DAL_APU_FW_BCMD_PTR;
+<b><a name="line555">555    </a></b>	union dal_apu_fw_bcmd
+<b><a name="line556">556    </a></b>	{
+<b><a name="line557">557    </a></b>	    U32 all[10];
+<b><a name="line558">558    </a></b>	    struct
+<b><a name="line559">559    </a></b>	    {
+<b><a name="line560">560    </a></b>	        //MR_HEADER
+<b><a name="line561">561    </a></b>	        U32 tid          : 11;
+<b><a name="line562">562    </a></b>	        U32 cq_tid       : 11;
+<b><a name="line563">563    </a></b>	        U32 len          : 8;
+</pre></body>
+</html>

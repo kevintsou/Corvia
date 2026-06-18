@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line894">894    </a></b>	}
+<b><a name="line895">895    </a></b>	
+<b><a name="line896">896    </a></b>	void dal_sec_aes_otf_set_kpio_dis(U8 enable)
+<b><a name="line897">897    </a></b>	{
+<b><a name="line898">898    </a></b>	    DAL_SEC_AESOTF_SET_KPIO_DIS(enable);
+<b><a name="line899">899    </a></b>	}
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	void dal_sec_aes_otf_set_otf_rbuf_chk_en(U8 enable)
+<b><a name="line902">902    </a></b>	{
+<b><a name="line903">903    </a></b>	    DAL_SEC_AESOTF_SET_OTF_RBUF_CHK_EN(enable);
+<b><a name="line904">904    </a></b>	}
+<b><a name="line905">905    </a></b>	
+<b><a name="line906">906    </a></b>	void dal_sec_aes_otf_set_wstrb_mask_en(U8 enable)
+<b><a name="line907">907    </a></b>	{
+<b><a name="line908">908    </a></b>	    DAL_SEC_AESOTF_SET_WSTRB_MASK_EN(enable);
+<b><a name="line909">909    </a></b>	}
+<b><a name="line910">910    </a></b>	
+<b><a name="line911">911    </a></b>	void dal_sec_aes_otf_set_key_chg_dir(U8 dir)
+<b><a name="line912">912    </a></b>	{
+<b><a name="line913">913    </a></b>	    DAL_SEC_AESOTF_SET_KEY_CHG_DIR(dir);
+<b><a name="line914">914    </a></b>	}
+<b><a name="line915">915    </a></b>	
+<b><a name="line916">916    </a></b>	void dal_sec_aes_otf_set_key_chg(void)
+<b><a name="line917">917    </a></b>	{
+<b><a name="line918">918    </a></b>	    DAL_SEC_AESOTF_SET_KEY_CHG();
+<b><a name="line919">919    </a></b>	}
+<b><a name="line920">920    </a></b>	
+<b><a name="line921">921    </a></b>	U32 dal_sec_aes_otf_get_key_chg(void)
+<b><a name="line922">922    </a></b>	{
+<b><a name="line923">923    </a></b>	    return (U32)(DAL_SEC_AESOTF_GET_KEY_CHG());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 8 bit width expression "((U8 volatile *)0x360ac00[4U] >> 0U) & 1U" to a wider 32 bit type.</font>
+<b><a name="line924">924    </a></b>	}
+<b><a name="line925">925    </a></b>	
+<b><a name="line926">926    </a></b>	void dal_sec_aes_otf_set_key_gen(void)
+<b><a name="line927">927    </a></b>	{
+<b><a name="line928">928    </a></b>	    DAL_SEC_AESOTF_SET_KEY_GEN();
+<b><a name="line929">929    </a></b>	}
+<b><a name="line930">930    </a></b>	
+<b><a name="line931">931    </a></b>	U32 dal_sec_aes_otf_get_key_gen(void)
+<b><a name="line932">932    </a></b>	{
+<b><a name="line933">933    </a></b>	    return (U32)(DAL_SEC_AESOTF_GET_KEY_GEN());
+<b><a name="line934">934    </a></b>	}
+<b><a name="line935">935    </a></b>	
+<b><a name="line936">936    </a></b>	void dal_sec_aes_otf_set_mask_en(U8 enable)
+<b><a name="line937">937    </a></b>	{
+<b><a name="line938">938    </a></b>	    DAL_SEC_AES_OTF_SET_MASK_EN(enable);
+<b><a name="line939">939    </a></b>	}
+<b><a name="line940">940    </a></b>	
+<b><a name="line941">941    </a></b>	void dal_sec_aes_otf_set_r2_reload(void)
+<b><a name="line942">942    </a></b>	{
+<b><a name="line943">943    </a></b>	    DAL_SEC_AES_OTF_SET_R2_RELOAD();
+<b><a name="line944">944    </a></b>	}
+<b><a name="line945">945    </a></b>	
+<b><a name="line946">946    </a></b>	U32 dal_sec_aes_otf_get_r2_reload(void)
+<b><a name="line947">947    </a></b>	{
+<b><a name="line948">948    </a></b>	    return (U32)(DAL_SEC_AES_OTF_GET_R2_RELOAD());
+<b><a name="line949">949    </a></b>	}
+<b><a name="line950">950    </a></b>	
+<b><a name="line951">951    </a></b>	void dal_sec_aes_otf_set_r2_update(void)
+<b><a name="line952">952    </a></b>	{
+<b><a name="line953">953    </a></b>	    DAL_SEC_AES_OTF_SET_R2_UPDATE();
+<b><a name="line954">954    </a></b>	}
+</pre></body>
+</html>

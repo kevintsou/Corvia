@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_control.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  mctp_control.c                                                        */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	static U32 mctp_message_handle_mctp_control_set_eid(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line24">24    </a></b>	{
+<b><a name="line25">25    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_req = (MCTP_CONTROL_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_transmit_handler->request_message_handler.buffer.p_base" of type "U8 *" is cast to type "MCTP_CONTROL_PTR".</font>
+<b><a name="line26">26    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_resp = (MCTP_CONTROL_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line27">27    </a></b>	    U32 reponse_data_size = 0U;
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	    Dump_SMBUS(tprintf(" [MCTP CONTROL] Set EID"));
+<b><a name="line30">30    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	    switch (p_mctp_control_req->req_data.set_eid.operation)
+<b><a name="line33">33    </a></b>	    {
+<b><a name="line34">34    </a></b>	        // 0xFF, 0x00 = illegal.
+<b><a name="line35">35    </a></b>	        // Endpoints are not allowed to be assigned the broadcast or null EIDs. It is
+<b><a name="line36">36    </a></b>	        // recommended that the endpoint return an ERROR_INVALID_DATA
+<b><a name="line37">37    </a></b>	        // completion code if it receives either of these values.
+<b><a name="line38">38    </a></b>	        case MCTP_CTRL_SET_EID_OP_SET_EID :
+<b><a name="line39">39    </a></b>	        case MCTP_CTRL_SET_EID_OP_FORCE_EID :
+<b><a name="line40">40    </a></b>	            if ((MCTP_NULL_EID == p_mctp_control_req->req_data.set_eid.eid) || (MCTP_BROADCAST_EID == p_mctp_control_req->req_data.set_eid.eid)) {
+<b><a name="line41">41    </a></b>	                Dump_SMBUS(tprintf("    >>>>> EID == NULL or EID == Broadcast EID"));
+<b><a name="line42">42    </a></b>	                p_mctp_control_resp->resp_data.set_eid.cpl_code |= MCTP_CTRL_CPL_ERROR_INVALID_DATA;
+<b><a name="line43">43    </a></b>	            }
+<b><a name="line44">44    </a></b>	            else if ((MCTP_NULL_EID != p_transmit_handler->message_info.p_transport->endpoint.eid) && (MCTP_CTRL_SET_EID_OP_FORCE_EID != p_mctp_control_req->req_data.set_eid.operation)) {
+<b><a name="line45">45    </a></b>	                Dump_SMBUS(tprintf("    >>>>> EID has already been assigned and the Set Endpoint ID command is issued from a different bus without forcing an EID assignment"));
+<b><a name="line46">46    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Already been assigned EID : %x", p_transmit_handler->message_info.p_transport->endpoint.eid));
+<b><a name="line47">47    </a></b>	                p_mctp_control_resp->resp_data.set_eid.assign_status = MCTP_CTRL_SET_EID_STATUS_REJECT;
+<b><a name="line48">48    </a></b>	            }
+<b><a name="line49">49    </a></b>	            else {
+<b><a name="line50">50    </a></b>	                Dump_SMBUS(tprintf("    >>>>> EID : %x", p_mctp_control_req->req_data.set_eid.eid));
+<b><a name="line51">51    </a></b>	                p_mctp_control_resp->resp_data.set_eid.assign_status = MCTP_CTRL_SET_EID_STATUS_ACCEPT;
+<b><a name="line52">52    </a></b>	                p_mctp_control_resp->resp_data.set_eid.eid_setting = p_mctp_control_req->req_data.set_eid.eid;
+<b><a name="line53">53    </a></b>	                p_transmit_handler->message_info.p_transport->endpoint.eid = p_mctp_control_req->req_data.set_eid.eid;
+<b><a name="line54">54    </a></b>	            }
+<b><a name="line55">55    </a></b>	            break;
+<b><a name="line56">56    </a></b>	
+</pre></body>
+</html>

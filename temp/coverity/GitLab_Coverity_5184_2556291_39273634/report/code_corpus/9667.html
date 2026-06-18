@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line545">545    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line546">546    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	    mctp_message_handle_nvme_mi_message_response(
+<b><a name="line549">549    </a></b>	        &p_transmit_handler->message_info,
+<b><a name="line550">550    </a></b>	        p_nvme_mi_cmd_req_msg->mi_header.csi,
+<b><a name="line551">551    </a></b>	        NMIMT_NVME_MI_COMMAND,
+<b><a name="line552">552    </a></b>	        (U8 *)p_nvme_mi_cmd_resp_msg,
+<b><a name="line553">553    </a></b>	        sizeof(NVME_MI_CMD_RESP_MSG),
+<b><a name="line554">554    </a></b>	        response_data.p_base,
+<b><a name="line555">555    </a></b>	        response_data.size);
+<b><a name="line556">556    </a></b>	}
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	static void mctp_message_handle_nvme_mi_admin_command(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line559">559    </a></b>	{
+<b><a name="line560">560    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line561">561    </a></b>	
+<b><a name="line562">562    </a></b>	    NVME_MI_NVME_ADMIN_CMD_REQ *p_nvme_admin_cmd_req;
+<b><a name="line563">563    </a></b>	    NVME_MI_NVME_ADMIN_CMD_RESP *p_nvme_admin_cmd_resp;
+<b><a name="line564">564    </a></b>	
+<b><a name="line565">565    </a></b>	    DATA_DESCRIPTOR request_data;
+<b><a name="line566">566    </a></b>	    DATA_DESCRIPTOR response_data;
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	    U32 message_response_status;
+<b><a name="line569">569    </a></b>	
+<b><a name="line570">570    </a></b>	    U8 request_data_exists = FALSE;
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    p_nvme_admin_cmd_req = (NVME_MI_NVME_ADMIN_CMD_REQ *)(p_transmit_handler->request_message_handler.buffer.p_base);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_transmit_handler->request_message_handler.buffer.p_base" of type "U8 *" is cast to type "NVME_MI_NVME_ADMIN_CMD_REQ *".</font>
+<b><a name="line575">575    </a></b>	    p_nvme_admin_cmd_resp = (NVME_MI_NVME_ADMIN_CMD_RESP *)(p_transmit_handler->reponse_packet_handler.buffer.p_base);
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	    memset((void *)p_nvme_admin_cmd_resp, 0, sizeof(NVME_MI_NVME_ADMIN_CMD_RESP));
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    response_data.p_base = (U8 *)(host->buffer_base);
+<b><a name="line580">580    </a></b>	    response_data.size = 0U;
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    // (68 byte) : admin command request format
+<b><a name="line585">585    </a></b>	    // (N  byte) : NVMe Request Data (Optional)
+<b><a name="line586">586    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line587">587    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count >= (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U)) {
+<b><a name="line588">588    </a></b>	        // NVMe Request Data have data
+<b><a name="line589">589    </a></b>	        request_data.p_base = (p_transmit_handler->request_message_handler.buffer.p_base + sizeof(NVME_MI_NVME_ADMIN_CMD_REQ));
+<b><a name="line590">590    </a></b>	        request_data.size = (p_transmit_handler->request_message_handler.byte_count - (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U));
+<b><a name="line591">591    </a></b>	    }
+<b><a name="line592">592    </a></b>	    else {
+<b><a name="line593">593    </a></b>	        // admin command size have to >= (68 byte + 4 byte)
+<b><a name="line594">594    </a></b>	        request_data.p_base = NULL;
+<b><a name="line595">595    </a></b>	        request_data.size = 0UL;
+<b><a name="line596">596    </a></b>	    }
+<b><a name="line597">597    </a></b>	
+<b><a name="line598">598    </a></b>	    if (request_data.p_base == NULL) {
+<b><a name="line599">599    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line600">600    </a></b>	        p_nvme_admin_cmd_resp->dw1.generic_resp.status |= message_response_status;
+<b><a name="line601">601    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Admin Command Size Less 72 Byte"));
+<b><a name="line602">602    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Admin Command Size : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line603">603    </a></b>	
+<b><a name="line604">604    </a></b>	    }
+<b><a name="line605">605    </a></b>	    else if (chk_mctp_mi_adm_prohibit(p_nvme_admin_cmd_req->sqdw0.opcode) == TRUE) {
+</pre></body>
+</html>

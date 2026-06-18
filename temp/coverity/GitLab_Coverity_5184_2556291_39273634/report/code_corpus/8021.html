@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/lib.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line89">89    </a></b>	        data = ((U8 *)data_base)[data_offset];
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	        //Calculate the CRC
+<b><a name="line92">92    </a></b>	        for (bit_offset = 0; bit_offset < 8; bit_offset++) {
+<b><a name="line93">93    </a></b>	            if (reverse & CRC_CALC_REVERSE_INPUT) {
+<b><a name="line94">94    </a></b>	                temp = (crc >> (bit_width - 1)) ^ (data >> bit_offset);
+<b><a name="line95">95    </a></b>	            }
+<b><a name="line96">96    </a></b>	            else {
+<b><a name="line97">97    </a></b>	                temp = (crc >> (bit_width - 1)) ^ (data >> (8 - 1 - bit_offset));
+<b><a name="line98">98    </a></b>	            }
+<b><a name="line99">99    </a></b>	            crc = (crc << 1) ^ ((temp & BIT0) * polynomial);
+<b><a name="line100">100    </a></b>	        }
+<b><a name="line101">101    </a></b>	    }
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    if (reverse & CRC_CALC_REVERSE_OUTPUT) {
+<b><a name="line104">104    </a></b>	        {
+<b><a name="line105">105    </a></b>	            U32 output;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	            output = 0;
+<b><a name="line108">108    </a></b>	            for (bit_offset = 0; bit_offset < (bit_width / 2); bit_offset++) {
+<b><a name="line109">109    </a></b>	                output |=
+<b><a name="line110">110    </a></b>	                    (((crc >> bit_offset) & 1) << (bit_width - 1 - bit_offset)) |
+<b><a name="line111">111    </a></b>	                    (((crc >> (bit_width - 1 - bit_offset)) & 1) << bit_offset);
+<b><a name="line112">112    </a></b>	            }
+<b><a name="line113">113    </a></b>	            crc = output;
+<b><a name="line114">114    </a></b>	        }
+<b><a name="line115">115    </a></b>	    }
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    //Return the calculated CRC value, remove the extra bits
+<b><a name="line118">118    </a></b>	    return ((crc ^ xor) & (0xFFFFFFFF >> (32 - bit_width)));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "32UL" (signed) is not the same as that of the right operand "bit_width"(unsigned).</font>
+<b><a name="line119">119    </a></b>	}
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	
+</pre></body>
+</html>

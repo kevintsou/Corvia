@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/i2c/i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line41">41    </a></b>	    // 2. Set I2C delay time and opcode by power control action
+<b><a name="line42">42    </a></b>	    switch (ubPowerControl)
+<b><a name="line43">43    </a></b>	    {
+<b><a name="line44">44    </a></b>	        case I2C_PWR_CTRL_NAND_POWER_ON:
+<b><a name="line45">45    </a></b>	            Dump_I2C(tprintf("I2C NAND power ON"));
+<b><a name="line46">46    </a></b>	            sal_log_tracker_set(sal_locate(0xD1, TYPE_STEP));
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	            // delay time
+<b><a name="line49">49    </a></b>	            pI2cCmdSet->sDw1.uwDelayTime     = M_DELAY_TIME_MAGNIFY(MCU_POWER_ON_DELAY_TIME, pBC->p_efuse_security_setting->i2c_power_on_delay_time_mag);
+<b><a name="line50">50    </a></b>	            pI2cCmdSet->sDw1.ubDelayTimeUnit = MCU_POWER_ON_DELAY_TIME_UNIT;
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	            // opcode
+<b><a name="line53">53    </a></b>	            pI2cCmdSet->sDw3_4.aubOp[E_I2C_OP_0] = I2C_OPCODE_NAND_POWER_ON;
+<b><a name="line54">54    </a></b>	            break;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	        case I2C_PWR_CTRL_NAND_POWER_OFF:
+<b><a name="line57">57    </a></b>	            Dump_I2C(tprintf("I2C NAND power OFF"));
+<b><a name="line58">58    </a></b>	            sal_log_tracker_set(sal_locate(0xD0, TYPE_STEP));
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	            // delay time
+<b><a name="line61">61    </a></b>	            pI2cCmdSet->sDw1.uwDelayTime     = M_DELAY_TIME_MAGNIFY(MUC_POWER_OFF_DELAY_TIME, pBC->p_efuse_security_setting->i2c_power_off_delay_time_mag);
+<b><a name="line62">62    </a></b>	            pI2cCmdSet->sDw1.ubDelayTimeUnit = MCU_POWER_OFF_DELAY_TIME_UNIT;
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	            // op code
+<b><a name="line65">65    </a></b>	            pI2cCmdSet->sDw3_4.aubOp[E_I2C_OP_0] = I2C_OPCODE_NAND_POWER_OFF;
+<b><a name="line66">66    </a></b>	            break;
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	        case I2C_PWR_CTRL_NAND_POWER_RESET:
+<b><a name="line69">69    </a></b>	            Dump_I2C(tprintf("I2C NAND power RESET"));
+<b><a name="line70">70    </a></b>	            sal_log_tracker_set(sal_locate(0xD2, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	            // delay time
+<b><a name="line73">73    </a></b>	            pI2cCmdSet->sDw1.uwDelayTime     = MUC_POWER_RESET_DELAY_TIME;
+<b><a name="line74">74    </a></b>	            pI2cCmdSet->sDw1.ubDelayTimeUnit = MCU_POWER_RESET_DELAY_TIME_UNIT;
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	            // op code
+<b><a name="line77">77    </a></b>	            pI2cCmdSet->sDw3_4.aubOp[E_I2C_OP_0] = I2C_OPCODE_NAND_POWER_RESET;
+<b><a name="line78">78    </a></b>	            break;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	        default:
+<b><a name="line81">81    </a></b>	            // do nothing
+<b><a name="line82">82    </a></b>	            break;
+<b><a name="line83">83    </a></b>	    }
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	/*!
+<b><a name="line87">87    </a></b>	   @brief      Send I2C command to MCU to power on/off NAND
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	   @param      ubPowerControl    power on/off
+<b><a name="line90">90    </a></b>	   @return     I2C_ERR_E
+<b><a name="line91">91    </a></b>	 */
+<b><a name="line92">92    </a></b>	static I2C_ERR_E i2c_nand_power_control_through_mcu(U8 ubPowerControl)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    I2C_CMDSET_T sI2cCmdSet;
+<b><a name="line95">95    </a></b>	    I2C_ERR_E eI2cErr = E_I2C_NO_ERR;
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	    memset((void *)&sI2cCmdSet, 0x00U, sizeof(I2C_CMDSET_T));
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    // 1. Init I2C cmdset parameters
+<b><a name="line100">100    </a></b>	    sI2cCmdSet.sDw0.ubCmdSetEn  = ID_FEATURE_ENABLE;
+<b><a name="line101">101    </a></b>	    sI2cCmdSet.sDw0.bWaitFinish = TRUE;
+</pre></body>
+</html>

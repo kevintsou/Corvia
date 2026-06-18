@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	        return LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE;
+<b><a name="line295">295    </a></b>	    }
+<b><a name="line296">296    </a></b>	    else {
+<b><a name="line297">297    </a></b>	        sal_log_tracker_set(sal_locate(0x03, TYPE_RSV6));
+<b><a name="line298">298    </a></b>	        //Normal Load Code
+<b><a name="line299">299    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_NORMAL_LOAD_CODE); //Part of 'N', Normal Load Code, '4'
+<b><a name="line300">300    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_NORMAL_LOAD_CODE;
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	        //Exiting the function means that no code can be loaded
+<b><a name="line303">303    </a></b>	#if (NAND_RESET_DEBUG == 0)
+<b><a name="line304">304    </a></b>	        load_code_process(p_load_code_status);
+<b><a name="line305">305    </a></b>	#endif
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (bc_ptr->p_efuse_nand_setting->power_reset_select != EFUSE_POWER_RESET_DISABLE) {
+<b><a name="line308">308    </a></b>	            //Perform flash power reset and load code again
+<b><a name="line309">309    </a></b>	            reset_load_code_status(p_load_code_status, LOAD_CODE_RESET_FLASH_RESET, bc_ptr->p_efuse_nand_setting);
+<b><a name="line310">310    </a></b>	            p_load_code_status->load_code_state = LOAD_CODE_STATE_POWER_RESET_LOAD_CODE;
+<b><a name="line311">311    </a></b>	            efuse_bootcode_landmark_index_api(&gEFuseAPI, 2);
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	            sal_log_info_char('Z');
+<b><a name="line314">314    </a></b>	            reset_status = flh_power_reset_flow(BOOT_DIS_SSC, BOOT_DIS_FTRACK);
+<b><a name="line315">315    </a></b>	            sal_log_info_num(reset_status);
+<b><a name="line316">316    </a></b>	            if (0 == reset_status) {
+<b><a name="line317">317    </a></b>	                sal_log_tracker_set(sal_locate(0x04, TYPE_RSV6));
+<b><a name="line318">318    </a></b>	                sal_log_info_char('F');
+<b><a name="line319">319    </a></b>	                fpl_status = fpl_fip_init(&gFplApiStruct, &gFipInstStruct, &gAddrRulePCAStruct, bc_ptr->p_efuse_nand_setting);
+<b><a name="line320">320    </a></b>	                sal_log_info_num(fpl_status);
+<b><a name="line321">321    </a></b>	                ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_FPL_INIT_STATUS))[FPL_INIT_STATUS_POWER_RESET_LOAD_CODE] = gFplApiStruct.fip_init_status;
+<b><a name="line322">322    </a></b>	                if (0 == fpl_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0UL" (signed) is not the same as that of the right operand "fpl_status"(unsigned).</font>
+<b><a name="line323">323    </a></b>	                    sal_log_tracker_set(sal_locate(0x05, TYPE_RSV6));
+<b><a name="line324">324    </a></b>	                    efuse_bootcode_landmark_index_api(&gEFuseAPI, 3);
+<b><a name="line325">325    </a></b>	                    load_code_process(p_load_code_status);
+<b><a name="line326">326    </a></b>	                }
+<b><a name="line327">327    </a></b>	            }
+<b><a name="line328">328    </a></b>	        }
+<b><a name="line329">329    </a></b>	        if (bc_ptr->p_efuse_nand_setting->nand_reset_select != EFUSE_FLH_HARD_RST_DISABLE) {
+<b><a name="line330">330    </a></b>	            reset_load_code_status(p_load_code_status, LOAD_CODE_RESET_FLASH_RESET, bc_ptr->p_efuse_nand_setting);
+<b><a name="line331">331    </a></b>	            p_load_code_status->load_code_state = LOAD_CODE_STATE_HARD_RESET_LOAD_CODE;
+<b><a name="line332">332    </a></b>	            sal_log_info_char('Y');
+<b><a name="line333">333    </a></b>	            reset_status = fpl_hard_reset(&gFplApiStruct, bc_ptr->p_efuse_nand_setting->nand_reset_select);
+<b><a name="line334">334    </a></b>	            sal_log_tracker_set(sal_locate(0x17, TYPE_RSV6));
+<b><a name="line335">335    </a></b>	            sal_log_info_num(reset_status);
+<b><a name="line336">336    </a></b>	            if (0 == reset_status) {
+<b><a name="line337">337    </a></b>	                sal_log_info_char('F');
+<b><a name="line338">338    </a></b>	                fpl_status = fpl_fip_init(&gFplApiStruct, &gFipInstStruct, &gAddrRulePCAStruct, bc_ptr->p_efuse_nand_setting);
+<b><a name="line339">339    </a></b>	                sal_log_info_num(fpl_status);
+<b><a name="line340">340    </a></b>	                ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_FPL_INIT_STATUS))[FPL_INIT_STATUS_HARD_RESET_LOAD_CODE] = gFplApiStruct.fip_init_status;
+<b><a name="line341">341    </a></b>	                if (0 == fpl_status) {
+<b><a name="line342">342    </a></b>	                    sal_log_tracker_set(sal_locate(0x14, TYPE_RSV2));
+<b><a name="line343">343    </a></b>	                    load_code_process(p_load_code_status);
+<b><a name="line344">344    </a></b>	                }
+<b><a name="line345">345    </a></b>	            }
+<b><a name="line346">346    </a></b>	        }
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	        if ((bc_ptr->p_efuse_security_setting->load_code_fail_stop) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line349">349    </a></b>	            security_fail_handle(SECURITY_FAIL_TYPE_LOAD_CODE);
+<b><a name="line350">350    </a></b>	        }
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	        //Load code has failed
+<b><a name="line353">353    </a></b>	#if MI_OOB_SMBUS_EN
+</pre></body>
+</html>

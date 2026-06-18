@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9423">9423    </a></b>	    const U8 sha_mode = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line9424">9424    </a></b>	
+<b><a name="line9425">9425    </a></b>	    U32 public_key_size = 0U;
+<b><a name="line9426">9426    </a></b>	    U8  key_index[4]                 = {'P', '6', '0', '1'};
+<b><a name="line9427">9427    </a></b>	    U8  a_record_key_information[16] = {'P', '6', '0', '1'};
+<b><a name="line9428">9428    </a></b>	    U8  a_timestamp[16]              = {'2', '0', '2', '4', '-', '0', '6', '-', '2', '7', '1', '9', '1', '7', '3', '6'};
+<b><a name="line9429">9429    </a></b>	
+<b><a name="line9430">9430    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line9431">9431    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line9432">9432    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line9433">9433    </a></b>	
+<b><a name="line9434">9434    </a></b>	    Dump_SEC(tprintf("SM2-Verify KAT"));
+<b><a name="line9435">9435    </a></b>	
+<b><a name="line9436">9436    </a></b>	    public_key_size = ALIGN(sizeof(SW_SM2_KEY_STRUCT), SECTOR_SIZE);
+<b><a name="line9437">9437    </a></b>	
+<b><a name="line9438">9438    </a></b>	    (void)memset((void *)sm2_param_ptr, 0U, sizeof(SEC_ECC_PARAMS_T));
+<b><a name="line9439">9439    </a></b>	
+<b><a name="line9440">9440    </a></b>	    // init msg
+<b><a name="line9441">9441    </a></b>	    memset((void *)(U32)msg_addr, 0U, 0x600U);
+<b><a name="line9442">9442    </a></b>	    sec_fill_kat_bin_header(msg_addr, &key_index[0], PROJECT_BINARY_HEADER_SIGNATURE_FILE_FORMAT_KEY_SIGNATURE, PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3, public_key_size, &a_record_key_information[0], &a_timestamp[0]);
+<b><a name="line9443">9443    </a></b>	
+<b><a name="line9444">9444    </a></b>	    // copy key
+<b><a name="line9445">9445    </a></b>	    key_address = msg_addr + SECTOR_SIZE;
+<b><a name="line9446">9446    </a></b>	    (void)memcpy((void *)key_address, (void *)&code_sign_sw_sm2_key_p601[0], sizeof(code_sign_sw_sm2_key_p601));
+<b><a name="line9447">9447    </a></b>	    (void)memcpy((void *)key_endian_buffer, (void *)&code_sign_sw_sm2_key_p601[0], sizeof(code_sign_sw_sm2_key_p601));
+<b><a name="line9448">9448    </a></b>	    id_address = (U32)((SW_SM2_KEY_STRUCT *)key_address)->id_a;
+<b><a name="line9449">9449    </a></b>	    // copy r s
+<b><a name="line9450">9450    </a></b>	    sign_address = key_address + ALIGN(sizeof(SW_SM2_KEY_STRUCT), SECTOR_SIZE);
+<b><a name="line9451">9451    </a></b>	    (void)memcpy((void *)sign_address, (void *)&kat_code_sign_sw_sm2_r_s[0], sizeof(kat_code_sign_sw_sm2_r_s));
+<b><a name="line9452">9452    </a></b>	    (void)memcpy((void *)signature_endian_buffer, (void *)&kat_code_sign_sw_sm2_r_s[0], sizeof(kat_code_sign_sw_sm2_r_s));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&kat_code_sign_sw_sm2_r_s[0]" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line9453">9453    </a></b>	
+<b><a name="line9454">9454    </a></b>	    // Make sure all fields in public key and signature are little endian
+<b><a name="line9455">9455    </a></b>	    sec_sm2_verify_param_reverse(key_endian_buffer, signature_endian_buffer, ((U8 *)(U32)msg_addr)[0x29]);
+<b><a name="line9456">9456    </a></b>	
+<b><a name="line9457">9457    </a></b>	    code_sign_sw_sm2_init_param(sm2_param_ptr, key_endian_buffer, signature_endian_buffer, hash_buffer, msg_addr, sm2_buffer);
+<b><a name="line9458">9458    </a></b>	
+<b><a name="line9459">9459    </a></b>	    // step 1. Calculate Z by ID
+<b><a name="line9460">9460    </a></b>	    code_sign_sw_sm2_calculate_z(sm2_param_ptr, id_address, z_data_addr, z_result_addr, sha_mode);
+<b><a name="line9461">9461    </a></b>	
+<b><a name="line9462">9462    </a></b>	    // step 2. Pad Z with 32 bytes 0
+<b><a name="line9463">9463    </a></b>	    (void)memset((void *)(z_result_addr + 32), 0x00, 32);
+<b><a name="line9464">9464    </a></b>	
+<b><a name="line9465">9465    </a></b>	    // step 3. Calculate sm3 value of (z || 0 || code heaer || code body || public key)
+<b><a name="line9466">9466    </a></b>	    code_sign_sw_sm2_calculate_code_hash(sm2_param_ptr, z_result_addr, SECTOR_SIZE, key_address, ALIGN(sizeof(code_sign_sw_sm2_key_p601), SECTOR_SIZE), sha_mode);
+<b><a name="line9467">9467    </a></b>	
+<b><a name="line9468">9468    </a></b>	    sm2_param_ptr->kat_mode = SEC_YES;
+<b><a name="line9469">9469    </a></b>	    // step 4. Verify signature
+<b><a name="line9470">9470    </a></b>	    if (phal_sec_sm2_verify_algo(sm2_param_ptr) != HAL_SEC_SM2_ERROR(SEC_YES)) {
+<b><a name="line9471">9471    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9472">9472    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_VERIFY);
+<b><a name="line9473">9473    </a></b>	    }
+<b><a name="line9474">9474    </a></b>	
+<b><a name="line9475">9475    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9476">9476    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9477">9477    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_TIMEOUT);
+<b><a name="line9478">9478    </a></b>	    }
+<b><a name="line9479">9479    </a></b>	
+<b><a name="line9480">9480    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9481">9481    </a></b>	}
+<b><a name="line9482">9482    </a></b>	#endif
+<b><a name="line9483">9483    </a></b>	#if KAT_SM9_EN
+</pre></body>
+</html>

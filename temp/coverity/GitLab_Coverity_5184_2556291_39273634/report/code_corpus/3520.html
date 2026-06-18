@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line419">419    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.disable_mem_log)
+<b><a name="line420">420    </a></b>	    {
+<b><a name="line421">421    </a></b>	        sal_log_disable_all_mem_log();
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	
+<b><a name="line424">424    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.uart_output_message_disable)
+<b><a name="line425">425    </a></b>	    {
+<b><a name="line426">426    </a></b>	        sal_log_enable_disable_all_uart(FALSE);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.enable_debug_func)
+<b><a name="line430">430    </a></b>	    {
+<b><a name="line431">431    </a></b>	        sal_log_enable_disable_all_uart(TRUE);
+<b><a name="line432">432    </a></b>	        gSalDbg.enabling_flag = 0x8299DEB6;
+<b><a name="line433">433    </a></b>	        gSalDbg.log_dbuf_usage = 1;
+<b><a name="line434">434    </a></b>	        gSalDbg.log_debug = 1;
+<b><a name="line435">435    </a></b>	        gSalDbg.log_idpg_scan = 1;
+<b><a name="line436">436    </a></b>	        gSalDbg.log_init = 1;
+<b><a name="line437">437    </a></b>	        gSalDbg.log_load_code = 1;
+<b><a name="line438">438    </a></b>	        gSalDbg.log_error = 1;
+<b><a name="line439">439    </a></b>	        gSalDbg.log_sec = 1;
+<b><a name="line440">440    </a></b>	    }
+<b><a name="line441">441    </a></b>	}
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	U8 boot_sys_init_flow(BC_GLOBAL_STRUCT_PTR bc_ptr, HOST_API_STRUCT_PTR host)
+<b><a name="line444">444    </a></b>	{
+<b><a name="line445">445    </a></b>	    U8 status = 0;
+<b><a name="line446">446    </a></b>	    //  Init timer
+<b><a name="line447">447    </a></b>	    mabiao_init(SCAT_MABIAO_BASE, SCAT_MABIAO_SIZE);
+<b><a name="line448">448    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_0_PMU, TYPE_TIMESTAMP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "448" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	    //  Global Structure Initialization
+<b><a name="line451">451    </a></b>	    global_struct_init(bc_ptr);
+<b><a name="line452">452    </a></b>	    gRnghealth.remaining_cnt = 0;
+<b><a name="line453">453    </a></b>	
+<b><a name="line454">454    </a></b>	    //  Init db
+<b><a name="line455">455    </a></b>	    bootcode_hal_db_init();
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	    efuse_api_init(&gEFuseAPI);
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	    // Pre-Check SQZ status
+<b><a name="line460">460    </a></b>	    if (FAIL == phal_sqz_init(DBUF_API_BOOTCODE_SQZ_PARAM_BUFFER_BASE, TRUE))
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        security_fail_handle(SECURITY_FAIL_TYPE_SQZ_INIT);
+<b><a name="line463">463    </a></b>	    }
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    get_all_efuse_sys_landmark(&gEFuseAPI, (void *)bc_ptr);
+<b><a name="line466">466    </a></b>	    efuse_bootcode_landmark_index_api(&gEFuseAPI, 1);
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    hook_tp_efuse_update_debug_cap();
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    //  System related IP initialization.
+<b><a name="line471">471    </a></b>	    status = sys_init(bc_ptr);
+<b><a name="line472">472    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_1_SYS_INIT, TYPE_TIMESTAMP));
+<b><a name="line473">473    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_FLOW_SYS_INIT_FAIL, (0 == status));
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    if ((gpFwSimCtrl0Reg->not_aes_key_ram_clr == FALSE) && (gpFwSimCtrl1Reg->sqz_enable == FALSE)) {
+<b><a name="line476">476    </a></b>	        hal_sec_aes_kram_clr(SEC_TIMEOUT_TICKS);
+<b><a name="line477">477    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_SEC_AES_KEY_RAM_CLR_TIMEOUT, (0 == gSecAesTimeout));
+<b><a name="line478">478    </a></b>	    }
+<b><a name="line479">479    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_mabiao.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "sal_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	typedef U8 (*FP_CHK_TO)(void);
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	MABIAO gsMabiao[MABIAO_CATEGORY_SIZE] = {{0}};
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	typedef struct
+<b><a name="line8">8    </a></b>	{
+<b><a name="line9">9    </a></b>	    U8 mabiao_en;
+<b><a name="line10">10    </a></b>	    U32 buf_base;
+<b><a name="line11">11    </a></b>	    U32 buf_size;
+<b><a name="line12">12    </a></b>	    U32 idx;
+<b><a name="line13">13    </a></b>	    U32 max_idx;
+<b><a name="line14">14    </a></b>	    FP_CHK_TO fp_check_timeout;
+<b><a name="line15">15    </a></b>	} MABIAO_INFO;
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	MABIAO_INFO gMabiaoInfo = {0};
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	void mabiao_init(U32 buf_base, U32 buf_size)
+<b><a name="line20">20    </a></b>	{
+<b><a name="line21">21    </a></b>	    if (!gMabiaoInfo.mabiao_en)
+<b><a name="line22">22    </a></b>	    {
+<b><a name="line23">23    </a></b>	        phal_sys_rtt_enable();
+<b><a name="line24">24    </a></b>	        gMabiaoInfo.mabiao_en = TRUE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line25">25    </a></b>	        gMabiaoInfo.buf_base = buf_base;
+<b><a name="line26">26    </a></b>	        gMabiaoInfo.buf_size = buf_size;
+<b><a name="line27">27    </a></b>	        gMabiaoInfo.idx = 0;
+<b><a name="line28">28    </a></b>	        gMabiaoInfo.max_idx = gMabiaoInfo.buf_size / sizeof(MABIAO);
+<b><a name="line29">29    </a></b>	        gMabiaoInfo.fp_check_timeout = NULL;
+<b><a name="line30">30    </a></b>	        memset((void *)buf_base, 0U, buf_size);
+<b><a name="line31">31    </a></b>	    }
+<b><a name="line32">32    </a></b>	}
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	U32 mabiao_set(U8 scale, U32 count, U32 locate)
+<b><a name="line35">35    </a></b>	{
+<b><a name="line36">36    </a></b>	    if (gMabiaoInfo.mabiao_en)
+<b><a name="line37">37    </a></b>	    {
+<b><a name="line38">38    </a></b>	        MABIAO *pMabiao = (MABIAO *)(gMabiaoInfo.buf_base + gMabiaoInfo.idx * sizeof(MABIAO));
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	        gMabiaoInfo.idx++;
+<b><a name="line41">41    </a></b>	        if (gMabiaoInfo.idx == gMabiaoInfo.max_idx)
+<b><a name="line42">42    </a></b>	        {
+<b><a name="line43">43    </a></b>	             gMabiaoInfo.idx = 0;
+<b><a name="line44">44    </a></b>	        }
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	        pMabiao->scale = scale;
+<b><a name="line47">47    </a></b>	        pMabiao->uoStartRTT = (scale == MABIAO_MS) ? phal_sys_rtt_get_ms() : phal_sys_rtt_get_us();
+<b><a name="line48">48    </a></b>	        pMabiao->count = count;
+<b><a name="line49">49    </a></b>	        pMabiao->timeout = 0;
+<b><a name="line50">50    </a></b>	        pMabiao->locate = locate;
+<b><a name="line51">51    </a></b>	        // tprintf("mabiao set %x addr = %x", locate, addr);
+<b><a name="line52">52    </a></b>	        return (U32)pMabiao;
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	    return NULL;
+<b><a name="line55">55    </a></b>	}
+</pre></body>
+</html>

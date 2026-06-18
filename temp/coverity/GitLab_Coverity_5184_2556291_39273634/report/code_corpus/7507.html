@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9580">9580    </a></b>	        // sec_lms_reset_hash_buf(&lms_buffer, buf_addr);
+<b><a name="line9581">9581    </a></b>	
+<b><a name="line9582">9582    </a></b>	        sec_get_lms_info((U32)((U32 *)lms_pk_addr)[1], (U32)((U32 *)lms_pk_addr)[2], &lms_sig_len);
+<b><a name="line9583">9583    </a></b>	
+<b><a name="line9584">9584    </a></b>	        ret = phal_lms_verify((U8 *)lms_pk_addr, (void *)lms_hash_addr, 32, (U8 *)lms_sig_addr, lms_sig_len, buf_addr, &lms_buffer, SEC_YES);
+<b><a name="line9585">9585    </a></b>	
+<b><a name="line9586">9586    </a></b>	        if (ret == SEC_NO) {
+<b><a name="line9587">9587    </a></b>	            Dump_SEC(tprintf("F!"));
+<b><a name="line9588">9588    </a></b>	            return (KAT_TYPE_LMS | KAT_ERROR_VERIFY);
+<b><a name="line9589">9589    </a></b>	        }
+<b><a name="line9590">9590    </a></b>	    }
+<b><a name="line9591">9591    </a></b>	
+<b><a name="line9592">9592    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9593">9593    </a></b>	}
+<b><a name="line9594">9594    </a></b>	#endif
+<b><a name="line9595">9595    </a></b>	
+<b><a name="line9596">9596    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line9597">9597    </a></b>	#define KAT_MSG_1_LEN (128)
+<b><a name="line9598">9598    </a></b>	U32 host_sec_mldsa_verify_kat(U32 buf_addr)
+<b><a name="line9599">9599    </a></b>	{
+<b><a name="line9600">9600    </a></b>	    Dump_SEC(tprintf("MLDSA KAT"));
+<b><a name="line9601">9601    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9602">9602    </a></b>	    const SEC_MLDSA_VERIFY_KAT_PATTERN *pattern = &sec_mldsa_kat_pattern_1;
+<b><a name="line9603">9603    </a></b>	    // U32 sig_addr = buf_addr;
+<b><a name="line9604">9604    </a></b>	    // U32 msg_addr = sig_addr + HAL_SEC_PQC_MLDSA_SIG_LEN + 13;
+<b><a name="line9605">9605    </a></b>	    // U32 pk_addr  = msg_addr + KAT_MSG_1_LEN;
+<b><a name="line9606">9606    </a></b>	
+<b><a name="line9607">9607    </a></b>	    U32 sig_addr = buf_addr;
+<b><a name="line9608">9608    </a></b>	    U32 msg_addr = sig_addr + HAL_SEC_PQC_MLDSA_SIG_LEN + 1U;
+<b><a name="line9609">9609    </a></b>	    U32 pk_addr  = msg_addr + KAT_MSG_1_LEN + HAL_SEC_PQC_MLDSA_CRH_LEN;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "msg_addr" (unsigned) is not the same as that of the right operand "128"(signed).</font>
+<b><a name="line9610">9610    </a></b>	
+<b><a name="line9611">9611    </a></b>	    U32 tmp_btcm_addr = buf_addr + 0x2000U; //0x840
+<b><a name="line9612">9612    </a></b>	    U32 cal_buf_addr  = tmp_btcm_addr + 0x1000U; //0x17EF0 (around 96KB)
+<b><a name="line9613">9613    </a></b>	
+<b><a name="line9614">9614    </a></b>	    (void)memcpy((U8 *)(U32 *)(sig_addr), pattern->sig_1, HAL_SEC_PQC_MLDSA_SIG_LEN);
+<b><a name="line9615">9615    </a></b>	    (void)memcpy((U8 *)(U32 *)(msg_addr), pattern->msg_1, KAT_MSG_1_LEN);
+<b><a name="line9616">9616    </a></b>	    (void)memcpy((U8 *)(U32 *)(pk_addr),  pattern->pk_1,  HAL_SEC_PQC_MLDSA_PUB_KEY_LEN);
+<b><a name="line9617">9617    </a></b>	
+<b><a name="line9618">9618    </a></b>	    HAL_SEC_PQC_MLDSA_BUF_S_PTR mldsa_buf_ptr = (HAL_SEC_PQC_MLDSA_BUF_S_PTR)(cal_buf_addr);
+<b><a name="line9619">9619    </a></b>	    SEC_SHA_PARAMS_T params;
+<b><a name="line9620">9620    </a></b>	
+<b><a name="line9621">9621    </a></b>	    (void)memset((void *)mldsa_buf_ptr, 0, sizeof(HAL_SEC_PQC_MLDSA_BUF_S));
+<b><a name="line9622">9622    </a></b>	    (void)memset((void *)tmp_btcm_addr, 0, sizeof(HAL_SEC_PQC_MLDSA_TEMP_BUF_S));
+<b><a name="line9623">9623    </a></b>	    (void)memset(&params, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line9624">9624    </a></b>	
+<b><a name="line9625">9625    </a></b>	    mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_src  = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_src);
+<b><a name="line9626">9626    </a></b>	    mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_targ = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_targ);
+<b><a name="line9627">9627    </a></b>	    mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_sqz  = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_sqz);
+<b><a name="line9628">9628    </a></b>	
+<b><a name="line9629">9629    </a></b>	    mldsa_buf_ptr->verify.temp_buf_ptr = (HAL_SEC_PQC_MLDSA_TEMP_BUF_S_PTR)(tmp_btcm_addr);
+<b><a name="line9630">9630    </a></b>	
+<b><a name="line9631">9631    </a></b>	    // verify, step 6
+<b><a name="line9632">9632    </a></b>	    phal_sec_pqc_sha3_blocking((U8 *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), HAL_SEC_PQC_MLDSA_CRH_LEN, (U8 *)(U32 *)(pk_addr), HAL_SEC_PQC_MLDSA_PUB_KEY_LEN, HAL_SEC_SHA3_SHAKE_256_MODE, &mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer);
+<b><a name="line9633">9633    </a></b>	
+<b><a name="line9634">9634    </a></b>	    // verify, step 7 sha256(tr || msg), use hal_sec_sha_blocking here
+<b><a name="line9635">9635    </a></b>	    // tr 64 byte
+<b><a name="line9636">9636    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr), (void *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), HAL_SEC_PQC_MLDSA_CRH_LEN);
+<b><a name="line9637">9637    </a></b>	    // kat msg 128 bytes
+<b><a name="line9638">9638    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr + HAL_SEC_PQC_MLDSA_CRH_LEN), (void *)(pattern->msg_1), KAT_MSG_1_LEN);
+<b><a name="line9639">9639    </a></b>	
+<b><a name="line9640">9640    </a></b>	    params.src_addr.all   = (U64)msg_addr;
+</pre></body>
+</html>

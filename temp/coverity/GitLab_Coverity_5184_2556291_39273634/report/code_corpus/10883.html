@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line226">226    </a></b>	    PHAL_RST_N_CLR_RST_N_SQZ_SEL();
+<b><a name="line227">227    </a></b>	    PHAL_RST_N_SET_RST_N_SQZ_SEL();
+<b><a name="line228">228    </a></b>	    PHAL_RST_N_SET_RST_N_SQZ_SEC_SEL();
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT((r_SQZ_MBIST_N25_MEM_PUDELAY_SD() == 1U), SQZ_TIMEOUT_VALUE, FAIL, ret, MABIAO_SQZ);
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	    if (ret == PASS) {
+<b><a name="line233">233    </a></b>	#if 0  /* if load sqz bin need to open this define start from sqz ilm, otherwise start from sqz rom*/
+<b><a name="line234">234    </a></b>	        w_PMU_N25_RST_VCT(SQZ_ILM_LOCAL_BASE);
+<b><a name="line235">235    </a></b>	#endif
+<b><a name="line236">236    </a></b>	        PHAL_RST_N_SET_RST_N_SQZ_CORE_SEL();
+<b><a name="line237">237    </a></b>	    }
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    return ret;
+<b><a name="line240">240    </a></b>	}
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	U8 phal_sqz_init(U32 param_buf_base, U8 pre_chk)
+<b><a name="line243">243    </a></b>	{
+<b><a name="line244">244    </a></b>	    U8  ret = PASS;
+<b><a name="line245">245    </a></b>	    U8  sqz_status = SQZ_STATUS_CASE1;
+<b><a name="line246">246    </a></b>	    U32 crc_val = 0;
+<b><a name="line247">247    </a></b>	    sal_log_tracker_set(sal_locate(0x20, TYPE_STEP));
+<b><a name="line248">248    </a></b>	    sal_log_info_char('q');
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	    do
+<b><a name="line251">251    </a></b>	    {
+<b><a name="line252">252    </a></b>	        //1. Check SQZ status from sim register
+<b><a name="line253">253    </a></b>	        if ((gpFwSimCtrl1Reg->jump_to_fw == 1) && (gpFwSimCtrl1Reg->sqz_enable == 1))
+<b><a name="line254">254    </a></b>	        {
+<b><a name="line255">255    </a></b>	            sqz_status = SQZ_STATUS_CASE3;
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "sqz_status" = "2".</font>
+<b><a name="line256">256    </a></b>	        }
+<b><a name="line257">257    </a></b>	        else if ((gpFwSimCtrl1Reg->jump_to_fw == 0) && (gpFwSimCtrl1Reg->sqz_enable == 1))
+<b><a name="line258">258    </a></b>	        {
+<b><a name="line259">259    </a></b>	            sqz_status = SQZ_STATUS_CASE2;
+<b><a name="line260">260    </a></b>	        }
+<b><a name="line261">261    </a></b>	        else
+<b><a name="line262">262    </a></b>	        {
+<b><a name="line263">263    </a></b>	            sqz_status = SQZ_STATUS_CASE1;
+<b><a name="line264">264    </a></b>	            if (pre_chk == TRUE)
+<b><a name="line265">265    </a></b>	            {
+<b><a name="line266">266    </a></b>	                break;
+<b><a name="line267">267    </a></b>	            }
+<b><a name="line268">268    </a></b>	        }
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	        if (gSQZInfo.sqz_en == FALSE)
+<b><a name="line271">271    </a></b>	        {
+<b><a name="line272">272    </a></b>	            if (!gpFwSimCtrl1Reg->sqz_rom_crc_chk_disable)
+<b><a name="line273">273    </a></b>	            {
+<b><a name="line274">274    </a></b>	                //2. Check SQZ ROM CRC /*if load sqz bin can skip sqz rom crc check!*/
+<b><a name="line275">275    </a></b>	                crc_val = phal_dmac_crc32((U32)MEMORY_MAP_SQZ_ROM_ADDRESS, (U32)MEMORY_MAP_SQZ_ROM_SIZE, CRC_JUMP);
+<b><a name="line276">276    </a></b>	                if (crc_val != *(U32 *)(MEMORY_MAP_SQZ_ROM_ADDRESS + MEMORY_MAP_SQZ_ROM_SIZE)) {
+<b><a name="line277">277    </a></b>	                    sal_log_tracker_set(sal_locate(0x21, TYPE_FATAL));
+<b><a name="line278">278    </a></b>	                    return FAIL;
+<b><a name="line279">279    </a></b>	                }
+<b><a name="line280">280    </a></b>	                sal_log_tracker_set(sal_locate(0x22, TYPE_STEP));
+<b><a name="line281">281    </a></b>	            }
+<b><a name="line282">282    </a></b>	
+<b><a name="line283">283    </a></b>	            //3. init doorbell
+<b><a name="line284">284    </a></b>	            phal_db_sqz_init();
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	            //4. release sqz reset bit
+<b><a name="line287">287    </a></b>	            if (sqz_status == SQZ_STATUS_CASE1)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event cond_const:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "sqz_status == 0", taking false branch. Now the value of "sqz_status" is equal to 2.</font>
+<b><a name="line288">288    </a></b>	            {
+<b><a name="line289">289    </a></b>	                sal_log_info_char('p');
+<b><a name="line290">290    </a></b>	                sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line291">291    </a></b>	                ret = phal_sqz_reset_normal_power_on();
+<b><a name="line292">292    </a></b>	            }
+<b><a name="line293">293    </a></b>	            else if (sqz_status == SQZ_STATUS_CASE2)
+<b><a name="line294">294    </a></b>	            {
+<b><a name="line295">295    </a></b>	                sal_log_info_char('r');
+<b><a name="line296">296    </a></b>	                sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line297">297    </a></b>	                ret = phal_sqz_reset_isp_jump();
+<b><a name="line298">298    </a></b>	            }
+<b><a name="line299">299    </a></b>	            else if (sqz_status == SQZ_STATUS_CASE3)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event const:</font></b> <font face="Arial"; size="3"; color="#FF5959">At condition "sqz_status == 2", the value of "sqz_status" must be equal to 2.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition "sqz_status == 2" must be true.</font>
+<b><a name="line300">300    </a></b>	            {
+<b><a name="line301">301    </a></b>	                sal_log_info_char('e');
+<b><a name="line302">302    </a></b>	                sal_log_tracker_set(sal_locate(0x0C, TYPE_STEP));
+<b><a name="line303">303    </a></b>	                ret = phal_sqz_reset_error_handle();
+<b><a name="line304">304    </a></b>	            }
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	            //5. polling operation_status
+<b><a name="line307">307    </a></b>	            // while(((SQZ_REG_BASE & 0x4) == 0)) {}
+<b><a name="line308">308    </a></b>	            WAIT_UNTIL_TIMEOUT_RETURN_RESULT(((SQZ_REG_BASE & SQZ_STS_READY_OFT) == 0), SQZ_TIMEOUT_VALUE, FAIL, ret, MABIAO_SQZ);
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	            if (ret == FAIL) {
+<b><a name="line311">311    </a></b>	                sal_log_tracker_set(sal_locate(0x23, TYPE_FATAL));
+<b><a name="line312">312    </a></b>	                break;
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	            Dump_SEC(tprintf("SQZ ready"));
+<b><a name="line316">316    </a></b>	            sal_log_tracker_set(sal_locate(0x24, TYPE_STEP));
+<b><a name="line317">317    </a></b>	        }
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	        gSQZInfo.sqz_en = TRUE;
+<b><a name="line320">320    </a></b>	        gSQZInfo.param_buf_base = param_buf_base;
+<b><a name="line321">321    </a></b>	        sal_log_tracker_set(sal_locate(0x25, TYPE_STEP));
+<b><a name="line322">322    </a></b>	    } while (0);
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    return ret;
+<b><a name="line325">325    </a></b>	}
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	#define STASH_MEASUREMENT_OP (0x4d454153)
+<b><a name="line328">328    </a></b>	U8 phal_sqz_cptra_stash_measurement(STASH_MEASUREMENT_REQ_PTR cptra_req)
+<b><a name="line329">329    </a></b>	{
+<b><a name="line330">330    </a></b>	    U8 ret = PASS;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8782">8782    </a></b>	    aesofl_param.comm.setkey.kidx = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line8783">8783    </a></b>	
+<b><a name="line8784">8784    </a></b>	    ret = phal_sec_aes_ofl_blocking(&aesofl_param);
+<b><a name="line8785">8785    </a></b>	
+<b><a name="line8786">8786    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8787">8787    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8788">8788    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8789">8789    </a></b>	    }
+<b><a name="line8790">8790    </a></b>	
+<b><a name="line8791">8791    </a></b>	    if (gSecAesTimeout) {
+<b><a name="line8792">8792    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_TIMEOUT);
+<b><a name="line8793">8793    </a></b>	    }
+<b><a name="line8794">8794    </a></b>	
+<b><a name="line8795">8795    </a></b>	    if ((U8)(memcmp((void *)aesofl_param.comm.targ_addr.low, (void *)ctx_addr, aesofl_param.comm.src_len) != 0)) { //compare encrypt result and cipher context
+<b><a name="line8796">8796    </a></b>	        Dump_SEC(tprintf("ENC F!"));
+<b><a name="line8797">8797    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8798">8798    </a></b>	    }
+<b><a name="line8799">8799    </a></b>	
+<b><a name="line8800">8800    </a></b>	    //for decrypt kat
+<b><a name="line8801">8801    </a></b>	    aesofl_param.comm.encrypt     = HAL_SEC_AES_DECRYPT;
+<b><a name="line8802">8802    </a></b>	    aesofl_param.comm.batch_en    = 0U;
+<b><a name="line8803">8803    </a></b>	    aesofl_param.comm.setkey.kidx = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line8804">8804    </a></b>	    aesofl_param.comm.src_addr    = aesofl_param.comm.targ_addr;
+<b><a name="line8805">8805    </a></b>	
+<b><a name="line8806">8806    </a></b>	    ret = phal_sec_aes_ofl_blocking(&aesofl_param);
+<b><a name="line8807">8807    </a></b>	
+<b><a name="line8808">8808    </a></b>	
+<b><a name="line8809">8809    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8810">8810    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8811">8811    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line8812">8812    </a></b>	    }
+<b><a name="line8813">8813    </a></b>	
+<b><a name="line8814">8814    </a></b>	    if (gSecAesTimeout) {
+<b><a name="line8815">8815    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_TIMEOUT);
+<b><a name="line8816">8816    </a></b>	    }
+<b><a name="line8817">8817    </a></b>	
+<b><a name="line8818">8818    </a></b>	    if ((U8)(memcmp((void *)aesofl_param.comm.targ_addr.low, (void *)ptx_addr, aesofl_param.comm.src_len) != 0)) { //compare encrypt result and cipher context
+<b><a name="line8819">8819    </a></b>	        Dump_SEC(tprintf("DEC F!"));
+<b><a name="line8820">8820    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8821">8821    </a></b>	    }
+<b><a name="line8822">8822    </a></b>	
+<b><a name="line8823">8823    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line8824">8824    </a></b>	}
+<b><a name="line8825">8825    </a></b>	#endif
+<b><a name="line8826">8826    </a></b>	#if KAT_SHA_HMAC_EN
+<b><a name="line8827">8827    </a></b>	U32 host_sec_sha2_256_kat(U32 buf_addr)
+<b><a name="line8828">8828    </a></b>	{
+<b><a name="line8829">8829    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line8830">8830    </a></b>	    //	U8 idx;
+<b><a name="line8831">8831    </a></b>	    U32 src_addr  = buf_addr;
+<b><a name="line8832">8832    </a></b>	    U32 targ_addr = buf_addr + 0x200U;
+<b><a name="line8833">8833    </a></b>	    U32 data_size;
+<b><a name="line8834">8834    </a></b>	    U8 TEST_DATA1[]        = {0x61, 0x62, 0x63};//"abc" ;
+<b><a name="line8835">8835    </a></b>	    U8 TEST_ANS1_256[]     = {0xBAU, 0x78U, 0x16U, 0xBFU, 0x8FU, 0x01U, 0xCFU, 0xEAU, 0x41U, 0x41U, 0x40U, 0xDEU, 0x5DU, 0xAEU, 0x22U, 0x23U, 0xB0U, 0x03U, 0x61U, 0xA3U, 0x96U, 0x17U, 0x7AU, 0x9CU, 0xB4U, 0x10U, 0xFFU, 0x61U, 0xF2U, 0x00U, 0x15U, 0xADU};
+<b><a name="line8836">8836    </a></b>	    SEC_SHA_PARAMS_T         sec_sha_param;
+<b><a name="line8837">8837    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8838">8838    </a></b>	
+<b><a name="line8839">8839    </a></b>	    Dump_SEC(tprintf("SHA2-256 KAT"));
+<b><a name="line8840">8840    </a></b>	    // SHA2 256
+<b><a name="line8841">8841    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line8842">8842    </a></b>	    (void)memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+</pre></body>
+</html>

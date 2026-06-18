@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1341">1341    </a></b>	        {
+<b><a name="line1342">1342    </a></b>	            if (dw == 0)
+<b><a name="line1343">1343    </a></b>	            {
+<b><a name="line1344">1344    </a></b>	                r32_w_FORCE_TIMEOUT_PER_FUNC_VF_DW0(port_id, (r32_r_FORCE_TIMEOUT_PER_FUNC_VF_DW0(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT)));
+<b><a name="line1345">1345    </a></b>	            }
+<b><a name="line1346">1346    </a></b>	            else if (dw == 1)
+<b><a name="line1347">1347    </a></b>	            {
+<b><a name="line1348">1348    </a></b>	                r32_w_FORCE_TIMEOUT_PER_FUNC_VF_DW1(port_id, (r32_r_FORCE_TIMEOUT_PER_FUNC_VF_DW1(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT)));
+<b><a name="line1349">1349    </a></b>	            }
+<b><a name="line1350">1350    </a></b>	            else if (dw == 2)
+<b><a name="line1351">1351    </a></b>	            {
+<b><a name="line1352">1352    </a></b>	                r32_w_FORCE_TIMEOUT_PER_FUNC_VF_DW2(port_id, (r32_r_FORCE_TIMEOUT_PER_FUNC_VF_DW2(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT)));
+<b><a name="line1353">1353    </a></b>	            }
+<b><a name="line1354">1354    </a></b>	            else
+<b><a name="line1355">1355    </a></b>	            {
+<b><a name="line1356">1356    </a></b>	                r32_w_FORCE_TIMEOUT_PER_FUNC_VF_DW3(port_id, (r32_r_FORCE_TIMEOUT_PER_FUNC_VF_DW3(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT)));
+<b><a name="line1357">1357    </a></b>	            }
+<b><a name="line1358">1358    </a></b>	        }
+<b><a name="line1359">1359    </a></b>	    }
+<b><a name="line1360">1360    </a></b>	}
+<b><a name="line1361">1361    </a></b>	
+<b><a name="line1362">1362    </a></b>	void dal_set_pf_axi_flush_en(U32 port_id, U32 pf_id, U32 enable)
+<b><a name="line1363">1363    </a></b>	{
+<b><a name="line1364">1364    </a></b>	    U32 dw;
+<b><a name="line1365">1365    </a></b>	    dw = pf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1366">1366    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1367">1367    </a></b>	    {
+<b><a name="line1368">1368    </a></b>	        if (enable == DAL_PCIE_ENABLE)
+<b><a name="line1369">1369    </a></b>	        {
+<b><a name="line1370">1370    </a></b>	            if (dw == 0)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "dw" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line1371">1371    </a></b>	            {
+<b><a name="line1372">1372    </a></b>	                r32_w_R_AXI_FLUSH_EN_PF31_0(port_id, r32_r_R_AXI_FLUSH_EN_PF31_0(port_id) | BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1373">1373    </a></b>	            }
+<b><a name="line1374">1374    </a></b>	            else
+<b><a name="line1375">1375    </a></b>	            {
+<b><a name="line1376">1376    </a></b>	                r32_w_R_AXI_FLUSH_EN_PF63_32(port_id, r32_r_R_AXI_FLUSH_EN_PF63_32(port_id) | BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1377">1377    </a></b>	            }
+<b><a name="line1378">1378    </a></b>	        }
+<b><a name="line1379">1379    </a></b>	        else
+<b><a name="line1380">1380    </a></b>	        {
+<b><a name="line1381">1381    </a></b>	            if (dw == 0)
+<b><a name="line1382">1382    </a></b>	            {
+<b><a name="line1383">1383    </a></b>	                r32_w_R_AXI_FLUSH_EN_PF31_0(port_id, r32_r_R_AXI_FLUSH_EN_PF31_0(port_id) & ~BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1384">1384    </a></b>	            }
+<b><a name="line1385">1385    </a></b>	            else
+<b><a name="line1386">1386    </a></b>	            {
+<b><a name="line1387">1387    </a></b>	                r32_w_R_AXI_FLUSH_EN_PF63_32(port_id, r32_r_R_AXI_FLUSH_EN_PF63_32(port_id) & BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1388">1388    </a></b>	            }
+<b><a name="line1389">1389    </a></b>	        }
+<b><a name="line1390">1390    </a></b>	    }
+<b><a name="line1391">1391    </a></b>	}
+<b><a name="line1392">1392    </a></b>	
+<b><a name="line1393">1393    </a></b>	void dal_set_vf_axi_flush_en(U32 port_id, U32 vf_id, U32 enable)
+<b><a name="line1394">1394    </a></b>	{
+<b><a name="line1395">1395    </a></b>	    U32 dw;
+<b><a name="line1396">1396    </a></b>	    dw = vf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1397">1397    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1398">1398    </a></b>	    {
+<b><a name="line1399">1399    </a></b>	        if (enable == DAL_PCIE_ENABLE)
+<b><a name="line1400">1400    </a></b>	        {
+<b><a name="line1401">1401    </a></b>	            if (dw == 0)
+</pre></body>
+</html>

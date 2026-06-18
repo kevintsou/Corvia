@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line427">427    </a></b>	    kdf_input_size += sizeof(sk_hmac_256);
+<b><a name="line428">428    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idu, sizeof(sk_idu));//8
+<b><a name="line429">429    </a></b>	    kdf_input_size += sizeof(sk_idu);
+<b><a name="line430">430    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idv, sizeof(sk_idv));//8
+<b><a name="line431">431    </a></b>	    kdf_input_size += sizeof(sk_idv);
+<b><a name="line432">432    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_nv, sizeof(sk_nv));//64
+<b><a name="line433">433    </a></b>	    kdf_input_size += sizeof(sk_nv); //should be 128 Bytes
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    memcpy((void *)(data_buf + 1024), &default_salt[0], 64);
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line438">438    </a></b>	    Dump_Debug(tprintf("Dump Z | OtherInput : "));
+<b><a name="line439">439    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line440">440    </a></b>	#endif
+<b><a name="line441">441    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 64U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	    memset((void *)(p_vuc_protect->a_session_key), 0x00, VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line444">444    </a></b>	    memcpy((void *)(p_vuc_protect->a_session_key), (void *)(data_buf + 2048), VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // destory secret value Z
+<b><a name="line447">447    </a></b>	    (void)memset((void *)p_vuc_protect->z, 0x00, 32);
+<b><a name="line448">448    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line449">449    </a></b>	    Dump_Debug(tprintf("Dump session key : "));
+<b><a name="line450">450    </a></b>	    Dump_Debug(tprintm((U32)p_vuc_protect->a_session_key, 32));
+<b><a name="line451">451    </a></b>	#endif
+<b><a name="line452">452    </a></b>	
+<b><a name="line453">453    </a></b>	    // Gen MACTagv
+<b><a name="line454">454    </a></b>	    kdf_input_size = 0;
+<b><a name="line455">455    </a></b>	    (void)memset((void *)data_buf, 0x00, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line456">456    </a></b>	    (void)memcpy((void *)data_buf, kc_1_v, sizeof(kc_1_v));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_15_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Calling function "memcpy" with incompatible types "void *" and "U8 (*)[6]".</font>
+<b><a name="line457">457    </a></b>	    kdf_input_size += sizeof(kc_1_v);
+<b><a name="line458">458    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idv, sizeof(sk_idv));
+<b><a name="line459">459    </a></b>	    kdf_input_size += sizeof(sk_idv);
+<b><a name="line460">460    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idu, sizeof(sk_idu));
+<b><a name="line461">461    </a></b>	    kdf_input_size += sizeof(sk_idu);
+<b><a name="line462">462    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_nv, sizeof(sk_nv));
+<b><a name="line463">463    </a></b>	    kdf_input_size += sizeof(sk_nv);
+<b><a name="line464">464    </a></b>	    // hal_sec_api_reverse_endian((void *)(p_vuc_protect->a_encrypt_random), (void *)(p_vuc_protect->a_encrypt_random), VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line465">465    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)(p_vuc_protect->a_encrypt_random), VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line466">466    </a></b>	    kdf_input_size += VUC_PROTECT_ENCRYPT_RANDOM_SIZE;//should be 598 Bytes
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    memcpy((void *)(data_buf + 1024), (void *)p_vuc_protect->a_session_key, VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line471">471    </a></b>	    Dump_Debug(tprintf("Dump MacTagv : "));
+<b><a name="line472">472    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line473">473    </a></b>	#endif
+<b><a name="line474">474    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 32U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line475">475    </a></b>	
+<b><a name="line476">476    </a></b>	    // Dump mactag
+<b><a name="line477">477    </a></b>	    Dump_Debug(tprintf("Dump mactag : "));
+<b><a name="line478">478    </a></b>	    Dump_Debug(tprintm((U32)(data_buf + 2048), 8));
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    // Dump mactag
+<b><a name="line481">481    </a></b>	    Dump_Debug(tprintf("Dump mactag from host: "));
+<b><a name="line482">482    </a></b>	    Dump_Debug(tprintm((U32)mactagv, 8));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    drbg_get_try_limit_rng_data(&gRnghealth, sizeof(rng), rng);
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    if (HAL_SEC_DMSCA_PASS == hal_sec_dmsca_def_cmp((U8 *)mactagv, (U8 *)(data_buf + 2048), 8U, 8U, rng)) {
+<b><a name="line487">487    </a></b>	        p_vuc_protect->verify_fail_count = 0;
+</pre></body>
+</html>

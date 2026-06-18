@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1206">1206    </a></b>	 */
+<b><a name="line1207">1207    </a></b>	static BOOL IsRpWriteDataOccurProtocolError(ACROT_DATA *pACRotData, U8 ubCmdCode, U8 ubDataCnt, U8 *pCmdData)
+<b><a name="line1208">1208    </a></b>	{
+<b><a name="line1209">1209    </a></b>	    BOOL bIsUnsupportedParameter = FALSE;
+<b><a name="line1210">1210    </a></b>	    BOOL bIsLengthWriteError = FALSE;
+<b><a name="line1211">1211    </a></b>	
+<b><a name="line1212">1212    </a></b>	    RC_DEVICE_RESET *pDeviceReset;
+<b><a name="line1213">1213    </a></b>	    RC_RECOVERY_CTRL *pRecoveryCtrl;
+<b><a name="line1214">1214    </a></b>	    RC_INDIRECT_CTRL *pIndirectCtrl;
+<b><a name="line1215">1215    </a></b>	
+<b><a name="line1216">1216    </a></b>	    switch (ubCmdCode)
+<b><a name="line1217">1217    </a></b>	    {
+<b><a name="line1218">1218    </a></b>	        case RECOVERY_CMD_DEVICE_RESET:
+<b><a name="line1219">1219    </a></b>	            pDeviceReset            = (RC_DEVICE_RESET *)pCmdData;
+<b><a name="line1220">1220    </a></b>	            /* coverity[unsigned_compare] */
+<b><a name="line1221">1221    </a></b>	            bIsUnsupportedParameter = !(M_IS_VALID_DRC(pDeviceReset->ubDeviceResetControl)  &&
+<b><a name="line1222">1222    </a></b>	                                        M_IS_VALID_FR(pDeviceReset->ubForcedRecovery)       &&
+<b><a name="line1223">1223    </a></b>	                                        M_IS_VALID_IC(pDeviceReset->ubInterfaceControl));
+<b><a name="line1224">1224    </a></b>	            bIsLengthWriteError     = (sizeof(RC_DEVICE_RESET) != ubDataCnt);
+<b><a name="line1225">1225    </a></b>	            break;
+<b><a name="line1226">1226    </a></b>	
+<b><a name="line1227">1227    </a></b>	        case RECOVERY_CMD_RECOVERY_CTRL:
+<b><a name="line1228">1228    </a></b>	            pRecoveryCtrl           = (RC_RECOVERY_CTRL *)pCmdData;
+<b><a name="line1229">1229    </a></b>	            bIsUnsupportedParameter = !(M_IS_VALID_ARI(pRecoveryCtrl->ubActivateRecoveryImage)    &&
+<b><a name="line1230">1230    </a></b>	                                        M_IS_VALID_RIS(pRecoveryCtrl->ubRecoveryImageSelection));
+<b><a name="line1231">1231    </a></b>	            bIsLengthWriteError     = (sizeof(RC_RECOVERY_CTRL) != ubDataCnt);
+<b><a name="line1232">1232    </a></b>	            break;
+<b><a name="line1233">1233    </a></b>	
+<b><a name="line1234">1234    </a></b>	        case RECOVERY_CMD_INDIRECT_CTRL:
+<b><a name="line1235">1235    </a></b>	            pIndirectCtrl           = (RC_INDIRECT_CTRL *)pCmdData;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "pCmdData" of type "U8 *" is cast to type "RC_INDIRECT_CTRL *".</font>
+<b><a name="line1236">1236    </a></b>	            bIsLengthWriteError     = (sizeof(RC_INDIRECT_CTRL) != ubDataCnt);
+<b><a name="line1237">1237    </a></b>	            break;
+<b><a name="line1238">1238    </a></b>	
+<b><a name="line1239">1239    </a></b>	        case RECOVERY_CMD_INDIRECT_DATA:
+<b><a name="line1240">1240    </a></b>	            bIsLengthWriteError = (sizeof(RC_INDIRECT_DATA) < ubDataCnt);
+<b><a name="line1241">1241    </a></b>	            break;
+<b><a name="line1242">1242    </a></b>	    }
+<b><a name="line1243">1243    </a></b>	
+<b><a name="line1244">1244    </a></b>	    if (bIsLengthWriteError)
+<b><a name="line1245">1245    </a></b>	    {
+<b><a name="line1246">1246    </a></b>	        Dump_OCP(tprintf("    Write data length error"));
+<b><a name="line1247">1247    </a></b>	        M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_LENGTH_WRITE_ERROR);
+<b><a name="line1248">1248    </a></b>	    }
+<b><a name="line1249">1249    </a></b>	
+<b><a name="line1250">1250    </a></b>	    if (bIsUnsupportedParameter)
+<b><a name="line1251">1251    </a></b>	    {
+<b><a name="line1252">1252    </a></b>	        Dump_OCP(tprintf("    write data unsupported paramter"));
+<b><a name="line1253">1253    </a></b>	        M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_PARAMETER);
+<b><a name="line1254">1254    </a></b>	    }
+<b><a name="line1255">1255    </a></b>	
+<b><a name="line1256">1256    </a></b>	    return (bIsLengthWriteError | bIsUnsupportedParameter);
+<b><a name="line1257">1257    </a></b>	}
+<b><a name="line1258">1258    </a></b>	
+<b><a name="line1259">1259    </a></b>	
+<b><a name="line1260">1260    </a></b>	
+<b><a name="line1261">1261    </a></b>	
+<b><a name="line1262">1262    </a></b>	
+<b><a name="line1263">1263    </a></b>	/*******************************************************************************************************
+<b><a name="line1264">1264    </a></b>	 * API
+<b><a name="line1265">1265    </a></b>	 *******************************************************************************************************/
+<b><a name="line1266">1266    </a></b>	
+</pre></body>
+</html>

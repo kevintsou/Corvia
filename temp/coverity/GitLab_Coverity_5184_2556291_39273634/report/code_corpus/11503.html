@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	   @param      pSmbsMgr          pointer to smbs mgr
+<b><a name="line234">234    </a></b>	 */
+<b><a name="line235">235    </a></b>	static void ArpCmd_ResetDeviceGeneral(SMBS_MGR_T *pSmbsMgr)
+<b><a name="line236">236    </a></b>	{
+<b><a name="line237">237    </a></b>	    /*
+<b><a name="line238">238    </a></b>	        1. Action : always ACK/PROCESS
+<b><a name="line239">239    </a></b>	        2. AR Flag: CLEAR
+<b><a name="line240">240    </a></b>	        3. AV Flag: if (non-PSA) then CLEAR; if (DSA) then SET; else NO CHANGE
+<b><a name="line241">241    </a></b>	     */
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	    SMBS_DEVICE_IDX_E eDeviceIdx;
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	    for (eDeviceIdx = E_SMBS_DEVICE_IDX_START; eDeviceIdx < E_SMBS_DEVICE_IDX_ARP; eDeviceIdx++)
+<b><a name="line246">246    </a></b>	    {
+<b><a name="line247">247    </a></b>	        pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.sInternalState.ubARFlag = 0U;
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	        switch (pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.sInternalState.ubDeviceType)
+<b><a name="line250">250    </a></b>	        {
+<b><a name="line251">251    </a></b>	            case SMBS_DEVICE_TYPE_NON_PSA_NON_RANDOM_NUMBER:
+<b><a name="line252">252    </a></b>	            case SMBS_DEVICE_TYPE_NON_PSA_RANDOM_NUMBER:
+<b><a name="line253">253    </a></b>	                pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.sInternalState.ubAVFlag = ARP_FLAG_CLR;
+<b><a name="line254">254    </a></b>	                break;
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	            case SMBS_DEVICE_TYPE_DSA:
+<b><a name="line257">257    </a></b>	                pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.sInternalState.ubAVFlag = ARP_FLAG_SET;
+<b><a name="line258">258    </a></b>	                break;
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	            default:
+<b><a name="line261">261    </a></b>	                break;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement does not have a non-empty default clause.</font>
+<b><a name="line262">262    </a></b>	        }
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	        pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.ubSlaveAddress = pSmbsMgr->aSmbsDevice[eDeviceIdx].sArp.ubDefaultSlaveAddress;
+<b><a name="line265">265    </a></b>	        // phal_smbs_set_device_addr
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	}
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	/*!
+<b><a name="line270">270    </a></b>	   @brief      ARP command - assign address
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	   @param      pSmbsMgr          pointer to smbs mgr
+<b><a name="line273">273    </a></b>	   @param      pSmbsTx           pointer to smbs rx
+<b><a name="line274">274    </a></b>	 */
+<b><a name="line275">275    </a></b>	static void ArpCmd_AssignAddress(SMBS_MGR_T *pSmbsMgr, SMBUS_BUFFER_T *pSmbsRx)
+<b><a name="line276">276    </a></b>	{
+<b><a name="line277">277    </a></b>	    /*
+<b><a name="line278">278    </a></b>	        1. Action : always ACK; if (UDID match) then PROCESS
+<b><a name="line279">279    </a></b>	        2. AR Flag: SET if UDID matches
+<b><a name="line280">280    </a></b>	        3. AV Flag: SET if UDID matches
+<b><a name="line281">281    </a></b>	     */
+<b><a name="line282">282    </a></b>	}
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	/*!
+<b><a name="line285">285    </a></b>	   @brief      ARP command - reset device arp directed
+<b><a name="line286">286    </a></b>	
+<b><a name="line287">287    </a></b>	   @param      pSmbsMgr          pointer to smbs mgr
+<b><a name="line288">288    </a></b>	   @param      eDeviceIdx        smbs device idx
+<b><a name="line289">289    </a></b>	 */
+<b><a name="line290">290    </a></b>	static void ArpCmd_ResetDeviceArpDirected(SMBS_MGR_T *pSmbsMgr, SMBS_DEVICE_IDX_E eDeviceIdx)
+<b><a name="line291">291    </a></b>	{
+<b><a name="line292">292    </a></b>	    /*
+</pre></body>
+</html>

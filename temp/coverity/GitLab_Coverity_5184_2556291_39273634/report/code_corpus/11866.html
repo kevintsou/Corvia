@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	MCTP_TRANSPORT gMCTP_SMBus;
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	void mctp_transport_init_smbus(MCTP_TRANSPORT *p_transport, U16 slave_address)
+<b><a name="line25">25    </a></b>	{
+<b><a name="line26">26    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Transport Init SMBUS"));
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    p_transport->need_set_freq = FALSE;
+<b><a name="line29">29    </a></b>	    p_transport->binding = MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_SMBUS;
+<b><a name="line30">30    </a></b>	    p_transport->smbus_i2c_freq = NVME_MI_CFGID_SMBUS_FREQ_100K;
+<b><a name="line31">31    </a></b>	    p_transport->transmission_unit = NVME_MI_MIN_MCTP_TRANS_UNIT_SIZE_64B;
+<b><a name="line32">32    </a></b>	    p_transport->packet_interval_ms = MCTP_SMBM_PRTOCOL_INTERVAL_NO_LIMIT;
+<b><a name="line33">33    </a></b>	    p_transport->packet_timeout_interval_ms = MCTP_PACKET_TIMEOUT_INTERVAL_US_SMBUS;
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	    mctp_transport_info_init_smbus((MCTP_TRANSPORT_INFO_SMBUS *) & (p_transport->transport_info), slave_address);
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    // Since it is assumed the Endpoint does not already have an EID assigned to it, or because the EID is unknown,
+<b><a name="line38">38    </a></b>	    // the destination EID in the message will typically be set to the special null destination EID value.
+<b><a name="line39">39    </a></b>	    mctp_endpoint_init(&(p_transport->endpoint), MCTP_NULL_EID, FALSE, FALSE);
+<b><a name="line40">40    </a></b>	}
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	void mctp_transport_info_init_smbus(MCTP_TRANSPORT_INFO_SMBUS *p_transport_info, U16 slave_address)
+<b><a name="line43">43    </a></b>	{
+<b><a name="line44">44    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Management Transport Info Init SMBUS"));
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    //Initialize the Transport Specific part of the info
+<b><a name="line47">47    </a></b>	    memset((void *)p_transport_info, 0x00, sizeof(*p_transport_info));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    //--DSP0237 v1.1.0
+<b><a name="line50">50    </a></b>	    //----Table 1 ��� Packet header field descriptions
+<b><a name="line51">51    </a></b>	    p_transport_info->slave_address = slave_address;
+<b><a name="line52">52    </a></b>	}
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	#if 0
+<b><a name="line55">55    </a></b>	void mctp_medium_specific_header_init_smbus(MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *p_medium_specific_header, MCTP_TRANSPORT_INFO_SMBUS *p_source_transport_info, DATA_DESCRIPTOR *p_packet_descriptor)
+<b><a name="line56">56    </a></b>	{
+<b><a name="line57">57    </a></b>	    p_medium_specific_header->command_code = MCTP_SMBUS_COMMAND_CODE;
+<b><a name="line58">58    </a></b>	    p_medium_specific_header->byte_count = (1U + p_packet_descriptor->size);
+<b><a name="line59">59    </a></b>	    p_medium_specific_header->ipmi = 1U; //IPMI over SMBus is 1 (IPMB over I2C is 0)
+<b><a name="line60">60    </a></b>	    p_medium_specific_header->source_slave_address = p_source_transport_info->slave_address;
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	#endif
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	void mctp_management_transport_init_smbus(MCTP_TRANSPORT *p_transport)
+<b><a name="line65">65    </a></b>	{
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    SMBS_ARP_EXT arp_ext = {.smbs_arp.slave_address = SMBUS_ADDRESS_MANAGEMENT_ENDPOINT}; //coverity
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Management Transport Init SMBUS"));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    mctp_transport_init_smbus(p_transport, arp_ext.smbs_arp.slave_address);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line74">74    </a></b>	    sys_api_smbs_arp_init(&arp_ext, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_ARP_CAPABLE, SMBUS_DEVICE_TYPE_DSA);
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    smbs_udid_init_management_endpoint(&(arp_ext.udid));
+<b><a name="line77">77    </a></b>	#else
+<b><a name="line78">78    </a></b>	    sys_api_smbs_arp_init(&arp, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_NON_ARP_CAPABLE, SMBUS_DEVICE_TYPE_NON_PSA_NON_RANDOM);
+</pre></body>
+</html>

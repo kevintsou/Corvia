@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line844">844    </a></b>	        mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	        mctp_message_handle_nvme_mi_message_response(
+<b><a name="line847">847    </a></b>	            &p_transmit_handler->message_info,
+<b><a name="line848">848    </a></b>	            p_nvme_mi_msg_header->csi,
+<b><a name="line849">849    </a></b>	            p_nvme_mi_msg_header->nmimt,
+<b><a name="line850">850    </a></b>	            (U8 *)p_nvme_mi_cmd_resp_msg,
+<b><a name="line851">851    </a></b>	            sizeof(NVME_MI_CMD_RESP_MSG),
+<b><a name="line852">852    </a></b>	            (U8 *)NULL,
+<b><a name="line853">853    </a></b>	            0U);
+<b><a name="line854">854    </a></b>	    }
+<b><a name="line855">855    </a></b>	
+<b><a name="line856">856    </a></b>	    return 0UL;
+<b><a name="line857">857    </a></b>	}
+<b><a name="line858">858    </a></b>	
+<b><a name="line859">859    </a></b>	U32 mctp_message_handle_nvme_mi_message_response(MCTP_MESSAGE_INFO *p_source_mctp_message_info, U32 nvme_mi_command_slot, U32 nvme_mi_message_type, U8 *p_response_format, U32 response_format_size, U8 *p_response_data, U32 response_data_size)
+<b><a name="line860">860    </a></b>	{
+<b><a name="line861">861    </a></b>	    U32 send_status;
+<b><a name="line862">862    </a></b>	    NVME_MI_MSG_HEADER *p_nvme_mi_msg_header;
+<b><a name="line863">863    </a></b>	    DATA_DESCRIPTOR a_message_descriptor[MCTP_MESSAGE_PARTS_COUNT];
+<b><a name="line864">864    </a></b>	    MCTP_MESSAGE_INFO destination_mctp_message_info;
+<b><a name="line865">865    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line866">866    </a></b>	
+<b><a name="line867">867    </a></b>	    //-----MCTP Information
+<b><a name="line868">868    </a></b>	    destination_mctp_message_info.p_transport = p_source_mctp_message_info->p_transport;
+<b><a name="line869">869    </a></b>	
+<b><a name="line870">870    </a></b>	    switch (destination_mctp_message_info.p_transport->binding) {
+<b><a name="line871">871    </a></b>	    case MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_SMBUS:
+<b><a name="line872">872    </a></b>	        //The defined Slave Address should match Transmit Handler's recorded Slave Address
+<b><a name="line873">873    </a></b>	        mctp_transport_info_init_smbus((MCTP_TRANSPORT_INFO_SMBUS *) & (destination_mctp_message_info.source_transport_info), ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_source_mctp_message_info->source_transport_info))->slave_address);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "&destination_mctp_message_info.source_transport_info" of type "MCTP_TRANSPORT_INFO_GENERIC *" is cast to type "MCTP_TRANSPORT_INFO_SMBUS *".</font>
+<b><a name="line874">874    </a></b>	        destination_mctp_message_info.hdr_verions = MCTP_HEADER_VERSION_MCTP_BASE_1_0_SMBUS_TRANSPORT;
+<b><a name="line875">875    </a></b>	        break;
+<b><a name="line876">876    </a></b>	    default:
+<b><a name="line877">877    </a></b>	        //Record error?
+<b><a name="line878">878    </a></b>	        //Do not expect MCTP Message of type SMP to be serviced for this binding
+<b><a name="line879">879    </a></b>	        return 1UL;
+<b><a name="line880">880    </a></b>	        //break;
+<b><a name="line881">881    </a></b>	    }
+<b><a name="line882">882    </a></b>	
+<b><a name="line883">883    </a></b>	    //The Transmit Handler's recorded Source End ID should match the defined Destination Endpoint ID
+<b><a name="line884">884    </a></b>	    destination_mctp_message_info.destination_endpoint_id = p_source_mctp_message_info->message_terminus.source_eid;
+<b><a name="line885">885    </a></b>	
+<b><a name="line886">886    </a></b>	    //The Transmit Handler's recorded Destination End ID should match the defined Source Endpoint ID
+<b><a name="line887">887    </a></b>	    destination_mctp_message_info.message_terminus.source_eid = p_source_mctp_message_info->destination_endpoint_id;
+<b><a name="line888">888    </a></b>	    destination_mctp_message_info.message_terminus.tag_owner = MCTP_TRANSPORT_HEADER_TAG_OWNER_DESTINATION;
+<b><a name="line889">889    </a></b>	    destination_mctp_message_info.message_terminus.message_tag = p_source_mctp_message_info->message_terminus.message_tag;
+<b><a name="line890">890    </a></b>	
+<b><a name="line891">891    </a></b>	    //-----MCTP Message
+<b><a name="line892">892    </a></b>	    //Header + Status + NMRESP or Header + Status + CQENT
+<b><a name="line893">893    </a></b>	    //There is only the MCTP Header in the out-of-band nvme mi message response type
+<b><a name="line894">894    </a></b>	    //TODO this shouldn't be done here at the end, instead it should be done at the start of NVME Mi message handling
+<b><a name="line895">895    </a></b>	    p_nvme_mi_msg_header = (NVME_MI_MSG_HEADER *) p_response_format;
+<b><a name="line896">896    </a></b>	    p_nvme_mi_msg_header->mt = MCTP_MESSAGE_TYPE_NVME_MANAGEMENT_MESSAGES;
+<b><a name="line897">897    </a></b>	    p_nvme_mi_msg_header->ic = 1U;
+<b><a name="line898">898    </a></b>	    p_nvme_mi_msg_header->csi = nvme_mi_command_slot;
+<b><a name="line899">899    </a></b>	    p_nvme_mi_msg_header->nmimt = nvme_mi_message_type;
+<b><a name="line900">900    </a></b>	    p_nvme_mi_msg_header->ror = ROR_RESPONSE;
+<b><a name="line901">901    </a></b>	    a_message_descriptor[MCTP_MESSAGE_PARTS_FORMAT].p_base = p_response_format;
+<b><a name="line902">902    </a></b>	    a_message_descriptor[MCTP_MESSAGE_PARTS_FORMAT].size = response_format_size;
+<b><a name="line903">903    </a></b>	
+<b><a name="line904">904    </a></b>	    //Data
+</pre></body>
+</html>

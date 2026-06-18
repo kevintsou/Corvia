@@ -1,0 +1,2394 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.c</file>
+<function>hal_db_pop_block_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffff000000 | ((U8)timeout &lt;&lt; 16)}}}{8}{{code{160}}}{32}}}}</description>
+<line>10</line>
+<column>5</column>
+</event>
+<extra>timeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_init.c</file>
+<function>host_snps_reg_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{pfid * 2048U}}}{16}{{code{51470344U}}}{32}}}}</description>
+<line>277</line>
+<column>39</column>
+</event>
+<extra>pfid</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</file>
+<function>dal_set_pcie_ref_clk</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x3600300[39U] &gt;&gt; 0U) &amp; 3U}}}{8}{{code{1UL}}}{32}}}}</description>
+<line>93</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</file>
+<function>dal_set_pcie_ref_clk</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x3600300[39U] &gt;&gt; 0U) &amp; 3U}}}{8}{{code{2UL}}}{32}}}}</description>
+<line>97</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</file>
+<function>dal_set_pcie_ref_clk</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x3600300[39U] &gt;&gt; 0U) &amp; 3U}}}{8}{{code{4294967294UL}}}{32}}}}</description>
+<line>104</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</file>
+<function>dal_set_pcie_ref_clk</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x3600300[39U] &gt;&gt; 0U) &amp; 3U}}}{8}{{code{4294967293UL}}}{32}}}}</description>
+<line>108</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{ubAddress &lt;&lt; 8}}}{8}{{code{ulCrc}}}{32}}}}</description>
+<line>19</line>
+<column>14</column>
+</event>
+<extra>ubAddress,ulCrc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{*pubdata &lt;&lt; 8}}}{8}{{code{ulCrc}}}{32}}}}</description>
+<line>28</line>
+<column>18</column>
+</event>
+<extra>pubdata,ulCrc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{ubAddress &lt;&lt; 8}}}{8}{{code{ulCrc}}}{32}}}}</description>
+<line>16</line>
+<column>14</column>
+</event>
+<extra>ubAddress,ulCrc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{*pubdata &lt;&lt; 8}}}{8}{{code{ulCrc}}}{32}}}}</description>
+<line>25</line>
+<column>18</column>
+</event>
+<extra>pubdata,ulCrc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_chk_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*gFplApiStruct.p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1032</line>
+<column>13</column>
+</event>
+<extra>ch,channel_exist_bitmap,gFplApiStruct,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)(U8)(algorithm_type &amp; 0xffUL) &lt;&lt; 16)}}}{8}{{code{20656}}}{32}}}}</description>
+<line>1291</line>
+<column>25</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_api_get_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ch_bitmap &gt;&gt; chi}}}{8}{{code{1ULL}}}{64}}}}</description>
+<line>756</line>
+<column>17</column>
+</event>
+<extra>ch_bitmap,chi</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_disable_interrupt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{96UL}}}{32}}}}</description>
+<line>130</line>
+<column>33</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/key_manifest_api.c</file>
+<function>set_key_hash_ptr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{512 * key_manifest_proj_bin_header_ptr-&gt;project_binary_header_sector_size}}}{32}{{code{manifest_key_proj_bin_addr}}}{64}}}}</description>
+<line>101</line>
+<column>60</column>
+</event>
+<extra>key_manifest_proj_bin_header_ptr,manifest_key_proj_bin_addr,project_binary_header_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/key_manifest_api.c</file>
+<function>set_key_hash_ptr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{key_manifest_proj_bin_header_ptr-&gt;section_sector_size[0U] &lt;&lt; 9}}}{16}{{code{section_header_addr}}}{64}}}}</description>
+<line>103</line>
+<column>53</column>
+</event>
+<extra>key_manifest_proj_bin_header_ptr,section_header_addr,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)project_binary_type &lt;&lt; 16)}}}{8}{{code{23920}}}{32}}}}</description>
+<line>1495</line>
+<column>25</column>
+</event>
+<extra>project_binary_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>jump_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{512 * ptr_project_binary_header-&gt;project_binary_header_sector_size}}}{32}{{code{project_binary_address}}}{64}}}}</description>
+<line>72</line>
+<column>50</column>
+</event>
+<extra>project_binary_address,project_binary_header_sector_size,ptr_project_binary_header</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{cmd_info_ptr-&gt;op[cmd_info_ptr-&gt;op_id + 1U] &gt;&gt; 2U}}}{8}{{code{7UL}}}{32}}}}</description>
+<line>501</line>
+<column>31</column>
+</event>
+<extra>cmd_info_ptr,op,op_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{cmd_info_ptr-&gt;op[cmd_info_ptr-&gt;op_id + 1U] &gt;&gt; 2U}}}{8}{{code{7UL}}}{32}}}}</description>
+<line>514</line>
+<column>31</column>
+</event>
+<extra>cmd_info_ptr,op,op_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/i2c/i2c.c</file>
+<function>i2c_nand_power_control_through_mcu</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xfffffffff0000000 | ((U8)(U8)eI2cErr &lt;&lt; 16)}}}{8}{{code{2000}}}{32}}}}</description>
+<line>125</line>
+<column>29</column>
+</event>
+<extra>eI2cErr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_get_cq_result</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{gFIPReadInfoStruct.ch_map &gt;&gt; ch}}}{16}{{code{1ULL}}}{64}}}}</description>
+<line>1149</line>
+<column>13</column>
+</event>
+<extra>ch,ch_map,gFIPReadInfoStruct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_bitmap_restore_read_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; channel}}}{8}{{code{ch_bitmap}}}{32}}}}</description>
+<line>1750</line>
+<column>36</column>
+</event>
+<extra>ch_bitmap,channel</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_bitmap_restore_read_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; channel}}}{8}{{code{ch_bitmap}}}{32}}}}</description>
+<line>1783</line>
+<column>36</column>
+</event>
+<extra>ch_bitmap,channel</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>flh_power_reset_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(result &amp; 0xff) &lt;&lt; 16)}}}{8}{{code{2768}}}{32}}}}</description>
+<line>173</line>
+<column>25</column>
+</event>
+<extra>result</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>flh_power_reset_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(tmp &amp; 0xff) &lt;&lt; 16)}}}{8}{{code{2848}}}{32}}}}</description>
+<line>178</line>
+<column>25</column>
+</event>
+<extra>tmp</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_fw_slot_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{p_fw_slot_info-&gt;total_wordline_count * p_fw_slot_info-&gt;node_per_wordline &lt;&lt; 12}}}{16}{{code{4194304}}}{32}}}}</description>
+<line>1865</line>
+<column>47</column>
+</event>
+<extra>node_per_wordline,p_fw_slot_info,total_wordline_count</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ch_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>2181</line>
+<column>18</column>
+</event>
+<extra>ch,ch_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{hard_reset_issue &gt;&gt; ch}}}{16}{{code{1ULL}}}{64}}}}</description>
+<line>2195</line>
+<column>31</column>
+</event>
+<extra>ch,hard_reset_issue</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_micron_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>2233</line>
+<column>26</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>992</line>
+<column>13</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1007</line>
+<column>25</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1017</line>
+<column>25</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1024</line>
+<column>25</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_reset_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1032</line>
+<column>21</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if_parallel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1134</line>
+<column>29</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if_non_parallel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1175</line>
+<column>14</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ch_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>851</line>
+<column>22</column>
+</event>
+<extra>ch,ch_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ch_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>896</line>
+<column>30</column>
+</event>
+<extra>ch,ch_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ch_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>929</line>
+<column>29</column>
+</event>
+<extra>ch,ch_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_nand_zq_calibration</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>391</line>
+<column>13</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_nand_zq_calibration</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>403</line>
+<column>13</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi_by_cptra</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)dice_rslt &lt;&lt; 16)}}}{8}{{code{4848}}}{32}}}}</description>
+<line>303</line>
+<column>25</column>
+</event>
+<extra>dice_rslt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_dq_revert</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{fpl_ptr-&gt;dq_revert_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>260</line>
+<column>13</column>
+</event>
+<extra>ch,dq_revert_bitmap,fpl_ptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feat_if_seq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{fip_inst_ptr-&gt;inst[2U].op[op_id + 1UL] &gt;&gt; 3U}}}{8}{{code{3UL}}}{32}}}}</description>
+<line>1667</line>
+<column>34</column>
+</event>
+<extra>fip_inst_ptr,inst,op,op_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_enable_interrupt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{64UL}}}{32}}}}</description>
+<line>135</line>
+<column>33</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)dice_rslt &lt;&lt; 16)}}}{8}{{code{3200}}}{32}}}}</description>
+<line>200</line>
+<column>25</column>
+</event>
+<extra>dice_rslt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_config_pulse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 4U}}}{16}{{code{768UL}}}{32}}}}</description>
+<line>174</line>
+<column>29</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_config_level</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 4U}}}{16}{{code{768UL}}}{32}}}}</description>
+<line>170</line>
+<column>29</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_set_group1</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{32UL}}}{32}}}}</description>
+<line>98</line>
+<column>31</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_set_group0</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{32UL}}}{32}}}}</description>
+<line>94</line>
+<column>31</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; channel}}}{8}{{code{scanning_channel_bitmap}}}{32}}}}</description>
+<line>2837</line>
+<column>50</column>
+</event>
+<extra>channel,scanning_channel_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{channel * 16384U}}}{16}{{code{data_buffer}}}{32}}}}</description>
+<line>2846</line>
+<column>42</column>
+</event>
+<extra>channel,data_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{channel * 256U}}}{16}{{code{spare_buffer}}}{32}}}}</description>
+<line>2847</line>
+<column>44</column>
+</event>
+<extra>channel,spare_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{backup &lt;&lt; 12}}}{8}{{code{data_address}}}{32}}}}</description>
+<line>2853</line>
+<column>77</column>
+</event>
+<extra>backup,data_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{backup &lt;&lt; (1 ? 6 : 4)}}}{8}{{code{spare_address}}}{32}}}}</description>
+<line>2854</line>
+<column>78</column>
+</event>
+<extra>backup,spare_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_code_pointer_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; channel}}}{8}{{code{reading_channel_bitmap}}}{32}}}}</description>
+<line>2895</line>
+<column>49</column>
+</event>
+<extra>channel,reading_channel_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_reset_error_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(U8 volatile *)0x3604000[105U] &gt;&gt; 1U}}}{8}{{code{1U}}}{32}}}}</description>
+<line>230</line>
+<column>5</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.c</file>
+<function>calculate_crc16</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{(U8 *)addr[idx] &lt;&lt; 8}}}{8}{{code{calc_crc16}}}{16}}}}</description>
+<line>63</line>
+<column>24</column>
+</event>
+<extra>addr,calc_crc16,idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.c</file>
+<function>calculate_chksum</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(tmp_byte &lt; 10) ? tmp_byte + 48 : (tmp_byte + 55)}}}{8}{{code{255}}}{16}}}}</description>
+<line>75</line>
+<column>25</column>
+</event>
+<extra>tmp_byte</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{parallel_chunk_wordline * (1 + p_fw_slot_info-&gt;a_chunk_info[parallel_chunk].wordline_skip) &lt;&lt; gFplApiStruct.addr_rule-&gt;rule_page.shift}}}{32}{{code{p_fw_slot_info-&gt;a_chunk_info[parallel_chunk].fsa}}}{64}}}}</description>
+<line>2276</line>
+<column>33</column>
+</event>
+<extra>a_chunk_info,addr_rule,fsa,gFplApiStruct,p_fw_slot_info,parallel_chunk,parallel_chunk_wordline,rule_page,shift,wordline_skip</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{node_max &lt;&lt; 12}}}{8}{{code{parallel_slot_wordline}}}{32}}}}</description>
+<line>2282</line>
+<column>96</column>
+</event>
+<extra>node_max,parallel_slot_wordline</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{a_channel[parallel] * 256U}}}{16}{{code{spare_buffer}}}{32}}}}</description>
+<line>2283</line>
+<column>61</column>
+</event>
+<extra>a_channel,parallel,spare_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{node &lt;&lt; 12}}}{8}{{code{data_address}}}{32}}}}</description>
+<line>2310</line>
+<column>100</column>
+</event>
+<extra>data_address,node</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{a_channel[parallel] * 4U + node &lt;&lt; 12}}}{8}{{code{data_buffer}}}{32}}}}</description>
+<line>2315</line>
+<column>99</column>
+</event>
+<extra>a_channel,data_buffer,node,parallel</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{node &lt;&lt; (1 ? 6 : 4)}}}{8}{{code{spare_address}}}{32}}}}</description>
+<line>2318</line>
+<column>97</column>
+</event>
+<extra>node,spare_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{p_fw_slot_status-&gt;copy_retry_count + copy_retry}}}{8}{{code{256}}}{16}}}}</description>
+<line>2426</line>
+<column>58</column>
+</event>
+<extra>copy_retry,copy_retry_count,p_fw_slot_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{p_fw_slot_status-&gt;nand_retry_count + nand_retry}}}{8}{{code{256}}}{16}}}}</description>
+<line>2429</line>
+<column>58</column>
+</event>
+<extra>nand_retry,nand_retry_count,p_fw_slot_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{code_pointer_offset * (p_code_pointer_info-&gt;skip_wordline + p_code_pointer_info-&gt;nand_program_unit)}}}{16}{{code{p_code_pointer_info-&gt;wordline_offset}}}{32}}}}</description>
+<line>3189</line>
+<column>9</column>
+</event>
+<extra>code_pointer_offset,nand_program_unit,p_code_pointer_info,skip_wordline,wordline_offset</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{a_channel[copy] * 16384U}}}{16}{{code{data_buffer}}}{32}}}}</description>
+<line>3241</line>
+<column>46</column>
+</event>
+<extra>a_channel,copy,data_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{a_channel[copy] * 256U}}}{16}{{code{spare_buffer}}}{32}}}}</description>
+<line>3242</line>
+<column>48</column>
+</event>
+<extra>a_channel,copy,spare_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{backup &lt;&lt; 12}}}{8}{{code{data_address}}}{32}}}}</description>
+<line>3253</line>
+<column>82</column>
+</event>
+<extra>backup,data_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_pointer_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{backup &lt;&lt; (1 ? 6 : 4)}}}{8}{{code{spare_address}}}{32}}}}</description>
+<line>3254</line>
+<column>83</column>
+</event>
+<extra>backup,spare_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{fpl_ptr-&gt;read_rty_bitmap &gt;&gt; retry_idx * 4U}}}{16}{{code{15UL}}}{32}}}}</description>
+<line>1319</line>
+<column>44</column>
+</event>
+<extra>fpl_ptr,read_rty_bitmap,retry_idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{read_rty_bit_map[retry_idx] &gt;&gt; bit}}}{8}{{code{1ULL}}}{64}}}}</description>
+<line>1321</line>
+<column>21</column>
+</event>
+<extra>bit,read_rty_bit_map,retry_idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{fpl_ptr-&gt;por_rty_bitmap &gt;&gt; retry_idx * 4U}}}{16}{{code{15UL}}}{32}}}}</description>
+<line>1347</line>
+<column>43</column>
+</event>
+<extra>fpl_ptr,por_rty_bitmap,retry_idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{por_rty_bit_map[retry_idx] &gt;&gt; bit}}}{8}{{code{1ULL}}}{64}}}}</description>
+<line>1349</line>
+<column>21</column>
+</event>
+<extra>bit,por_rty_bit_map,retry_idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{efuse_param_ptr[i] &lt;&lt; get_bit}}}{16}{{code{val}}}{32}}}}</description>
+<line>1395</line>
+<column>19</column>
+</event>
+<extra>efuse_param_ptr,get_bit,i,val</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_api_parsing_efuse_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{5U + op_code_ref_num * 5U}}}{8}{{code{get_bit}}}{16}}}}</description>
+<line>1565</line>
+<column>35</column>
+</event>
+<extra>get_bit,op_code_ref_num</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>sec_aesofl_kat_init_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{aesofl_param-&gt;comm.targ_addr.low + pattern-&gt;len}}}{32}{{code{768ULL}}}{64}}}}</description>
+<line>8553</line>
+<column>47</column>
+</event>
+<extra>aesofl_param,comm,len,low,pattern,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_init_cmd_size</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x360a800[16U] &gt;&gt; 3U) &amp; 1U}}}{8}{{code{1UL}}}{32}}}}</description>
+<line>164</line>
+<column>19</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>hal_set_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*gFplApiStruct.p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ubCH}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1214</line>
+<column>13</column>
+</event>
+<extra>channel_exist_bitmap,gFplApiStruct,p_efuse_nand_setting,ubCH</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>hal_get_feature</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*gFplApiStruct.p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ubCH}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1251</line>
+<column>13</column>
+</event>
+<extra>channel_exist_bitmap,gFplApiStruct,p_efuse_nand_setting,ubCH</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.c</file>
+<function>hal_db_pop_block</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffff000000 | ((U8)timeout &lt;&lt; 16)}}}{8}{{code{80}}}{32}}}}</description>
+<line>5</line>
+<column>5</column>
+</event>
+<extra>timeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>dump_4ByteAsciiErrorLine</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{ubChar &lt;&lt; ubOffset}}}{8}{{code{ulResult}}}{32}}}}</description>
+<line>75</line>
+<column>21</column>
+</event>
+<extra>ubChar,ubOffset,ulResult</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>sal_calculate_crc16</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{(U8 *)ulAddr[idx] &lt;&lt; 8}}}{8}{{code{uwCalc_crc16}}}{16}}}}</description>
+<line>91</line>
+<column>26</column>
+</event>
+<extra>idx,ulAddr,uwCalc_crc16</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>fpl_api_fw_gen_pat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{node * 4096U}}}{16}{{code{buf}}}{32}}}}</description>
+<line>1329</line>
+<column>45</column>
+</event>
+<extra>buf,node</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>fpl_api_fw_gen_pat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{4096U * node}}}{16}{{code{buf}}}{32}}}}</description>
+<line>1340</line>
+<column>39</column>
+</event>
+<extra>buf,node</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_check_interrupt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{64UL}}}{32}}}}</description>
+<line>140</line>
+<column>42</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_ctag_free</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(U32 volatile *)0x3000000[1280UL + 4UL * (U32)entry &gt;&gt; 2U] &gt;&gt; ofst}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1352</line>
+<column>21</column>
+</event>
+<extra>entry,ofst</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_check_interrupt_state</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{128UL}}}{32}}}}</description>
+<line>271</line>
+<column>36</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sys/dal_flow_gic.c</file>
+<function>dal_gic_check_interrupt_state</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{itc_id &gt;&gt; 5U}}}{16}{{code{192UL}}}{32}}}}</description>
+<line>275</line>
+<column>43</column>
+</event>
+<extra>itc_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.c</file>
+<function>mabiao_time_diff</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{time_end - time_start}}}{32}{{code{18446744073709551615ULL}}}{64}}}}</description>
+<line>115</line>
+<column>13</column>
+</event>
+<extra>time_end,time_start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_rpf_q_vld</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x3000000[(2416UL + 512UL * (U32)p_ofst &gt;&gt; 0U) + 3UL] &gt;&gt; 7U) &amp; 1U}}}{8}{{code{(U32)entry}}}{32}}}}</description>
+<line>2668</line>
+<column>16</column>
+</event>
+<extra>entry,p_ofst</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_rcv_check_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{xmodem-&gt;token[PACKET_TOK] + xmodem-&gt;token[N_PACKET_TOK]}}}{8}{{code{255}}}{16}}}}</description>
+<line>90</line>
+<column>10</column>
+</event>
+<extra>token,xmodem</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_rcv_check_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{(xmodem-&gt;token[CRC_1_TOK] &lt;&lt; 8) | xmodem-&gt;token[CRC_2_TOK]}}}{8}{{code{crc}}}{16}}}}</description>
+<line>100</line>
+<column>21</column>
+</event>
+<extra>crc,token,xmodem</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/gpio.c</file>
+<function>get_gpio_input_all</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{hal_padc_get_gpio_value(i) &lt;&lt; i}}}{8}{{code{result}}}{32}}}}</description>
+<line>48</line>
+<column>19</column>
+</event>
+<extra>hal_padc_get_gpio_value,i,result</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_api_set_arp_direct_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; index}}}{8}{{code{dal_smbs_api_get_arp_directed_en(ent)}}}{16}}}}</description>
+<line>73</line>
+<column>84</column>
+</event>
+<extra>dal_smbs_api_get_arp_directed_en,index</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_api_set_udid_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; index}}}{8}{{code{dal_smbs_api_get_udid_en(ent)}}}{16}}}}</description>
+<line>68</line>
+<column>68</column>
+</event>
+<extra>dal_smbs_api_get_udid_en,index</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_udid_init_management_endpoint</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(serial_number[0] &lt;&lt; 0) | (serial_number[1] &lt;&lt; 8) | (serial_number[2] &lt;&lt; 16) | (serial_number[3] &lt;&lt; 24)}}}{8}{{code{268435455}}}{32}}}}</description>
+<line>99</line>
+<column>11</column>
+</event>
+<extra>serial_number</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/nvme/mi/nvme_mi_basic_management_command.c</file>
+<function>nvme_basic_management_command_default_udid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(serial_number[0] &lt;&lt; 0) | (serial_number[1] &lt;&lt; 8) | (serial_number[2] &lt;&lt; 16) | (serial_number[3] &lt;&lt; 24)}}}{8}{{code{268435455}}}{32}}}}</description>
+<line>33</line>
+<column>11</column>
+</event>
+<extra>serial_number</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_hard_reset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{(*fpl_ptr-&gt;p_efuse_nand_setting).channel_exist_bitmap &gt;&gt; ch}}}{32}{{code{1ULL}}}{64}}}}</description>
+<line>1828</line>
+<column>13</column>
+</event>
+<extra>ch,channel_exist_bitmap,fpl_ptr,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>SmbsBlockReadCalculatePEC</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{ubSlaveAddr &lt;&lt; 1}}}{8}{{code{1UL}}}{32}}}}</description>
+<line>115</line>
+<column>30</column>
+</event>
+<extra>ubSlaveAddr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_get_first_udid_match_index</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{1U &lt;&lt; i}}}{8}{{code{udid_bitmap}}}{32}}}}</description>
+<line>86</line>
+<column>29</column>
+</event>
+<extra>i,udid_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_direct_path_lba_trigger</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x360ac00[33U] &gt;&gt; 0U) &amp; 1U}}}{8}{{code{1UL}}}{32}}}}</description>
+<line>704</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_direct_path_trigger</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{((U8 volatile *)0x360ac00[33U] &gt;&gt; 0U) &amp; 1U}}}{8}{{code{1UL}}}{32}}}}</description>
+<line>715</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)(error_firmware &amp; 0xff) &lt;&lt; 16)}}}{8}{{code{31024}}}{32}}}}</description>
+<line>1939</line>
+<column>29</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)((U32)sm4_en &amp; 0xffUL) &lt;&lt; 16)}}}{8}{{code{31904}}}{32}}}}</description>
+<line>1994</line>
+<column>37</column>
+</event>
+<extra>sm4_en</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)(p_fw_slot_status-&gt;project_binary_error &amp; 0xffUL) &lt;&lt; 16)}}}{8}{{code{33648}}}{32}}}}</description>
+<line>2103</line>
+<column>33</column>
+</event>
+<extra>p_fw_slot_status,project_binary_error</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)((p_fw_slot_status-&gt;project_binary_error &gt;&gt; 4) &amp; 0xffUL) &lt;&lt; 16)}}}{8}{{code{33664}}}{32}}}}</description>
+<line>2104</line>
+<column>33</column>
+</event>
+<extra>p_fw_slot_status,project_binary_error</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffff83000000 | ((U8)(error_firmware &amp; 0xff) &lt;&lt; 16)}}}{8}{{code{34016}}}{32}}}}</description>
+<line>2126</line>
+<column>25</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_lms_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the left hand operand {2} ({3} bits).}{{code{(U8 volatile *)lms_msg_addr[33U] &lt;&lt; 9}}}{8}{{code{512}}}{16}}}}</description>
+<line>9569</line>
+<column>49</column>
+</event>
+<extra>lms_msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{32896}}}{32}}}}</description>
+<line>10248</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{28272}}}{32}}}}</description>
+<line>9959</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_kdf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{32416}}}{32}}}}</description>
+<line>10218</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_drbg</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{30160}}}{32}}}}</description>
+<line>10077</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_hmac256</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{31520}}}{32}}}}</description>
+<line>10162</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_kaz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{29248}}}{32}}}}</description>
+<line>10020</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{28768}}}{32}}}}</description>
+<line>9990</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_mlkem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{31072}}}{32}}}}</description>
+<line>10134</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_rsa_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{30608}}}{32}}}}</description>
+<line>10105</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_sha512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{26016}}}{32}}}}</description>
+<line>9818</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_hmac512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{31968}}}{32}}}}</description>
+<line>10190</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_sm2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{26976}}}{32}}}}</description>
+<line>9878</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_lms</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{27456}}}{32}}}}</description>
+<line>9908</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_lms</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{27776}}}{32}}}}</description>
+<line>9928</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_sm4</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{25552}}}{32}}}}</description>
+<line>9789</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_aes256_xts</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{25072}}}{32}}}}</description>
+<line>9759</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_aes256_cbc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{29712}}}{32}}}}</description>
+<line>10049</line>
+<column>33</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_rsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(U32)(0xfULL &amp; kat_status) &lt;&lt; 16)}}}{8}{{code{26480}}}{32}}}}</description>
+<line>9847</line>
+<column>37</column>
+</event>
+<extra>kat_status</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_self_check_api.c</file>
+<function>sec_self_check_query_enabled_function</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)which_func &lt;&lt; 16)}}}{8}{{code{672}}}{32}}}}</description>
+<line>42</line>
+<column>25</column>
+</event>
+<extra>which_func</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_self_check_api.c</file>
+<function>sec_self_check_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{0xffffffffa0000000 | ((U8)(restart_num &amp; 0xff) &lt;&lt; 16)}}}{8}{{code{2416}}}{32}}}}</description>
+<line>151</line>
+<column>33</column>
+</event>
+<extra>restart_num</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.7</checker>
+<type>MISRA_C_2012_Rule_10.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_7_violation</tag>
+<description>{CovLStrv2{{t{The width of the composite expression {0} ({1} bits) is less that the right hand operand {2} ({3} bits).}{{code{p_medium_specific_header-&gt;byte_count + 2U}}}{8}{{code{data_count}}}{32}}}}</description>
+<line>198</line>
+<column>13</column>
+</event>
+<extra>byte_count,data_count,p_medium_specific_header</extra>
+<subcategory>none</subcategory>
+</error>

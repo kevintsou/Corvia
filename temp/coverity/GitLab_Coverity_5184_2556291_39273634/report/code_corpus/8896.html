@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line332">332    </a></b>	            sal_log_info_char('Y');
+<b><a name="line333">333    </a></b>	            reset_status = fpl_hard_reset(&gFplApiStruct, bc_ptr->p_efuse_nand_setting->nand_reset_select);
+<b><a name="line334">334    </a></b>	            sal_log_tracker_set(sal_locate(0x17, TYPE_RSV6));
+<b><a name="line335">335    </a></b>	            sal_log_info_num(reset_status);
+<b><a name="line336">336    </a></b>	            if (0 == reset_status) {
+<b><a name="line337">337    </a></b>	                sal_log_info_char('F');
+<b><a name="line338">338    </a></b>	                fpl_status = fpl_fip_init(&gFplApiStruct, &gFipInstStruct, &gAddrRulePCAStruct, bc_ptr->p_efuse_nand_setting);
+<b><a name="line339">339    </a></b>	                sal_log_info_num(fpl_status);
+<b><a name="line340">340    </a></b>	                ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_FPL_INIT_STATUS))[FPL_INIT_STATUS_HARD_RESET_LOAD_CODE] = gFplApiStruct.fip_init_status;
+<b><a name="line341">341    </a></b>	                if (0 == fpl_status) {
+<b><a name="line342">342    </a></b>	                    sal_log_tracker_set(sal_locate(0x14, TYPE_RSV2));
+<b><a name="line343">343    </a></b>	                    load_code_process(p_load_code_status);
+<b><a name="line344">344    </a></b>	                }
+<b><a name="line345">345    </a></b>	            }
+<b><a name="line346">346    </a></b>	        }
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	        if ((bc_ptr->p_efuse_security_setting->load_code_fail_stop) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line349">349    </a></b>	            security_fail_handle(SECURITY_FAIL_TYPE_LOAD_CODE);
+<b><a name="line350">350    </a></b>	        }
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	        //Load code has failed
+<b><a name="line353">353    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line354">354    </a></b>	        if (TRUE == OcpRecoverySetDeviceFailure(gpFwSimCtrl1Reg->ocp_recovery_is_trigger,
+<b><a name="line355">355    </a></b>	                                                DS_BOOT_FAILURE, RRC_MISSING_OR_CORRUPT_BOOT_LOADER_FIRMWARE_IMAGE))
+<b><a name="line356">356    </a></b>	        {
+<b><a name="line357">357    </a></b>	            gpFwSimCtrl1Reg->ocp_recovery_is_trigger = 1;
+<b><a name="line358">358    </a></b>	        }
+<b><a name="line359">359    </a></b>	#endif
+<b><a name="line360">360    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_FAIL;
+<b><a name="line361">361    </a></b>	        if (CODE_POINTER_BLOCK_SET_COUNT_MAX <= p_load_code_status->a_code_pointer_block_set_used[0]) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "2" (signed) is not the same as that of the right operand "p_load_code_status->a_code_pointer_block_set_used[0]"(unsigned).</font>
+<b><a name="line362">362    </a></b>	            return 0xFFFFFFFF;
+<b><a name="line363">363    </a></b>	        }
+<b><a name="line364">364    </a></b>	        else {
+<b><a name="line365">365    </a></b>	            return p_load_code_status->a_code_pointer_block_status[p_load_code_status->a_code_pointer_block_set_used[0]].error.all;
+<b><a name="line366">366    </a></b>	        }
+<b><a name="line367">367    </a></b>	    }
+<b><a name="line368">368    </a></b>	}
+<b><a name="line369">369    </a></b>	
+<b><a name="line370">370    </a></b>	void isp_jump(U16 mode)
+<b><a name="line371">371    </a></b>	{
+<b><a name="line372">372    </a></b>	    //Output a '\0' to switch UART queues for PRAM Code
+<b><a name="line373">373    </a></b>	    hal_uart_print_byte((U8)'\0');
+<b><a name="line374">374    </a></b>	    //uart_print_byte(LOG_PORT, '\0');
+<b><a name="line375">375    </a></b>	    //uart_putchar(XMODEM_PORT, '\0');
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	    dal_gic_disable_interrupt(GIC_ID_UART0_INT);
+<b><a name="line378">378    </a></b>	    dal_gic_disable_interrupt(GIC_ID_SMBS_INT);
+<b><a name="line379">379    </a></b>	    host_api_disable_host_int();
+<b><a name="line380">380    </a></b>	    //uart_check_fifo_empty(10000);
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	#if (IC_TYPE_ASIC != IC_TYPE)
+<b><a name="line383">383    </a></b>	    // For fix sys_clk too low cause pmu polling timeout problem(FPGA only)
+<b><a name="line384">384    </a></b>	    bootcode_hal_pmu_set_p0_timeout_bypass();
+<b><a name="line385">385    </a></b>	#endif
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	    if (ISP_ROM_MODE == mode) {
+<b><a name="line388">388    </a></b>	        phal_pmu_md_en_set(PMU_MD_ROM_EN);
+<b><a name="line389">389    </a></b>	    }
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	    if (ISP_PRAM_MODE == mode) {
+<b><a name="line392">392    </a></b>	        phal_pmu_md_en_set(PMU_MD_PRAM_EN);
+</pre></body>
+</html>

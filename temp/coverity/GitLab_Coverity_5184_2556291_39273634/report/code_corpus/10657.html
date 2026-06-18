@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2151">2151    </a></b>	    U32 reading_parallel_bitmap;
+<b><a name="line2152">2152    </a></b>	
+<b><a name="line2153">2153    </a></b>	    //Indicates which channels are being restore read offset.
+<b><a name="line2154">2154    </a></b>	    U32 res_read_offset_ch_bitmap = 0U;
+<b><a name="line2155">2155    </a></b>	
+<b><a name="line2156">2156    </a></b>	    U32 a_node_to_load_bitmap[FW_SLOT_COPY_COUNT];
+<b><a name="line2157">2157    </a></b>	    U8 node, node_max;
+<b><a name="line2158">2158    </a></b>	
+<b><a name="line2159">2159    </a></b>	    U32 parallel_slot_wordline;
+<b><a name="line2160">2160    </a></b>	    U32 parallel_chunk, parallel_chunk_wordline;
+<b><a name="line2161">2161    </a></b>	    U32 relative_chunk;
+<b><a name="line2162">2162    </a></b>	
+<b><a name="line2163">2163    </a></b>	    U32 data_address, spare_address;
+<b><a name="line2164">2164    </a></b>	
+<b><a name="line2165">2165    </a></b>	    U64 fsa;
+<b><a name="line2166">2166    </a></b>	    U8 a_channel[FW_SLOT_COPY_COUNT];
+<b><a name="line2167">2167    </a></b>	    FIP_READ_PARAM_STRUCT a_fip_read_param[FW_SLOT_COPY_COUNT];
+<b><a name="line2168">2168    </a></b>	    U32 command_status;
+<b><a name="line2169">2169    </a></b>	    U8 total_rr_cnt = p_load_code_status->parameters.nand_retry_count;
+<b><a name="line2170">2170    </a></b>	    sal_log_info_char('L'); //Loading FW Slot
+<b><a name="line2171">2171    </a></b>	    sal_log_info_num(p_fw_slot_info->slot_id); //Part of 'L', FW Slot being loaded
+<b><a name="line2172">2172    </a></b>	
+<b><a name="line2173">2173    </a></b>	
+<b><a name="line2174">2174    </a></b>	    wordline_max = p_fw_slot_info->total_wordline_count;
+<b><a name="line2175">2175    </a></b>	
+<b><a name="line2176">2176    </a></b>	    nand_retry_max = p_load_code_status->parameters.nand_retry_count;
+<b><a name="line2177">2177    </a></b>	    copy_retry_max = p_fw_slot_info->copy_count;
+<b><a name="line2178">2178    </a></b>	
+<b><a name="line2179">2179    </a></b>	    node_max = p_fw_slot_info->node_per_wordline;
+<b><a name="line2180">2180    </a></b>	    if (FLH_MAX_LC_PER_PAGE < node_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "4U < node_max", taking true branch.</font>
+<b><a name="line2181">2181    </a></b>	        //Sanitize to prevent accessing out of bound array elements in FIP_READ_PARAM_STRUCT
+<b><a name="line2182">2182    </a></b>	        //This is because information coming from NAND could be anything
+<b><a name="line2183">2183    </a></b>	        //Even though this has been validated outside, sanitize as an insurance
+<b><a name="line2184">2184    </a></b>	        node_max = FLH_MAX_LC_PER_PAGE;
+<b><a name="line2185">2185    </a></b>	    }
+<b><a name="line2186">2186    </a></b>	
+<b><a name="line2187">2187    </a></b>	    Dump_LoadCode(tprintf("Load FW Slot %d with %d copies, %d Wordlines * %d Nodes (=Size %x)", p_fw_slot_info->slot_id, copy_retry_max, wordline_max, node_max, (LC_BYTE_SIZE * (wordline_max * node_max))));
+<b><a name="line2188">2188    </a></b>	
+<b><a name="line2189">2189    </a></b>	    for (wordline = 0; wordline < wordline_max; wordline += copy_retry_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "wordline < wordline_max", taking true branch.</font>
+<b><a name="line2190">2190    </a></b>	        if ((wordline + copy_retry_max) >= wordline_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "wordline + copy_retry_max >= wordline_max", taking true branch.</font>
+<b><a name="line2191">2191    </a></b>	            //Final round, may require less parallels than other rounds
+<b><a name="line2192">2192    </a></b>	            parallel_max = (wordline_max - wordline);
+<b><a name="line2193">2193    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2194">2194    </a></b>	        else {
+<b><a name="line2195">2195    </a></b>	            parallel_max = copy_retry_max;
+<b><a name="line2196">2196    </a></b>	        }
+<b><a name="line2197">2197    </a></b>	        //Mark the wordlines that has yet to be loaded in this round
+<b><a name="line2198">2198    </a></b>	        not_loaded_parallel_bitmap = ((1 << parallel_max) - 1);
+<b><a name="line2199">2199    </a></b>	
+<b><a name="line2200">2200    </a></b>	
+<b><a name="line2201">2201    </a></b>	        for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking false branch.</font>
+<b><a name="line2202">2202    </a></b>	            //Mark the nodes within each wordline that has yet to be loaded in this round
+<b><a name="line2203">2203    </a></b>	            a_node_to_load_bitmap[parallel] = ((1 << node_max) - 1);
+<b><a name="line2204">2204    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line2205">2205    </a></b>	
+<b><a name="line2206">2206    </a></b>	        if(0 != gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != (*gFplApiStruct.p_efuse_nand_setting).lru_disable", taking true branch.</font>
+<b><a name="line2207">2207    </a></b>	        {
+<b><a name="line2208">2208    </a></b>	            // disable lru need to reset res_read_offset_ch_bitmap
+<b><a name="line2209">2209    </a></b>	            res_read_offset_ch_bitmap = 0U;
+<b><a name="line2210">2210    </a></b>	        }
+<b><a name="line2211">2211    </a></b>	
+<b><a name="line2212">2212    </a></b>	        for (nand_retry = 0; nand_retry < nand_retry_max; nand_retry++) {
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "nand_retry < nand_retry_max", taking true branch.</font>
+<b><a name="line2213">2213    </a></b>	            if((0 == ((gLRURetryLevel + nand_retry) % total_rr_cnt)) && (0 != gLRURetryLevel))
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (gLRURetryLevel + nand_retry) % total_rr_cnt", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != gLRURetryLevel", taking true branch.</font>
+<b><a name="line2214">2214    </a></b>	            {
+<b><a name="line2215">2215    </a></b>	                scan_bitmap_restore_read_offset(gLRURetryLevel, res_read_offset_ch_bitmap);
+<b><a name="line2216">2216    </a></b>	            }
+<b><a name="line2217">2217    </a></b>	
+<b><a name="line2218">2218    </a></b>	            for (copy_retry = 0; copy_retry < copy_retry_max; copy_retry++) {
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy_retry < copy_retry_max", taking true branch.</font>
+<b><a name="line2219">2219    </a></b>	                Dump_LoadCode(tprintf("Wordline %d~%d, ", wordline, (wordline + parallel_max - 1)));
+<b><a name="line2220">2220    </a></b>	                Dump_LoadCode(tprintf("NAND Retry %d, ", nand_retry));
+<b><a name="line2221">2221    </a></b>	                Dump_LoadCode(tprintf("Copy Retry %d", copy_retry));
+<b><a name="line2222">2222    </a></b>	
+<b><a name="line2223">2223    </a></b>	                //Mark the parallels that has yet to be read in this retry setting
+<b><a name="line2224">2224    </a></b>	                loop_parallel_bitmap = not_loaded_parallel_bitmap;
+<b><a name="line2225">2225    </a></b>	
+<b><a name="line2226">2226    </a></b>	                //A loop consists of NAND reads from different channels
+<b><a name="line2227">2227    </a></b>	                //NAND reads from the same channel is separated into different loops.
+<b><a name="line2228">2228    </a></b>	                //The maximum possible number of loops is the same as the maximum possible
+<b><a name="line2229">2229    </a></b>	                //number of copies of the FW Slot
+<b><a name="line2230">2230    </a></b>	                for (loop_per_round = 0; loop_per_round < parallel_max; loop_per_round++) {
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "loop_per_round < parallel_max", taking true branch.</font>
+<b><a name="line2231">2231    </a></b>	
+<b><a name="line2232">2232    </a></b>	                    Dump_LoadCode(tprintf("Loop %d", loop_per_round));
+<b><a name="line2233">2233    </a></b>	
+<b><a name="line2234">2234    </a></b>	                    //Indicate which parallels are being read in this loop
+<b><a name="line2235">2235    </a></b>	                    reading_parallel_bitmap = 0;
+<b><a name="line2236">2236    </a></b>	                    //Indicate which channels are being read in this loop
+<b><a name="line2237">2237    </a></b>	                    channel_bitmap = 0;
+<b><a name="line2238">2238    </a></b>	
+<b><a name="line2239">2239    </a></b>	                    //Start the Read Trigger
+<b><a name="line2240">2240    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(22) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(27) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "parallel < parallel_max", taking true branch.</font>
+<b><a name="line2241">2241    </a></b>	                        //Skip loading the parallels that have already been read
+<b><a name="line2242">2242    </a></b>	                        if (0 == (loop_parallel_bitmap & (1 << parallel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_parallel_bitmap & (1 << parallel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(20) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_parallel_bitmap & (1 << parallel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(23) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_parallel_bitmap & (1 << parallel))", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(28) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_parallel_bitmap & (1 << parallel))", taking false branch.</font>
+<b><a name="line2243">2243    </a></b>	                            continue;
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(21) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2244">2244    </a></b>	                        }
+<b><a name="line2245">2245    </a></b>	
+<b><a name="line2246">2246    </a></b>	                        //The slot wordline that this parallel will be reading
+<b><a name="line2247">2247    </a></b>	                        parallel_slot_wordline = (wordline + parallel);
+<b><a name="line2248">2248    </a></b>	
+<b><a name="line2249">2249    </a></b>	                        //The starting chunk of this parallel for this copy retry
+<b><a name="line2250">2250    </a></b>	                        //Will turn into the chunk that contains the wordline for this copy
+<b><a name="line2251">2251    </a></b>	                        parallel_chunk = p_fw_slot_info->a_chunk_offset[(parallel + copy_retry) % copy_retry_max];
+<b><a name="line2252">2252    </a></b>	                        //The slot wordline to load
+<b><a name="line2253">2253    </a></b>	                        //Will turn into the logical wordline offset within this chunk to load
+<b><a name="line2254">2254    </a></b>	                        parallel_chunk_wordline = parallel_slot_wordline;
+<b><a name="line2255">2255    </a></b>	
+<b><a name="line2256">2256    </a></b>	                        Dump_LoadCode(tprintf("Parallel %d ", parallel));
+<b><a name="line2257">2257    </a></b>	                        Dump_LoadCode(tprintf("is Slot Wordline %d ", (U16)parallel_slot_wordline));
+<b><a name="line2258">2258    </a></b>	                        Dump_LoadCode(tprintf("of Copy %d ", ((parallel + copy_retry) % copy_retry_max)));
+<b><a name="line2259">2259    </a></b>	                        Dump_LoadCode(tprintf("starts in Chunk %d", (U16)parallel_chunk));
+<b><a name="line2260">2260    </a></b>	
+<b><a name="line2261">2261    </a></b>	                        //Input the starting chunk of this copy and output will be the chunk in this copy that contains the wordline
+<b><a name="line2262">2262    </a></b>	                        //Input the slot wordline to load and output will be the logical wordline offset within this chunk to load
+<b><a name="line2263">2263    </a></b>	                        relative_chunk = get_fw_chunk_info_from_slot_wordline(p_fw_slot_info->a_chunk_info, &parallel_chunk, &parallel_chunk_wordline);
+<b><a name="line2264">2264    </a></b>	                        if (FW_SLOT_CHUNK_COUNT <= relative_chunk) {
+<b><font face="Arial"; size="3"; color="#F00000">(24) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "120U <= relative_chunk", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(29) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "120U <= relative_chunk", taking false branch.</font>
+<b><a name="line2265">2265    </a></b>	                            //This should never occur, as the FW_SLOT_INFO is checked earlier
+<b><a name="line2266">2266    </a></b>	                            p_fw_slot_status->fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_CHUNK_INFO;
+<b><a name="line2267">2267    </a></b>	
+<b><a name="line2268">2268    </a></b>	                            //This parallel does not need to be read in subsequent loops
+<b><a name="line2269">2269    </a></b>	                            //as it doesn't exist according to the FW Slot Info
+<b><a name="line2270">2270    </a></b>	                            loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2271">2271    </a></b>	                        }
+<b><font face="Arial"; size="3"; color="#F00000">(25) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2272">2272    </a></b>	                        else {
+<b><a name="line2273">2273    </a></b>	
+<b><a name="line2274">2274    </a></b>	                            fsa =
+<b><a name="line2275">2275    </a></b>	                                p_fw_slot_info->a_chunk_info[parallel_chunk].fsa +
+<b><a name="line2276">2276    </a></b>	                                ((parallel_chunk_wordline * (1 + p_fw_slot_info->a_chunk_info[parallel_chunk].wordline_skip)) << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line2277">2277    </a></b>	                            a_channel[parallel] = ((fsa >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask);
+<b><a name="line2278">2278    </a></b>	                            //TODO add a pointer to fpl in a structure that will be passed in so that no gfplapi struct access is required
+<b><a name="line2279">2279    </a></b>	
+<b><a name="line2280">2280    </a></b>	                            //Data Address depends on the slot wordline being loaded
+<b><a name="line2281">2281    </a></b>	                            //Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2282">2282    </a></b>	                            data_address = (project_binary_address + (parallel_slot_wordline * (node_max << LC_BYTE_SIZE_SHIFT)));
+<b><a name="line2283">2283    </a></b>	                            spare_address = (spare_buffer + (a_channel[parallel] * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT)));
+<b><a name="line2284">2284    </a></b>	
+<b><a name="line2285">2285    </a></b>	                            Dump_LoadCode(tprintf("Read Trigger Parallel %d", parallel));
+<b><a name="line2286">2286    </a></b>	                            Dump_LoadCode(tprintf("(Channel %d) ", a_channel[parallel]));
+<b><a name="line2287">2287    </a></b>	
+<b><a name="line2288">2288    </a></b>	                            Dump_LoadCode(tprintf("FSA %x to ", (U32)fsa));
+<b><a name="line2289">2289    </a></b>	                            Dump_LoadCode(tprintf("Data @ %x ", data_address));
+<b><a name="line2290">2290    </a></b>	                            Dump_LoadCode(tprintf("Spare @ %x", spare_address));
+<b><a name="line2291">2291    </a></b>	
+<b><a name="line2292">2292    </a></b>	                            Dump_LoadCode(tprintf("Bank %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_phy_bank.shift) & gFplApiStruct.addr_rule->rule_phy_bank.mask)));
+<b><a name="line2293">2293    </a></b>	                            Dump_LoadCode(tprintf("Channel %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask)));
+<b><a name="line2294">2294    </a></b>	                            Dump_LoadCode(tprintf("Die %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_die.shift) & gFplApiStruct.addr_rule->rule_die.mask)));
+<b><a name="line2295">2295    </a></b>	                            Dump_LoadCode(tprintf("Block %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask)));
+<b><a name="line2296">2296    </a></b>	                            Dump_LoadCode(tprintf("Plane %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask)));
+<b><a name="line2297">2297    </a></b>	                            Dump_LoadCode(tprintf("Page %x", (U32)((fsa >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2298">2298    </a></b>	
+<b><a name="line2299">2299    </a></b>	                            //Only read this copy if this channel is not already being read by another parallel
+<b><a name="line2300">2300    </a></b>	                            if (0 == (channel_bitmap & (1 << a_channel[parallel]))) {
+<b><font face="Arial"; size="3"; color="#F00000">(30) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (channel_bitmap & (1 << a_channel[parallel]))", taking true branch.</font>
+<b><a name="line2301">2301    </a></b>	                                //This parallel is read and can be skipped in subsequent loops
+<b><a name="line2302">2302    </a></b>	                                loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2303">2303    </a></b>	
+<b><a name="line2304">2304    </a></b>	                                Dump_LoadCode(tprintf("Read Trigger Parallel %d(Channel %d) FSA %L:, block %d, plane %d, page %d", parallel, a_channel[parallel], fsa, (U32)((fsa >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2305">2305    </a></b>	
+<b><a name="line2306">2306    </a></b>	                                //Set all the parameters needed by the read trigger and read DMA here
+<b><a name="line2307">2307    </a></b>	                                a_fip_read_param[parallel].nand_addr.all = fsa;
+<b><a name="line2308">2308    </a></b>	                                for (node = 0; node < node_max; node++) {
+<b><font face="Arial"; size="3"; color="#F00000">(31) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "node < node_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(36) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "node < node_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(41) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "node < node_max", taking false branch.</font>
+<b><a name="line2309">2309    </a></b>	                                    if (a_node_to_load_bitmap[parallel] & (1 << node)) {
+<b><font face="Arial"; size="3"; color="#F00000">(32) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "a_node_to_load_bitmap[parallel] & (1 << node)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(37) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "a_node_to_load_bitmap[parallel] & (1 << node)", taking true branch.</font>
+<b><a name="line2310">2310    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_address + (node << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2311">2311    </a></b>	                                        Dump_LoadCode(tprintf("Data addr %x, node = %d ", a_fip_read_param[parallel].buf_addr[node], node));
+<b><a name="line2312">2312    </a></b>	                                    }
+<b><font face="Arial"; size="3"; color="#F00000">(33) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(38) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2313">2313    </a></b>	                                    else {
+<b><a name="line2314">2314    </a></b>	                                        //Node already loaded, load the data into the unused data_buffer
+<b><a name="line2315">2315    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_buffer + (((a_channel[parallel] * FLH_MAX_LC_PER_PAGE) + node) << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2316">2316    </a></b>	                                    }
+<b><a name="line2317">2317    </a></b>	
+<b><a name="line2318">2318    </a></b>	                                    a_fip_read_param[parallel].spr_addr[node] = spare_address + (node << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><font face="Arial"; size="3"; color="#F00000">(34) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(39) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><a name="line2319">2319    </a></b>	                                }
+<b><font face="Arial"; size="3"; color="#F00000">(35) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(40) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line2320">2320    </a></b>	                                a_fip_read_param[parallel].node_count = node_max;
+<b><a name="line2321">2321    </a></b>	
+<b><a name="line2322">2322    </a></b>	
+<b><a name="line2323">2323    </a></b>	                                command_status = fip_api_read_cmd(&a_fip_read_param[parallel], ((gLRURetryLevel + nand_retry) % total_rr_cnt));
+<b><a name="line2324">2324    </a></b>	                                if (0 == (command_status & (HAL_STATUS_SET_FEAT_DAT_CMP_FAIL | HAL_STATUS_TIMEOUT))) {
+<b><font face="Arial"; size="3"; color="#F00000">(42) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (command_status & (6UL /* (1UL << 2) | (1UL << 1) */))", taking false branch.</font>
+<b><a name="line2325">2325    </a></b>	                                    //Mark this channel as being read
+<b><a name="line2326">2326    </a></b>	                                    channel_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2327">2327    </a></b>	
+<b><a name="line2328">2328    </a></b>	                                    //Mark this parallel as being read
+<b><a name="line2329">2329    </a></b>	                                    reading_parallel_bitmap |= (1 << parallel);
+<b><a name="line2330">2330    </a></b>	
+<b><a name="line2331">2331    </a></b>	                                    res_read_offset_ch_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2332">2332    </a></b>	                                }
+<b><a name="line2333">2333    </a></b>	                                else {
+<b><a name="line2334">2334    </a></b>	
+<b><a name="line2335">2335    </a></b>	                                    Dump_LoadCode(tprintf("!!!Parallel %d ", parallel));
+<b><a name="line2336">2336    </a></b>	                                    Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2337">2337    </a></b>	                                    Dump_LoadCode(tprintf("Read Trigger Error %x", (U64)command_status));
+<b><a name="line2338">2338    </a></b>	                                    sal_log_tracker_set(sal_locate(0xF0, TYPE_LOAD_CODE_ERR));
+<b><font face="Arial"; size="3"; color="#F00000">(43) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0x83 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "131", is not allowed.  The shift amount is 24.</font>
+<b><a name="line2339">2339    </a></b>	                                    sal_log_info_char('T');
+<b><a name="line2340">2340    </a></b>	                                    sal_log_info_num(a_fip_read_param[parallel].nand_addr.all); //Part of 'T'/'U', FSA of the read command
+<b><a name="line2341">2341    </a></b>	
+<b><a name="line2342">2342    </a></b>	                                    if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line2343">2343    </a></b>	                                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[parallel]);
+<b><a name="line2344">2344    </a></b>	                                    }
+<b><a name="line2345">2345    </a></b>	                                    if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line2346">2346    </a></b>	                                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << a_channel[parallel]);
+<b><a name="line2347">2347    </a></b>	                                    }
+<b><a name="line2348">2348    </a></b>	                                }
+<b><a name="line2349">2349    </a></b>	                            }
+<b><a name="line2350">2350    </a></b>	                            else {
+<b><a name="line2351">2351    </a></b>	
+<b><a name="line2352">2352    </a></b>	                                Dump_LoadCode(tprintf("Parallel %d ", parallel));
+<b><a name="line2353">2353    </a></b>	                                Dump_LoadCode(tprintf("FSA %L", fsa));
+<b><a name="line2354">2354    </a></b>	                                Dump_LoadCode(tprintf("(Channel %d) in use: ", a_channel[parallel]));
+<b><a name="line2355">2355    </a></b>	                                Dump_LoadCode(tprintf("bitmap %x", (U64)channel_bitmap));
+<b><a name="line2356">2356    </a></b>	                            }
+<b><a name="line2357">2357    </a></b>	                        }
+<b><a name="line2358">2358    </a></b>	                    }
+<b><font face="Arial"; size="3"; color="#F00000">(26) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line2359">2359    </a></b>	
+<b><a name="line2360">2360    </a></b>	
+<b><a name="line2361">2361    </a></b>	                    //Check the result of the Read Trigger and start the Read DMA
+<b><a name="line2362">2362    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2363">2363    </a></b>	                        if (0 == (reading_parallel_bitmap & (1 << parallel))) {
+<b><a name="line2364">2364    </a></b>	                            continue;
+<b><a name="line2365">2365    </a></b>	                        }
+<b><a name="line2366">2366    </a></b>	
+<b><a name="line2367">2367    </a></b>	                        command_status = fip_api_chk_status(a_channel[parallel], (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line2368">2368    </a></b>	                        //FIP_DBG_INFO_PRINTF("  row address:0x%08x", hal_fip_get_row_address(a_channel[parallel]));
+<b><a name="line2369">2369    </a></b>	                        //FIP_DBG_INFO_PRINTF("  column address:0x%04x\r\n", hal_fip_get_column_address(a_channel[parallel]));
+<b><a name="line2370">2370    </a></b>	                        //command_status |= fip_api_get_cq_result(&a_fip_read_param[parallel], a_channel[parallel]);
+<b><a name="line2371">2371    </a></b>	
+<b><a name="line2372">2372    </a></b>	                        if (0 == (command_status & HAL_STATUS_TIMEOUT)) {
+<b><a name="line2373">2373    </a></b>	
+<b><a name="line2374">2374    </a></b>	                            Dump_LoadCode(tprintf("DMA Parallel %d ", parallel));
+<b><a name="line2375">2375    </a></b>	                            Dump_LoadCode(tprintf("FSA %L ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2376">2376    </a></b>	                            Dump_LoadCode(tprintf("%d Nodes: ", a_fip_read_param[parallel].node_count));
+<b><a name="line2377">2377    </a></b>	                            Dump_LoadCode(tprintf("Data @ %x ", a_fip_read_param[parallel].buf_addr[0]));
+<b><a name="line2378">2378    </a></b>	                            Dump_LoadCode(tprintf("Spare @ %x ", a_fip_read_param[parallel].spr_addr[0]));
+<b><a name="line2379">2379    </a></b>	
+<b><a name="line2380">2380    </a></b>	                            //The parameters were already set during the read trigger
+<b><a name="line2381">2381    </a></b>	                            fip_api_read_dma(&a_fip_read_param[parallel]);
+<b><a name="line2382">2382    </a></b>	                        }
+<b><a name="line2383">2383    </a></b>	                        else {
+<b><a name="line2384">2384    </a></b>	                            //The Read Trigger has timeout
+<b><a name="line2385">2385    </a></b>	                            //No subsequent actions should be performed as it will most likely timeout as well
+<b><a name="line2386">2386    </a></b>	                            reading_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2387">2387    </a></b>	
+<b><a name="line2388">2388    </a></b>	                            Dump_LoadCode(tprintf("!!!Parallel %d ", parallel));
+<b><a name="line2389">2389    </a></b>	                            Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+</pre></body>
+</html>

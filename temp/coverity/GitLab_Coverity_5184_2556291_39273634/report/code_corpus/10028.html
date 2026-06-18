@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	    (void)memset(&r, 0, sizeof(r));
+<b><a name="line267">267    </a></b>	    (void)memset(&g, 0, sizeof(g));
+<b><a name="line268">268    </a></b>	    (void)memset(wbuf, 0, 32 * 12);
+<b><a name="line269">269    </a></b>	    (void)memset(h_a, 0, sizeof(h_a));
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    return SEC_YES;
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	U8 hal_sec_sm9_do_verify(HAL_SEC_SM9_SIGN_MASTER_KEY_T_PTR mpk, U8 *id, U32 id_len, U8 *msg, U32 msg_len, HAL_SEC_SM9_SIG_T_PTR sig, HAL_SEC_SM9_VERIFY_BUF_T_PTR verify_buffer)
+<b><a name="line275">275    </a></b>	{
+<b><a name="line276">276    </a></b>	    HAL_SEC_SM9_Z256_T h1 = {0ULL};
+<b><a name="line277">277    </a></b>	    HAL_SEC_SM9_Z256_T h2;
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    U8 h_a[64];
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *g      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_g_addr);
+<b><a name="line282">282    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *t      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_t_addr);
+<b><a name="line283">283    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *u      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_u_addr);
+<b><a name="line284">284    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *w      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_w_addr);
+<b><a name="line285">285    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T *p = (HAL_SEC_SM9_Z256_TWIST_POINT_T *)(void *)(U32 *)(verify_buffer->verify_p_addr);
+<b><a name="line286">286    </a></b>	    U8 *wbuf           = (U8 *)(U32 *)(verify_buffer->verify_wbuf_addr);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	    // B1: check h in [1, N-1]
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    // B2: check S in G1
+<b><a name="line291">291    </a></b>	
+<b><a name="line292">292    </a></b>	    // B3: g = e(P1, Ppubs)
+<b><a name="line293">293    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line294">294    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&SM9_Z256_MONT_P1" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    hal_sec_sm9_z256_pairing(*g, &mpk->Ppubs, &sm9_z256_mont_p1, &verify_buffer->comm_buf);
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	    // B4: t = g^h
+<b><a name="line299">299    </a></b>	    hal_sec_sm9_z256_fp12_pow(*t, *g, sig->h, &verify_buffer->comm_buf);
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	    // B5: h1 = H1(ID || hid, N)
+<b><a name="line302">302    </a></b>	    hal_sec_sm9_z256_hash1(h1, id, id_len, HAL_SEC_SM9_SIGN_HID, &verify_buffer->comm_buf);
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    // B6: P = h1 * P2 + Ppubs
+<b><a name="line305">305    </a></b>	    hal_sec_sm9_z256_twist_point_mul_generator(p, h1, &verify_buffer->comm_buf);
+<b><a name="line306">306    </a></b>	    hal_sec_sm9_z256_twist_point_full_add(p, p, &mpk->Ppubs, &verify_buffer->comm_buf);
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	    // B7: u = e(S, P)
+<b><a name="line309">309    </a></b>	    hal_sec_sm9_z256_pairing(*u, p, &sig->S, &verify_buffer->comm_buf);
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	    // B8: w = u * t
+<b><a name="line312">312    </a></b>	    hal_sec_sm9_z256_fp12_mul(*w, *u, *t, &verify_buffer->comm_buf);
+<b><a name="line313">313    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*w, wbuf);
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	    // B9: h2 = H2(M || w, N), check h2 == h
+<b><a name="line316">316    </a></b>	    hal_sec_sm9_hash_2(h_a, msg, msg_len, wbuf, &verify_buffer->comm_buf);
+<b><a name="line317">317    </a></b>	    hal_sec_sm9_z256_modn_from_hash(h2, h_a, &verify_buffer->comm_buf);
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	    if (hal_sec_sm9_z256_equ(h2, sig->h) != 1U)
+<b><a name="line320">320    </a></b>	    {
+<b><a name="line321">321    </a></b>	        return SEC_NO;
+<b><a name="line322">322    </a></b>	    }
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    return SEC_YES;
+<b><a name="line325">325    </a></b>	}
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_common.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  host_common.c                                                         */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	#include "user_libs.h"
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	#define DB_C0_HOST_HANDLER      (0)
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	HOST_API_STRUCT gHostApiStruct;
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	static void nvme_send_cpl(HOST_API_STRUCT_PTR host);
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	static void nvme_send_cpl(HOST_API_STRUCT_PTR host)
+<b><a name="line26">26    </a></b>	{
+<b><a name="line27">27    </a></b>	    HAL_APU_CPL_SQ_PARAM_PTR hcpl = &host->hcpl;
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	    HAL_APU_CPL_SQ_HW apu_sq;
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    U8 db_id = HOST_MR_QID_CPU0_SQ_NVME_HCPL_P0;
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    if (nvme_check_cpl_err_status(host) == TRUE) {
+<b><a name="line34">34    </a></b>	        Dump_NVME(tprintf("sct: %x", host->hcpl.sct));
+<b><a name="line35">35    </a></b>	        Dump_NVME(tprintf("sc: %x", host->hcpl.sc));
+<b><a name="line36">36    </a></b>	    }
+<b><a name="line37">37    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_HCPL_P0) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-12451248" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    hal_apu_fill_cpl_sq(&apu_sq, hcpl);
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    // push HCPL to DB
+<b><a name="line42">42    </a></b>	    if (hal_db_push((void *)&apu_sq, (U8)sizeof(HAL_APU_CPL_SQ_HW), db_id) == PASS) {
+<b><a name="line43">43    </a></b>	        ; // todo
+<b><a name="line44">44    </a></b>	    }
+<b><a name="line45">45    </a></b>	    else {
+<b><a name="line46">46    </a></b>	        ; // todo
+<b><a name="line47">47    </a></b>	    }
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    // wait until NL push CQE to host
+<b><a name="line50">50    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_NVME_CQE, 100);
+<b><a name="line51">51    </a></b>	    while (dal_nl_get_p_cplm_busy(PCIE_PORT_0) == TRUE ) {
+<b><a name="line52">52    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line53">53    </a></b>	            break;
+<b><a name="line54">54    </a></b>	        }
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    /* // E28 no need clear ctag while cmd w/ err?
+<b><a name="line58">58    </a></b>	    // if err, clear CT valid
+<b><a name="line59">59    </a></b>	    if ((hcpl->sct != NVME_SCT_GENERIC_CMD_STS) || (hcpl->sc != NVME_GENERIC_STS_SUCCESS))
+<b><a name="line60">60    </a></b>	    {
+<b><a name="line61">61    </a></b>	        hal_cmgr_set_fw_clr_cvld_ctag(PCIE_PORT_0, hcpl->ctag); // set the ctag we want to clear
+<b><a name="line62">62    </a></b>	        hal_cmgr_set_fw_clr_cvld_req(PCIE_PORT_0);
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	        mabiao_set(MABIAO_MS, &timer, 100);
+<b><a name="line65">65    </a></b>	        while (hal_cmgr_get_fw_clr_cvld_req(PCIE_PORT_0))
+<b><a name="line66">66    </a></b>	        {
+<b><a name="line67">67    </a></b>	            if (mabiao_chk(&timer))
+<b><a name="line68">68    </a></b>	            {
+</pre></body>
+</html>

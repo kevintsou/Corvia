@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line397">397    </a></b>	}
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	//NVM ExpressTM Management Interface Revision 1.1
+<b><a name="line400">400    </a></b>	//Figure 112: NVMe Admin Command Request Description
+<b><a name="line401">401    </a></b>	//Byt 35:32
+<b><a name="line402">402    </a></b>	#define NVME_MI_ADMIN_COMMAND_DLEN_MAX      (4096U)
+<b><a name="line403">403    </a></b>	static void mctp_message_handle_set_fake_admin_param(HOST_API_STRUCT_PTR host, NVME_MI_NVME_ADMIN_CMD_REQ_PTR p_nvme_admin_cmd_req, U8 request_data_exists, DATA_DESCRIPTOR *p_request_data)
+<b><a name="line404">404    </a></b>	{
+<b><a name="line405">405    </a></b>	    // init hcpl
+<b><a name="line406">406    </a></b>	    memset((void *) & (host->hcpl), 0, sizeof(HAL_APU_CPL_SQ_PARAM));
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    host->hcmd.payload.info.nonuser.opcode = p_nvme_admin_cmd_req->sqdw0.opcode;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	    // set opcode and nsid
+<b><a name="line411">411    </a></b>	    host->sq_cmd.ct_opc  = p_nvme_admin_cmd_req->sqdw0.opcode;
+<b><a name="line412">412    </a></b>	    host->sq_cmd.ct_nsid = p_nvme_admin_cmd_req->sqdw1;
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    // set DW10 ~ DW 15 in fake command table
+<b><a name="line415">415    </a></b>	    memcpy((void *) & (host->sq_cmd.payload_opt), (void *) & (p_nvme_admin_cmd_req->sqdw10), 24U);
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	    host->hcmd.mctp_fake_hcmd = 1U;
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    if (TRUE == request_data_exists) {
+<b><a name="line420">420    </a></b>	        // The NVMe-MI message command request data in the host->buffer_base handle
+<b><a name="line421">421    </a></b>	        memcpy((void *)(host->buffer_base), (void *) & (p_request_data->p_base[0U]), p_request_data->size);
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	    else {
+<b><a name="line424">424    </a></b>	        //Prepare the buffer for response
+<b><a name="line425">425    </a></b>	        //TODO But is this actually necessary? dofst might not be 0 anyways?
+<b><a name="line426">426    </a></b>	        memset((void *)(host->buffer_base), 0x00U, NVME_MI_ADMIN_COMMAND_DLEN_MAX);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0U" from essential type "unsigned 8-bit int" to different or narrower essential type "signed 32-bit int".</font>
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	}
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	static void mctp_message_handle_get_admin_cq_param(HOST_API_STRUCT_PTR host, NVME_MI_NVME_ADMIN_CMD_REQ_PTR p_nvme_admin_cmd_req, NVME_MI_NVME_ADMIN_CMD_RESP_PTR p_nvme_admin_cmd_resp, U8 request_data_exists, DATA_DESCRIPTOR *p_response_data)
+<b><a name="line431">431    </a></b>	{
+<b><a name="line432">432    </a></b>	    // admin command response
+<b><a name="line433">433    </a></b>	    // (4  byte) : nvme-mi message header
+<b><a name="line434">434    </a></b>	    // (16 byte) : admin command response format
+<b><a name="line435">435    </a></b>	    // (N  byte) : admin command response data
+<b><a name="line436">436    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    // sync to oob nvme-mi admin response dw 0
+<b><a name="line439">439    </a></b>	    p_nvme_admin_cmd_resp->cqdw0 = host->hcpl.dw0;
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    // sync to oob nvme-mi admin response dw 1
+<b><a name="line442">442    </a></b>	    p_nvme_admin_cmd_resp->cqdw1 = host->hcpl.dw1;
+<b><a name="line443">443    </a></b>	
+<b><a name="line444">444    </a></b>	    // sync to oob nvme-mi admin response dw 3
+<b><a name="line445">445    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.cid = 0U; // The Command ID field shall be cleared to 0h.
+<b><a name="line446">446    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sc  = host->hcpl.sc;
+<b><a name="line447">447    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sct = host->hcpl.sct;
+<b><a name="line448">448    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.mo  = host->hcpl.more;
+<b><a name="line449">449    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.dnr = host->hcpl.dnr;
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    //Host Admin Command handling uses the host buffer
+<b><a name="line452">452    </a></b>	    p_response_data->p_base = (U8 *)(host->buffer_base + p_nvme_admin_cmd_req->dofst);
+<b><a name="line453">453    </a></b>	    if (FALSE == request_data_exists) {
+<b><a name="line454">454    </a></b>	        p_response_data->size = p_nvme_admin_cmd_req->dlen;
+<b><a name="line455">455    </a></b>	    }
+<b><a name="line456">456    </a></b>	    else {
+<b><a name="line457">457    </a></b>	        p_response_data->size = 0;
+</pre></body>
+</html>

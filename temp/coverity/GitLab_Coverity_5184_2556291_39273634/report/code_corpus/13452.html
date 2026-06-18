@@ -1,0 +1,483 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	    host->hcmd.mctp_fake_hcmd = 1U;
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    if (TRUE == request_data_exists) {
+<b><a name="line420">420    </a></b>	        // The NVMe-MI message command request data in the host->buffer_base handle
+<b><a name="line421">421    </a></b>	        memcpy((void *)(host->buffer_base), (void *) & (p_request_data->p_base[0U]), p_request_data->size);
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	    else {
+<b><a name="line424">424    </a></b>	        //Prepare the buffer for response
+<b><a name="line425">425    </a></b>	        //TODO But is this actually necessary? dofst might not be 0 anyways?
+<b><a name="line426">426    </a></b>	        memset((void *)(host->buffer_base), 0x00U, NVME_MI_ADMIN_COMMAND_DLEN_MAX);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	}
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	static void mctp_message_handle_get_admin_cq_param(HOST_API_STRUCT_PTR host, NVME_MI_NVME_ADMIN_CMD_REQ_PTR p_nvme_admin_cmd_req, NVME_MI_NVME_ADMIN_CMD_RESP_PTR p_nvme_admin_cmd_resp, U8 request_data_exists, DATA_DESCRIPTOR *p_response_data)
+<b><a name="line431">431    </a></b>	{
+<b><a name="line432">432    </a></b>	    // admin command response
+<b><a name="line433">433    </a></b>	    // (4  byte) : nvme-mi message header
+<b><a name="line434">434    </a></b>	    // (16 byte) : admin command response format
+<b><a name="line435">435    </a></b>	    // (N  byte) : admin command response data
+<b><a name="line436">436    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    // sync to oob nvme-mi admin response dw 0
+<b><a name="line439">439    </a></b>	    p_nvme_admin_cmd_resp->cqdw0 = host->hcpl.dw0;
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    // sync to oob nvme-mi admin response dw 1
+<b><a name="line442">442    </a></b>	    p_nvme_admin_cmd_resp->cqdw1 = host->hcpl.dw1;
+<b><a name="line443">443    </a></b>	
+<b><a name="line444">444    </a></b>	    // sync to oob nvme-mi admin response dw 3
+<b><a name="line445">445    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.cid = 0U; // The Command ID field shall be cleared to 0h.
+<b><a name="line446">446    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sc  = host->hcpl.sc;
+<b><a name="line447">447    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sct = host->hcpl.sct;
+<b><a name="line448">448    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.mo  = host->hcpl.more;
+<b><a name="line449">449    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.dnr = host->hcpl.dnr;
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    //Host Admin Command handling uses the host buffer
+<b><a name="line452">452    </a></b>	    p_response_data->p_base = (U8 *)(host->buffer_base + p_nvme_admin_cmd_req->dofst);
+<b><a name="line453">453    </a></b>	    if (FALSE == request_data_exists) {
+<b><a name="line454">454    </a></b>	        p_response_data->size = p_nvme_admin_cmd_req->dlen;
+<b><a name="line455">455    </a></b>	    }
+<b><a name="line456">456    </a></b>	    else {
+<b><a name="line457">457    </a></b>	        p_response_data->size = 0;
+<b><a name="line458">458    </a></b>	    }
+<b><a name="line459">459    </a></b>	}
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	static void mctp_message_handle_nvme_mi_command(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line462">462    </a></b>	{
+<b><a name="line463">463    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    NVME_MI_CMD_REQ_MSG *p_nvme_mi_cmd_req_msg;
+<b><a name="line466">466    </a></b>	    NVME_MI_CMD_RESP_MSG *p_nvme_mi_cmd_resp_msg;
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    DATA_DESCRIPTOR request_data;
+<b><a name="line469">469    </a></b>	    DATA_DESCRIPTOR response_data;
+<b><a name="line470">470    </a></b>	
+<b><a name="line471">471    </a></b>	    U32 message_response_status;
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    U8 opcode;
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    //TODO should actually set the p_nvme_mi_cmd_resp_msg and response_data_base into the response buffer
+<b><a name="line478">478    </a></b>	    //But that requires changing the underlying structure of constructing the response messages
+<b><a name="line479">479    </a></b>	    p_nvme_mi_cmd_req_msg = (NVME_MI_CMD_REQ_MSG *)(p_transmit_handler->request_message_handler.buffer.p_base);
+<b><a name="line480">480    </a></b>	    p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG *)(p_transmit_handler->reponse_packet_handler.buffer.p_base);
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	    memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    //This assumes that all NVME MI commands' response data are handled in host->buffer_base
+<b><a name="line485">485    </a></b>	    response_data.p_base = (U8 *)(host->buffer_base);
+<b><a name="line486">486    </a></b>	    response_data.size = 0;
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    //The minimum number of bytes required to form a NVME MI Command requires is
+<b><a name="line491">491    </a></b>	    // (16 byte) : mi command request format
+<b><a name="line492">492    </a></b>	    // (N  byte) : Request Data (Optional)
+<b><a name="line493">493    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line494">494    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count >= (sizeof(NVME_MI_CMD_REQ_MSG) + 4U)) {
+<b><a name="line495">495    </a></b>	        // NVMe Request Data have data
+<b><a name="line496">496    </a></b>	        request_data.p_base = (p_transmit_handler->request_message_handler.buffer.p_base + sizeof(NVME_MI_CMD_REQ_MSG));
+<b><a name="line497">497    </a></b>	        request_data.size = (p_transmit_handler->request_message_handler.byte_count - (sizeof(NVME_MI_CMD_REQ_MSG) + 4U));
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	        //the copy is essentially useless, its basically to match the admin command handle in case it handles things in the host buffer
+<b><a name="line500">500    </a></b>	        //The NVMe-MI message command request data in the host->buffer_base handle
+<b><a name="line501">501    </a></b>	        memcpy((void *)(host->buffer_base), (void *) & (request_data.p_base[0U]), request_data.size);
+<b><a name="line502">502    </a></b>	    }
+<b><a name="line503">503    </a></b>	    else {
+<b><a name="line504">504    </a></b>	        //Not enough data to properly form the command
+<b><a name="line505">505    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line506">506    </a></b>	    }
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line509">509    </a></b>	        // Init response header + format (8 byte)
+<b><a name="line510">510    </a></b>	        memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line511">511    </a></b>	
+<b><a name="line512">512    </a></b>	        opcode = p_nvme_mi_cmd_req_msg->opcode;
+<b><a name="line513">513    </a></b>	
+<b><a name="line514">514    </a></b>	        switch (opcode) {
+<b><a name="line515">515    </a></b>	        case NVME_MI_CMD_READ_MI_STRUCT:     // 0x00     (M)
+<b><a name="line516">516    </a></b>	            mctp_message_handle_nvme_mi_message_read_mi_struct(p_nvme_mi_cmd_req_msg, p_nvme_mi_cmd_resp_msg, (U32)(response_data.p_base));
+<b><a name="line517">517    </a></b>	            if (NVME_MI_RSP_MSG_STS_SUCCESS == p_nvme_mi_cmd_resp_msg->dw1.generic_error.status) {
+<b><a name="line518">518    </a></b>	                response_data.size = p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp;
+<b><a name="line519">519    </a></b>	            }
+<b><a name="line520">520    </a></b>	            break;
+<b><a name="line521">521    </a></b>	        case NVME_MI_CMD_SUBSYS_HEALTH_POLL: // 0x01     (M)
+<b><a name="line522">522    </a></b>	            // bootcode not support
+<b><a name="line523">523    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Subsystem Health Status Poll (Bootcode not support)"));
+<b><a name="line524">524    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line525">525    </a></b>	            break;
+<b><a name="line526">526    </a></b>	        case NVME_MI_CMD_CTRL_HEALTH_POLL:   // 0x02     (M)
+<b><a name="line527">527    </a></b>	            // bootcode not support
+<b><a name="line528">528    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Controller Health Status Poll (Bootcode not support)"));
+<b><a name="line529">529    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line530">530    </a></b>	            break;
+<b><a name="line531">531    </a></b>	        case NVME_MI_CMD_CONFIG_SET:         // 0x03     (M)
+<b><a name="line532">532    </a></b>	            mctp_message_handle_nvme_mi_message_configuration_set(p_nvme_mi_cmd_req_msg, p_nvme_mi_cmd_resp_msg, p_transmit_handler->message_info.p_transport);
+<b><a name="line533">533    </a></b>	            break;
+<b><a name="line534">534    </a></b>	        case NVME_MI_CMD_CONFIG_GET:         // 0x04     (M)
+<b><a name="line535">535    </a></b>	            mctp_message_handle_nvme_mi_message_configuration_get(p_nvme_mi_cmd_req_msg, p_nvme_mi_cmd_resp_msg, p_transmit_handler->message_info.p_transport);
+<b><a name="line536">536    </a></b>	            break;
+<b><a name="line537">537    </a></b>	        default:
+<b><a name="line538">538    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line539">539    </a></b>	            break;
+<b><a name="line540">540    </a></b>	        }
+<b><a name="line541">541    </a></b>	    }
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	    p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.status |= message_response_status;
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line546">546    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	    mctp_message_handle_nvme_mi_message_response(
+<b><a name="line549">549    </a></b>	        &p_transmit_handler->message_info,
+<b><a name="line550">550    </a></b>	        p_nvme_mi_cmd_req_msg->mi_header.csi,
+<b><a name="line551">551    </a></b>	        NMIMT_NVME_MI_COMMAND,
+<b><a name="line552">552    </a></b>	        (U8 *)p_nvme_mi_cmd_resp_msg,
+<b><a name="line553">553    </a></b>	        sizeof(NVME_MI_CMD_RESP_MSG),
+<b><a name="line554">554    </a></b>	        response_data.p_base,
+<b><a name="line555">555    </a></b>	        response_data.size);
+<b><a name="line556">556    </a></b>	}
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	static void mctp_message_handle_nvme_mi_admin_command(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line559">559    </a></b>	{
+<b><a name="line560">560    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line561">561    </a></b>	
+<b><a name="line562">562    </a></b>	    NVME_MI_NVME_ADMIN_CMD_REQ *p_nvme_admin_cmd_req;
+<b><a name="line563">563    </a></b>	    NVME_MI_NVME_ADMIN_CMD_RESP *p_nvme_admin_cmd_resp;
+<b><a name="line564">564    </a></b>	
+<b><a name="line565">565    </a></b>	    DATA_DESCRIPTOR request_data;
+<b><a name="line566">566    </a></b>	    DATA_DESCRIPTOR response_data;
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	    U32 message_response_status;
+<b><a name="line569">569    </a></b>	
+<b><a name="line570">570    </a></b>	    U8 request_data_exists = FALSE;
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    p_nvme_admin_cmd_req = (NVME_MI_NVME_ADMIN_CMD_REQ *)(p_transmit_handler->request_message_handler.buffer.p_base);
+<b><a name="line575">575    </a></b>	    p_nvme_admin_cmd_resp = (NVME_MI_NVME_ADMIN_CMD_RESP *)(p_transmit_handler->reponse_packet_handler.buffer.p_base);
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	    memset((void *)p_nvme_admin_cmd_resp, 0, sizeof(NVME_MI_NVME_ADMIN_CMD_RESP));
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    response_data.p_base = (U8 *)(host->buffer_base);
+<b><a name="line580">580    </a></b>	    response_data.size = 0U;
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    // (68 byte) : admin command request format
+<b><a name="line585">585    </a></b>	    // (N  byte) : NVMe Request Data (Optional)
+<b><a name="line586">586    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line587">587    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count >= (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U)) {
+<b><a name="line588">588    </a></b>	        // NVMe Request Data have data
+<b><a name="line589">589    </a></b>	        request_data.p_base = (p_transmit_handler->request_message_handler.buffer.p_base + sizeof(NVME_MI_NVME_ADMIN_CMD_REQ));
+<b><a name="line590">590    </a></b>	        request_data.size = (p_transmit_handler->request_message_handler.byte_count - (sizeof(NVME_MI_NVME_ADMIN_CMD_REQ) + 4U));
+<b><a name="line591">591    </a></b>	    }
+<b><a name="line592">592    </a></b>	    else {
+<b><a name="line593">593    </a></b>	        // admin command size have to >= (68 byte + 4 byte)
+<b><a name="line594">594    </a></b>	        request_data.p_base = NULL;
+<b><a name="line595">595    </a></b>	        request_data.size = 0UL;
+<b><a name="line596">596    </a></b>	    }
+<b><a name="line597">597    </a></b>	
+<b><a name="line598">598    </a></b>	    if (request_data.p_base == NULL) {
+<b><a name="line599">599    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line600">600    </a></b>	        p_nvme_admin_cmd_resp->dw1.generic_resp.status |= message_response_status;
+<b><a name="line601">601    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Admin Command Size Less 72 Byte"));
+<b><a name="line602">602    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Admin Command Size : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line603">603    </a></b>	
+<b><a name="line604">604    </a></b>	    }
+<b><a name="line605">605    </a></b>	    else if (chk_mctp_mi_adm_prohibit(p_nvme_admin_cmd_req->sqdw0.opcode) == TRUE) {
+<b><a name="line606">606    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line607">607    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_OPC;
+<b><a name="line608">608    </a></b>	    }
+<b><a name="line609">609    </a></b>	    // Check if oob support admin command
+<b><a name="line610">610    </a></b>	    else if (chk_mctp_mi_adm_support(p_nvme_admin_cmd_req->sqdw0.opcode) == FALSE) {
+<b><a name="line611">611    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line612">612    </a></b>	        p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line613">613    </a></b>	    }
+<b><a name="line614">614    </a></b>	    else if ((chk_mctp_mi_adm_need_data_out(p_nvme_admin_cmd_req->sqdw0.opcode) == TRUE) && (p_nvme_admin_cmd_req->dlen == 0U)) {
+<b><a name="line615">615    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line616">616    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line617">617    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line618">618    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Admin Command need transmit data, but DLEN is 0!"));
+<b><a name="line619">619    </a></b>	    }
+<b><a name="line620">620    </a></b>	
+<b><a name="line621">621    </a></b>	    //Check Command Flags Bit 0 and the DLEN fields
+<b><a name="line622">622    </a></b>	    //Figure 112: NVMe Admin Command Request Description
+<b><a name="line623">623    </a></b>	    //--Byte 05
+<b><a name="line624">624    </a></b>	    //--Byte 35:32
+<b><a name="line625">625    </a></b>	    //if (0U == (p_nvme_admin_cmd_req->sqdw0.cmdflag & BIT0))   //X2 follow MI version 1.2 don't check cmdflag bit 0 & bit 1
+<b><a name="line626">626    </a></b>	    //{
+<b><a name="line627">627    </a></b>	    //    // Bit 0, if cleared to ���0���, then the DLEN field shall be cleared to 0h.
+<b><a name="line628">628    </a></b>	    //    if (0U != p_nvme_admin_cmd_req->dlen)
+<b><a name="line629">629    </a></b>	    //    {
+<b><a name="line630">630    </a></b>	    //        // need return an Invalid Parameter Error Response
+<b><a name="line631">631    </a></b>	    //        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line632">632    </a></b>	    //        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN != 0"));
+<b><a name="line633">633    </a></b>	    //        Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line634">634    </a></b>	    //    }
+<b><a name="line635">635    </a></b>	    //}
+<b><a name="line636">636    </a></b>	    //else
+<b><a name="line637">637    </a></b>	    // Bits 0 and 1 of this field shall be cleared to ���0���
+<b><a name="line638">638    </a></b>	    else if ((p_nvme_admin_cmd_req->dlen & (BIT1 | BIT0)) != 0U) {
+<b><a name="line639">639    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line640">640    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line641">641    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line642">642    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN BIT1, BIT0 != 0"));
+<b><a name="line643">643    </a></b>	        Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line644">644    </a></b>	    }
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	    // This field shall be less than or equal to 4,096.
+<b><a name="line647">647    </a></b>	    else if ((p_nvme_admin_cmd_req->dofst + p_nvme_admin_cmd_req->dlen) > NVME_MI_ADMIN_COMMAND_DLEN_MAX) {
+<b><a name="line648">648    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line649">649    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line650">650    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line651">651    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN > ", NVME_MI_ADMIN_COMMAND_DLEN_MAX));
+<b><a name="line652">652    </a></b>	        Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line653">653    </a></b>	    }
+<b><a name="line654">654    </a></b>	
+<b><a name="line655">655    </a></b>	    //Figure 112: NVMe Admin Command Request Description
+<b><a name="line656">656    </a></b>	    //--Byte 05
+<b><a name="line657">657    </a></b>	    //--Byte 31:28
+<b><a name="line658">658    </a></b>	    //Check Command Flags Bit 1 and the DOFST fields
+<b><a name="line659">659    </a></b>	    //if (0U == (p_nvme_admin_cmd_req->sqdw0.cmdflag & BIT1))   //X2 follow MI version 1.2 don't check cmdflag bit 0 & bit 1
+<b><a name="line660">660    </a></b>	    //{
+<b><a name="line661">661    </a></b>	    //    // Bit 1, if cleared to ���0���, then the DOFST field shall be cleared to 0h.
+<b><a name="line662">662    </a></b>	    //    if (0U != p_nvme_admin_cmd_req->dofst)
+<b><a name="line663">663    </a></b>	    //    {
+<b><a name="line664">664    </a></b>	    //        // need return an Invalid Parameter Error Response
+<b><a name="line665">665    </a></b>	    //        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line666">666    </a></b>	    //        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST != 0"));
+<b><a name="line667">667    </a></b>	    //        Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line668">668    </a></b>	    //    }
+<b><a name="line669">669    </a></b>	    //}
+<b><a name="line670">670    </a></b>	    //else
+<b><a name="line671">671    </a></b>	    // Bits 0 and 1 of this field shall be cleared to ���0���
+<b><a name="line672">672    </a></b>	    else if ((p_nvme_admin_cmd_req->dofst & (BIT1 | BIT0)) != 0U) {
+<b><a name="line673">673    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line674">674    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line675">675    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DOFST;
+<b><a name="line676">676    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST BIT1, BIT0 != 0"));
+<b><a name="line677">677    </a></b>	        Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line678">678    </a></b>	    }
+<b><a name="line679">679    </a></b>	
+<b><a name="line680">680    </a></b>	    //else if (p_nvme_admin_cmd_req->sqdw0.ctrlrid == 0U)
+<b><a name="line681">681    </a></b>	    //{
+<b><a name="line682">682    </a></b>	    //   // TODO
+<b><a name="line683">683    </a></b>	    //   // This field specifies the Controller ID of the Controller that this command targets.
+<b><a name="line684">684    </a></b>	    //}
+<b><a name="line685">685    </a></b>	
+<b><a name="line686">686    </a></b>	    else if (p_nvme_admin_cmd_req->sqdw0.opcode == ADM_OPC_GET_LOG_PAGE) {
+<b><a name="line687">687    </a></b>	        U32 numd = ((p_nvme_admin_cmd_req->sqdw11 << 16U) | (U32)(p_nvme_admin_cmd_req->sqdw10 >> 16U));
+<b><a name="line688">688    </a></b>	        U16 byte_cnt = 4U * (numd + 1U); // dw: 0's base, 1DW = 4 bytes
+<b><a name="line689">689    </a></b>	        // check if dlen is greater than number of dword
+<b><a name="line690">690    </a></b>	        if (p_nvme_admin_cmd_req->dlen > byte_cnt) {
+<b><a name="line691">691    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line692">692    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line693">693    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line694">694    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN is greater than number of dword!"));
+<b><a name="line695">695    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line696">696    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line697">697    </a></b>	        }
+<b><a name="line698">698    </a></b>	        // check if dofst is greater than number of dword
+<b><a name="line699">699    </a></b>	        else if (p_nvme_admin_cmd_req->dofst > byte_cnt) {
+<b><a name="line700">700    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line701">701    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line702">702    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DOFST;
+<b><a name="line703">703    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST is greater than number of dword!"));
+<b><a name="line704">704    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line705">705    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line706">706    </a></b>	        }
+<b><a name="line707">707    </a></b>	        // check if dlen+dofst is greater than number of dword
+<b><a name="line708">708    </a></b>	        else if ((p_nvme_admin_cmd_req->dlen + p_nvme_admin_cmd_req->dofst) > byte_cnt) {
+<b><a name="line709">709    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line710">710    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line711">711    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line712">712    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN+DOFST is greater than number of dword!"));
+<b><a name="line713">713    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line714">714    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line715">715    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line716">716    </a></b>	        }
+<b><a name="line717">717    </a></b>	        else {
+<b><a name="line718">718    </a></b>	            /*do nothing*/
+<b><a name="line719">719    </a></b>	        }
+<b><a name="line720">720    </a></b>	    }
+<b><a name="line721">721    </a></b>	    //If any request data is given, assume that this is Admin Command is expecting it
+<b><a name="line722">722    </a></b>	    //Actually checking what the Admin Command wants against what is given is not performed.
+<b><a name="line723">723    </a></b>	    else if (request_data.size != 0U) {
+<b><a name="line724">724    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] Request Data Size"));
+<b><a name="line725">725    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Request Data Size   : %d", request_data.size));
+<b><a name="line726">726    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Request Buffer Base : %x", (U32)(request_data.p_base)));
+<b><a name="line727">727    </a></b>	
+<b><a name="line728">728    </a></b>	        request_data_exists = TRUE;
+<b><a name="line729">729    </a></b>	
+<b><a name="line730">730    </a></b>	        // For commands that transmit data from the Management Controller to the Management Endpoint
+<b><a name="line731">731    </a></b>	        // (i.e., the Request Data field in the Request Message has non-zero length) or do not transmit data,
+<b><a name="line732">732    </a></b>	        // this field shall be cleared to 0h. If this field is not 0h, then the Management Endpoint shall return an Invalid Parameter Error Response.
+<b><a name="line733">733    </a></b>	        if (p_nvme_admin_cmd_req->dofst != 0U) {
+<b><a name="line734">734    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line735">735    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line736">736    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DOFST;
+<b><a name="line737">737    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] Request Data Size != 0 + DOFST != 0"));
+<b><a name="line738">738    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Request Data Size : %d", request_data.size));
+<b><a name="line739">739    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DOFST             : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line740">740    </a></b>	        }
+<b><a name="line741">741    </a></b>	        else if (p_nvme_admin_cmd_req->dlen != request_data.size) {
+<b><a name="line742">742    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line743">743    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_INPUT_DATA_SIZE;
+<b><a name="line744">744    </a></b>	            p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line745">745    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] Request Data Size != DLEN"));
+<b><a name="line746">746    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Request Data Size : %d", request_data.size));
+<b><a name="line747">747    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN              : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line748">748    </a></b>	        }
+<b><a name="line749">749    </a></b>	        else {
+<b><a name="line750">750    </a></b>	            /*do nothing*/
+<b><a name="line751">751    </a></b>	        }
+<b><a name="line752">752    </a></b>	    }
+<b><a name="line753">753    </a></b>	    else {
+<b><a name="line754">754    </a></b>	        request_data_exists = FALSE;
+<b><a name="line755">755    </a></b>	    }
+<b><a name="line756">756    </a></b>	
+<b><a name="line757">757    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line758">758    </a></b>	        mctp_message_handle_set_fake_admin_param(host, p_nvme_admin_cmd_req, request_data_exists, &request_data);
+<b><a name="line759">759    </a></b>	
+<b><a name="line760">760    </a></b>	        nvme_adm_cmd_handler(host);
+<b><a name="line761">761    </a></b>	
+<b><a name="line762">762    </a></b>	        mctp_message_handle_get_admin_cq_param(host, p_nvme_admin_cmd_req, p_nvme_admin_cmd_resp, request_data_exists, &response_data);
+<b><a name="line763">763    </a></b>	    }
+<b><a name="line764">764    </a></b>	
+<b><a name="line765">765    </a></b>	    p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line766">766    </a></b>	
+<b><a name="line767">767    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line768">768    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line769">769    </a></b>	
+<b><a name="line770">770    </a></b>	    mctp_message_handle_nvme_mi_message_response(
+<b><a name="line771">771    </a></b>	        &p_transmit_handler->message_info,
+<b><a name="line772">772    </a></b>	        p_nvme_admin_cmd_req->mi_header.csi,
+<b><a name="line773">773    </a></b>	        NMIMT_NVME_ADMIN_COMMAND,
+<b><a name="line774">774    </a></b>	        (U8 *)p_nvme_admin_cmd_resp,
+<b><a name="line775">775    </a></b>	        sizeof(NVME_MI_NVME_ADMIN_CMD_RESP),
+<b><a name="line776">776    </a></b>	        (U8 *)response_data.p_base,
+<b><a name="line777">777    </a></b>	        response_data.size);
+<b><a name="line778">778    </a></b>	
+<b><a name="line779">779    </a></b>	}
+<b><a name="line780">780    </a></b>	
+<b><a name="line781">781    </a></b>	U32 mctp_message_handle_nvme_mi_message(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line782">782    </a></b>	{
+<b><a name="line783">783    </a></b>	    U32 crc_32c;
+<b><a name="line784">784    </a></b>	    U32 message_response_status;
+<b><a name="line785">785    </a></b>	    NVME_MI_MSG_HEADER_PTR p_nvme_mi_msg_header = (NVME_MI_MSG_HEADER_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line786">786    </a></b>	    NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line787">787    </a></b>	
+<b><a name="line788">788    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line789">789    </a></b>	
+<b><a name="line790">790    </a></b>	    //TODO the NVME MI message response should be initialized here and the buffer passed into relevant handling functions
+<b><a name="line791">791    </a></b>	
+<b><a name="line792">792    </a></b>	    //The MCTP Message must have enough data to form the header (MCTP Header + Message Type specific header)
+<b><a name="line793">793    </a></b>	    //There is no Message Type specific header to be parsed at this level
+<b><a name="line794">794    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count < sizeof(NVME_MI_MSG_HEADER)) {
+<b><a name="line795">795    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line796">796    </a></b>	    }
+<b><a name="line797">797    </a></b>	
+<b><a name="line798">798    </a></b>	    // This bit indicates whether the message is a Request Message or Response Message.
+<b><a name="line799">799    </a></b>	    // This bit is cleared to ���0��� for Request Messages. This bit is set to ���1��� for Response Messages.
+<b><a name="line800">800    </a></b>	    if (ROR_REQUEST != p_nvme_mi_msg_header->ror) {
+<b><a name="line801">801    </a></b>	        message_response_status |= PEL_ROR;
+<b><a name="line802">802    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] ROR != Request"));
+<b><a name="line803">803    </a></b>	    }
+<b><a name="line804">804    </a></b>	
+<b><a name="line805">805    </a></b>	    // All NVMe-MI Messages in the out-of-band mechanism shall be protected by a CRC
+<b><a name="line806">806    </a></b>	    // and thus this bit shall be set to ���1��� in all out-of-band NVMe-MI Messages.
+<b><a name="line807">807    </a></b>	    if (1U == p_nvme_mi_msg_header->ic) {
+<b><a name="line808">808    </a></b>	        crc_32c = CRC_32C((U32)p_transmit_handler->request_message_handler.buffer.p_base, (p_transmit_handler->request_message_handler.byte_count - 4U), CRC_32C_INIT);
+<b><a name="line809">809    </a></b>	
+<b><a name="line810">810    </a></b>	        if (memcmp((void *) & (crc_32c), (void *) & (p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_count - 4U]), sizeof(U32))) {
+<b><a name="line811">811    </a></b>	            Dump_SMBUS(tprintf(" [MCTP] CRC_32C Is Different"));
+<b><a name="line812">812    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Calculate CRC_32C : %x", crc_32c));
+<b><a name="line813">813    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Message   CRC_32C : %x", (U32)((U32 *)&p_transmit_handler->request_message_handler.buffer.p_base[p_transmit_handler->request_message_handler.byte_count - 4U])[0U]));
+<b><a name="line814">814    </a></b>	            message_response_status |= PEL((p_transmit_handler->request_message_handler.byte_count - 4U), 0U);
+<b><a name="line815">815    </a></b>	        }
+<b><a name="line816">816    </a></b>	    }
+<b><a name="line817">817    </a></b>	    else {
+<b><a name="line818">818    </a></b>	        message_response_status |= PEL_IC;
+<b><a name="line819">819    </a></b>	    }
+<b><a name="line820">820    </a></b>	
+<b><a name="line821">821    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line822">822    </a></b>	        switch (p_nvme_mi_msg_header->nmimt) {
+<b><a name="line823">823    </a></b>	        case NMIMT_NVME_MI_COMMAND:
+<b><a name="line824">824    </a></b>	            mctp_message_handle_nvme_mi_command(p_transmit_handler);
+<b><a name="line825">825    </a></b>	            break;
+<b><a name="line826">826    </a></b>	
+<b><a name="line827">827    </a></b>	        case NMIMT_NVME_ADMIN_COMMAND:
+<b><a name="line828">828    </a></b>	            mctp_message_handle_nvme_mi_admin_command(p_transmit_handler);
+<b><a name="line829">829    </a></b>	            break;
+<b><a name="line830">830    </a></b>	
+<b><a name="line831">831    </a></b>	        default :
+<b><a name="line832">832    </a></b>	            message_response_status |= PEL_NMIMT;
+<b><a name="line833">833    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] Bootcode not support message type"));
+<b><a name="line834">834    </a></b>	            break;
+<b><a name="line835">835    </a></b>	        }
+<b><a name="line836">836    </a></b>	    }
+<b><a name="line837">837    </a></b>	
+<b><a name="line838">838    </a></b>	    // response mi format
+<b><a name="line839">839    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS != message_response_status) {
+<b><a name="line840">840    </a></b>	        memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line841">841    </a></b>	
+<b><a name="line842">842    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = message_response_status;
+<b><a name="line843">843    </a></b>	
+<b><a name="line844">844    </a></b>	        mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	        mctp_message_handle_nvme_mi_message_response(
+<b><a name="line847">847    </a></b>	            &p_transmit_handler->message_info,
+<b><a name="line848">848    </a></b>	            p_nvme_mi_msg_header->csi,
+<b><a name="line849">849    </a></b>	            p_nvme_mi_msg_header->nmimt,
+<b><a name="line850">850    </a></b>	            (U8 *)p_nvme_mi_cmd_resp_msg,
+<b><a name="line851">851    </a></b>	            sizeof(NVME_MI_CMD_RESP_MSG),
+<b><a name="line852">852    </a></b>	            (U8 *)NULL,
+<b><a name="line853">853    </a></b>	            0U);
+<b><a name="line854">854    </a></b>	    }
+<b><a name="line855">855    </a></b>	
+<b><a name="line856">856    </a></b>	    return 0UL;
+<b><a name="line857">857    </a></b>	}
+<b><a name="line858">858    </a></b>	
+<b><a name="line859">859    </a></b>	U32 mctp_message_handle_nvme_mi_message_response(MCTP_MESSAGE_INFO *p_source_mctp_message_info, U32 nvme_mi_command_slot, U32 nvme_mi_message_type, U8 *p_response_format, U32 response_format_size, U8 *p_response_data, U32 response_data_size)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "mctp_message_handle_nvme_mi_message_response".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">    ^</font>
+<b><a name="line860">860    </a></b>	{
+<b><a name="line861">861    </a></b>	    U32 send_status;
+<b><a name="line862">862    </a></b>	    NVME_MI_MSG_HEADER *p_nvme_mi_msg_header;
+<b><a name="line863">863    </a></b>	    DATA_DESCRIPTOR a_message_descriptor[MCTP_MESSAGE_PARTS_COUNT];
+<b><a name="line864">864    </a></b>	    MCTP_MESSAGE_INFO destination_mctp_message_info;
+<b><a name="line865">865    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line866">866    </a></b>	
+<b><a name="line867">867    </a></b>	    //-----MCTP Information
+<b><a name="line868">868    </a></b>	    destination_mctp_message_info.p_transport = p_source_mctp_message_info->p_transport;
+<b><a name="line869">869    </a></b>	
+<b><a name="line870">870    </a></b>	    switch (destination_mctp_message_info.p_transport->binding) {
+<b><a name="line871">871    </a></b>	    case MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_SMBUS:
+<b><a name="line872">872    </a></b>	        //The defined Slave Address should match Transmit Handler's recorded Slave Address
+<b><a name="line873">873    </a></b>	        mctp_transport_info_init_smbus((MCTP_TRANSPORT_INFO_SMBUS *) & (destination_mctp_message_info.source_transport_info), ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_source_mctp_message_info->source_transport_info))->slave_address);
+<b><a name="line874">874    </a></b>	        destination_mctp_message_info.hdr_verions = MCTP_HEADER_VERSION_MCTP_BASE_1_0_SMBUS_TRANSPORT;
+<b><a name="line875">875    </a></b>	        break;
+<b><a name="line876">876    </a></b>	    default:
+<b><a name="line877">877    </a></b>	        //Record error?
+<b><a name="line878">878    </a></b>	        //Do not expect MCTP Message of type SMP to be serviced for this binding
+<b><a name="line879">879    </a></b>	        return 1UL;
+<b><a name="line880">880    </a></b>	        //break;
+<b><a name="line881">881    </a></b>	    }
+<b><a name="line882">882    </a></b>	
+<b><a name="line883">883    </a></b>	    //The Transmit Handler's recorded Source End ID should match the defined Destination Endpoint ID
+<b><a name="line884">884    </a></b>	    destination_mctp_message_info.destination_endpoint_id = p_source_mctp_message_info->message_terminus.source_eid;
+<b><a name="line885">885    </a></b>	
+<b><a name="line886">886    </a></b>	    //The Transmit Handler's recorded Destination End ID should match the defined Source Endpoint ID
+<b><a name="line887">887    </a></b>	    destination_mctp_message_info.message_terminus.source_eid = p_source_mctp_message_info->destination_endpoint_id;
+<b><a name="line888">888    </a></b>	    destination_mctp_message_info.message_terminus.tag_owner = MCTP_TRANSPORT_HEADER_TAG_OWNER_DESTINATION;
+<b><a name="line889">889    </a></b>	    destination_mctp_message_info.message_terminus.message_tag = p_source_mctp_message_info->message_terminus.message_tag;
+<b><a name="line890">890    </a></b>	
+</pre></body>
+</html>

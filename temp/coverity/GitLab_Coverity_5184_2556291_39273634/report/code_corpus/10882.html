@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line177">177    </a></b>	        return (MESSAGE_ASSEMBLY_INTERNAL_ERROR_BUFFER_OVERFLOW | MESSAGE_ASSEMBLY_DROP_MESSAGE);
+<b><a name="line178">178    </a></b>	    }
+<b><a name="line179">179    </a></b>	
+<b><a name="line180">180    </a></b>	    memcpy((void *) & (p_transmit_handler->request_message_handler.buffer.p_base[message_byte_end]), (void *) & (packet_payload.p_base[0U]), packet_payload.size);
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	    //-----Update the Transmit Handler
+<b><a name="line183">183    </a></b>	    p_transmit_handler->request_message_handler.byte_count += packet_payload.size;
+<b><a name="line184">184    </a></b>	
+<b><a name="line185">185    </a></b>	    if (1U == p_transport_header->eom) {
+<b><a name="line186">186    </a></b>	        p_transmit_handler->state = MCTP_MESSAGE_TRANSMIT_STATE_END;
+<b><a name="line187">187    </a></b>	    }
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	    p_transmit_handler->packet_sequence_number = p_transport_header->pkt_seq_num;
+<b><a name="line190">190    </a></b>	
+<b><a name="line191">191    </a></b>	    p_transmit_handler->previous_packet_time = phal_sys_rtt_get_ms();
+<b><a name="line192">192    </a></b>	
+<b><a name="line193">193    </a></b>	    return MESSAGE_ASSEMBLY_VALID;
+<b><a name="line194">194    </a></b>	}
+<b><a name="line195">195    </a></b>	
+<b><a name="line196">196    </a></b>	MCTP_MESSAGE_TRANSMIT_HANDLER *mctp_receive_packet(MCTP_MANAGEMENT *p_mctp, MCTP_TRANSPORT *p_transport, const MCTP_TRANSPORT_INFO_GENERIC *p_source_transport_info, DATA_DESCRIPTOR *p_packet_descriptor)
+<b><a name="line197">197    </a></b>	{
+<b><a name="line198">198    </a></b>	    U32 status;
+<b><a name="line199">199    </a></b>	    U32 message_assembly_status;
+<b><a name="line200">200    </a></b>	    DATA_DESCRIPTOR packet_payload;
+<b><a name="line201">201    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line202">202    </a></b>	    const MCTP_TRANSPORT_HEADER *p_transport_header;
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Receive Packet"));
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	    message_assembly_status = MESSAGE_ASSEMBLY_VALID;
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "message_assembly_status" = "0UL".</font>
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	    // byte 4 : hdr_version + rsvd
+<b><a name="line209">209    </a></b>	    // byte 5 : destination_endpoint_id
+<b><a name="line210">210    </a></b>	    // byte 6 : source_endpoint_id
+<b><a name="line211">211    </a></b>	    // byte 7 : msg_tag + to + pkt_seq_num + eom + som
+<b><a name="line212">212    </a></b>	    p_transport_header = (MCTP_TRANSPORT_HEADER *)(p_packet_descriptor->p_base);
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    //The data received must be a MCTP Packet,
+<b><a name="line215">215    </a></b>	    //the minimum requirement is to have enough data for the Transport Header
+<b><a name="line216">216    </a></b>	    if (sizeof(*p_transport_header) > p_packet_descriptor->size) {
+<b><a name="line217">217    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Not Enough Data For A MCTP Packet"));
+<b><a name="line218">218    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Packet Descriptor Size : %x", p_packet_descriptor->size));
+<b><a name="line219">219    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Sizeof(p_transport_header) : %x", sizeof(*p_transport_header)));
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	        //Not enough data for a packet to be formed, regard it as noise and ignore
+<b><a name="line222">222    </a></b>	        message_assembly_status |= MESSAGE_ASSEMBLY_DROP_PACKET;
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	        return NULL;
+<b><a name="line225">225    </a></b>	    }
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    // Packet payload
+<b><a name="line228">228    </a></b>	    packet_payload.p_base = p_packet_descriptor->p_base + sizeof(*p_transport_header);
+<b><a name="line229">229    </a></b>	    packet_payload.size = p_packet_descriptor->size - sizeof(*p_transport_header);
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	    //=====Check the packet's validity (hdr_version + destination_endpoint_id + source_endpoint_id + msg_tag + to + pkt_seq_num)
+<b><a name="line232">232    </a></b>	    //Check the packet's validity for message assembly
+<b><a name="line233">233    </a></b>	    //Check whether the Transport Header can be parsed correctly before anything else is parsed
+<b><a name="line234">234    </a></b>	    if (MESSAGE_ASSEMBLY_VALID == message_assembly_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event const:</font></b> <font face="Arial"; size="3"; color="#FF5959">At condition "0UL == message_assembly_status", the value of "message_assembly_status" must be equal to 0.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition "0UL == message_assembly_status" must be true.</font>
+<b><a name="line235">235    </a></b>	        status = mctp_packet_check_header_version(p_transport, p_transport_header);
+<b><a name="line236">236    </a></b>	        if (1U == status) {
+<b><a name="line237">237    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Bad Header Version"));
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	            //uart_printf("!!!Bad Header Version 0x%x\r\n", p_transport_header->hdr_version);
+<b><a name="line240">240    </a></b>	            //8.6 Dropped packets
+<b><a name="line241">241    </a></b>	            //  Bad header version
+<b><a name="line242">242    </a></b>	            //nvme_mi, record error unknown designation id TODO@Aaron record error?
+<b><a name="line243">243    </a></b>	            message_assembly_status |= (MESSAGE_ASSEMBLY_INVALID_BAD_HEADER_VERSION | MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line244">244    </a></b>	        }
+<b><a name="line245">245    </a></b>	        else {
+<b><a name="line246">246    </a></b>	            //Boot Code will not check the Endpoint ID
+<b><a name="line247">247    </a></b>	#if 0
+<b><a name="line248">248    </a></b>	            //This part is intrinsically tied to the Transport and Header Version
+<b><a name="line249">249    </a></b>	            status = mctp_packet_check_destination_endpoint_id(p_transport, p_transport_header);
+<b><a name="line250">250    </a></b>	            if (1U == status) {
+<b><a name="line251">251    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Unknown Destination EID"));
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	                //uart_printf("!!!Unknown Destination EID 0x%x\r\n", p_transport_header->destination_endpoint_id);
+<b><a name="line254">254    </a></b>	                //8.6 Dropped packets
+<b><a name="line255">255    </a></b>	                //  Unknown destination EID
+<b><a name="line256">256    </a></b>	                //nvme_mi, record error unknown designation id UDSTID
+<b><a name="line257">257    </a></b>	                message_assembly_status |= (MESSAGE_ASSEMBLY_INVALID_UNKNOWN_DESTINATION_EID | MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line258">258    </a></b>	            }
+<b><a name="line259">259    </a></b>	#endif
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	            status = mctp_packet_check_tag_owner(p_transport, p_transport_header, p_mctp);
+<b><a name="line262">262    </a></b>	            if (1U == status) {
+<b><a name="line263">263    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Bad, Unexpected, or Expired Message Tag"));
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	                //uart_printf("!!!Bad, Unexpected, or Expired Message Tag of 0x%x with a TO of 1\r\n", p_transport_header->msg_tag);
+</pre></body>
+</html>

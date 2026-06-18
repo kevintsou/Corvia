@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line26">26    </a></b>	            p_efuse_bank_read_state->timeout = (status == READ_BANK_TIMEOUT);
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	            if (p_efuse_bank_read_state->valid) {
+<b><a name="line29">29    </a></b>	                //Continue reading the next bank
+<b><a name="line30">30    </a></b>	            }
+<b><a name="line31">31    </a></b>	            else {
+<b><a name="line32">32    </a></b>	                //Stop reading these banks when there's an error
+<b><a name="line33">33    </a></b>	                return 1;
+<b><a name="line34">34    </a></b>	            }
+<b><a name="line35">35    </a></b>	        }
+<b><a name="line36">36    </a></b>	    }
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	    return 0;
+<b><a name="line39">39    </a></b>	}
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	U32 check_field_valid(U32 enable_bitmap, U32 disable_bitmap)
+<b><a name="line42">42    </a></b>	{
+<b><a name="line43">43    </a></b>	    while (disable_bitmap > 0) {
+<b><a name="line44">44    </a></b>	        disable_bitmap >>= 1;
+<b><a name="line45">45    </a></b>	        enable_bitmap >>= 1;
+<b><a name="line46">46    </a></b>	    }
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    return enable_bitmap;
+<b><a name="line49">49    </a></b>	}
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	static void get_efuse_nand_setting_2nd(EFUSE_API *p_efuse_api)
+<b><a name="line52">52    </a></b>	{
+<b><a name="line53">53    </a></b>	    efuse_api_read_bank(
+<b><a name="line54">54    </a></b>	            &(p_efuse_api->efuse_nand_setting.dword[0U]),
+<b><a name="line55">55    </a></b>	            FALSE,
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line56">56    </a></b>	            EF_NAND_2ND_BANK,
+<b><a name="line57">57    </a></b>	            EF_NAND_2ND_SIZE,
+<b><a name="line58">58    </a></b>	            &(p_efuse_api->a_efuse_bank_read_state[EF_NAND_2ND_BANK]));
+<b><a name="line59">59    </a></b>	}
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	const EFUSE_NAND_SETTING *get_efuse_nand_setting(EFUSE_API *p_efuse_api)
+<b><a name="line63">63    </a></b>	{
+<b><a name="line64">64    </a></b>	    if (0U == p_efuse_api->efuse_nand_setting_read) {
+<b><a name="line65">65    </a></b>	        p_efuse_api->efuse_nand_setting_offset = EFUSE_NAND_SETTING_COUNT;
+<b><a name="line66">66    </a></b>	        //Read out 1st NAND Setting
+<b><a name="line67">67    </a></b>	        if (0U == efuse_api_read_bank(
+<b><a name="line68">68    </a></b>	                &(p_efuse_api->efuse_nand_setting.dword[0U]),
+<b><a name="line69">69    </a></b>	                FALSE,
+<b><a name="line70">70    </a></b>	                EF_NAND_BANK,
+<b><a name="line71">71    </a></b>	                EF_NAND_SIZE,
+<b><a name="line72">72    </a></b>	                &(p_efuse_api->a_efuse_bank_read_state[EF_NAND_BANK]))) {
+<b><a name="line73">73    </a></b>	            if (0U == p_efuse_api->efuse_nand_setting.nand_setting_invalid) {
+<b><a name="line74">74    </a></b>	                //Check 1st NAND Setting is valid
+<b><a name="line75">75    </a></b>	                p_efuse_api->efuse_nand_setting_offset = 0U;
+<b><a name="line76">76    </a></b>	                //Record that the eFuse value has been read correctly
+<b><a name="line77">77    </a></b>	                p_efuse_api->efuse_nand_setting_read = 1U;
+<b><a name="line78">78    </a></b>	            }
+<b><a name="line79">79    </a></b>	            else {
+<b><a name="line80">80    </a></b>	                //1st NAND Setting Invalid
+<b><a name="line81">81    </a></b>	                //Try Read 2nd NAND Setting
+<b><a name="line82">82    </a></b>	                get_efuse_nand_setting_2nd(p_efuse_api);
+<b><a name="line83">83    </a></b>	            }
+<b><a name="line84">84    </a></b>	        }
+<b><a name="line85">85    </a></b>	        else {
+<b><a name="line86">86    </a></b>	            //1st NAND Setting Read Out Fail
+</pre></body>
+</html>

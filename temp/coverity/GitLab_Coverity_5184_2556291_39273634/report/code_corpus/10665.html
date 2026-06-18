@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3150">3150    </a></b>	    U32 not_checked_copy_bitmap;
+<b><a name="line3151">3151    </a></b>	
+<b><a name="line3152">3152    </a></b>	    //Indicates which Copies have not been checked in the loops
+<b><a name="line3153">3153    </a></b>	    U32 loop_copy_bitmap;
+<b><a name="line3154">3154    </a></b>	    U8 loop_per_round;
+<b><a name="line3155">3155    </a></b>	    U8 copy, copy_max;
+<b><a name="line3156">3156    </a></b>	
+<b><a name="line3157">3157    </a></b>	    //Indicates which Channels are being used in this loop
+<b><a name="line3158">3158    </a></b>	    U32 channel_bitmap;
+<b><a name="line3159">3159    </a></b>	    //Indicates which Parallels are being read in this loop
+<b><a name="line3160">3160    </a></b>	    U32 reading_copy_bitmap;
+<b><a name="line3161">3161    </a></b>	    //Indicates which channels are being restore read offset.
+<b><a name="line3162">3162    </a></b>	    U32 res_read_offset_ch_bitmap;
+<b><a name="line3163">3163    </a></b>	
+<b><a name="line3164">3164    </a></b>	    U8 backup, backup_max;
+<b><a name="line3165">3165    </a></b>	
+<b><a name="line3166">3166    </a></b>	    U32 data_address, spare_address;
+<b><a name="line3167">3167    </a></b>	
+<b><a name="line3168">3168    </a></b>	    U64 a_fsa[CODE_POINTER_BLOCK_MAX_VALID_COUNT];
+<b><a name="line3169">3169    </a></b>	    U8 a_channel[CODE_POINTER_BLOCK_MAX_VALID_COUNT];
+<b><a name="line3170">3170    </a></b>	    FIP_READ_PARAM_STRUCT a_fip_read_param[CODE_POINTER_BLOCK_MAX_VALID_COUNT];
+<b><a name="line3171">3171    </a></b>	    U32 command_status;
+<b><a name="line3172">3172    </a></b>	
+<b><a name="line3173">3173    </a></b>	    //	HAL_DMAC_CMD_RESULT dmac_cmd_result, tmp;
+<b><a name="line3174">3174    </a></b>	
+<b><a name="line3175">3175    </a></b>	    res_read_offset_ch_bitmap = 0U;
+<b><a name="line3176">3176    </a></b>	    nand_retry_max = p_load_code_status->parameters.nand_retry_count;
+<b><a name="line3177">3177    </a></b>	
+<b><a name="line3178">3178    </a></b>	    backup_max = p_code_pointer_info->code_pointer_per_page;
+<b><a name="line3179">3179    </a></b>	    if (FLH_MAX_LC_PER_PAGE < backup_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "4U < backup_max", taking true branch.</font>
+<b><a name="line3180">3180    </a></b>	        //Sanitize to prevent accessing out of bound array elements in FIP_READ_PARAM_STRUCT
+<b><a name="line3181">3181    </a></b>	        //This is because information coming from NAND could be anything
+<b><a name="line3182">3182    </a></b>	        //Even though this has already been checked to be valid outside, sanitize to make sure
+<b><a name="line3183">3183    </a></b>	        backup_max = FLH_MAX_LC_PER_PAGE;
+<b><a name="line3184">3184    </a></b>	    }
+<b><a name="line3185">3185    </a></b>	
+<b><a name="line3186">3186    </a></b>	    //Obtain the page this Code Pointer Offset is located in
+<b><a name="line3187">3187    </a></b>	    code_pointer_page =
+<b><a name="line3188">3188    </a></b>	        p_code_pointer_info->wordline_offset +
+<b><a name="line3189">3189    </a></b>	        (code_pointer_offset * (p_code_pointer_info->skip_wordline + p_code_pointer_info->nand_program_unit)) +
+<b><a name="line3190">3190    </a></b>	        p_code_pointer_info->skip_wordline;
+<b><a name="line3191">3191    </a></b>	
+<b><a name="line3192">3192    </a></b>	    copy_max = p_code_pointer_block_status->code_pointer_block_copy_count;
+<b><a name="line3193">3193    </a></b>	
+<b><a name="line3194">3194    </a></b>	    Dump_ScanID(tprintf("Code Pointer Offset %d ", code_pointer_offset))
+<b><a name="line3195">3195    </a></b>	    Dump_ScanID(tprintf("@ Wordline %d, with %d Copies * %d Backups", (U16)code_pointer_page, copy_max, backup_max))
+<b><a name="line3196">3196    </a></b>	
+<b><a name="line3197">3197    </a></b>	    //Bitmap to indicate which Code Pointer Blocks have a valid a Code Pointer
+<b><a name="line3198">3198    </a></b>	    code_pointer_valid_copy_bitmap = 0;
+<b><a name="line3199">3199    </a></b>	
+<b><a name="line3200">3200    </a></b>	    //Bitmap to indicate which Copy of the Code Pointer Offset has not been checked yet
+<b><a name="line3201">3201    </a></b>	    not_checked_copy_bitmap = ((1 << copy_max) - 1);
+<b><a name="line3202">3202    </a></b>	
+<b><a name="line3203">3203    </a></b>	    for (nand_retry = 0; nand_retry < nand_retry_max; nand_retry++) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "nand_retry < nand_retry_max", taking true branch.</font>
+<b><a name="line3204">3204    </a></b>	        //Indicates which Code Pointer Block copies have not been checked by the loops
+<b><a name="line3205">3205    </a></b>	        loop_copy_bitmap = not_checked_copy_bitmap;
+<b><a name="line3206">3206    </a></b>	        if((0 == ((gLRURetryLevel + nand_retry) % nand_retry_max)) && (0 != gLRURetryLevel))
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (gLRURetryLevel + nand_retry) % nand_retry_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != gLRURetryLevel", taking true branch.</font>
+<b><a name="line3207">3207    </a></b>	        {
+<b><a name="line3208">3208    </a></b>	            scan_bitmap_restore_read_offset(gLRURetryLevel, res_read_offset_ch_bitmap);
+<b><a name="line3209">3209    </a></b>	        }
+<b><a name="line3210">3210    </a></b>	
+<b><a name="line3211">3211    </a></b>	        //A loop consists of NAND reads from different channels
+<b><a name="line3212">3212    </a></b>	        //NAND reads from the same channel is separated into different loops.
+<b><a name="line3213">3213    </a></b>	        //The maximum possible number of loops is the same as the maximum possible
+<b><a name="line3214">3214    </a></b>	        //number of copies of the Code Pointer Blocks,
+<b><a name="line3215">3215    </a></b>	        for (loop_per_round = 0; loop_per_round < copy_max; loop_per_round++) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "loop_per_round < copy_max", taking true branch.</font>
+<b><a name="line3216">3216    </a></b>	
+<b><a name="line3217">3217    </a></b>	            Dump_ScanID(tprintf("Loop %d", loop_per_round));
+<b><a name="line3218">3218    </a></b>	
+<b><a name="line3219">3219    </a></b>	            //Indicate which copies are being read in this loop
+<b><a name="line3220">3220    </a></b>	            reading_copy_bitmap = 0;
+<b><a name="line3221">3221    </a></b>	            //Indicate which channels are being read in this loop
+<b><a name="line3222">3222    </a></b>	            channel_bitmap = 0;
+<b><a name="line3223">3223    </a></b>	
+<b><a name="line3224">3224    </a></b>	            //Start the Read Trigger
+<b><a name="line3225">3225    </a></b>	            for (copy = 0; copy < copy_max; copy++) {
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(26) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking false branch.</font>
+<b><a name="line3226">3226    </a></b>	                //Skip checking this copy if it has been checked in a previous loop
+<b><a name="line3227">3227    </a></b>	                if (0 == (loop_copy_bitmap & (1 << copy))) {
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (loop_copy_bitmap & (1 << copy))", taking false branch.</font>
+<b><a name="line3228">3228    </a></b>	                    continue;
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line3229">3229    </a></b>	                }
+<b><a name="line3230">3230    </a></b>	
+<b><a name="line3231">3231    </a></b>	                //Use the ID Table FSA as the base, but remove the Node and Page Component
+<b><a name="line3232">3232    </a></b>	                a_fsa[copy] = p_code_pointer_block_status->a_id_table_fsa[copy] &
+<b><a name="line3233">3233    </a></b>	                    ~(((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift) |
+<b><a name="line3234">3234    </a></b>	                        ((U64)(gFplApiStruct.addr_rule->rule_page.mask) << gFplApiStruct.addr_rule->rule_page.shift));
+<b><a name="line3235">3235    </a></b>	                //Add in the Code Pointer Page
+<b><a name="line3236">3236    </a></b>	                a_fsa[copy] = a_fsa[copy] |
+<b><a name="line3237">3237    </a></b>	                    ((U64)(code_pointer_page) << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line3238">3238    </a></b>	                a_channel[copy] = ((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask);
+<b><a name="line3239">3239    </a></b>	
+<b><a name="line3240">3240    </a></b>	                //Data and Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line3241">3241    </a></b>	                data_address = data_buffer + (a_channel[copy] * (FLH_MAX_LC_PER_PAGE << LC_BYTE_SIZE_SHIFT));
+<b><a name="line3242">3242    </a></b>	                spare_address = spare_buffer + (a_channel[copy] * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT));
+<b><a name="line3243">3243    </a></b>	
+<b><a name="line3244">3244    </a></b>	                //Skip this channel if it is already being read by another copy
+<b><a name="line3245">3245    </a></b>	                if (0 == (channel_bitmap & (1 << a_channel[copy]))) {
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (channel_bitmap & (1 << a_channel[copy]))", taking true branch.</font>
+<b><a name="line3246">3246    </a></b>	                    //This copy is checked and can be skipped in subsequent loops
+<b><a name="line3247">3247    </a></b>	                    loop_copy_bitmap &= ~(1 << copy);
+<b><a name="line3248">3248    </a></b>	
+<b><a name="line3249">3249    </a></b>	                    Dump_ScanID(tprintf("Read Trigger Copy %d(Channel %d) NAND Retry %d, FSA %L, block %d, plane %d, page %d", copy, a_channel[copy], nand_retry, a_fsa[copy], (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line3250">3250    </a></b>	
+<b><a name="line3251">3251    </a></b>	                    a_fip_read_param[copy].nand_addr.all = a_fsa[copy];
+<b><a name="line3252">3252    </a></b>	                    for (backup = 0; backup < backup_max; backup++) {
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(21) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking false branch.</font>
+<b><a name="line3253">3253    </a></b>	                        a_fip_read_param[copy].buf_addr[backup] = data_address + (backup << LC_BYTE_SIZE_SHIFT);
+<b><a name="line3254">3254    </a></b>	                        a_fip_read_param[copy].spr_addr[backup] = spare_address + (backup << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><a name="line3255">3255    </a></b>	                    }
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(20) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line3256">3256    </a></b>	                    a_fip_read_param[copy].node_count = 1;
+<b><a name="line3257">3257    </a></b>	
+<b><a name="line3258">3258    </a></b>	                    command_status = fip_api_read_cmd(&(a_fip_read_param[copy]), ((gLRURetryLevel + nand_retry) % nand_retry_max));
+<b><a name="line3259">3259    </a></b>	                    if (0 == (command_status & (HAL_STATUS_SET_FEAT_DAT_CMP_FAIL | HAL_STATUS_TIMEOUT))) {
+<b><font face="Arial"; size="3"; color="#F00000">(22) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (command_status & (6UL /* (1UL << 2) | (1UL << 1) */))", taking true branch.</font>
+<b><a name="line3260">3260    </a></b>	                        //Mark this channel as being read
+<b><a name="line3261">3261    </a></b>	                        channel_bitmap |= (1 << a_channel[copy]);
+<b><a name="line3262">3262    </a></b>	
+<b><a name="line3263">3263    </a></b>	                        //Mark this copy as being read
+<b><a name="line3264">3264    </a></b>	                        reading_copy_bitmap |= (1 << copy);
+<b><a name="line3265">3265    </a></b>	
+<b><a name="line3266">3266    </a></b>	                        res_read_offset_ch_bitmap |= (1 << a_channel[copy]);
+<b><a name="line3267">3267    </a></b>	                    }
+<b><font face="Arial"; size="3"; color="#F00000">(23) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line3268">3268    </a></b>	                    else {
+<b><a name="line3269">3269    </a></b>	
+<b><a name="line3270">3270    </a></b>	                        Dump_ScanID(tprintf("!!!Copy %d (FSA %L) Read Trigger Error, status = %x", copy, a_fip_read_param[copy].nand_addr.all, command_status));
+<b><a name="line3271">3271    </a></b>	                        sal_log_tracker_set(sal_locate(0xE8, TYPE_LOAD_CODE_ERR));
+<b><a name="line3272">3272    </a></b>	                        sal_log_info_char('T');
+<b><a name="line3273">3273    </a></b>	                        sal_log_info_num(a_fip_read_param[copy].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line3274">3274    </a></b>	
+<b><a name="line3275">3275    </a></b>	                        //TODO go through all fip_status usages
+<b><a name="line3276">3276    </a></b>	                        if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line3277">3277    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[copy]);
+<b><a name="line3278">3278    </a></b>	                        }
+<b><a name="line3279">3279    </a></b>	                        if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line3280">3280    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << a_channel[copy]);
+<b><a name="line3281">3281    </a></b>	                        }
+<b><a name="line3282">3282    </a></b>	                    }
+<b><a name="line3283">3283    </a></b>	                }
+<b><font face="Arial"; size="3"; color="#F00000">(24) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line3284">3284    </a></b>	                else {
+<b><a name="line3285">3285    </a></b>	
+<b><a name="line3286">3286    </a></b>	                    Dump_ScanID(tprintf("Copy %d FSA %L (Channel %d) in use: bitmap %x", copy, a_fsa[copy], a_channel[copy], channel_bitmap));
+<b><a name="line3287">3287    </a></b>	                }
+<b><a name="line3288">3288    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(25) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line3289">3289    </a></b>	
+<b><a name="line3290">3290    </a></b>	            //Check the result of the Read Trigger
+<b><a name="line3291">3291    </a></b>	            for (copy = 0; copy < copy_max; copy++) {
+<b><font face="Arial"; size="3"; color="#F00000">(27) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(30) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(33) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking false branch.</font>
+<b><a name="line3292">3292    </a></b>	                //Skip copies that are not being read
+<b><a name="line3293">3293    </a></b>	                if (0 == (reading_copy_bitmap & (1 << copy))) {
+<b><font face="Arial"; size="3"; color="#F00000">(28) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(31) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><a name="line3294">3294    </a></b>	                    continue;
+<b><font face="Arial"; size="3"; color="#F00000">(29) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(32) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line3295">3295    </a></b>	                }
+<b><a name="line3296">3296    </a></b>	
+<b><a name="line3297">3297    </a></b>	                command_status = fip_api_chk_status(a_channel[copy], (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line3298">3298    </a></b>	                //FIP_DBG_INFO_PRINTF("  row address:0x%08x", hal_fip_get_row_address(copy));
+<b><a name="line3299">3299    </a></b>	                //FIP_DBG_INFO_PRINTF("  column address:0x%04x\r\n", hal_fip_get_column_address(copy));
+<b><a name="line3300">3300    </a></b>	                //Receive the cq result of the Read Trigger
+<b><a name="line3301">3301    </a></b>	                //command_status |= fip_api_get_cq_result(&a_fip_read_param[copy], a_channel[copy]);
+<b><a name="line3302">3302    </a></b>	
+<b><a name="line3303">3303    </a></b>	                if (0 == (command_status & HAL_STATUS_TIMEOUT)) {
+<b><a name="line3304">3304    </a></b>	                    //Do nothing, the Read Trigger command finished correctly
+<b><a name="line3305">3305    </a></b>	                }
+<b><a name="line3306">3306    </a></b>	                else {
+<b><a name="line3307">3307    </a></b>	                    //The Read Trigger has timeout
+<b><a name="line3308">3308    </a></b>	                    //No subsequent actions should be performed as it will most likely timeout as well
+<b><a name="line3309">3309    </a></b>	                    reading_copy_bitmap &= ~(1 << copy);
+<b><a name="line3310">3310    </a></b>	
+<b><a name="line3311">3311    </a></b>	                    Dump_ScanID(tprintf("!!!Copy %d (FSA %L) Read Trigger Timeout %x", copy, a_fip_read_param[copy].nand_addr.all, command_status));
+<b><a name="line3312">3312    </a></b>	                    sal_log_tracker_set(sal_locate(0xE9, TYPE_LOAD_CODE_ERR));
+<b><a name="line3313">3313    </a></b>	                    sal_log_info_char('T');
+<b><a name="line3314">3314    </a></b>	                    sal_log_info_num(a_fip_read_param[copy].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line3315">3315    </a></b>	
+<b><a name="line3316">3316    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[copy]);
+<b><a name="line3317">3317    </a></b>	                }
+<b><a name="line3318">3318    </a></b>	            }
+<b><a name="line3319">3319    </a></b>	
+<b><a name="line3320">3320    </a></b>	            //Trigger the data out node by node and check for correctness
+<b><a name="line3321">3321    </a></b>	            for (backup = 0; backup < backup_max; backup++) {
+<b><font face="Arial"; size="3"; color="#F00000">(34) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><a name="line3322">3322    </a></b>	                for (copy = 0; copy < copy_max; copy++) {
+<b><font face="Arial"; size="3"; color="#F00000">(35) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(38) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(41) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking false branch.</font>
+<b><a name="line3323">3323    </a></b>	                    //Skip copies that are not being read
+<b><a name="line3324">3324    </a></b>	                    if (0 == (reading_copy_bitmap & (1 << copy))) {
+<b><font face="Arial"; size="3"; color="#F00000">(36) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(39) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><a name="line3325">3325    </a></b>	                        continue;
+<b><font face="Arial"; size="3"; color="#F00000">(37) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(40) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line3326">3326    </a></b>	                    }
+<b><a name="line3327">3327    </a></b>	
+<b><a name="line3328">3328    </a></b>	                    a_fip_read_param[copy].nand_addr.all = a_fsa[copy] | ((U64)backup << gFplApiStruct.addr_rule->rule_node.shift);
+<b><a name="line3329">3329    </a></b>	
+<b><a name="line3330">3330    </a></b>	                    Dump_ScanID(tprintf("DMA Copy %d backup %d FSA %L %d Nodes:", copy, backup, a_fip_read_param[copy].nand_addr.all, a_fip_read_param[copy].node_count));
+<b><a name="line3331">3331    </a></b>	                    Dump_ScanID(tprintf("Data @ %x, Spare @ %x ", a_fip_read_param[copy].buf_addr[backup], a_fip_read_param[copy].spr_addr[backup]));
+<b><a name="line3332">3332    </a></b>	
+<b><a name="line3333">3333    </a></b>	                    fip_api_read_dma(&a_fip_read_param[copy]);
+<b><a name="line3334">3334    </a></b>	                }
+<b><a name="line3335">3335    </a></b>	
+<b><a name="line3336">3336    </a></b>	                for (copy = 0; copy < copy_max; copy++) {
+<b><font face="Arial"; size="3"; color="#F00000">(42) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(45) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(48) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "copy < copy_max", taking true branch.</font>
+<b><a name="line3337">3337    </a></b>	                    //Skip copies that are not being read
+<b><a name="line3338">3338    </a></b>	                    if (0 == (reading_copy_bitmap & (1 << copy))) {
+<b><font face="Arial"; size="3"; color="#F00000">(43) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(46) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(49) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_copy_bitmap & (1 << copy))", taking false branch.</font>
+<b><a name="line3339">3339    </a></b>	                        continue;
+<b><font face="Arial"; size="3"; color="#F00000">(44) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(47) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line3340">3340    </a></b>	                    }
+<b><a name="line3341">3341    </a></b>	                    // receive the cq result of the read dma
+<b><a name="line3342">3342    </a></b>	                    command_status = fip_api_get_cq_result(&a_fip_read_param[copy], a_channel[copy]);
+<b><a name="line3343">3343    </a></b>	
+<b><a name="line3344">3344    </a></b>	                    if (0 == command_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(50) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == command_status", taking true branch.</font>
+<b><a name="line3345">3345    </a></b>	                        if (0U == (a_fip_read_param[copy].error_map[backup] & FIP_READ_ERROR_MASK)) {
+<b><font face="Arial"; size="3"; color="#F00000">(51) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (a_fip_read_param[copy].error_map[backup] & (1441792UL /* ((1UL << 17) | (1UL << 18)) | (1UL << 20) */))", taking false branch.</font>
+<b><a name="line3346">3346    </a></b>	                            //The other NAND retries do not need to be checked since data is obtained
+<b><a name="line3347">3347    </a></b>	                            not_checked_copy_bitmap &= ~(1 << copy);
+<b><a name="line3348">3348    </a></b>	
+<b><a name="line3349">3349    </a></b>	                            //The other backups do not need to be read since
+<b><a name="line3350">3350    </a></b>	                            //the type of data in this node will reflect the rest of the page
+<b><a name="line3351">3351    </a></b>	                            reading_copy_bitmap &= ~(1 << copy);
+<b><a name="line3352">3352    </a></b>	
+<b><a name="line3353">3353    </a></b>	                            if (PAGE_MARK_CODE_POINTER == (((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[copy].spr_addr[backup]))->page_mark & 0xFF)) {
+<b><a name="line3354">3354    </a></b>	                                if (TABLE_MARK_CODE_POINTER == ((CODE_POINTER_HEADER *)(a_fip_read_param[copy].buf_addr[backup]))->code_pointer_mark) {
+<b><a name="line3355">3355    </a></b>	
+<b><a name="line3356">3356    </a></b>	                                    Dump_ScanID(tprintf("Copy %d Offset %d is Code Pointer", copy, code_pointer_offset));
+<b><a name="line3357">3357    </a></b>	
+<b><a name="line3358">3358    </a></b>	                                    //If this is the first valid Code Pointer found, copy it to the destination
+<b><a name="line3359">3359    </a></b>	                                    if ((0 == code_pointer_valid_copy_bitmap) && (NULL != p_code_pointer)) {
+<b><a name="line3360">3360    </a></b>	                                        phal_dmac_copy((U32)p_code_pointer, a_fip_read_param[copy].buf_addr[backup], LC_BYTE_SIZE, TRUE, TRUE);
+<b><a name="line3361">3361    </a></b>	                                    }
+<b><a name="line3362">3362    </a></b>	
+<b><a name="line3363">3363    </a></b>	                                    if ((0 != backup) || (0 != nand_retry)) {
+<b><a name="line3364">3364    </a></b>	                                        //The Code Pointers have errors and should be rebuilt
+<b><a name="line3365">3365    </a></b>	                                        p_code_pointer_block_status->error.code_pointer |= CODE_POINTER_BLOCK_ERROR_CODE_POINTER_REBUILD_REQUIRED;
+<b><a name="line3366">3366    </a></b>	                                        Dump_ScanID(tprintf("!!!Rebuild required: Backup %d(!= %d), NAND Retry %d(!= %d)", backup, 0, nand_retry, 0))
+<b><a name="line3367">3367    </a></b>	                                    }
+<b><a name="line3368">3368    </a></b>	
+<b><a name="line3369">3369    </a></b>	                                    code_pointer_valid_copy_bitmap |= (1 << copy);
+<b><a name="line3370">3370    </a></b>	                                }
+<b><a name="line3371">3371    </a></b>	                                else {
+<b><a name="line3372">3372    </a></b>	                                    sal_log_tracker_set(sal_locate(0xEA, TYPE_LOAD_CODE_ERR));
+<b><a name="line3373">3373    </a></b>	                                    Dump_ScanID(tprintf("!!!Copy %d (FSA %L)", copy, a_fip_read_param[copy].nand_addr.all))
+<b><a name="line3374">3374    </a></b>	                                    Dump_ScanID(tprintf("Incorrect Marking %x (!=%x)", ((CODE_POINTER_HEADER *)(a_fip_read_param[copy].buf_addr[backup]))->code_pointer_mark, TABLE_MARK_CODE_POINTER))
+<b><a name="line3375">3375    </a></b>	                                }
+<b><a name="line3376">3376    </a></b>	                            }
+<b><a name="line3377">3377    </a></b>	                            else {
+<b><a name="line3378">3378    </a></b>	                                sal_log_tracker_set(sal_locate(0xEB, TYPE_LOAD_CODE_ERR));
+<b><a name="line3379">3379    </a></b>	                                Dump_ScanID(tprintf("!!!Copy %d (FSA %L) ", copy, a_fip_read_param[copy].nand_addr.all))
+<b><a name="line3380">3380    </a></b>	                                Dump_ScanID(tprintf("Incorrect Spare %x (!=%x) ", ((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[copy].spr_addr[backup]))->page_mark & 0xFF, PAGE_MARK_CODE_POINTER))
+<b><a name="line3381">3381    </a></b>	                            }
+<b><a name="line3382">3382    </a></b>	                        }
+<b><a name="line3383">3383    </a></b>	                        else if (a_fip_read_param[copy].error_map[backup] & FIP_READ_EMPTY_ERROR) {
+<b><font face="Arial"; size="3"; color="#F00000">(52) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "a_fip_read_param[copy].error_map[backup] & (131072UL /* 1UL << 17 */)", taking true branch.</font>
+<b><a name="line3384">3384    </a></b>	
+<b><a name="line3385">3385    </a></b>	                            Dump_ScanID(tprintf("Copy %d Empty", copy));
+<b><a name="line3386">3386    </a></b>	                            sal_log_tracker_set(sal_locate(0xEC, TYPE_LOAD_CODE_ERR));
+<b><font face="Arial"; size="3"; color="#F00000">(53) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0x83 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "131", is not allowed.  The shift amount is 24.</font>
+<b><a name="line3387">3387    </a></b>	                            //The other backups do not need to be read since
+<b><a name="line3388">3388    </a></b>	                            //one empty node would mean that the entire page is empty
+<b><a name="line3389">3389    </a></b>	                            reading_copy_bitmap &= ~(1 << copy);
+<b><a name="line3390">3390    </a></b>	
+<b><a name="line3391">3391    </a></b>	                            //The other NAND retries do not need to be read since
+<b><a name="line3392">3392    </a></b>	                            //it has been determined that this page is empty
+<b><a name="line3393">3393    </a></b>	                            not_checked_copy_bitmap &= ~(1 << copy);
+<b><a name="line3394">3394    </a></b>	                        }
+<b><a name="line3395">3395    </a></b>	                        else if (a_fip_read_param[copy].error_map[backup] & FIP_READ_CRC_ERROR) {
+<b><a name="line3396">3396    </a></b>	                            sal_log_tracker_set(sal_locate(0xED, TYPE_LOAD_CODE_ERR));
+<b><a name="line3397">3397    </a></b>	                            Dump_ScanID(tprintf("!!!Copy %d (FSA %L) CRC %x", copy, a_fip_read_param[copy].nand_addr.all, a_fip_read_param[copy].error_map[backup]));
+<b><a name="line3398">3398    </a></b>	                            sal_log_info_char('U');
+<b><a name="line3399">3399    </a></b>	                            sal_log_info_num(a_fip_read_param[copy].nand_addr.all);
+<b><a name="line3400">3400    </a></b>	
+<b><a name="line3401">3401    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_CODE_POINTER_UECC] |= (1 << a_channel[copy]);
+<b><a name="line3402">3402    </a></b>	                        }
+<b><a name="line3403">3403    </a></b>	                        else {
+<b><a name="line3404">3404    </a></b>	                            sal_log_tracker_set(sal_locate(0xEE, TYPE_LOAD_CODE_ERR));
+<b><a name="line3405">3405    </a></b>	                            Dump_ScanID(tprintf("!!!Copy %d (FSA %L) UECC %x", copy, a_fip_read_param[copy].nand_addr.all, a_fip_read_param[copy].error_map[backup]));
+<b><a name="line3406">3406    </a></b>	                            sal_log_info_char('U');
+<b><a name="line3407">3407    </a></b>	                            sal_log_info_num(a_fip_read_param[copy].nand_addr.all);
+<b><a name="line3408">3408    </a></b>	
+<b><a name="line3409">3409    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_CODE_POINTER_UECC] |= (1 << a_channel[copy]);
+<b><a name="line3410">3410    </a></b>	                        }
+<b><a name="line3411">3411    </a></b>	                    }
+<b><a name="line3412">3412    </a></b>	                    else {
+<b><a name="line3413">3413    </a></b>	                        //The other backups do not need to be read since
+<b><a name="line3414">3414    </a></b>	                        //they will most likely timeout as well
+<b><a name="line3415">3415    </a></b>	                        reading_copy_bitmap &= ~(1 << copy);
+<b><a name="line3416">3416    </a></b>	                        sal_log_tracker_set(sal_locate(0xEF, TYPE_LOAD_CODE_ERR));
+<b><a name="line3417">3417    </a></b>	                        Dump_ScanID(tprintf("!!!Copy %d (Channel %d) DMA Timeout", copy, (U16)((U32)(a_fip_read_param[copy].nand_addr.all >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask)));
+</pre></body>
+</html>

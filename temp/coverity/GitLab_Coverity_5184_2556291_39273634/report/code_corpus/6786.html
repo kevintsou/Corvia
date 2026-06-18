@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line968">968    </a></b>	
+<b><a name="line969">969    </a></b>	    default:
+<b><a name="line970">970    </a></b>	        Dump_NVME(tprintf("      >> get feature: Invalid Field.\n\r"));
+<b><a name="line971">971    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line972">972    </a></b>	        break;
+<b><a name="line973">973    </a></b>	    }
+<b><a name="line974">974    </a></b>	}
+<b><a name="line975">975    </a></b>	
+<b><a name="line976">976    </a></b>	static void nvme_abort(  HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line977">977    </a></b>	{
+<b><a name="line978">978    </a></b>	    Dump_NVME(tprintf("  >> abort.\n\r"));
+<b><a name="line979">979    </a></b>	    host->hcpl.cmd_spec |= 0x1; // according to spec, if cmd is not aborted for any reason
+<b><a name="line980">980    </a></b>	}
+<b><a name="line981">981    </a></b>	
+<b><a name="line982">982    </a></b>	static void nvme_async_event(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line983">983    </a></b>	{
+<b><a name="line984">984    </a></b>	
+<b><a name="line985">985    </a></b>	    Dump_NVME(tprintf("  >> AE.\n\r"));
+<b><a name="line986">986    </a></b>	
+<b><a name="line987">987    </a></b>	    U8 i;
+<b><a name="line988">988    </a></b>	    // AERL = 3(0's base), therefore AER limit = 3 + 1 = 4
+<b><a name="line989">989    </a></b>	    for (i = 0; i <= host->nvme_feature.aerl; i++) {
+<b><a name="line990">990    </a></b>	        if (host->host_event.aer_status[i].valid == FALSE) {
+<b><a name="line991">991    </a></b>	            host->host_event.aer_status[i].valid = TRUE;
+<b><a name="line992">992    </a></b>	            host->host_event.aer_status[i].ctag = ctag;
+<b><a name="line993">993    </a></b>	            break;
+<b><a name="line994">994    </a></b>	        }
+<b><a name="line995">995    </a></b>	    }
+<b><a name="line996">996    </a></b>	    // if reach AERL, i = 4
+<b><a name="line997">997    </a></b>	    if (i == (host->nvme_feature.aerl + 1)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "i" (unsigned) is not the same as that of the right operand "host->nvme_feature.aerl + 1"(signed).</font>
+<b><a name="line998">998    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_ASYNC_REQ_LIMIT_EXCEED);
+<b><a name="line999">999    </a></b>	    }
+<b><a name="line1000">1000    </a></b>	
+<b><a name="line1001">1001    </a></b>	}
+<b><a name="line1002">1002    </a></b>	
+<b><a name="line1003">1003    </a></b>	static U8 fw_download_chk_parm(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line1004">1004    </a></b>	{
+<b><a name="line1005">1005    </a></b>	
+<b><a name="line1006">1006    </a></b>	    U8  is_chk_pass = TRUE;
+<b><a name="line1007">1007    </a></b>	    U64 numd = host->sq_cmd.payload_opt.adm.adm_fw_img_dl.numd;
+<b><a name="line1008">1008    </a></b>	    U64 ofst = host->sq_cmd.payload_opt.adm.adm_fw_img_dl.ofst;
+<b><a name="line1009">1009    </a></b>	    U64 tot_xfer_byte_size = (numd + 1U) << 2;
+<b><a name="line1010">1010    </a></b>	    U64 byte_ofst          = (ofst << 2);
+<b><a name="line1011">1011    </a></b>	    U64 mdts_byte_size = ( (U64)1 << (NVME_MDTS + NVME_MPSMIN + 12U) );
+<b><a name="line1012">1012    </a></b>	    U64 fwug_byte_mask = LC_BYTE_SIZE_MASK;
+<b><a name="line1013">1013    </a></b>	
+<b><a name="line1014">1014    </a></b>	    if ( NVME_FWUG == 0xFF ) { // no restriction, only dw alignment is required
+<b><a name="line1015">1015    </a></b>	        fwug_byte_mask = ((U64)BIT2) - 1U; // mask = (1U << 2) - 1;
+<b><a name="line1016">1016    </a></b>	    }
+<b><a name="line1017">1017    </a></b>	    else if ( NVME_FWUG > 0 ) {
+<b><a name="line1018">1018    </a></b>	        fwug_byte_mask = ((U64)NVME_FWUG << LC_BYTE_SIZE_SHIFT) - 1U;
+<b><a name="line1019">1019    </a></b>	    }
+<b><a name="line1020">1020    </a></b>	    else { // not reported
+<b><a name="line1021">1021    </a></b>	        fwug_byte_mask = LC_BYTE_SIZE_MASK;
+<b><a name="line1022">1022    </a></b>	    }
+<b><a name="line1023">1023    </a></b>	
+<b><a name="line1024">1024    </a></b>	
+<b><a name="line1025">1025    </a></b>	    if ((NVME_MDTS > 0U) && (tot_xfer_byte_size > mdts_byte_size)) {
+<b><a name="line1026">1026    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1027">1027    </a></b>	
+<b><a name="line1028">1028    </a></b>	        is_chk_pass = FALSE;
+</pre></body>
+</html>

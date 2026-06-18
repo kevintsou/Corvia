@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1392">1392    </a></b>	        rslt = TRUE;
+<b><a name="line1393">1393    </a></b>	        break;
+<b><a name="line1394">1394    </a></b>	
+<b><a name="line1395">1395    </a></b>	    default:
+<b><a name="line1396">1396    </a></b>	        rslt = FALSE;
+<b><a name="line1397">1397    </a></b>	        break;
+<b><a name="line1398">1398    </a></b>	    }
+<b><a name="line1399">1399    </a></b>	
+<b><a name="line1400">1400    </a></b>	    return rslt;
+<b><a name="line1401">1401    </a></b>	}
+<b><a name="line1402">1402    </a></b>	
+<b><a name="line1403">1403    </a></b>	U8 chk_mctp_mi_adm_prohibit(U8 opcode)
+<b><a name="line1404">1404    </a></b>	{
+<b><a name="line1405">1405    </a></b>	    U8 rslt = FALSE;
+<b><a name="line1406">1406    </a></b>	
+<b><a name="line1407">1407    </a></b>	    switch (opcode) {
+<b><a name="line1408">1408    </a></b>	    case ADM_OPC_ABORT:
+<b><a name="line1409">1409    </a></b>	    case ADM_OPC_AER:
+<b><a name="line1410">1410    </a></b>	    case ADM_OPC_CREATE_IO_CQ:
+<b><a name="line1411">1411    </a></b>	    case ADM_OPC_CREATE_IO_SQ:
+<b><a name="line1412">1412    </a></b>	    case ADM_OPC_DELETE_IO_CQ:
+<b><a name="line1413">1413    </a></b>	    case ADM_OPC_DELETE_IO_SQ:
+<b><a name="line1414">1414    </a></b>	    case ADM_OPC_KEEP_ALIVE:
+<b><a name="line1415">1415    </a></b>	    case ADM_OPC_MI_RECEIVE:
+<b><a name="line1416">1416    </a></b>	    case ADM_OPC_MI_SEND:
+<b><a name="line1417">1417    </a></b>	        rslt = TRUE;
+<b><a name="line1418">1418    </a></b>	        break;
+<b><a name="line1419">1419    </a></b>	
+<b><a name="line1420">1420    </a></b>	    default:
+<b><a name="line1421">1421    </a></b>	        rslt = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1422">1422    </a></b>	        break;
+<b><a name="line1423">1423    </a></b>	    }
+<b><a name="line1424">1424    </a></b>	
+<b><a name="line1425">1425    </a></b>	    return rslt;
+<b><a name="line1426">1426    </a></b>	}
+<b><a name="line1427">1427    </a></b>	
+<b><a name="line1428">1428    </a></b>	U8 chk_mctp_mi_adm_need_data_out(U8 opcode)
+<b><a name="line1429">1429    </a></b>	{
+<b><a name="line1430">1430    </a></b>	    U8 rslt = FALSE;
+<b><a name="line1431">1431    </a></b>	
+<b><a name="line1432">1432    </a></b>	    switch (opcode) {
+<b><a name="line1433">1433    </a></b>	    case ADM_OPC_GET_LOG_PAGE: //(M)-(0x02)
+<b><a name="line1434">1434    </a></b>	    case ADM_OPC_IDENTIFY:     //(M)-(0x06)
+<b><a name="line1435">1435    </a></b>	    case ADM_OPC_VUC_DATA_OUT:
+<b><a name="line1436">1436    </a></b>	        rslt = TRUE;
+<b><a name="line1437">1437    </a></b>	        break;
+<b><a name="line1438">1438    </a></b>	
+<b><a name="line1439">1439    </a></b>	    default:
+<b><a name="line1440">1440    </a></b>	        rslt = FALSE;
+<b><a name="line1441">1441    </a></b>	        break;
+<b><a name="line1442">1442    </a></b>	    }
+<b><a name="line1443">1443    </a></b>	
+<b><a name="line1444">1444    </a></b>	    return rslt;
+<b><a name="line1445">1445    </a></b>	}
+<b><a name="line1446">1446    </a></b>	
+<b><a name="line1447">1447    </a></b>	void nvme_adm_cmd_handler(HOST_API_STRUCT_PTR host)
+<b><a name="line1448">1448    </a></b>	{
+<b><a name="line1449">1449    </a></b>	    Dump_NVME(tprintf(">> adm handler\n\r"));
+<b><a name="line1450">1450    </a></b>	
+<b><a name="line1451">1451    </a></b>	    U8  opc = host->sq_cmd.ct_opc;
+<b><a name="line1452">1452    </a></b>	    U16 ctag = host->hcmd.payload.info.nonuser.ctag;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line767">767    </a></b>	}
+<b><a name="line768">768    </a></b>	
+<b><a name="line769">769    </a></b>	void vuc_read_system_info(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line770">770    </a></b>	{
+<b><a name="line771">771    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line772">772    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line773">773    </a></b>	
+<b><a name="line774">774    </a></b>	    VUC_READ_SYSTEM_INFO_TEMPLATE_PTR info = (VUC_READ_SYSTEM_INFO_TEMPLATE_PTR)param->host_buf;
+<b><a name="line775">775    </a></b>	
+<b><a name="line776">776    </a></b>	    memset((void *)info, 0x00, sizeof(VUC_READ_SYSTEM_INFO_TEMPLATE));
+<b><a name="line777">777    </a></b>	
+<b><a name="line778">778    </a></b>	    //==========Sector 0: Common Info 0
+<b><a name="line779">779    </a></b>	    //vuc_read_system_info_flash_information(&(info->common_info0_content.flash_information_content));
+<b><a name="line780">780    </a></b>	    vuc_read_system_info_drive_information(&(info->common_info0_content.drive_information_content));
+<b><a name="line781">781    </a></b>	    //vuc_read_system_info_verification(&(info->common_info0_content.verification_content));
+<b><a name="line782">782    </a></b>	    //vuc_read_system_info_nand_status(&(info->common_info0_content.nand_status_content));
+<b><a name="line783">783    </a></b>	    //vuc_read_system_info_thermal_status(&(info->common_info0_content.thermal_status_content));
+<b><a name="line784">784    </a></b>	    vuc_read_system_info_security_protect(&(info->common_info0_content.security_protect_content));
+<b><a name="line785">785    </a></b>	    vuc_read_system_info_controller_and_fw_version(&(info->common_info0_content.controller_and_fw_version_content));
+<b><a name="line786">786    </a></b>	    //vuc_read_system_info_drive_status(&(info->common_info0_content.drive_status_content));
+<b><a name="line787">787    </a></b>	    info->common_info0_content.drive_information_content.drive_running_mode = 0xFFU;
+<b><a name="line788">788    </a></b>	
+<b><a name="line789">789    </a></b>	    (void)memcpy((void *)info->boot_misc, (void *)DBUF_API_BOOTCODE_MISC_BASE, sizeof(info->boot_misc));
+<b><a name="line790">790    </a></b>	    (void)memcpy((void *)info->sector7_desc.assert_code, (void *)LOG_ERROR_BASE, sizeof(info->sector7_desc.assert_code));
+<b><a name="line791">791    </a></b>	    info->sector7_desc.sim_ctrl_reg0 = hal_sim_info_0_get();
+<b><a name="line792">792    </a></b>	    info->sector7_desc.sim_ctrl_reg1 = hal_sim_info_1_get();
+<b><a name="line793">793    </a></b>	    info->sector7_desc.sim_ctrl_reg2 = hal_sim_info_2_get();
+<b><a name="line794">794    </a></b>	    if(1 == gpFwSimCtrl1Reg->fw_use_dbuf_init_done)
+<b><a name="line795">795    </a></b>	    {
+<b><a name="line796">796    </a></b>	        (void)memcpy((void *)info->sector7_desc.debug_message, (void *)DBUF_LOADER_MESSAGE_TO_BOOT_BASE, sizeof(info->sector7_desc.debug_message)); // gpLoaderErrMessage->debug_message from loader
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "134217728UL + 10485760UL" of type "unsigned long" is cast to type "void *".</font>
+<b><a name="line797">797    </a></b>	    }
+<b><a name="line798">798    </a></b>	
+<b><a name="line799">799    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line800">800    </a></b>	}
+<b><a name="line801">801    </a></b>	
+<b><a name="line802">802    </a></b>	#define DB_VUC_GET_STATUS               ((1) && DB_FTL_VENDOR)
+<b><a name="line803">803    </a></b>	void vuc_get_status(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line804">804    </a></b>	{
+<b><a name="line805">805    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line806">806    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line807">807    </a></b>	
+<b><a name="line808">808    </a></b>	    VUC_GET_STATUS_TEMPLATE_PTR temp = (VUC_GET_STATUS_TEMPLATE_PTR)param->host_buf;
+<b><a name="line809">809    </a></b>	
+<b><a name="line810">810    </a></b>	    temp->op             = param->last_sq.opc;
+<b><a name="line811">811    </a></b>	    temp->feature        = param->last_sq.feature;
+<b><a name="line812">812    </a></b>	    temp->progress       = param->progress;
+<b><a name="line813">813    </a></b>	    temp->status         = param->status;
+<b><a name="line814">814    </a></b>	    temp->identify       = IDFY_BOOT;
+<b><a name="line815">815    </a></b>	    temp->sub_feature    = param->last_sq.sub_feature;
+<b><a name="line816">816    </a></b>	    temp->error_number   = param->error_number;
+<b><a name="line817">817    </a></b>	    temp->error_type     = param->error_type;
+<b><a name="line818">818    </a></b>	    //temp->error_feature  = param->sq->feature;
+<b><a name="line819">819    </a></b>	    temp->ap_key_enable  = param->ap_key_enable;
+<b><a name="line820">820    </a></b>	#if DB_VUC_GET_STATUS
+<b><a name="line821">821    </a></b>	    Dump_Vendor(tprintf("\n\r op: 0x%x",         temp->op));
+<b><a name="line822">822    </a></b>	    Dump_Vendor(tprintf(", feature: 0x%x",       temp->feature));
+<b><a name="line823">823    </a></b>	    Dump_Vendor(tprintf(", progress: %d",        temp->progress));
+<b><a name="line824">824    </a></b>	    Dump_Vendor(tprintf(", status: 0x%x",        temp->status));
+<b><a name="line825">825    </a></b>	    Dump_Vendor(tprintf(", identify: %d",        temp->identify));
+<b><a name="line826">826    </a></b>	    Dump_Vendor(tprintf(", sub_feature: 0x%x",   temp->sub_feature));
+<b><a name="line827">827    </a></b>	    Dump_Vendor(tprintf(", error_number: 0x%x",  temp->error_number));
+</pre></body>
+</html>

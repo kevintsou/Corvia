@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8493">8493    </a></b>	    ((U8 *)(U32)msg_addr)[0x2A] = 0x02; // algorithm_settings
+<b><a name="line8494">8494    </a></b>	    ((U8 *)(U32)msg_addr)[0x2B] = 0x01; // code_sign_finish
+<b><a name="line8495">8495    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr + 0x60), (void *)a_record_key_information, 0x10U); // 0x60~0x6f: a_record_key_information
+<b><a name="line8496">8496    </a></b>	    (void)memcpy((void *)(U32 *)(msg_addr + 0x70), (void *)a_timestamp, 0x10U); // 0x70~0x7f: a_timestamp
+<b><a name="line8497">8497    </a></b>	}
+<b><a name="line8498">8498    </a></b>	
+<b><a name="line8499">8499    </a></b>	#if (KAT_AES_EN || KAT_SM4_EN)
+<b><a name="line8500">8500    </a></b>	void sec_aesofl_kat_init_param(SEC_AESOFL_PARAMS_T_PTR aesofl_param, U8 pat_idx, U32 ptx_addr, U32 ctx_addr, U32 kat_tag_addr, U8 is_sm4)
+<b><a name="line8501">8501    </a></b>	{
+<b><a name="line8502">8502    </a></b>	    const SEC_AES_KAT_PATTERN *pattern = NULL;
+<b><a name="line8503">8503    </a></b>	    const U8 gubKatPlain64B_0[64] = {
+<b><a name="line8504">8504    </a></b>	        0x6BU, 0xC1U, 0xBEU, 0xE2U, 0x2EU, 0x40U, 0x9FU, 0x96U, 0xE9U, 0x3DU, 0x7EU, 0x11U, 0x73U, 0x93U, 0x17U, 0x2AU,
+<b><a name="line8505">8505    </a></b>	        0xAEU, 0x2DU, 0x8AU, 0x57U, 0x1EU, 0x03U, 0xACU, 0x9CU, 0x9EU, 0xB7U, 0x6FU, 0xACU, 0x45U, 0xAFU, 0x8EU, 0x51U,
+<b><a name="line8506">8506    </a></b>	        0x30U, 0xC8U, 0x1CU, 0x46U, 0xA3U, 0x5CU, 0xE4U, 0x11U, 0xE5U, 0xFBU, 0xC1U, 0x19U, 0x1AU, 0x0AU, 0x52U, 0xEFU,
+<b><a name="line8507">8507    </a></b>	        0xF6U, 0x9FU, 0x24U, 0x45U, 0xDFU, 0x4FU, 0x9BU, 0x17U, 0xADU, 0x2BU, 0x41U, 0x7BU, 0xE6U, 0x6CU, 0x37U, 0x10U
+<b><a name="line8508">8508    </a></b>	    };
+<b><a name="line8509">8509    </a></b>	
+<b><a name="line8510">8510    </a></b>	    if (is_sm4 == TRUE) {
+<b><a name="line8511">8511    </a></b>	#if KAT_SM4_EN
+<b><a name="line8512">8512    </a></b>	        pattern = &sec_sm4_xts_pat_1;
+<b><a name="line8513">8513    </a></b>	        (void)memset((void *)(U8 *)ptx_addr, 0x44, pattern->len);
+<b><a name="line8514">8514    </a></b>	#else
+<b><a name="line8515">8515    </a></b>	        return;
+<b><a name="line8516">8516    </a></b>	#endif
+<b><a name="line8517">8517    </a></b>	    }
+<b><a name="line8518">8518    </a></b>	    else {
+<b><a name="line8519">8519    </a></b>	#if KAT_AES_EN
+<b><a name="line8520">8520    </a></b>	        pattern = sec_aes_kat_patterns[pat_idx];
+<b><a name="line8521">8521    </a></b>	
+<b><a name="line8522">8522    </a></b>	        if(pat_idx == KATCBC256B_64B_PAT_IDX)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "pat_idx" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line8523">8523    </a></b>	        {
+<b><a name="line8524">8524    </a></b>	            (void)memcpy((void *)(U8 *)ptx_addr, (void *)&gubKatPlain64B_0[0], pattern->len);
+<b><a name="line8525">8525    </a></b>	        }
+<b><a name="line8526">8526    </a></b>	        else
+<b><a name="line8527">8527    </a></b>	        {
+<b><a name="line8528">8528    </a></b>	            // RUNTIME GEN: gubKatPlain512B_0
+<b><a name="line8529">8529    </a></b>	            for(U16 i = 0; i < 512; i++)
+<b><a name="line8530">8530    </a></b>	            {
+<b><a name="line8531">8531    </a></b>	                *(U8 *)(ptx_addr + i) = (i > 255) ? (i - 0x100) : i;
+<b><a name="line8532">8532    </a></b>	            }
+<b><a name="line8533">8533    </a></b>	        }
+<b><a name="line8534">8534    </a></b>	#else
+<b><a name="line8535">8535    </a></b>	        return;
+<b><a name="line8536">8536    </a></b>	#endif
+<b><a name="line8537">8537    </a></b>	    }
+<b><a name="line8538">8538    </a></b>	
+<b><a name="line8539">8539    </a></b>	    (void)memset((void *)aesofl_param, 0, sizeof(SEC_AESOFL_PARAMS_T));
+<b><a name="line8540">8540    </a></b>	
+<b><a name="line8541">8541    </a></b>	    aesofl_param->comm.aes_mode            = pattern->aes_mode;
+<b><a name="line8542">8542    </a></b>	    aesofl_param->comm.src_addr.low        = ptx_addr;
+<b><a name="line8543">8543    </a></b>	    aesofl_param->comm.src_len             = pattern->len;
+<b><a name="line8544">8544    </a></b>	    aesofl_param->comm.targ_addr.low       = (aesofl_param->comm.src_addr.low + pattern->len + 512UL) & (~0xFFUL);
+<b><a name="line8545">8545    </a></b>	    aesofl_param->comm.tag_ptr             = (U8 *)((U32)((aesofl_param->comm.targ_addr.low + pattern->len + 512UL) & (~0xFFUL)));
+<b><a name="line8546">8546    </a></b>	    aesofl_param->comm.tag_len             = 16U;
+<b><a name="line8547">8547    </a></b>	    aesofl_param->comm.iv_ptr              = (U32 *)(((U32)(aesofl_param->comm.tag_ptr) + 32UL) & (~0x1FUL)); // max tag_len is 128
+<b><a name="line8548">8548    </a></b>	    aesofl_param->comm.timeout_val         = SEC_TIMEOUT_TICKS;
+<b><a name="line8549">8549    </a></b>	    aesofl_param->comm.sm4_en              = is_sm4;
+<b><a name="line8550">8550    </a></b>	    aesofl_param->comm.set_key_en          = TRUE;
+<b><a name="line8551">8551    </a></b>	
+<b><a name="line8552">8552    </a></b>	    aesofl_param->comm.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line8553">8553    </a></b>	    aesofl_param->comm.setkey.tmp_addr.low = (aesofl_param->comm.targ_addr.low + pattern->len + 0x300ULL) & (~0x1FULL);
+</pre></body>
+</html>

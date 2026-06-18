@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2300">2300    </a></b>	                            if (0 == (channel_bitmap & (1 << a_channel[parallel]))) {
+<b><a name="line2301">2301    </a></b>	                                //This parallel is read and can be skipped in subsequent loops
+<b><a name="line2302">2302    </a></b>	                                loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2303">2303    </a></b>	
+<b><a name="line2304">2304    </a></b>	                                Dump_LoadCode(tprintf("Read Trigger Parallel %d(Channel %d) FSA %L:, block %d, plane %d, page %d", parallel, a_channel[parallel], fsa, (U32)((fsa >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((fsa >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2305">2305    </a></b>	
+<b><a name="line2306">2306    </a></b>	                                //Set all the parameters needed by the read trigger and read DMA here
+<b><a name="line2307">2307    </a></b>	                                a_fip_read_param[parallel].nand_addr.all = fsa;
+<b><a name="line2308">2308    </a></b>	                                for (node = 0; node < node_max; node++) {
+<b><a name="line2309">2309    </a></b>	                                    if (a_node_to_load_bitmap[parallel] & (1 << node)) {
+<b><a name="line2310">2310    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_address + (node << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2311">2311    </a></b>	                                        Dump_LoadCode(tprintf("Data addr %x, node = %d ", a_fip_read_param[parallel].buf_addr[node], node));
+<b><a name="line2312">2312    </a></b>	                                    }
+<b><a name="line2313">2313    </a></b>	                                    else {
+<b><a name="line2314">2314    </a></b>	                                        //Node already loaded, load the data into the unused data_buffer
+<b><a name="line2315">2315    </a></b>	                                        a_fip_read_param[parallel].buf_addr[node] = data_buffer + (((a_channel[parallel] * FLH_MAX_LC_PER_PAGE) + node) << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2316">2316    </a></b>	                                    }
+<b><a name="line2317">2317    </a></b>	
+<b><a name="line2318">2318    </a></b>	                                    a_fip_read_param[parallel].spr_addr[node] = spare_address + (node << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><a name="line2319">2319    </a></b>	                                }
+<b><a name="line2320">2320    </a></b>	                                a_fip_read_param[parallel].node_count = node_max;
+<b><a name="line2321">2321    </a></b>	
+<b><a name="line2322">2322    </a></b>	
+<b><a name="line2323">2323    </a></b>	                                command_status = fip_api_read_cmd(&a_fip_read_param[parallel], ((gLRURetryLevel + nand_retry) % total_rr_cnt));
+<b><a name="line2324">2324    </a></b>	                                if (0 == (command_status & (HAL_STATUS_SET_FEAT_DAT_CMP_FAIL | HAL_STATUS_TIMEOUT))) {
+<b><a name="line2325">2325    </a></b>	                                    //Mark this channel as being read
+<b><a name="line2326">2326    </a></b>	                                    channel_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2327">2327    </a></b>	
+<b><a name="line2328">2328    </a></b>	                                    //Mark this parallel as being read
+<b><a name="line2329">2329    </a></b>	                                    reading_parallel_bitmap |= (1 << parallel);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line2330">2330    </a></b>	
+<b><a name="line2331">2331    </a></b>	                                    res_read_offset_ch_bitmap |= (1 << a_channel[parallel]);
+<b><a name="line2332">2332    </a></b>	                                }
+<b><a name="line2333">2333    </a></b>	                                else {
+<b><a name="line2334">2334    </a></b>	
+<b><a name="line2335">2335    </a></b>	                                    Dump_LoadCode(tprintf("!!!Parallel %d ", parallel));
+<b><a name="line2336">2336    </a></b>	                                    Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2337">2337    </a></b>	                                    Dump_LoadCode(tprintf("Read Trigger Error %x", (U64)command_status));
+<b><a name="line2338">2338    </a></b>	                                    sal_log_tracker_set(sal_locate(0xF0, TYPE_LOAD_CODE_ERR));
+<b><a name="line2339">2339    </a></b>	                                    sal_log_info_char('T');
+<b><a name="line2340">2340    </a></b>	                                    sal_log_info_num(a_fip_read_param[parallel].nand_addr.all); //Part of 'T'/'U', FSA of the read command
+<b><a name="line2341">2341    </a></b>	
+<b><a name="line2342">2342    </a></b>	                                    if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line2343">2343    </a></b>	                                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[parallel]);
+<b><a name="line2344">2344    </a></b>	                                    }
+<b><a name="line2345">2345    </a></b>	                                    if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line2346">2346    </a></b>	                                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << a_channel[parallel]);
+<b><a name="line2347">2347    </a></b>	                                    }
+<b><a name="line2348">2348    </a></b>	                                }
+<b><a name="line2349">2349    </a></b>	                            }
+<b><a name="line2350">2350    </a></b>	                            else {
+<b><a name="line2351">2351    </a></b>	
+<b><a name="line2352">2352    </a></b>	                                Dump_LoadCode(tprintf("Parallel %d ", parallel));
+<b><a name="line2353">2353    </a></b>	                                Dump_LoadCode(tprintf("FSA %L", fsa));
+<b><a name="line2354">2354    </a></b>	                                Dump_LoadCode(tprintf("(Channel %d) in use: ", a_channel[parallel]));
+<b><a name="line2355">2355    </a></b>	                                Dump_LoadCode(tprintf("bitmap %x", (U64)channel_bitmap));
+<b><a name="line2356">2356    </a></b>	                            }
+<b><a name="line2357">2357    </a></b>	                        }
+<b><a name="line2358">2358    </a></b>	                    }
+<b><a name="line2359">2359    </a></b>	
+<b><a name="line2360">2360    </a></b>	
+</pre></body>
+</html>

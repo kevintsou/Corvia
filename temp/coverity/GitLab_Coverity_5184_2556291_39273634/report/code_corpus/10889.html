@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line363">363    </a></b>	            {
+<b><a name="line364">364    </a></b>	                M_OCP_RECOVERY_SET_RECOVERY_REASON_CODE(pACRotData, uwRecoveryReasonCode);
+<b><a name="line365">365    </a></b>	            }
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	            bPullOcpRecvSimReg = TRUE;
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	            OcpRecoveryBackupRpSharedDataToDbuf(pACRotData);
+<b><a name="line370">370    </a></b>	        }
+<b><a name="line371">371    </a></b>	        else
+<b><a name="line372">372    </a></b>	        {
+<b><a name="line373">373    </a></b>	            Dump_OCP(tprintf("[OCP] Set device failure failed"));
+<b><a name="line374">374    </a></b>	        }
+<b><a name="line375">375    </a></b>	    }
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	    return bPullOcpRecvSimReg;
+<b><a name="line378">378    </a></b>	}
+<b><a name="line379">379    </a></b>	
+<b><a name="line380">380    </a></b>	/*!
+<b><a name="line381">381    </a></b>	   @brief      Update subsystem management data while occuring security boot failure and need ocp recovery
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line384">384    </a></b>	 */
+<b><a name="line385">385    </a></b>	static void OcpRecoveryUpdateSubsystemManagementData(ACROT_DATA *pACRotData)
+<b><a name="line386">386    </a></b>	{
+<b><a name="line387">387    </a></b>	    U8 *pSubsystemManagementData = (U8 *)GetSubsystemManagementDataPtr();
+<b><a name="line388">388    </a></b>	    VS_SECURITY_BOOT_REPORTING *pSecurityBootReporting = (VS_SECURITY_BOOT_REPORTING *)(&pSubsystemManagementData[VS_SECURITY_BOOT_REPORTING_DATA_OFFSET]);
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	    Dump_OCP(tprintf("  - Update subsystem management data"));
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	    if (pSecurityBootReporting->uSecurityBootFailureReporting.sBit.btSecureBootFailureReportingSupport)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "pSecurityBootReporting->uSecurityBootFailureReporting.sBit.btSecureBootFailureReportingSupport" does not have an essentially boolean type.</font>
+<b><a name="line393">393    </a></b>	    {
+<b><a name="line394">394    </a></b>	        pSecurityBootReporting->uSecurityBootFailureReporting.sBit.btOcpRecoveryPlatformRoT  = 0x1U;
+<b><a name="line395">395    </a></b>	        pSecurityBootReporting->uSecurityBootFailureReporting.sBit.btSecureBootFailureStatus = 0x1U;
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    // When set to 1b, OCP Recovery/ Platform Root-of-Trust for Recovery codes are supported in byte 244
+<b><a name="line399">399    </a></b>	    if (pSecurityBootReporting->uSecurityBootFailureReporting.sBit.btOcpRecoveryPlatformRoT)
+<b><a name="line400">400    </a></b>	    {
+<b><a name="line401">401    </a></b>	        pSecurityBootReporting->ubRecoveryCode = pACRotData->sDeviceStatus.uwRecoveryReasonCode;
+<b><a name="line402">402    </a></b>	    }
+<b><a name="line403">403    </a></b>	}
+<b><a name="line404">404    </a></b>	
+<b><a name="line405">405    </a></b>	/*!
+<b><a name="line406">406    </a></b>	   @brief      Update device status prior to ocp recovery process
+<b><a name="line407">407    </a></b>	 */
+<b><a name="line408">408    </a></b>	void OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess(void)
+<b><a name="line409">409    </a></b>	{
+<b><a name="line410">410    </a></b>	    /*
+<b><a name="line411">411    </a></b>	     *  We call this function while device is !healthy and could not be recovered internally in each stage (e.g. bootcode, loader, fw)
+<b><a name="line412">412    </a></b>	     *  The device will then stay in bootcode and update device status by cases prior to OCP recovery process
+<b><a name="line413">413    </a></b>	     */
+<b><a name="line414">414    </a></b>	
+<b><a name="line415">415    </a></b>	    ACROT_DATA *pACRotData = GetACRotDataPtr();
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	    Dump_OCP(tprintf("[OCP] Update Device Status (Current: %x)", pACRotData->sDeviceStatus.ubDeviceStatus));
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    /*
+<b><a name="line420">420    </a></b>	     *  There are several cases by device status
+<b><a name="line421">421    </a></b>	     *
+<b><a name="line422">422    </a></b>	     *  1. DS_BOOT_FAILURE
+<b><a name="line423">423    </a></b>	     *     This is the only status that can populate a recovery reason code
+</pre></body>
+</html>

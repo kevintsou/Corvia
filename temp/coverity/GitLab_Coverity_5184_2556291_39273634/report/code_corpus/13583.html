@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2019, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  hal_flh_fip_api.c                                                     */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _HAL_FLH_FIP_API_C_
+<b><a name="line19">19    </a></b>	#define _HAL_FLH_FIP_API_C_
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "user_libs.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	extern FIP_INST_STRUCT      gFipInstStruct;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "gFipInstStruct" is declared more than once.</font>
+<b><a name="line24">24    </a></b>	extern FIP_READ_INFO_STRUCT gFIPReadInfoStruct;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	void fip_inst_gen_read_cmd(FIP_CMD_INFO_PTR cmd_info_ptr, FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 *retry_tbl)
+<b><a name="line28">28    </a></b>	{
+<b><a name="line29">29    </a></b>	    U8  *inst_buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line30">30    </a></b>	    U8  *buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line31">31    </a></b>	    U32 sq_cmd_size = 0;
+<b><a name="line32">32    </a></b>	    U16 mr_target_id;
+<b><a name="line33">33    </a></b>	    U16 mr_source_id;
+<b><a name="line34">34    </a></b>	    U8  fta_addr[FLH_FTA_ADDR_MAX];
+<b><a name="line35">35    </a></b>	    U8  die = 0;
+<b><a name="line36">36    </a></b>	    U8  plane = 0;
+<b><a name="line37">37    </a></b>	    mr_target_id = MR_COP0_0_0_MVP(4U * fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line38">38    </a></b>	    mr_source_id = BE_MR_TID_CPU0_CQ_FIP_CH0;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    memset((void *)fta_addr, 0, sizeof(fta_addr));
+<b><a name="line41">41    </a></b>	    //memset((void *)inst_buf, 0x00, DBUF_API_BOOTCODE_TEMP_INST_BUFFER_SIZE);
+<b><a name="line42">42    </a></b>	    fip_set_fta_addr(fta_addr, fip_read_param_struct_ptr, FLH_FTA_ROW_ADDR_MAX);
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    buf += sizeof(MR_HDR_STRUCT);
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    buf = (U8 *)fip_inst_api_insert_hd(buf, 0, 0, 0, 1);
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, ((U8)1U << fip_read_param_struct_ptr->nand_addr.bank));
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_BUS_SWITCH]);
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCS]);
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    buf = (U8 *)fip_inst_pasring(cmd_info_ptr, buf, fta_addr, die, plane, retry_tbl);
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    U32 sq_cmd_size_align = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    for (U32 i = 0; i < (sq_cmd_size_align - sq_cmd_size) ; i++)
+<b><a name="line67">67    </a></b>	    {
+<b><a name="line68">68    </a></b>	        inst_buf[i + sq_cmd_size]  = 0;
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    hal_flh_scq_mr_header(inst_buf, mr_target_id, mr_source_id, sq_cmd_size_align);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	U32 fip_inst_api_insert_hd(U8 *inst, U8 ce, U8 lun, U8 plane, U8 dma_rel)
+<b><a name="line78">78    </a></b>	{
+<b><a name="line79">79    </a></b>	    U8 is_sca = gFplApiStruct.p_efuse_nand_setting->sca_mode_en;
+<b><a name="line80">80    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    p->u32_val[0U]         = HAL_FIP_INST_OP_HD;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    p->hd.ce                = ce;
+<b><a name="line85">85    </a></b>	    p->hd.lun               = lun;
+<b><a name="line86">86    </a></b>	    p->hd.pln               = (is_sca == 1) ? plane : 0U;
+<b><a name="line87">87    </a></b>	    p->hd.dma_rel           = dma_rel;
+<b><a name="line88">88    </a></b>	    p->hd.ignore_phi_rvalid = 0U;
+<b><a name="line89">89    </a></b>	    p->hd.sync_bypass       = (is_sca == 1) ? 1U : 0U;
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_HD_STRUCT)];
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	U32 fip_inst_gen_end(U8 *inst)
+<b><a name="line95">95    </a></b>	{
+<b><a name="line96">96    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line97">97    </a></b>	    p->u32_val[0U]         = HAL_FIP_INST_OP_END;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_END_STRUCT)];
+<b><a name="line100">100    </a></b>	}
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	U32 fip_inst_gen_ce(U8 *inst, U8 ce_bmp)
+<b><a name="line103">103    </a></b>	{
+<b><a name="line104">104    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	    p->u32_val[0U]        = HAL_FIP_OP_CE;
+<b><a name="line107">107    </a></b>	    p->ce.ce_bmp       = ce_bmp;
+<b><a name="line108">108    </a></b>	    p->ce.dq_bit_rev_idx  = 0U;
+<b><a name="line109">109    </a></b>	    p->ce.wp_odt          = 0x3U;
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_CE_STRUCT)];
+<b><a name="line112">112    </a></b>	}
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	U32 fip_inst_gen_dly(U8 *inst, U16 dly)
+<b><a name="line115">115    </a></b>	{
+<b><a name="line116">116    </a></b>	    U8 is_sca = gFplApiStruct.p_efuse_nand_setting->sca_mode_en;
+<b><a name="line117">117    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    p->u32_val[0U]       = HAL_FIP_OP_DLY;
+<b><a name="line120">120    </a></b>	    p->dly.cycle        = (U16)(dly);
+<b><a name="line121">121    </a></b>	    p->dly.pre_dma_en   = ((is_sca == 1U) ? 1U : 0U);
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_DLY_STRUCT)];
+<b><a name="line124">124    </a></b>	}
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	U32 fip_inst_gen_cmd(U8 *inst, U8 cmd_addr, U8 last, U8 dqs_h)
+<b><a name="line127">127    </a></b>	{
+<b><a name="line128">128    </a></b>	    //tprintf("fip_inst_gen_cmd cmd = %x", cmd_addr);
+<b><a name="line129">129    </a></b>	    HAL_FIP_OP_UNION_PTR p;
+<b><a name="line130">130    </a></b>	    U32 dqs_oe;
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	    p  = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line133">133    </a></b>	    dqs_oe  = (dqs_h == 0) ? (HAL_FIP_OP_CMD_DQS_LOW) : (HAL_FIP_OP_CMD_DQS_HIGH);
+<b><a name="line134">134    </a></b>	
+<b><a name="line135">135    </a></b>	    p->u32_val[0U] = (HAL_FIP_OP_CMD | ((last == TRUE) ? (HAL_FIP_OP_LAST_CLE_ALE) : (0U)) | dqs_oe);
+<b><a name="line136">136    </a></b>	    p->cmd.cmd    = cmd_addr;
+<b><a name="line137">137    </a></b>	
+<b><a name="line138">138    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_CMD_STRUCT)];
+<b><a name="line139">139    </a></b>	}
+<b><a name="line140">140    </a></b>	
+<b><a name="line141">141    </a></b>	U32 fip_inst_gen_prew(U8 *inst, U32 tag, U32 scr_seed, U64 buf_addr, U64 spr_addr, U64 crc_seed)
+<b><a name="line142">142    </a></b>	{
+<b><a name="line143">143    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    p->u32_val[0U]          = HAL_FIP_OP_PREW;
+<b><a name="line146">146    </a></b>	    p->prew.scr_en          = FIP_DMAR_SCR_EN;
+<b><a name="line147">147    </a></b>	    p->prew.spr_addr_vld    = 1U;
+<b><a name="line148">148    </a></b>	
+<b><a name="line149">149    </a></b>	    p->prew.scr_seed        = scr_seed;
+<b><a name="line150">150    </a></b>	    p->prew.crc_seed_l      = (U32)crc_seed;
+<b><a name="line151">151    </a></b>	    p->prew.buf_addr_l      = (U32)buf_addr;
+<b><a name="line152">152    </a></b>	    p->prew.spr_addr_l      = (U32)spr_addr;
+<b><a name="line153">153    </a></b>	    p->prew.crc_seed_h      = (U8)(crc_seed >> 32U);
+<b><a name="line154">154    </a></b>	    p->prew.buf_addr_h      = (U8)(buf_addr >> 32U);
+<b><a name="line155">155    </a></b>	    p->prew.spr_addr_h      = (U8)(spr_addr >> 32U);
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	    p->prew.tag             = tag;
+<b><a name="line158">158    </a></b>	    p->prew.ins_mode        = FIP_DMAR_INST_MODE;
+<b><a name="line159">159    </a></b>	    p->prew.frm_mode        = FIP_DMAR_FRM_MODE;
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_PREW_STRUCT) - 4U];
+<b><a name="line162">162    </a></b>	}
+<b><a name="line163">163    </a></b>	
+<b><a name="line164">164    </a></b>	U32 fip_inst_gen_datr(U8 *inst, U32 tag_ofst)
+<b><a name="line165">165    </a></b>	{
+<b><a name="line166">166    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	    p->u32_val[0U] = (HAL_FIP_OP_DATR | HAL_FIP_OP_FIRST_DAT | HAL_FIP_OP_LAST_DAT);
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	    p->u32_val[0U] |= (tag_ofst & 0x0FU) << 8U;
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_DATR_STRUCT)];
+<b><a name="line173">173    </a></b>	}
+<b><a name="line174">174    </a></b>	
+<b><a name="line175">175    </a></b>	U32 fip_inst_pasring(FIP_CMD_INFO_PTR cmd_info_ptr, U8 *buf, U8 *addr, U8 die, U8 plane, U8 *retry_tbl)
+<b><a name="line176">176    </a></b>	{
+<b><a name="line177">177    </a></b>	    U64 dly;
+<b><a name="line178">178    </a></b>	    U8 status;
+<b><a name="line179">179    </a></b>	    U8 col_addr_num;
+<b><a name="line180">180    </a></b>	    U8 row_addr_num;
+<b><a name="line181">181    </a></b>	    U8 retry_addr_num;
+<b><a name="line182">182    </a></b>	    U8 retry_addr[EFUSE_PARAM_READ_RTY_DAT_SIZE] = {0U};
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	    status                = TRUE;
+<b><a name="line185">185    </a></b>	    dly                   = 0U;
+<b><a name="line186">186    </a></b>	    cmd_info_ptr->op_id   = 0U;
+<b><a name="line187">187    </a></b>	    cmd_info_ptr->data_id = 0U;
+<b><a name="line188">188    </a></b>	    col_addr_num          = 0U;
+<b><a name="line189">189    </a></b>	    row_addr_num          = 0U;
+<b><a name="line190">190    </a></b>	    retry_addr_num        = 0U;
+<b><a name="line191">191    </a></b>	
+<b><a name="line192">192    </a></b>	    while (status)
+<b><a name="line193">193    </a></b>	    {
+<b><a name="line194">194    </a></b>	        switch (cmd_info_ptr->op[cmd_info_ptr->op_id])
+<b><a name="line195">195    </a></b>	        {
+<b><a name="line196">196    </a></b>	            case INST_CMD:    //x0x01
+<b><a name="line197">197    </a></b>	                buf = (U8 *)fip_inst_gen_cmd(buf, cmd_info_ptr->data[cmd_info_ptr->data_id], 1U, gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l);
+<b><a name="line198">198    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line199">199    </a></b>	                cmd_info_ptr->data_id ++;
+<b><a name="line200">200    </a></b>	                break;
+<b><a name="line201">201    </a></b>	
+<b><a name="line202">202    </a></b>	            case INST_ADR_FTA_C:    //0x06
+<b><a name="line203">203    </a></b>	                if ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U]  & ADR_FTA_COL_ADR_MASK) != FALSE)
+<b><a name="line204">204    </a></b>	                {
+<b><a name="line205">205    </a></b>	                    col_addr_num = ADR_FTA_TWO_CYCLE_COL_ADR;
+<b><a name="line206">206    </a></b>	                }
+<b><a name="line207">207    </a></b>	                else
+<b><a name="line208">208    </a></b>	                {
+<b><a name="line209">209    </a></b>	                    col_addr_num = ADR_FTA_ZERO_CYCLE_COL_ADR;
+<b><a name="line210">210    </a></b>	                }
+<b><a name="line211">211    </a></b>	                row_addr_num = (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & ADR_FTA_ROW_ADR_MASK);
+<b><a name="line212">212    </a></b>	                if ((col_addr_num == 0U) && (row_addr_num != 0U))
+<b><a name="line213">213    </a></b>	                {
+<b><a name="line214">214    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, &addr[ADR_FTA_ROW_ADR_OFST], row_addr_num);
+<b><a name="line215">215    </a></b>	                }
+<b><a name="line216">216    </a></b>	                else
+<b><a name="line217">217    </a></b>	                {
+<b><a name="line218">218    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, addr, (col_addr_num + row_addr_num));
+<b><a name="line219">219    </a></b>	                }
+<b><a name="line220">220    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line221">221    </a></b>	                break;
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	            case INST_ADR:      //0x02
+<b><a name="line224">224    </a></b>	            case INST_ADR_RTY:  //0x0A
+<b><a name="line225">225    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &(cmd_info_ptr->data[cmd_info_ptr->data_id]), 1U);
+<b><a name="line226">226    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line227">227    </a></b>	                cmd_info_ptr->data_id ++;
+<b><a name="line228">228    </a></b>	                break;
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	            case INST_PLANE_ADR_RTY:    //0x0C
+<b><a name="line231">231    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &gFplApiStruct.plane_adr_tbl[plane], 1U);
+<b><a name="line232">232    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line233">233    </a></b>	                break;
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	            case INST_DIE_ADR:      //0x0F
+<b><a name="line236">236    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, &die, 1U);
+<b><a name="line237">237    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line238">238    </a></b>	                break;
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	            case INST_ACRR_ADR:     //0x0B
+<b><a name="line241">241    </a></b>	                memset((void *)retry_addr, 0U, sizeof(retry_addr));
+<b><a name="line242">242    </a></b>	                retry_addr_num = 1U + ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U]) & ACRR_ADR_RTY_CYCLE_MASK);
+<b><a name="line243">243    </a></b>	                if (retry_tbl == NULL)   // NOR READ SEQ
+<b><a name="line244">244    </a></b>	                {
+<b><a name="line245">245    </a></b>	                    if (gFplApiStruct.acrr_enable == TRUE)
+<b><a name="line246">246    </a></b>	                    {
+<b><a name="line247">247    </a></b>	                        buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);    // micron 1 addr = 0x00 , hynix V6 4 addr = 0x00
+<b><a name="line248">248    </a></b>	                    }
+<b><a name="line249">249    </a></b>	                }
+<b><a name="line250">250    </a></b>	                else    // RETRY SEQ
+<b><a name="line251">251    </a></b>	                {
+<b><a name="line252">252    </a></b>	                    if (gFplApiStruct.adr_rty_en == FALSE)
+<b><a name="line253">253    </a></b>	                    {
+<b><a name="line254">254    </a></b>	                        memcpy((void*)retry_addr, (void*)retry_tbl, EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line255">255    </a></b>	                    }
+<b><a name="line256">256    </a></b>	                    buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);
+<b><a name="line257">257    </a></b>	                }
+<b><a name="line258">258    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line259">259    </a></b>	                break;
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	            case INST_ADR_RTY_C:        //0x09
+<b><a name="line262">262    </a></b>	                gFplApiStruct.adr_rty_en = TRUE;
+<b><a name="line263">263    </a></b>	                memset((void *)retry_addr, 0U, sizeof(retry_addr));
+<b><a name="line264">264    </a></b>	                retry_addr_num = 1U + ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U]) & ACRR_ADR_RTY_CYCLE_MASK);
+<b><a name="line265">265    </a></b>	                if (retry_tbl != NULL)
+<b><a name="line266">266    </a></b>	                {
+<b><a name="line267">267    </a></b>	                    memcpy((void*)retry_addr, (void*)retry_tbl, EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line268">268    </a></b>	                }
+<b><a name="line269">269    </a></b>	                buf = (U8 *)fip_inst_gen_addr(buf, retry_addr, retry_addr_num);
+<b><a name="line270">270    </a></b>	                cmd_info_ptr->op_id += 2U;
+<b><a name="line271">271    </a></b>	                break;
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	            case INST_CMD_00h:      //0x10
+<b><a name="line274">274    </a></b>	            case INST_CMD_30h:      //0x11
+<b><a name="line275">275    </a></b>	            case INST_CMD_05h:      //0x12
+<b><a name="line276">276    </a></b>	            case INST_CMD_06h:      //0x13
+<b><a name="line277">277    </a></b>	            case INST_CMD_E0h:      //0x14
+<b><a name="line278">278    </a></b>	            case INST_CMD_A2h:      //0x15
+<b><a name="line279">279    </a></b>	            case INST_CMD_3Bh:      //0x16
+<b><a name="line280">280    </a></b>	            case INST_CMD_2Eh:      //0x17
+<b><a name="line281">281    </a></b>	            case INST_CMD_DAh:      //0x18
+<b><a name="line282">282    </a></b>	            case INST_CMD_5Dh:      //0x19
+<b><a name="line283">283    </a></b>	            case INST_CMD_36h:      //0x1C
+<b><a name="line284">284    </a></b>	            case INST_CMD_37h:      //0x1D
+<b><a name="line285">285    </a></b>	            case INST_CMD_16h:      //0x1E
+<b><a name="line286">286    </a></b>	                buf = (U8 *)fip_inst_gen_cmd(buf, gFipInstStruct.cmd_remap_table[(cmd_info_ptr->op[cmd_info_ptr->op_id] - INST_CMD_00h)], 1U, gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l);
+<b><a name="line287">287    </a></b>	                cmd_info_ptr->op_id ++;
+<b><a name="line288">288    </a></b>	                break;
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	            case INST_END:      //0x00
+<b><a name="line291">291    </a></b>	                status = FALSE;
+<b><a name="line292">292    </a></b>	                break;
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	            default:
+<b><a name="line295">295    </a></b>	                //ERROR
+<b><a name="line296">296    </a></b>	                Dump_Debug(tprintf("Error, Undefined cmd info : %x", cmd_info_ptr->op[cmd_info_ptr->op_id]));
+<b><a name="line297">297    </a></b>	                break;
+<b><a name="line298">298    </a></b>	        }
+<b><a name="line299">299    </a></b>	    }
+<b><a name="line300">300    </a></b>	    return (U32)&buf[0U];
+<b><a name="line301">301    </a></b>	}
+<b><a name="line302">302    </a></b>	
+<b><a name="line303">303    </a></b>	U32 fip_inst_gen_datw(U8 *inst, U8 *data, U32 len)
+<b><a name="line304">304    </a></b>	{
+<b><a name="line305">305    </a></b>	    Dump_Debug(tprintf("fip_inst_gen_datw exec"));
+<b><a name="line306">306    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line307">307    </a></b>	    U32 i = 0U;
+<b><a name="line308">308    </a></b>	
+<b><a name="line309">309    </a></b>	    while (i < len)
+<b><a name="line310">310    </a></b>	    {
+<b><a name="line311">311    </a></b>	        if (i == 0U)
+<b><a name="line312">312    </a></b>	        {
+<b><a name="line313">313    </a></b>	            p->u32_val[i]  = (HAL_FIP_OP_DATW | HAL_FIP_OP_FIRST_DAT | (((U32)data[i]) << 16U));
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	        else
+<b><a name="line316">316    </a></b>	        {
+<b><a name="line317">317    </a></b>	            p->u32_val[i] = (HAL_FIP_OP_DATW | (((U32)data[i]) << 16U));
+<b><a name="line318">318    </a></b>	        }
+<b><a name="line319">319    </a></b>	
+<b><a name="line320">320    </a></b>	        i ++;
+<b><a name="line321">321    </a></b>	    }
+<b><a name="line322">322    </a></b>	
+<b><a name="line323">323    </a></b>	    if (i > 0U)
+<b><a name="line324">324    </a></b>	    {
+<b><a name="line325">325    </a></b>	        p->u32_val[i - 1U] |= HAL_FIP_OP_LAST_DAT;
+<b><a name="line326">326    </a></b>	    }
+<b><a name="line327">327    </a></b>	
+</pre></body>
+</html>

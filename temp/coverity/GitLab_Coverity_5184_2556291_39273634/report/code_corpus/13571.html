@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "framework_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	extern void OcpRecoveryActivateImage(U32 ulBinaryBase);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "OcpRecoveryActivateImage" is declared more than once.</font>
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	typedef enum {
+<b><a name="line8">8    </a></b>	    E_SMBS_BUS_CONDITION_WRITE_STOP   = 0xA1U,
+<b><a name="line9">9    </a></b>	    E_SMBS_BUS_CONDITION_REPEAT_START = 0xA2U,
+<b><a name="line10">10    </a></b>	    E_SMBS_BUS_CONDITION_NOT_USED     = 0xA3U,
+<b><a name="line11">11    </a></b>	} SMBS_BUS_CONDITION_E;
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	/*!
+<b><a name="line14">14    </a></b>	   @brief      Get smbs bus condition for handler
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	   @param      pSmbsRx           pointer to smbs rx
+<b><a name="line17">17    </a></b>	   @param      pSmbsTx           pointer to smbs tx
+<b><a name="line18">18    </a></b>	   @return     SMBS_BUS_CONDITION_E
+<b><a name="line19">19    </a></b>	 */
+<b><a name="line20">20    </a></b>	static SMBS_BUS_CONDITION_E GetSmbsBusCondition(SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line21">21    </a></b>	{
+<b><a name="line22">22    </a></b>	    SMBS_BUS_CONDITION_E eSmbsBusCondition = E_SMBS_BUS_CONDITION_NOT_USED;
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	    if ((NULL != pSmbsRx) && (NULL == pSmbsTx))
+<b><a name="line25">25    </a></b>	    {
+<b><a name="line26">26    </a></b>	        eSmbsBusCondition = E_SMBS_BUS_CONDITION_WRITE_STOP;
+<b><a name="line27">27    </a></b>	    }
+<b><a name="line28">28    </a></b>	    else if ((NULL != pSmbsRx) && (NULL != pSmbsTx))
+<b><a name="line29">29    </a></b>	    {
+<b><a name="line30">30    </a></b>	        eSmbsBusCondition = E_SMBS_BUS_CONDITION_REPEAT_START;
+<b><a name="line31">31    </a></b>	    }
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    return eSmbsBusCondition;
+<b><a name="line34">34    </a></b>	}
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	/*!
+<b><a name="line37">37    </a></b>	   @brief      Smbs protocol handler - basic management command
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line40">40    </a></b>	   @param      uwSlaveAddress               slave address
+<b><a name="line41">41    </a></b>	   @param      pSmbsRx                      pointer to smbs rx
+<b><a name="line42">42    </a></b>	   @param      pSmbsTx                      pointer to smbs tx
+<b><a name="line43">43    </a></b>	   @return     U32
+<b><a name="line44">44    </a></b>	 */
+<b><a name="line45">45    </a></b>	U32 SmbsProtocolHandler_BasicManagementCommand(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, U16 uwSlaveAddr, SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line46">46    </a></b>	{
+<b><a name="line47">47    </a></b>	    SMBS_BUS_CONDITION_E eSmbsBusCondition = GetSmbsBusCondition(pSmbsRx, pSmbsTx);
+<b><a name="line48">48    </a></b>	    U8 ubCmdCode = pSmbsRx->pdata.pu8[SMBS_RX_CMD_OFST];
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    switch (eSmbsBusCondition)
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        case E_SMBS_BUS_CONDITION_WRITE_STOP:
+<b><a name="line53">53    </a></b>	            if (SMBUS_BASIC_MANAGEMENT_COMMAND_RESET_ARBITRATION == ubCmdCode)          // send byte
+<b><a name="line54">54    </a></b>	            {
+<b><a name="line55">55    </a></b>	                pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btSmbusArbitration = 0U;
+<b><a name="line56">56    </a></b>	            }
+<b><a name="line57">57    </a></b>	            else if (CheckIsOcpRecoveryCmdCode(RP_CMD_TYPE_WRITE, ubCmdCode, NULL))     // block write
+<b><a name="line58">58    </a></b>	            {
+<b><a name="line59">59    </a></b>	                if (E_RECV_OP_ACTIVATE_IMAGE == OcpRecoveryCmdHandler(RP_CMD_TYPE_WRITE, (U8)uwSlaveAddr, ubCmdCode, pSmbsRx, pSmbsTx))
+<b><a name="line60">60    </a></b>	                {
+<b><a name="line61">61    </a></b>	                    OcpRecoveryActivateImage(OcpRecoveryGetRecoveryImageBase());
+<b><a name="line62">62    </a></b>	                }
+<b><a name="line63">63    </a></b>	            }
+<b><a name="line64">64    </a></b>	            break;
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	        case E_SMBS_BUS_CONDITION_REPEAT_START:
+<b><a name="line67">67    </a></b>	            if (CheckIsBasicManagementCmdCode(ubCmdCode))
+<b><a name="line68">68    </a></b>	            {
+<b><a name="line69">69    </a></b>	                SmbusFillTxBufferSubsystemManagementData(pSubsystemManagementData, (U8)uwSlaveAddr, ubCmdCode, pSmbsTx);
+<b><a name="line70">70    </a></b>	                pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btSmbusArbitration = 1U;
+<b><a name="line71">71    </a></b>	            }
+<b><a name="line72">72    </a></b>	            else if (CheckIsOcpRecoveryCmdCode(RP_CMD_TYPE_READ, ubCmdCode, pSmbsTx))
+<b><a name="line73">73    </a></b>	            {
+<b><a name="line74">74    </a></b>	                (void)OcpRecoveryCmdHandler(RP_CMD_TYPE_READ, (U8)uwSlaveAddr, ubCmdCode, pSmbsRx, pSmbsTx);
+<b><a name="line75">75    </a></b>	            }
+<b><a name="line76">76    </a></b>	            else
+<b><a name="line77">77    </a></b>	            {
+<b><a name="line78">78    </a></b>	                pSmbsTx->uwCount  = 0U;
+<b><a name="line79">79    </a></b>	                pSmbsTx->uwOffset = 0U;
+<b><a name="line80">80    </a></b>	            }
+<b><a name="line81">81    </a></b>	            break;
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	        default:
+<b><a name="line84">84    </a></b>	            break;
+<b><a name="line85">85    </a></b>	    }
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    return 0UL;
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line91">91    </a></b>	/*!
+<b><a name="line92">92    </a></b>	   @brief      Init UUID - Basic Management Command
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	   @param      pUDID             pointer to UUID
+<b><a name="line95">95    </a></b>	   @param      pHostVar          pointer to host variable
+<b><a name="line96">96    </a></b>	 */
+<b><a name="line97">97    </a></b>	static void SmbsUdidInit_BasicManagementCommand(SMBUS_UDID_U *pUDID, HOST_VAR_T *pHostVar)
+<b><a name="line98">98    </a></b>	{
+<b><a name="line99">99    </a></b>	    memset((void *)pUDID, 0xFFU, sizeof(SMBUS_UDID_U));
+<b><a name="line100">100    </a></b>	}
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	/*!
+<b><a name="line103">103    </a></b>	   @brief      Init smbs protocol handler - basic management command
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	   @param      pSmbsMgr          pointer to smbs mgr
+<b><a name="line106">106    </a></b>	   @param      pHostVar          pointer to host variable
+<b><a name="line107">107    </a></b>	   @return     SMBUS_ERR_E
+<b><a name="line108">108    </a></b>	 */
+<b><a name="line109">109    </a></b>	SMBUS_ERR_E SmbsProtocolHandlerInit_BasicManagementCommand(SMBS_MGR_T *pSmbsMgr, HOST_VAR_T *pHostVar)
+<b><a name="line110">110    </a></b>	{
+<b><a name="line111">111    </a></b>	    SMBUS_ARP_T sArp;
+<b><a name="line112">112    </a></b>	    SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData = GetSubsystemManagementDataPtr();
+<b><a name="line113">113    </a></b>	    SMBUS_ERR_E eSmbusErr = E_SMBUS_ERR_NO_ERROR;
+<b><a name="line114">114    </a></b>	    U16 uwSlaveAddress    = SMBUS_ADDRESS_NVME_BASIC_MANAGEMENT_COMMAND;
+<b><a name="line115">115    </a></b>	    U8 ubDeviceCategory   = (SMBUS_ARP_EN) ? (SMBS_DEVICE_CATEGORY_ARP_CAPABLE) : (SMBS_DEVICE_CATEGORY_NON_ARP_CAPABLE);
+<b><a name="line116">116    </a></b>	    U8 ubDeviceType       = (SMBUS_ARP_EN) ? (SMBS_DEVICE_TYPE_NON_PSA_NON_RANDOM_NUMBER) : (SMBS_DEVICE_TYPE_NON_PSA_NON_RANDOM_NUMBER);
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    // 1. handler object init
+<b><a name="line119">119    </a></b>	    SubsystemManagementDataInit(pSubsystemManagementData, pHostVar);
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    // 2. ARP init
+<b><a name="line122">122    </a></b>	    SmbsArpStateInit(&sArp, uwSlaveAddress, ubDeviceCategory, ubDeviceType);
+<b><a name="line123">123    </a></b>	    SmbsUdidInit_BasicManagementCommand(&sArp.uUDID, pHostVar);
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    // 3. register device
+<b><a name="line126">126    </a></b>	    SmbsRegisterDevice(pSmbsMgr, E_SMBS_DEVICE_IDX_BASIC_MANAGEMENT_COMMAND, &sArp, (SMBS_PROTOCOL_HDL_FPTR)SmbsProtocolHandler_BasicManagementCommand, (void *)pSubsystemManagementData);
+<b><a name="line127">127    </a></b>	
+<b><a name="line128">128    </a></b>	    // 4. Trigger ARA
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	    return eSmbusErr;
+<b><a name="line131">131    </a></b>	}
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	/*!
+<b><a name="line134">134    </a></b>	   @brief      Smbs protocol handler - mctp over smbus
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	   @param      pSubsystemManagementData     pointer to transport info
+<b><a name="line137">137    </a></b>	   @param      uwSlaveAddress               slave address
+<b><a name="line138">138    </a></b>	   @param      pSmbsRx                      pointer to smbs rx
+<b><a name="line139">139    </a></b>	   @param      pSmbsTx                      pointer to smbs tx
+<b><a name="line140">140    </a></b>	   @return     U32
+<b><a name="line141">141    </a></b>	 */
+<b><a name="line142">142    </a></b>	static U32 SmbsProtocolHandler_MctpOverSmbus(MCTP_TRANSPORT_INFO_T *pTransportInfo, U16 uwSlaveAddr, SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line143">143    </a></b>	{
+<b><a name="line144">144    </a></b>	    SMBS_BUS_CONDITION_E eSmbsBusCondition = GetSmbsBusCondition(pSmbsRx, pSmbsTx);
+<b><a name="line145">145    </a></b>	    MCTP_PACKET_HEADERS_T *pMctpPacketHeaders = NULL;
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	    switch (eSmbsBusCondition)
+<b><a name="line148">148    </a></b>	    {
+<b><a name="line149">149    </a></b>	        case E_SMBS_BUS_CONDITION_WRITE_STOP:
+<b><a name="line150">150    </a></b>	            pMctpPacketHeaders = (MCTP_PACKET_HEADERS_T *)(&pSmbsRx->pdata.pu8[SMBS_RX_CMD_OFST]);
+<b><a name="line151">151    </a></b>	
+<b><a name="line152">152    </a></b>	            if (E_MCTP_DROPPED_PACKET_ERR_NO_ERROR == MctpCheckDroppedPacketError(pTransportInfo, pMctpPacketHeaders, (pSmbsRx->uwCount - SMBUS_PEC_LEN)))
+<b><a name="line153">153    </a></b>	            {
+<b><a name="line154">154    </a></b>	                // TBD
+<b><a name="line155">155    </a></b>	            }
+<b><a name="line156">156    </a></b>	            break;
+<b><a name="line157">157    </a></b>	
+<b><a name="line158">158    </a></b>	        default:
+<b><a name="line159">159    </a></b>	            break;
+<b><a name="line160">160    </a></b>	    }
+<b><a name="line161">161    </a></b>	
+<b><a name="line162">162    </a></b>	    return 0UL;
+<b><a name="line163">163    </a></b>	}
+<b><a name="line164">164    </a></b>	
+<b><a name="line165">165    </a></b>	/*!
+<b><a name="line166">166    </a></b>	   @brief      Init UUID - Management Endpoint
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	   @param      pUDID             pointer to UUID
+<b><a name="line169">169    </a></b>	   @param      pHostVar          pointer to host variable
+<b><a name="line170">170    </a></b>	 */
+<b><a name="line171">171    </a></b>	static void SmbsUdidInit_ManagementEndpoint(SMBUS_UDID_U *pUDID, HOST_VAR_T *pHostVar)
+<b><a name="line172">172    </a></b>	{
+<b><a name="line173">173    </a></b>	    memset((void *)pUDID, 0xFFU, sizeof(SMBUS_UDID_U));
+<b><a name="line174">174    </a></b>	}
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	/*!
+<b><a name="line177">177    </a></b>	   @brief      Init smbs protocol handler - mctp over smbus
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	   @param      pSmbsMgr          pointer to smbs mgr
+<b><a name="line180">180    </a></b>	   @param      pHostVar          pointer to host variable
+<b><a name="line181">181    </a></b>	   @param      pSmbusInitParam   pointer to smbus init parameter
+<b><a name="line182">182    </a></b>	   @return     SMBUS_ERR_E
+<b><a name="line183">183    </a></b>	 */
+<b><a name="line184">184    </a></b>	SMBUS_ERR_E SmbsProtocolHandlerInit_MctpOverSmbus(SMBS_MGR_T *pSmbsMgr, HOST_VAR_T *pHostVar, FRAMEWORK_SMBUS_INIT_PARAM_T *pSmbusInitParam)
+<b><a name="line185">185    </a></b>	{
+<b><a name="line186">186    </a></b>	    SMBUS_ARP_T sArp;
+<b><a name="line187">187    </a></b>	    MCTP_MESSAGE_TRANSMIT_MGR_T *pTransmitMgr = GetMctpMsgTransmitMgrPtr();
+<b><a name="line188">188    </a></b>	    MCTP_TRANSPORT_INFO_T *pTransportInfo     = GetMctpTransportInfo();
+<b><a name="line189">189    </a></b>	    SMBUS_ERR_E eSmbusErr = E_SMBUS_ERR_NO_ERROR;
+<b><a name="line190">190    </a></b>	    U16 uwSlaveAddress    = SMBUS_ADDRESS_MANAGEMENT_ENDPOINT;
+<b><a name="line191">191    </a></b>	    U8 ubDeviceCategory   = (SMBUS_ARP_EN) ? (SMBS_DEVICE_CATEGORY_ARP_CAPABLE) : (SMBS_DEVICE_CATEGORY_NON_ARP_CAPABLE);
+<b><a name="line192">192    </a></b>	    U8 ubDeviceType       = (SMBUS_ARP_EN) ? (SMBS_DEVICE_TYPE_DSA) : (SMBS_DEVICE_TYPE_NON_PSA_NON_RANDOM_NUMBER);
+<b><a name="line193">193    </a></b>	
+<b><a name="line194">194    </a></b>	    MctpMessageTransmitMgrInit(pTransmitMgr, &pSmbusInitParam->sMctpPacketBufferInfo, &pSmbusInitParam->sMctpMessageBufferInfo);
+<b><a name="line195">195    </a></b>	
+<b><a name="line196">196    </a></b>	    // 1. handler object init
+<b><a name="line197">197    </a></b>	    MctpTransportInfoInit(pTransportInfo, uwSlaveAddress);
+<b><a name="line198">198    </a></b>	
+<b><a name="line199">199    </a></b>	    // 2. ARP init
+<b><a name="line200">200    </a></b>	    SmbsArpStateInit(&sArp, uwSlaveAddress, ubDeviceCategory, ubDeviceType);
+<b><a name="line201">201    </a></b>	    SmbsUdidInit_ManagementEndpoint(&sArp.uUDID, pHostVar);
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	    // 3. register device
+<b><a name="line204">204    </a></b>	    SmbsRegisterDevice(pSmbsMgr, E_SMBS_DEVICE_IDX_MANAGEMENT_ENDPOINT, &sArp, (SMBS_PROTOCOL_HDL_FPTR)SmbsProtocolHandler_MctpOverSmbus, (void *)pTransportInfo);
+<b><a name="line205">205    </a></b>	
+</pre></body>
+</html>

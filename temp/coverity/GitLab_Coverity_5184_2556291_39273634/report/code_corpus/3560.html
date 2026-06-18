@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line546">546    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line547">547    </a></b>	            }
+<b><a name="line548">548    </a></b>	            else {
+<b><a name="line549">549    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line550">550    </a></b>	            }
+<b><a name="line551">551    </a></b>	        }
+<b><a name="line552">552    </a></b>	        else    //227
+<b><a name="line553">553    </a></b>	        {
+<b><a name="line554">554    </a></b>	            p_system_security_protect_content->security_support_status     |= SYS_INFO_SEC_SUP_STATUS_VUC_PROT; // Support VUC protection
+<b><a name="line555">555    </a></b>	            p_system_security_protect_content->vuc_protect_mode             = READ_SYSTEM_INFO_VUC_PROTECT_MODE_V5;
+<b><a name="line556">556    </a></b>	            p_system_security_protect_content->vuc_protect_secure_key_index = READ_SYSTEM_INFO_PHISON_KEY_INDEX;
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	            if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_ENGINEERING) {
+<b><a name="line559">559    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_LOCK;
+<b><a name="line560">560    </a></b>	            }
+<b><a name="line561">561    </a></b>	            else if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_PASS) {
+<b><a name="line562">562    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line563">563    </a></b>	            }
+<b><a name="line564">564    </a></b>	            else {
+<b><a name="line565">565    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line566">566    </a></b>	            }
+<b><a name="line567">567    </a></b>	        }
+<b><a name="line568">568    </a></b>	    }
+<b><a name="line569">569    </a></b>	    else
+<b><a name="line570">570    </a></b>	    {
+<b><a name="line571">571    </a></b>	        p_system_security_protect_content->vuc_protect_mode = READ_SYSTEM_INFO_VUC_PROTECT_MODE_NO_SUPPORT;
+<b><a name="line572">572    </a></b>	        p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_NOT_PROTECT;
+<b><a name="line573">573    </a></b>	    }
+<b><a name="line574">574    </a></b>	
+<b><a name="line575">575    </a></b>	    if ((gBCodeGlobalStruct.p_efuse_security_setting->check_code_signature_enable) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "(*gBCodeGlobalStruct.p_efuse_security_setting).check_code_signature_enable" of non-boolean essential type is being interpreted as a boolean value for the operator "&&".</font>
+<b><a name="line576">576    </a></b>	        p_system_security_protect_content->security_support_status |= SYS_INFO_SEC_SUP_STATUS_CODE_SIGN;
+<b><a name="line577">577    </a></b>	    }
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    //Return all valid Code Sign Key index
+<b><a name="line580">580    </a></b>	    p_system_security_protect_content->code_sign_key_index = 0;
+<b><a name="line581">581    </a></b>	    for (asymmetric_key = 0; asymmetric_key < EFUSE_CODE_SIGN_KEY_HASH_COUNT; asymmetric_key++) {
+<b><a name="line582">582    </a></b>	        if (check_field_valid(
+<b><a name="line583">583    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line584">584    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line585">585    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << asymmetric_key); // get host valid key index
+<b><a name="line586">586    </a></b>	        }
+<b><a name="line587">587    </a></b>	        if (check_field_valid(
+<b><a name="line588">588    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line589">589    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line590">590    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << (asymmetric_key + EFUSE_CODE_SIGN_KEY_HASH_COUNT)); // get nand valid key index
+<b><a name="line591">591    </a></b>	        }
+<b><a name="line592">592    </a></b>	    }
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	    return;
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	#if 0
+<b><a name="line598">598    </a></b>	void vuc_read_system_info_drive_status(DRIVE_STATUS *p_drive_status_content)
+<b><a name="line599">599    </a></b>	{
+<b><a name="line600">600    </a></b>	    /*
+<b><a name="line601">601    </a></b>	    p_drive_status_content->fw_assert_code = gBCodeGlobalStruct.err_history.info[0];
+<b><a name="line602">602    </a></b>	    p_drive_status_content->fw_error_condition = gBCodeGlobalStruct.err_history.err_idx;
+<b><a name="line603">603    </a></b>	    p_drive_status_content->write_protect_status = 0xFF;
+<b><a name="line604">604    </a></b>	    p_drive_status_content->drive_life_percent_used;
+<b><a name="line605">605    </a></b>	    p_drive_status_content->e3d_error_count;
+<b><a name="line606">606    </a></b>	    p_drive_status_content->crc_error_count;
+</pre></body>
+</html>

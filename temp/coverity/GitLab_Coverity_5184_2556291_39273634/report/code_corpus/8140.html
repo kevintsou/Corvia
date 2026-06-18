@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line746">746    </a></b>	
+<b><a name="line747">747    </a></b>	    message_address = data_address;
+<b><a name="line748">748    </a></b>	    message_size = signature_address - data_address;
+<b><a name="line749">749    </a></b>	    sm9_key_struct_ptr = (SM9_KEY_STRUCT_PTR) key_address;
+<b><a name="line750">750    </a></b>	
+<b><a name="line751">751    </a></b>	    if (ALGORITHM_SETTINGS_MMUL_64x64 != GET_ALGORITHM_SETTINGS_MMUL(p_project_binary_header->algorithm_settings)) {
+<b><a name="line752">752    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_SETTING;
+<b><a name="line753">753    </a></b>	    }
+<b><a name="line754">754    </a></b>	
+<b><a name="line755">755    </a></b>	    hash_buffer = calculation_buffer;
+<b><a name="line756">756    </a></b>	    identity = calculation_buffer + SECTOR_SIZE;
+<b><a name="line757">757    </a></b>	    buffer_addr_for_sm9 = identity + 32;
+<b><a name="line758">758    </a></b>	
+<b><a name="line759">759    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line760">760    </a></b>	    sec_sha_param.src_addr.low  = (U32)message_address;
+<b><a name="line761">761    </a></b>	    sec_sha_param.src_len       = message_size;
+<b><a name="line762">762    </a></b>	    sec_sha_param.targ_addr.low = (U32)hash_buffer;
+<b><a name="line763">763    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line764">764    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line765">765    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+<b><a name="line766">766    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line767">767    </a></b>	    memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line768">768    </a></b>	    memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line769">769    </a></b>	
+<b><a name="line770">770    </a></b>	    // disable_dmsca = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line771">771    </a></b>	
+<b><a name="line772">772    </a></b>	    // get identity info from header
+<b><a name="line773">773    </a></b>	    // U8 identity[11]; // e.g., PS5303_P909
+<b><a name="line774">774    </a></b>	    (void)memcpy((void *)(identity), (void *)(U32 *)(p_project_binary_header->a_ic_version), 6);
+<b><a name="line775">775    </a></b>	    (void)memcpy((void *)(identity + 7), (void *)(U32 *)(p_project_binary_header->certificate_id), 4);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "identity" (unsigned) is not the same as that of the right operand "7"(signed).</font>
+<b><a name="line776">776    </a></b>	    *(U8 *)(identity + 6)= (U8)'_';
+<b><a name="line777">777    </a></b>	
+<b><a name="line778">778    </a></b>	    hal_sec_sm9_verify_init_buf(&sm9_verify_buf, buffer_addr_for_sm9);
+<b><a name="line779">779    </a></b>	
+<b><a name="line780">780    </a></b>	    if ((U8)(phal_sec_sm9_verify((U8 *)(U32 *)(signature_address), (U8 *)(U32 *)(sm9_key_struct_ptr->mpk), (U8 *)(U32 *)(hash_buffer), HAL_SEC_SHA2_SM3_DIGEST_LEN, (U8 *)(identity), 11, &sm9_verify_buf, buffer_addr_for_sm9) != HAL_SEC_SM9_ERROR(SEC_YES)))
+<b><a name="line781">781    </a></b>	    {
+<b><a name="line782">782    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line783">783    </a></b>	        Dump_SEC(tprintf("DSAV F!"));
+<b><a name="line784">784    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line785">785    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line786">786    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line787">787    </a></b>	    }
+<b><a name="line788">788    </a></b>	
+<b><a name="line789">789    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line790">790    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line791">791    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line792">792    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line793">793    </a></b>	    }
+<b><a name="line794">794    </a></b>	
+<b><a name="line795">795    </a></b>	    Dump_SEC(tprintf("DSAV PA"));
+<b><a name="line796">796    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line797">797    </a></b>	
+<b><a name="line798">798    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line799">799    </a></b>	}
+<b><a name="line800">800    </a></b>	
+<b><a name="line801">801    </a></b>	/**
+<b><a name="line802">802    </a></b>	 * @brief SW SM2 code sign verifycation flow
+<b><a name="line803">803    </a></b>	 *
+<b><a name="line804">804    </a></b>	 * @param p_project_binary_header Project binary header
+<b><a name="line805">805    </a></b>	 * @param calculation_buffer DBUF address for calculation
+<b><a name="line806">806    </a></b>	 * @param project_binary_hash pointer to hash array
+</pre></body>
+</html>

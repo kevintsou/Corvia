@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_common.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    dal_gic_enable_interrupt(GIC_ID_PERSTN_EVT_0);
+<b><a name="line375">375    </a></b>	    dal_gic_enable_interrupt(GIC_ID_PERSTN_EVT_1);
+<b><a name="line376">376    </a></b>	    dal_gic_enable_interrupt(GIC_ID_PCIE_P0_INTR_N);
+<b><a name="line377">377    </a></b>	    dal_gic_enable_interrupt(GIC_ID_NVME_INT);
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	    ENABLE_ALL_IRQ();
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	    DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line382">382    </a></b>	}
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	void host_api_disable_host_int(void)
+<b><a name="line385">385    </a></b>	{
+<b><a name="line386">386    </a></b>	    DISABLE_ALL_IRQ();
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	    dal_gic_disable_interrupt(GIC_ID_PERSTN_EVT_0);
+<b><a name="line389">389    </a></b>	    dal_gic_disable_interrupt(GIC_ID_PERSTN_EVT_1);
+<b><a name="line390">390    </a></b>	    dal_gic_disable_interrupt(GIC_ID_PCIE_P0_INTR_N);
+<b><a name="line391">391    </a></b>	    dal_gic_disable_interrupt(GIC_ID_NVME_INT);
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	    ENABLE_ALL_IRQ();
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	    DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line396">396    </a></b>	}
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	void nvme_set_cpl_sts(HOST_API_STRUCT_PTR host, U8 sct, U8 sc)
+<b><a name="line399">399    </a></b>	{
+<b><a name="line400">400    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_NVME_STATUS_CODE_TYPE_UNKNOWN, (sct <= NVME_SCT_VENDOR_SPECIFIC));
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	    host->hcpl.sct = sct & 0x07;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "sct" (unsigned) is not the same as that of the right operand "7"(signed).</font>
+<b><a name="line403">403    </a></b>	    host->hcpl.sc  = sc;
+<b><a name="line404">404    </a></b>	}
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	void nvme_get_cmd(HOST_API_STRUCT_PTR host)
+<b><a name="line407">407    </a></b>	{
+<b><a name="line408">408    </a></b>	    HAL_HCMD_STRUCT_PTR hcmd = (HAL_HCMD_STRUCT_PTR)&host->hcmd;
+<b><a name="line409">409    </a></b>	    HAL_APU_CPL_SQ_PARAM_PTR hcpl = (HAL_APU_CPL_SQ_PARAM_PTR)&host->hcpl;
+<b><a name="line410">410    </a></b>	
+<b><a name="line411">411    </a></b>	    Dump_NVME(tprintf("Get Command.\n\r"));
+<b><a name="line412">412    </a></b>	
+<b><a name="line413">413    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_pop(&hcmd->payload, sizeof(HAL_APU_HCMD_HW), HOST_MR_QID_CPU0_CQ_NVME_HCMD_SYNC) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_EMPTY_TIMEOUT, MABIAO_DB_WAIT_CQ);
+<b><a name="line414">414    </a></b>	    Dump_NVME(tprintf("hcmd %x %x %x %x %x %x %x %x ", hcmd->payload.all[0], hcmd->payload.all[1], hcmd->payload.all[2], hcmd->payload.all[3],
+<b><a name="line415">415    </a></b>	                                            hcmd->payload.all[4], hcmd->payload.all[5], hcmd->payload.all[6], hcmd->payload.all[7]));
+<b><a name="line416">416    </a></b>	    // reset fake bit
+<b><a name="line417">417    </a></b>	    hcmd->mctp_fake_hcmd = 0U;
+<b><a name="line418">418    </a></b>	    // init hcpl
+<b><a name="line419">419    </a></b>	    memset((void *)hcpl, 0, sizeof(HAL_APU_CPL_SQ_PARAM));
+<b><a name="line420">420    </a></b>	    hcpl->ctag = hcmd->payload.info.nonuser.ctag;
+<b><a name="line421">421    </a></b>	}
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	void nvme_dispatch_cmd(HOST_API_STRUCT_PTR host)
+<b><a name="line424">424    </a></b>	{
+<b><a name="line425">425    </a></b>	    HAL_HCMD_STRUCT_PTR hcmd = (HAL_HCMD_STRUCT_PTR)&host->hcmd;
+<b><a name="line426">426    </a></b>	    U16 ctag = hcmd->payload.info.nonuser.ctag;
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	    Dump_NVME(tprintf("  >> ctag: %x", ctag));
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	    if (dal_cmgr_get_ct_vld(ctag) == FALSE) {  // invalid ctag
+<b><a name="line431">431    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_NVME_ADM_HANDLE_INVALID_FLAG, 0);
+<b><a name="line432">432    </a></b>	        return;
+<b><a name="line433">433    </a></b>	    }
+</pre></body>
+</html>

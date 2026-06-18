@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line433">433    </a></b>	    //sca mode initial
+<b><a name="line434">434    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->sca_mode_en) {
+<b><a name="line435">435    </a></b>	        hal_sca_mode_init(fpl_ptr->p_efuse_nand_setting->delay_mode_for_tWLCEL_CA, fpl_ptr->p_efuse_nand_setting->sce_dir_bit_en, fpl_ptr->p_efuse_nand_setting->ioe_en, fpl_ptr->p_efuse_nand_setting->lun_sel_en, fpl_ptr->p_efuse_nand_setting->dq_wkup_en);
+<b><a name="line436">436    </a></b>	    } else {
+<b><a name="line437">437    </a></b>	        hal_conv_mode_init();
+<b><a name="line438">438    </a></b>	    }
+<b><a name="line439">439    </a></b>	    //initial interface
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    hal_fip_set_io_init(io_type, rx_mode, tx_mode, edo_en, dis_dqsb, dis_re, (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider >= FIP_TEST_TOGGLE_200MT));
+<b><a name="line442">442    </a></b>	    //initial io driving
+<b><a name="line443">443    </a></b>	    io_drv.hal_odt_dq_dqs_en = fpl_ptr->p_efuse_nand_setting->odt_dq_en;
+<b><a name="line444">444    </a></b>	    io_drv.hal_odt_ctt_dq_dqs = fpl_ptr->p_efuse_nand_setting->odt_dq;
+<b><a name="line445">445    </a></b>	    io_drv.hal_odt_ltt_dq_dqs = fpl_ptr->p_efuse_nand_setting->odt_dq;
+<b><a name="line446">446    </a></b>	    io_drv.hal_drv_ctt_dq = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+<b><a name="line447">447    </a></b>	    io_drv.hal_drv_ctt_dqs = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+<b><a name="line448">448    </a></b>	    io_drv.hal_drv_ctt_reb = fpl_ptr->p_efuse_nand_setting->iolh_ctt;
+<b><a name="line449">449    </a></b>	    io_drv.hal_drv_ltt_chodt_dq = fpl_ptr->p_efuse_nand_setting->iolh_ltt_up;
+<b><a name="line450">450    </a></b>	    io_drv.hal_drv_ltt_chodt_dqs = fpl_ptr->p_efuse_nand_setting->iolh_ltt_up;
+<b><a name="line451">451    </a></b>	    io_drv.hal_drv_ltt_chodt_reb = fpl_ptr->p_efuse_nand_setting->iolh_ltt_up;
+<b><a name="line452">452    </a></b>	    io_drv.hal_drv_ltt_pd_dq = fpl_ptr->p_efuse_nand_setting->iolh_ltt_dn;
+<b><a name="line453">453    </a></b>	    io_drv.hal_drv_ltt_pd_dqs = fpl_ptr->p_efuse_nand_setting->iolh_ltt_dn;
+<b><a name="line454">454    </a></b>	    io_drv.hal_drv_ltt_pd_reb = fpl_ptr->p_efuse_nand_setting->iolh_ltt_dn;
+<b><a name="line455">455    </a></b>	    io_drv.hal_drv_ca = fpl_ptr->p_efuse_nand_setting->iolh_ca;
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	    hal_fip_set_io_driving(&io_drv, (fpl_ptr->p_efuse_nand_setting->rx_mode_dq == HAL_FPL_RX_MODE_CTT) ? (TRUE) : (FALSE));
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	    //HW request fphy setting
+<b><a name="line460">460    </a></b>	    for (ch = 0U; ch < FLH_MAX_CH_NUM; ch++) {
+<b><a name="line461">461    </a></b>	        //set ca rescue setting
+<b><a name="line462">462    </a></b>	        hal_ca_rescue_setting(ch, fpl_ptr->p_efuse_nand_setting->ca_clk_increase_2, fpl_ptr->p_efuse_nand_setting->ca_clk_increase_1);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(*fpl_ptr->p_efuse_nand_setting).ca_clk_increase_1" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line463">463    </a></b>	
+<b><a name="line464">464    </a></b>	        //set legacy sdll setting
+<b><a name="line465">465    </a></b>	        if (fpl_ptr->flash_if == HAL_FIP_OP_FLH_IF_LEGACY) // gck_sel only for legacy mode
+<b><a name="line466">466    </a></b>	        {
+<b><a name="line467">467    </a></b>	            w_FLH_FPHI_CTL_RX_GCK_SEL(DAL_FIP_REG_REAL_FALL, gck_sel);
+<b><a name="line468">468    </a></b>	        }
+<b><a name="line469">469    </a></b>	        else // rd_dll90 only for toggle
+<b><a name="line470">470    </a></b>	        {
+<b><a name="line471">471    </a></b>	            hal_fip_set_rd_dll90_reg(ch, 1U, gck_sel);
+<b><a name="line472">472    </a></b>	        }
+<b><a name="line473">473    </a></b>	        //set [6:0] RX_REF_LEVEL_IN_CH0/1
+<b><a name="line474">474    </a></b>	        hal_set_fphy_rx_ref_level_in(ch, fpl_ptr->p_efuse_nand_setting->ref_level);
+<b><a name="line475">475    </a></b>	        if (fpl_ptr->p_efuse_nand_setting->ctrl_zq_calibration_dis == TRUE) {
+<b><a name="line476">476    </a></b>	            //set [6:0] DRVDN_LTT_IN_CH0/1
+<b><a name="line477">477    </a></b>	            hal_set_fphy_ltt_drvn_in(ch, fpl_ptr->p_efuse_nand_setting->drvn_ltt);
+<b><a name="line478">478    </a></b>	            //set [6:0] DRVUP_LTT_IN_CH0/1
+<b><a name="line479">479    </a></b>	            hal_set_fphy_ltt_drvp_in(ch, fpl_ptr->p_efuse_nand_setting->drvp_ltt);
+<b><a name="line480">480    </a></b>	        }
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	        w_TGL_R_DAT_PRE_PHS_CNT(ch, r_TGL_R_DAT_PRE_PHS_CNT(ch) + trpre[fpl_ptr->p_efuse_nand_setting->redriver_trpre_delay]);
+<b><a name="line483">483    </a></b>	        w_TGL_R_DAT_FPHI_PST_PHS_CNT(ch, 9);
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	        if (io_type != HAL_FPL_IO_TYPE_SDR) {
+<b><a name="line486">486    </a></b>	            if (rx_mode == HAL_FPL_RX_MODE_CTT) {
+<b><a name="line487">487    </a></b>	                if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_50MT || fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_100MT) {
+<b><a name="line488">488    </a></b>	                    w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x0U);
+<b><a name="line489">489    </a></b>	                } else {
+<b><a name="line490">490    </a></b>	                    w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x1U);
+<b><a name="line491">491    </a></b>	                }
+<b><a name="line492">492    </a></b>	            } else {
+<b><a name="line493">493    </a></b>	                w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x1U);
+</pre></body>
+</html>

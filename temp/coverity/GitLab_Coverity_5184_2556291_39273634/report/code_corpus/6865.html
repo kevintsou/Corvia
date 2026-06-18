@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_common.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line65">65    </a></b>	        while (hal_cmgr_get_fw_clr_cvld_req(PCIE_PORT_0))
+<b><a name="line66">66    </a></b>	        {
+<b><a name="line67">67    </a></b>	            if (mabiao_chk(&timer))
+<b><a name="line68">68    </a></b>	            {
+<b><a name="line69">69    </a></b>	                break;
+<b><a name="line70">70    </a></b>	            }
+<b><a name="line71">71    </a></b>	        }
+<b><a name="line72">72    </a></b>	    }
+<b><a name="line73">73    </a></b>	    */
+<b><a name="line74">74    </a></b>	    memset((void *)hcpl, 0, sizeof(HAL_APU_CPL_SQ_PARAM));
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	}
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	/*
+<b><a name="line79">79    </a></b>	 *  public
+<b><a name="line80">80    </a></b>	 */
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	void nvme_clr_cmgr_hw_lock(void)
+<b><a name="line83">83    </a></b>	{
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    if(dal_cmgr_get_int_p_cmgr_lock(0) == TRUE)
+<b><a name="line86">86    </a></b>	    {
+<b><a name="line87">87    </a></b>	        dal_cmgr_set_int_p_cmgr_lock(0);
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	}
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	BOOL nvme_check_cpl_err_status(HOST_API_STRUCT_PTR host)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    if ((host->hcpl.sct == NVME_SCT_GENERIC_CMD_STS) && (host->hcpl.sc == NVME_GENERIC_STS_SUCCESS)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "host->hcpl.sc" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line95">95    </a></b>	        return FALSE;
+<b><a name="line96">96    </a></b>	    }
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    return TRUE;
+<b><a name="line99">99    </a></b>	}
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	void nvme_send_cpl_normal(HOST_API_STRUCT_PTR host)
+<b><a name="line102">102    </a></b>	{
+<b><a name="line103">103    </a></b>	    //    HAL_APU_CPL_SQ_PARAM_PTR hcpl = (HAL_APU_CPL_SQ_PARAM_PTR)&host->hcpl;
+<b><a name="line104">104    </a></b>	    HAL_APU_CPL_SQ_PARAM_PTR hcpl = (HAL_APU_CPL_SQ_PARAM_PTR)&host->hcpl;
+<b><a name="line105">105    </a></b>	    U16                      ctag = hcpl->ctag;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if (dal_cmgr_get_ct_vld(ctag) == FALSE) {
+<b><a name="line108">108    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_NVME_SEND_CPL_FLAG_VALID, 0);
+<b><a name="line109">109    </a></b>	        return;
+<b><a name="line110">110    </a></b>	    }
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    // if AER cmd: release cmd table resource
+<b><a name="line113">113    </a></b>	    if (dal_cmgr_get_ct_adm(ctag) &&                       // (host->cmd_tbl_ptr[ctag].adm == 1) &&
+<b><a name="line114">114    </a></b>	        (dal_cmgr_get_ct_opc(ctag) == ADM_OPC_AER) &&      // (host->cmd_tbl_ptr[ctag].sq_cmd.opc == ADM_OPC_AER) &&
+<b><a name="line115">115    </a></b>	        (nvme_check_cpl_err_status(host)) == FALSE) {           // AER cmd is successfully finished
+<b><a name="line116">116    </a></b>	        Dump_NVME(tprintf("AER cmd handle.\n\r"));
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	        // if AER cmd completes successfully
+<b><a name="line119">119    </a></b>	        dal_cmgr_set_fw_clr_cvld_ctag(PCIE_PORT_0, ctag);  // set the ctag we want to clear
+<b><a name="line120">120    </a></b>	        dal_cmgr_set_fw_clr_cvld_req(PCIE_PORT_0);
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_CTAG_CLR, 500);
+<b><a name="line123">123    </a></b>	        while (dal_cmgr_get_fw_clr_cvld_req(PCIE_PORT_0)) {
+<b><a name="line124">124    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line125">125    </a></b>	                BC_APP_ASSERT( BCODE_ERROR_CLEAR_AER_CTAG_TIMEOUT, 0 );
+</pre></body>
+</html>

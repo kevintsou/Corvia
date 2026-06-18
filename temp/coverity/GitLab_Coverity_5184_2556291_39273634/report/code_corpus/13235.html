@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_i2c.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line15">15    </a></b>	#define GPX_EOP_EN                                  (BIT25)
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	// wr/rd mode
+<b><a name="line18">18    </a></b>	#define I2C_WR_MODE                                 (0U)
+<b><a name="line19">19    </a></b>	#define I2C_WR_DATA_CNT                             (0U)
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#define I2C_RD_MODE                                 (GPX_DIR)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	// normal mode
+<b><a name="line24">24    </a></b>	#define I2C_NM_100K                                 (100U)
+<b><a name="line25">25    </a></b>	#define I2C_NM_400K                                 (400U)
+<b><a name="line26">26    </a></b>	#define I2C_NM_1M                                   (1000U)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	// high speed mode
+<b><a name="line29">29    </a></b>	#define I2C_HS_1M7                                  (1700U)
+<b><a name="line30">30    </a></b>	#define I2C_HS_3M4                                  (3400U)
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	// power domain group
+<b><a name="line33">33    </a></b>	#define I2C_PD0                                     (0U)
+<b><a name="line34">34    </a></b>	#define I2C_GROUP_1                                 (0U)
+<b><a name="line35">35    </a></b>	#define I2C_GROUP_2                                 (1U)
+<b><a name="line36">36    </a></b>	#define I2C_GROUP_3                                 (2U)
+<b><a name="line37">37    </a></b>	#define I2C_GROUP_4                                 (3U)
+<b><a name="line38">38    </a></b>	#define I2C_GROUP_NUM                               (4U)
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	// macro function
+<b><a name="line41">41    </a></b>	#define M_I2CM_SET_CLK_DIV_CNT(X)                   (w_I2CM0_CLK_DIV_CNT(X))
+<b><a name="line42">42    </a></b>	#define M_I2CM_SET_NM_SCL_LT(X)                     (w_I2CM0_NM_SCL_LT(X))
+<b><a name="line43">43    </a></b>	#define M_I2CM_SET_NM_SCL_HT(X)                     (w_I2CM0_NM_SCL_HT(X))
+<b><a name="line44">44    </a></b>	#define M_I2CM_SET_THIGH_MIN_CNT(X)                 (w_I2CM0_THIGH_MIN_CNT(X))
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">Previous declaration of "M_I2CM_SET_THIGH_MIN_CNT".</font>
+<b><a name="line45">45    </a></b>	#define M_I2CM_SET_NM_SDA_HOLD_CNT(X)               (w_I2CM0_NM_SDA_HOLD_CNT(X))
+<b><a name="line46">46    </a></b>	#define M_I2CM_SET_NM_SDA_ST_SETUP_CNT(X)           (w_I2CM0_NM_SDA_ST_SETUP_CNT(X))
+<b><a name="line47">47    </a></b>	#define M_I2CM_SET_DEBOUNCE_EN(X)                   (w_I2CM0_DEBOUNCE_EN(X))
+<b><a name="line48">48    </a></b>	#define M_I2CM_SET_DEBOUNCE_HIGH_DEPTH(X)           (w_I2CM0_DEBOUNCE_HIGH_DEPTH(X))
+<b><a name="line49">49    </a></b>	#define M_I2CM_SET_DEBOUNCE_LOW_DEPTH(X)            (w_I2CM0_DEBOUNCE_LOW_DEPTH(X))
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	#define M_I2CM_SET_HS_SCL_LT(X)                     (w_I2CM0_HS_SCL_LT(X))
+<b><a name="line52">52    </a></b>	#define M_I2CM_SET_SCL_SEL(X)                       (w_I2CM0_SCL_SEL(X))
+<b><a name="line53">53    </a></b>	#define M_I2CM_SET_HS_SCL_HT(X)                     (w_I2CM0_HS_SCL_HT(X))
+<b><a name="line54">54    </a></b>	#define M_I2CM_SET_HS_SDA_HOLD_CNT(X)               (w_I2CM0_HS_SDA_HOLD_CNT(X))
+<b><a name="line55">55    </a></b>	#define M_I2CM_SET_HS_SDA_ST_SETUP_CNT(X)           (w_I2CM0_HS_SDA_ST_SETUP_CNT(X))
+<b><a name="line56">56    </a></b>	#define M_I2CM_SET_HS_SCL_ST_HOLD_CNT(X)            (w_I2CM0_HS_SCL_ST_HOLD_CNT(X))
+<b><a name="line57">57    </a></b>	#define M_I2CM_SET_THIGH_MIN_CNT(X)                 (w_I2CM0_THIGH_MIN_CNT(X))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "M_I2CM_SET_THIGH_MIN_CNT", which is has already been used.</font>
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	#define M_I2CM_SET_GPX_SLAVE_ADDR(gp, slvAddr)      (w_I2CM0_GPX_SLAVE_ADDR(gp, slvAddr))
+<b><a name="line60">60    </a></b>	#define M_I2CM_SET_R8_GPX_OP_REG(gp, opIdx, op)     (r8_w_I2CM0_GPX_OP_REG(gp, opIdx, op))
+<b><a name="line61">61    </a></b>	#define M_I2CM_SET_R32_GPX_CTRL(gp, mode)           (r32_w_I2CM0_GPX_CTRL(gp, mode))
+<b><a name="line62">62    </a></b>	#define M_I2CM_SET_GPX_DATA_CNT(gp, dataCnt)        (w_I2CM0_GPX_DATA_CNT(gp, dataCnt))
+<b><a name="line63">63    </a></b>	#define M_I2CM_SET_GPX_OP_CNT(gp, opCnt)            (w_I2CM0_GPX_OP_CNT(gp, opCnt))
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	#define M_I2CM_GET_GPX_I2C_START(gp)                (r_I2CM0_GPX_I2C_START(gp))
+<b><a name="line66">66    </a></b>	#define M_I2CM_SET_GPX_I2C_START(gp, X)             (w_I2CM0_GPX_I2C_START(gp, X))
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	#define M_I2CM_GET_GPX_ANACK(gp)                    (r_I2CM0_GPX_ANACK(gp))
+<b><a name="line69">69    </a></b>	#define M_I2CM_GET_GPX_DNACK(gp)                    (r_I2CM0_GPX_DNACK(gp))
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	#define M_I2CM_GET_BUF0_0()                         (r_I2CM0_BUF0_0())
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	// PMU select I2CM power domain
+<b><a name="line74">74    </a></b>	#define M_PMU_SELECT_I2CM_PD0()                     (w_PMU_CR_PMU_I2CM_2GP_SEL((U8)1U))
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	typedef enum {
+<b><a name="line77">77    </a></b>	    E_I2C_STATUS_BUSY,
+<b><a name="line78">78    </a></b>	    E_I2C_STATUS_IDLE
+<b><a name="line79">79    </a></b>	} I2C_STATUS_E;
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	typedef enum {
+<b><a name="line82">82    </a></b>	    E_I2C_NO_ERR,
+<b><a name="line83">83    </a></b>	    E_I2C_ERR_BUSY,                 // I2C is busy, cannot trigger any command
+<b><a name="line84">84    </a></b>	    E_I2C_ERR_TRANSACTION_TIMEOUT,  // wait i2c transaction finish timeout
+<b><a name="line85">85    </a></b>	    E_I2C_ERR_ANACK_DNACK,          // the target NACK to address or data in current I2C cmd
+<b><a name="line86">86    </a></b>	} I2C_ERR_E;
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	// senarios to trigger i2c
+</pre></body>
+</html>

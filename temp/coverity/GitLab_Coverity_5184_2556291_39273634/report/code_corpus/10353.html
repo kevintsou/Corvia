@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_utils.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line43">43    </a></b>	{
+<b><a name="line44">44    </a></b>	    U8 *destination_addr = NULL;
+<b><a name="line45">45    </a></b>	    U8 *source_addr = NULL;
+<b><a name="line46">46    </a></b>	    U32 i;
+<b><a name="line47">47    </a></b>	    U8 ret = 0;
+<b><a name="line48">48    </a></b>	    destination_addr = (U8 *) destination;
+<b><a name="line49">49    </a></b>	    source_addr = (U8 *)  source ;
+<b><a name="line50">50    </a></b>	    for (i = 0 ; i < num; i++) {
+<b><a name="line51">51    </a></b>	        if (destination_addr[i] != source_addr[i]) {
+<b><a name="line52">52    </a></b>	            ret = 1;
+<b><a name="line53">53    </a></b>	        }
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	    return ret;
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	void *memset_P(void *destination, U8 value, U32 num)
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    U8 *destination_addr = NULL;
+<b><a name="line61">61    </a></b>	    destination_addr = (U8 *) destination;
+<b><a name="line62">62    </a></b>	    U32 i;
+<b><a name="line63">63    </a></b>	    for (i = 0 ; i < num; i++) {
+<b><a name="line64">64    </a></b>	        destination_addr[i] = value;
+<b><a name="line65">65    </a></b>	    }
+<b><a name="line66">66    </a></b>	    return 0;
+<b><a name="line67">67    </a></b>	}
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	U32 dump_4ByteAsciiErrorLine(U16 uwErrorLine)
+<b><a name="line70">70    </a></b>	{
+<b><a name="line71">71    </a></b>	    U32 ulResult = 0;
+<b><a name="line72">72    </a></b>	    for (U8 ubi = 0; ubi < sizeof(U32); ubi++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "ubi" = "0".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubi < 4U /* sizeof (U32) */", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event incr:</font></b> <font face="Arial"; size="3"; color="#FF5959">Incrementing "ubi". The value of "ubi" is now 1.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubi < 4U /* sizeof (U32) */", taking true branch.</font>
+<b><a name="line73">73    </a></b>	        U8 ubChar = (uwErrorLine % 10) + '0';
+<b><a name="line74">74    </a></b>	        U8 ubOffset = (sizeof(U32) - 1 - ubi) << 3;
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "ubOffset" = "3U - ubi << 3". The value of "ubOffset" is now 16.</font>
+<b><a name="line75">75    </a></b>	        ulResult |= (ubChar << ubOffset);
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "ubChar << ubOffset", shifting more than 7 bits, the number of bits in the essential type of the left expression, "ubChar", is not allowed.  The shift amount, "ubOffset", is 16.</font>
+<b><a name="line76">76    </a></b>	        uwErrorLine /= 10;
+<b><a name="line77">77    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line78">78    </a></b>	    return ulResult;
+<b><a name="line79">79    </a></b>	}
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	U16 sal_calculate_crc16(U32 ulAddr, U16 uwLen, U16 uwSeed)
+<b><a name="line82">82    </a></b>	{
+<b><a name="line83">83    </a></b>	    U16 uwCalc_crc16 = 0;
+<b><a name="line84">84    </a></b>	    U32 idx = 0;
+<b><a name="line85">85    </a></b>	    U32 jdx = 0;
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    //Can't use Search Engine 1's CRC because the initial seed is not 0
+<b><a name="line88">88    </a></b>	    uwCalc_crc16 = uwSeed;
+<b><a name="line89">89    </a></b>	    for (idx = 0 ; idx < uwLen ; idx++ )
+<b><a name="line90">90    </a></b>	    {
+<b><a name="line91">91    </a></b>	        uwCalc_crc16 ^= (((U8 *)ulAddr)[idx] << 8);
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	        for (jdx = 0 ; jdx < 8 ; jdx++ )
+<b><a name="line94">94    </a></b>	        {
+<b><a name="line95">95    </a></b>	            if (uwCalc_crc16 & 0x8000)
+<b><a name="line96">96    </a></b>	            {
+<b><a name="line97">97    </a></b>	                uwCalc_crc16 = (uwCalc_crc16 << 1) ^ 0x1021;
+<b><a name="line98">98    </a></b>	            }
+<b><a name="line99">99    </a></b>	            else
+<b><a name="line100">100    </a></b>	            {
+<b><a name="line101">101    </a></b>	                uwCalc_crc16 <<= 1;
+<b><a name="line102">102    </a></b>	            }
+<b><a name="line103">103    </a></b>	        }
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	    return uwCalc_crc16;
+<b><a name="line107">107    </a></b>	}
+<b><a name="line108">108    </a></b>	
+</pre></body>
+</html>

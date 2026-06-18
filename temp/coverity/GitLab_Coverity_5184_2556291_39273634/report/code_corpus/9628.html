@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2245">2245    </a></b>	        else if (abits[i] == '2')
+<b><a name="line2246">2246    </a></b>	        {
+<b><a name="line2247">2247    </a></b>	            //sm9_z256_eval_g_line_no_pre(&T, lw, &T, &Q1, &P_);
+<b><a name="line2248">2248    </a></b>	            hal_sec_sm9_z256_eval_g_line(T, lw, pre, T, Q1, P_, sm9_comm_buf);
+<b><a name="line2249">2249    </a></b>	            hal_sec_sm9_z256_fp12_line_mul(r, r, lw, sm9_comm_buf);
+<b><a name="line2250">2250    </a></b>	        }
+<b><a name="line2251">2251    </a></b>	        else
+<b><a name="line2252">2252    </a></b>	        {
+<b><a name="line2253">2253    </a></b>	            ; //misra c
+<b><a name="line2254">2254    </a></b>	        }
+<b><a name="line2255">2255    </a></b>	    }
+<b><a name="line2256">2256    </a></b>	
+<b><a name="line2257">2257    </a></b>	    hal_sec_sm9_z256_pi_one_twist_point(Q1, QQ);
+<b><a name="line2258">2258    </a></b>	    hal_sec_sm9_z256_twist_pt_neg_pi2(Q2, QQ);
+<b><a name="line2259">2259    </a></b>	
+<b><a name="line2260">2260    </a></b>	    hal_sec_sm9_z256_eval_g_line_no_pre(T, lw, T, Q1, P_, sm9_comm_buf);
+<b><a name="line2261">2261    </a></b>	    hal_sec_sm9_z256_fp12_line_mul(r, r, lw, sm9_comm_buf);
+<b><a name="line2262">2262    </a></b>	
+<b><a name="line2263">2263    </a></b>	    hal_sec_sm9_z256_eval_g_line_no_pre(T, lw, T, Q2, P_, sm9_comm_buf);
+<b><a name="line2264">2264    </a></b>	    hal_sec_sm9_z256_fp12_line_mul(r, r, lw, sm9_comm_buf);
+<b><a name="line2265">2265    </a></b>	
+<b><a name="line2266">2266    </a></b>	    hal_sec_sm9_z256_easy_part_final_exponent(r, r, sm9_comm_buf);
+<b><a name="line2267">2267    </a></b>	}
+<b><a name="line2268">2268    </a></b>	
+<b><a name="line2269">2269    </a></b>	void hal_sec_sm9_z256_modn_add(HAL_SEC_SM9_Z256_T r, HAL_SEC_SM9_Z256_T a, HAL_SEC_SM9_Z256_T b)
+<b><a name="line2270">2270    </a></b>	{
+<b><a name="line2271">2271    </a></b>	    U64 c = hal_sec_sm9_z256_add(r, a, b);
+<b><a name="line2272">2272    </a></b>	
+<b><a name="line2273">2273    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_neg_n;
+<b><a name="line2274">2274    </a></b>	    (void)memcpy(sm9_z256_neg_n, SM9_Z256_NEG_N, sizeof(SM9_Z256_NEG_N));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "SM9_Z256_NEG_N" of type "HAL_SEC_SM9_Z256_T const *" is cast to type "U64 const *".</font>
+<b><a name="line2275">2275    </a></b>	
+<b><a name="line2276">2276    </a></b>	    if (c != 0ULL)
+<b><a name="line2277">2277    </a></b>	    {
+<b><a name="line2278">2278    </a></b>	        // a + b - n = (a + b - 2^256) + (2^256 - n)
+<b><a name="line2279">2279    </a></b>	        (void)hal_sec_sm9_z256_add(r, r, sm9_z256_neg_n);
+<b><a name="line2280">2280    </a></b>	        return;
+<b><a name="line2281">2281    </a></b>	    }
+<b><a name="line2282">2282    </a></b>	
+<b><a name="line2283">2283    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_n;
+<b><a name="line2284">2284    </a></b>	    (void)memcpy(sm9_z256_n, SM9_Z256_N, sizeof(SM9_Z256_N));
+<b><a name="line2285">2285    </a></b>	
+<b><a name="line2286">2286    </a></b>	    if (hal_sec_sm9_z256_cmp(r, sm9_z256_n) >= 0)
+<b><a name="line2287">2287    </a></b>	    {
+<b><a name="line2288">2288    </a></b>	        (void)hal_sec_sm9_z256_sub(r, r, sm9_z256_n);
+<b><a name="line2289">2289    </a></b>	    }
+<b><a name="line2290">2290    </a></b>	}
+<b><a name="line2291">2291    </a></b>	
+<b><a name="line2292">2292    </a></b>	void hal_sec_sm9_z256_modn_sub(HAL_SEC_SM9_Z256_T r, HAL_SEC_SM9_Z256_T a, HAL_SEC_SM9_Z256_T b)
+<b><a name="line2293">2293    </a></b>	{
+<b><a name="line2294">2294    </a></b>	    U64 c = hal_sec_sm9_z256_sub(r, a, b);
+<b><a name="line2295">2295    </a></b>	
+<b><a name="line2296">2296    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_neg_n;
+<b><a name="line2297">2297    </a></b>	    (void)memcpy(sm9_z256_neg_n, SM9_Z256_NEG_N, sizeof(SM9_Z256_NEG_N));
+<b><a name="line2298">2298    </a></b>	
+<b><a name="line2299">2299    </a></b>	    if (c != 0ULL)
+<b><a name="line2300">2300    </a></b>	    {
+<b><a name="line2301">2301    </a></b>	        // a - b + n = (a - b + 2^256) - (2^256 - n)
+<b><a name="line2302">2302    </a></b>	        (void)hal_sec_sm9_z256_sub(r, r, sm9_z256_neg_n);
+<b><a name="line2303">2303    </a></b>	    }
+<b><a name="line2304">2304    </a></b>	}
+<b><a name="line2305">2305    </a></b>	
+</pre></body>
+</html>

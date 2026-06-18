@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line576">576    </a></b>	}
+<b><a name="line577">577    </a></b>	
+<b><a name="line578">578    </a></b>	void hal_sec_sm9_exch_set_id_sk(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, U8 *sk)
+<b><a name="line579">579    </a></b>	{
+<b><a name="line580">580    </a></b>	    (void)memcpy((void *)key_pac->sk, (void *)sk, HAL_SEC_SM9_EXCH_PRI_KEY_LEN);
+<b><a name="line581">581    </a></b>	}
+<b><a name="line582">582    </a></b>	
+<b><a name="line583">583    </a></b>	void hal_sec_sm9_exch_init(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, char *id_a, char *id_b, U64 id_a_len, U64 id_b_len, U8 *mpk, U8 *sk)
+<b><a name="line584">584    </a></b>	{
+<b><a name="line585">585    </a></b>	    hal_sec_sm9_exch_set_id_a(key_pac, id_a, id_a_len);
+<b><a name="line586">586    </a></b>	    hal_sec_sm9_exch_set_id_b(key_pac, id_b, id_b_len);
+<b><a name="line587">587    </a></b>	    hal_sec_sm9_exch_set_mpk(key_pac, mpk);
+<b><a name="line588">588    </a></b>	    hal_sec_sm9_exch_set_id_sk(key_pac, sk);
+<b><a name="line589">589    </a></b>	}
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	U8 hal_sec_sm9_exch_a1(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR exch_t, U8 *nonce, HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buf)
+<b><a name="line592">592    </a></b>	{
+<b><a name="line593">593    </a></b>	    HAL_SEC_SM9_Z256_T temp = {0ULL};
+<b><a name="line594">594    </a></b>	    HAL_SEC_SM9_Z256_POINT_T ra_point;
+<b><a name="line595">595    </a></b>	    SM9_EXCH_MASTER_KEY emk_t;
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    // retrieve key
+<b><a name="line598">598    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&emk_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line599">599    </a></b>	    {
+<b><a name="line600">600    </a></b>	        return SEC_NO;
+<b><a name="line601">601    </a></b>	    }
+<b><a name="line602">602    </a></b>	
+<b><a name="line603">603    </a></b>	    // A1 : Q = H1(ID_B||hid, N) * P1 + Ppube
+<b><a name="line604">604    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line605">605    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    hal_sec_sm9_z256_hash1(temp, exch_t->identityB, exch_t->iblen, HAL_SEC_SM9_EXCH_HID, &keyexch_buf->comm_buf);
+<b><a name="line608">608    </a></b>	    hal_sec_sm9_z256_point_mul(&ra_point, temp, &sm9_z256_mont_p1, &keyexch_buf->comm_buf);
+<b><a name="line609">609    </a></b>	    hal_sec_sm9_z256_point_add(&ra_point, &ra_point, &emk_t.Ppube);
+<b><a name="line610">610    </a></b>	
+<b><a name="line611">611    </a></b>	    //A2 : rand_val rA in [1, N-1]
+<b><a name="line612">612    </a></b>	    hal_sec_sm9_z256_from_bytes(temp, nonce);
+<b><a name="line613">613    </a></b>	
+<b><a name="line614">614    </a></b>	    //RA = rA * Q
+<b><a name="line615">615    </a></b>	    hal_sec_sm9_z256_point_mul(&ra_point, temp, &ra_point, &keyexch_buf->comm_buf);
+<b><a name="line616">616    </a></b>	    hal_sec_sm9_z256_point_to_bytes(&ra_point, exch_t->Ra);
+<b><a name="line617">617    </a></b>	
+<b><a name="line618">618    </a></b>	    (void)memcpy(&exch_t->ra, temp, sizeof(HAL_SEC_SM9_Z256_T));
+<b><a name="line619">619    </a></b>	
+<b><a name="line620">620    </a></b>	    return SEC_YES;
+<b><a name="line621">621    </a></b>	}
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	U8 hal_sec_sm9_exch_b1(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR exch_t, U8 out[], U32 out_len, U8 *msg, HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buf)
+<b><a name="line624">624    </a></b>	{
+<b><a name="line625">625    </a></b>	    HAL_SEC_SM9_Z256_T temp = {0ULL};
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	    U8 ta[65], tb[65];
+<b><a name="line628">628    </a></b>	    HAL_SEC_SM9_Z256_POINT_T rb_point, ra_point;
+<b><a name="line629">629    </a></b>	    SM9_EXCH_MASTER_KEY emk;
+<b><a name="line630">630    </a></b>	    HAL_SEC_SM9_EXCH_KEY_T ek_t;
+<b><a name="line631">631    </a></b>	    HAL_SEC_SM9_Z256_T rb;
+<b><a name="line632">632    </a></b>	
+<b><a name="line633">633    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G1 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G1_addr);
+<b><a name="line634">634    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G2 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G2_addr);
+<b><a name="line635">635    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G3 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G3_addr);
+<b><a name="line636">636    </a></b>	    U8 *g1 = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g1_addr);
+</pre></body>
+</html>

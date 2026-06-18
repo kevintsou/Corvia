@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1647">1647    </a></b>	    } ChangeVariable;
+<b><a name="line1648">1648    </a></b>	} BackEndTestPara_t;
+<b><a name="line1649">1649    </a></b>	
+<b><a name="line1650">1650    </a></b>	#define HOST_SERVICE_NVME_TYPE   (0U)
+<b><a name="line1651">1651    </a></b>	#define HOST_SERVICE_UART_TYPE   (1U)
+<b><a name="line1652">1652    </a></b>	
+<b><a name="line1653">1653    </a></b>	extern void vendor_cmd_dispatch(VUC_SQ_STRUCT_PTR sq, VUC_CQ_STRUCT_PTR cq, U8 *host_buf, U8 host_service_type);
+<b><a name="line1654">1654    </a></b>	void vuc_cq_report_status(VUC_CQ_STRUCT_PTR cq, U8 status_code_type, U8 status_code);
+<b><a name="line1655">1655    </a></b>	BOOL vuc_send_secure_info(VUC_DISPATCH_PARAM_STRUCT_PTR param, U32 host_buf);
+<b><a name="line1656">1656    </a></b>	BOOL vuc_send_handshake_request(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1657">1657    </a></b>	BOOL vuc_receive_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param, U32 ndt);
+<b><a name="line1658">1658    </a></b>	BOOL vuc_send_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1659">1659    </a></b>	void vuc_disable_vuc(void);
+<b><a name="line1660">1660    </a></b>	void vuc_protect_init(U32 protect_level_default);
+<b><a name="line1661">1661    </a></b>	void vuc_protect_fail_handle(VUC_DISPATCH_PARAM_STRUCT_PTR param, U8 status_code, U8 status_code_type);
+<b><a name="line1662">1662    </a></b>	U32 vuc_protect_check_command(VUC_SQ_STRUCT_PTR sq_cmd);
+<b><a name="line1663">1663    </a></b>	void vuc_protect_decrypt_command(VUC_SQ_STRUCT_PTR sq_cmd, U32 calculation_buffer);
+<b><a name="line1664">1664    </a></b>	void vuc_nvme_identify(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1665">1665    </a></b>	void vuc_nvme_get_log_page(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1666">1666    </a></b>	
+<b><a name="line1667">1667    </a></b>	void vuc_ap_key_enable(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1668">1668    </a></b>	void vuc_isp_jump(VUC_DISPATCH_PARAM_STRUCT_PTR param, U8 host_service_type);
+<b><a name="line1669">1669    </a></b>	void vuc_uart_test(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1670">1670    </a></b>	void vuc_isp_program_pram(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1671">1671    </a></b>	void vuc_read_system_info_drive_information(DRIVE_INFORMATION *p_drive_information_content);
+<b><a name="line1672">1672    </a></b>	void vuc_get_status(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1673">1673    </a></b>	void vuc_nvme_pass_through(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1674">1674    </a></b>	void vuc_read_system_info(VUC_DISPATCH_PARAM_STRUCT_PTR param);
+<b><a name="line1675">1675    </a></b>	
+<b><a name="line1676">1676    </a></b>	extern BackEndTestPara_t gBackEndTestFlag;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "gBackEndTestFlag" is declared but never defined.</font>
+<b><a name="line1677">1677    </a></b>	void set_back_end_test_flag(U8 ubSubFeaCategory, U8 ubSubFeaCase);
+<b><a name="line1678">1678    </a></b>	void Init_Back_End_Test_Flag(void);
+<b><a name="line1679">1679    </a></b>	
+<b><a name="line1680">1680    </a></b>	#endif  //  _VENDOR_H_
+<b><a name="line1681">1681    </a></b>	
+</pre></body>
+</html>

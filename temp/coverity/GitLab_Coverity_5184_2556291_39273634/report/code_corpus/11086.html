@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line444">444    </a></b>	    U8  status;
+<b><a name="line445">445    </a></b>	    U8  addr_ref_num;
+<b><a name="line446">446    </a></b>	    U8  addr_zero_num;
+<b><a name="line447">447    </a></b>	    U8  data_ref_num;
+<b><a name="line448">448    </a></b>	    U8  data_zero_num;
+<b><a name="line449">449    </a></b>	    U8  data_ref_idx;
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    status                = TRUE;
+<b><a name="line452">452    </a></b>	    cycle                 = 0U;
+<b><a name="line453">453    </a></b>	    cmd_info_ptr->data_id = 0U;
+<b><a name="line454">454    </a></b>	    cmd_info_ptr->op_id   = 0U;
+<b><a name="line455">455    </a></b>	    addr_ref_num          = 0U;
+<b><a name="line456">456    </a></b>	    addr_zero_num         = 0U;
+<b><a name="line457">457    </a></b>	    data_ref_num          = 0U;
+<b><a name="line458">458    </a></b>	    data_zero_num         = 0U;
+<b><a name="line459">459    </a></b>	    data_ref_idx          = 0U;
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	    volatile U8 _hang = TRUE;
+<b><a name="line462">462    </a></b>	    if (get_feat == TRUE) {
+<b><a name="line463">463    </a></b>	        if ((cmd_info_ptr->op[cmd_info_ptr->op_id] == INST_CMD_EFh) || (cmd_info_ptr->op[cmd_info_ptr->op_id] == INST_CMD_36h)) {
+<b><a name="line464">464    </a></b>	            //select get feature directly
+<b><a name="line465">465    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line466">466    </a></b>	        }
+<b><a name="line467">467    </a></b>	        else {
+<b><a name="line468">468    </a></b>	            //in user define cmd mode select next data_id for get feature command inst
+<b><a name="line469">469    </a></b>	            cmd_info_ptr->data_id ++;
+<b><a name="line470">470    </a></b>	        }
+<b><a name="line471">471    </a></b>	    }
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    while (status) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "status" does not have an essentially boolean type.</font>
+<b><a name="line474">474    </a></b>	        switch (cmd_info_ptr->op[cmd_info_ptr->op_id]) {
+<b><a name="line475">475    </a></b>	        case INST_END:
+<b><a name="line476">476    </a></b>	            status = FALSE;
+<b><a name="line477">477    </a></b>	            break;
+<b><a name="line478">478    </a></b>	
+<b><a name="line479">479    </a></b>	        case INST_CMD:
+<b><a name="line480">480    </a></b>	            param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line481">481    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line482">482    </a></b>	            cmd_info_ptr->data_id ++;
+<b><a name="line483">483    </a></b>	            param->cmd_addr.cmd_len_l++;
+<b><a name="line484">484    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line485">485    </a></b>	                if (cmd_info_ptr->op[cmd_info_ptr->op_id] != INST_CMD_EEh) {
+<b><a name="line486">486    </a></b>	                    cmd_info_ptr->op_id   ++;
+<b><a name="line487">487    </a></b>	                    cmd_info_ptr->data_id ++;
+<b><a name="line488">488    </a></b>	                }
+<b><a name="line489">489    </a></b>	            }
+<b><a name="line490">490    </a></b>	            break;
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	        case INST_ADR:
+<b><a name="line493">493    </a></b>	        case INST_POR_ADR:
+<b><a name="line494">494    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line495">495    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line496">496    </a></b>	            cmd_info_ptr->data_id ++;
+<b><a name="line497">497    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line498">498    </a></b>	            break;
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	        case INST_ADR_C_0:
+<b><a name="line501">501    </a></b>	            addr_ref_num   = ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] >> ADR_ZERO_CYCLE_BIT_NUM) & ADR_REF_CYCLE_MASK);
+<b><a name="line502">502    </a></b>	            addr_zero_num  = (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & ADR_ZERO_CYCLE_MASK);
+<b><a name="line503">503    </a></b>	            for (i = 0U; i < (addr_ref_num + addr_zero_num); i++) {
+<b><a name="line504">504    </a></b>	                if (i < addr_ref_num) {
+</pre></body>
+</html>

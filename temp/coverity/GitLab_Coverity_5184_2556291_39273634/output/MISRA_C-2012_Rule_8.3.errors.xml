@@ -1,0 +1,928 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;idle_pc&quot;.</description>
+<line>21</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>21</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;idle_pc&quot; at line 23 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.h</file>
+<line>23</line>
+<column>13</column>
+</event>
+<extra>void idle_pc(U32 ulCycle)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;vuc_uart_rcv_sq&quot;.</description>
+<line>39</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>39</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;vuc_uart_rcv_sq&quot; at line 111 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>111</line>
+<column>13</column>
+</event>
+<extra>void vuc_uart_rcv_sq(VUC_DISPATCH_PTR vuc_dispatch, U8 data);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;vuc_uart_rcv_sq&quot;.</description>
+<line>134</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>134</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;vuc_uart_rcv_sq&quot; at line 111 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>111</line>
+<column>13</column>
+</event>
+<extra>void vuc_uart_rcv_sq(VUC_DISPATCH_PTR vuc_dispatch, U8 data)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;VUA_RSAEncode&quot;.</description>
+<line>104</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>104</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;VUA_RSAEncode&quot; at line 24 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h</file>
+<line>24</line>
+<column>6</column>
+</event>
+<extra>void VUA_RSAEncode(U32 ulDecryptDesAdr, U32 ulSignatureSrcAdr, U32 *KeyBase)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;VUA_gen_rng&quot;.</description>
+<line>116</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>116</line>
+<column>4</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;VUA_gen_rng&quot; at line 26 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h</file>
+<line>26</line>
+<column>4</column>
+</event>
+<extra>U8 VUA_gen_rng(U8 *ulTargetAdr)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;VUA_aes_dec&quot;.</description>
+<line>166</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>166</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;VUA_aes_dec&quot; at line 28 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/filbhal_vua.h</file>
+<line>28</line>
+<column>6</column>
+</event>
+<extra>void VUA_aes_dec(U32* SK, U32* AESChiperVector, U32 ulDecTmpBuf, U8 ubDecryptedSize)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;vuc_receive_encryption_data&quot;.</description>
+<line>244</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>244</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;vuc_receive_encryption_data&quot; at line 1657 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<line>1657</line>
+<column>6</column>
+</event>
+<extra>BOOL vuc_receive_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param, volatile U32 sq_ndt)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter type than &quot;vuc_receive_encryption_data&quot;.</description>
+<line>244</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>244</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;vuc_receive_encryption_data&quot; at line 1657 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<line>1657</line>
+<column>6</column>
+</event>
+<extra>BOOL vuc_receive_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param, volatile U32 sq_ndt)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;mctp_message_handle_nvme_mi_message_response&quot;.</description>
+<line>859</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>859</line>
+<column>5</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;mctp_message_handle_nvme_mi_message_response&quot; at line 445 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.h</file>
+<line>445</line>
+<column>5</column>
+</event>
+<extra>U32 mctp_message_handle_nvme_mi_message_response(MCTP_MESSAGE_INFO *p_source_mctp_message_info, U32 nvme_mi_command_slot, U32 nvme_mi_message_type, U8 *p_response_format, U32 response_format_size, U8 *p_response_data, U32 response_data_size)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;mabiao_set&quot;.</description>
+<line>34</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>34</line>
+<column>5</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;mabiao_set&quot; at line 194 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.h</file>
+<line>194</line>
+<column>5</column>
+</event>
+<extra>U32 mabiao_set(U8 scale, U32 count, U32 locate)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;sal_log_info_char&quot;.</description>
+<line>96</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>96</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;sal_log_info_char&quot; at line 324 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.h</file>
+<line>324</line>
+<column>6</column>
+</event>
+<extra>void sal_log_info_char(char log_char)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;sal_log_enable_disable_all_uart&quot;.</description>
+<line>247</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>247</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;sal_log_enable_disable_all_uart&quot; at line 338 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.h</file>
+<line>338</line>
+<column>6</column>
+</event>
+<extra>void sal_log_enable_disable_all_uart(U8 uart_en)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different type than &quot;FIP_INST_STRUCT&quot;.</description>
+<line>24</line>
+<column>25</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                        ^</description>
+<line>24</line>
+<column>25</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;gFipInstStruct&quot; at line 296 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>296</line>
+<column>32</column>
+</event>
+<extra>FIP_INST_STRUCT         gFipInstStruct;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different type than &quot;FIP_INST_STRUCT&quot;.</description>
+<line>23</line>
+<column>29</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                            ^</description>
+<line>23</line>
+<column>29</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;gFipInstStruct&quot; at line 296 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>296</line>
+<column>32</column>
+</event>
+<extra>extern FIP_INST_STRUCT      gFipInstStruct;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;fip_api_read_cmd&quot;.</description>
+<line>794</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>794</line>
+<column>5</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;fip_api_read_cmd&quot; at line 1189 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<line>1189</line>
+<column>6</column>
+</event>
+<extra>U32 fip_api_read_cmd(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 read_op)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;fip_api_get_error_map&quot;.</description>
+<line>1101</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>1101</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;fip_api_get_error_map&quot; at line 1191 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<line>1191</line>
+<column>6</column>
+</event>
+<extra>void fip_api_get_error_map(FIP_READ_INFO_STRUCT_PTR fip_read_info_struct_ptr, U8 frame_num)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;fip_api_get_cq_result&quot;.</description>
+<line>1134</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>1134</line>
+<column>5</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;fip_api_get_cq_result&quot; at line 1192 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</file>
+<line>1192</line>
+<column>6</column>
+</event>
+<extra>U32 fip_api_get_cq_result(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 ch)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter type than &quot;vendor_cmd_dispatch&quot;.</description>
+<line>7</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>7</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;vendor_cmd_dispatch&quot; at line 1653 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.h</file>
+<line>1653</line>
+<column>13</column>
+</event>
+<extra>void vendor_cmd_dispatch(volatile VUC_SQ_STRUCT_PTR sq, VUC_CQ_STRUCT_PTR cq, U8 *host_buf, U8 host_service_type)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;phal_rsa_pkcs1v21_verify&quot;.</description>
+<line>80</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>80</line>
+<column>5</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;phal_rsa_pkcs1v21_verify&quot; at line 5 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.h</file>
+<line>5</line>
+<column>5</column>
+</event>
+<extra>U32 phal_rsa_pkcs1v21_verify(SEC_RSA_ENCODING_PARAMS_T_PTR params){</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_pio_cmd&quot;.</description>
+<line>1158</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>1158</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_pio_cmd&quot; at line 515 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>515</line>
+<column>6</column>
+</event>
+<extra>void hal_pio_cmd(U8 ch, U8 cmd, U32 *ac_timing)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_fip_api_zq_calibration_long&quot;.</description>
+<line>1185</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>1185</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_fip_api_zq_calibration_long&quot; at line 516 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.h</file>
+<line>516</line>
+<column>6</column>
+</event>
+<extra>void hal_fip_api_zq_calibration_long(U8 ch, U8 ce, U8 die, U32 *ac_timing)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_clkrst_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_fphy_enable&quot;.</description>
+<line>823</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>823</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_fphy_enable&quot; at line 366 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sys/hal_syspd0_clkrst_api.h</file>
+<line>366</line>
+<column>6</column>
+</event>
+<extra>void hal_fphy_enable(U32 delay_time, U8 ftrack_en)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_sec_pqc_kaz_pke_cal_n0&quot;.</description>
+<line>37</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>37</line>
+<column>4</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_sec_pqc_kaz_pke_cal_n0&quot; at line 42 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_kaz_pke_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_kaz_pke_api.h</file>
+<line>42</line>
+<column>6</column>
+</event>
+<extra>U8 hal_sec_pqc_kaz_pke_cal_n0(U8 *p, U16 size_p, U64 *N0)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_sec_pqc_kaz_pke_crt&quot;.</description>
+<line>1840</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>1840</line>
+<column>4</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_sec_pqc_kaz_pke_crt&quot; at line 69 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_kaz_pke_api.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_kaz_pke_api.h</file>
+<line>69</line>
+<column>6</column>
+</event>
+<extra>U8 hal_sec_pqc_kaz_pke_crt(U16 size_n, U8 *uM1, U8 *uM2, U8 *p, U16 size_P, U8 *P_RR, U8 *P_N0, U8 *Q, U16 size_Q, U8 *QInv, U8 *output)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm_mlkem.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;hal_sec_pqc_hash_sqz_new&quot;.</description>
+<line>92</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>92</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;hal_sec_pqc_hash_sqz_new&quot; at line 52 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pqc_comm_mlkem.h</file>
+<line>52</line>
+<column>6</column>
+</event>
+<extra>void hal_sec_pqc_hash_sqz_new(U8 *output, U32 shake_out_blk_num, U32 mode, HAL_SEC_PQC_HASH_BUF_NEW_T_PTR pqc_hash_buf_ptr)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;dal_cmgr_w1c_int_cmgr_bitmap&quot;.</description>
+<line>503</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>503</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;dal_cmgr_w1c_int_cmgr_bitmap&quot; at line 77 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_cmgr_func.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_cmgr_func.h</file>
+<line>77</line>
+<column>6</column>
+</event>
+<extra>void dal_cmgr_w1c_int_cmgr_bitmap(U32 bitmap)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;dal_trig_vf_flr_ack&quot;.</description>
+<line>1133</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>1133</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;dal_trig_vf_flr_ack&quot; at line 407 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/pcie/pcie_ctrl.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/pcie/pcie_ctrl.h</file>
+<line>407</line>
+<column>6</column>
+</event>
+<extra>void dal_trig_vf_flr_ack(U32 port_id, U32 vf_id)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;dal_clr_vf_flr_ack&quot;.</description>
+<line>1158</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>1158</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;dal_clr_vf_flr_ack&quot; at line 414 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/pcie/pcie_ctrl.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/pcie/pcie_ctrl.h</file>
+<line>414</line>
+<column>6</column>
+</event>
+<extra>void dal_clr_vf_flr_ack(U32 port_id, U32 vf_id)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.3</checker>
+<type>MISRA_C_2012_Rule_8.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_3_violation</tag>
+<description>Declaration uses a different parameter name than &quot;VUA_decryptCommand&quot;.</description>
+<line>525</line>
+<column>6</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>     ^</description>
+<line>525</line>
+<column>6</column>
+</event>
+<event>
+<tag>note_see_previous_declaration</tag>
+<description>(see previous declaration of &quot;VUA_decryptCommand&quot; at line 167 of &quot;/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h&quot;)</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.h</file>
+<line>167</line>
+<column>6</column>
+</event>
+<extra>void VUA_decryptCommand(U32 DecAdr)</extra>
+<subcategory>none</subcategory>
+</error>

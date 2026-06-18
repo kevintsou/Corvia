@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    /********************************************************************************************
+<b><a name="line404">404    </a></b>	     * Byte Offset 248:255
+<b><a name="line405">405    </a></b>	     ********************************************************************************************/
+<b><a name="line406">406    </a></b>	    pHyperscale->sByteOffset_248_255.ubLength = OCP_HYPERSCALE_DATA_LENGTH_CMD_CODE_248;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    /* [OCP hyperscale v1.0, REQ ID: SMBUS-11] */
+<b><a name="line409">409    </a></b>	    pHyperscale->sByteOffset_248_255.aubDataFormatVersionNumber[0] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_HYPERSCALE >> 8U) & 0xFFU;
+<b><a name="line410">410    </a></b>	    pHyperscale->sByteOffset_248_255.aubDataFormatVersionNumber[1] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_HYPERSCALE) & 0xFFU;
+<b><a name="line411">411    </a></b>	}
+<b><a name="line412">412    </a></b>	
+<b><a name="line413">413    </a></b>	/*!
+<b><a name="line414">414    </a></b>	   @brief      Init subsystem management data structure for nvme basic management command
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line417">417    </a></b>	   @param      pHostVar                     pointer to host variable
+<b><a name="line418">418    </a></b>	 */
+<b><a name="line419">419    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line420">420    </a></b>	void SubsystemManagementDataInit(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, HOST_VAR_T *pHostVar)
+<b><a name="line421">421    </a></b>	#else
+<b><a name="line422">422    </a></b>	void SubsystemManagementDataInit(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData)
+<b><a name="line423">423    </a></b>	#endif
+<b><a name="line424">424    </a></b>	{
+<b><a name="line425">425    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line426">426    </a></b>	    U8 ubIdx;
+<b><a name="line427">427    </a></b>	#endif
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    U8 ubVsConfig = GetSubsystemManagementDataVendorSpecificConfig();
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	    memset((void *)pSubsystemManagementData, 0, sizeof(SUBSYSTEM_MANAGEMENT_DATA_T));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line432">432    </a></b>	
+<b><a name="line433">433    </a></b>	    /********************************************************************************************
+<b><a name="line434">434    </a></b>	     * Common - Status (Follows E28)
+<b><a name="line435">435    </a></b>	     ********************************************************************************************/
+<b><a name="line436">436    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubLength = SUBSYSTEM_MANAGEMENT_DATA_LENGTH_STATUS;
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btSmbusArbitration    = 1U;
+<b><a name="line439">439    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btDriveNotReady       = 0U;
+<b><a name="line440">440    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btResetNotRequired    = 1U;
+<b><a name="line441">441    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btPort0PcieLinkActive = 1U;
+<b><a name="line442">442    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btDriveFunctional     = 1U;
+<b><a name="line443">443    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btPort1PcieLinkActive = 0U;
+<b><a name="line444">444    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btNotUsed             = 0x3U;
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubSmartWarning = 0xFFU;
+<b><a name="line447">447    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubCTemp        = SUBSYSTEM_MANAGEMENT_DATA_STATUS_NO_TEMPERATURE_DATA;
+<b><a name="line448">448    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubPdlu         = 0U;
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    /********************************************************************************************
+<b><a name="line452">452    </a></b>	     * Common - Identification
+<b><a name="line453">453    </a></b>	     ********************************************************************************************/
+<b><a name="line454">454    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.ubLength = SUBSYSTEM_MANAGEMENT_DATA_LENGTH_IDENTIFICATION;
+<b><a name="line455">455    </a></b>	
+<b><a name="line456">456    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line457">457    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.aubVendorID[0U] = (pHostVar->sPCIe.uwVendorID >> 8U) & 0xFFU;
+<b><a name="line458">458    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.aubVendorID[1U] = (pHostVar->sPCIe.uwVendorID) & 0xFFU;
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	    for (ubIdx = 0U; ubIdx < sizeof(pSubsystemManagementData->sCommon.sIdentification.aubSerialNumber); ubIdx++)
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        if (ubIdx >= sizeof(pHostVar->aubHostSerialNumber))
+</pre></body>
+</html>

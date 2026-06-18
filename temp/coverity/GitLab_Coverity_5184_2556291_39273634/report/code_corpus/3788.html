@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line332">332    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line333">333    </a></b>	        {
+<b><a name="line334">334    </a></b>	            is_timeout = 1U;
+<b><a name="line335">335    </a></b>	            break;
+<b><a name="line336">336    </a></b>	        }
+<b><a name="line337">337    </a></b>	    }
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	    if (is_timeout == 0U)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        trigger_done = 1U;
+<b><a name="line342">342    </a></b>	    }
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    DAL_SEC_AESOFL_CLR_KEY_GEN_EN();
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    return trigger_done;
+<b><a name="line347">347    </a></b>	}
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	U8 dal_sec_aes_init_key_otf_core(U32 key_type, U32 key_idx, U32 gen_key_en, U32 is_sm4, U64 timeout_val)
+<b><a name="line350">350    </a></b>	{
+<b><a name="line351">351    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line352">352    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    DAL_SEC_AESOTF_SET_SM4_EN((U8)is_sm4);
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    dal_sec_aes_otf_set_key_type_and_key_idx(key_type, key_idx);
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    // write key table to key register
+<b><a name="line359">359    </a></b>	    DAL_SEC_AESOTF_SET_KEY_CHG_DIR(1U);
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xffffffffff5e1690 | 0" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line362">362    </a></b>	
+<b><a name="line363">363    </a></b>	    DAL_SEC_AESOTF_SET_KEY_CHG();
+<b><a name="line364">364    </a></b>	    while (1U == DAL_SEC_AESOTF_GET_KEY_CHG())
+<b><a name="line365">365    </a></b>	    {
+<b><a name="line366">366    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line367">367    </a></b>	        {
+<b><a name="line368">368    </a></b>	            is_timeout = 1U;
+<b><a name="line369">369    </a></b>	            break;
+<b><a name="line370">370    </a></b>	        }
+<b><a name="line371">371    </a></b>	    }
+<b><a name="line372">372    </a></b>	
+<b><a name="line373">373    </a></b>	    /*
+<b><a name="line374">374    </a></b>	    OTF generate decryption key:
+<b><a name="line375">375    </a></b>	    1.  set AES_OTF.key_gen to 1, it starts to gen the key and polls to 0
+<b><a name="line376">376    </a></b>	    2.  set AES_OTF.key_chg_dir to 0, which move the key to SRAM from reg
+<b><a name="line377">377    </a></b>	    3.  set AES_OTF.key_chg to 1 and poll to 0
+<b><a name="line378">378    </a></b>	    */
+<b><a name="line379">379    </a></b>	    if (gen_key_en > 0U)
+<b><a name="line380">380    </a></b>	    {
+<b><a name="line381">381    </a></b>	        DAL_SEC_AESOTF_SET_KEY_GEN();
+<b><a name="line382">382    </a></b>	        while ((1U == DAL_SEC_AESOTF_GET_KEY_GEN()) && (is_timeout == 0U))
+<b><a name="line383">383    </a></b>	        {
+<b><a name="line384">384    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line385">385    </a></b>	            {
+<b><a name="line386">386    </a></b>	                is_timeout = 1U;
+<b><a name="line387">387    </a></b>	                break;
+<b><a name="line388">388    </a></b>	            }
+<b><a name="line389">389    </a></b>	        }
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	        // load decrypt key to key table
+<b><a name="line392">392    </a></b>	        DAL_SEC_AESOTF_SET_KEY_CHG_DIR(0U);
+</pre></body>
+</html>

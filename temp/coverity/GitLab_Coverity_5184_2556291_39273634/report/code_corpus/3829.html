@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/nvme/hal_flow_nvme_nl_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line310">310    </a></b>	}
+<b><a name="line311">311    </a></b>	
+<b><a name="line312">312    </a></b>	U16 hal_nl_get_fqc(U16 f_ofst)
+<b><a name="line313">313    </a></b>	{
+<b><a name="line314">314    </a></b>	    ASSERT(f_ofst, (f_ofst < (U16)NVME_MAX_FUNC_NUM_HW));
+<b><a name="line315">315    </a></b>	    return dal_nl_get_fqc(f_ofst);
+<b><a name="line316">316    </a></b>	}
+<b><a name="line317">317    </a></b>	
+<b><a name="line318">318    </a></b>	U8 hal_nl_get_cc_ams(U16 f_ofst)
+<b><a name="line319">319    </a></b>	{
+<b><a name="line320">320    </a></b>	    ASSERT(f_ofst, (f_ofst < (U16)NVME_MAX_FUNC_NUM_HW));
+<b><a name="line321">321    </a></b>	    return dal_nl_get_cc_ams(f_ofst);
+<b><a name="line322">322    </a></b>	}
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	U8 hal_nl_get_wrr(U16 f_ofst)
+<b><a name="line325">325    </a></b>	{
+<b><a name="line326">326    </a></b>	    ASSERT(f_ofst, (f_ofst < (U16)NVME_MAX_FUNC_NUM_HW));
+<b><a name="line327">327    </a></b>	    return dal_nl_get_wrr(f_ofst);
+<b><a name="line328">328    </a></b>	}
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	U8 hal_nl_get_sq_en(U16 q_ofst)
+<b><a name="line331">331    </a></b>	{
+<b><a name="line332">332    </a></b>	    ASSERT(q_ofst, (q_ofst < (U16)NVME_MAX_QUEUE_NUM_HW));
+<b><a name="line333">333    </a></b>	    return dal_nl_get_sq_en(q_ofst);
+<b><a name="line334">334    </a></b>	}
+<b><a name="line335">335    </a></b>	
+<b><a name="line336">336    </a></b>	U8 hal_nl_get_sq_cqid(U16 q_ofst)
+<b><a name="line337">337    </a></b>	{
+<b><a name="line338">338    </a></b>	    ASSERT(q_ofst, (q_ofst < (U16)NVME_MAX_QUEUE_NUM_HW));
+<b><a name="line339">339    </a></b>	    return dal_nl_get_sq_cqid(q_ofst);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "dal_nl_get_sq_cqid(q_ofst)" from essential type "unsigned 16-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line340">340    </a></b>	}
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	U16 hal_nl_get_sq_size(U16 q_ofst)
+<b><a name="line343">343    </a></b>	{
+<b><a name="line344">344    </a></b>	    ASSERT(q_ofst, (q_ofst < (U16)NVME_MAX_QUEUE_NUM_HW));
+<b><a name="line345">345    </a></b>	    return dal_nl_get_sq_size(q_ofst);
+<b><a name="line346">346    </a></b>	}
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	U8 hal_nl_get_cq_en(U16 q_ofst)
+<b><a name="line349">349    </a></b>	{
+<b><a name="line350">350    </a></b>	    ASSERT(q_ofst, (q_ofst < (U16)NVME_MAX_QUEUE_NUM_HW));
+<b><a name="line351">351    </a></b>	    return dal_nl_get_cq_en(q_ofst);
+<b><a name="line352">352    </a></b>	}
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	U16 hal_nl_get_cq_size(U16 q_ofst)
+<b><a name="line355">355    </a></b>	{
+<b><a name="line356">356    </a></b>	    ASSERT(q_ofst, (q_ofst < (U16)NVME_MAX_QUEUE_NUM_HW));
+<b><a name="line357">357    </a></b>	    return dal_nl_get_cq_size(q_ofst);
+<b><a name="line358">358    </a></b>	}
+<b><a name="line359">359    </a></b>	
+<b><a name="line360">360    </a></b>	void hal_nl_w1c_int_info_event(void)
+<b><a name="line361">361    </a></b>	{
+<b><a name="line362">362    </a></b>	    dal_nl_w1c_int_info_event();
+<b><a name="line363">363    </a></b>	}
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	void hal_nl_clr_p_blk_cmd_en(U8 p_ofst)
+<b><a name="line366">366    </a></b>	{
+<b><a name="line367">367    </a></b>	    ASSERT(p_ofst, (p_ofst < (U8)NVME_MAX_PORT_NUM_HW));
+<b><a name="line368">368    </a></b>	    dal_nl_clr_p_blk_cmd_en(p_ofst);
+<b><a name="line369">369    </a></b>	}
+<b><a name="line370">370    </a></b>	
+</pre></body>
+</html>

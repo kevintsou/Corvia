@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line513">513    </a></b>	 @return    timeout or not
+<b><a name="line514">514    </a></b>	 @retval     0U - timeout
+<b><a name="line515">515    </a></b>	 @retval     1U - done
+<b><a name="line516">516    </a></b>	 @note
+<b><a name="line517">517    </a></b>	 - None
+<b><a name="line518">518    </a></b>	 */
+<b><a name="line519">519    </a></b>	U8 hal_sec_pke_ena_and_wait(U64 timeout_val)
+<b><a name="line520">520    </a></b>	{
+<b><a name="line521">521    </a></b>	    dal_sec_pke_set_en();
+<b><a name="line522">522    </a></b>	
+<b><a name="line523">523    </a></b>	    if (hal_sec_pke_wait_to_ready(timeout_val) == SEC_NO)
+<b><a name="line524">524    </a></b>	    {
+<b><a name="line525">525    </a></b>	        return SEC_NO;  //timeout
+<b><a name="line526">526    </a></b>	    }
+<b><a name="line527">527    </a></b>	
+<b><a name="line528">528    </a></b>	    return SEC_YES;
+<b><a name="line529">529    </a></b>	}
+<b><a name="line530">530    </a></b>	
+<b><a name="line531">531    </a></b>	/*!
+<b><a name="line532">532    </a></b>	 @brief       stop dummy and disable PKE_EN
+<b><a name="line533">533    </a></b>	 @param[in]   timeout_val       - setting timeout value
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	 @note
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	 */
+<b><a name="line540">540    </a></b>	void hal_sec_pke_stop_dummy(U64 timeout_val)
+<b><a name="line541">541    </a></b>	{
+<b><a name="line542">542    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-10608160" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line543">543    </a></b>	
+<b><a name="line544">544    </a></b>	    // 4. PKE_EN set to zero
+<b><a name="line545">545    </a></b>	    dal_sec_pke_clr_en();
+<b><a name="line546">546    </a></b>	
+<b><a name="line547">547    </a></b>	    // 5. polling OP_BSY = 0, which is wait the ALU operation is not active.
+<b><a name="line548">548    </a></b>	    while (1U == dal_sec_pke_get_op_bsy())
+<b><a name="line549">549    </a></b>	    {
+<b><a name="line550">550    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line551">551    </a></b>	        {
+<b><a name="line552">552    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line553">553    </a></b>	            break;
+<b><a name="line554">554    </a></b>	        }
+<b><a name="line555">555    </a></b>	    }
+<b><a name="line556">556    </a></b>	
+<b><a name="line557">557    </a></b>	    // 6. set CMD_CLR = 1, which is clear command queue program counter pointer, auto clear to zero
+<b><a name="line558">558    </a></b>	    hal_sec_pke_cmd_clr(timeout_val);
+<b><a name="line559">559    </a></b>	}
+<b><a name="line560">560    </a></b>	
+<b><a name="line561">561    </a></b>	/*!
+<b><a name="line562">562    </a></b>	 @brief       public key engine(pke) is to handle big number calculation. Clear memory data Z_ADDR to zero.
+<b><a name="line563">563    </a></b>	 @param[in]   pke_cmd      - pke operation structure
+<b><a name="line564">564    </a></b>	 @param[in]   tb_chk       - test bits, select TB bit to decide whether this op code is executed or not
+<b><a name="line565">565    </a></b>	 @param[in]   z_sel        - select memA, memB, memC
+<b><a name="line566">566    </a></b>	 @param[in]   z_addr       - select memA, memB, memC offset
+<b><a name="line567">567    </a></b>	 @param[in]   size         - select memA, memB, memC size
+<b><a name="line568">568    </a></b>	 @param[in]   push_only    - only push to memQ, and doesn't enable pke
+<b><a name="line569">569    </a></b>	 @param[in]   set_tb_chk   - set tb check to enable or not
+<b><a name="line570">570    </a></b>	 @note z[0:SIZE-1] = 0
+<b><a name="line571">571    </a></b>	 */
+<b><a name="line572">572    </a></b>	void hal_sec_pke_lib_zero(SEC_PPKECMD_T pke_cmd, U8 tb_chk, U8 z_sel, U8 z_addr, U8 size)
+<b><a name="line573">573    </a></b>	{
+</pre></body>
+</html>

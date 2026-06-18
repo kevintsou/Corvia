@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9108">9108    </a></b>	U32 host_sec_sm3_kat(U32 buf_addr)
+<b><a name="line9109">9109    </a></b>	{
+<b><a name="line9110">9110    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line9111">9111    </a></b>	    //	U8 idx;
+<b><a name="line9112">9112    </a></b>	    U32 src_addr  = buf_addr;
+<b><a name="line9113">9113    </a></b>	    U32 targ_addr = buf_addr + 0x200U;
+<b><a name="line9114">9114    </a></b>	    U32 data_size;
+<b><a name="line9115">9115    </a></b>	    U8 TEST_DATA1[]    = {0x7FU, 0x31U, 0xE1U, 0xE5U, 0x37U, 0x85U, 0x50U, 0xCFU, 0xBEU, 0x5CU, 0x84U, 0x51U, 0x42U, 0x74U, 0xCFU, 0x54U};
+<b><a name="line9116">9116    </a></b>	    U8 TEST_ANS1_SM3[] = {0xE6U, 0x5EU, 0x0EU, 0x15U, 0xC7U, 0x19U, 0xDFU, 0x70U, 0x04U, 0x6FU, 0xE3U, 0x44U, 0x8DU, 0x54U, 0x59U, 0x03U, 0xD6U, 0xC2U, 0xEAU, 0x51U, 0x2CU, 0x00U, 0x13U, 0x9EU, 0xFCU, 0x1EU, 0x4BU, 0xE6U, 0xEEU, 0xF2U, 0x06U, 0x83U};
+<b><a name="line9117">9117    </a></b>	    SEC_SHA_PARAMS_T         sec_sha_param;
+<b><a name="line9118">9118    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9119">9119    </a></b>	
+<b><a name="line9120">9120    </a></b>	    Dump_SEC(tprintf("SHA2-SM3 KAT"));
+<b><a name="line9121">9121    </a></b>	
+<b><a name="line9122">9122    </a></b>	    // SM3
+<b><a name="line9123">9123    </a></b>	    data_size = sizeof(TEST_DATA1);
+<b><a name="line9124">9124    </a></b>	    (void)memcpy((void *)(U32 *)src_addr, (void *)&TEST_DATA1[0], data_size);
+<b><a name="line9125">9125    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line9126">9126    </a></b>	    sec_sha_param.src_addr.low  = src_addr;
+<b><a name="line9127">9127    </a></b>	    sec_sha_param.src_len       = data_size;
+<b><a name="line9128">9128    </a></b>	    sec_sha_param.targ_addr.low = targ_addr;
+<b><a name="line9129">9129    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line9130">9130    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_SM3_DIGEST_LEN;
+<b><a name="line9131">9131    </a></b>	    sec_sha_param.dummy_en      = FALSE;
+<b><a name="line9132">9132    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line9133">9133    </a></b>	    ret = phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line9134">9134    </a></b>	
+<b><a name="line9135">9135    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line9136">9136    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line9137">9137    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TRIGGER);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "7" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line9138">9138    </a></b>	    }
+<b><a name="line9139">9139    </a></b>	
+<b><a name="line9140">9140    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line9141">9141    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_TIMEOUT);
+<b><a name="line9142">9142    </a></b>	    }
+<b><a name="line9143">9143    </a></b>	
+<b><a name="line9144">9144    </a></b>	    if (memcmp((U32 *)targ_addr, (U32 * )TEST_ANS1_SM3, HAL_SEC_SHA2_SM3_DIGEST_LEN) != 0) {
+<b><a name="line9145">9145    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9146">9146    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><a name="line9147">9147    </a></b>	    }
+<b><a name="line9148">9148    </a></b>	
+<b><a name="line9149">9149    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9150">9150    </a></b>	}
+<b><a name="line9151">9151    </a></b>	#endif
+<b><a name="line9152">9152    </a></b>	#if KAT_RSA_EN
+<b><a name="line9153">9153    </a></b>	void host_sec_rsa_verify_param_reverse(U32 signature_addr, U32 rr_endian_buffer, U32 r_endian_buffer, U32 n0_endian_buffer, U32 e_endian_buffer, U32 n_endian_buffer, RSA4096_PUBLIC_KEY_PTR public_key, U8 bledn)
+<b><a name="line9154">9154    </a></b>	{
+<b><a name="line9155">9155    </a></b>	    if (bledn & PROJECT_BINARY_HEADER_BLEDN_SIGNATURE_BIG_ENDIAN) {
+<b><a name="line9156">9156    </a></b>	        hal_sec_api_reverse_endian((void *)signature_addr, (void *)signature_addr, 0x200U);
+<b><a name="line9157">9157    </a></b>	    }
+<b><a name="line9158">9158    </a></b>	
+<b><a name="line9159">9159    </a></b>	    if ((bledn & PROJECT_BINARY_HEADER_BLEDN_RR_LITTLE_ENDIAN) == 0U) {
+<b><a name="line9160">9160    </a></b>	        hal_sec_api_reverse_endian((void *)rr_endian_buffer, (void *)public_key->rr, 0x200U);
+<b><a name="line9161">9161    </a></b>	    }
+<b><a name="line9162">9162    </a></b>	    else {
+<b><a name="line9163">9163    </a></b>	        (void)memcpy((void *)rr_endian_buffer, (void *)public_key->rr, 0x200U);
+<b><a name="line9164">9164    </a></b>	    }
+<b><a name="line9165">9165    </a></b>	
+<b><a name="line9166">9166    </a></b>	    if ((bledn & PROJECT_BINARY_HEADER_BLEDN_R_LITTLE_ENDIAN) == 0U) {
+<b><a name="line9167">9167    </a></b>	        hal_sec_api_reverse_endian((void *)r_endian_buffer, (void *)public_key->r, 0x200U);
+<b><a name="line9168">9168    </a></b>	    }
+</pre></body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1905">1905    </a></b>	
+<b><a name="line1906">1906    </a></b>	static U32 get_key_manifest_size_from_fw_slot_info(const FW_SLOT_INFO *p_fw_slot_info)
+<b><a name="line1907">1907    </a></b>	{
+<b><a name="line1908">1908    </a></b>	    U32 result;
+<b><a name="line1909">1909    </a></b>	
+<b><a name="line1910">1910    </a></b>	    result = ((U32)p_fw_slot_info->key_manifest_sector_size) << SECTOR_SIZE_SHIFT;
+<b><a name="line1911">1911    </a></b>	
+<b><a name="line1912">1912    </a></b>	    return result;
+<b><a name="line1913">1913    </a></b>	}
+<b><a name="line1914">1914    </a></b>	
+<b><a name="line1915">1915    </a></b>	static U8 use_fw_slot(const FW_SLOT_INFO *p_fw_slot_info, FW_SLOT_STATUS *p_fw_slot_status, U32 project_binary_address, LOAD_CODE_STATUS *p_load_code_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line1916">1916    </a></b>	{
+<b><a name="line1917">1917    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line1918">1918    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line1919">1919    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line1920">1920    </a></b>	
+<b><a name="line1921">1921    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line1922">1922    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting;
+<b><a name="line1923">1923    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line1924">1924    </a></b>	    const EFUSE_FW_ENCRYPTION_KEY *p_fw_encryption_key;
+<b><a name="line1925">1925    </a></b>	
+<b><a name="line1926">1926    </a></b>	    U8  error_firmware;
+<b><a name="line1927">1927    </a></b>	    U64 fw_slot_size;
+<b><a name="line1928">1928    </a></b>	
+<b><a name="line1929">1929    </a></b>	    sal_log_tracker_set(sal_locate(0x10, TYPE_RSV6));
+<b><a name="line1930">1930    </a></b>	
+<b><a name="line1931">1931    </a></b>	    p_fw_slot_status->state = FW_SLOT_STATE_LOADING;
+<b><a name="line1932">1932    </a></b>	
+<b><a name="line1933">1933    </a></b>	    error_firmware = check_fw_slot_info(p_fw_slot_info);
+<b><a name="line1934">1934    </a></b>	    if (error_firmware) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "error_firmware", taking false branch.</font>
+<b><a name="line1935">1935    </a></b>	        //The FW Slot Info is incorrect
+<b><a name="line1936">1936    </a></b>	        p_fw_slot_status->fw_slot_info_error = error_firmware;
+<b><a name="line1937">1937    </a></b>	        p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_INVALID_SLOT_INFO;
+<b><a name="line1938">1938    </a></b>	
+<b><a name="line1939">1939    </a></b>	        sal_log_tracker_set(sal_locate((error_firmware & 0xFF), TYPE_DATA));
+<b><a name="line1940">1940    </a></b>	
+<b><a name="line1941">1941    </a></b>	        return p_fw_slot_status->fw_slot_error;
+<b><a name="line1942">1942    </a></b>	    }
+<b><a name="line1943">1943    </a></b>	
+<b><a name="line1944">1944    </a></b>	    p_load_code_status->key_manifest_size = get_key_manifest_size_from_fw_slot_info(p_fw_slot_info);
+<b><a name="line1945">1945    </a></b>	
+<b><a name="line1946">1946    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line1947">1947    </a></b>	
+<b><a name="line1948">1948    </a></b>	    sal_log_tracker_set(sal_locate(0x11, TYPE_RSV6));
+<b><a name="line1949">1949    </a></b>	    error_firmware = load_fw_slot(p_fw_slot_info, project_binary_address, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_fw_slot_status, a_flash_error_channel_bitmap);
+<b><a name="line1950">1950    </a></b>	    if (error_firmware == 0) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "error_firmware == 0", taking true branch.</font>
+<b><a name="line1951">1951    </a></b>	        sal_log_tracker_set(sal_locate(0x12, TYPE_RSV6));
+<b><a name="line1952">1952    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line1953">1953    </a></b>	    else {
+<b><a name="line1954">1954    </a></b>	        sal_log_tracker_set(sal_locate(0x1F, TYPE_RSV6));
+<b><a name="line1955">1955    </a></b>	    }
+<b><a name="line1956">1956    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_5_LOAD_CODE, TYPE_TIMESTAMP));
+<b><a name="line1957">1957    </a></b>	
+<b><a name="line1958">1958    </a></b>	    if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (error_firmware & 4294967292UL /* ~((1UL << 1) | (1UL << 0)) */)", taking true branch.</font>
+<b><a name="line1959">1959    </a></b>	        host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line1960">1960    </a></b>	
+<b><a name="line1961">1961    </a></b>	        if (p_fw_slot_info->fw_encryption_key < EFUSE_FW_ENCRYPTION_KEY_COUNT) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_fw_slot_info->fw_encryption_key < 2U", taking true branch.</font>
+<b><a name="line1962">1962    </a></b>	            Dump_LoadCode(tprintf("FW slot is encrypted with Key %d", p_fw_slot_info->fw_encryption_key));
+<b><a name="line1963">1963    </a></b>	            sal_log_tracker_set(sal_locate(0x13, TYPE_RSV6));
+<b><a name="line1964">1964    </a></b>	
+<b><a name="line1965">1965    </a></b>	            p_fw_encryption_key = get_efuse_fw_encryption_key(p_fw_slot_info->fw_encryption_key, &gEFuseAPI);
+<b><a name="line1966">1966    </a></b>	            fw_slot_size        = (U64)(p_fw_slot_info->total_wordline_count) * p_fw_slot_info->node_per_wordline * LC_BYTE_SIZE;
+<b><a name="line1967">1967    </a></b>	
+<b><a name="line1968">1968    </a></b>	
+<b><a name="line1969">1969    </a></b>	            if (NULL != p_fw_encryption_key) {
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "NULL != p_fw_encryption_key", taking true branch.</font>
+<b><a name="line1970">1970    </a></b>	                U8 is_step_clock_enable   = 0U;
+<b><a name="line1971">1971    </a></b>	                U8 is_random_clock_enable = 0U;
+<b><a name="line1972">1972    </a></b>	
+<b><a name="line1973">1973    </a></b>	                get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line1974">1974    </a></b>	
+<b><a name="line1975">1975    </a></b>	                U8  sm4_load_code_decryption = get_efuse_sm4_load_code_decryption(&gEFuseAPI);
+<b><a name="line1976">1976    </a></b>	                U8  sm4_en;
+<b><a name="line1977">1977    </a></b>	                U32 key_type;
+<b><a name="line1978">1978    </a></b>	
+<b><a name="line1979">1979    </a></b>	                Dump_LoadCode(tprintf("Decrypt project binary "));
+<b><a name="line1980">1980    </a></b>	                if ((0U == sm4_load_code_decryption) || (SEC_NO == phal_get_dt_attribution_define())) {
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == sm4_load_code_decryption", taking true branch.</font>
+<b><a name="line1981">1981    </a></b>	                    Dump_LoadCode(tprintf("with AES 256"));
+<b><a name="line1982">1982    </a></b>	                    // Decrypt loader with AES256 XTS mode.
+<b><a name="line1983">1983    </a></b>	                    sm4_en   = SEC_NO;
+<b><a name="line1984">1984    </a></b>	                    key_type = HAL_SEC_AES_KEY256_MODE;
+<b><a name="line1985">1985    </a></b>	                }
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line1986">1986    </a></b>	                else {
+<b><a name="line1987">1987    </a></b>	                    Dump_LoadCode(tprintf("with SM4"));
+<b><a name="line1988">1988    </a></b>	                    // Decrypt loader with SM4 XTS mode.
+<b><a name="line1989">1989    </a></b>	                    sm4_en   = SEC_YES;
+<b><a name="line1990">1990    </a></b>	                    key_type = HAL_SEC_AES_KEY128_MODE; // SM4 only support 128-bit key
+<b><a name="line1991">1991    </a></b>	                }
+<b><a name="line1992">1992    </a></b>	
+<b><a name="line1993">1993    </a></b>	                sal_log_tracker_set(sal_locate(0x14, TYPE_RSV6));
+<b><a name="line1994">1994    </a></b>	                sal_log_tracker_set(sal_locate(((U32)sm4_en & 0xFF), TYPE_DATA));
+<b><a name="line1995">1995    </a></b>	
+<b><a name="line1996">1996    </a></b>	                if (p_load_code_status->key_manifest_size) {
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->key_manifest_size", taking true branch.</font>
+<b><a name="line1997">1997    </a></b>	                    U64 key_manifest_addr;
+<b><a name="line1998">1998    </a></b>	                    U32 key_manifest_len;
+<b><a name="line1999">1999    </a></b>	                    U64 fw_loader_addr;
+<b><a name="line2000">2000    </a></b>	                    U32 fw_loader_len;
+<b><a name="line2001">2001    </a></b>	
+<b><a name="line2002">2002    </a></b>	                    key_manifest_addr = (U64)project_binary_address;
+<b><a name="line2003">2003    </a></b>	                    key_manifest_len = p_load_code_status->key_manifest_size;
+<b><a name="line2004">2004    </a></b>	                    fw_loader_addr = key_manifest_addr + key_manifest_len;
+<b><a name="line2005">2005    </a></b>	                    fw_loader_len = (U32)(fw_slot_size - key_manifest_len);
+<b><a name="line2006">2006    </a></b>	
+<b><a name="line2007">2007    </a></b>	                    // decrypt key manifest
+<b><a name="line2008">2008    </a></b>	                    memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line2009">2009    </a></b>	                    aesofl_param.xts.src_addr.all  = (U64)(key_manifest_addr + SECTOR_SIZE);
+<b><a name="line2010">2010    </a></b>	                    aesofl_param.xts.src_len       = (U32)(key_manifest_len - SECTOR_SIZE);
+<b><a name="line2011">2011    </a></b>	                    aesofl_param.xts.targ_addr.all = (U64)(key_manifest_addr + SECTOR_SIZE);
+<b><a name="line2012">2012    </a></b>	                    aesofl_param.xts.aes_mode      = HAL_SEC_AES_XTS_MODE;
+<b><a name="line2013">2013    </a></b>	                    aesofl_param.xts.sm4_en        = sm4_en;
+<b><a name="line2014">2014    </a></b>	                    aesofl_param.xts.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line2015">2015    </a></b>	                    aesofl_param.xts.set_key_en    = TRUE;
+<b><a name="line2016">2016    </a></b>	                    aesofl_param.xts.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line2017">2017    </a></b>	                    aesofl_param.xts.setkey.key_ptr      = (U32 *)p_fw_encryption_key;
+<b><a name="line2018">2018    </a></b>	                    aesofl_param.xts.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line2019">2019    </a></b>	                    aesofl_param.xts.setkey.key_type     = key_type;
+<b><a name="line2020">2020    </a></b>	                    aesofl_param.xts.setkey.tmp_addr.all = DBUF_API_BOOTCODE_FIP_DATA_BUFFER;
+<b><a name="line2021">2021    </a></b>	                    aesofl_param.xts.setkey.tmp_size     = 32U;
+<b><a name="line2022">2022    </a></b>	                    aesofl_param.xts.setkey.gen_key_en   = TRUE;
+<b><a name="line2023">2023    </a></b>	                    aesofl_param.xts.setkey.sm4_en       = sm4_en;
+<b><a name="line2024">2024    </a></b>	
+<b><a name="line2025">2025    </a></b>	                    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line2026">2026    </a></b>	
+<b><a name="line2027">2027    </a></b>	                    // decrypt fw loader
+<b><a name="line2028">2028    </a></b>	                    memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line2029">2029    </a></b>	                    aesofl_param.xts.src_addr.all  = (U64)(fw_loader_addr + SECTOR_SIZE);
+<b><a name="line2030">2030    </a></b>	                    aesofl_param.xts.src_len       = (U32)(fw_loader_len - SECTOR_SIZE);
+<b><a name="line2031">2031    </a></b>	                    aesofl_param.xts.targ_addr.all = (U64)(fw_loader_addr + SECTOR_SIZE);
+<b><a name="line2032">2032    </a></b>	                    aesofl_param.xts.aes_mode      = HAL_SEC_AES_XTS_MODE;
+<b><a name="line2033">2033    </a></b>	                    aesofl_param.xts.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line2034">2034    </a></b>	                    aesofl_param.xts.sm4_en        = sm4_en;
+<b><a name="line2035">2035    </a></b>	                    aesofl_param.xts.set_key_en    = TRUE; // TODO : key is already set when decrypting key manifest, maybe delete this?
+<b><a name="line2036">2036    </a></b>	                    aesofl_param.xts.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line2037">2037    </a></b>	                    aesofl_param.xts.setkey.key_ptr      = (U32 *)p_fw_encryption_key;
+<b><a name="line2038">2038    </a></b>	                    aesofl_param.xts.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line2039">2039    </a></b>	                    aesofl_param.xts.setkey.key_type     = key_type;
+<b><a name="line2040">2040    </a></b>	                    aesofl_param.xts.setkey.tmp_addr.all = DBUF_API_BOOTCODE_FIP_DATA_BUFFER;
+<b><a name="line2041">2041    </a></b>	                    aesofl_param.xts.setkey.tmp_size     = 32U;
+<b><a name="line2042">2042    </a></b>	                    aesofl_param.xts.setkey.gen_key_en   = TRUE;
+<b><a name="line2043">2043    </a></b>	                    aesofl_param.xts.setkey.sm4_en       = sm4_en;
+<b><a name="line2044">2044    </a></b>	
+<b><a name="line2045">2045    </a></b>	                    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line2046">2046    </a></b>	                }
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2047">2047    </a></b>	                else {
+<b><a name="line2048">2048    </a></b>	                    memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line2049">2049    </a></b>	                    aesofl_param.xts.src_addr.all  = (U64)(project_binary_address + SECTOR_SIZE);
+<b><a name="line2050">2050    </a></b>	                    aesofl_param.xts.src_len       = (U32)(fw_slot_size - SECTOR_SIZE);
+<b><a name="line2051">2051    </a></b>	                    aesofl_param.xts.targ_addr.all = (U64)(project_binary_address + SECTOR_SIZE);
+<b><a name="line2052">2052    </a></b>	                    aesofl_param.xts.aes_mode      = HAL_SEC_AES_XTS_MODE;
+<b><a name="line2053">2053    </a></b>	                    aesofl_param.xts.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line2054">2054    </a></b>	                    aesofl_param.xts.sm4_en        = sm4_en;
+<b><a name="line2055">2055    </a></b>	                    aesofl_param.xts.set_key_en    = TRUE;
+<b><a name="line2056">2056    </a></b>	                    aesofl_param.xts.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line2057">2057    </a></b>	                    aesofl_param.xts.setkey.key_ptr      = (U32 *)p_fw_encryption_key;
+<b><a name="line2058">2058    </a></b>	                    aesofl_param.xts.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line2059">2059    </a></b>	                    aesofl_param.xts.setkey.key_type     = key_type;
+<b><a name="line2060">2060    </a></b>	                    aesofl_param.xts.setkey.tmp_addr.all = DBUF_API_BOOTCODE_FIP_DATA_BUFFER;
+<b><a name="line2061">2061    </a></b>	                    aesofl_param.xts.setkey.tmp_size     = 32U;
+<b><a name="line2062">2062    </a></b>	                    aesofl_param.xts.setkey.gen_key_en   = TRUE;
+<b><a name="line2063">2063    </a></b>	                    aesofl_param.xts.setkey.sm4_en       = sm4_en;
+<b><a name="line2064">2064    </a></b>	                    Dump_LoadCode(tprintf("src_addr  %x", (U32)aesofl_param.comm.src_addr.all));
+<b><a name="line2065">2065    </a></b>	                    Dump_LoadCode(tprintf("targ_addr %x", (U32)aesofl_param.comm.targ_addr.all));
+<b><a name="line2066">2066    </a></b>	                    Dump_LoadCode(tprintf("src_len   %x", (U32)aesofl_param.xts.src_len));
+<b><a name="line2067">2067    </a></b>	                    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line2068">2068    </a></b>	                }
+<b><a name="line2069">2069    </a></b>	
+<b><a name="line2070">2070    </a></b>	                if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout", taking false branch.</font>
+<b><a name="line2071">2071    </a></b>	                    error_firmware |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHECK_ERROR;
+<b><a name="line2072">2072    </a></b>	                }
+<b><a name="line2073">2073    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2074">2074    </a></b>	            else {
+<b><a name="line2075">2075    </a></b>	                //TODO refine these and give it a proper bit
+<b><a name="line2076">2076    </a></b>	                error_firmware |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHECK_ERROR;
+<b><a name="line2077">2077    </a></b>	                Dump_LoadCode(tprintf("!!!Symmetric Key %d is disabled", p_fw_slot_info->fw_encryption_key));
+<b><a name="line2078">2078    </a></b>	            }
+<b><a name="line2079">2079    </a></b>	
+<b><a name="line2080">2080    </a></b>	            // Clear temp buffer
+<b><a name="line2081">2081    </a></b>	            memset((void *)DBUF_API_BOOTCODE_FIP_DATA_BUFFER, 0x00, 32);
+<b><a name="line2082">2082    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2083">2083    </a></b>	        else {
+<b><a name="line2084">2084    </a></b>	
+<b><a name="line2085">2085    </a></b>	            sal_log_tracker_set(sal_locate(0x15, TYPE_RSV6));
+<b><a name="line2086">2086    </a></b>	
+<b><a name="line2087">2087    </a></b>	            //FW must be encrypted, and it's not
+<b><a name="line2088">2088    </a></b>	            p_security_setting = get_efuse_security_setting(&gEFuseAPI);
+<b><a name="line2089">2089    </a></b>	            if ((p_security_setting->encrypted_nand_project_binary) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line2090">2090    </a></b>	                //TODO add a new error status
+<b><a name="line2091">2091    </a></b>	                error_firmware |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHECK_ERROR;
+<b><a name="line2092">2092    </a></b>	            }
+<b><a name="line2093">2093    </a></b>	        }
+<b><a name="line2094">2094    </a></b>	
+<b><a name="line2095">2095    </a></b>	        if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (error_firmware & 4294967292UL /* ~((1UL << 1) | (1UL << 0)) */)", taking true branch.</font>
+<b><a name="line2096">2096    </a></b>	            p_fw_slot_status->state = FW_SLOT_STATE_CHECKING;
+<b><a name="line2097">2097    </a></b>	
+<b><a name="line2098">2098    </a></b>	            sal_log_info_char('C'); //Checking Loader Proj Binary, Key Manifest Proj Binary
+<b><a name="line2099">2099    </a></b>	
+<b><a name="line2100">2100    </a></b>	            sal_log_tracker_set(sal_locate(0x16, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0x83 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "131", is not allowed.  The shift amount is 24.</font>
+<b><a name="line2101">2101    </a></b>	            p_fw_slot_status->project_binary_error = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)project_binary_address, PROJECT_BINARY_SOURCE_NAND);
+<b><a name="line2102">2102    </a></b>	
+<b><a name="line2103">2103    </a></b>	            sal_log_tracker_set(sal_locate((p_fw_slot_status->project_binary_error & 0xFF), TYPE_DATA));
+<b><a name="line2104">2104    </a></b>	            sal_log_tracker_set(sal_locate(((p_fw_slot_status->project_binary_error >> 4) & 0xFF), TYPE_DATA));
+<b><a name="line2105">2105    </a></b>	
+<b><a name="line2106">2106    </a></b>	            sal_log_info_num(p_fw_slot_status->project_binary_error); //Part of 'C'
+<b><a name="line2107">2107    </a></b>	            Dump_LoadCode(tprintf("Check Project Binary Error %x", p_fw_slot_status->project_binary_error));
+<b><a name="line2108">2108    </a></b>	
+<b><a name="line2109">2109    </a></b>	            if (0 != p_fw_slot_status->project_binary_error) {
+<b><a name="line2110">2110    </a></b>	                error_firmware |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHECK_ERROR;
+<b><a name="line2111">2111    </a></b>	            }
+<b><a name="line2112">2112    </a></b>	        }
+<b><a name="line2113">2113    </a></b>	    }
+<b><a name="line2114">2114    </a></b>	
+<b><a name="line2115">2115    </a></b>	    p_fw_slot_status->fw_slot_error = error_firmware;
+<b><a name="line2116">2116    </a></b>	
+<b><a name="line2117">2117    </a></b>	    //Any error other than CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED
+<b><a name="line2118">2118    </a></b>	    //and CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT means that it is unusable
+<b><a name="line2119">2119    </a></b>	    if (0 == (error_firmware & ~(CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED | CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_CHUNK_INCORRECT))) {
+<b><a name="line2120">2120    </a></b>	        p_fw_slot_status->state = FW_SLOT_STATE_USABLE;
+<b><a name="line2121">2121    </a></b>	    }
+<b><a name="line2122">2122    </a></b>	    else {
+<b><a name="line2123">2123    </a></b>	        p_fw_slot_status->state = FW_SLOT_STATE_UNUSABLE;
+<b><a name="line2124">2124    </a></b>	    }
+<b><a name="line2125">2125    </a></b>	
+<b><a name="line2126">2126    </a></b>	    sal_log_tracker_set(sal_locate((error_firmware & 0xFF), TYPE_DATA));
+<b><a name="line2127">2127    </a></b>	
+<b><a name="line2128">2128    </a></b>	    return error_firmware;
+<b><a name="line2129">2129    </a></b>	}
+<b><a name="line2130">2130    </a></b>	
+<b><a name="line2131">2131    </a></b>	//TODO input the fw slot sttatus isntead of this array for flash errors
+</pre></body>
+</html>

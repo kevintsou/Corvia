@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1244">1244    </a></b>	    case 1:
+<b><a name="line1245">1245    </a></b>	        w_CE1_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1246">1246    </a></b>	        w_CE1_WP(ch, wp_of_ce_n);
+<b><a name="line1247">1247    </a></b>	        break;
+<b><a name="line1248">1248    </a></b>	    case 2:
+<b><a name="line1249">1249    </a></b>	        w_CE2_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1250">1250    </a></b>	        w_CE2_WP(ch, wp_of_ce_n);
+<b><a name="line1251">1251    </a></b>	        break;
+<b><a name="line1252">1252    </a></b>	    case 3:
+<b><a name="line1253">1253    </a></b>	        w_CE3_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1254">1254    </a></b>	        w_CE3_WP(ch, wp_of_ce_n);
+<b><a name="line1255">1255    </a></b>	        break;
+<b><a name="line1256">1256    </a></b>	    case 4:
+<b><a name="line1257">1257    </a></b>	        w_CE4_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1258">1258    </a></b>	        w_CE4_WP(ch, wp_of_ce_n);
+<b><a name="line1259">1259    </a></b>	        break;
+<b><a name="line1260">1260    </a></b>	    case 5:
+<b><a name="line1261">1261    </a></b>	        w_CE5_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1262">1262    </a></b>	        w_CE5_WP(ch, wp_of_ce_n);
+<b><a name="line1263">1263    </a></b>	        break;
+<b><a name="line1264">1264    </a></b>	    case 6:
+<b><a name="line1265">1265    </a></b>	        w_CE6_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1266">1266    </a></b>	        w_CE6_WP(ch, wp_of_ce_n);
+<b><a name="line1267">1267    </a></b>	        break;
+<b><a name="line1268">1268    </a></b>	    case 7:
+<b><a name="line1269">1269    </a></b>	        w_CE7_NTCE_NUM(ch, non_tag_idx);
+<b><a name="line1270">1270    </a></b>	        w_CE7_WP(ch, wp_of_ce_n);
+<b><a name="line1271">1271    </a></b>	        break;
+<b><a name="line1272">1272    </a></b>	    default:
+<b><a name="line1273">1273    </a></b>	        ALWAYS_ASSERT(ce);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "ce" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line1274">1274    </a></b>	        break;
+<b><a name="line1275">1275    </a></b>	    }
+<b><a name="line1276">1276    </a></b>	}
+<b><a name="line1277">1277    </a></b>	void dal_fip_set_pio_cer(U8 ch, U8 cer_val, U8 is_cer_last)
+<b><a name="line1278">1278    </a></b>	{
+<b><a name="line1279">1279    </a></b>	    w_PIO_CER_LAST(ch, is_cer_last);
+<b><a name="line1280">1280    </a></b>	    w_PIO_CER(ch, cer_val);
+<b><a name="line1281">1281    </a></b>	}
+<b><a name="line1282">1282    </a></b>	
+<b><a name="line1283">1283    </a></b>	void dal_fip_set_fpu_cer(U8 ch, U8 cer_sel, BOOL cer_val)
+<b><a name="line1284">1284    </a></b>	{
+<b><a name="line1285">1285    </a></b>	    w_CER_SEL(ch, cer_sel);
+<b><a name="line1286">1286    </a></b>	    w_CER_VAL(ch, cer_val);
+<b><a name="line1287">1287    </a></b>	}
+<b><a name="line1288">1288    </a></b>	
+<b><a name="line1289">1289    </a></b>	void dal_fip_set_fpu_cer_trig(U8 ch)
+<b><a name="line1290">1290    </a></b>	{
+<b><a name="line1291">1291    </a></b>	    w_CER_TRIG(ch, 1);
+<b><a name="line1292">1292    </a></b>	}
+<b><a name="line1293">1293    </a></b>	
+<b><a name="line1294">1294    </a></b>	U32 dal_fip_get_cer_val_ro(U8 ch)
+<b><a name="line1295">1295    </a></b>	{
+<b><a name="line1296">1296    </a></b>	    return r_CER_VAL_RO(ch);
+<b><a name="line1297">1297    </a></b>	}
+<b><a name="line1298">1298    </a></b>	
+<b><a name="line1299">1299    </a></b>	U32 dal_fip_get_die_num_for_each_ce(U8 ch)
+<b><a name="line1300">1300    </a></b>	{
+<b><a name="line1301">1301    </a></b>	    return r_DIE_MODE(ch);
+<b><a name="line1302">1302    </a></b>	}
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	void dal_fip_set_mt_auto_poll_compare_mode(U8 ch, U8 equal_rule)
+</pre></body>
+</html>

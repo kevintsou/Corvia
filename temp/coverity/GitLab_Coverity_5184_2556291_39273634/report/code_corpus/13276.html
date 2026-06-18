@@ -1,0 +1,894 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line70">70    </a></b>	    hal_sec_sm9_sm3_update(&hid, 1, comm_buf);
+<b><a name="line71">71    </a></b>	    hal_sec_sm9_sm3_update(ct2, sizeof(ct2), comm_buf);
+<b><a name="line72">72    </a></b>	    hal_sec_sm9_sm3_finish(h_a + 32, comm_buf);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    hal_sec_sm9_z256_modn_from_hash(h1, h_a, comm_buf);
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	void hal_sec_sm9_hash_2(U8 *out, U8 *msg, U32 msg_len, U8 *wbuf, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buf)
+<b><a name="line78">78    </a></b>	{
+<b><a name="line79">79    </a></b>	    // SM3_CTX_HW ctx;
+<b><a name="line80">80    </a></b>	    U8 prefix[1] = { HAL_SEC_SM9_HASH2_PREFIX };
+<b><a name="line81">81    </a></b>	    U8 ct1[4] = {0U, 0U, 0U, 1U};
+<b><a name="line82">82    </a></b>	    U8 ct2[4] = {0U, 0U, 0U, 2U};
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    hal_sec_sm9_sm3_init(comm_buf);
+<b><a name="line85">85    </a></b>	    hal_sec_sm9_sm3_update((U8 *)(prefix), sizeof(prefix), comm_buf);
+<b><a name="line86">86    </a></b>	    hal_sec_sm9_sm3_update((U8 *)(msg), msg_len, comm_buf);
+<b><a name="line87">87    </a></b>	    hal_sec_sm9_sm3_update(wbuf, 32 * 12, comm_buf);
+<b><a name="line88">88    </a></b>	    hal_sec_sm9_sm3_update(ct1, sizeof(ct1), comm_buf);
+<b><a name="line89">89    </a></b>	    hal_sec_sm9_sm3_finish(out, comm_buf);
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    hal_sec_sm9_sm3_init(comm_buf);
+<b><a name="line92">92    </a></b>	    hal_sec_sm9_sm3_update((U8 *)(prefix), sizeof(prefix), comm_buf);
+<b><a name="line93">93    </a></b>	    hal_sec_sm9_sm3_update((U8 *)(msg), msg_len, comm_buf);
+<b><a name="line94">94    </a></b>	    hal_sec_sm9_sm3_update(wbuf, 32 * 12, comm_buf);
+<b><a name="line95">95    </a></b>	    hal_sec_sm9_sm3_update(ct2, sizeof(ct2), comm_buf);
+<b><a name="line96">96    </a></b>	    hal_sec_sm9_sm3_finish(out + 32, comm_buf);
+<b><a name="line97">97    </a></b>	}
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	U8 hal_sec_sm9_sign_master_key_extract_key(HAL_SEC_SM9_SIGN_MASTER_KEY_T_PTR msk, U8 *id, U32 id_len, HAL_SEC_SM9_SIGN_KEY_T_PTR key, HAL_SEC_SM9_GENKEY_BUF_T_PTR genkey_buf)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line100">100    </a></b>	{
+<b><a name="line101">101    </a></b>	    HAL_SEC_SM9_Z256_T t = {0ULL};
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    // t1 = H1(ID || hid, N) + ks
+<b><a name="line104">104    </a></b>	    hal_sec_sm9_z256_hash1(t, id, id_len, HAL_SEC_SM9_SIGN_HID, &genkey_buf->comm_buf);
+<b><a name="line105">105    </a></b>	    hal_sec_sm9_z256_modn_add(t, t, msk->ks);
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if (hal_sec_sm9_z256_is_zero(t) == 1U)
+<b><a name="line108">108    </a></b>	    {
+<b><a name="line109">109    </a></b>	        // TODO: when this happen, the admin should re-generate the MSK. Some speciall error/warning should return on this!
+<b><a name="line110">110    </a></b>	        return SEC_NO;
+<b><a name="line111">111    </a></b>	    }
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    // t2 = ks * t1^-1
+<b><a name="line114">114    </a></b>	    hal_sec_sm9_z256_modn_inv(t, t, &genkey_buf->comm_buf);
+<b><a name="line115">115    </a></b>	    hal_sec_sm9_z256_modn_mul(t, t, msk->ks, &genkey_buf->comm_buf);
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    // ds = t2 * P1
+<b><a name="line118">118    </a></b>	    hal_sec_sm9_z256_point_mul_generator(&key->ds, t, &genkey_buf->comm_buf);
+<b><a name="line119">119    </a></b>	    key->Ppubs = msk->Ppubs;
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    return SEC_YES;
+<b><a name="line122">122    </a></b>	}
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	U8 hal_sec_sm9_enc_master_key_extract_key(SM9_ENC_MASTER_KEY *msk, U8 *id, U32 id_len, HAL_SEC_SM9_ENC_KEY_T_PTR key, HAL_SEC_SM9_GENKEY_BUF_T_PTR genkey_buf)
+<b><a name="line125">125    </a></b>	{
+<b><a name="line126">126    </a></b>	    HAL_SEC_SM9_Z256_T t = {0ULL};
+<b><a name="line127">127    </a></b>	
+<b><a name="line128">128    </a></b>	    // t1 = H1(ID || hid, N) + ke
+<b><a name="line129">129    </a></b>	    hal_sec_sm9_z256_hash1(t, id, id_len, HAL_SEC_SM9_ENC_HID, &genkey_buf->comm_buf);
+<b><a name="line130">130    </a></b>	    hal_sec_sm9_z256_modn_add(t, t, msk->ke);
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	    if (hal_sec_sm9_z256_is_zero(t) == 1U)
+<b><a name="line133">133    </a></b>	    {
+<b><a name="line134">134    </a></b>	        return SEC_NO;
+<b><a name="line135">135    </a></b>	    }
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	    // t2 = ke * t1^-1
+<b><a name="line138">138    </a></b>	    hal_sec_sm9_z256_modn_inv(t, t, &genkey_buf->comm_buf);
+<b><a name="line139">139    </a></b>	    hal_sec_sm9_z256_modn_mul(t, t, msk->ke, &genkey_buf->comm_buf);
+<b><a name="line140">140    </a></b>	
+<b><a name="line141">141    </a></b>	    // de = t2 * P2
+<b><a name="line142">142    </a></b>	    hal_sec_sm9_z256_twist_point_mul_generator(&key->de, t, &genkey_buf->comm_buf);
+<b><a name="line143">143    </a></b>	    key->Ppube = msk->Ppube;
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    return SEC_YES;
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	U8 hal_sec_sm9_exch_master_key_extract_key(SM9_EXCH_MASTER_KEY *msk, U8 *id, U32 id_len, HAL_SEC_SM9_EXCH_KEY_T_PTR key, HAL_SEC_SM9_GENKEY_BUF_T_PTR genkey_buf)
+<b><a name="line149">149    </a></b>	{
+<b><a name="line150">150    </a></b>	    HAL_SEC_SM9_Z256_T t = {0ULL};
+<b><a name="line151">151    </a></b>	
+<b><a name="line152">152    </a></b>	    // t1 = H1(ID || hid, N) + ke
+<b><a name="line153">153    </a></b>	    hal_sec_sm9_z256_hash1(t, id, id_len, HAL_SEC_SM9_EXCH_HID, &genkey_buf->comm_buf);
+<b><a name="line154">154    </a></b>	    hal_sec_sm9_z256_modn_add(t, t, msk->ke);
+<b><a name="line155">155    </a></b>	
+<b><a name="line156">156    </a></b>	    if (hal_sec_sm9_z256_is_zero(t) == 1U)
+<b><a name="line157">157    </a></b>	    {
+<b><a name="line158">158    </a></b>	        return SEC_NO;
+<b><a name="line159">159    </a></b>	    }
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	    // t2 = ke * t1^-1
+<b><a name="line162">162    </a></b>	    hal_sec_sm9_z256_modn_inv(t, t, &genkey_buf->comm_buf);
+<b><a name="line163">163    </a></b>	    hal_sec_sm9_z256_modn_mul(t, t, msk->ke, &genkey_buf->comm_buf);
+<b><a name="line164">164    </a></b>	
+<b><a name="line165">165    </a></b>	    // de = t2 * P2
+<b><a name="line166">166    </a></b>	    hal_sec_sm9_z256_twist_point_mul_generator(&key->de, t, &genkey_buf->comm_buf);
+<b><a name="line167">167    </a></b>	    key->Ppube = msk->Ppube;
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	    return SEC_YES;
+<b><a name="line170">170    </a></b>	}
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	void hal_sec_sm9_genkey_init_buf(HAL_SEC_SM9_GENKEY_BUF_T_PTR genkey_buffer, U32 buffer_addr)
+<b><a name="line173">173    </a></b>	{
+<b><a name="line174">174    </a></b>	    (void)memset((void *)genkey_buffer, 0, sizeof(HAL_SEC_SM9_GENKEY_BUF_T));
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	    hal_sec_sm9_comm_init_buf(&genkey_buffer->comm_buf, buffer_addr);
+<b><a name="line177">177    </a></b>	}
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	U8 hal_sec_sm9_sign(U8 *sig, U8 *mpk, U8 *sk, U8 *msg, U32 msg_len, U8 *rand_val, HAL_SEC_SM9_SIGN_BUF_T_PTR sign_buffer)
+<b><a name="line180">180    </a></b>	{
+<b><a name="line181">181    </a></b>	    HAL_SEC_SM9_SIGN_KEY_T key_s;
+<b><a name="line182">182    </a></b>	    HAL_SEC_SM9_SIG_T sig_s;
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&key_s.ds, sk) != SEC_YES)
+<b><a name="line185">185    </a></b>	    {
+<b><a name="line186">186    </a></b>	        Dump_SEC(tprintf("1"));
+<b><a name="line187">187    </a></b>	        return SEC_NO;
+<b><a name="line188">188    </a></b>	    }
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&key_s.Ppubs, mpk, &sign_buffer->comm_buf) != SEC_YES)
+<b><a name="line191">191    </a></b>	    {
+<b><a name="line192">192    </a></b>	        return SEC_NO;
+<b><a name="line193">193    </a></b>	    }
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	    if (hal_sec_sm9_do_sign(&key_s, msg, msg_len, &sig_s, rand_val, sign_buffer) != 1U)
+<b><a name="line196">196    </a></b>	    {
+<b><a name="line197">197    </a></b>	        return SEC_NO;
+<b><a name="line198">198    </a></b>	    }
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    hal_sec_sm9_z256_to_bytes(sig_s.h, sig);
+<b><a name="line201">201    </a></b>	    hal_sec_sm9_z256_point_to_bytes(&sig_s.S, sig + HAL_SEC_SM9_SIG_H_LEN);
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	    return SEC_YES;
+<b><a name="line204">204    </a></b>	}
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	U32 hal_sec_sm9_verify(U8 *sig, U8 *mpk, U8 *msg, U32 msg_len, U8 *id, U32 id_len, HAL_SEC_SM9_VERIFY_BUF_T_PTR verify_buffer)
+<b><a name="line207">207    </a></b>	{
+<b><a name="line208">208    </a></b>	    HAL_SEC_SM9_SIG_T sig_t;
+<b><a name="line209">209    </a></b>	    HAL_SEC_SM9_SIGN_MASTER_KEY_T smk_t;
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	    // retrieve keys
+<b><a name="line212">212    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&smk_t.Ppubs, mpk, &verify_buffer->comm_buf) != SEC_YES)
+<b><a name="line213">213    </a></b>	    {
+<b><a name="line214">214    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_RETRIEVE_KEY_ERR);
+<b><a name="line215">215    </a></b>	    }
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	    hal_sec_sm9_z256_from_bytes(sig_t.h, sig);
+<b><a name="line218">218    </a></b>	
+<b><a name="line219">219    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&sig_t.S, sig + HAL_SEC_SM9_SIG_H_LEN) != SEC_YES)
+<b><a name="line220">220    </a></b>	    {
+<b><a name="line221">221    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_CONVERT_KEY_ERR);
+<b><a name="line222">222    </a></b>	    }
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	    if (hal_sec_sm9_do_verify(&smk_t, id, id_len, msg, msg_len, &sig_t, verify_buffer) != 1U)
+<b><a name="line225">225    </a></b>	    {
+<b><a name="line226">226    </a></b>	        return HAL_SEC_SM9_ERROR(HAL_SEC_SM9_VERIFY_ERR);
+<b><a name="line227">227    </a></b>	    }
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	    return HAL_SEC_SM9_ERROR(SEC_YES);
+<b><a name="line230">230    </a></b>	}
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	U8 hal_sec_sm9_do_sign(HAL_SEC_SM9_SIGN_KEY_T_PTR key_t, U8 *msg, U32 msg_len, HAL_SEC_SM9_SIG_T_PTR sig, U8 *rand_val, HAL_SEC_SM9_SIGN_BUF_T_PTR sign_buffer)
+<b><a name="line233">233    </a></b>	{
+<b><a name="line234">234    </a></b>	    HAL_SEC_SM9_Z256_T r;
+<b><a name="line235">235    </a></b>	    HAL_SEC_SM9_Z256_FP12_T g;
+<b><a name="line236">236    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sign_buffer->sign_wbuf_addr);
+<b><a name="line237">237    </a></b>	    U8 h_a[64];
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    // A1: g = e(P1, Ppubs)
+<b><a name="line240">240    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line241">241    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	    hal_sec_sm9_z256_pairing(g, &key_t->Ppubs, &sm9_z256_mont_p1, &sign_buffer->comm_buf);
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	    hal_sec_sm9_z256_from_bytes(r, rand_val);
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	    // A3: w = g^r
+<b><a name="line248">248    </a></b>	    hal_sec_sm9_z256_fp12_pow(g, g, r, &sign_buffer->comm_buf);
+<b><a name="line249">249    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(g, wbuf);
+<b><a name="line250">250    </a></b>	
+<b><a name="line251">251    </a></b>	    // A4: h = H2(M || w, N)
+<b><a name="line252">252    </a></b>	    hal_sec_sm9_hash_2(h_a, msg, msg_len, wbuf, &sign_buffer->comm_buf);
+<b><a name="line253">253    </a></b>	    hal_sec_sm9_z256_modn_from_hash(sig->h, h_a, &sign_buffer->comm_buf);
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	    // A5: l = (r - h) mod N, if l = 0, goto A2
+<b><a name="line256">256    </a></b>	    hal_sec_sm9_z256_modn_sub(r, r, sig->h);
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	    if (hal_sec_sm9_z256_is_zero(r) == 1U)
+<b><a name="line259">259    </a></b>	    {
+<b><a name="line260">260    </a></b>	        return SEC_NO;
+<b><a name="line261">261    </a></b>	    }
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	    // A6: S = l * dsA
+<b><a name="line264">264    </a></b>	    hal_sec_sm9_z256_point_mul(&sig->S, r, &key_t->ds, &sign_buffer->comm_buf);
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	    (void)memset(&r, 0, sizeof(r));
+<b><a name="line267">267    </a></b>	    (void)memset(&g, 0, sizeof(g));
+<b><a name="line268">268    </a></b>	    (void)memset(wbuf, 0, 32 * 12);
+<b><a name="line269">269    </a></b>	    (void)memset(h_a, 0, sizeof(h_a));
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    return SEC_YES;
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	U8 hal_sec_sm9_do_verify(HAL_SEC_SM9_SIGN_MASTER_KEY_T_PTR mpk, U8 *id, U32 id_len, U8 *msg, U32 msg_len, HAL_SEC_SM9_SIG_T_PTR sig, HAL_SEC_SM9_VERIFY_BUF_T_PTR verify_buffer)
+<b><a name="line275">275    </a></b>	{
+<b><a name="line276">276    </a></b>	    HAL_SEC_SM9_Z256_T h1 = {0ULL};
+<b><a name="line277">277    </a></b>	    HAL_SEC_SM9_Z256_T h2;
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    U8 h_a[64];
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *g      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_g_addr);
+<b><a name="line282">282    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *t      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_t_addr);
+<b><a name="line283">283    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *u      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_u_addr);
+<b><a name="line284">284    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *w      = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(verify_buffer->verify_w_addr);
+<b><a name="line285">285    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T *p = (HAL_SEC_SM9_Z256_TWIST_POINT_T *)(void *)(U32 *)(verify_buffer->verify_p_addr);
+<b><a name="line286">286    </a></b>	    U8 *wbuf           = (U8 *)(U32 *)(verify_buffer->verify_wbuf_addr);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	    // B1: check h in [1, N-1]
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    // B2: check S in G1
+<b><a name="line291">291    </a></b>	
+<b><a name="line292">292    </a></b>	    // B3: g = e(P1, Ppubs)
+<b><a name="line293">293    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line294">294    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    hal_sec_sm9_z256_pairing(*g, &mpk->Ppubs, &sm9_z256_mont_p1, &verify_buffer->comm_buf);
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	    // B4: t = g^h
+<b><a name="line299">299    </a></b>	    hal_sec_sm9_z256_fp12_pow(*t, *g, sig->h, &verify_buffer->comm_buf);
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	    // B5: h1 = H1(ID || hid, N)
+<b><a name="line302">302    </a></b>	    hal_sec_sm9_z256_hash1(h1, id, id_len, HAL_SEC_SM9_SIGN_HID, &verify_buffer->comm_buf);
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    // B6: P = h1 * P2 + Ppubs
+<b><a name="line305">305    </a></b>	    hal_sec_sm9_z256_twist_point_mul_generator(p, h1, &verify_buffer->comm_buf);
+<b><a name="line306">306    </a></b>	    hal_sec_sm9_z256_twist_point_full_add(p, p, &mpk->Ppubs, &verify_buffer->comm_buf);
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	    // B7: u = e(S, P)
+<b><a name="line309">309    </a></b>	    hal_sec_sm9_z256_pairing(*u, p, &sig->S, &verify_buffer->comm_buf);
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	    // B8: w = u * t
+<b><a name="line312">312    </a></b>	    hal_sec_sm9_z256_fp12_mul(*w, *u, *t, &verify_buffer->comm_buf);
+<b><a name="line313">313    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*w, wbuf);
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	    // B9: h2 = H2(M || w, N), check h2 == h
+<b><a name="line316">316    </a></b>	    hal_sec_sm9_hash_2(h_a, msg, msg_len, wbuf, &verify_buffer->comm_buf);
+<b><a name="line317">317    </a></b>	    hal_sec_sm9_z256_modn_from_hash(h2, h_a, &verify_buffer->comm_buf);
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	    if (hal_sec_sm9_z256_equ(h2, sig->h) != 1U)
+<b><a name="line320">320    </a></b>	    {
+<b><a name="line321">321    </a></b>	        return SEC_NO;
+<b><a name="line322">322    </a></b>	    }
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    return SEC_YES;
+<b><a name="line325">325    </a></b>	}
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	void hal_sec_sm9_sign_init_buf(HAL_SEC_SM9_SIGN_BUF_T_PTR sign_buffer, U32 buffer_addr)
+<b><a name="line328">328    </a></b>	{
+<b><a name="line329">329    </a></b>	    (void)memset((void *)sign_buffer, 0, sizeof(HAL_SEC_SM9_SIGN_BUF_T));
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	    sign_buffer->sign_wbuf_addr   = buffer_addr;
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	    hal_sec_sm9_comm_init_buf(&sign_buffer->comm_buf, sign_buffer->sign_wbuf_addr + HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line334">334    </a></b>	}
+<b><a name="line335">335    </a></b>	
+<b><a name="line336">336    </a></b>	void hal_sec_sm9_verify_init_buf(HAL_SEC_SM9_VERIFY_BUF_T_PTR verify_buffer, U32 buffer_addr)
+<b><a name="line337">337    </a></b>	{
+<b><a name="line338">338    </a></b>	    (void)memset((void *)verify_buffer, 0, sizeof(HAL_SEC_SM9_VERIFY_BUF_T));
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	    verify_buffer->verify_g_addr      = buffer_addr;
+<b><a name="line341">341    </a></b>	    verify_buffer->verify_t_addr      = verify_buffer->verify_g_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line342">342    </a></b>	    verify_buffer->verify_u_addr      = verify_buffer->verify_t_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line343">343    </a></b>	    verify_buffer->verify_w_addr      = verify_buffer->verify_u_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line344">344    </a></b>	    verify_buffer->verify_p_addr      = verify_buffer->verify_w_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line345">345    </a></b>	    verify_buffer->verify_wbuf_addr   = verify_buffer->verify_p_addr + HAL_SEC_SM9_Z256_TWIST_P_LEN;
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    hal_sec_sm9_comm_init_buf(&verify_buffer->comm_buf, verify_buffer->verify_wbuf_addr + HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line348">348    </a></b>	}
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	U8 hal_sec_sm9_encrypt(U8 *ctx, U32 *ctx_len, U8 *msg, U32 msg_len, U8 *mpk, U8 *id, U32 id_len, U8 *rand_val, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line351">351    </a></b>	{
+<b><a name="line352">352    </a></b>	    HAL_SEC_SM9_Z256_POINT_T c1;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    U8 c2[HAL_SEC_SM9_MAX_PTX_LEN];
+<b><a name="line355">355    </a></b>	    U8 c3[HAL_SEC_SHA2_SM3_DIGEST_LEN];
+<b><a name="line356">356    </a></b>	    SM9_ENC_MASTER_KEY emk;
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    if (msg_len > (U32)HAL_SEC_SM9_MAX_PTX_LEN)
+<b><a name="line359">359    </a></b>	    {
+<b><a name="line360">360    </a></b>	        return SEC_NO;
+<b><a name="line361">361    </a></b>	    }
+<b><a name="line362">362    </a></b>	
+<b><a name="line363">363    </a></b>	    // retrieve key
+<b><a name="line364">364    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&emk.Ppube, mpk) != SEC_YES)
+<b><a name="line365">365    </a></b>	    {
+<b><a name="line366">366    </a></b>	        return SEC_NO;
+<b><a name="line367">367    </a></b>	    }
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	    if ((hal_sec_sm9_do_encrypt(&emk, id, id_len, msg, msg_len, &c1, c2, c3, rand_val, sm9_kem_buf)) != 1U)
+<b><a name="line370">370    </a></b>	    {
+<b><a name="line371">371    </a></b>	        return SEC_NO;
+<b><a name="line372">372    </a></b>	    }
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    hal_sec_sm9_z256_point_to_bytes(&c1, ctx);
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    (void)memcpy(ctx + HAL_SEC_SM9_ENC_C1_LEN, c3, HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line377">377    </a></b>	    (void)memcpy(ctx + HAL_SEC_SM9_ENC_C1_LEN + HAL_SEC_SHA2_SM3_DIGEST_LEN, c2, msg_len);
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	    *ctx_len = (U32)((U64)HAL_SEC_SM9_ENC_C1_LEN + (U64)HAL_SEC_SHA2_SM3_DIGEST_LEN + (U64)msg_len);
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	    return SEC_YES;
+<b><a name="line382">382    </a></b>	}
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	U8 hal_sec_sm9_decrypt(U8 *ptx, U8 *ctx, U32 msg_len, U8 *mpk, U8 *id_sk, U8 *id, U32 id_len, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line385">385    </a></b>	{
+<b><a name="line386">386    </a></b>	    HAL_SEC_SM9_Z256_POINT_T c1;
+<b><a name="line387">387    </a></b>	    HAL_SEC_SM9_ENC_KEY_T key_t;
+<b><a name="line388">388    </a></b>	
+<b><a name="line389">389    </a></b>	    // C = C1 | C3 | C2
+<b><a name="line390">390    </a></b>	    U8 *c3 = ctx + HAL_SEC_SM9_ENC_C1_LEN;
+<b><a name="line391">391    </a></b>	    U8 *c2 = ctx + HAL_SEC_SM9_ENC_C1_LEN + HAL_SEC_SM9_ENC_C3_LEN;
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&c1, ctx) != SEC_YES)
+<b><a name="line394">394    </a></b>	    {
+<b><a name="line395">395    </a></b>	        return SEC_NO;
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    // retrieve key
+<b><a name="line399">399    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&key_t.Ppube, mpk) != SEC_YES)
+<b><a name="line400">400    </a></b>	    {
+<b><a name="line401">401    </a></b>	        return SEC_NO;
+<b><a name="line402">402    </a></b>	    }
+<b><a name="line403">403    </a></b>	
+<b><a name="line404">404    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&key_t.de, id_sk, &sm9_kem_buf->comm_buf) != SEC_YES)
+<b><a name="line405">405    </a></b>	    {
+<b><a name="line406">406    </a></b>	        return SEC_NO;
+<b><a name="line407">407    </a></b>	    }
+<b><a name="line408">408    </a></b>	
+<b><a name="line409">409    </a></b>	    if (hal_sec_sm9_do_decrypt(&key_t, id, id_len, &c1, c2, msg_len, c3, ptx, sm9_kem_buf) != 1U)
+<b><a name="line410">410    </a></b>	    {
+<b><a name="line411">411    </a></b>	        return SEC_NO;
+<b><a name="line412">412    </a></b>	    }
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    return SEC_YES;
+<b><a name="line415">415    </a></b>	}
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	
+<b><a name="line418">418    </a></b>	U8 hal_sec_sm9_do_encrypt(SM9_ENC_MASTER_KEY *mpk, U8 *id, U32 id_len, U8 *msg, U32 msg_len, HAL_SEC_SM9_Z256_POINT_T *c1, U8 *c2, U8 c3[HAL_SEC_SM9_ENC_C3_LEN], U8 *rand_val, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line419">419    </a></b>	{
+<b><a name="line420">420    </a></b>	    U8 key[HAL_SEC_SM9_MAX_PTX_LEN] = {0};
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	    if (hal_sec_sm9_kem_encrypt(mpk, id, id_len, sizeof(key), key, c1, rand_val, sm9_kem_buf) != 1U)
+<b><a name="line423">423    </a></b>	    {
+<b><a name="line424">424    </a></b>	        return SEC_NO;
+<b><a name="line425">425    </a></b>	    }
+<b><a name="line426">426    </a></b>	
+<b><a name="line427">427    </a></b>	    hal_sec_sm9_mem_xor(c2, key, msg, msg_len);
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    hal_sec_sm9_sm3_init(&sm9_kem_buf->comm_buf);
+<b><a name="line430">430    </a></b>	    hal_sec_sm9_sm3_update(c2, msg_len, &sm9_kem_buf->comm_buf);
+<b><a name="line431">431    </a></b>	    hal_sec_sm9_sm3_update(key + msg_len, HAL_SEC_SHA2_SM3_DIGEST_LEN, &sm9_kem_buf->comm_buf);
+<b><a name="line432">432    </a></b>	    hal_sec_sm9_sm3_finish(c3, &sm9_kem_buf->comm_buf);
+<b><a name="line433">433    </a></b>	
+<b><a name="line434">434    </a></b>	    return SEC_YES;
+<b><a name="line435">435    </a></b>	}
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	U8 hal_sec_sm9_do_decrypt(HAL_SEC_SM9_ENC_KEY_T_PTR key_t, U8 *id, U32 id_len, HAL_SEC_SM9_Z256_POINT_T *c1, U8 *c2, U32 c2_len, U8 c3[HAL_SEC_SM9_ENC_C3_LEN], U8 *ptx, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line438">438    </a></b>	{
+<b><a name="line439">439    </a></b>	    U8 key[HAL_SEC_SM9_MAX_PTX_LEN + HAL_SEC_SHA2_SM3_DIGEST_LEN] = {0U};
+<b><a name="line440">440    </a></b>	    U8 mac[HAL_SEC_SHA2_SM3_DIGEST_LEN] = {0U};
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	    if (c2_len > (U32)HAL_SEC_SM9_MAX_PTX_LEN)
+<b><a name="line443">443    </a></b>	    {
+<b><a name="line444">444    </a></b>	        return SEC_NO;
+<b><a name="line445">445    </a></b>	    }
+<b><a name="line446">446    </a></b>	
+<b><a name="line447">447    </a></b>	    if (hal_sec_sm9_kem_decrypt(key_t, id, id_len, c1, c2_len + HAL_SEC_SHA2_SM3_DIGEST_LEN, key, sm9_kem_buf) != 1U)
+<b><a name="line448">448    </a></b>	    {
+<b><a name="line449">449    </a></b>	        return SEC_NO;
+<b><a name="line450">450    </a></b>	    }
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    hal_sec_sm9_sm3_init(&sm9_kem_buf->comm_buf);
+<b><a name="line453">453    </a></b>	    hal_sec_sm9_sm3_update(c2, c2_len, &sm9_kem_buf->comm_buf);
+<b><a name="line454">454    </a></b>	    hal_sec_sm9_sm3_update(key + c2_len, HAL_SEC_SHA2_SM3_DIGEST_LEN, &sm9_kem_buf->comm_buf);
+<b><a name="line455">455    </a></b>	    hal_sec_sm9_sm3_finish(mac, &sm9_kem_buf->comm_buf);
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	    if (memcmp(c3, mac, HAL_SEC_SHA2_SM3_DIGEST_LEN) != 0)
+<b><a name="line458">458    </a></b>	    {
+<b><a name="line459">459    </a></b>	        return SEC_NO;
+<b><a name="line460">460    </a></b>	    }
+<b><a name="line461">461    </a></b>	
+<b><a name="line462">462    </a></b>	    hal_sec_sm9_mem_xor(ptx, key, c2, c2_len);
+<b><a name="line463">463    </a></b>	
+<b><a name="line464">464    </a></b>	    return SEC_YES;
+<b><a name="line465">465    </a></b>	}
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	U8 hal_sec_sm9_kem_encrypt(SM9_ENC_MASTER_KEY *mpk, U8 *id, U32 id_len, U32 key_len, U8 *key, HAL_SEC_SM9_Z256_POINT_T *ctx, U8 *rand_val, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line468">468    </a></b>	{
+<b><a name="line469">469    </a></b>	    HAL_SEC_SM9_Z256_T r = {0ULL};
+<b><a name="line470">470    </a></b>	    HAL_SEC_SM9_Z256_FP12_T w;
+<b><a name="line471">471    </a></b>	
+<b><a name="line472">472    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sm9_kem_buf->kem_wbuf_addr);
+<b><a name="line473">473    </a></b>	    U8 cbuf[65];
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    // A1: Q = H1(ID||hid,N) * P1 + Ppube
+<b><a name="line476">476    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line477">477    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line478">478    </a></b>	
+<b><a name="line479">479    </a></b>	    hal_sec_sm9_z256_hash1(r, id, id_len, HAL_SEC_SM9_ENC_HID, &sm9_kem_buf->comm_buf);
+<b><a name="line480">480    </a></b>	    hal_sec_sm9_z256_point_mul(ctx, r, &sm9_z256_mont_p1, &sm9_kem_buf->comm_buf);
+<b><a name="line481">481    </a></b>	    hal_sec_sm9_z256_point_add(ctx, ctx, &mpk->Ppube);
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	    hal_sec_sm9_z256_from_bytes(r, rand_val);
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	    // A3: C1 = r * Q
+<b><a name="line486">486    </a></b>	    hal_sec_sm9_z256_point_mul(ctx, r, ctx, &sm9_kem_buf->comm_buf);
+<b><a name="line487">487    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(ctx, cbuf);
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    // A4: g = e(Ppube, P2)
+<b><a name="line490">490    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T sm9_z256_mont_p2;
+<b><a name="line491">491    </a></b>	    memcpy((void *)&sm9_z256_mont_p2, (void *)&SM9_Z256_MONT_P2, sizeof(SM9_Z256_MONT_P2));
+<b><a name="line492">492    </a></b>	    hal_sec_sm9_z256_pairing(w, &sm9_z256_mont_p2, &mpk->Ppube, &sm9_kem_buf->comm_buf);
+<b><a name="line493">493    </a></b>	
+<b><a name="line494">494    </a></b>	    // A5: w = g^r
+<b><a name="line495">495    </a></b>	    hal_sec_sm9_z256_fp12_pow(w, w, r, &sm9_kem_buf->comm_buf);
+<b><a name="line496">496    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(w, wbuf);
+<b><a name="line497">497    </a></b>	
+<b><a name="line498">498    </a></b>	    // A6: K = KDF(C || w || ID_B, klen), if K == 0, goto A2
+<b><a name="line499">499    </a></b>	    hal_sec_sm9_sm3_init(&sm9_kem_buf->comm_buf);
+<b><a name="line500">500    </a></b>	    hal_sec_sm9_sm3_update(cbuf + 1, 64, &sm9_kem_buf->comm_buf);
+<b><a name="line501">501    </a></b>	    hal_sec_sm9_sm3_update(wbuf, HAL_SEC_SM9_Z256_WBUF_LEN, &sm9_kem_buf->comm_buf);
+<b><a name="line502">502    </a></b>	    hal_sec_sm9_sm3_update((U8 *)id, id_len, &sm9_kem_buf->comm_buf);
+<b><a name="line503">503    </a></b>	    hal_sec_sm9_sm3_kdf_finish(key, key_len, &sm9_kem_buf->comm_buf);
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    if (hal_sec_sm9_mem_is_zero(key, key_len) == 1U)
+<b><a name="line506">506    </a></b>	    {
+<b><a name="line507">507    </a></b>	        return SEC_NO;
+<b><a name="line508">508    </a></b>	    }
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	    (void)memset(&r, 0, sizeof(r));
+<b><a name="line511">511    </a></b>	    (void)memset(&w, 0, sizeof(w));
+<b><a name="line512">512    </a></b>	    (void)memset(wbuf, 0, HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line513">513    </a></b>	
+<b><a name="line514">514    </a></b>	    // A7: output (K, C)
+<b><a name="line515">515    </a></b>	    return SEC_YES;
+<b><a name="line516">516    </a></b>	}
+<b><a name="line517">517    </a></b>	
+<b><a name="line518">518    </a></b>	U8 hal_sec_sm9_kem_decrypt(HAL_SEC_SM9_ENC_KEY_T_PTR key_t, U8 *id, U32 id_len, HAL_SEC_SM9_Z256_POINT_T *c, U32 key_len, U8 *key, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line519">519    </a></b>	{
+<b><a name="line520">520    </a></b>	    HAL_SEC_SM9_Z256_FP12_T w;
+<b><a name="line521">521    </a></b>	
+<b><a name="line522">522    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sm9_kem_buf->kem_wbuf_addr);
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	    U8 cbuf[65];
+<b><a name="line525">525    </a></b>	
+<b><a name="line526">526    </a></b>	    // B1: check C in G1
+<b><a name="line527">527    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(c, cbuf);
+<b><a name="line528">528    </a></b>	
+<b><a name="line529">529    </a></b>	    // B2: w = e(C, de);
+<b><a name="line530">530    </a></b>	    hal_sec_sm9_z256_pairing(w, &key_t->de, c, &sm9_kem_buf->comm_buf);
+<b><a name="line531">531    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(w, wbuf);
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	    // B3: K = KDF(C || w || ID, klen)
+<b><a name="line534">534    </a></b>	    hal_sec_sm9_sm3_init(&sm9_kem_buf->comm_buf);
+<b><a name="line535">535    </a></b>	    hal_sec_sm9_sm3_update(cbuf + 1, 64, &sm9_kem_buf->comm_buf);
+<b><a name="line536">536    </a></b>	    hal_sec_sm9_sm3_update(wbuf, HAL_SEC_SM9_Z256_WBUF_LEN, &sm9_kem_buf->comm_buf);
+<b><a name="line537">537    </a></b>	    hal_sec_sm9_sm3_update((U8 *)id, id_len, &sm9_kem_buf->comm_buf);
+<b><a name="line538">538    </a></b>	    hal_sec_sm9_sm3_kdf_finish(key, key_len, &sm9_kem_buf->comm_buf);
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	    if (hal_sec_sm9_mem_is_zero(key, key_len) == 1U)
+<b><a name="line541">541    </a></b>	    {
+<b><a name="line542">542    </a></b>	        return SEC_NO;
+<b><a name="line543">543    </a></b>	    }
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	    (void)memset(&w, 0, sizeof(w));
+<b><a name="line546">546    </a></b>	    (void)memset(wbuf, 0, HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	    // B4: output K
+<b><a name="line549">549    </a></b>	    return SEC_YES;
+<b><a name="line550">550    </a></b>	}
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	void hal_sec_sm9_kem_init_buf(HAL_SEC_SM9_KEM_BUF_T_PTR kem_buffer, U32 buffer_addr)
+<b><a name="line553">553    </a></b>	{
+<b><a name="line554">554    </a></b>	    (void)memset((void *)kem_buffer, 0, sizeof(HAL_SEC_SM9_KEM_BUF_T));
+<b><a name="line555">555    </a></b>	
+<b><a name="line556">556    </a></b>	    kem_buffer->kem_wbuf_addr   = buffer_addr;
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	    hal_sec_sm9_comm_init_buf(&kem_buffer->comm_buf, kem_buffer->kem_wbuf_addr + HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line559">559    </a></b>	}
+<b><a name="line560">560    </a></b>	
+<b><a name="line561">561    </a></b>	void hal_sec_sm9_exch_set_id_a(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, char *id, U64 id_len)
+<b><a name="line562">562    </a></b>	{
+<b><a name="line563">563    </a></b>	    key_pac->ialen = (U32)id_len;
+<b><a name="line564">564    </a></b>	    (void)memcpy((void *)key_pac->identityA, (void *)id, (U32)id_len);
+<b><a name="line565">565    </a></b>	}
+<b><a name="line566">566    </a></b>	
+<b><a name="line567">567    </a></b>	void hal_sec_sm9_exch_set_id_b(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, char *id, U64 id_len)
+<b><a name="line568">568    </a></b>	{
+<b><a name="line569">569    </a></b>	    key_pac->iblen = (U32)id_len;
+<b><a name="line570">570    </a></b>	    (void)memcpy((void *)key_pac->identityB, (void *)id, (U32)id_len);
+<b><a name="line571">571    </a></b>	}
+<b><a name="line572">572    </a></b>	
+<b><a name="line573">573    </a></b>	void hal_sec_sm9_exch_set_mpk(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, U8 *mpk)
+<b><a name="line574">574    </a></b>	{
+<b><a name="line575">575    </a></b>	    (void)memcpy((void *)key_pac->mpk, (void *)(mpk), HAL_SEC_SM9_EXCH_MASTER_PUB_KEY_LEN);
+<b><a name="line576">576    </a></b>	}
+<b><a name="line577">577    </a></b>	
+<b><a name="line578">578    </a></b>	void hal_sec_sm9_exch_set_id_sk(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, U8 *sk)
+<b><a name="line579">579    </a></b>	{
+<b><a name="line580">580    </a></b>	    (void)memcpy((void *)key_pac->sk, (void *)sk, HAL_SEC_SM9_EXCH_PRI_KEY_LEN);
+<b><a name="line581">581    </a></b>	}
+<b><a name="line582">582    </a></b>	
+<b><a name="line583">583    </a></b>	void hal_sec_sm9_exch_init(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR key_pac, char *id_a, char *id_b, U64 id_a_len, U64 id_b_len, U8 *mpk, U8 *sk)
+<b><a name="line584">584    </a></b>	{
+<b><a name="line585">585    </a></b>	    hal_sec_sm9_exch_set_id_a(key_pac, id_a, id_a_len);
+<b><a name="line586">586    </a></b>	    hal_sec_sm9_exch_set_id_b(key_pac, id_b, id_b_len);
+<b><a name="line587">587    </a></b>	    hal_sec_sm9_exch_set_mpk(key_pac, mpk);
+<b><a name="line588">588    </a></b>	    hal_sec_sm9_exch_set_id_sk(key_pac, sk);
+<b><a name="line589">589    </a></b>	}
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	U8 hal_sec_sm9_exch_a1(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR exch_t, U8 *nonce, HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buf)
+<b><a name="line592">592    </a></b>	{
+<b><a name="line593">593    </a></b>	    HAL_SEC_SM9_Z256_T temp = {0ULL};
+<b><a name="line594">594    </a></b>	    HAL_SEC_SM9_Z256_POINT_T ra_point;
+<b><a name="line595">595    </a></b>	    SM9_EXCH_MASTER_KEY emk_t;
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    // retrieve key
+<b><a name="line598">598    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&emk_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line599">599    </a></b>	    {
+<b><a name="line600">600    </a></b>	        return SEC_NO;
+<b><a name="line601">601    </a></b>	    }
+<b><a name="line602">602    </a></b>	
+<b><a name="line603">603    </a></b>	    // A1 : Q = H1(ID_B||hid, N) * P1 + Ppube
+<b><a name="line604">604    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line605">605    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    hal_sec_sm9_z256_hash1(temp, exch_t->identityB, exch_t->iblen, HAL_SEC_SM9_EXCH_HID, &keyexch_buf->comm_buf);
+<b><a name="line608">608    </a></b>	    hal_sec_sm9_z256_point_mul(&ra_point, temp, &sm9_z256_mont_p1, &keyexch_buf->comm_buf);
+<b><a name="line609">609    </a></b>	    hal_sec_sm9_z256_point_add(&ra_point, &ra_point, &emk_t.Ppube);
+<b><a name="line610">610    </a></b>	
+<b><a name="line611">611    </a></b>	    //A2 : rand_val rA in [1, N-1]
+<b><a name="line612">612    </a></b>	    hal_sec_sm9_z256_from_bytes(temp, nonce);
+<b><a name="line613">613    </a></b>	
+<b><a name="line614">614    </a></b>	    //RA = rA * Q
+<b><a name="line615">615    </a></b>	    hal_sec_sm9_z256_point_mul(&ra_point, temp, &ra_point, &keyexch_buf->comm_buf);
+<b><a name="line616">616    </a></b>	    hal_sec_sm9_z256_point_to_bytes(&ra_point, exch_t->Ra);
+<b><a name="line617">617    </a></b>	
+<b><a name="line618">618    </a></b>	    (void)memcpy(&exch_t->ra, temp, sizeof(HAL_SEC_SM9_Z256_T));
+<b><a name="line619">619    </a></b>	
+<b><a name="line620">620    </a></b>	    return SEC_YES;
+<b><a name="line621">621    </a></b>	}
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	U8 hal_sec_sm9_exch_b1(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR exch_t, U8 out[], U32 out_len, U8 *msg, HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buf)
+<b><a name="line624">624    </a></b>	{
+<b><a name="line625">625    </a></b>	    HAL_SEC_SM9_Z256_T temp = {0ULL};
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	    U8 ta[65], tb[65];
+<b><a name="line628">628    </a></b>	    HAL_SEC_SM9_Z256_POINT_T rb_point, ra_point;
+<b><a name="line629">629    </a></b>	    SM9_EXCH_MASTER_KEY emk;
+<b><a name="line630">630    </a></b>	    HAL_SEC_SM9_EXCH_KEY_T ek_t;
+<b><a name="line631">631    </a></b>	    HAL_SEC_SM9_Z256_T rb;
+<b><a name="line632">632    </a></b>	
+<b><a name="line633">633    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G1 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G1_addr);
+<b><a name="line634">634    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G2 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G2_addr);
+<b><a name="line635">635    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *G3 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G3_addr);
+<b><a name="line636">636    </a></b>	    U8 *g1 = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g1_addr);
+<b><a name="line637">637    </a></b>	    U8 *g2 = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g2_addr);
+<b><a name="line638">638    </a></b>	    U8 *g3 = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g3_addr);
+<b><a name="line639">639    </a></b>	
+<b><a name="line640">640    </a></b>	    hal_sec_sm9_z256_from_bytes(rb, msg);
+<b><a name="line641">641    </a></b>	
+<b><a name="line642">642    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ra_point, exch_t->Ra) != SEC_YES)
+<b><a name="line643">643    </a></b>	    {
+<b><a name="line644">644    </a></b>	        return SEC_NO;
+<b><a name="line645">645    </a></b>	    }
+<b><a name="line646">646    </a></b>	
+<b><a name="line647">647    </a></b>	    // retrieve key
+<b><a name="line648">648    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&emk.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line649">649    </a></b>	    {
+<b><a name="line650">650    </a></b>	        return SEC_NO;
+<b><a name="line651">651    </a></b>	    }
+<b><a name="line652">652    </a></b>	
+<b><a name="line653">653    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ek_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line654">654    </a></b>	    {
+<b><a name="line655">655    </a></b>	        return SEC_NO;
+<b><a name="line656">656    </a></b>	    }
+<b><a name="line657">657    </a></b>	
+<b><a name="line658">658    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&ek_t.de, exch_t->sk, &keyexch_buf->comm_buf) != SEC_YES)
+<b><a name="line659">659    </a></b>	    {
+<b><a name="line660">660    </a></b>	        return SEC_NO;
+<b><a name="line661">661    </a></b>	    }
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	    // B1: Q = H1(ID_A||hid,N) * P1 + Ppube
+<b><a name="line664">664    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line665">665    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line666">666    </a></b>	
+<b><a name="line667">667    </a></b>	    hal_sec_sm9_z256_hash1(temp, exch_t->identityA, exch_t->ialen, HAL_SEC_SM9_EXCH_HID, &keyexch_buf->comm_buf);
+<b><a name="line668">668    </a></b>	    hal_sec_sm9_z256_point_mul(&rb_point, temp, &sm9_z256_mont_p1, &keyexch_buf->comm_buf);
+<b><a name="line669">669    </a></b>	    hal_sec_sm9_z256_point_add(&rb_point, &rb_point, &emk.Ppube);
+<b><a name="line670">670    </a></b>	
+<b><a name="line671">671    </a></b>	    // B3: RB = rB * Q
+<b><a name="line672">672    </a></b>	    hal_sec_sm9_z256_point_mul(&rb_point, rb, &rb_point, &keyexch_buf->comm_buf);
+<b><a name="line673">673    </a></b>	
+<b><a name="line674">674    </a></b>	    // B4: check RA on curve; G1 = e(RA, deB), G2 = e(Ppube, P2) ^ rB, G3 = G1 ^ rB
+<b><a name="line675">675    </a></b>	    if (hal_sec_sm9_z256_point_is_on_curve(&ra_point) == SEC_NO)
+<b><a name="line676">676    </a></b>	    {
+<b><a name="line677">677    </a></b>	        return SEC_NO;
+<b><a name="line678">678    </a></b>	    }
+<b><a name="line679">679    </a></b>	
+<b><a name="line680">680    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T sm9_z256_mont_p2;
+<b><a name="line681">681    </a></b>	    memcpy((void *)&sm9_z256_mont_p2, (void *)&SM9_Z256_MONT_P2, sizeof(SM9_Z256_MONT_P2));
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	    hal_sec_sm9_z256_pairing(*G1, &ek_t.de, &ra_point, &keyexch_buf->comm_buf);
+<b><a name="line684">684    </a></b>	    hal_sec_sm9_z256_pairing(*G2, &sm9_z256_mont_p2, &emk.Ppube, &keyexch_buf->comm_buf);
+<b><a name="line685">685    </a></b>	    hal_sec_sm9_z256_fp12_pow(*G2, *G2, rb, &keyexch_buf->comm_buf);
+<b><a name="line686">686    </a></b>	    hal_sec_sm9_z256_fp12_pow(*G3, *G1, rb, &keyexch_buf->comm_buf);
+<b><a name="line687">687    </a></b>	
+<b><a name="line688">688    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&ra_point, ta);
+<b><a name="line689">689    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&rb_point, tb);
+<b><a name="line690">690    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*G1, g1);
+<b><a name="line691">691    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*G2, g2);
+<b><a name="line692">692    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*G3, g3);
+<b><a name="line693">693    </a></b>	
+<b><a name="line694">694    </a></b>	    // B5: sk = KDF(ID_A || ID_B || RA || RB || g1 || g2 || g3, klen)
+<b><a name="line695">695    </a></b>	    hal_sec_sm9_sm3_init(&keyexch_buf->comm_buf);
+<b><a name="line696">696    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityA, exch_t->ialen, &keyexch_buf->comm_buf);
+<b><a name="line697">697    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityB, exch_t->iblen, &keyexch_buf->comm_buf);
+<b><a name="line698">698    </a></b>	    hal_sec_sm9_sm3_update(ta + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line699">699    </a></b>	    hal_sec_sm9_sm3_update(tb + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line700">700    </a></b>	    hal_sec_sm9_sm3_update(g1, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line701">701    </a></b>	    hal_sec_sm9_sm3_update(g2, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line702">702    </a></b>	    hal_sec_sm9_sm3_update(g3, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line703">703    </a></b>	    hal_sec_sm9_sm3_kdf_finish(out, out_len, &keyexch_buf->comm_buf);
+<b><a name="line704">704    </a></b>	
+<b><a name="line705">705    </a></b>	    if (hal_sec_sm9_mem_is_zero(out, out_len) == 1U)
+<b><a name="line706">706    </a></b>	    {
+<b><a name="line707">707    </a></b>	        return SEC_NO;
+<b><a name="line708">708    </a></b>	    }
+<b><a name="line709">709    </a></b>	
+<b><a name="line710">710    </a></b>	    // B6: SB = Hash(0x82 || g1 || Hash(g2 || g3 || ID_A || ID_B || RA || RB)) [optional]
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	    (void)memset(temp, 0, sizeof(temp));
+<b><a name="line713">713    </a></b>	    (void)memset(G1, 0, sizeof(*G1));
+<b><a name="line714">714    </a></b>	    (void)memset(G2, 0, sizeof(*G2));
+<b><a name="line715">715    </a></b>	    (void)memset(G3, 0, sizeof(*G3));
+<b><a name="line716">716    </a></b>	    (void)memset(g1, 0, 32 * 12);
+<b><a name="line717">717    </a></b>	    (void)memset(g2, 0, 32 * 12);
+<b><a name="line718">718    </a></b>	    (void)memset(g3, 0, 32 * 12);
+<b><a name="line719">719    </a></b>	    (void)memset(ta, 0, sizeof(ta));
+<b><a name="line720">720    </a></b>	    (void)memset(tb, 0, sizeof(tb));
+<b><a name="line721">721    </a></b>	
+<b><a name="line722">722    </a></b>	    // B7: Output RB
+<b><a name="line723">723    </a></b>	    hal_sec_sm9_z256_point_to_bytes(&rb_point, exch_t->Rb);
+<b><a name="line724">724    </a></b>	
+<b><a name="line725">725    </a></b>	    return SEC_YES;
+<b><a name="line726">726    </a></b>	}
+<b><a name="line727">727    </a></b>	
+<b><a name="line728">728    </a></b>	U8 hal_sec_sm9_exch_a2(HAL_SEC_SM9_KEY_EXCH_PAC_T_PTR exch_t, U8 out[], U32 out_len, HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buf)
+<b><a name="line729">729    </a></b>	{
+<b><a name="line730">730    </a></b>	    U8 ta[65], tb[65];
+<b><a name="line731">731    </a></b>	    HAL_SEC_SM9_Z256_POINT_T ra_point, rb_point;
+<b><a name="line732">732    </a></b>	
+<b><a name="line733">733    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *g1_pt = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G1_addr);
+<b><a name="line734">734    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *g2_pt = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G2_addr);
+<b><a name="line735">735    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *g3_pt = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(keyexch_buf->keyexch_G3_addr);
+<b><a name="line736">736    </a></b>	    U8 *g1_hex = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g1_addr);
+<b><a name="line737">737    </a></b>	    U8 *g2_hex = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g2_addr);
+<b><a name="line738">738    </a></b>	    U8 *g3_hex = (U8 *)(void *)(U32 *)(keyexch_buf->keyexch_g3_addr);
+<b><a name="line739">739    </a></b>	
+<b><a name="line740">740    </a></b>	    SM9_EXCH_MASTER_KEY emk_t;
+<b><a name="line741">741    </a></b>	    HAL_SEC_SM9_EXCH_KEY_T ek_t;
+<b><a name="line742">742    </a></b>	
+<b><a name="line743">743    </a></b>	    //retrieve key
+<b><a name="line744">744    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&emk_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line745">745    </a></b>	    {
+<b><a name="line746">746    </a></b>	        return SEC_NO;
+<b><a name="line747">747    </a></b>	    }
+<b><a name="line748">748    </a></b>	
+<b><a name="line749">749    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ek_t.Ppube, exch_t->mpk) != SEC_YES)
+<b><a name="line750">750    </a></b>	    {
+<b><a name="line751">751    </a></b>	        return SEC_NO;
+<b><a name="line752">752    </a></b>	    }
+<b><a name="line753">753    </a></b>	
+<b><a name="line754">754    </a></b>	    if (hal_sec_sm9_z256_twist_point_from_raw(&ek_t.de, exch_t->sk, &keyexch_buf->comm_buf) != SEC_YES)
+<b><a name="line755">755    </a></b>	    {
+<b><a name="line756">756    </a></b>	        return SEC_NO;
+<b><a name="line757">757    </a></b>	    }
+<b><a name="line758">758    </a></b>	
+<b><a name="line759">759    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&ra_point, exch_t->Ra) != SEC_YES)
+<b><a name="line760">760    </a></b>	    {
+<b><a name="line761">761    </a></b>	        return SEC_NO;
+<b><a name="line762">762    </a></b>	    }
+<b><a name="line763">763    </a></b>	
+<b><a name="line764">764    </a></b>	    if (hal_sec_sm9_z256_point_from_raw(&rb_point, exch_t->Rb) != SEC_YES)
+<b><a name="line765">765    </a></b>	    {
+<b><a name="line766">766    </a></b>	        return SEC_NO;
+<b><a name="line767">767    </a></b>	    }
+<b><a name="line768">768    </a></b>	
+<b><a name="line769">769    </a></b>	    // A5: check RB on curve; G1 = e(Ppube, P2) ^ rA, G2 = e(RB, deA),  G3 = G2 ^ rA
+<b><a name="line770">770    </a></b>	    if (hal_sec_sm9_z256_point_is_on_curve(&rb_point) == SEC_NO)
+<b><a name="line771">771    </a></b>	    {
+<b><a name="line772">772    </a></b>	        return SEC_NO;
+<b><a name="line773">773    </a></b>	    }
+<b><a name="line774">774    </a></b>	
+<b><a name="line775">775    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T sm9_z256_mont_p2;
+<b><a name="line776">776    </a></b>	    memcpy((void *)&sm9_z256_mont_p2, (void *)&SM9_Z256_MONT_P2, sizeof(SM9_Z256_MONT_P2));
+<b><a name="line777">777    </a></b>	
+<b><a name="line778">778    </a></b>	    hal_sec_sm9_z256_pairing(*g1_pt, &sm9_z256_mont_p2, &emk_t.Ppube, &keyexch_buf->comm_buf);
+<b><a name="line779">779    </a></b>	    hal_sec_sm9_z256_fp12_pow(*g1_pt, *g1_pt, exch_t->ra, &keyexch_buf->comm_buf);
+<b><a name="line780">780    </a></b>	    hal_sec_sm9_z256_pairing(*g2_pt, &ek_t.de, &rb_point, &keyexch_buf->comm_buf);
+<b><a name="line781">781    </a></b>	    hal_sec_sm9_z256_fp12_pow(*g3_pt, *g2_pt, exch_t->ra, &keyexch_buf->comm_buf);
+<b><a name="line782">782    </a></b>	
+<b><a name="line783">783    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&ra_point, ta);
+<b><a name="line784">784    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(&rb_point, tb);
+<b><a name="line785">785    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g1_pt, g1_hex);
+<b><a name="line786">786    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g2_pt, g2_hex);
+<b><a name="line787">787    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(*g3_pt, g3_hex);
+<b><a name="line788">788    </a></b>	
+<b><a name="line789">789    </a></b>	    // A6: S1 = Hash(0x82 || g1 || Hash(g2 || g3 || ID_A || ID_B || RA || RB)), check S1 = SB [optional]
+<b><a name="line790">790    </a></b>	
+<b><a name="line791">791    </a></b>	    // A7: sk = KDF(ID_A || ID_B || RA || RB || g1 || g2 || g3, klen)
+<b><a name="line792">792    </a></b>	    hal_sec_sm9_sm3_init(&keyexch_buf->comm_buf);
+<b><a name="line793">793    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityA, exch_t->ialen, &keyexch_buf->comm_buf);
+<b><a name="line794">794    </a></b>	    hal_sec_sm9_sm3_update(exch_t->identityB, exch_t->iblen, &keyexch_buf->comm_buf);
+<b><a name="line795">795    </a></b>	    hal_sec_sm9_sm3_update(ta + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line796">796    </a></b>	    hal_sec_sm9_sm3_update(tb + 1, 64, &keyexch_buf->comm_buf);
+<b><a name="line797">797    </a></b>	    hal_sec_sm9_sm3_update(g1_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line798">798    </a></b>	    hal_sec_sm9_sm3_update(g2_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line799">799    </a></b>	    hal_sec_sm9_sm3_update(g3_hex, 32 * 12, &keyexch_buf->comm_buf);
+<b><a name="line800">800    </a></b>	    hal_sec_sm9_sm3_kdf_finish(out, out_len, &keyexch_buf->comm_buf);
+<b><a name="line801">801    </a></b>	
+<b><a name="line802">802    </a></b>	    if (hal_sec_sm9_mem_is_zero(out, out_len) == 1U)
+<b><a name="line803">803    </a></b>	    {
+<b><a name="line804">804    </a></b>	        return SEC_NO;
+<b><a name="line805">805    </a></b>	    }
+<b><a name="line806">806    </a></b>	
+<b><a name="line807">807    </a></b>	    // A8: SA = Hash(0x83 || g1 || Hash(g2 || g3 || ID_A || ID_B || RA || RB)) [optional]
+<b><a name="line808">808    </a></b>	
+<b><a name="line809">809    </a></b>	    (void)memset(g1_pt, 0, sizeof(*g1_pt));
+<b><a name="line810">810    </a></b>	    (void)memset(g2_pt, 0, sizeof(*g2_pt));
+<b><a name="line811">811    </a></b>	    (void)memset(g3_pt, 0, sizeof(*g3_pt));
+<b><a name="line812">812    </a></b>	    (void)memset(g1_hex, 0, 32 * 12);
+<b><a name="line813">813    </a></b>	    (void)memset(g2_hex, 0, 32 * 12);
+<b><a name="line814">814    </a></b>	    (void)memset(g3_hex, 0, 32 * 12);
+<b><a name="line815">815    </a></b>	    (void)memset(ta, 0, sizeof(ta));
+<b><a name="line816">816    </a></b>	    (void)memset(tb, 0, sizeof(tb));
+<b><a name="line817">817    </a></b>	
+<b><a name="line818">818    </a></b>	    return SEC_YES;
+<b><a name="line819">819    </a></b>	}
+<b><a name="line820">820    </a></b>	
+<b><a name="line821">821    </a></b>	void hal_sec_sm9_keyexch_init_buf(HAL_SEC_SM9_KEYEXCH_BUF_T_PTR keyexch_buffer, U32 buffer_addr)
+<b><a name="line822">822    </a></b>	{
+<b><a name="line823">823    </a></b>	    (void)memset((void *)keyexch_buffer, 0, sizeof(HAL_SEC_SM9_KEYEXCH_BUF_T));
+<b><a name="line824">824    </a></b>	
+<b><a name="line825">825    </a></b>	    keyexch_buffer->keyexch_G1_addr   = buffer_addr;
+<b><a name="line826">826    </a></b>	    keyexch_buffer->keyexch_G2_addr   = keyexch_buffer->keyexch_G1_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line827">827    </a></b>	    keyexch_buffer->keyexch_G3_addr   = keyexch_buffer->keyexch_G2_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line828">828    </a></b>	    keyexch_buffer->keyexch_g1_addr   = keyexch_buffer->keyexch_G3_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line829">829    </a></b>	    keyexch_buffer->keyexch_g2_addr   = keyexch_buffer->keyexch_g1_addr + HAL_SEC_SM9_FP12_HEX_LEN;
+<b><a name="line830">830    </a></b>	    keyexch_buffer->keyexch_g3_addr   = keyexch_buffer->keyexch_g2_addr + HAL_SEC_SM9_FP12_HEX_LEN;
+<b><a name="line831">831    </a></b>	
+<b><a name="line832">832    </a></b>	    hal_sec_sm9_comm_init_buf(&keyexch_buffer->comm_buf, keyexch_buffer->keyexch_g3_addr + HAL_SEC_SM9_FP12_HEX_LEN);
+<b><a name="line833">833    </a></b>	}
+<b><a name="line834">834    </a></b>	
+<b><a name="line835">835    </a></b>	void hal_sec_sm9_comm_init_buf(HAL_SEC_SM9_COMM_BUF_T_PTR comm_buffer, U32 buffer_addr)
+<b><a name="line836">836    </a></b>	{
+<b><a name="line837">837    </a></b>	    comm_buffer->comm_z256_pairing_t_addr   = buffer_addr;
+<b><a name="line838">838    </a></b>	    comm_buffer->comm_z256_pairing_q1_addr  = comm_buffer->comm_z256_pairing_t_addr  + HAL_SEC_SM9_Z256_TWIST_P_LEN;
+<b><a name="line839">839    </a></b>	    comm_buffer->comm_z256_pairing_q2_addr  = comm_buffer->comm_z256_pairing_q1_addr + HAL_SEC_SM9_Z256_TWIST_P_LEN;
+<b><a name="line840">840    </a></b>	    comm_buffer->comm_z256_pairing_p_addr   = comm_buffer->comm_z256_pairing_q2_addr + HAL_SEC_SM9_Z256_TWIST_P_LEN;
+<b><a name="line841">841    </a></b>	    comm_buffer->comm_z256_pairing_lw_addr  = comm_buffer->comm_z256_pairing_p_addr  + HAL_SEC_SM9_Z256_TWIST_P_LEN;
+<b><a name="line842">842    </a></b>	    comm_buffer->comm_z256_pairing_pre_addr = comm_buffer->comm_z256_pairing_lw_addr + HAL_SEC_SM9_FP2_LW_LEN;
+<b><a name="line843">843    </a></b>	
+<b><a name="line844">844    </a></b>	    comm_buffer->comm_z256_mul_a_addr       = comm_buffer->comm_z256_pairing_pre_addr + HAL_SEC_SM9_FP2_PRE_LEN;
+<b><a name="line845">845    </a></b>	    comm_buffer->comm_z256_mul_b_addr       = comm_buffer->comm_z256_mul_a_addr + HAL_SEC_SM9_Z256_MUL_A_LEN;
+<b><a name="line846">846    </a></b>	    comm_buffer->comm_z256_mul_s_addr       = comm_buffer->comm_z256_mul_b_addr + HAL_SEC_SM9_Z256_MUL_B_LEN;
+<b><a name="line847">847    </a></b>	
+<b><a name="line848">848    </a></b>	    comm_buffer->comm_z256_fp2_mul_res_addr = comm_buffer->comm_z256_mul_s_addr + HAL_SEC_SM9_Z256_MUL_S_LEN;
+<b><a name="line849">849    </a></b>	
+<b><a name="line850">850    </a></b>	    comm_buffer->comm_z256_fp12_mul_r0_addr = comm_buffer->comm_z256_fp2_mul_res_addr + HAL_SEC_SM9_Z256_FP2_MUL_RES_LEN;
+<b><a name="line851">851    </a></b>	    comm_buffer->comm_z256_fp12_mul_r1_addr = comm_buffer->comm_z256_fp12_mul_r0_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line852">852    </a></b>	    comm_buffer->comm_z256_fp12_mul_r2_addr = comm_buffer->comm_z256_fp12_mul_r1_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line853">853    </a></b>	    comm_buffer->comm_z256_fp12_mul_t_addr  = comm_buffer->comm_z256_fp12_mul_r2_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line854">854    </a></b>	    comm_buffer->comm_z256_fp12_mul_k0_addr = comm_buffer->comm_z256_fp12_mul_t_addr  + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line855">855    </a></b>	    comm_buffer->comm_z256_fp12_mul_k1_addr = comm_buffer->comm_z256_fp12_mul_k0_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line856">856    </a></b>	    comm_buffer->comm_z256_fp12_mul_m0_addr = comm_buffer->comm_z256_fp12_mul_k1_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line857">857    </a></b>	    comm_buffer->comm_z256_fp12_mul_m1_addr = comm_buffer->comm_z256_fp12_mul_m0_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line858">858    </a></b>	    comm_buffer->comm_z256_fp12_mul_m2_addr = comm_buffer->comm_z256_fp12_mul_m1_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line859">859    </a></b>	
+<b><a name="line860">860    </a></b>	    comm_buffer->comm_z256_pt_mul_t_addr    = comm_buffer->comm_z256_fp12_mul_m2_addr + HAL_SEC_SM9_Z256_FP4_LEN;
+<b><a name="line861">861    </a></b>	
+<b><a name="line862">862    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t1_addr = comm_buffer->comm_z256_pt_mul_t_addr + HAL_SEC_SM9_Z256_PT_MUL_T_LEN;
+<b><a name="line863">863    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t2_addr = comm_buffer->comm_z256_twist_pt_add_t1_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line864">864    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t3_addr = comm_buffer->comm_z256_twist_pt_add_t2_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line865">865    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t4_addr = comm_buffer->comm_z256_twist_pt_add_t3_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line866">866    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t5_addr = comm_buffer->comm_z256_twist_pt_add_t4_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line867">867    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t6_addr = comm_buffer->comm_z256_twist_pt_add_t5_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line868">868    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t7_addr = comm_buffer->comm_z256_twist_pt_add_t6_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line869">869    </a></b>	    comm_buffer->comm_z256_twist_pt_add_t8_addr = comm_buffer->comm_z256_twist_pt_add_t7_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line870">870    </a></b>	
+<b><a name="line871">871    </a></b>	    comm_buffer->comm_z256_final_exp_hard_t0_addr = comm_buffer->comm_z256_twist_pt_add_t8_addr + HAL_SEC_SM9_Z256_FP2_LEN;
+<b><a name="line872">872    </a></b>	    comm_buffer->comm_z256_final_exp_hard_t1_addr = comm_buffer->comm_z256_final_exp_hard_t0_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line873">873    </a></b>	    comm_buffer->comm_z256_final_exp_hard_t2_addr = comm_buffer->comm_z256_final_exp_hard_t1_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line874">874    </a></b>	    comm_buffer->comm_z256_final_exp_hard_t3_addr = comm_buffer->comm_z256_final_exp_hard_t2_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line875">875    </a></b>	
+<b><a name="line876">876    </a></b>	    comm_buffer->comm_z256_final_exp_t0_addr = comm_buffer->comm_z256_final_exp_hard_t3_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line877">877    </a></b>	    comm_buffer->comm_z256_final_exp_t1_addr = comm_buffer->comm_z256_final_exp_t0_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line878">878    </a></b>	
+<b><a name="line879">879    </a></b>	    comm_buffer->hash_src_addr  = comm_buffer->comm_z256_final_exp_t1_addr + HAL_SEC_SM9_Z256_FP12_LEN;
+<b><a name="line880">880    </a></b>	    comm_buffer->hash_targ_addr = comm_buffer->hash_src_addr + HAL_SEC_SM9_HASH_SRC_LEN;
+<b><a name="line881">881    </a></b>	    comm_buffer->hash_buf_len   = 0UL;
+<b><a name="line882">882    </a></b>	    // HAL_SEC_SM9_HASH_TARG_LEN
+<b><a name="line883">883    </a></b>	}
+<b><a name="line884">884    </a></b>	
+<b><a name="line885">885    </a></b>	void hal_sec_sm9_sm3_init(HAL_SEC_SM9_COMM_BUF_T_PTR comm_buffer)
+<b><a name="line886">886    </a></b>	{
+<b><a name="line887">887    </a></b>	    comm_buffer->hash_buf_len = 0UL;
+<b><a name="line888">888    </a></b>	}
+<b><a name="line889">889    </a></b>	
+<b><a name="line890">890    </a></b>	void hal_sec_sm9_sm3_update(U8 *input, U32 in_len, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buffer)
+<b><a name="line891">891    </a></b>	{
+<b><a name="line892">892    </a></b>	    (void)memcpy((void *)(U32 *)(comm_buffer->hash_src_addr + comm_buffer->hash_buf_len), (void *)(input), in_len);
+<b><a name="line893">893    </a></b>	    comm_buffer->hash_buf_len += in_len;
+<b><a name="line894">894    </a></b>	}
+<b><a name="line895">895    </a></b>	
+<b><a name="line896">896    </a></b>	void hal_sec_sm9_sm3_finish(U8 *output, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buffer)
+<b><a name="line897">897    </a></b>	{
+<b><a name="line898">898    </a></b>	    SEC_SHA_PARAMS_T sm3_param;
+<b><a name="line899">899    </a></b>	    (void)memset(&sm3_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	    sm3_param.src_addr.low  = comm_buffer->hash_src_addr;
+<b><a name="line902">902    </a></b>	    sm3_param.src_len       = comm_buffer->hash_buf_len;
+<b><a name="line903">903    </a></b>	    sm3_param.targ_addr.low = comm_buffer->hash_targ_addr;
+<b><a name="line904">904    </a></b>	    sm3_param.sha_mode      = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line905">905    </a></b>	
+<b><a name="line906">906    </a></b>	    (void)phal_sec_sha_blocking(&sm3_param);
+<b><a name="line907">907    </a></b>	
+<b><a name="line908">908    </a></b>	    (void)memcpy((void *)(output), (void *)(U32 *)(comm_buffer->hash_targ_addr), HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line909">909    </a></b>	}
+<b><a name="line910">910    </a></b>	
+<b><a name="line911">911    </a></b>	void hal_sec_sm9_sm3_kdf_finish(U8 *kbuf, U32 klen, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buffer)
+<b><a name="line912">912    </a></b>	{
+<b><a name="line913">913    </a></b>	    U32 ct = 0x00000001UL;
+<b><a name="line914">914    </a></b>	    U32 i, m, n;
+<b><a name="line915">915    </a></b>	
+<b><a name="line916">916    </a></b>	    SEC_SHA_PARAMS_T sm3_param;
+<b><a name="line917">917    </a></b>	    U32 kbuf_tmp = (U32)kbuf;
+<b><a name="line918">918    </a></b>	
+<b><a name="line919">919    </a></b>	    m = klen / 32UL;
+<b><a name="line920">920    </a></b>	    n = klen % 32UL;
+<b><a name="line921">921    </a></b>	
+<b><a name="line922">922    </a></b>	    if (n != 0UL)
+<b><a name="line923">923    </a></b>	    {
+<b><a name="line924">924    </a></b>	        m++;
+<b><a name="line925">925    </a></b>	    }
+<b><a name="line926">926    </a></b>	
+<b><a name="line927">927    </a></b>	    for (i = 0UL; i < m; i++)
+<b><a name="line928">928    </a></b>	    {
+<b><a name="line929">929    </a></b>	        kbuf = (U8 *)(U32 *)(kbuf_tmp) + (i * 32U);
+<b><a name="line930">930    </a></b>	
+<b><a name="line931">931    </a></b>	        ((U8 *)(comm_buffer->hash_src_addr))[comm_buffer->hash_buf_len]       = (U8)((ct >> 24U) & 0xFFU);
+<b><a name="line932">932    </a></b>	        ((U8 *)(comm_buffer->hash_src_addr))[comm_buffer->hash_buf_len + 1UL] = (U8)((ct >> 16U) & 0xFFU);
+<b><a name="line933">933    </a></b>	        ((U8 *)(comm_buffer->hash_src_addr))[comm_buffer->hash_buf_len + 2UL] = (U8)((ct >> 8U)  & 0xFFU);
+<b><a name="line934">934    </a></b>	        ((U8 *)(comm_buffer->hash_src_addr))[comm_buffer->hash_buf_len + 3UL] = (U8)((ct)        & 0xFFU);
+<b><a name="line935">935    </a></b>	
+<b><a name="line936">936    </a></b>	        (void)memset((void *)&sm3_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line937">937    </a></b>	        sm3_param.src_addr.low  = comm_buffer->hash_src_addr;
+<b><a name="line938">938    </a></b>	        sm3_param.src_len       = comm_buffer->hash_buf_len + 4UL;
+<b><a name="line939">939    </a></b>	        sm3_param.targ_addr.low = comm_buffer->hash_targ_addr;
+<b><a name="line940">940    </a></b>	        sm3_param.sha_mode      = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line941">941    </a></b>	
+<b><a name="line942">942    </a></b>	        (void)phal_sec_sha_blocking(&sm3_param);
+<b><a name="line943">943    </a></b>	
+<b><a name="line944">944    </a></b>	        if ((i == (m - 1UL)) && (n != 0UL))
+<b><a name="line945">945    </a></b>	        {
+<b><a name="line946">946    </a></b>	            (void)memcpy((void *)(kbuf), (void *)(U32 *)(comm_buffer->hash_targ_addr), n);
+<b><a name="line947">947    </a></b>	        }
+<b><a name="line948">948    </a></b>	        else
+<b><a name="line949">949    </a></b>	        {
+<b><a name="line950">950    </a></b>	            (void)memcpy((void *)(kbuf), (void *)(U32 *)(comm_buffer->hash_targ_addr), HAL_SEC_SHA2_SM3_DIGEST_LEN);
+<b><a name="line951">951    </a></b>	        }
+<b><a name="line952">952    </a></b>	
+<b><a name="line953">953    </a></b>	        ct ++;
+<b><a name="line954">954    </a></b>	    }
+<b><a name="line955">955    </a></b>	}
+<b><a name="line956">956    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,36 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.16</checker>
+<type>MISRA_C_2012_Rule_21.16</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_res_read_offset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_16_violation</tag>
+<description>{CovLStrv2{{t{Calling function {0} with type {1}.}{{code{memcmp}}}{{code{U8 (*)[16][4]}}}}}}</description>
+<line>767</line>
+<column>25</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.16</checker>
+<type>MISRA_C_2012_Rule_21.16</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_read_cmd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_16_violation</tag>
+<description>{CovLStrv2{{t{Calling function {0} with type {1}.}{{code{memcmp}}}{{code{U8 (*)[16][4]}}}}}}</description>
+<line>828</line>
+<column>33</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>

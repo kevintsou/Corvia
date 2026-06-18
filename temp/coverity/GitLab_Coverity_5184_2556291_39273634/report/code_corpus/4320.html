@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2155">2155    </a></b>	U32 fpl_micron_por_retry(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line2156">2156    </a></b>	{
+<b><a name="line2157">2157    </a></b>	    U8 data_buf, need_power_cycle = 0;
+<b><a name="line2158">2158    </a></b>	    U8 ce = 0, die = 0; // boot only access ce0
+<b><a name="line2159">2159    </a></b>	    U16 hard_reset_issue = 0;
+<b><a name="line2160">2160    </a></b>	    U8 break_retry = 0;
+<b><a name="line2161">2161    </a></b>	    U32 ch_bitmap = fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap;
+<b><a name="line2162">2162    </a></b>	    U32 status = 0, reset_status = 0;
+<b><a name="line2163">2163    </a></b>	    sal_log_tracker_set(sal_locate(0x99, TYPE_STEP));
+<b><a name="line2164">2164    </a></b>	
+<b><a name="line2165">2165    </a></b>	    //  Reset Loop
+<b><a name="line2166">2166    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_BE, 20);
+<b><a name="line2167">2167    </a></b>	
+<b><a name="line2168">2168    </a></b>	    while (0 == break_retry)
+<b><a name="line2169">2169    </a></b>	    {
+<b><a name="line2170">2170    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line2171">2171    </a></b>	        {
+<b><a name="line2172">2172    </a></b>	            sal_log_info_char('M');
+<b><a name="line2173">2173    </a></b>	            sal_log_info_char('T');
+<b><a name="line2174">2174    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line2175">2175    </a></b>	            gpFwSimCtrl0Reg->no_load_code = 1; // power cycle fail, go to sib
+<b><a name="line2176">2176    </a></b>	            return status;
+<b><a name="line2177">2177    </a></b>	        }
+<b><a name="line2178">2178    </a></b>	
+<b><a name="line2179">2179    </a></b>	        for (U8 ch = 0U; ch < FLH_MAX_PHYS_CH; ch ++)
+<b><a name="line2180">2180    </a></b>	        {
+<b><a name="line2181">2181    </a></b>	            if ((BITS_GET(ch_bitmap, ch, 1U) == TRUE) && ((status & HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT) == 0U))
+<b><a name="line2182">2182    </a></b>	            {
+<b><a name="line2183">2183    </a></b>	                status |= hal_fip_api_read_status(ch, 0U, &data_buf,
+<b><a name="line2184">2184    </a></b>	                    gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l,
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(*gFplApiStruct.p_efuse_nand_setting).cmd_dqs_l" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2185">2185    </a></b>	                    (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line2186">2186    </a></b>	                    gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+<b><a name="line2187">2187    </a></b>	
+<b><a name="line2188">2188    </a></b>	                if((BIT5|BIT6) != ((BIT5|BIT6) & data_buf))
+<b><a name="line2189">2189    </a></b>	                {
+<b><a name="line2190">2190    </a></b>	                    continue; // not ready
+<b><a name="line2191">2191    </a></b>	                }
+<b><a name="line2192">2192    </a></b>	
+<b><a name="line2193">2193    </a></b>	                if(BIT0 == (BIT0 & data_buf))
+<b><a name="line2194">2194    </a></b>	                {
+<b><a name="line2195">2195    </a></b>	                    if(0 == ((BITS_GET(hard_reset_issue, ch, 1U))))
+<b><a name="line2196">2196    </a></b>	                    {
+<b><a name="line2197">2197    </a></b>	                        hal_fip_api_die_sel(ch, ce, die, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line2198">2198    </a></b>	                        hal_fip_api_hard_reset(ch, ce, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line2199">2199    </a></b>	                        hard_reset_issue |= BIT(ch);
+<b><a name="line2200">2200    </a></b>	                    }
+<b><a name="line2201">2201    </a></b>	                    else
+<b><a name="line2202">2202    </a></b>	                    {
+<b><a name="line2203">2203    </a></b>	                        need_power_cycle = 1;
+<b><a name="line2204">2204    </a></b>	                        break;
+<b><a name="line2205">2205    </a></b>	                    }
+<b><a name="line2206">2206    </a></b>	
+<b><a name="line2207">2207    </a></b>	                }
+<b><a name="line2208">2208    </a></b>	                else if(BIT4 == (BIT4 & data_buf))
+<b><a name="line2209">2209    </a></b>	                {
+<b><a name="line2210">2210    </a></b>	                    if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == TRUE)
+<b><a name="line2211">2211    </a></b>	                    {
+<b><a name="line2212">2212    </a></b>	                        hal_fip_api_cer_pre_fix(ch, ce, 0U, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2213">2213    </a></b>	                    }
+<b><a name="line2214">2214    </a></b>	                    hal_fip_api_reset(ch, ce, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2215">2215    </a></b>	                }
+</pre></body>
+</html>

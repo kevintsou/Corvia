@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _OCP_SECURE_FIRMWARE_RECOVERY_API_H_
+<b><a name="line2">2    </a></b>	#define _OCP_SECURE_FIRMWARE_RECOVERY_API_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_OCP_SECURE_FIRMWARE_RECOVERY_API_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "smbus/ocp/ocp_secure_firmware_recovery.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#define M_OCP_RECOVERY_DISABLE_FORCED_RECOVERY(pACRotData)          (pACRotData->sProtCap.sCapabilities.sAgent.btForcedRecovery = FALSE)
+<b><a name="line9">9    </a></b>	#define M_OCP_RECOVERY_IMO_RESET(pACRotData)                        (pACRotData->sIndirectCtrl.sConfig.ulIMO = 0U)
+<b><a name="line10">10    </a></b>	#define M_OCP_RECOVERY_IMO_AUTO_INCREMENT(pACRotData, dataCnt)      (pACRotData->sIndirectCtrl.sConfig.ulIMO += dataCnt)
+<b><a name="line11">11    </a></b>	#define M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, pe)           (pACRotData->sDeviceStatus.ubProtocolError = pe)
+<b><a name="line12">12    </a></b>	#define M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, ds)            (pACRotData->sDeviceStatus.ubDeviceStatus = ds)
+<b><a name="line13">13    </a></b>	#define M_OCP_RECOVERY_SET_RECOVERY_REASON_CODE(pACRotData, rrc)    (pACRotData->sDeviceStatus.uwRecoveryReasonCode = rrc)
+<b><a name="line14">14    </a></b>	#define M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, drs)  (pACRotData->sRecoveryStatus.ubDeviceRecoveryStatus = drs)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	// DELL fw status code (for get log - persistent event code)
+<b><a name="line17">17    </a></b>	#define DELL_FW_STATUS_CODE_PASS                    (0x00U)
+<b><a name="line18">18    </a></b>	#define DELL_FW_STATUS_CODE_FAIL_UNRECOVERABLE      (0x01U)
+<b><a name="line19">19    </a></b>	#define DELL_FW_STATUS_CODE_FAIL_RECOVERABLE        (0x02U)
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	typedef enum {
+<b><a name="line22">22    </a></b>	    E_RECV_OP_DO_NOTHING     = 0,
+<b><a name="line23">23    </a></b>	    E_RECV_OP_ACTIVATE_IMAGE = 0xA0U,
+<b><a name="line24">24    </a></b>	} RECV_OP_E;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	extern const U8 gubProtCapMagicString[PROT_CAP_MAGIC_STRING_LEN];
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	BOOL CheckIsOcpRecoveryCmdCode(U8 ubCmdType, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsTx);
+<b><a name="line29">29    </a></b>	RECV_OP_E OcpRecoveryCmdHandler(U8 ubRPCmdType, U8 ubSlaveAddr, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx);
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	ACROT_DATA *GetACRotDataPtr(void);
+<b><a name="line32">32    </a></b>	U16 OcpRecoveryGetMappingFwEventCode(void);
+<b><a name="line33">33    </a></b>	void OcpRecoverySetProtocolCRCError(void);
+</pre></body>
+</html>

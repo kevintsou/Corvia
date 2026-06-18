@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line448">448    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubPdlu         = 0U;
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    /********************************************************************************************
+<b><a name="line452">452    </a></b>	     * Common - Identification
+<b><a name="line453">453    </a></b>	     ********************************************************************************************/
+<b><a name="line454">454    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.ubLength = SUBSYSTEM_MANAGEMENT_DATA_LENGTH_IDENTIFICATION;
+<b><a name="line455">455    </a></b>	
+<b><a name="line456">456    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line457">457    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.aubVendorID[0U] = (pHostVar->sPCIe.uwVendorID >> 8U) & 0xFFU;
+<b><a name="line458">458    </a></b>	    pSubsystemManagementData->sCommon.sIdentification.aubVendorID[1U] = (pHostVar->sPCIe.uwVendorID) & 0xFFU;
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	    for (ubIdx = 0U; ubIdx < sizeof(pSubsystemManagementData->sCommon.sIdentification.aubSerialNumber); ubIdx++)
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        if (ubIdx >= sizeof(pHostVar->aubHostSerialNumber))
+<b><a name="line463">463    </a></b>	        {
+<b><a name="line464">464    </a></b>	            break;
+<b><a name="line465">465    </a></b>	        }
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	        pSubsystemManagementData->sCommon.sIdentification.aubSerialNumber[ubIdx] = pHostVar->aubHostSerialNumber[ubIdx];
+<b><a name="line468">468    </a></b>	    }
+<b><a name="line469">469    </a></b>	#endif
+<b><a name="line470">470    </a></b>	
+<b><a name="line471">471    </a></b>	
+<b><a name="line472">472    </a></b>	    /********************************************************************************************
+<b><a name="line473">473    </a></b>	     * Vendor Specific
+<b><a name="line474">474    </a></b>	     *  - Datacenter: v2.6
+<b><a name="line475">475    </a></b>	     *  - Hyperscale: v1.0
+<b><a name="line476">476    </a></b>	     ********************************************************************************************/
+<b><a name="line477">477    </a></b>	    if (VS_CONFIG_OCP_DATACENTER == ubVsConfig)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_15_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">No non-empty terminating "else" statement.</font>
+<b><a name="line478">478    </a></b>	    {
+<b><a name="line479">479    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line480">480    </a></b>	        VendorSpecificInitOcpDatacenter(pSubsystemManagementData, pHostVar);
+<b><a name="line481">481    </a></b>	#else
+<b><a name="line482">482    </a></b>	        VendorSpecificInitOcpDatacenter(pSubsystemManagementData);
+<b><a name="line483">483    </a></b>	#endif
+<b><a name="line484">484    </a></b>	    }
+<b><a name="line485">485    </a></b>	    else if (VS_CONFIG_OCP_HYPERSCALE == ubVsConfig)
+<b><a name="line486">486    </a></b>	    {
+<b><a name="line487">487    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line488">488    </a></b>	        VendorSpecificInitOcpHyperscale(pSubsystemManagementData, pHostVar);
+<b><a name="line489">489    </a></b>	#else
+<b><a name="line490">490    </a></b>	        VendorSpecificInitOcpHyperscale(pSubsystemManagementData);
+<b><a name="line491">491    </a></b>	#endif
+<b><a name="line492">492    </a></b>	    }
+<b><a name="line493">493    </a></b>	}
+<b><a name="line494">494    </a></b>	
+<b><a name="line495">495    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line496">496    </a></b>	
+</pre></body>
+</html>

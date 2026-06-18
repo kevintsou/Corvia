@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3852">3852    </a></b>	                        memset((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_CDI), 0x00, sizeof(DICE_OUTPUT));
+<b><a name="line3853">3853    </a></b>	                    }
+<b><a name="line3854">3854    </a></b>	                }
+<b><a name="line3855">3855    </a></b>	
+<b><a name="line3856">3856    </a></b>	                //Clear the UDS KDK that may have been read out
+<b><a name="line3857">3857    </a></b>	                clear_uds_kdk(&gEFuseAPI);
+<b><a name="line3858">3858    </a></b>	                sal_log_tracker_set(sal_locate(0x56, TYPE_RSV12));
+<b><a name="line3859">3859    </a></b>	
+<b><a name="line3860">3860    </a></b>	                Dump_LoadCode(tprintf("Error of this Code Pointer Block Set is %L", (U64)p_code_pointer_block_status->error.all));
+<b><a name="line3861">3861    </a></b>	                Dump_LoadCode(tprintf("Jumping to Firmware slot %d", p_code_pointer_block_status->firmware_priority_used));
+<b><a name="line3862">3862    </a></b>	
+<b><a name="line3863">3863    </a></b>	                //p_code_pointer_block_status->error.move = move_project_binary((PROJECT_BINARY_HEADER *)DBUF_BCODE_DATA_BUFFER_BASE);
+<b><a name="line3864">3864    </a></b>	                sal_log_info_char('J'); //Jump to PRAM
+<b><a name="line3865">3865    </a></b>	                sal_log_info_char('\r'); //Output the token separators
+<b><a name="line3866">3866    </a></b>	                sal_log_info_char('\n');
+<b><a name="line3867">3867    </a></b>	
+<b><a name="line3868">3868    </a></b>	                efuse_bootcode_landmark_index_api(&gEFuseAPI, 4);
+<b><a name="line3869">3869    </a></b>	
+<b><a name="line3870">3870    </a></b>	#if (BOOT_TYPE == BOOT_TYPE_MASKROM)
+<b><a name="line3871">3871    </a></b>	                DISABLE_ALL_IRQ();
+<b><a name="line3872">3872    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3873">3873    </a></b>	
+<b><a name="line3874">3874    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3875">3875    </a></b>	
+<b><a name="line3876">3876    </a></b>	                if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line3877">3877    </a></b>	                    clear_sec_key_hash_and_data(&gEFuseAPI);
+<b><a name="line3878">3878    </a></b>	                    return 1;
+<b><a name="line3879">3879    </a></b>	                }
+<b><a name="line3880">3880    </a></b>	
+<b><a name="line3881">3881    </a></b>	                sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_7_AHEAD_JUMP, TYPE_TIMESTAMP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "3881" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line3882">3882    </a></b>	
+<b><a name="line3883">3883    </a></b>	                sal_log_tracker_set(sal_locate(0x0F, TYPE_RSV6));
+<b><a name="line3884">3884    </a></b>	
+<b><a name="line3885">3885    </a></b>	                jump_pram((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE);
+<b><a name="line3886">3886    </a></b>	#else
+<b><a name="line3887">3887    </a></b>	                tprintf("Ice Mode, going into while(1)");
+<b><a name="line3888">3888    </a></b>	#endif
+<b><a name="line3889">3889    </a></b>	                while (1);
+<b><a name="line3890">3890    </a></b>	            }
+<b><a name="line3891">3891    </a></b>	            else {
+<b><a name="line3892">3892    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3893">3893    </a></b>	
+<b><a name="line3894">3894    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3895">3895    </a></b>	
+<b><a name="line3896">3896    </a></b>	                if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line3897">3897    </a></b>	                    return 1;
+<b><a name="line3898">3898    </a></b>	                }
+<b><a name="line3899">3899    </a></b>	
+<b><a name="line3900">3900    </a></b>	                Dump_LoadCode(tprintf("Error of this Code Pointer Block Set is %L", (U64)p_code_pointer_block_status->error.all));
+<b><a name="line3901">3901    </a></b>	
+<b><a name="line3902">3902    </a></b>	                p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_UNUSABLE;
+<b><a name="line3903">3903    </a></b>	                revert_id_table_settings(&(a_id_table[code_pointer_block_set]));
+<b><a name="line3904">3904    </a></b>	            }
+<b><a name="line3905">3905    </a></b>	        }
+<b><a name="line3906">3906    </a></b>	        else if (code_pointer_block_set == CODE_POINTER_BLOCK_SET_COUNT_MAX)
+<b><a name="line3907">3907    </a></b>	        {
+<b><a name="line3908">3908    </a></b>	            break;
+<b><a name="line3909">3909    </a></b>	        }
+<b><a name="line3910">3910    </a></b>	    }
+<b><a name="line3911">3911    </a></b>	
+<b><a name="line3912">3912    </a></b>	    /*
+</pre></body>
+</html>

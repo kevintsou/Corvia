@@ -1,0 +1,38 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 18.3</checker>
+<type>MISRA_C_2012_Rule_18.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>SmbusFillTxBufferSubsystemManagementData</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{0U == *pLengthByte}}}}}}</description>
+<line>162</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>local_pointer</tag>
+<description>{CovLStrv2{{t{Local variable {0} is a pointer.}{{code{pLengthByte}}}}}}</description>
+<line>168</line>
+<column>5</column>
+</event>
+<event>
+<tag>address_of</tag>
+<description>{CovLStrv2{{t{Taking the address of {0}.}{{code{&amp;aubReturnData[256U]}}}}}}</description>
+<line>168</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_18_3_violation</tag>
+<description>{CovLStrv2{{t{The operator {0} is being applied to the pointers {1} and {2}, which do not point into the same object.}{&quot;&lt;&quot;}{{code{pLengthByte}}}{{code{(U8 *)&amp;aubReturnData[256U]}}}}}}</description>
+<line>168</line>
+<column>5</column>
+</event>
+<extra>aubReturnData,pLengthByte</extra>
+<subcategory>none</subcategory>
+</error>

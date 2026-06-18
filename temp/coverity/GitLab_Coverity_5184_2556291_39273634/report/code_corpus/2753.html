@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	        if (gSecShaTimeout) {
+<b><a name="line540">540    </a></b>	            return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line541">541    </a></b>	        }
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	        sal_log_tracker_set(sal_locate(0x42, TYPE_STEP));
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	        disable_dmsca = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line546">546    </a></b>	
+<b><a name="line547">547    </a></b>	        // Compare all efuse key hash //TODO- change to dmsca_def compare
+<b><a name="line548">548    </a></b>	        for (U8 idx = 0; idx < compare_key_cnt; idx++)
+<b><a name="line549">549    </a></b>	        {
+<b><a name="line550">550    </a></b>	            if (HAL_SEC_DMSCA_PASS == phal_sec_verify_signature_compare((U32)(p_efuse_code_sign_key_hash + idx), calculation_buffer, hal_sec_get_digest_len(sha2_mode), disable_dmsca))
+<b><a name="line551">551    </a></b>	            {
+<b><a name="line552">552    </a></b>	                sal_log_tracker_set(sal_locate(0x43, TYPE_STEP));
+<b><a name="line553">553    </a></b>	
+<b><a name="line554">554    </a></b>	                if (EFUSE_PARSE_CPTRA_STATE(gEFuseAPI.efuse_security_setting.u16_union.sqz.cptra_enable))
+<b><a name="line555">555    </a></b>	                {
+<b><a name="line556">556    </a></b>	                    // Truncate 384b for caliptra context
+<b><a name="line557">557    </a></b>	                    phal_sqz_set_pk_hash(calculation_buffer);
+<b><a name="line558">558    </a></b>	                }
+<b><a name="line559">559    </a></b>	                memset((void *)calculation_buffer, 0x00, hal_sec_get_digest_len(sha2_mode));
+<b><a name="line560">560    </a></b>	                Dump_SEC(tprintf("KV OK idx(%d)", idx));
+<b><a name="line561">561    </a></b>	                break;
+<b><a name="line562">562    </a></b>	            }
+<b><a name="line563">563    </a></b>	
+<b><a name="line564">564    </a></b>	            if ((idx + 1) == compare_key_cnt)
+<b><a name="line565">565    </a></b>	            {
+<b><a name="line566">566    </a></b>	                Dump_SEC(tprintf("KV F! cmp(%d)", compare_key_cnt));
+<b><a name="line567">567    </a></b>	                sal_log_tracker_set(sal_locate(0x4F, TYPE_FATAL));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "567" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line568">568    </a></b>	                memset((void *)calculation_buffer, 0x00, hal_sec_get_digest_len(sha2_mode));
+<b><a name="line569">569    </a></b>	                return PROJECT_BINARY_ERROR_SECURITY_SETTING_INCORRECT_KEY_HASH;
+<b><a name="line570">570    </a></b>	            }
+<b><a name="line571">571    </a></b>	        }
+<b><a name="line572">572    </a></b>	    }
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    return 0;
+<b><a name="line575">575    </a></b>	}
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	static U32 check_dice_pre_process(U32 calculation_buffer, U8 metadata_input_type)
+<b><a name="line578">578    </a></b>	{
+<b><a name="line579">579    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line580">580    </a></b>	
+<b><a name="line581">581    </a></b>	    U32 data_address, data_size;
+<b><a name="line582">582    </a></b>	    U32 key_address, key_size;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    U32 load_code_address = (U32)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line585">585    </a></b>	    U32 project_binary_address = (U32)DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line590">590    </a></b>	    const PROJECT_BINARY_HEADER *p_project_binary_header;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(load_code_address);
+<b><a name="line593">593    </a></b>	    project_binary_address += (p_load_code_status->key_manifest_size);
+<b><a name="line594">594    </a></b>	    p_project_binary_header = (const PROJECT_BINARY_HEADER *)(project_binary_address);
+<b><a name="line595">595    </a></b>	    sal_log_tracker_set(sal_locate(0x40, TYPE_STEP));
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    // Set caliptra svn
+<b><a name="line598">598    </a></b>	    phal_sqz_set_svn(p_project_binary_header->security_version);
+</pre></body>
+</html>

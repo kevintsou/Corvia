@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/utility.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line68">68    </a></b>	    U8 curr_byte;
+<b><a name="line69">69    </a></b>	    U8 tmp_byte;
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    for (i = 0; i < len; i++) { //max data size is 512 byte
+<b><a name="line72">72    </a></b>	        curr_byte = ((U8 *)addr)[i];
+<b><a name="line73">73    </a></b>	        for (k = 8 - 4; k >= 0; k -= 4) {
+<b><a name="line74">74    </a></b>	            tmp_byte = (U8)((curr_byte >> k) & 0x0F);
+<b><a name="line75">75    </a></b>	            tmp_byte = ((tmp_byte < 10) ? (tmp_byte + '0') : (tmp_byte + ('A' - 10))) & 0xFF;
+<b><a name="line76">76    </a></b>	            chk_sum += tmp_byte;
+<b><a name="line77">77    </a></b>	        }
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    return chk_sum;
+<b><a name="line81">81    </a></b>	}
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	/**
+<b><a name="line84">84    </a></b>	 * Calculates CRC-32 for a range of memory starting at _BufferStart of length _Length.
+<b><a name="line85">85    </a></b>	 * This function is not restricted only for use on XModem packets.
+<b><a name="line86">86    </a></b>	 */
+<b><a name="line87">87    </a></b>	U32 crc_calculate(U32 data_base, U32 data_size, U32 crc, U32 polynomial, U32 xor_value, U32 bit_width, U32 reverse)
+<b><a name="line88">88    </a></b>	{
+<b><a name="line89">89    </a></b>	    U32 data_offset;
+<b><a name="line90">90    </a></b>	    U32 data;
+<b><a name="line91">91    </a></b>	    U32 bit_offset;
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    U32 temp;
+<b><a name="line94">94    </a></b>	    //uart_printf("Calculate CRC%d (Polynomial 0x%0x, XOR 0x%0x) ", bit_width, polynomial, xor);
+<b><a name="line95">95    </a></b>	    //uart_printf("at 0x%x for 0x%x, Seed 0x%x = ", data_base, data_size, crc);
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	    data = 0;
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value "0UL" to "data" here, but that stored value is overwritten before it can be used.</font>
+<b><a name="line98">98    </a></b>	    for (data_offset = 0; data_offset < data_size; (data_offset += 1U)) {
+<b><a name="line99">99    </a></b>	        data = ((U8 *)data_base)[data_offset];
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event value_overwrite:</font></b> <font face="Arial"; size="3"; color="#FF5959">Overwriting previous write to "data" with value from "(U8 *)data_base[data_offset]".</font>
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	        //Calculate the CRC
+<b><a name="line102">102    </a></b>	        for (bit_offset = 0; bit_offset < 8U; bit_offset++) {
+<b><a name="line103">103    </a></b>	            if ((reverse & CRC_CALC_REVERSE_INPUT) != 0U) {
+<b><a name="line104">104    </a></b>	                temp = (crc >> (bit_width - 1U)) ^ (data >> bit_offset);
+<b><a name="line105">105    </a></b>	            }
+<b><a name="line106">106    </a></b>	            else {
+<b><a name="line107">107    </a></b>	                temp = (crc >> (bit_width - 1U)) ^ (data >> (8U - 1U - bit_offset));
+<b><a name="line108">108    </a></b>	            }
+<b><a name="line109">109    </a></b>	            crc = (crc << 1) ^ ((temp & BIT0) * polynomial);
+<b><a name="line110">110    </a></b>	        }
+<b><a name="line111">111    </a></b>	    }
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    //uart_printf("0x%x\n\r", ((crc ^ xor) & (0xFFFFFFFF >> (32 - bit_width))));
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    if ((reverse & CRC_CALC_REVERSE_OUTPUT) != 0U) {
+<b><a name="line116">116    </a></b>	        {
+<b><a name="line117">117    </a></b>	            U32 output;
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	            output = 0;
+<b><a name="line120">120    </a></b>	            for (bit_offset = 0; bit_offset < (bit_width / 2U); bit_offset++) {
+<b><a name="line121">121    </a></b>	                output |=
+<b><a name="line122">122    </a></b>	                    (((crc >> bit_offset) & 1U) << (bit_width - 1U - bit_offset)) |
+<b><a name="line123">123    </a></b>	                    (((crc >> (bit_width - 1U - bit_offset)) & 1U) << bit_offset);
+<b><a name="line124">124    </a></b>	            }
+<b><a name="line125">125    </a></b>	            crc = output;
+<b><a name="line126">126    </a></b>	        }
+<b><a name="line127">127    </a></b>	    }
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	    //Return the calculated CRC value, remove the extra bits
+<b><a name="line130">130    </a></b>	    return ((crc ^ xor_value) & (0xFFFFFFFFU >> (32U - bit_width)));
+</pre></body>
+</html>

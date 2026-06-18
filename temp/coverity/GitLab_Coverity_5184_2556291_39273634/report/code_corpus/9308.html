@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1495">1495    </a></b>	
+<b><a name="line1496">1496    </a></b>	}
+<b><a name="line1497">1497    </a></b>	
+<b><a name="line1498">1498    </a></b>	void dal_pcie_set_aspm_l0s_sup(U32 port_id, U32 enable)
+<b><a name="line1499">1499    </a></b>	{
+<b><a name="line1500">1500    </a></b>	
+<b><a name="line1501">1501    </a></b>	}
+<b><a name="line1502">1502    </a></b>	
+<b><a name="line1503">1503    </a></b>	U32 dal_get_ltssm_state(U32 port_id)
+<b><a name="line1504">1504    </a></b>	{
+<b><a name="line1505">1505    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1506">1506    </a></b>	    {
+<b><a name="line1507">1507    </a></b>	        return (r_PCIE_SNPS_SMLH_LTSSM_STATE(port_id));
+<b><a name="line1508">1508    </a></b>	    }
+<b><a name="line1509">1509    </a></b>	    else
+<b><a name="line1510">1510    </a></b>	    {
+<b><a name="line1511">1511    </a></b>	        return NULL;
+<b><a name="line1512">1512    </a></b>	    }
+<b><a name="line1513">1513    </a></b>	}
+<b><a name="line1514">1514    </a></b>	
+<b><a name="line1515">1515    </a></b>	void dal_change_link_speed(U32 port_id, U32 gen)
+<b><a name="line1516">1516    </a></b>	{
+<b><a name="line1517">1517    </a></b>	
+<b><a name="line1518">1518    </a></b>	}
+<b><a name="line1519">1519    </a></b>	
+<b><a name="line1520">1520    </a></b>	U32 dal_get_link_speed(U32 port_id)
+<b><a name="line1521">1521    </a></b>	{
+<b><a name="line1522">1522    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1523">1523    </a></b>	    {
+<b><a name="line1524">1524    </a></b>	        return (r_PCIE_SNPS_MAC_PHY_RATE(port_id) + 1U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "(((U8 volatile *)gPcieSnpsMiscRegPortBase[port_id][1274U] >> 2U) & 7U) + 1U" of width 8 to a target of width 32.</font>
+<b><a name="line1525">1525    </a></b>	    }
+<b><a name="line1526">1526    </a></b>	    else
+<b><a name="line1527">1527    </a></b>	    {
+<b><a name="line1528">1528    </a></b>	        return NULL;
+<b><a name="line1529">1529    </a></b>	    }
+<b><a name="line1530">1530    </a></b>	}
+<b><a name="line1531">1531    </a></b>	
+<b><a name="line1532">1532    </a></b>	U32 dal_get_link_width(U32 port_id)
+<b><a name="line1533">1533    </a></b>	{
+<b><a name="line1534">1534    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1535">1535    </a></b>	    {
+<b><a name="line1536">1536    </a></b>	        return (r_PF0_PCIE_CAP_PCIE_CAP_NEGO_LINK_WIDTH(port_id, 0));
+<b><a name="line1537">1537    </a></b>	    }
+<b><a name="line1538">1538    </a></b>	    else
+<b><a name="line1539">1539    </a></b>	    {
+<b><a name="line1540">1540    </a></b>	        return NULL;
+<b><a name="line1541">1541    </a></b>	    }
+<b><a name="line1542">1542    </a></b>	}
+<b><a name="line1543">1543    </a></b>	
+<b><a name="line1544">1544    </a></b>	void dal_set_pf_cnt(U32 port_id, U32 pf_cnt)
+<b><a name="line1545">1545    </a></b>	{
+<b><a name="line1546">1546    </a></b>	    w_PF0_PORT_LOGIC_MAX_FUNC_NUM(port_id, pf_cnt);
+<b><a name="line1547">1547    </a></b>	}
+<b><a name="line1548">1548    </a></b>	
+<b><a name="line1549">1549    </a></b>	void dal_set_pf1_vf_cnt_of_user_def_mode(U32 port_id, U32 vf_cnt)
+<b><a name="line1550">1550    </a></b>	{
+<b><a name="line1551">1551    </a></b>	    // 1 PF of port
+<b><a name="line1552">1552    </a></b>	}
+<b><a name="line1553">1553    </a></b>	
+<b><a name="line1554">1554    </a></b>	void dal_set_pf0_vf_top_num(U32 port_id, U32 vf_top_num)
+<b><a name="line1555">1555    </a></b>	{
+</pre></body>
+</html>

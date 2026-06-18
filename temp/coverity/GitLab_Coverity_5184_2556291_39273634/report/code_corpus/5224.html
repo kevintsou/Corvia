@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3665">3665    </a></b>	    p_load_code_status->parameters.code_pointer_block_per_set = copy;
+<b><a name="line3666">3666    </a></b>	
+<b><a name="line3667">3667    </a></b>	
+<b><a name="line3668">3668    </a></b>	
+<b><a name="line3669">3669    </a></b>	    reset_load_code_status(p_load_code_status, 0, p_efuse_nand_setting);
+<b><a name="line3670">3670    </a></b>	
+<b><a name="line3671">3671    </a></b>	    return;
+<b><a name="line3672">3672    </a></b>	}
+<b><a name="line3673">3673    </a></b>	
+<b><a name="line3674">3674    </a></b>	//This is used for resetting the Load Code Status so that the load code process can be performed again
+<b><a name="line3675">3675    </a></b>	void reset_load_code_status(LOAD_CODE_STATUS *p_load_code_status, U32 reset_reason, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line3676">3676    </a></b>	{
+<b><a name="line3677">3677    </a></b>	    U8 set;
+<b><a name="line3678">3678    </a></b>	
+<b><a name="line3679">3679    </a></b>	    //Load code state is not reset
+<b><a name="line3680">3680    </a></b>	    //All other status can only be marked to be on to indicate that
+<b><a name="line3681">3681    </a></b>	    p_load_code_status->reset_count++; //TODO refine this
+<b><a name="line3682">3682    </a></b>	    if (reset_reason & LOAD_CODE_RESET_FLASH_RESET) {
+<b><a name="line3683">3683    </a></b>	        p_load_code_status->flash_reset = 1;
+<b><a name="line3684">3684    </a></b>	    }
+<b><a name="line3685">3685    </a></b>	
+<b><a name="line3686">3686    </a></b>	    //Restart the scanning process
+<b><a name="line3687">3687    </a></b>	    p_load_code_status->code_pointer_block_scan_nand_retry_next = 0;
+<b><a name="line3688">3688    </a></b>	    p_load_code_status->code_pointer_block_scan_block_next = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line3689">3689    </a></b>	    p_load_code_status->code_pointer_block_scan_plane_next = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+<b><a name="line3690">3690    </a></b>	
+<b><a name="line3691">3691    </a></b>	    if (gpFwSimCtrl1Reg->activate_other_loader)
+<b><a name="line3692">3692    </a></b>	    {
+<b><a name="line3693">3693    </a></b>	        p_load_code_status->boot_code_scan_skip_plane_index = (gpLoaderErrMessage->boot_code_scan_start_index % EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count));
+<b><a name="line3694">3694    </a></b>	        p_load_code_status->boot_code_scan_skip_block_index = (gpLoaderErrMessage->boot_code_scan_start_index / EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "(LOADER_MESSAGE_TO_BOOT * const)0x8a00000->boot_code_scan_start_index / ((*p_efuse_nand_setting).plane_count + 1U)" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line3695">3695    </a></b>	        Dump_ScanID(tprintf("activate other loader, skip revision %x, start scan block %x", gpLoaderErrMessage->boot_code_scan_skip_revision, gpLoaderErrMessage->boot_code_scan_start_index));
+<b><a name="line3696">3696    </a></b>	    }
+<b><a name="line3697">3697    </a></b>	    else
+<b><a name="line3698">3698    </a></b>	    {
+<b><a name="line3699">3699    </a></b>	        p_load_code_status->boot_code_scan_skip_plane_index = 0;
+<b><a name="line3700">3700    </a></b>	        p_load_code_status->boot_code_scan_skip_block_index = 0;
+<b><a name="line3701">3701    </a></b>	    }
+<b><a name="line3702">3702    </a></b>	
+<b><a name="line3703">3703    </a></b>	    p_load_code_status->code_pointer_block_set_in_use = 0xFF;
+<b><a name="line3704">3704    </a></b>	    p_load_code_status->code_pointer_block_set_found_count = 0;
+<b><a name="line3705">3705    </a></b>	    p_load_code_status->code_pointer_block_set_exceed_count = 0;
+<b><a name="line3706">3706    </a></b>	    p_load_code_status->code_pointer_block_set_use_count = 0;
+<b><a name="line3707">3707    </a></b>	
+<b><a name="line3708">3708    </a></b>	    p_load_code_status->key_manifest_size = 0;
+<b><a name="line3709">3709    </a></b>	
+<b><a name="line3710">3710    </a></b>	    //Reset Code Pointer Block set status
+<b><a name="line3711">3711    </a></b>	    for (set = 0; set < CODE_POINTER_BLOCK_SET_COUNT_MAX; set++) {
+<b><a name="line3712">3712    </a></b>	        p_load_code_status->a_code_pointer_block_set_used[set] = 0xFF;
+<b><a name="line3713">3713    </a></b>	        create_code_pointer_block_status(&(p_load_code_status->a_code_pointer_block_status[set]));
+<b><a name="line3714">3714    </a></b>	    }
+<b><a name="line3715">3715    </a></b>	
+<b><a name="line3716">3716    </a></b>	    return;
+<b><a name="line3717">3717    </a></b>	}
+<b><a name="line3718">3718    </a></b>	
+<b><a name="line3719">3719    </a></b>	U8 load_code_process(LOAD_CODE_STATUS *p_load_code_status)
+<b><a name="line3720">3720    </a></b>	{
+<b><a name="line3721">3721    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line3722">3722    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line3723">3723    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line3724">3724    </a></b>	
+<b><a name="line3725">3725    </a></b>	    ID_TABLE *a_id_table;
+</pre></body>
+</html>

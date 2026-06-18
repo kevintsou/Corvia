@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line407">407    </a></b>	    U32 int_flag;
+<b><a name="line408">408    </a></b>	    U32 int_cmgr_err;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	
+<b><a name="line411">411    </a></b>	    sal_log_info_char('\r'); //End of Boot Code UART Log
+<b><a name="line412">412    </a></b>	    sal_log_info_char('\n');
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    /*
+<b><a name="line415">415    </a></b>	     * init sturct and HW
+<b><a name="line416">416    </a></b>	     */
+<b><a name="line417">417    </a></b>	
+<b><a name="line418">418    </a></b>	    host_struct_init(host);
+<b><a name="line419">419    </a></b>	
+<b><a name="line420">420    </a></b>	    c0_init_hardware(host);
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	    c0_isr_init(host);
+<b><a name="line423">423    </a></b>	
+<b><a name="line424">424    </a></b>	    /*
+<b><a name="line425">425    </a></b>	     * send cpl if jump from FW
+<b><a name="line426">426    </a></b>	     */
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	    // check if there is any command (note : reset event will clear BOOT_CODE_SEND_CPL)
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV10));
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	    host_api_nvme_main(host);
+<b><a name="line433">433    </a></b>	
+<b><a name="line434">434    </a></b>	    if (gpFwSimCtrl0Reg->send_cpl) {
+<b><a name="line435">435    </a></b>	        // send cpl and clear BOOT_CODE_SEND_CPL
+<b><a name="line436">436    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV10));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "10" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line437">437    </a></b>	        nvme_send_cpl_after_jump(host);
+<b><a name="line438">438    </a></b>	    }
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    /*
+<b><a name="line441">441    </a></b>	     * clear HW locks
+<b><a name="line442">442    </a></b>	     */
+<b><a name="line443">443    </a></b>	
+<b><a name="line444">444    </a></b>	    if (gpFwSimCtrl0Reg->not_init_host_hw)
+<b><a name="line445">445    </a></b>	    {
+<b><a name="line446">446    </a></b>	        dal_nl_clr_port_mask(p_ofst);
+<b><a name="line447">447    </a></b>	    }
+<b><a name="line448">448    </a></b>	    gpFwSimCtrl0Reg->not_init_host_hw = 0;
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	    // we have to unlock all hw lock bit after send cpl
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    int_flag = dal_cmgr_get_int_bitmap();
+<b><a name="line453">453    </a></b>	    int_cmgr_err = dal_cmgr_get_int_p_bitmap(0);
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	    dal_cmgr_w1c_int_cmgr_port_err_bitmap(int_cmgr_err);
+<b><a name="line456">456    </a></b>	    dal_cmgr_w1c_int_cmgr_bitmap(int_flag);
+<b><a name="line457">457    </a></b>	    nvme_clr_cmgr_hw_lock();
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	}
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	void init_smbus_variables(void)
+<b><a name="line462">462    </a></b>	{
+<b><a name="line463">463    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line464">464    </a></b>	    U16 uwVID   = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line465">465    </a></b>	    U16 uwDID   = phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line466">466    </a></b>	    U16 uwSSVID = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line467">467    </a></b>	    U16 uwSSDID = phal_pcie_get_subsystem_device_id(PCIE_PORT_0);
+</pre></body>
+</html>

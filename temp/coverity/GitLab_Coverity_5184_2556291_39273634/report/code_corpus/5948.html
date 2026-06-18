@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line496">496    </a></b>	{
+<b><a name="line497">497    </a></b>	    U16 i;
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	    if (dal_fip_get_io_type(ch) == DAL_FIP_IO_TYPE_LEGACY) { // sdr
+<b><a name="line500">500    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line501">501    </a></b>	            // datw
+<b><a name="line502">502    </a></b>	            r16_w_FCH_PIO_DAT(ch, 0, (U16)data[i] | ((U16)data[i] << 8U));
+<b><a name="line503">503    </a></b>	        }
+<b><a name="line504">504    </a></b>	    }
+<b><a name="line505">505    </a></b>	    else { // ddr
+<b><a name="line506">506    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line507">507    </a></b>	            // set dqs feature
+<b><a name="line508">508    </a></b>	            if (i == 0U) {
+<b><a name="line509">509    </a></b>	                //dal_fip_set_pio_dat_first(ch);
+<b><a name="line510">510    </a></b>	                w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line511">511    </a></b>	                w_PIO_DAT_LAST(ch, 0);
+<b><a name="line512">512    </a></b>	            }
+<b><a name="line513">513    </a></b>	            else if (i == (size - 1U)) {
+<b><a name="line514">514    </a></b>	                //dal_fip_set_pio_dat_last(ch);
+<b><a name="line515">515    </a></b>	                w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line516">516    </a></b>	                w_PIO_DAT_LAST(ch, 1);
+<b><a name="line517">517    </a></b>	            }
+<b><a name="line518">518    </a></b>	            else {
+<b><a name="line519">519    </a></b>	                //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line520">520    </a></b>	                w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line521">521    </a></b>	                w_PIO_DAT_LAST(ch, 0);
+<b><a name="line522">522    </a></b>	            }
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	            // datw
+<b><a name="line525">525    </a></b>	            r16_w_FCH_PIO_DAT(ch, 0, (U16)data[i] | ((U16)data[i] << 8U));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "10U" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line526">526    </a></b>	        }
+<b><a name="line527">527    </a></b>	
+<b><a name="line528">528    </a></b>	        // restore dqs feature
+<b><a name="line529">529    </a></b>	        //dal_fip_set_pio_dat_default(ch);
+<b><a name="line530">530    </a></b>	        w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line531">531    </a></b>	        w_PIO_DAT_LAST(ch, 1);
+<b><a name="line532">532    </a></b>	    }
+<b><a name="line533">533    </a></b>	}
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	U32 hal_nand_ctrl_api_read_data_skip_highbyte(U8 ch, U8 *data, U16 size, U32 *ac_timing)
+<b><a name="line536">536    </a></b>	{
+<b><a name="line537">537    </a></b>	    U16 i;
+<b><a name="line538">538    </a></b>	    U32 status;
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	    status = 0U;
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    if (dal_fip_get_io_type(ch) == DAL_FIP_IO_TYPE_LEGACY) { // sdr
+<b><a name="line543">543    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line544">544    </a></b>	            // datr
+<b><a name="line545">545    </a></b>	            data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line546">546    </a></b>	        }
+<b><a name="line547">547    </a></b>	    }
+<b><a name="line548">548    </a></b>	    else { // ddr
+<b><a name="line549">549    </a></b>	        if ((U8)r_SCA_PROT(ch) == 0U) {
+<b><a name="line550">550    </a></b>	            for (i = 0U; i < size; i++) {
+<b><a name="line551">551    </a></b>	                // set dqs feature
+<b><a name="line552">552    </a></b>	                if (i == 0U) {
+<b><a name="line553">553    </a></b>	                    //dal_fip_set_pio_dat_first(ch);
+<b><a name="line554">554    </a></b>	                    w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line555">555    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line556">556    </a></b>	                }
+</pre></body>
+</html>

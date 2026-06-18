@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/flibhal/flibhal_nvme.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _FLIBHAL_NVME_H_
+<b><a name="line2">2    </a></b>	#define _FLIBHAL_NVME_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FLIBHAL_NVME_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define TOTAL_NAMESPACES                (1U)  // bootcode total namespaces = 1h
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#define FW_VERSION_LEN                  (8U)
+<b><a name="line9">9    </a></b>	#define NVME_MODEL_NUMBER_LEN           (40U)
+<b><a name="line10">10    </a></b>	#define HOST_SERIAL_NUMBER_LEN          (20U)
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define NVME_CAPACITY_LEN               (16U)
+<b><a name="line13">13    </a></b>	#define UDID_LEN                        (16U)
+<b><a name="line14">14    </a></b>	#define GUID_LEN                        (16U)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line17">17    </a></b>	#include "phal/phal_nvme.h"     // APU HCmd/HCpl struct
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	void phal_nvme_sync_hcmd_hcpl_ctag(FRAMEWORK_HCMD_T *pHCmd, FRAMEWORK_HCPL_T *pHCpl);
+<b><a name="line20">20    </a></b>	REG32 phal_nvme_get_cmd_sq_cdw_x(FRAMEWORK_HCMD_T *pHCmd, U8 ubCdwIdx);
+<b><a name="line21">21    </a></b>	BOOL phal_nvme_check_hcmd_ctag_valid(FRAMEWORK_HCMD_T *pHCmd);
+<b><a name="line22">22    </a></b>	BOOL phal_nvme_check_hcmd_error(FRAMEWORK_HCMD_T *pHCmd);
+<b><a name="line23">23    </a></b>	BOOL phal_nvme_check_hcmd_adm(FRAMEWORK_HCMD_T *pHCmd);
+<b><a name="line24">24    </a></b>	void phal_nvme_set_hcpl_status(FRAMEWORK_HCPL_T *pHCpl, U8 ubStatusCodeType, U8 ubStatusCode);
+<b><a name="line25">25    </a></b>	U8   phal_nvme_check_hcpl_status_code_type(FRAMEWORK_HCPL_T *pHCpl);
+<b><a name="line26">26    </a></b>	U8   phal_nvme_check_hcpl_status_code(FRAMEWORK_HCPL_T *pHCpl);
+<b><a name="line27">27    </a></b>	BOOL phal_nvme_check_cmgr_ct_adm(FRAMEWORK_HCMD_T *pHCmd);
+<b><a name="line28">28    </a></b>	U8   phal_nvme_check_cmgr_ct_opc(FRAMEWORK_HCMD_T *pHCmd);
+<b><a name="line29">29    </a></b>	void phal_nvme_fill_and_send_hcpl_sq(FRAMEWORK_HCPL_T *pHCpl);
+<b><a name="line30">30    </a></b>	void phal_nvme_clear_cmgr_lock_state(void);
+<b><a name="line31">31    </a></b>	BOOL phal_nvme_check_nsid_active(FRAMEWORK_HCMD_T *pHCmd, U32 ulNSID);
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	// init
+</pre></body>
+</html>

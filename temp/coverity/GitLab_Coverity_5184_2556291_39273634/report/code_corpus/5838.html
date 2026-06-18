@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line447">447    </a></b>	/*!
+<b><a name="line448">448    </a></b>	 @brief       wait PKE_OP_BSY and clear PKE_EN if pke done
+<b><a name="line449">449    </a></b>	 @param[in]   timeout_val   - setting timeout value
+<b><a name="line450">450    </a></b>	 @param[out]  ret           - trigger done or not
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	 @return      Check push command queue reuslt.
+<b><a name="line453">453    </a></b>	 @retval    1U - trigger done
+<b><a name="line454">454    </a></b>	 @retval    0U - trigger not finished
+<b><a name="line455">455    </a></b>	
+<b><a name="line456">456    </a></b>	 @note
+<b><a name="line457">457    </a></b>	
+<b><a name="line458">458    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	 */
+<b><a name="line461">461    </a></b>	U8 hal_sec_pke_wait_to_ready(U64 timeout_val)
+<b><a name="line462">462    </a></b>	{
+<b><a name="line463">463    </a></b>	    U8 trigger_done = SEC_NO;
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    if (timeout_val == 0U)
+<b><a name="line466">466    </a></b>	    {
+<b><a name="line467">467    </a></b>	        if (0U == dal_sec_pke_get_op_bsy())
+<b><a name="line468">468    </a></b>	        {
+<b><a name="line469">469    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line470">470    </a></b>	        }
+<b><a name="line471">471    </a></b>	    }
+<b><a name="line472">472    </a></b>	    else if (timeout_val < HAL_SEC_BLOCKING_TIME_VAL)
+<b><a name="line473">473    </a></b>	    {
+<b><a name="line474">474    </a></b>	        U8 is_timeout = SEC_NO;
+<b><a name="line475">475    </a></b>	
+<b><a name="line476">476    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "476" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line477">477    </a></b>	
+<b><a name="line478">478    </a></b>	        while (1U == dal_sec_pke_get_op_bsy())
+<b><a name="line479">479    </a></b>	        {
+<b><a name="line480">480    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line481">481    </a></b>	            {
+<b><a name="line482">482    </a></b>	                gSecPkeTimeout = SEC_YES;
+<b><a name="line483">483    </a></b>	                is_timeout = SEC_YES;
+<b><a name="line484">484    </a></b>	                break;
+<b><a name="line485">485    </a></b>	            }
+<b><a name="line486">486    </a></b>	        }
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line489">489    </a></b>	        {
+<b><a name="line490">490    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line491">491    </a></b>	        }
+<b><a name="line492">492    </a></b>	    }
+<b><a name="line493">493    </a></b>	    else
+<b><a name="line494">494    </a></b>	    {
+<b><a name="line495">495    </a></b>	        while (1U == dal_sec_pke_get_op_bsy()) {}
+<b><a name="line496">496    </a></b>	
+<b><a name="line497">497    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line498">498    </a></b>	    }
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	    if (trigger_done == SEC_YES)
+<b><a name="line501">501    </a></b>	    {
+<b><a name="line502">502    </a></b>	        dal_sec_pke_clr_en();
+<b><a name="line503">503    </a></b>	    }
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    return trigger_done;
+<b><a name="line506">506    </a></b>	}
+<b><a name="line507">507    </a></b>	
+</pre></body>
+</html>

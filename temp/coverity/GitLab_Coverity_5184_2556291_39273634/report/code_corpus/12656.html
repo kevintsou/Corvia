@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/mctp/mctp_control_message.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _MCTP_CONTROL_MESSAGE_H_
+<b><a name="line2">2    </a></b>	#define _MCTP_CONTROL_MESSAGE_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_MCTP_CONTROL_MESSAGE_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// DSP0236 (MCTP Base Specification) v1.3.1
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line11">11    </a></b>	#pragma pack(push, 1)
+<b><a name="line12">12    </a></b>	/*************************************************************************************************
+<b><a name="line13">13    </a></b>	 * 11.2 MCTP Control Message Format
+<b><a name="line14">14    </a></b>	 *************************************************************************************************/
+<b><a name="line15">15    </a></b>	typedef struct {
+<b><a name="line16">16    </a></b>	    // Byte 0
+<b><a name="line17">17    </a></b>	    U8 bmMessageType        : 7;
+<b><a name="line18">18    </a></b>	    U8 btIntegrityCheck     : 1;
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	    // Byte 1
+<b><a name="line21">21    </a></b>	    U8 bmInstanceID         : 5;
+<b><a name="line22">22    </a></b>	    U8                      : 1;
+<b><a name="line23">23    </a></b>	    U8 btDatagram           : 1;
+<b><a name="line24">24    </a></b>	    U8 btRequest            : 1;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    // Byte 2
+<b><a name="line27">27    </a></b>	    U8 ubCommandCode;
+<b><a name="line28">28    </a></b>	} MCTP_CONTROL_MESSAGE_HEADER_T;
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	/*************************************************************************************************
+<b><a name="line33">33    </a></b>	 * 12.1 MCTP Control Message Command Codes
+</pre></body>
+</html>

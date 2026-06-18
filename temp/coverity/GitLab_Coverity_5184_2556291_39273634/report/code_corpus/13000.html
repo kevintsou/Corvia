@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line4088">4088    </a></b>	{
+<b><a name="line4089">4089    </a></b>	    return (U8)r_all_CMD_DF_ERR(ctag);
+<b><a name="line4090">4090    </a></b>	}
+<b><a name="line4091">4091    </a></b>	
+<b><a name="line4092">4092    </a></b>	U8 dal_cmgr_get_ct_cmd_wp_err(U16 ctag)
+<b><a name="line4093">4093    </a></b>	{
+<b><a name="line4094">4094    </a></b>	    return (U8)r_all_CMD_WP_ERR(ctag);
+<b><a name="line4095">4095    </a></b>	}
+<b><a name="line4096">4096    </a></b>	
+<b><a name="line4097">4097    </a></b>	U8 dal_cmgr_get_ct_cmd_lba_err(U16 ctag)
+<b><a name="line4098">4098    </a></b>	{
+<b><a name="line4099">4099    </a></b>	    return (U8)r_all_CMD_LBA_ERR(ctag);
+<b><a name="line4100">4100    </a></b>	}
+<b><a name="line4101">4101    </a></b>	
+<b><a name="line4102">4102    </a></b>	U8 dal_cmgr_get_ct_cmd_lock_err(U16 ctag)
+<b><a name="line4103">4103    </a></b>	{
+<b><a name="line4104">4104    </a></b>	    return (U8)r_all_CMD_LOCK_ERR(ctag);
+<b><a name="line4105">4105    </a></b>	}
+<b><a name="line4106">4106    </a></b>	
+<b><a name="line4107">4107    </a></b>	U8 dal_cmgr_get_ct_cmd_aes_err(U16 ctag)
+<b><a name="line4108">4108    </a></b>	{
+<b><a name="line4109">4109    </a></b>	    return (U8)r_all_CMD_AES_ERR(ctag);
+<b><a name="line4110">4110    </a></b>	}
+<b><a name="line4111">4111    </a></b>	
+<b><a name="line4112">4112    </a></b>	U8 dal_cmgr_get_ct_cmd_pi_err(U16 ctag)
+<b><a name="line4113">4113    </a></b>	{
+<b><a name="line4114">4114    </a></b>	    return (U8)r_all_CMD_PI_ERR(ctag);
+<b><a name="line4115">4115    </a></b>	}
+<b><a name="line4116">4116    </a></b>	
+<b><a name="line4117">4117    </a></b>	U8 dal_cmgr_get_ct_cmd_prinfo_err_cv(U16 ctag)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "dal_cmgr_get_ct_cmd_prinfo_err_cv", which is ambiguous.</font>
+<b><a name="line4118">4118    </a></b>	{
+<b><a name="line4119">4119    </a></b>	    return (U8)r_all_CMD_PRINFO_ERR_CV(ctag);
+<b><a name="line4120">4120    </a></b>	}
+<b><a name="line4121">4121    </a></b>	
+<b><a name="line4122">4122    </a></b>	U8 dal_cmgr_get_ct_cmd_prinfo_err_wzc(U16 ctag)
+<b><a name="line4123">4123    </a></b>	{
+<b><a name="line4124">4124    </a></b>	    return (U8)r_all_CMD_PRINFO_ERR_WZC(ctag);
+<b><a name="line4125">4125    </a></b>	}
+<b><a name="line4126">4126    </a></b>	
+<b><a name="line4127">4127    </a></b>	U8 dal_cmgr_get_ct_cmd_prinfo_err_copy(U16 ctag)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "dal_cmgr_get_ct_cmd_prinfo_err_copy" and "dal_cmgr_get_ct_cmd_prinfo_err_cv" are identical.</font>
+<b><a name="line4128">4128    </a></b>	{
+<b><a name="line4129">4129    </a></b>	    return (U8)r_all_CMD_PRINFO_ERR_COPY(ctag);
+<b><a name="line4130">4130    </a></b>	}
+<b><a name="line4131">4131    </a></b>	
+<b><a name="line4132">4132    </a></b>	U8 dal_cmgr_get_ct_pir_err(U16 ctag)
+<b><a name="line4133">4133    </a></b>	{
+<b><a name="line4134">4134    </a></b>	    return (U8)r_all_CMD_PIR_ERR(ctag);
+<b><a name="line4135">4135    </a></b>	}
+<b><a name="line4136">4136    </a></b>	
+<b><a name="line4137">4137    </a></b>	U8 dal_cmgr_get_ct_cmd_zap_err(U16 ctag)
+<b><a name="line4138">4138    </a></b>	{
+<b><a name="line4139">4139    </a></b>	    return (U8)r_all_CMD_ZAP_ERR(ctag);
+<b><a name="line4140">4140    </a></b>	}
+<b><a name="line4141">4141    </a></b>	
+<b><a name="line4142">4142    </a></b>	U8 dal_cmgr_get_ct_cmd_nl_err(U16 ctag)
+<b><a name="line4143">4143    </a></b>	{
+<b><a name="line4144">4144    </a></b>	    return (U8)r_all_CMD_NL_ERR(ctag);
+<b><a name="line4145">4145    </a></b>	}
+<b><a name="line4146">4146    </a></b>	
+<b><a name="line4147">4147    </a></b>	U8 dal_cmgr_get_ct_cmd_cp_err(U16 ctag)
+<b><a name="line4148">4148    </a></b>	{
+<b><a name="line4149">4149    </a></b>	    return (U8)r_all_CMD_CMD_CP_ERR(ctag);
+<b><a name="line4150">4150    </a></b>	}
+<b><a name="line4151">4151    </a></b>	
+<b><a name="line4152">4152    </a></b>	U8 dal_cmgr_get_ct_cmd_fip_err(U16 ctag)
+<b><a name="line4153">4153    </a></b>	{
+<b><a name="line4154">4154    </a></b>	    return (U8)r_all_CMD_CMD_FIP_ERR(ctag);
+<b><a name="line4155">4155    </a></b>	}
+<b><a name="line4156">4156    </a></b>	
+<b><a name="line4157">4157    </a></b>	U8 dal_cmgr_get_ct_cmd_nr_err(U16 ctag)
+<b><a name="line4158">4158    </a></b>	{
+</pre></body>
+</html>

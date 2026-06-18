@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/c0_host_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line211">211    </a></b>	
+<b><a name="line212">212    </a></b>	extern HOST_API_STRUCT gHostApiStruct;
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	/*
+<b><a name="line215">215    </a></b>	 * host_rst.c
+<b><a name="line216">216    </a></b>	 */
+<b><a name="line217">217    </a></b>	
+<b><a name="line218">218    </a></b>	extern void host_var_reset(HOST_API_STRUCT_PTR host);
+<b><a name="line219">219    </a></b>	extern void host_api_chk_pcie_link_without_isr(HOST_API_STRUCT_PTR host);
+<b><a name="line220">220    </a></b>	extern U8 host_api_pcie_link_without_isr(HOST_API_STRUCT_PTR host, U8 port_mode, U8 p_ofst, U8 ssc_en, U8 *is_xtal_mode);
+<b><a name="line221">221    </a></b>	#if HOST_ID_TABLE
+<b><a name="line222">222    </a></b>	extern void host_api_set_id_table_config(HOST_API_STRUCT_PTR host);
+<b><a name="line223">223    </a></b>	#endif
+<b><a name="line224">224    </a></b>	extern void host_api_set_fastlink_landmark(HOST_API_STRUCT_PTR host, U8 mode);
+<b><a name="line225">225    </a></b>	extern void host_api_set_pcie_iccm_dccm_landmark(void);
+<b><a name="line226">226    </a></b>	extern void host_api_nvme_main(HOST_API_STRUCT_PTR host);
+<b><a name="line227">227    </a></b>	
+<b><a name="line228">228    </a></b>	/*
+<b><a name="line229">229    </a></b>	 * host_common.c
+<b><a name="line230">230    </a></b>	 */
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	extern void host_api_enable_host_int(void);
+<b><a name="line233">233    </a></b>	extern void host_api_disable_host_int(void);
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	extern void nvme_clr_cmgr_hw_lock(void);
+<b><a name="line236">236    </a></b>	extern BOOL nvme_check_cpl_err_status(HOST_API_STRUCT_PTR host);
+<b><a name="line237">237    </a></b>	extern void nvme_send_cpl_normal(HOST_API_STRUCT_PTR host);
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	extern void nvme_htd_handle(HOST_API_STRUCT_PTR host, U8 dir);
+<b><a name="line240">240    </a></b>	extern void nvme_htd_handle_io(HOST_API_STRUCT_PTR host, U8 dir);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "nvme_htd_handle_io" is declared but never defined.</font>
+<b><a name="line241">241    </a></b>	extern void nvme_err_handle(HOST_API_STRUCT_PTR host);
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	extern void nvme_send_cpl_after_jump(HOST_API_STRUCT_PTR host);
+<b><a name="line244">244    </a></b>	extern void host_handler(HOST_API_STRUCT_PTR host);
+<b><a name="line245">245    </a></b>	extern void nvme_set_cpl_sts(HOST_API_STRUCT_PTR host, U8 sct, U8 sc);
+<b><a name="line246">246    </a></b>	extern void nvme_get_cmd(HOST_API_STRUCT_PTR host);
+<b><a name="line247">247    </a></b>	extern void nvme_dispatch_cmd(HOST_API_STRUCT_PTR host);
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	/*
+<b><a name="line251">251    </a></b>	 * host_cmd_adm.c
+<b><a name="line252">252    </a></b>	 */
+<b><a name="line253">253    </a></b>	extern U8   chk_mctp_mi_adm_support(U8 opcode);
+<b><a name="line254">254    </a></b>	extern U8   chk_mctp_mi_adm_prohibit(U8 opcode);
+<b><a name="line255">255    </a></b>	extern U8   chk_mctp_mi_adm_need_data_out(U8 opcode);
+<b><a name="line256">256    </a></b>	extern void nvme_adm_cmd_handler(HOST_API_STRUCT_PTR host);
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	/*
+<b><a name="line259">259    </a></b>	 * host_cmd_nvm.c
+<b><a name="line260">260    </a></b>	 */
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	extern void nvme_nvm_cmd_handler(HOST_API_STRUCT_PTR host);
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	/*
+<b><a name="line265">265    </a></b>	 * host_init.c
+<b><a name="line266">266    </a></b>	 */
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	//extern void host_pcie_r_sram_init(U8 port_mode);
+<b><a name="line269">269    </a></b>	void host_pcie_init(HOST_API_STRUCT_PTR host);
+<b><a name="line270">270    </a></b>	void host_pcie_init_interrupt_resource(void);
+<b><a name="line271">271    </a></b>	void host_snps_reg_init(PCIE_STRUCT_PTR pcie);
+</pre></body>
+</html>

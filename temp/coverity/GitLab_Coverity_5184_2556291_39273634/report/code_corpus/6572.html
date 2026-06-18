@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line721">721    </a></b>	    } while (((data_buf & status_mask) != status_cmp) && (status == 0U));
+<b><a name="line722">722    </a></b>	
+<b><a name="line723">723    </a></b>	    return status;
+<b><a name="line724">724    </a></b>	}
+<b><a name="line725">725    </a></b>	
+<b><a name="line726">726    </a></b>	U32 fip_api_res_read_offset(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr)
+<b><a name="line727">727    </a></b>	{
+<b><a name="line728">728    </a></b>	    U32 status;
+<b><a name="line729">729    </a></b>	    U8  rty_tbl[EFUSE_PARAM_READ_RTY_DAT_SIZE] = {0U};
+<b><a name="line730">730    </a></b>	    U8  cnt;
+<b><a name="line731">731    </a></b>	    U8  set_feat_dat[FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line732">732    </a></b>	    U8  get_feat_dat[FLH_MAX_CH_NUM][FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line733">733    </a></b>	    U8  ch, bank, die, plane;
+<b><a name="line734">734    </a></b>	    //HAL_FIP_INT_MSG_STRUCT cq;
+<b><a name="line735">735    </a></b>	    //HAL_FIP_INT_INF_STRUCT int_inf;
+<b><a name="line736">736    </a></b>	    //HAL_FIP_SRQ_ERR_MAP_INF_STRUCT err_map_inf[HAL_FIP_ERR_MAP_NUM];
+<b><a name="line737">737    </a></b>	
+<b><a name="line738">738    </a></b>	    status  = 0U;
+<b><a name="line739">739    </a></b>	    cnt     = 0U;
+<b><a name="line740">740    </a></b>	    ch      = PCA_2_CHANNEL(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line741">741    </a></b>	    bank    = PCA_2_BANK(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line742">742    </a></b>	    die     = PCA_2_DIE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line743">743    </a></b>	    plane   = PCA_2_PLANE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line744">744    </a></b>	
+<b><a name="line745">745    </a></b>	    (void)memset((void *)set_feat_dat, 0, sizeof(set_feat_dat));
+<b><a name="line746">746    </a></b>	    (void)memset((void *)get_feat_dat, 0, sizeof(get_feat_dat));
+<b><a name="line747">747    </a></b>	
+<b><a name="line748">748    </a></b>	    if (gFplApiStruct.retry_by_prefix == TRUE)
+<b><a name="line749">749    </a></b>	    {
+<b><a name="line750">750    </a></b>	        if((FALSE == gFplApiStruct.p_efuse_nand_setting->flow_for_nbs_test) || (1 == gFplApiStruct.p_efuse_nand_setting->lru_disable))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (boolean) is not the same as that of the right operand "(*gFplApiStruct.p_efuse_nand_setting).flow_for_nbs_test"(unsigned).</font>
+<b><a name="line751">751    </a></b>	        {
+<b><a name="line752">752    </a></b>	            fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_PREFIX_FOR_RETRY]), fip_read_param_struct_ptr, rty_tbl);
+<b><a name="line753">753    </a></b>	            status |= fip_api_chk_status(ch, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_RDY_BUSY | HAL_FLH_CHK_NAND_BUSY));
+<b><a name="line754">754    </a></b>	            //receive the cq result of the read trigger
+<b><a name="line755">755    </a></b>	            //only datr, prew, dmaw, dmar, sdmar, br, nand_unresp, timer cmd will response CQ in X3
+<b><a name="line756">756    </a></b>	            //status |= hal_fip_cq_handler_for_bootcode(&cq, &int_inf, &err_map_inf[0U]);
+<b><a name="line757">757    </a></b>	        }
+<b><a name="line758">758    </a></b>	    }
+<b><a name="line759">759    </a></b>	    else {
+<b><a name="line760">760    </a></b>	        do {
+<b><a name="line761">761    </a></b>	            status |= fip_set_feature_retry(&(gFipInstStruct.inst[INST_ID_SET_FEAT_FOR_RETRY]), rty_tbl, ch, bank, plane, die, set_feat_dat);
+<b><a name="line762">762    </a></b>	
+<b><a name="line763">763    </a></b>	            if (status == 0U) {
+<b><a name="line764">764    </a></b>	                status |= fip_get_feature_retry(&(gFipInstStruct.inst[INST_ID_SET_FEAT_FOR_RETRY]), rty_tbl, ch, bank, plane, die, (U8 *)&get_feat_dat);
+<b><a name="line765">765    </a></b>	
+<b><a name="line766">766    </a></b>	                if (status == 0U) {
+<b><a name="line767">767    </a></b>	                    if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line768">768    </a></b>	                        break;
+<b><a name="line769">769    </a></b>	                    }
+<b><a name="line770">770    </a></b>	                }
+<b><a name="line771">771    </a></b>	            }
+<b><a name="line772">772    </a></b>	            cnt++;
+<b><a name="line773">773    </a></b>	        } while ((cnt < FLH_SET_FEAT_CNT_MAX) && (status == 0U));
+<b><a name="line774">774    </a></b>	
+<b><a name="line775">775    </a></b>	        if (cnt == FLH_SET_FEAT_CNT_MAX) {
+<b><a name="line776">776    </a></b>	            status |= HAL_STATUS_SET_FEAT_DAT_CMP_FAIL;
+<b><a name="line777">777    </a></b>	        }
+<b><a name="line778">778    </a></b>	
+<b><a name="line779">779    </a></b>	        if ((TRUE == gFplApiStruct.p_efuse_nand_setting->flow_for_nbs_test) && (1 == gFplApiStruct.p_efuse_nand_setting->lru_disable))
+<b><a name="line780">780    </a></b>	        {
+<b><a name="line781">781    </a></b>	            if (gFplApiStruct.retry_by_set_parm == TRUE)
+</pre></body>
+</html>

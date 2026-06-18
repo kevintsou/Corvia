@@ -1,0 +1,500 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/flibhal_smbus.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>211</line>
+<column>40</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                       ^</description>
+<line>211</line>
+<column>40</column>
+</event>
+<extra>typedef U32 (* SMBS_PROTOCOL_HDL_FPTR)(SMBUS_BUFFER_T *, SMBUS_BUFFER_T *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/flibhal_smbus.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>211</line>
+<column>58</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                         ^</description>
+<line>211</line>
+<column>58</column>
+</event>
+<extra>typedef U32 (* SMBS_PROTOCOL_HDL_FPTR)(SMBUS_BUFFER_T *, SMBUS_BUFFER_T *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/flibhal/flibhal_smbus.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>212</line>
+<column>37</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                    ^</description>
+<line>212</line>
+<column>37</column>
+</event>
+<extra>typedef U32 (* SMBS_ERROR_HDL_FPTR)(SMBUS_BUFFER_T *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_cpu.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Explicit void keyword for empty parameter list has been omitted.</description>
+<line>115</line>
+<column>40</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                       ^</description>
+<line>115</line>
+<column>40</column>
+</event>
+<extra>ALWAYS_INLINE void CPUEnterStandbyMode()</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>123</line>
+<column>38</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                     ^</description>
+<line>123</line>
+<column>38</column>
+</event>
+<extra>typedef U32 (*SMBS_PROTOCOL_HDL_PTR)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>123</line>
+<column>46</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                             ^</description>
+<line>123</line>
+<column>46</column>
+</event>
+<extra>typedef U32 (*SMBS_PROTOCOL_HDL_PTR)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>123</line>
+<column>51</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                  ^</description>
+<line>123</line>
+<column>51</column>
+</event>
+<extra>typedef U32 (*SMBS_PROTOCOL_HDL_PTR)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>123</line>
+<column>67</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                                  ^</description>
+<line>123</line>
+<column>67</column>
+</event>
+<extra>typedef U32 (*SMBS_PROTOCOL_HDL_PTR)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>124</line>
+<column>35</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                  ^</description>
+<line>124</line>
+<column>35</column>
+</event>
+<extra>typedef U32 (*SMBS_ERROR_HDL_PTR)(void *, U16, U32, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>124</line>
+<column>43</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                          ^</description>
+<line>124</line>
+<column>43</column>
+</event>
+<extra>typedef U32 (*SMBS_ERROR_HDL_PTR)(void *, U16, U32, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>124</line>
+<column>48</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                               ^</description>
+<line>124</line>
+<column>48</column>
+</event>
+<extra>typedef U32 (*SMBS_ERROR_HDL_PTR)(void *, U16, U32, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>124</line>
+<column>53</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                    ^</description>
+<line>124</line>
+<column>53</column>
+</event>
+<extra>typedef U32 (*SMBS_ERROR_HDL_PTR)(void *, U16, U32, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>171</line>
+<column>108</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                                                                           ^</description>
+<line>171</line>
+<column>108</column>
+</event>
+<extra>U32  sys_api_smbs_register_device(SMBS *p_smbs, SMBUS_ADDRESS_INDEX device_index, SMBS_ARP_EXT *p_arp_ext, SMBS_PROTOCOL_HDL_PTR, void *p_handler_object);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>391</line>
+<column>29</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                            ^</description>
+<line>391</line>
+<column>29</column>
+</event>
+<extra>    U32 (*p_device_handler)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>391</line>
+<column>37</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                    ^</description>
+<line>391</line>
+<column>37</column>
+</event>
+<extra>    U32 (*p_device_handler)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>391</line>
+<column>42</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                         ^</description>
+<line>391</line>
+<column>42</column>
+</event>
+<extra>    U32 (*p_device_handler)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>391</line>
+<column>58</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                                         ^</description>
+<line>391</line>
+<column>58</column>
+</event>
+<extra>    U32 (*p_device_handler)(void *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Parameter name for function prototype has been omitted.</description>
+<line>10262</line>
+<column>23</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                      ^</description>
+<line>10262</line>
+<column>23</column>
+</event>
+<extra>typedef U32 (*FP_KAT)(U32);</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Explicit void keyword for empty parameter list has been omitted.</description>
+<line>97</line>
+<column>20</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                   ^</description>
+<line>97</line>
+<column>20</column>
+</event>
+<extra>void hal_cop0_init()</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.2</checker>
+<type>MISRA_C_2012_Rule_8.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_2_violation</tag>
+<description>Explicit void keyword for empty parameter list has been omitted.</description>
+<line>108</line>
+<column>25</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                        ^</description>
+<line>108</line>
+<column>25</column>
+</event>
+<extra>void hal_fip_basic_init()</extra>
+<subcategory>none</subcategory>
+</error>

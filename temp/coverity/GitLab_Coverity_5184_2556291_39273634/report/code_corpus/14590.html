@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/nvme/hal_flow_nvme_nl_func.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line31">31    </a></b>	void hal_nl_set_csts_rdy(U16 f_ofst);
+<b><a name="line32">32    </a></b>	void hal_nl_set_wrr(U16 f_ofst);
+<b><a name="line33">33    </a></b>	void hal_nl_set_sq_desp_n0_data(U16 q_ofst, U32 val);
+<b><a name="line34">34    </a></b>	void hal_nl_set_sq_desp_n1_data(U16 q_ofst, U32 val);
+<b><a name="line35">35    </a></b>	void hal_nl_set_sq_desp_n2_data(U16 q_ofst, U32 val);
+<b><a name="line36">36    </a></b>	void hal_nl_set_sq_desp_n3_data(U16 q_ofst, U32 val);
+<b><a name="line37">37    </a></b>	void hal_nl_set_sq_en(U16 q_ofst);
+<b><a name="line38">38    </a></b>	void hal_nl_set_sq_cqid(U16 q_ofst, U8 cqid);
+<b><a name="line39">39    </a></b>	void hal_nl_set_sq_pri(U16 q_ofst, U8 pri);
+<b><a name="line40">40    </a></b>	void hal_nl_set_sq_base(U16 q_ofst, U64 address);
+<b><a name="line41">41    </a></b>	void hal_nl_set_sq_size(U16 q_ofst, U16 size);
+<b><a name="line42">42    </a></b>	void hal_nl_set_cq_desp_n0_data(U16 q_ofst, U32 val);
+<b><a name="line43">43    </a></b>	void hal_nl_set_cq_desp_n1_data(U16 q_ofst, U32 val);
+<b><a name="line44">44    </a></b>	void hal_nl_set_cq_desp_n2_data(U16 q_ofst, U32 val);
+<b><a name="line45">45    </a></b>	void hal_nl_set_cq_desp_n3_data(U16 q_ofst, U32 val);
+<b><a name="line46">46    </a></b>	void hal_nl_set_cq_ivid(U16 q_ofst, U8 ivid);
+<b><a name="line47">47    </a></b>	void hal_nl_set_cq_en(U16 q_ofst);
+<b><a name="line48">48    </a></b>	void hal_nl_set_cq_ie(U16 q_ofst);
+<b><a name="line49">49    </a></b>	void hal_nl_set_cq_base(U16 q_ofst, U64 address);
+<b><a name="line50">50    </a></b>	void hal_nl_set_cq_size(U16 q_ofst, U16 size);
+<b><a name="line51">51    </a></b>	U8 hal_nl_get_int_info_event(void);
+<b><a name="line52">52    </a></b>	U8 hal_nl_get_int_info_pid(void);
+<b><a name="line53">53    </a></b>	U8 hal_nl_get_int_info_etype(void);
+<b><a name="line54">54    </a></b>	U64 hal_nl_get_bt_qw_data(void);
+<b><a name="line55">55    </a></b>	U8 hal_nl_get_sram_init(void);
+<b><a name="line56">56    </a></b>	U8 hal_nl_get_del_req(void);
+<b><a name="line57">57    </a></b>	U8 hal_nl_get_cap_cqr(U8 f_ofst);
+<b><a name="line58">58    </a></b>	U16 hal_nl_get_fqb(U16 f_ofst);
+<b><a name="line59">59    </a></b>	U16 hal_nl_get_fqc(U16 f_ofst);
+<b><a name="line60">60    </a></b>	U8 hal_nl_get_cc_mps(U16 f_ofst);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "hal_nl_get_cc_mps" is declared but never defined.</font>
+<b><a name="line61">61    </a></b>	U8 hal_nl_get_cc_ams(U16 f_ofst);
+<b><a name="line62">62    </a></b>	U8 hal_nl_get_wrr(U16 f_ofst);
+<b><a name="line63">63    </a></b>	U8 hal_nl_get_sq_en(U16 q_ofst);
+<b><a name="line64">64    </a></b>	U8 hal_nl_get_sq_cqid(U16 q_ofst);
+<b><a name="line65">65    </a></b>	U16 hal_nl_get_sq_size(U16 q_ofst);
+<b><a name="line66">66    </a></b>	U8 hal_nl_get_cq_en(U16 q_ofst);
+<b><a name="line67">67    </a></b>	U16 hal_nl_get_cq_size(U16 q_ofst);
+<b><a name="line68">68    </a></b>	void hal_nl_w1c_int_info_event(void);
+<b><a name="line69">69    </a></b>	void hal_nl_clr_p_blk_cmd_en(U8 p_ofst);
+<b><a name="line70">70    </a></b>	void hal_nl_clr_p_auto_shst_en(U8 p_ofst);
+<b><a name="line71">71    </a></b>	void hal_nl_clr_port_mask(U8 p_ofst);
+<b><a name="line72">72    </a></b>	void hal_nl_clr_del_data(void);
+<b><a name="line73">73    </a></b>	void hal_nl_clr_iosq_mask(U16 q_ofst);
+<b><a name="line74">74    </a></b>	void hal_nl_clr_pf_cap_bps(U8 p_ofst, U8 pfid);
+<b><a name="line75">75    </a></b>	void hal_nl_clr_pf_cap_pmrs(U8 p_ofst, U8 pfid);
+<b><a name="line76">76    </a></b>	void hal_nl_clr_pf_cap_cmbs(U8 p_ofst, U8 pfid);
+<b><a name="line77">77    </a></b>	void hal_nl_clr_wrr(U16 f_ofst);
+<b><a name="line78">78    </a></b>	void hal_nl_clr_sq_en(U16 q_ofst);
+<b><a name="line79">79    </a></b>	void hal_nl_clr_cq_en(U16 q_ofst);
+<b><a name="line80">80    </a></b>	void hal_nl_clr_cq_ie(U16 q_ofst);
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	#endif /*HAL_FLOW_NVME__NL_FUNC_H*/
+<b><a name="line83">83    </a></b>	
+</pre></body>
+</html>

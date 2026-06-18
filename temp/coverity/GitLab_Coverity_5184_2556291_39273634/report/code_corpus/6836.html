@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1327">1327    </a></b>	    case LID_SMART_INFO:    // (M)
+<b><a name="line1328">1328    </a></b>	        Dump_NVME(tprintf("      >> SMART Info Log\n\r"));
+<b><a name="line1329">1329    </a></b>	        smart_data_ptr                       = ( NVME_SMART_DATA_PTR )buf_addr;
+<b><a name="line1330">1330    </a></b>	        smart_data_ptr->comp_temp            = 273 + 30;
+<b><a name="line1331">1331    </a></b>	        smart_data_ptr->available_spare      = 100;
+<b><a name="line1332">1332    </a></b>	        smart_data_ptr->available_spare_thes = 5;
+<b><a name="line1333">1333    </a></b>	
+<b><a name="line1334">1334    </a></b>	        // set log data index for SLOG_RCMD_CNT
+<b><a name="line1335">1335    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_READ, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line1336">1336    </a></b>	        rcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line1337">1337    </a></b>	
+<b><a name="line1338">1338    </a></b>	        // set log data index for SLOG_RDATA_CNT
+<b><a name="line1339">1339    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_READ, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line1340">1340    </a></b>	        rdata_cnt = hal_nvme_get_rw_log_from_qw_ctrl(1U);
+<b><a name="line1341">1341    </a></b>	
+<b><a name="line1342">1342    </a></b>	        // set log data index for SLOG_WCMD_CNT
+<b><a name="line1343">1343    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_WRITE, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line1344">1344    </a></b>	        wcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line1345">1345    </a></b>	
+<b><a name="line1346">1346    </a></b>	        // set log data index for SLOG_WDATA_CNT
+<b><a name="line1347">1347    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_WRITE, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line1348">1348    </a></b>	        wdata_cnt = hal_nvme_get_rw_log_from_qw_ctrl(1U);
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	        // set log data index for busy timer
+<b><a name="line1351">1351    </a></b>	        busy_time = hal_nvme_get_busytime_from_qw_ctrl(PCIE_PF_0);
+<b><a name="line1352">1352    </a></b>	
+<b><a name="line1353">1353    </a></b>	        smart_data_ptr->data_unit_read_l     = ( (rdata_cnt % 1000) == 0 ) ? ( rdata_cnt / 1000 ) : (rdata_cnt / 1000 + 1);
+<b><a name="line1354">1354    </a></b>	        smart_data_ptr->data_unit_write_l    = ( (wdata_cnt % 1000) == 0 ) ? ( wdata_cnt / 1000 ) : (wdata_cnt / 1000 + 1);
+<b><a name="line1355">1355    </a></b>	        smart_data_ptr->host_read_cmds_l     = ( (rcmd_cnt  % 1000) == 0 ) ? ( rcmd_cnt  / 1000 ) : (rcmd_cnt  / 1000 + 1);
+<b><a name="line1356">1356    </a></b>	        smart_data_ptr->host_write_cmds_l    = ( (wcmd_cnt  % 1000) == 0 ) ? ( wcmd_cnt  / 1000 ) : (wcmd_cnt  / 1000 + 1);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "wcmd_cnt % 1000ULL" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line1357">1357    </a></b>	        smart_data_ptr->ctrlr_busy_time_l    = busy_time;
+<b><a name="line1358">1358    </a></b>	
+<b><a name="line1359">1359    </a></b>	        smart_data_ptr->pwr_cycles_l         = 1;
+<b><a name="line1360">1360    </a></b>	
+<b><a name="line1361">1361    </a></b>	        break;
+<b><a name="line1362">1362    </a></b>	
+<b><a name="line1363">1363    </a></b>	    case LID_FW_SLOT_INFO:  // (M)
+<b><a name="line1364">1364    </a></b>	        Dump_NVME(tprintf("      >> FW Slot Log\n\r"));
+<b><a name="line1365">1365    </a></b>	        fw_slot_ptr = (NVME_FW_SLOT_INFO_PTR)buf_addr;
+<b><a name="line1366">1366    </a></b>	        fw_slot_ptr->afi = (1 << 4) | 1;    // both this time and next time use slot 1
+<b><a name="line1367">1367    </a></b>	        memcpy((void *) & (fw_slot_ptr->fsr1[0]), (void *) & (fw_version[0]), HOST_FW_VER_BYTES);
+<b><a name="line1368">1368    </a></b>	        break;
+<b><a name="line1369">1369    </a></b>	
+<b><a name="line1370">1370    </a></b>	    default:
+<b><a name="line1371">1371    </a></b>	        Dump_NVME(tprintf("      >> Invalid Log\n\r"));
+<b><a name="line1372">1372    </a></b>	        vuc_cq_report_status(param->cq, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_LOG_PAGE);
+<b><a name="line1373">1373    </a></b>	        break;
+<b><a name="line1374">1374    </a></b>	    }
+<b><a name="line1375">1375    </a></b>	
+<b><a name="line1376">1376    </a></b>	}
+<b><a name="line1377">1377    </a></b>	
+<b><a name="line1378">1378    </a></b>	U8 chk_mctp_mi_adm_support(U8 opcode)
+<b><a name="line1379">1379    </a></b>	{
+<b><a name="line1380">1380    </a></b>	    U8 rslt = FALSE;
+<b><a name="line1381">1381    </a></b>	
+<b><a name="line1382">1382    </a></b>	    switch (opcode) {
+<b><a name="line1383">1383    </a></b>	    case ADM_OPC_GET_LOG_PAGE: //(M)-(0x02)
+<b><a name="line1384">1384    </a></b>	    case ADM_OPC_IDENTIFY:     //(M)-(0x06)
+<b><a name="line1385">1385    </a></b>	    case ADM_OPC_SET_FEAT:
+<b><a name="line1386">1386    </a></b>	    case ADM_OPC_GET_FEAT:     //(M)-(0x0A)
+<b><a name="line1387">1387    </a></b>	    case ADM_OPC_FW_COMMIT:
+</pre></body>
+</html>

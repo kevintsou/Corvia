@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line82">82    </a></b>	        }
+<b><a name="line83">83    </a></b>	        else {
+<b><a name="line84">84    </a></b>	            gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line85">85    </a></b>	        }
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line89">89    </a></b>	    memset((void *)(gVUCProtect.a_session_key), 0x00, sizeof(gVUCProtect.a_session_key));
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return;
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	BOOL vuc_send_secure_info(VUC_DISPATCH_PARAM_STRUCT_PTR param, U32 host_buf){
+<b><a name="line95">95    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line96">96    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line97">97    </a></b>	    U32 buf_addr = host_buf;
+<b><a name="line98">98    </a></b>	    SECURE_KEY_INFO_COMMON *p_secure_key_info_common = (SECURE_KEY_INFO_COMMON *)buf_addr;
+<b><a name="line99">99    </a></b>	    RSA4096_PUBLIC_KEY_PTR p_vuc_protect_key_rsa4096 = (RSA4096_PUBLIC_KEY_PTR)DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_BASE;
+<b><a name="line100">100    </a></b>	    EFUSE_VUC_PROTECT_KEY_HASH *p_efuse_vuc_protect_key_hash;
+<b><a name="line101">101    </a></b>	    U8  *key_header = (U8 *)buf_addr;
+<b><a name="line102">102    </a></b>	    VUC_PROTECT *p_vuc_protect = &gVUCProtect;
+<b><a name="line103">103    </a></b>	    U8 rng[6] = {0};
+<b><a name="line104">104    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line105">105    </a></b>	    U32 hash_buffer = DBUF_API_BOOTCODE_HASH_BUFFER_BASE;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if ((key_header[0] == 0x50) && (key_header[1] == 0x68) && (key_header[2] == 0x49) && (key_header[3] == 0x73) && (key_header[4] == 0x4F) &&
+<b><a name="line108">108    </a></b>	        (key_header[5] == 0x6E) && (key_header[6] == 0x4E) && (key_header[7] == 0x6F) && (key_header[8] == 0x2E) && (key_header[9] == 0x31)) {
+<b><a name="line109">109    </a></b>	        // key header is "PhisonNo.1"
+<b><a name="line110">110    </a></b>	        p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_DOWNLOAD;
+<b><a name="line111">111    </a></b>	        p_vuc_protect->rsa_key_idx   = (p_secure_key_info_common->ucKeyIndex[0] << 8) |  (p_secure_key_info_common->ucKeyIndex[1] << 0);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "(p_secure_key_info_common->ucKeyIndex[0] << 8) | (p_secure_key_info_common->ucKeyIndex[1] << 0)" of width 8 to a target of width 16.</font>
+<b><a name="line112">112    </a></b>	        p_vuc_protect->ucEndian      = p_secure_key_info_common->ucEndian;
+<b><a name="line113">113    </a></b>	        //copy public key
+<b><a name="line114">114    </a></b>	        memcpy((void *)&p_vuc_protect->rsa4096_key, (void *)(buf_addr + sizeof(SECURE_KEY_INFO_COMMON)), sizeof(RSA4096_PUBLIC_KEY));
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	        if (p_vuc_protect->ucEndian) {
+<b><a name="line117">117    </a></b>	            /* coverity[overrun-buffer-arg] */
+<b><a name="line118">118    </a></b>	            memcpy((void *)p_vuc_protect_key_rsa4096, (void *)&p_vuc_protect->rsa4096_key, sizeof(RSAPublicKey_t));
+<b><a name="line119">119    </a></b>	        }
+<b><a name="line120">120    </a></b>	        else {
+<b><a name="line121">121    </a></b>	            sal_reverse_copy(	(void *)p_vuc_protect_key_rsa4096->key.n,		    (void *)&p_vuc_protect->rsa4096_key.key.n, 	VUA_RSA_BYTE_CNT);
+<b><a name="line122">122    </a></b>	            sal_reverse_copy(	(void *)&p_vuc_protect_key_rsa4096->key.e,		    (void *)&p_vuc_protect->rsa4096_key.key.e,	VUA_RSA_BYTE_CNT_E);
+<b><a name="line123">123    </a></b>	            memcpy(		 		(void *)p_vuc_protect_key_rsa4096->n0,	        (void *)&p_vuc_protect->rsa4096_key.n0,	VUA_RSA_BYTE_CNT_N0);
+<b><a name="line124">124    </a></b>	            sal_reverse_copy(	(void *)p_vuc_protect_key_rsa4096->r,		    (void *)&p_vuc_protect->rsa4096_key.r, 	VUA_RSA_BYTE_CNT);
+<b><a name="line125">125    </a></b>	            sal_reverse_copy(	(void *)p_vuc_protect_key_rsa4096->rr,	        (void *)&p_vuc_protect->rsa4096_key.rr,	VUA_RSA_BYTE_CNT);
+<b><a name="line126">126    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line127">127    </a></b>	            // tprintf("p_vuc_protect_key_rsa4096->key.n : ");
+<b><a name="line128">128    </a></b>	            // tprintm((U32)p_vuc_protect_key_rsa4096->key.n, VUA_RSA_BYTE_CNT);
+<b><a name="line129">129    </a></b>	            // tprintf("p_vuc_protect_key_rsa4096->key.e : ");
+<b><a name="line130">130    </a></b>	            // tprintm((U32)(U8 *)&p_vuc_protect_key_rsa4096->key.e, VUA_RSA_BYTE_CNT_E);
+<b><a name="line131">131    </a></b>	            // tprintf("p_vuc_protect_key_rsa4096->n0 : ");
+<b><a name="line132">132    </a></b>	            // tprintm((U32)p_vuc_protect_key_rsa4096->n0, VUA_RSA_BYTE_CNT_N0);
+<b><a name="line133">133    </a></b>	            // tprintf("p_vuc_protect_key_rsa4096->r : ");
+<b><a name="line134">134    </a></b>	            // tprintm((U32)p_vuc_protect_key_rsa4096->r, VUA_RSA_BYTE_CNT);
+<b><a name="line135">135    </a></b>	            // tprintf("p_vuc_protect_key_rsa4096->rr : ");
+<b><a name="line136">136    </a></b>	            // tprintm((U32)p_vuc_protect_key_rsa4096->rr, VUA_RSA_BYTE_CNT);
+<b><a name="line137">137    </a></b>	#endif
+<b><a name="line138">138    </a></b>	        }
+<b><a name="line139">139    </a></b>	    }
+<b><a name="line140">140    </a></b>	    //Check the hash of the public key
+<b><a name="line141">141    </a></b>	    p_efuse_vuc_protect_key_hash = get_efuse_vuc_protect_key_hash(&gEFuseAPI);
+<b><a name="line142">142    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3585">3585    </a></b>	
+<b><a name="line3586">3586    </a></b>	        p_code_pointer_block_status->firmware_priority_used = FIRMWARE_PRIORITY_INVALID;
+<b><a name="line3587">3587    </a></b>	        return 1;
+<b><a name="line3588">3588    </a></b>	    }
+<b><a name="line3589">3589    </a></b>	    else {
+<b><a name="line3590">3590    </a></b>	
+<b><a name="line3591">3591    </a></b>	        Dump_ScanID(tprintf("Using FW Slot Number %d", p_code_pointer_block_status->firmware_priority_used));
+<b><a name="line3592">3592    </a></b>	        return 0;
+<b><a name="line3593">3593    </a></b>	    }
+<b><a name="line3594">3594    </a></b>	}
+<b><a name="line3595">3595    </a></b>	
+<b><a name="line3596">3596    </a></b>	static void create_code_pointer_block_status(CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status)
+<b><a name="line3597">3597    </a></b>	{
+<b><a name="line3598">3598    </a></b>	    memset((void *)p_code_pointer_block_status, 0x00, sizeof(CODE_POINTER_BLOCK_STATUS));
+<b><a name="line3599">3599    </a></b>	
+<b><a name="line3600">3600    </a></b>	    p_code_pointer_block_status->code_pointer_offset = 0xFFFF;
+<b><a name="line3601">3601    </a></b>	    p_code_pointer_block_status->firmware_priority_used = FIRMWARE_PRIORITY_INVALID;
+<b><a name="line3602">3602    </a></b>	    memset((void*)p_code_pointer_block_status->a_id_table_fsa, 0xFF, sizeof(p_code_pointer_block_status->a_id_table_fsa));
+<b><a name="line3603">3603    </a></b>	    return;
+<b><a name="line3604">3604    </a></b>	}
+<b><a name="line3605">3605    </a></b>	
+<b><a name="line3606">3606    </a></b>	void create_load_code_status(LOAD_CODE_STATUS *p_load_code_status, ID_TABLE *a_id_table, CODE_POINTER *p_code_pointer, PROJECT_BINARY_HEADER *p_project_binary_header, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line3607">3607    </a></b>	{
+<b><a name="line3608">3608    </a></b>	    U32 flash_error_type;
+<b><a name="line3609">3609    </a></b>	    U32 copy;
+<b><a name="line3610">3610    </a></b>	    U32 channel;
+<b><a name="line3611">3611    </a></b>	
+<b><a name="line3612">3612    </a></b>	    memcpy((void *) & (p_load_code_status->bootcode_project_id.a_fw_version), (void *) & (fw_version[0]), HOST_FW_VER_BYTES);
+<b><a name="line3613">3613    </a></b>	
+<b><a name="line3614">3614    </a></b>	    if (gpFwSimCtrl1Reg->activate_other_loader)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gpFwSimCtrl1Reg->activate_other_loader", taking true branch.</font>
+<b><a name="line3615">3615    </a></b>	    {
+<b><a name="line3616">3616    </a></b>	        p_load_code_status->boot_code_scan_skip_revision = gpLoaderErrMessage->boot_code_scan_skip_revision;
+<b><a name="line3617">3617    </a></b>	        Dump_LoadCode(tprintf("activate loader handle"));
+<b><a name="line3618">3618    </a></b>	    }
+<b><a name="line3619">3619    </a></b>	
+<b><a name="line3620">3620    </a></b>	    //State
+<b><a name="line3621">3621    </a></b>	    p_load_code_status->load_code_state = LOAD_CODE_STATE_START;
+<b><a name="line3622">3622    </a></b>	    p_load_code_status->flash_reset = 0;
+<b><a name="line3623">3623    </a></b>	
+<b><a name="line3624">3624    </a></b>	    //Record of errors that occurred
+<b><a name="line3625">3625    </a></b>	    for (flash_error_type = 0; flash_error_type < LOAD_CODE_FLASH_ERROR_TYPE_COUNT; flash_error_type++) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flash_error_type < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flash_error_type < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flash_error_type < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "flash_error_type < 5U", taking false branch.</font>
+<b><a name="line3626">3626    </a></b>	        p_load_code_status->a_flash_error_channel_bitmap[flash_error_type] = 0x00;
+<b><a name="line3627">3627    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line3628">3628    </a></b>	
+<b><a name="line3629">3629    </a></b>	    //Structure location
+<b><a name="line3630">3630    </a></b>	    p_load_code_status->a_id_table = a_id_table;
+<b><a name="line3631">3631    </a></b>	    p_load_code_status->p_code_pointer = p_code_pointer;
+<b><a name="line3632">3632    </a></b>	    p_load_code_status->p_project_binary_header = p_project_binary_header;
+<b><a name="line3633">3633    </a></b>	
+<b><a name="line3634">3634    </a></b>	
+<b><a name="line3635">3635    </a></b>	    //Parameter Initialization
+<b><a name="line3636">3636    </a></b>	    if (p_efuse_nand_setting->read_retry_enable) {
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "(*p_efuse_nand_setting).read_retry_enable", taking true branch.</font>
+<b><a name="line3637">3637    </a></b>	        p_load_code_status->parameters.nand_retry_count = (FIP_READ_RETRY_3 + 1);
+<b><a name="line3638">3638    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line3639">3639    </a></b>	    else {
+<b><a name="line3640">3640    </a></b>	        p_load_code_status->parameters.nand_retry_count = (FIP_NORMAL_READ + 1);
+<b><a name="line3641">3641    </a></b>	    }
+<b><a name="line3642">3642    </a></b>	
+<b><a name="line3643">3643    </a></b>	    //Code Pointer Block scanning variables
+<b><a name="line3644">3644    </a></b>	    //TODO sanitize?
+<b><a name="line3645">3645    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_block_start = EFUSE_PARSE_SCAN_BLOCK_WINDOW_START(p_efuse_nand_setting->scan_block_window_start);
+<b><a name="line3646">3646    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_block_count = EFUSE_PARSE_SCAN_BLOCK_WINDOW_COUNT(p_efuse_nand_setting->scan_block_window_count);
+<b><a name="line3647">3647    </a></b>	
+<b><a name="line3648">3648    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_plane_start = 0;
+<b><a name="line3649">3649    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_plane_count = EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count);
+<b><a name="line3650">3650    </a></b>	
+<b><a name="line3651">3651    </a></b>	    p_load_code_status->parameters.id_page_offset = EFUSE_PARSE_ID_PAGE_OFFSET(p_efuse_nand_setting->id_page_skip, p_efuse_nand_setting->id_page_shift);
+<b><a name="line3652">3652    </a></b>	    p_load_code_status->parameters.id_table_per_page = EFUSE_PARSE_NODE_PER_PAGE(p_efuse_nand_setting->node_per_page);
+<b><a name="line3653">3653    </a></b>	
+<b><a name="line3654">3654    </a></b>	    p_load_code_status->parameters.channel_exist_bitmap = p_efuse_nand_setting->channel_exist_bitmap;
+<b><a name="line3655">3655    </a></b>	    //Find the number of copies that should be found within an Code Pointer Block set
+<b><a name="line3656">3656    </a></b>	    copy = 0;
+<b><a name="line3657">3657    </a></b>	    for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event cond_at_most:</font></b> <font face="Arial"; size="3"; color="#FF5959">Checking "channel < 16UL" implies that "channel" may be up to 15 on the true branch.</font>
+<b><a name="line3658">3658    </a></b>	        if (0 != (p_load_code_status->parameters.channel_exist_bitmap & (1 << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != (p_load_code_status->parameters.channel_exist_bitmap & (1 << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != (p_load_code_status->parameters.channel_exist_bitmap & (1 << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "1 << channel", shifting more than 7 bits, the number of bits in the essential type of the left expression, "1", is not allowed.  The shift amount, "channel", is as much as 15.</font>
+<b><a name="line3659">3659    </a></b>	            copy++;
+<b><a name="line3660">3660    </a></b>	        }
+<b><a name="line3661">3661    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line3662">3662    </a></b>	    if (2 > copy) {
+<b><a name="line3663">3663    </a></b>	        copy = 2;
+<b><a name="line3664">3664    </a></b>	    }
+<b><a name="line3665">3665    </a></b>	    p_load_code_status->parameters.code_pointer_block_per_set = copy;
+<b><a name="line3666">3666    </a></b>	
+<b><a name="line3667">3667    </a></b>	
+<b><a name="line3668">3668    </a></b>	
+<b><a name="line3669">3669    </a></b>	    reset_load_code_status(p_load_code_status, 0, p_efuse_nand_setting);
+<b><a name="line3670">3670    </a></b>	
+<b><a name="line3671">3671    </a></b>	    return;
+<b><a name="line3672">3672    </a></b>	}
+<b><a name="line3673">3673    </a></b>	
+<b><a name="line3674">3674    </a></b>	//This is used for resetting the Load Code Status so that the load code process can be performed again
+<b><a name="line3675">3675    </a></b>	void reset_load_code_status(LOAD_CODE_STATUS *p_load_code_status, U32 reset_reason, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line3676">3676    </a></b>	{
+<b><a name="line3677">3677    </a></b>	    U8 set;
+<b><a name="line3678">3678    </a></b>	
+<b><a name="line3679">3679    </a></b>	    //Load code state is not reset
+<b><a name="line3680">3680    </a></b>	    //All other status can only be marked to be on to indicate that
+<b><a name="line3681">3681    </a></b>	    p_load_code_status->reset_count++; //TODO refine this
+<b><a name="line3682">3682    </a></b>	    if (reset_reason & LOAD_CODE_RESET_FLASH_RESET) {
+<b><a name="line3683">3683    </a></b>	        p_load_code_status->flash_reset = 1;
+<b><a name="line3684">3684    </a></b>	    }
+<b><a name="line3685">3685    </a></b>	
+<b><a name="line3686">3686    </a></b>	    //Restart the scanning process
+<b><a name="line3687">3687    </a></b>	    p_load_code_status->code_pointer_block_scan_nand_retry_next = 0;
+<b><a name="line3688">3688    </a></b>	    p_load_code_status->code_pointer_block_scan_block_next = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line3689">3689    </a></b>	    p_load_code_status->code_pointer_block_scan_plane_next = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+<b><a name="line3690">3690    </a></b>	
+<b><a name="line3691">3691    </a></b>	    if (gpFwSimCtrl1Reg->activate_other_loader)
+<b><a name="line3692">3692    </a></b>	    {
+</pre></body>
+</html>

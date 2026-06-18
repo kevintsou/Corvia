@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1539">1539    </a></b>	    //    w_LOAD_ZQ_PHS_CNT(ch, 11); //PS5921 ASIC system clk 333MHZ: 11 * 3ns > 30ns; PS5019 ASIC system clock = 200Mhz;  ZQ phase count = 7 * 5ns = 35ns > 30ns
+<b><a name="line1540">1540    </a></b>	    //}
+<b><a name="line1541">1541    </a></b>	
+<b><a name="line1542">1542    </a></b>	    //step3
+<b><a name="line1543">1543    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1544">1544    </a></b>	        w_DEF_ALL_CE_HIGH(ch, 0xFF); //set all ce high
+<b><a name="line1545">1545    </a></b>	    }
+<b><a name="line1546">1546    </a></b>	
+<b><a name="line1547">1547    </a></b>	    //step4
+<b><a name="line1548">1548    </a></b>	    //r32_w_ZQCAL_TX_MODE(r32_r_FLH_FPHI_REG_RX_TX_MODE(0));
+<b><a name="line1549">1549    </a></b>	    w_CR_FPHYA_PMODE((U8)r_FLH_FPHI_REG_RX_TX_MODE(0));
+<b><a name="line1550">1550    </a></b>	
+<b><a name="line1551">1551    </a></b>	    //step5
+<b><a name="line1552">1552    </a></b>	    w_ZQCAL_RSTB_CAL(0);
+<b><a name="line1553">1553    </a></b>	
+<b><a name="line1554">1554    </a></b>	    //step6
+<b><a name="line1555">1555    </a></b>	    dal_fip_delay(ulDelayForZqClk16t);
+<b><a name="line1556">1556    </a></b>	
+<b><a name="line1557">1557    </a></b>	
+<b><a name="line1558">1558    </a></b>	    //step7
+<b><a name="line1559">1559    </a></b>	    w_ZQCAL_RSTB_CAL(1);
+<b><a name="line1560">1560    </a></b>	
+<b><a name="line1561">1561    </a></b>	    //step8
+<b><a name="line1562">1562    </a></b>	    dal_fip_delay(ulDelayForZqClk16t);
+<b><a name="line1563">1563    </a></b>	
+<b><a name="line1564">1564    </a></b>	    //step9
+<b><a name="line1565">1565    </a></b>	    w_ZQCAL_FW_TRIG(1);
+<b><a name="line1566">1566    </a></b>	
+<b><a name="line1567">1567    </a></b>	    //step10  while (r32_r_ZQCAL_BSY() != 0U);
+<b><a name="line1568">1568    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1569">1569    </a></b>	    do {
+<b><a name="line1570">1570    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1571">1571    </a></b>	            status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+<b><a name="line1572">1572    </a></b>	            break;
+<b><a name="line1573">1573    </a></b>	        }
+<b><a name="line1574">1574    </a></b>	    } while (r_ZQCAL_BSY() != 0U);
+<b><a name="line1575">1575    </a></b>	
+<b><a name="line1576">1576    </a></b>	    //step11. wait r32_FCH_PIO_CMD_CFG(zqcal_val_upd) =1
+<b><a name="line1577">1577    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1578">1578    </a></b>	        //while (r32_r_ZQCAL_VAL_UPD(ubCh) == 0U);
+<b><a name="line1579">1579    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><a name="line1580">1580    </a></b>	        do {
+<b><a name="line1581">1581    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1582">1582    </a></b>	                status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+<b><a name="line1583">1583    </a></b>	                break;
+<b><a name="line1584">1584    </a></b>	            }
+<b><a name="line1585">1585    </a></b>	        } while (r_ZQCAL_VAL_UPD(ch) == 0U);
+<b><a name="line1586">1586    </a></b>	    }
+<b><a name="line1587">1587    </a></b>	
+<b><a name="line1588">1588    </a></b>	    //step12
+<b><a name="line1589">1589    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1590">1590    </a></b>	        w_ZQCAL_LOAD_TRIG(ch, 1);
+<b><a name="line1591">1591    </a></b>	    }
+<b><a name="line1592">1592    </a></b>	
+<b><a name="line1593">1593    </a></b>	    //step13
+<b><a name="line1594">1594    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1595">1595    </a></b>	        //while (r32_r_ZQCAL_VAL_UPD(ubCh) == 1U);
+<b><a name="line1596">1596    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><a name="line1597">1597    </a></b>	        do {
+<b><a name="line1598">1598    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1599">1599    </a></b>	                status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+</pre></body>
+</html>

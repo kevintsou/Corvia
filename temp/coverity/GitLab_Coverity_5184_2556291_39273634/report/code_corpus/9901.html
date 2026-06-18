@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line116">116    </a></b>	U8 VUA_gen_rng(U8 *ulTargetAdr)
+<b><a name="line117">117    </a></b>	{
+<b><a name="line118">118    </a></b>	    U8 drbg_result = PASS;
+<b><a name="line119">119    </a></b>	    U32 tar_addr = gVUALock.ulVendorTmpBase;    // Target address on dbuf
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    // Attempt 3 times
+<b><a name="line122">122    </a></b>	    for (U32 drbg_count = 0; drbg_count < 3; drbg_count++) {
+<b><a name="line123">123    </a></b>	        drbg_result = drbg_hmac_rng(DBUF_API_BOOTCODE_DRBG_BUFFER_BASE, 32, DRBG_SS_256, NULL, 0, FALSE, (U8 *)tar_addr);
+<b><a name="line124">124    </a></b>	        if (0 == drbg_result) {
+<b><a name="line125">125    </a></b>	            // Dump_SEC(tprintf("[VUA] DRBG completed in %d\r\n", (U16)drbg_count));
+<b><a name="line126">126    </a></b>	            // Dump_SEC(tprintm(tar_addr, 32));
+<b><a name="line127">127    </a></b>	            break;
+<b><a name="line128">128    </a></b>	        }
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	    memcpy((void *)ulTargetAdr, (void *)tar_addr, 32);
+<b><a name="line131">131    </a></b>	    // memset((void *)ulTargetAdr, 0, 32);
+<b><a name="line132">132    </a></b>	    // reset
+<b><a name="line133">133    </a></b>	    memset((void *)DBUF_API_BOOTCODE_DRBG_BUFFER_BASE, 0U, DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE);
+<b><a name="line134">134    </a></b>	    memset((void *)tar_addr, 0U, 32U);
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	    return drbg_result;
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	void VUA_hmac_512(U8 *pubKey, U32 ulKeyLength, U32 ulSrcAddr, U32 ulTargetAddr, U32 ulInputSize)
+<b><a name="line140">140    </a></b>	{
+<b><a name="line141">141    </a></b>	    SEC_HMAC_PARAMS_T  sec_hmac_sha_param;
+<b><a name="line142">142    </a></b>	    U32 key_addr = gVUALock.ulHashCalBufBase;
+<b><a name="line143">143    </a></b>	    U32 src_addr = key_addr + 0x80;
+<b><a name="line144">144    </a></b>	    // U32 tar_addr = src_addr + 0x1600;       // Max use 0x1528
+<b><a name="line145">145    </a></b>	    memset((void *)gVUALock.ulHashCalBufBase, 0, 0x2000);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "gVUALock.ulHashCalBufBase" of type "U32" is cast to type "void *".</font>
+<b><a name="line146">146    </a></b>	    memcpy((void *)key_addr, (void *)pubKey, ulKeyLength);
+<b><a name="line147">147    </a></b>	    memcpy((void *)src_addr, (void *)ulSrcAddr, ulInputSize);
+<b><a name="line148">148    </a></b>	
+<b><a name="line149">149    </a></b>	    memset((void *)&sec_hmac_sha_param, 0x00, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line150">150    </a></b>	    sec_hmac_sha_param.key_addr.low         = key_addr;
+<b><a name="line151">151    </a></b>	    sec_hmac_sha_param.key_len              = ulKeyLength;
+<b><a name="line152">152    </a></b>	    sec_hmac_sha_param.sha.sha_mode         = HAL_SEC_SHA2_512_MODE;
+<b><a name="line153">153    </a></b>	    sec_hmac_sha_param.sha.src_addr.low     = src_addr;
+<b><a name="line154">154    </a></b>	    sec_hmac_sha_param.sha.src_len          = ulInputSize;
+<b><a name="line155">155    </a></b>	    sec_hmac_sha_param.sha.targ_addr.all    = (U64)ulTargetAddr;
+<b><a name="line156">156    </a></b>	    sec_hmac_sha_param.sha.r1_enable        = FALSE;
+<b><a name="line157">157    </a></b>	    sec_hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line158">158    </a></b>	    // sec_hmac_sha_param.timeout_val      = SEC_TIMEOUT_TICKS;
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	    phal_sec_hmac_sha_blocking(&sec_hmac_sha_param);
+<b><a name="line161">161    </a></b>	
+<b><a name="line162">162    </a></b>	    // reset
+<b><a name="line163">163    </a></b>	    memset((void *)key_addr, 0U, 0x2000);
+<b><a name="line164">164    </a></b>	}
+<b><a name="line165">165    </a></b>	
+<b><a name="line166">166    </a></b>	void VUA_aes_dec(U32* SK, U32* AESChiperVector, U32 ulDecTmpBuf, U8 ubDecryptedSize)
+<b><a name="line167">167    </a></b>	{
+<b><a name="line168">168    </a></b>	    //because the calculation_buffer just happen to be host_buf, so we need to backup original 32B in order not to dirty host_buf.
+<b><a name="line169">169    </a></b>	    //for example, in case of isp_program_pram.
+<b><a name="line170">170    </a></b>	    //the minimum src_size in sec_aes_ofl_blocking is 32B
+<b><a name="line171">171    </a></b>	    //and sec_aes_ofl_blocking temp_buf also takes up 32B
+<b><a name="line172">172    </a></b>	    U32 sk_addr = gVUALock.ulHashCalBufBase;
+<b><a name="line173">173    </a></b>	    U32 iv_addr = sk_addr + VUA_SESSION_KEY_SIZE;
+<b><a name="line174">174    </a></b>	    memcpy((void *)sk_addr, (void *)SK, VUA_SESSION_KEY_SIZE);
+<b><a name="line175">175    </a></b>	    memcpy((void *)iv_addr, (void *)AESChiperVector, 16);
+<b><a name="line176">176    </a></b>	
+</pre></body>
+</html>

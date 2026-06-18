@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_rng.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line125">125    </a></b>	        if (cq.sqz_result != SQZ_CMD_PASS)
+<b><a name="line126">126    </a></b>	        {
+<b><a name="line127">127    </a></b>	            Dump_SEC(tprintf("[SQZ][DRBG_DESTROY] Fail"));
+<b><a name="line128">128    </a></b>	        }
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	}
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	U8 phal_drbg_hmac_rng_sqz(U32 buf_addr, U32 req_num_of_bytes, U8 *add_input_ptr, U32 add_input_len, U8 prediction_resistance_req, U8 *output_ptr){
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	    U8 ret = FALSE;
+<b><a name="line135">135    </a></b>	    ret = drbg_instantiation_sqz(HAL_SEC_SHA2_256_MODE, NULL, 0U, NULL, 0U, NULL, 0U);
+<b><a name="line136">136    </a></b>	    if(ret != PASS){
+<b><a name="line137">137    </a></b>	        return ret;
+<b><a name="line138">138    </a></b>	    }
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	    // GENERATE with PR => reseed and generate
+<b><a name="line141">141    </a></b>	    ret = drbg_reseed_sqz(NULL, 0U, add_input_ptr, add_input_len);
+<b><a name="line142">142    </a></b>	    if(ret != PASS){
+<b><a name="line143">143    </a></b>	        return ret;
+<b><a name="line144">144    </a></b>	    }
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	    ret = drbg_generate_sqz(req_num_of_bytes, NULL, 0U, FALSE, output_ptr);
+<b><a name="line147">147    </a></b>	    if(ret != PASS){
+<b><a name="line148">148    </a></b>	        return ret;
+<b><a name="line149">149    </a></b>	    }
+<b><a name="line150">150    </a></b>	
+<b><a name="line151">151    </a></b>	    // GENERATE with PR => reseed and generate
+<b><a name="line152">152    </a></b>	    // Need 2 reseed ?
+<b><a name="line153">153    </a></b>	    ret = drbg_reseed_sqz(NULL, 0U, add_input_ptr, add_input_len);
+<b><a name="line154">154    </a></b>	    if(ret != PASS){
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "ret" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line155">155    </a></b>	        return ret;
+<b><a name="line156">156    </a></b>	    }
+<b><a name="line157">157    </a></b>	
+<b><a name="line158">158    </a></b>	    ret = drbg_generate_sqz(req_num_of_bytes, NULL, 0U, FALSE, output_ptr);
+<b><a name="line159">159    </a></b>	    if(ret != PASS){
+<b><a name="line160">160    </a></b>	        return ret;
+<b><a name="line161">161    </a></b>	    }
+<b><a name="line162">162    </a></b>	
+<b><a name="line163">163    </a></b>	    drbg_destory_sqz();
+<b><a name="line164">164    </a></b>	
+<b><a name="line165">165    </a></b>	    return ret;
+<b><a name="line166">166    </a></b>	}
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	
+</pre></body>
+</html>

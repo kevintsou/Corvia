@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_clkrst_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line397">397    </a></b>	            break;
+<b><a name="line398">398    </a></b>	        }
+<b><a name="line399">399    </a></b>	    }
+<b><a name="line400">400    </a></b>	
+<b><a name="line401">401    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_3() == val) {
+<b><a name="line402">402    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line403">403    </a></b>	            break;
+<b><a name="line404">404    </a></b>	        }
+<b><a name="line405">405    </a></b>	    }
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_4() == val) {
+<b><a name="line408">408    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line409">409    </a></b>	            break;
+<b><a name="line410">410    </a></b>	        }
+<b><a name="line411">411    </a></b>	    }
+<b><a name="line412">412    </a></b>	
+<b><a name="line413">413    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_5() == val) {
+<b><a name="line414">414    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line415">415    </a></b>	            break;
+<b><a name="line416">416    </a></b>	        }
+<b><a name="line417">417    </a></b>	    }
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_6() == val) {
+<b><a name="line420">420    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line421">421    </a></b>	            break;
+<b><a name="line422">422    </a></b>	        }
+<b><a name="line423">423    </a></b>	    }
+<b><a name="line424">424    </a></b>	
+<b><a name="line425">425    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_7() == val) {
+<b><a name="line426">426    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line427">427    </a></b>	            break;
+<b><a name="line428">428    </a></b>	        }
+<b><a name="line429">429    </a></b>	    }
+<b><a name="line430">430    </a></b>	}
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	void hal_fphy_osc_enable(U8 ssc_en, U8 ub_flh0_clk_sel,U8 flh0_div_sel)
+<b><a name="line433">433    </a></b>	{
+<b><a name="line434">434    </a></b>	    // step1
+<b><a name="line435">435    </a></b>	    //fphy_power_on
+<b><a name="line436">436    </a></b>	    // step2
+<b><a name="line437">437    </a></b>	    flh_clk_set(ub_flh0_clk_sel, flh0_div_sel);
+<b><a name="line438">438    </a></b>	
+<b><a name="line439">439    </a></b>	    // step3
+<b><a name="line440">440    </a></b>	    MABIAO_IDLE_US(2);
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	    // step4
+<b><a name="line443">443    </a></b>	    w_CR_EN_OSC_WT_FPHY(1U);
+<b><a name="line444">444    </a></b>	    w_CR_EN_OSC_RD_FPHY(1U);
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // step5
+<b><a name="line447">447    </a></b>	    wait_if_osc_dis_flag_equal_to(1U);
+<b><a name="line448">448    </a></b>	
+<b><a name="line449">449    </a></b>	    // step6
+<b><a name="line450">450    </a></b>	    if (ssc_en == BOOT_EN_SSC)
+<b><a name="line451">451    </a></b>	    {
+<b><a name="line452">452    </a></b>	        w_CR_EN_SSC_OSC_WT_FPHY(1U);
+<b><a name="line453">453    </a></b>	        w_CR_EN_SSC_OSC_RD_FPHY(1U);
+<b><a name="line454">454    </a></b>	    }
+<b><a name="line455">455    </a></b>	    else
+<b><a name="line456">456    </a></b>	    {
+<b><a name="line457">457    </a></b>	        w_CR_EN_SSC_OSC_WT_FPHY(0U);
+</pre></body>
+</html>

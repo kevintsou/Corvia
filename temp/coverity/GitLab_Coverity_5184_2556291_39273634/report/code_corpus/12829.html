@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_rng.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_RNG_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_RNG_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_RNG_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	#include "phal/phal_sqz.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	U8 phal_sec_get_true_rand(U32 rand_len, U8 *rand_val);
+<b><a name="line8">8    </a></b>	U8 phal_drbg_hmac_rng_sqz(U32 buf_addr, U32 req_num_of_bytes, U8 *add_input_ptr, U32 add_input_len, U8 prediction_resistance_req, U8 *output_ptr);
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	#endif
+<b><a name="line11">11    </a></b>	
+</pre></body>
+</html>

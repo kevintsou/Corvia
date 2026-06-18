@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1280">1280    </a></b>	void fpl_api_parsing_efuse_param(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr, U16 *efuse_param_ptr)
+<b><a name="line1281">1281    </a></b>	{
+<b><a name="line1282">1282    </a></b>	    U8  i;
+<b><a name="line1283">1283    </a></b>	    U8  cnt_end;
+<b><a name="line1284">1284    </a></b>	    U8  data_adr_ptr;
+<b><a name="line1285">1285    </a></b>	    U8 *data_ref_ptr;
+<b><a name="line1286">1286    </a></b>	    U8  data_ref_num;
+<b><a name="line1287">1287    </a></b>	    U8  op_code_ref_num;
+<b><a name="line1288">1288    </a></b>	    U8  cmd_type;
+<b><a name="line1289">1289    </a></b>	    U8  data_len;
+<b><a name="line1290">1290    </a></b>	    U16 get_bit;
+<b><a name="line1291">1291    </a></b>	    U32 val;
+<b><a name="line1292">1292    </a></b>	    U8 z = 0U; //Only for UART
+<b><a name="line1293">1293    </a></b>	    U8 bit = 0U;
+<b><a name="line1294">1294    </a></b>	    U8 read_rty_bit_map[EFUSE_PARAM_READ_RTY_TBL_SIZE];
+<b><a name="line1295">1295    </a></b>	    U8 por_rty_bit_map[EFUSE_PARAM_POR_RTY_TBL_SIZE];
+<b><a name="line1296">1296    </a></b>	    U8 retry_idx = 0U;
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	    i               = 0U;
+<b><a name="line1299">1299    </a></b>	    cnt_end         = 0U;
+<b><a name="line1300">1300    </a></b>	    val             = 0U;
+<b><a name="line1301">1301    </a></b>	    data_adr_ptr    = EFUSE_NAND_SETTING_FPU_SEQUENCE_SIZE;
+<b><a name="line1302">1302    </a></b>	    data_ref_ptr     = (U8 *)efuse_param_ptr;
+<b><a name="line1303">1303    </a></b>	    data_ref_num    = 0U;
+<b><a name="line1304">1304    </a></b>	    op_code_ref_num = 0U;
+<b><a name="line1305">1305    </a></b>	    data_len        = 0U;
+<b><a name="line1306">1306    </a></b>	    get_bit         = 0U;
+<b><a name="line1307">1307    </a></b>	    cmd_type        = 0U;
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->read_retry_enable == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "(*fpl_ptr->p_efuse_nand_setting).read_retry_enable" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line1310">1310    </a></b>	        //get read retry info first
+<b><a name="line1311">1311    </a></b>	        data_adr_ptr -= EFUSE_PARAM_READ_RTY_BMP_SIZE;
+<b><a name="line1312">1312    </a></b>	        memcpy((void *)&fpl_ptr->read_rty_bitmap, (void *) & (data_ref_ptr[data_adr_ptr]), EFUSE_PARAM_READ_RTY_BMP_SIZE);
+<b><a name="line1313">1313    </a></b>	        //tprintf("[parsing_efuse]read_rty_bitmap = %x", fpl_ptr->read_rty_bitmap);
+<b><a name="line1314">1314    </a></b>	
+<b><a name="line1315">1315    </a></b>	        //initial read_rty_tbl
+<b><a name="line1316">1316    </a></b>	        memset((void *)&fpl_ptr->read_rty_tbl, 0U, EFUSE_PARAM_READ_RTY_TBL_SIZE * EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line1317">1317    </a></b>	        //get each retry parameter bitmap
+<b><a name="line1318">1318    </a></b>	        for (retry_idx = 0U; retry_idx < EFUSE_PARAM_READ_RTY_TBL_SIZE; retry_idx++) {
+<b><a name="line1319">1319    </a></b>	            read_rty_bit_map[retry_idx] = ((fpl_ptr->read_rty_bitmap >> (retry_idx * EFUSE_PARAM_READ_RTY_DAT_SIZE)) & EFUSE_PARAM_READ_RTY_DAT_MASK);
+<b><a name="line1320">1320    </a></b>	            for (bit = 0U; bit < EFUSE_PARAM_READ_RTY_DAT_SIZE; bit++) {
+<b><a name="line1321">1321    </a></b>	                if (BITS_GET(read_rty_bit_map[retry_idx], bit, 1U) == TRUE) {
+<b><a name="line1322">1322    </a></b>	                    //get retry parameter
+<b><a name="line1323">1323    </a></b>	                    data_adr_ptr --;
+<b><a name="line1324">1324    </a></b>	                    fpl_ptr->read_rty_tbl[retry_idx][bit] = data_ref_ptr[data_adr_ptr];
+<b><a name="line1325">1325    </a></b>	                }
+<b><a name="line1326">1326    </a></b>	            }
+<b><a name="line1327">1327    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]read_rty_bit_map[%d] = 0x%x\r\n", retry_idx, read_rty_bit_map[retry_idx]);
+<b><a name="line1328">1328    </a></b>	        }
+<b><a name="line1329">1329    </a></b>	
+<b><a name="line1330">1330    </a></b>	        for (z = 0; z < EFUSE_PARAM_READ_RTY_TBL_SIZE; z++) {
+<b><a name="line1331">1331    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]read_rty_tbl[%d] = 0x%x 0x%x 0x%x 0x%x\r\n", \
+<b><a name="line1332">1332    </a></b>	                z, fpl_ptr->read_rty_tbl[z][0], fpl_ptr->read_rty_tbl[z][1], \
+<b><a name="line1333">1333    </a></b>	                fpl_ptr->read_rty_tbl[z][2], fpl_ptr->read_rty_tbl[z][3]);
+<b><a name="line1334">1334    </a></b>	        }
+<b><a name="line1335">1335    </a></b>	    }
+<b><a name="line1336">1336    </a></b>	
+<b><a name="line1337">1337    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->por_retry_enable == TRUE) {
+<b><a name="line1338">1338    </a></b>	        //get por retry info first
+<b><a name="line1339">1339    </a></b>	        data_adr_ptr -= EFUSE_PARAM_READ_RTY_BMP_SIZE;
+<b><a name="line1340">1340    </a></b>	        memcpy((void *)&fpl_ptr->por_rty_bitmap, (void *) & (data_ref_ptr[data_adr_ptr]), EFUSE_PARAM_READ_RTY_BMP_SIZE);
+</pre></body>
+</html>

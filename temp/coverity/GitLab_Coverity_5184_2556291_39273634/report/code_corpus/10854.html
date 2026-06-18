@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1746">1746    </a></b>	    tfeat1          = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TFEAT_1_LEN_NS);
+<b><a name="line1747">1747    </a></b>	    tfeat2          = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TFEAT_2_LEN_NS);
+<b><a name="line1748">1748    </a></b>	    trr             = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TRR_LEN_NS);
+<b><a name="line1749">1749    </a></b>	    tcs             = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TCS_LEN_NS);
+<b><a name="line1750">1750    </a></b>	    tch             = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TCH_LEN_NS);
+<b><a name="line1751">1751    </a></b>	    twhr            = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TWHR_LEN_NS);
+<b><a name="line1752">1752    </a></b>	    twp             = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TWP_LEN_NS);
+<b><a name="line1753">1753    </a></b>	    tcsvol          = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TCSVOL_LEN_NS);
+<b><a name="line1754">1754    </a></b>	    todt_on_off     = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TODT_ON_OFF_LEN_NS);
+<b><a name="line1755">1755    </a></b>	    tzql            = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TZQCL_LEN_NS);
+<b><a name="line1756">1756    </a></b>	    tcevdly         = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TCEVDLY_LEN_NS);
+<b><a name="line1757">1757    </a></b>	    tceh2           = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TCEH2_LEN_NS);
+<b><a name="line1758">1758    </a></b>	    tparam          = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_TPARAM_LEN_NS);
+<b><a name="line1759">1759    </a></b>	    tbus_switch     = CPU_CLK_DLY_CYCLE_NUM(CPU_CLK_DLY_BUS_SWITCH_LEN_NS);
+<b><a name="line1760">1760    </a></b>	
+<b><a name="line1761">1761    </a></b>	    flh_twb         = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TWB_LEN_NS);
+<b><a name="line1762">1762    </a></b>	    flh_tzql        = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TZQCL_LEN_NS);
+<b><a name="line1763">1763    </a></b>	    flh_tcs         = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TCS_LEN_NS);
+<b><a name="line1764">1764    </a></b>	    flh_tch         = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TCH_LEN_NS);
+<b><a name="line1765">1765    </a></b>	    flh_tccs        = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TCCS_LEN_NS);
+<b><a name="line1766">1766    </a></b>	    flh_tcevdly     = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_TCEVDLY_LEN_NS);
+<b><a name="line1767">1767    </a></b>	    flh_tbus_switch = FLH_CLK_DLY_CYCLE_NUM(FLH_CLK_DLY_BUS_SWITCH_LEN_NS);
+<b><a name="line1768">1768    </a></b>	    switch (fpl_ptr->p_efuse_nand_setting->redriver_tsc_delay)
+<b><a name="line1769">1769    </a></b>	    {
+<b><a name="line1770">1770    </a></b>	        case redriver_tcs_delay_30ns:
+<b><a name="line1771">1771    </a></b>	            flh_redriver_tsc_delay_time = FLH_CLK_DLY_CYCLE_NUM(30U);
+<b><a name="line1772">1772    </a></b>	            break;
+<b><a name="line1773">1773    </a></b>	
+<b><a name="line1774">1774    </a></b>	        case redriver_tcs_delay_50ns:
+<b><a name="line1775">1775    </a></b>	            flh_redriver_tsc_delay_time = FLH_CLK_DLY_CYCLE_NUM(50U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "50U <= 10U" is invariant.</font>
+<b><a name="line1776">1776    </a></b>	            break;
+<b><a name="line1777">1777    </a></b>	
+<b><a name="line1778">1778    </a></b>	        case redriver_tcs_delay_100ns:
+<b><a name="line1779">1779    </a></b>	            flh_redriver_tsc_delay_time = FLH_CLK_DLY_CYCLE_NUM(100U);
+<b><a name="line1780">1780    </a></b>	            break;
+<b><a name="line1781">1781    </a></b>	
+<b><a name="line1782">1782    </a></b>	        default:
+<b><a name="line1783">1783    </a></b>	            flh_redriver_tsc_delay_time = 0;
+<b><a name="line1784">1784    </a></b>	    }
+<b><a name="line1785">1785    </a></b>	
+<b><a name="line1786">1786    </a></b>	    // Delay for set feat/get feat/reset CE/set feat retry sequence
+<b><a name="line1787">1787    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TWB            ] = (twb          +  (twb         * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1788">1788    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TADL           ] = (tadl         +  (tadl        * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1789">1789    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TFEAT_1        ] = (tfeat1       +  (tfeat1      * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1790">1790    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TFEAT_2        ] = (tfeat2       +  (tfeat2      * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1791">1791    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TRR            ] = (trr          +  (trr         * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1792">1792    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCS            ] = (tcs          +  (tcs         * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1793">1793    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCH            ] = (tch          +  (tch         * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1794">1794    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TWHR           ] = (twhr         +  (twhr        * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1795">1795    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TWP            ] = (twp          +  (twp         * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1796">1796    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCSVOL         ] = (tcsvol       +  (tcsvol      * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1797">1797    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TODT_ON_OFF    ] = (todt_on_off  +  (todt_on_off * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1798">1798    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TZQCL          ] = (tzql         +  (tzql        * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1799">1799    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCEVDLY        ] = (tcevdly      +  (tcevdly     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1800">1800    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCEH2          ] = (tceh2        +  (tceh2       * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1801">1801    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TPARAM         ] = (tparam       +  (tparam      * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1802">1802    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_BUS_SWITCH     ] = (tbus_switch);
+<b><a name="line1803">1803    </a></b>	
+<b><a name="line1804">1804    </a></b>	    // Delay for read CMD/read DMA/read prefix retry sequence
+<b><a name="line1805">1805    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TWB       ] = (flh_twb      +  (flh_twb     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1806">1806    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TZQCL     ] = (flh_tzql     +  (flh_tzql    * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+</pre></body>
+</html>

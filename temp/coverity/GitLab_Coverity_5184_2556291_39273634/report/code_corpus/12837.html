@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/build/sal_build_cpu.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_BUILD_CPU_H_
+<b><a name="line2">2    </a></b>	#define _SAL_BUILD_CPU_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SAL_BUILD_CPU_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "build/sal_build_types.h"
+<b><a name="line5">5    </a></b>	#include "build/sal_build_env.h"
+<b><a name="line6">6    </a></b>	#include "build/sal_build_def.h"
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if (CPU_TYPE_ANDES == CPU_TYPE)
+<b><a name="line9">9    </a></b>	#define ASM_NOP()                   __asm("NOP")//__asm("NOP")
+<b><a name="line10">10    </a></b>	#define ASM_DSB()                   __asm("FENCE")//__asm("DSB")
+<b><a name="line11">11    </a></b>	#define ASM_WFI()                   __asm("WFI")
+<b><a name="line12">12    </a></b>	#define ASM_ISB()                   //__asm("ISB")
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	#define ASM_LI_0x808()              __asm__("li a1,0x808")
+<b><a name="line15">15    </a></b>	#define ASM_LI_0x8()                __asm__("li a1,0x8")
+<b><a name="line16">16    </a></b>	#define ASM_CSRRS_SET_MIE()         __asm__("csrrs a0, mie, a1")
+<b><a name="line17">17    </a></b>	#define ASM_CSRRS_SET_MSTATUS()     __asm__("csrrs a0, mstatus, a1")
+<b><a name="line18">18    </a></b>	#define ASM_CSRRC_CLR_MIE()         __asm__("csrrc a0, mie,a1")
+<b><a name="line19">19    </a></b>	#define ASM_CSRRC_CLR_MSTATUS()     __asm__("csrrc a0, mstatus,a1")
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#define M_ARM_ASYNC_ABORT_ENABLE()   //__asm("CPSIE a");
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define M_INT_ENABLE()              //__asm("CPSIE i");    // enable IRQ
+<b><a name="line24">24    </a></b>	#define M_INT_DISABLE()             //__asm("CPSID i");    // disable IRQ
+<b><a name="line25">25    </a></b>	#define M_INT_F_ENABLE()            //__asm("CPSIE f");   // enable FIQ
+<b><a name="line26">26    </a></b>	#define M_INT_F_DISABLE()           //__asm("CPSID f");   // disable FIQ
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define NO_INLINE                   __attribute__((noinline))
+<b><a name="line29">29    </a></b>	#define	ROM_FUNC_VAR                __attribute__((section(".ROM_GLB_VAR")))
+<b><a name="line30">30    </a></b>	#define	ROM_KEY_PTR                 __attribute__((section(".ROM_KEY")))
+<b><a name="line31">31    </a></b>	#define	BOOT_ROM_FW_VERSION         __attribute__((section(".FW_VERSION"))) __attribute__ ((aligned (2)))
+<b><a name="line32">32    </a></b>	#define	RUONING_LEE_SPACE           __attribute__((section(".RUONING_LEE_SPACE")))
+<b><a name="line33">33    </a></b>	
+</pre></body>
+</html>

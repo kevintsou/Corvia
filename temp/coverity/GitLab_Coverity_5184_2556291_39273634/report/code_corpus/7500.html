@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9464">9464    </a></b>	
+<b><a name="line9465">9465    </a></b>	    // step 3. Calculate sm3 value of (z || 0 || code heaer || code body || public key)
+<b><a name="line9466">9466    </a></b>	    code_sign_sw_sm2_calculate_code_hash(sm2_param_ptr, z_result_addr, SECTOR_SIZE, key_address, ALIGN(sizeof(code_sign_sw_sm2_key_p601), SECTOR_SIZE), sha_mode);
+<b><a name="line9467">9467    </a></b>	
+<b><a name="line9468">9468    </a></b>	    sm2_param_ptr->kat_mode = SEC_YES;
+<b><a name="line9469">9469    </a></b>	    // step 4. Verify signature
+<b><a name="line9470">9470    </a></b>	    if (phal_sec_sm2_verify_algo(sm2_param_ptr) != HAL_SEC_SM2_ERROR(SEC_YES)) {
+<b><a name="line9471">9471    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9472">9472    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_VERIFY);
+<b><a name="line9473">9473    </a></b>	    }
+<b><a name="line9474">9474    </a></b>	
+<b><a name="line9475">9475    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9476">9476    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9477">9477    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_TIMEOUT);
+<b><a name="line9478">9478    </a></b>	    }
+<b><a name="line9479">9479    </a></b>	
+<b><a name="line9480">9480    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9481">9481    </a></b>	}
+<b><a name="line9482">9482    </a></b>	#endif
+<b><a name="line9483">9483    </a></b>	#if KAT_SM9_EN
+<b><a name="line9484">9484    </a></b>	#define SEC_SM9_KAT_MSG_LEN (20U)
+<b><a name="line9485">9485    </a></b>	U32 host_sec_sm9_verify_kat(U32 buf_addr)
+<b><a name="line9486">9486    </a></b>	{
+<b><a name="line9487">9487    </a></b>	    HAL_SEC_SM9_VERIFY_BUF_T sm9_verify_buf;
+<b><a name="line9488">9488    </a></b>	
+<b><a name="line9489">9489    </a></b>	    char id_alice[] = "Alice";
+<b><a name="line9490">9490    </a></b>	    char msg[] = "Chinese IBS standard";
+<b><a name="line9491">9491    </a></b>	
+<b><a name="line9492">9492    </a></b>	    U32 signature_addr = buf_addr;
+<b><a name="line9493">9493    </a></b>	    U32 mpk_1_addr     = signature_addr + 96;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "signature_addr" (unsigned) is not the same as that of the right operand "96"(signed).</font>
+<b><a name="line9494">9494    </a></b>	    U32 msg_addr       = mpk_1_addr + 128;
+<b><a name="line9495">9495    </a></b>	    U32 id_addr        = msg_addr + sizeof(msg) - 1;
+<b><a name="line9496">9496    </a></b>	    U32 buffer_addr    = buf_addr + 0x8000;
+<b><a name="line9497">9497    </a></b>	
+<b><a name="line9498">9498    </a></b>	
+<b><a name="line9499">9499    </a></b>	    memcpy((void *)(U32 *)(mpk_1_addr), (void *)(&sec_sm9_sign_kat_mpk_1[0]), 128);
+<b><a name="line9500">9500    </a></b>	    memcpy((void *)(U32 *)(signature_addr), (void *)(&sec_sm9_sign_kat_sig_1[0]), 96);
+<b><a name="line9501">9501    </a></b>	    memcpy((void *)(U32 *)(msg_addr), (void *)(msg), sizeof(msg) - 1);
+<b><a name="line9502">9502    </a></b>	    memcpy((void *)(U32 *)(id_addr), (void *)(id_alice), sizeof(id_alice) - 1);
+<b><a name="line9503">9503    </a></b>	
+<b><a name="line9504">9504    </a></b>	    Dump_SEC(tprintf("SM9-Verify KAT"));
+<b><a name="line9505">9505    </a></b>	
+<b><a name="line9506">9506    </a></b>	    hal_sec_sm9_verify_init_buf(&sm9_verify_buf, buffer_addr);
+<b><a name="line9507">9507    </a></b>	
+<b><a name="line9508">9508    </a></b>	    if ((U8)(phal_sec_sm9_verify((U8 *)signature_addr, (U8 *)mpk_1_addr, (U8 *)msg_addr, SEC_SM9_KAT_MSG_LEN, (U8 *)id_addr, sizeof(id_alice) - 1U, &sm9_verify_buf, buffer_addr) != HAL_SEC_SM9_ERROR(SEC_YES)))
+<b><a name="line9509">9509    </a></b>	    {
+<b><a name="line9510">9510    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9511">9511    </a></b>	        return (KAT_TYPE_SM9 | KAT_ERROR_VERIFY);
+<b><a name="line9512">9512    </a></b>	    }
+<b><a name="line9513">9513    </a></b>	
+<b><a name="line9514">9514    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9515">9515    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9516">9516    </a></b>	        return (KAT_TYPE_SM9 | KAT_ERROR_TIMEOUT);
+<b><a name="line9517">9517    </a></b>	    }
+<b><a name="line9518">9518    </a></b>	
+<b><a name="line9519">9519    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9520">9520    </a></b>	}
+<b><a name="line9521">9521    </a></b>	#endif
+<b><a name="line9522">9522    </a></b>	#if KAT_LMS_EN
+<b><a name="line9523">9523    </a></b>	U32 host_sec_lms_verify_kat(U32 buf_addr)
+<b><a name="line9524">9524    </a></b>	{
+</pre></body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line115">115    </a></b>	void dal_mr_api_set_slv_axi_0_mon_en(void);
+<b><a name="line116">116    </a></b>	void dal_mr_api_clr_slv_axi_0_mon_en(void);
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	// Addr:0x8
+<b><a name="line119">119    </a></b>	U8 dal_mr_api_get_mon_en(void);
+<b><a name="line120">120    </a></b>	U8 dal_mr_api_get_mon_over_wr_en(void);
+<b><a name="line121">121    </a></b>	void dal_mr_api_set_mon_over_wr_en(void);
+<b><a name="line122">122    </a></b>	void dal_mr_api_clr_mon_over_wr_en(void);
+<b><a name="line123">123    </a></b>	U8 dal_mr_api_get_mon_buf_mode(void);
+<b><a name="line124">124    </a></b>	void dal_mr_api_set_mon_buf_mode(void);
+<b><a name="line125">125    </a></b>	void dal_mr_api_clr_mon_buf_mode(void);
+<b><a name="line126">126    </a></b>	U8 dal_mr_api_get_mon_rstore_trig(void);
+<b><a name="line127">127    </a></b>	void dal_mr_api_set_mon_rstore_trig(void);
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	// Addr:0xc
+<b><a name="line130">130    </a></b>	U8 dal_mr_api_get_mon_all_stmp_en(void);
+<b><a name="line131">131    </a></b>	void dal_mr_api_set_mon_all_stmp_en(void);
+<b><a name="line132">132    </a></b>	void dal_mr_api_clr_mon_all_stmp_en(void);
+<b><a name="line133">133    </a></b>	U8 dal_mr_api_get_mon_dmy_en(void);
+<b><a name="line134">134    </a></b>	void dal_mr_api_set_mon_dmy_en(void);
+<b><a name="line135">135    </a></b>	void dal_mr_api_clr_mon_dmy_en(void);
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	// Addr:0x10
+<b><a name="line138">138    </a></b>	U8 dal_mr_api_get_mon_clr_buf_full_0(void);
+<b><a name="line139">139    </a></b>	void dal_mr_api_set_mon_clr_buf_full_0(void);
+<b><a name="line140">140    </a></b>	U8 dal_mr_api_get_mon_clr_buf_full_1(void);
+<b><a name="line141">141    </a></b>	void dal_mr_api_set_mon_clr_buf_full_1(void);
+<b><a name="line142">142    </a></b>	U8 dal_mr_api_get_mon_clr_buf_full_2(void);
+<b><a name="line143">143    </a></b>	void dal_mr_api_set_mon_clr_buf_full_2(void);
+<b><a name="line144">144    </a></b>	U8 dal_mr_api_get_mon_clr_buf_int_0(void);
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "dal_mr_api_get_mon_clr_buf_int_0" and "dal_mr_api_get_mon_clr_buf_int_2" are identical.</font>
+<b><a name="line145">145    </a></b>	void dal_mr_api_set_mon_clr_buf_int_0(void);
+<b><a name="line146">146    </a></b>	U8 dal_mr_api_get_mon_clr_buf_int_1(void);
+<b><a name="line147">147    </a></b>	void dal_mr_api_set_mon_clr_buf_int_1(void);
+<b><a name="line148">148    </a></b>	U8 dal_mr_api_get_mon_clr_buf_int_2(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "dal_mr_api_get_mon_clr_buf_int_2", which is ambiguous.</font>
+<b><a name="line149">149    </a></b>	void dal_mr_api_set_mon_clr_buf_int_2(void);
+<b><a name="line150">150    </a></b>	
+<b><a name="line151">151    </a></b>	// Addr:0x14
+<b><a name="line152">152    </a></b>	U8 dal_mr_api_get_mon_clr_buf_cnt_0(void);
+<b><a name="line153">153    </a></b>	void dal_mr_api_set_mon_clr_buf_cnt_0(void);
+<b><a name="line154">154    </a></b>	U8 dal_mr_api_get_mon_clr_buf_cnt_1(void);
+<b><a name="line155">155    </a></b>	void dal_mr_api_set_mon_clr_buf_cnt_1(void);
+<b><a name="line156">156    </a></b>	U8 dal_mr_api_get_mon_clr_buf_cnt_2(void);
+<b><a name="line157">157    </a></b>	void dal_mr_api_set_mon_clr_buf_cnt_2(void);
+<b><a name="line158">158    </a></b>	U8 dal_mr_api_get_mon_clr_drop_cnt(void);
+<b><a name="line159">159    </a></b>	void dal_mr_api_set_mon_clr_drop_cnt(void);
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	// Addr:0x18
+<b><a name="line162">162    </a></b>	U32 dal_mr_api_get_mon_drop_cnt(void);
+<b><a name="line163">163    </a></b>	
+<b><a name="line164">164    </a></b>	// Addr:0x1c
+<b><a name="line165">165    </a></b>	U32 dal_mr_api_get_mon_addr_0_31_0(void);
+<b><a name="line166">166    </a></b>	void dal_mr_api_set_mon_addr_0_31_0(U32 value);
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	// Addr:0x20
+<b><a name="line169">169    </a></b>	U8 dal_mr_api_get_mon_addr_0_39_32(void);
+<b><a name="line170">170    </a></b>	void dal_mr_api_set_mon_addr_0_39_32(U8 value);
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	// Addr:0x24
+<b><a name="line173">173    </a></b>	U32 dal_mr_api_get_mon_len_0_31_0(void);
+<b><a name="line174">174    </a></b>	void dal_mr_api_set_mon_len_0_31_0(U32 value);
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	// Addr:0x28
+<b><a name="line177">177    </a></b>	U32 dal_mr_api_get_mon_addr_1_31_0(void);
+<b><a name="line178">178    </a></b>	void dal_mr_api_set_mon_addr_1_31_0(U32 value);
+<b><a name="line179">179    </a></b>	
+</pre></body>
+</html>

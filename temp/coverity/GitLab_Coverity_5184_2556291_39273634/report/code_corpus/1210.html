@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2283">2283    </a></b>	
+<b><a name="line2284">2284    </a></b>	    sal_log_tracker_set(sal_locate(0x03, TYPE_STEP));
+<b><a name="line2285">2285    </a></b>	    fpl_fip_sys_init(fpl_ptr);
+<b><a name="line2286">2286    </a></b>	
+<b><a name="line2287">2287    </a></b>	    sal_log_tracker_set(sal_locate(0x04, TYPE_STEP));
+<b><a name="line2288">2288    </a></b>	    fpl_fip_conf(fpl_ptr);
+<b><a name="line2289">2289    </a></b>	
+<b><a name="line2290">2290    </a></b>	    sal_log_tracker_set(sal_locate(0x05, TYPE_STEP));
+<b><a name="line2291">2291    </a></b>	    fpl_ac_timing_init(fpl_ptr, fip_inst_ptr);
+<b><a name="line2292">2292    </a></b>	
+<b><a name="line2293">2293    </a></b>	    sal_log_tracker_set(sal_locate(0x06, TYPE_STEP));
+<b><a name="line2294">2294    </a></b>	    fpl_cmd_remap_table_init(fip_inst_ptr);
+<b><a name="line2295">2295    </a></b>	
+<b><a name="line2296">2296    </a></b>	    //sal_log_tracker_set(sal_locate(0x07, TYPE_STEP));
+<b><a name="line2297">2297    </a></b>	    //fpl_fip_fpu_init(fpl_ptr, fip_inst_ptr);
+<b><a name="line2298">2298    </a></b>	
+<b><a name="line2299">2299    </a></b>	    sal_log_tracker_set(sal_locate(0x08, TYPE_STEP));
+<b><a name="line2300">2300    </a></b>	    fpl_rule_init(fpl_ptr, addr_rule);
+<b><a name="line2301">2301    </a></b>	
+<b><a name="line2302">2302    </a></b>	    sal_log_tracker_set(sal_locate(0x09, TYPE_STEP));
+<b><a name="line2303">2303    </a></b>	    fpl_set_dq_revert(fpl_ptr);
+<b><a name="line2304">2304    </a></b>	
+<b><a name="line2305">2305    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line2306">2306    </a></b>	    sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line2307">2307    </a></b>	    fpl_fip_clock_init(fpl_ptr);
+<b><a name="line2308">2308    </a></b>	#endif
+<b><a name="line2309">2309    </a></b>	
+<b><a name="line2310">2310    </a></b>	    if ((fpl_ptr->p_efuse_nand_setting->rx_mode_dq != HAL_FPL_RX_MODE_CTT) ||
+<b><a name="line2311">2311    </a></b>	        (fpl_ptr->p_efuse_nand_setting->ctrl_zq_calibration_dis == FALSE)) {
+<b><a name="line2312">2312    </a></b>	        sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line2313">2313    </a></b>	        fpl_ptr->fip_init_status |= hal_fip_set_ctrl_zq_calibration();
+<b><a name="line2314">2314    </a></b>	    }
+<b><a name="line2315">2315    </a></b>	
+<b><a name="line2316">2316    </a></b>	    if(0 != fpl_ptr->p_efuse_nand_setting->nand_startup_time)
+<b><a name="line2317">2317    </a></b>	    {
+<b><a name="line2318">2318    </a></b>	        Dump_Debug(tprintf("nand startup delay time for BICS8 gTLC 500us"));
+<b><a name="line2319">2319    </a></b>	        U16 uwDelayTimeUS[4] = {0, 250, 500, 1000};
+<b><a name="line2320">2320    </a></b>	        idle_us(uwDelayTimeUS[fpl_ptr->p_efuse_nand_setting->nand_startup_time]);
+<b><a name="line2321">2321    </a></b>	    }
+<b><a name="line2322">2322    </a></b>	
+<b><a name="line2323">2323    </a></b>	    sal_log_tracker_set(sal_locate(0x9E, TYPE_STEP));
+<b><a name="line2324">2324    </a></b>	    if(1 == fpl_ptr->p_efuse_nand_setting->redriver_enable)
+<b><a name="line2325">2325    </a></b>	    {
+<b><a name="line2326">2326    </a></b>	        fpl_redriver_initial(fpl_ptr);
+<b><a name="line2327">2327    </a></b>	    }
+<b><a name="line2328">2328    </a></b>	
+<b><a name="line2329">2329    </a></b>	    sal_log_tracker_set(sal_locate(0x9D, TYPE_STEP));
+<b><a name="line2330">2330    </a></b>	    if(1 == fpl_ptr->p_efuse_nand_setting->fbi_init)
+<b><a name="line2331">2331    </a></b>	    {
+<b><a name="line2332">2332    </a></b>	        fpl_set_CER_FBI_init();
+<b><a name="line2333">2333    </a></b>	    }
+<b><a name="line2334">2334    </a></b>	
+<b><a name="line2335">2335    </a></b>	    sal_log_tracker_set(sal_locate(0x0C, TYPE_STEP));
+<b><a name="line2336">2336    </a></b>	    fpl_ptr->fip_init_status |= fpl_reset_ce(fpl_ptr, fip_inst_ptr);
+<b><a name="line2337">2337    </a></b>	
+<b><a name="line2338">2338    </a></b>	    sal_log_tracker_set(sal_locate(0x0D, TYPE_STEP));
+<b><a name="line2339">2339    </a></b>	    fpl_ptr->fip_init_status |= hal_fip_mdll_tracking(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap);
+<b><a name="line2340">2340    </a></b>	
+<b><a name="line2341">2341    </a></b>	    sal_log_tracker_set(sal_locate(0x0E, TYPE_STEP));
+<b><a name="line2342">2342    </a></b>	    fpl_set_feat_if_seq_parsing(fpl_ptr, fip_inst_ptr);
+<b><a name="line2343">2343    </a></b>	
+</pre></body>
+</html>

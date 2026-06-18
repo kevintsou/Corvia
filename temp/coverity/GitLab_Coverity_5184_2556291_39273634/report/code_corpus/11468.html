@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1582">1582    </a></b>	}
+<b><a name="line1583">1583    </a></b>	
+<b><a name="line1584">1584    </a></b>	U32 dal_get_pf1_host_tool_dw0_addr(U32 port_id)
+<b><a name="line1585">1585    </a></b>	{
+<b><a name="line1586">1586    </a></b>	    return (U32)FALSE;
+<b><a name="line1587">1587    </a></b>	}
+<b><a name="line1588">1588    </a></b>	
+<b><a name="line1589">1589    </a></b>	void dal_clr_pf1_host_tool_trig_bit(U32 port_id)
+<b><a name="line1590">1590    </a></b>	{
+<b><a name="line1591">1591    </a></b>	    // 1 PF of port
+<b><a name="line1592">1592    </a></b>	}
+<b><a name="line1593">1593    </a></b>	
+<b><a name="line1594">1594    </a></b>	
+<b><a name="line1595">1595    </a></b>	void dal_set_sup_max_link_speed(U32 port_id, U32 pf_id, U32 gen)
+<b><a name="line1596">1596    </a></b>	{
+<b><a name="line1597">1597    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1598">1598    </a></b>	    {
+<b><a name="line1599">1599    </a></b>	        w_PF0_PCIE_CAP_PCIE_CAP_MAX_LINK_SPEED(port_id, pf_id, gen);
+<b><a name="line1600">1600    </a></b>	        if (pf_id == 0U)
+<b><a name="line1601">1601    </a></b>	        {
+<b><a name="line1602">1602    </a></b>	            w_PF0_PCIE_CAP_PCIE_CAP_TARGET_LINK_SPEED(port_id, pf_id, gen);
+<b><a name="line1603">1603    </a></b>	        }
+<b><a name="line1604">1604    </a></b>	    }
+<b><a name="line1605">1605    </a></b>	
+<b><a name="line1606">1606    </a></b>	}
+<b><a name="line1607">1607    </a></b>	
+<b><a name="line1608">1608    </a></b>	void dal_set_sup_link_width(U32 port_id, U32 pf_id, U32 width)
+<b><a name="line1609">1609    </a></b>	{
+<b><a name="line1610">1610    </a></b>	   U32 link_cap = 1;
+<b><a name="line1611">1611    </a></b>	    switch (width)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event missing_default:</font></b> <font face="Arial"; size="3"; color="#FF5959">No default case found for the switch statement "switch (width)".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_16_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement is not well formed.</font>
+<b><a name="line1612">1612    </a></b>	    {
+<b><a name="line1613">1613    </a></b>	        case 1U:
+<b><a name="line1614">1614    </a></b>	        case 8U:   // boot code no support, just force 1 lane
+<b><a name="line1615">1615    </a></b>	        case 16U:  // boot code no support, just force 1 lane
+<b><a name="line1616">1616    </a></b>	            link_cap = 0x01U;
+<b><a name="line1617">1617    </a></b>	            break;
+<b><a name="line1618">1618    </a></b>	        case 2U:
+<b><a name="line1619">1619    </a></b>	            link_cap = 0x03U;
+<b><a name="line1620">1620    </a></b>	            break;
+<b><a name="line1621">1621    </a></b>	        case 4U:
+<b><a name="line1622">1622    </a></b>	            link_cap = 0x07U;
+<b><a name="line1623">1623    </a></b>	            break;
+<b><a name="line1624">1624    </a></b>	    }
+<b><a name="line1625">1625    </a></b>	
+<b><a name="line1626">1626    </a></b>	    if (pf_id == 0U)
+<b><a name="line1627">1627    </a></b>	    {
+<b><a name="line1628">1628    </a></b>	        w_PF0_PORT_LOGIC_LINK_CAPABLE(port_id, link_cap);
+<b><a name="line1629">1629    </a></b>	        w_PF0_PORT_LOGIC_NUM_OF_LANES(port_id, width);
+<b><a name="line1630">1630    </a></b>	    }
+<b><a name="line1631">1631    </a></b>	
+<b><a name="line1632">1632    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1633">1633    </a></b>	    {
+<b><a name="line1634">1634    </a></b>	        w_PF0_PCIE_CAP_PCIE_CAP_MAX_LINK_WIDTH(port_id, pf_id, width);
+<b><a name="line1635">1635    </a></b>	    }
+<b><a name="line1636">1636    </a></b>	    else
+<b><a name="line1637">1637    </a></b>	    {
+<b><a name="line1638">1638    </a></b>	        w_P1_PF0_PCIE_CAP_PCIE_CAP_MAX_LINK_WIDTH(port_id, width);
+<b><a name="line1639">1639    </a></b>	    }
+<b><a name="line1640">1640    </a></b>	}
+<b><a name="line1641">1641    </a></b>	
+<b><a name="line1642">1642    </a></b>	void dal_set_10bit_tag_req_dis(U32 port_id, U32 enable)
+</pre></body>
+</html>

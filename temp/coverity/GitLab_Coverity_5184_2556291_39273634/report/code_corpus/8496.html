@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3036">3036    </a></b>	                break;
+<b><a name="line3037">3037    </a></b>	            }
+<b><a name="line3038">3038    </a></b>	        }
+<b><a name="line3039">3039    </a></b>	
+<b><a name="line3040">3040    </a></b>	        //This exit condition is when a Complete Set is found
+<b><a name="line3041">3041    </a></b>	        //Scanning can exit early and perform load code
+<b><a name="line3042">3042    </a></b>	        if (complete_set < CODE_POINTER_BLOCK_SET_COUNT_MAX) {
+<b><a name="line3043">3043    </a></b>	            if(0 == gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><a name="line3044">3044    </a></b>	            {
+<b><a name="line3045">3045    </a></b>	                gLRURetryLevel = (gLRURetryLevel + nand_retry) % nand_retry_max;
+<b><a name="line3046">3046    </a></b>	            }
+<b><a name="line3047">3047    </a></b>	            else
+<b><a name="line3048">3048    </a></b>	            {
+<b><a name="line3049">3049    </a></b>	                scan_bitmap_restore_read_offset(nand_retry, scanning_channel_bitmap);
+<b><a name="line3050">3050    </a></b>	            }
+<b><a name="line3051">3051    </a></b>	
+<b><a name="line3052">3052    </a></b>	            Dump_ScanID(tprintf("Scan Code Pointer Block Ended Early"))
+<b><a name="line3053">3053    </a></b>	            return 0;
+<b><a name="line3054">3054    </a></b>	        }
+<b><a name="line3055">3055    </a></b>	    }
+<b><a name="line3056">3056    </a></b>	
+<b><a name="line3057">3057    </a></b>	    scan_bitmap_restore_read_offset(nand_retry, scanning_channel_bitmap);
+<b><a name="line3058">3058    </a></b>	
+<b><a name="line3059">3059    </a></b>	    return 1;
+<b><a name="line3060">3060    </a></b>	}
+<b><a name="line3061">3061    </a></b>	
+<b><a name="line3062">3062    </a></b>	
+<b><a name="line3063">3063    </a></b>	void set_id_table_settings(ID_TABLE *p_id_table, CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status)
+<b><a name="line3064">3064    </a></b>	{
+<b><a name="line3065">3065    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "6" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line3066">3066    </a></b>	
+<b><a name="line3067">3067    </a></b>	    id_table_general_landmark(p_id_table);
+<b><a name="line3068">3068    </a></b>	#if 0
+<b><a name="line3069">3069    </a></b>	    //Set the new CE/Bank Remapping
+<b><a name="line3070">3070    </a></b>	    //Bank 0 should have the same remapping
+<b><a name="line3071">3071    </a></b>	    fip_api_ce_bank_remap_set(p_id_table->fcon_ce_sel);
+<b><a name="line3072">3072    </a></b>	
+<b><a name="line3073">3073    </a></b>	    //Set the CEs that need to have DQ Reversed
+<b><a name="line3074">3074    </a></b>	    for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line3075">3075    </a></b>	        fpl_api_dq_reverse(channel, p_id_table->a_channel_dq_bit_rev[channel]);
+<b><a name="line3076">3076    </a></b>	    }
+<b><a name="line3077">3077    </a></b>	
+<b><a name="line3078">3078    </a></b>	    //Initialize the available banks
+<b><a name="line3079">3079    </a></b>	    for (bank = 1; bank < FLH_MAX_CE_PER_CH; bank++) {
+<b><a name="line3080">3080    </a></b>	        if (0 != (p_id_table->bank_bitmap & (1 << bank))) {
+<b><a name="line3081">3081    </a></b>	            //Reset the bank
+<b><a name="line3082">3082    </a></b>	            fpl_api_reset_flh_ch_bitmap_bank(p_id_table->a_bank_ch_bitmap[bank - 1], bank, FLH_CMD_RST);
+<b><a name="line3083">3083    </a></b>	
+<b><a name="line3084">3084    </a></b>	            //If needed, enter SLC mode once
+<b><a name="line3085">3085    </a></b>	            fpl_api_enter_slc_mode_once(p_id_table->a_bank_ch_bitmap[bank - 1], bank);
+<b><a name="line3086">3086    </a></b>	
+<b><a name="line3087">3087    </a></b>	            //Set feature if it is enabled by eFuse
+<b><a name="line3088">3088    </a></b>	            if (gFplApiStruct.p_efuse_parameter->set_feature_enable) {
+<b><a name="line3089">3089    </a></b>	                fpl_api_set_feature(gFplApiStruct.p_efuse_parameter->channel_exist_bitmap, bank, gFplApiStruct.p_efuse_parameter->set_feature_address, gFplApiStruct.p_efuse_parameter->set_feature_command, gFplApiStruct.p_efuse_parameter->set_feature_data);
+<b><a name="line3090">3090    </a></b>	            }
+<b><a name="line3091">3091    </a></b>	        }
+<b><a name="line3092">3092    </a></b>	    }
+<b><a name="line3093">3093    </a></b>	#endif
+<b><a name="line3094">3094    </a></b>	
+<b><a name="line3095">3095    </a></b>	    // CC to confirm : add this case to simulation
+<b><a name="line3096">3096    </a></b>	#if HOST_ID_TABLE
+</pre></body>
+</html>

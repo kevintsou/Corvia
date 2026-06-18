@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1811">1811    </a></b>	    ptr->lcap_32   = (U32)((lca >> 32U) & 0x1U);
+<b><a name="line1812">1812    </a></b>	    ptr->fw_set    = l4k_fw;
+<b><a name="line1813">1813    </a></b>	    ptr->spr_vld   = spr_vld;
+<b><a name="line1814">1814    </a></b>	    ptr->buf_adr   = (U32)(buf_addr >> 5U/* unit: 32B */);
+<b><a name="line1815">1815    </a></b>	}
+<b><a name="line1816">1816    </a></b>	
+<b><a name="line1817">1817    </a></b>	void hal_fip_l4k_read_fill(HAL_FIP_L4K_STRUCT_PTR l4k, U64 lca, U32 l4k_fw, U64 buf_addr, U8 buf_vld)
+<b><a name="line1818">1818    </a></b>	{
+<b><a name="line1819">1819    </a></b>	    buf_addr &= 0xFFFFFFFFFULL;
+<b><a name="line1820">1820    </a></b>	    HAL_FIP_L4K_READ_STRUCT_PTR ptr = (HAL_FIP_L4K_READ_STRUCT_PTR)(void *)l4k;
+<b><a name="line1821">1821    </a></b>	    ptr->lcap_31_0 = (U32)(lca & 0xFFFFFFFFU);
+<b><a name="line1822">1822    </a></b>	    ptr->lcap_32   = (U32)((lca >> 32U) & 0x1U);
+<b><a name="line1823">1823    </a></b>	    ptr->fw_set    = l4k_fw;
+<b><a name="line1824">1824    </a></b>	    ptr->buf_vld   = buf_vld;
+<b><a name="line1825">1825    </a></b>	    ptr->buf_adr   = (U32)(buf_addr >> 5U/* unit: 32B */);
+<b><a name="line1826">1826    </a></b>	}
+<b><a name="line1827">1827    </a></b>	
+<b><a name="line1828">1828    </a></b>	U32 hal_fip_fpu_fill_lun_adr(U32 fpu_base)
+<b><a name="line1829">1829    </a></b>	{
+<b><a name="line1830">1830    </a></b>	    return (U32)dal_fip_fpu_fill_lun_adr(fpu_base);
+<b><a name="line1831">1831    </a></b>	}
+<b><a name="line1832">1832    </a></b>	
+<b><a name="line1833">1833    </a></b>	U32 hal_fip_get_fipview_ch(U8 ch)
+<b><a name="line1834">1834    </a></b>	{
+<b><a name="line1835">1835    </a></b>	    // Note: this part original from X2
+<b><a name="line1836">1836    </a></b>	    U32 size_perch  = DAL_FIP_FIP_NIFC_TX_REG1_OFST - DAL_FIP_FIP_NIFC_TX_REG0_OFST;
+<b><a name="line1837">1837    </a></b>	    U32 size_harden = DAL_FIP_REG_4CH1_BASE - DAL_FIP_REG_4CH0_BASE;
+<b><a name="line1838">1838    </a></b>	    U32 size_delta  = ((U32) & (r32_r_FCH_SET_IF(ch)) - DAL_FIP_REG_4CH0_BASE);
+<b><a name="line1839">1839    </a></b>	
+<b><a name="line1840">1840    </a></b>	    return (size_delta / size_harden) * 4 + ((size_delta % size_harden) / size_perch);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "size_delta / size_harden" (unsigned) is not the same as that of the right operand "4"(signed).</font>
+<b><a name="line1841">1841    </a></b>	}
+<b><a name="line1842">1842    </a></b>	
+<b><a name="line1843">1843    </a></b>	
+</pre></body>
+</html>

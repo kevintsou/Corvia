@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line801">801    </a></b>	    switch (fid) {
+<b><a name="line802">802    </a></b>	    case NVME_FID_ARBITRATION:               // FID 1    (M)
+<b><a name="line803">803    </a></b>	        Dump_NVME(tprintf("      >> set feature: Arb.\n\r"));
+<b><a name="line804">804    </a></b>	        if (cdw11 > 0) {
+<b><a name="line805">805    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_FEATURE_ID_NOT_SAVABLE);
+<b><a name="line806">806    </a></b>	        }
+<b><a name="line807">807    </a></b>	        break;
+<b><a name="line808">808    </a></b>	
+<b><a name="line809">809    </a></b>	    case NVME_FID_PWR_MANAGEMENT:           // FID 2    (M)
+<b><a name="line810">810    </a></b>	        // support only 1 power state
+<b><a name="line811">811    </a></b>	        Dump_NVME(tprintf("      >> set feature: PWR Mngt.\n\r"));
+<b><a name="line812">812    </a></b>	        if (attr_ptr->pwr_mgnt.ps > NVME_NPSS) {
+<b><a name="line813">813    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line814">814    </a></b>	        }
+<b><a name="line815">815    </a></b>	        else {
+<b><a name="line816">816    </a></b>	            feature_ptr->pwr = attr_ptr->pwr_mgnt.ps;
+<b><a name="line817">817    </a></b>	        }
+<b><a name="line818">818    </a></b>	        break;
+<b><a name="line819">819    </a></b>	
+<b><a name="line820">820    </a></b>	    case NVME_FID_TEMPERATURE_THR:           // FID 4    (M)
+<b><a name="line821">821    </a></b>	        Dump_NVME(tprintf("      >> set feature: Temp THR.\n\r"));
+<b><a name="line822">822    </a></b>	        break;
+<b><a name="line823">823    </a></b>	
+<b><a name="line824">824    </a></b>	    case NVME_FID_ERROR_RECOVERY:            // FID 5    (M)
+<b><a name="line825">825    </a></b>	        Dump_NVME(tprintf("      >> set feature: Err Recovery.\n\r"));
+<b><a name="line826">826    </a></b>	        break;
+<b><a name="line827">827    </a></b>	
+<b><a name="line828">828    </a></b>	    case NVME_FID_NUM_QUEUE:                 // FID 7    (M)
+<b><a name="line829">829    </a></b>	        Dump_NVME(tprintf("      >> set feature: Number of Queue.\n\r"));
+<b><a name="line830">830    </a></b>	        hcpl_ptr->cmd_spec = (U32)feature_ptr->cq_num << 16 | (U32)feature_ptr->sq_num;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">More than one unsequenced read of volatile variable is found in "((U32)feature_ptr->cq_num << 16) | (U32)feature_ptr->sq_num".</font>
+<b><a name="line831">831    </a></b>	        Dump_NVME(tprintf("      >> cq_num:%x sq_num:%x.\n\r",feature_ptr->cq_num,feature_ptr->sq_num));
+<b><a name="line832">832    </a></b>	        break;
+<b><a name="line833">833    </a></b>	
+<b><a name="line834">834    </a></b>	    case NVME_FID_INT_COALESCING:            // FID 8    (M)
+<b><a name="line835">835    </a></b>	        Dump_NVME(tprintf("      >> set feature: IC.\n\r"));
+<b><a name="line836">836    </a></b>	        feature_ptr->int_clsc = attr_ptr->int_clsc.u32;
+<b><a name="line837">837    </a></b>	        break;
+<b><a name="line838">838    </a></b>	
+<b><a name="line839">839    </a></b>	    case NVME_FID_INT_VEC_CONFIG:            // FID 9    (M)
+<b><a name="line840">840    </a></b>	        Dump_NVME(tprintf("      >> set feature: INT VEC.\n\r"));
+<b><a name="line841">841    </a></b>	        feature_ptr->iv_conf = attr_ptr->iv_config.u32;
+<b><a name="line842">842    </a></b>	        break;
+<b><a name="line843">843    </a></b>	
+<b><a name="line844">844    </a></b>	    case NVME_FID_WR_ATOMIC_NORMAL:          // FID A    (M)
+<b><a name="line845">845    </a></b>	        Dump_NVME(tprintf("      >> set feature: Write Atomic Normal.\n\r"));
+<b><a name="line846">846    </a></b>	        feature_ptr->dn = attr_ptr->wr_atm_nrml.dn;
+<b><a name="line847">847    </a></b>	        break;
+<b><a name="line848">848    </a></b>	
+<b><a name="line849">849    </a></b>	    case NVME_FID_ASYNC_EVENT_CONFIG:        // FID B    (M)
+<b><a name="line850">850    </a></b>	        Dump_NVME(tprintf("      >> set feature: AE Config.\n\r"));
+<b><a name="line851">851    </a></b>	        feature_ptr->aec = attr_ptr->aer_config.u32;
+<b><a name="line852">852    </a></b>	        break;
+<b><a name="line853">853    </a></b>	
+<b><a name="line854">854    </a></b>	    default:
+<b><a name="line855">855    </a></b>	        Dump_NVME(tprintf("      >> set feature: Invalid Field.\n\r"));
+<b><a name="line856">856    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line857">857    </a></b>	        break;
+<b><a name="line858">858    </a></b>	    }
+<b><a name="line859">859    </a></b>	}
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	static void nvme_get_feature(HOST_API_STRUCT_PTR host, U16 ctag)
+</pre></body>
+</html>

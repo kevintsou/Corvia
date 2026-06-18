@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line65">65    </a></b>	{
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    SMBS_ARP_EXT arp_ext = {.smbs_arp.slave_address = SMBUS_ADDRESS_MANAGEMENT_ENDPOINT}; //coverity
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Management Transport Init SMBUS"));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    mctp_transport_init_smbus(p_transport, arp_ext.smbs_arp.slave_address);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line74">74    </a></b>	    sys_api_smbs_arp_init(&arp_ext, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_ARP_CAPABLE, SMBUS_DEVICE_TYPE_DSA);
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    smbs_udid_init_management_endpoint(&(arp_ext.udid));
+<b><a name="line77">77    </a></b>	#else
+<b><a name="line78">78    </a></b>	    sys_api_smbs_arp_init(&arp, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_NON_ARP_CAPABLE, SMBUS_DEVICE_TYPE_NON_PSA_NON_RANDOM);
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    memset((void *) & (arp.udid), 0xFF, sizeof(arp.udid));
+<b><a name="line81">81    </a></b>	#endif
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    sys_api_smbs_register_device(&gSMBS, SMBUS_ADDRESS_INDEX_MCTP_MI, &arp_ext, (SMBS_PROTOCOL_HDL_PTR)smbs_protocol_handler_mctp_packet, p_transport);
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	void smbs_udid_init_management_endpoint(SMBUS_UDID *p_udid)
+<b><a name="line87">87    </a></b>	{
+<b><a name="line88">88    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] SMBS UDID Init Management Endpoint"));
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    //--NVM Express Management v1.1
+<b><a name="line91">91    </a></b>	    //----Figure 16: SMBus/I2C Element UDID
+<b><a name="line92">92    </a></b>	    //This shall also follow the Micron SAS
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    memset((void *)(p_udid), 0x00, sizeof(*p_udid));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    //--SMBus Interface (Carbon)
+<b><a name="line97">97    </a></b>	    p_udid->vendor_specific_id.nvme_mi.unique_nvm_storage_device_id =
+<b><a name="line98">98    </a></b>	        BIT28 |
+<b><a name="line99">99    </a></b>	        (((serial_number[0] << 0) |
+<b><a name="line100">100    </a></b>	                (serial_number[1] << 8) |
+<b><a name="line101">101    </a></b>	                (serial_number[2] << 16) |
+<b><a name="line102">102    </a></b>	                (serial_number[3] << 24)) & 0x0FFFFFFF);
+<b><a name="line103">103    </a></b>	    p_udid->vendor_specific_id.nvme_mi.udid_type = SMBUS_UDID_MANAGEMENT_ENDPOINT;
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	    //This field contains a vendor assigned device ID for the Management Endpoint
+<b><a name="line106">106    </a></b>	    p_udid->subsystem_device_id = phal_pcie_get_subsystem_device_id(PCIE_PORT_0); //HW default is 0x5022
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	    //This field contains the PCI-SIG vendor ID for the Management Endpoint
+<b><a name="line109">109    </a></b>	    p_udid->subsystem_vendor_id = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0); //HW default is 0x1987
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    //ASIC supports SMBus 3.1
+<b><a name="line113">113    </a></b>	    p_udid->interface.smbus_version = SMBUS_UDID_SMBUS_VERSION_3_0; //This field shall be set to 4h for SMBus Version 2.0, or to 5h for SMBus Version 3.0 and 3.1.
+<b><a name="line114">114    </a></b>	    p_udid->interface.oem       = 1U; //This bit shall be set to ���1'
+<b><a name="line115">115    </a></b>	    p_udid->interface.asf       = 1U; //This bit shall be set to ���1���.
+<b><a name="line116">116    </a></b>	    p_udid->interface.ipmi      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line117">117    </a></b>	    p_udid->interface.zone      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    //This field contains a vendor assigned device ID for the Management Endpoint
+<b><a name="line120">120    </a></b>	    p_udid->device_id = phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	    //This field contains the PCI-SIG vendor ID for the Management Endpoint
+<b><a name="line123">123    </a></b>	    p_udid->vendor_id = phal_pcie_get_vendor_id(PCIE_PORT_0); //HW default is 0x1987
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    // TODO: need to confirm
+</pre></body>
+</html>

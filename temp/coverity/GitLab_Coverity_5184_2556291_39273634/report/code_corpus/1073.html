@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/main.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line96">96    </a></b>	    update_dbuf_for_fw();
+<b><a name="line97">97    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line98">98    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line99">99    </a></b>	    if (p_load_code_status->load_code_state == LOAD_CODE_STATE_FAIL)
+<b><a name="line100">100    </a></b>	    {
+<b><a name="line101">101    </a></b>	        sal_log_tracker_set(sal_locate(0x30, TYPE_STEP));
+<b><a name="line102">102    </a></b>	        if (bc_ptr->p_efuse_security_setting != NULL)
+<b><a name="line103">103    </a></b>	        {
+<b><a name="line104">104    </a></b>	            if (0 != bc_ptr->p_efuse_security_setting->spi_bdbg)
+<b><a name="line105">105    </a></b>	            {
+<b><a name="line106">106    </a></b>	                spi_write_log(bc_ptr);
+<b><a name="line107">107    </a></b>	            }
+<b><a name="line108">108    </a></b>	        }
+<b><a name="line109">109    </a></b>	    }
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    return status;
+<b><a name="line112">112    </a></b>	}
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	static
+<b><a name="line115">115    </a></b>	void boot_ROM_daemon_flow(BC_GLOBAL_STRUCT_PTR bc_ptr, HOST_API_STRUCT_PTR host, VUC_DISPATCH_PTR vuc)
+<b><a name="line116">116    </a></b>	{
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    //  VUC dispatcher initialization
+<b><a name="line119">119    </a></b>	    vuc_dispatch_init(status);
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    host_init(host);
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    smbus_init(bc_ptr);
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_7_HOST_INIT, TYPE_TIMESTAMP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-2147022896" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	    while (1) {
+<b><a name="line128">128    </a></b>	        host_handler(host);
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	        vuc_uart_handler(vuc);
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line133">133    </a></b>	        sys_api_smbs_isr_handler(&gSMBS, bc_ptr->parameter_config.edsff_enable_flag);
+<b><a name="line134">134    </a></b>	
+<b><a name="line135">135    </a></b>	        mctp_send_packet_smbus(&gMCTP, &gMCTP_SMBus, &gSMBM);
+<b><a name="line136">136    </a></b>	#endif
+<b><a name="line137">137    </a></b>	    }
+<b><a name="line138">138    </a></b>	}
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	static void btcm_init(void)
+<b><a name="line141">141    </a></b>	{
+<b><a name="line142">142    </a></b>	    memset((void*)SCAT_BOOT_BTCM_ZI_BASE, 0, SCAT_BOOT_BTCM_ZI_SIZE);
+<b><a name="line143">143    </a></b>	    memset((void*)SCAT_BOOT_BTCM_STRUCT_BASE, 0, SCAT_BOOT_BTCM_STRUCT_SIZE);
+<b><a name="line144">144    </a></b>	}
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	static void log_init(void)
+<b><a name="line147">147    </a></b>	{
+<b><a name="line148">148    </a></b>	    sal_print_init(FALSE);
+<b><a name="line149">149    </a></b>	    sal_log_info_init(LOG_INFO_BASE, LOG_INFO_SIZE, TRUE);
+<b><a name="line150">150    </a></b>	    sal_log_tracker_init(LOG_TRACKER_BASE, LOG_TRACKER_SIZE, LOG_TIME_STAMP_BASE, LOG_TIME_STAMP_SIZE, FALSE);
+<b><a name="line151">151    </a></b>	    sal_log_error_init(LOG_ERROR_BASE, LOG_ERROR_SIZE, FALSE);
+<b><a name="line152">152    </a></b>	}
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	int main(void)
+<b><a name="line155">155    </a></b>	{
+<b><a name="line156">156    </a></b>	    btcm_init();
+</pre></body>
+</html>

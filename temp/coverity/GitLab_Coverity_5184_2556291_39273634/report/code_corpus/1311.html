@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line976">976    </a></b>	
+<b><a name="line977">977    </a></b>	    // trigger
+<b><a name="line978">978    </a></b>	    r32_w_FW_PU_SEED_INPUT_2_MULTI_WRITE(ch, frame_bitmap, frame_4_to_7, pg, 1U/* trigger */);
+<b><a name="line979">979    </a></b>	
+<b><a name="line980">980    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 5);
+<b><a name="line981">981    </a></b>	    // wait hw process
+<b><a name="line982">982    </a></b>	    while (r_FW_SEED_VALID(ch) == 0U/* not ready */)
+<b><a name="line983">983    </a></b>	    {
+<b><a name="line984">984    </a></b>	        if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line985">985    </a></b>	            Dump_Debug(tprintf("COP0 generate seed timeout."));
+<b><a name="line986">986    </a></b>	            break;
+<b><a name="line987">987    </a></b>	        }
+<b><a name="line988">988    </a></b>	    }
+<b><a name="line989">989    </a></b>	
+<b><a name="line990">990    </a></b>	    // get result
+<b><a name="line991">991    </a></b>	    seed[0U] = (U32)r_FW_SEED_FRAME_0(ch);
+<b><a name="line992">992    </a></b>	    seed[1U] = (U32)r_FW_SEED_FRAME_1(ch);
+<b><a name="line993">993    </a></b>	    seed[2U] = (U32)r_FW_SEED_FRAME_2(ch);
+<b><a name="line994">994    </a></b>	    seed[3U] = (U32)r_FW_SEED_FRAME_3(ch);
+<b><a name="line995">995    </a></b>	}
+<b><a name="line996">996    </a></b>	
+<b><a name="line997">997    </a></b>	U32 fip_api_chk_status(U8 ch, U8 chk_sts_map)
+<b><a name="line998">998    </a></b>	{
+<b><a name="line999">999    </a></b>	    U32 status;
+<b><a name="line1000">1000    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1001">1001    </a></b>	
+<b><a name="line1002">1002    </a></b>	    status = 0U;
+<b><a name="line1003">1003    </a></b>	
+<b><a name="line1004">1004    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_FAG_BUSY) == HAL_FLH_CHK_FAG_BUSY) {
+<b><a name="line1005">1005    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_MDLL_TRACKING_TIMEOUT_LEN_MS + gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line1006">1006    </a></b>	        do {
+<b><a name="line1007">1007    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1008">1008    </a></b>	                Dump_Debug(tprintf("HAL_FLH_CHK_FAG_BUSY HAL_STATUS_TIMEOUT"));
+<b><a name="line1009">1009    </a></b>	                status |= HAL_STATUS_TIMEOUT;
+<b><a name="line1010">1010    </a></b>	                break;
+<b><a name="line1011">1011    </a></b>	            }
+<b><a name="line1012">1012    </a></b>	        } while (/*(hal_fip_chk_fpu_idle(ch) == FALSE) ||*/ (hal_fip_chk_fctl_fag_idle(ch) == FALSE) || \
+<b><a name="line1013">1013    </a></b>	            ((is_sca == 1U) ? (hal_fip_chk_fctl_fag_sca_idle(ch) == FALSE) : (FALSE)));
+<b><a name="line1014">1014    </a></b>	
+<b><a name="line1015">1015    </a></b>	        if ((status & HAL_STATUS_TIMEOUT) != 0U) {
+<b><a name="line1016">1016    </a></b>	            return status;
+<b><a name="line1017">1017    </a></b>	        }
+<b><a name="line1018">1018    </a></b>	    }
+<b><a name="line1019">1019    </a></b>	
+<b><a name="line1020">1020    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_RDY_BUSY) == HAL_FLH_CHK_RDY_BUSY) {
+<b><a name="line1021">1021    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_MDLL_TRACKING_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line1022">1022    </a></b>	        do {
+<b><a name="line1023">1023    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1024">1024    </a></b>	                status |= HAL_STATUS_TIMEOUT;
+<b><a name="line1025">1025    </a></b>	                Dump_Debug(tprintf("HAL_FLH_CHK_RDY_BUSY HAL_STATUS_TIMEOUT"));
+<b><a name="line1026">1026    </a></b>	                break;
+<b><a name="line1027">1027    </a></b>	            }
+<b><a name="line1028">1028    </a></b>	        } while (hal_fip_chk_rby_sts(0U) == FALSE);
+<b><a name="line1029">1029    </a></b>	    }
+<b><a name="line1030">1030    </a></b>	
+<b><a name="line1031">1031    </a></b>	    if ((chk_sts_map & HAL_FLH_CHK_NAND_BUSY) == HAL_FLH_CHK_NAND_BUSY) {
+<b><a name="line1032">1032    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) {
+<b><a name="line1033">1033    </a></b>	            status |= fip_chk_nand_status(ch, gFplApiStruct.poll_cmd, gFplApiStruct.status_mask, gFplApiStruct.status_cmp);
+<b><a name="line1034">1034    </a></b>	        }
+<b><a name="line1035">1035    </a></b>	    }
+<b><a name="line1036">1036    </a></b>	
+</pre></body>
+</html>

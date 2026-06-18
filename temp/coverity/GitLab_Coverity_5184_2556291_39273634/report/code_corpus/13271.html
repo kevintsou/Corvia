@@ -1,0 +1,472 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	    if (countp != NULL)
+<b><a name="line257">257    </a></b>	    {
+<b><a name="line258">258    </a></b>	        *countp = count;
+<b><a name="line259">259    </a></b>	    }
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	    if (is_big_endian == 1U) // big edian
+<b><a name="line262">262    </a></b>	    {
+<b><a name="line263">263    </a></b>	        i = count - 1UL;
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	        while (count-- > 0UL)
+<b><a name="line266">266    </a></b>	        {
+<b><a name="line267">267    </a></b>	            tar_ptr[i] = *r_ptr++;
+<b><a name="line268">268    </a></b>	            i--;
+<b><a name="line269">269    </a></b>	        }
+<b><a name="line270">270    </a></b>	    }
+<b><a name="line271">271    </a></b>	    else // little edian
+<b><a name="line272">272    </a></b>	    {
+<b><a name="line273">273    </a></b>	        i = 0UL;
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	        while (count-- > 0UL)
+<b><a name="line276">276    </a></b>	        {
+<b><a name="line277">277    </a></b>	            tar_ptr[i] = *r_ptr++;
+<b><a name="line278">278    </a></b>	            i++;
+<b><a name="line279">279    </a></b>	        }
+<b><a name="line280">280    </a></b>	    }
+<b><a name="line281">281    </a></b>	}
+<b><a name="line282">282    </a></b>	
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	U8 hal_sec_pqc_kaz_check_key_is_vaild(U8 *key, U8 len)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "key" is already used to represent an object with external linkage.</font>
+<b><a name="line285">285    </a></b>	{
+<b><a name="line286">286    </a></b>	    for (U8 idx = 0U; idx < len; idx++)
+<b><a name="line287">287    </a></b>	    {
+<b><a name="line288">288    </a></b>	        if (key[idx] != 0U)
+<b><a name="line289">289    </a></b>	        {
+<b><a name="line290">290    </a></b>	            return SEC_YES;
+<b><a name="line291">291    </a></b>	        }
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    return SEC_NO;
+<b><a name="line295">295    </a></b>	}
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	U8 hal_sec_pqc_kaz_genkey(U8 *kaz_ds_verify_key, U8 *kaz_ds_sign_key, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line298">298    </a></b>	{
+<b><a name="line299">299    </a></b>	    U8 rand_val_offset = 0U;
+<b><a name="line300">300    </a></b>	    U32 SKSIZE = 0UL;
+<b><a name="line301">301    </a></b>	    U32 V1SIZE = 0UL;
+<b><a name="line302">302    </a></b>	    U32 V2SIZE = 0UL;
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.a,      (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_a),      HAL_SEC_PQC_KAZ_GENKEY_A_LEN);
+<b><a name="line305">305    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.b,      (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_b),      HAL_SEC_PQC_KAZ_GENKEY_B_LEN);
+<b><a name="line306">306    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA,  (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_alpha),  HAL_SEC_PQC_KAZ_GENKEY_ALPHA_LEN);
+<b><a name="line307">307    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_omega1), HAL_SEC_PQC_KAZ_GENKEY_OMEGA1_LEN);
+<b><a name="line308">308    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.V1,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_v1),     HAL_SEC_PQC_KAZ_GENKEY_V1_LEN);
+<b><a name="line309">309    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.V2,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_v2),     HAL_SEC_PQC_KAZ_GENKEY_V2_LEN);
+<b><a name="line310">310    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.SK,     (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_sk),     HAL_SEC_PQC_KAZ_GENKEY_SK_LEN);
+<b><a name="line311">311    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.SKG1Q,  (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_skg1q),  HAL_SEC_PQC_KAZ_GENKEY_SKG1Q_LEN);
+<b><a name="line312">312    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->genkey.genkey_local_var_s.tmp,    (U32 *)(void *)(kaz_buf_ptr->genkey.genkey_buf_s.genkey_temp),   HAL_SEC_PQC_KAZ_GENKEY_TEMP_LEN);
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	    //Get all system parameters and precomputed parameters
+<b><a name="line315">315    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1,       sizeof(G1_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line316">316    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.q,        sizeof(q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><a name="line317">317    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.Q,        sizeof(Q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line318">318    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1Q,      sizeof(G1Q_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><a name="line319">319    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.G1qQ,     sizeof(G1qQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line320">320    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiG1,    sizeof(phiG1_CHAR),    sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiG1_CHAR);
+<b><a name="line321">321    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiphiG1, sizeof(phiphiG1_CHAR), sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiphiG1_CHAR);
+<b><a name="line322">322    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.phiQ,     sizeof(PHIQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line323">323    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->genkey.genkey_local_var_s.qQ,       sizeof(qQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    //1) Generate random prime a,  random OMEGA1
+<b><a name="line326">326    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.a, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line327">327    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line328">328    </a></b>	
+<b><a name="line329">329    </a></b>	    hal_sec_pqc_kaz_pke_find_next_prime(kaz_buf_ptr->genkey.genkey_local_var_s.a, kaz_buf_ptr->genkey.genkey_local_var_s.a, &kaz_buf_ptr->genkey.genkey_buf_s.next_prime_buf, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line332">332    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    //2) Compute b
+<b><a name="line335">335    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.OMEGA1, kaz_buf_ptr->genkey.genkey_local_var_s.phiG1);
+<b><a name="line336">336    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->genkey.genkey_local_var_s.b, kaz_buf_ptr->genkey.genkey_local_var_s.a, kaz_buf_ptr->genkey.genkey_local_var_s.phiphiG1, kaz_buf_ptr->genkey.genkey_local_var_s.tmp, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	    //3) Generate random ALPHA
+<b><a name="line339">339    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, (HAL_SEC_PQC_KAZ_DS_SP_K + HAL_SEC_PQC_KAZ_DS_SP_LG1) / 8, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->genkey.genkey_buf_s.genkey_rand_val[rand_val_offset]);
+<b><a name="line340">340    </a></b>	    (void)hal_sec_pqc_kaz_pke_shf(kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, HAL_SEC_PKE_SHIFT_L1);
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	    //4) Compute V1
+<b><a name="line343">343    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->genkey.genkey_local_var_s.V1, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.G1, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	    //5) Compute V2
+<b><a name="line346">346    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.phiQ, kaz_buf_ptr->genkey.genkey_local_var_s.b);
+<b><a name="line347">347    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.q, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line348">348    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.V2, kaz_buf_ptr->genkey.genkey_local_var_s.Q);
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    //6) Compute Secret Signing SK
+<b><a name="line351">351    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->genkey.genkey_local_var_s.SK, kaz_buf_ptr->genkey.genkey_local_var_s.ALPHA, kaz_buf_ptr->genkey.genkey_local_var_s.tmp, kaz_buf_ptr->genkey.genkey_local_var_s.G1qQ, &kaz_buf_ptr->genkey.genkey_buf_s.powm_buf);
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->genkey.genkey_local_var_s.SKG1Q, kaz_buf_ptr->genkey.genkey_local_var_s.SK, kaz_buf_ptr->genkey.genkey_local_var_s.G1Q, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line354">354    </a></b>	
+<b><a name="line355">355    </a></b>	    // check gen key is fail
+<b><a name="line356">356    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp_ui(kaz_buf_ptr->genkey.genkey_local_var_s.SKG1Q, 0UL) == 0)
+<b><a name="line357">357    </a></b>	    {
+<b><a name="line358">358    </a></b>	        return SEC_NO;
+<b><a name="line359">359    </a></b>	    }
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    //6) Set kaz_ds_sign_key=(SK) & kaz_ds_verify_key=(V1, V2)
+<b><a name="line362">362    </a></b>	    SKSIZE = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->genkey.genkey_local_var_s.SK, 16UL);
+<b><a name="line363">363    </a></b>	    V1SIZE = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->genkey.genkey_local_var_s.V1, 16UL);
+<b><a name="line364">364    </a></b>	    V2SIZE = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->genkey.genkey_local_var_s.V2, 16UL);
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	    hal_sec_pqc_kaz_mp_export(kaz_buf_ptr->genkey.genkey_local_var_s.SKBYTE, &SKSIZE, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, kaz_buf_ptr->genkey.genkey_local_var_s.SK);
+<b><a name="line367">367    </a></b>	    hal_sec_pqc_kaz_mp_export(kaz_buf_ptr->genkey.genkey_local_var_s.V1BYTE, &V1SIZE, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, kaz_buf_ptr->genkey.genkey_local_var_s.V1);
+<b><a name="line368">368    </a></b>	    hal_sec_pqc_kaz_mp_export(kaz_buf_ptr->genkey.genkey_local_var_s.V2BYTE, &V2SIZE, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, kaz_buf_ptr->genkey.genkey_local_var_s.V2);
+<b><a name="line369">369    </a></b>	
+<b><a name="line370">370    </a></b>	    if (hal_sec_pqc_kaz_check_key_is_vaild(kaz_buf_ptr->genkey.genkey_local_var_s.V1BYTE, HAL_SEC_PQC_KAZ_DS_V1_LEN) == SEC_NO)
+<b><a name="line371">371    </a></b>	    {
+<b><a name="line372">372    </a></b>	        return SEC_NO;
+<b><a name="line373">373    </a></b>	    }
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	    if (hal_sec_pqc_kaz_check_key_is_vaild(kaz_buf_ptr->genkey.genkey_local_var_s.V2BYTE, HAL_SEC_PQC_KAZ_DS_V2_LEN) == SEC_NO)
+<b><a name="line376">376    </a></b>	    {
+<b><a name="line377">377    </a></b>	        return SEC_NO;
+<b><a name="line378">378    </a></b>	    }
+<b><a name="line379">379    </a></b>	
+<b><a name="line380">380    </a></b>	    if (hal_sec_pqc_kaz_check_key_is_vaild(kaz_buf_ptr->genkey.genkey_local_var_s.SKBYTE, HAL_SEC_PQC_KAZ_DS_SK_LEN) == SEC_NO)
+<b><a name="line381">381    </a></b>	    {
+<b><a name="line382">382    </a></b>	        return SEC_NO;
+<b><a name="line383">383    </a></b>	    }
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	    for (int i = 0; i < HAL_SEC_PQC_KAZ_PRI_KEY_LEN; i++)
+<b><a name="line386">386    </a></b>	    {
+<b><a name="line387">387    </a></b>	        kaz_ds_sign_key[i] = 0;
+<b><a name="line388">388    </a></b>	    }
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	    int je = HAL_SEC_PQC_KAZ_PRI_KEY_LEN - 1;
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	    for (int i = (int)V2SIZE - 1; i >= 0; i--)
+<b><a name="line393">393    </a></b>	    {
+<b><a name="line394">394    </a></b>	        kaz_ds_sign_key[je] = kaz_buf_ptr->genkey.genkey_local_var_s.V2BYTE[i];
+<b><a name="line395">395    </a></b>	        je--;
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    je = HAL_SEC_PQC_KAZ_PRI_KEY_LEN - HAL_SEC_PQC_KAZ_DS_V2_LEN - 1;
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	    for (int i = (int)V1SIZE - 1; i >= 0; i--)
+<b><a name="line401">401    </a></b>	    {
+<b><a name="line402">402    </a></b>	        kaz_ds_sign_key[je] = kaz_buf_ptr->genkey.genkey_local_var_s.V1BYTE[i];
+<b><a name="line403">403    </a></b>	        je--;
+<b><a name="line404">404    </a></b>	    }
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    je = HAL_SEC_PQC_KAZ_PRI_KEY_LEN - HAL_SEC_PQC_KAZ_DS_V2_LEN - HAL_SEC_PQC_KAZ_DS_V1_LEN - 1;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    for (int i = (int)SKSIZE - 1; i >= 0; i--)
+<b><a name="line409">409    </a></b>	    {
+<b><a name="line410">410    </a></b>	        kaz_ds_sign_key[je] = kaz_buf_ptr->genkey.genkey_local_var_s.SKBYTE[i];
+<b><a name="line411">411    </a></b>	        je--;
+<b><a name="line412">412    </a></b>	    }
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    for (int i = 0; i < HAL_SEC_PQC_KAZ_PUB_KEY_LEN; i++)
+<b><a name="line415">415    </a></b>	    {
+<b><a name="line416">416    </a></b>	        kaz_ds_verify_key[i] = 0;
+<b><a name="line417">417    </a></b>	    }
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    je = HAL_SEC_PQC_KAZ_PUB_KEY_LEN - 1;
+<b><a name="line420">420    </a></b>	
+<b><a name="line421">421    </a></b>	    for (int i = (int)V2SIZE - 1; i >= 0; i--)
+<b><a name="line422">422    </a></b>	    {
+<b><a name="line423">423    </a></b>	        kaz_ds_verify_key[je] = kaz_buf_ptr->genkey.genkey_local_var_s.V2BYTE[i];
+<b><a name="line424">424    </a></b>	        je--;
+<b><a name="line425">425    </a></b>	    }
+<b><a name="line426">426    </a></b>	
+<b><a name="line427">427    </a></b>	    je = HAL_SEC_PQC_KAZ_PUB_KEY_LEN - HAL_SEC_PQC_KAZ_DS_V2_LEN - 1;
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    for (int i = (int)V1SIZE - 1; i >= 0; i--)
+<b><a name="line430">430    </a></b>	    {
+<b><a name="line431">431    </a></b>	        kaz_ds_verify_key[je] = kaz_buf_ptr->genkey.genkey_local_var_s.V1BYTE[i];
+<b><a name="line432">432    </a></b>	        je--;
+<b><a name="line433">433    </a></b>	    }
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    return SEC_YES;
+<b><a name="line436">436    </a></b>	}
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	U8 hal_sec_pqc_kaz_sign(U8 *signature, U8 *digest, U8 *sk, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line439">439    </a></b>	{
+<b><a name="line440">440    </a></b>	    U32 lenS = 0UL;
+<b><a name="line441">441    </a></b>	    U32 lenG1qQ = 0UL;
+<b><a name="line442">442    </a></b>	    U16 S2 = 0U;
+<b><a name="line443">443    </a></b>	    U8  rand_val_offset = 0U;
+<b><a name="line444">444    </a></b>	    U32 SSIZE = 0UL;
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.V1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_v1),          HAL_SEC_PQC_KAZ_SIGN_V1_LEN);
+<b><a name="line447">447    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.V2,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_v2),          HAL_SEC_PQC_KAZ_SIGN_V2_LEN);
+<b><a name="line448">448    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.SK,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sk),          HAL_SEC_PQC_KAZ_SIGN_SK_LEN);
+<b><a name="line449">449    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.hashValue,  (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_hash_val),    HAL_SEC_PQC_KAZ_SIGN_HASK_VAL_LEN);
+<b><a name="line450">450    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.r1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_r1),          HAL_SEC_PQC_KAZ_SIGN_R1_LEN);
+<b><a name="line451">451    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.OMEGA2,     (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_omega2),      HAL_SEC_PQC_KAZ_SIGN_OMEGA2_LEN);
+<b><a name="line452">452    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.BETA,       (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_beta),        HAL_SEC_PQC_KAZ_SIGN_BETA_LEN);
+<b><a name="line453">453    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.r2,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_r2),          HAL_SEC_PQC_KAZ_SIGN_R2_LEN);
+<b><a name="line454">454    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.OMEGA3,     (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_omega3),      HAL_SEC_PQC_KAZ_SIGN_OMEGA3_LEN);
+<b><a name="line455">455    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.BETA2,      (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_beta2),       HAL_SEC_PQC_KAZ_SIGN_BETA2_LEN);
+<b><a name="line456">456    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.S1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_s1),      HAL_SEC_PQC_KAZ_SIGN_SIG_S1_LEN);
+<b><a name="line457">457    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.tmp,        (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_temp),    HAL_SEC_PQC_KAZ_SIGN_SIG_TEMP_LEN);
+<b><a name="line458">458    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.Y1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_y1),      HAL_SEC_PQC_KAZ_SIGN_SIG_Y1_LEN);
+<b><a name="line459">459    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.SF1,        (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_sf1),     HAL_SEC_PQC_KAZ_SIGN_SIG_SF1_LEN);
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	    // Get all system parameters and precomputed parameters
+<b><a name="line462">462    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1,          sizeof(G1_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line463">463    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.q,           sizeof(q_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><a name="line464">464    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.Q,           sizeof(Q_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line465">465    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1qQ,        sizeof(G1qQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line466">466    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiG1,       sizeof(phiG1_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiG1_CHAR);
+<b><a name="line467">467    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiphiG1,    sizeof(phiphiG1_CHAR),  sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiphiG1_CHAR);
+<b><a name="line468">468    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.qQ,          sizeof(qQ_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line469">469    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiqQ,       sizeof(PHIqQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIqQ_CHAR);
+<b><a name="line470">470    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1Q,         sizeof(G1Q_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><a name="line471">471    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiQ,        sizeof(PHIQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    //1) Get kaz_ds_sign_key=(SK)
+<b><a name="line474">474    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.V1, HAL_SEC_PQC_KAZ_DS_V1_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk + HAL_SEC_PQC_KAZ_DS_SK_LEN));
+<b><a name="line475">475    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.V2, HAL_SEC_PQC_KAZ_DS_V2_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk + HAL_SEC_PQC_KAZ_DS_SK_LEN + HAL_SEC_PQC_KAZ_DS_V1_LEN));
+<b><a name="line476">476    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.SK, HAL_SEC_PQC_KAZ_DS_SK_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk));
+<b><a name="line477">477    </a></b>	
+<b><a name="line478">478    </a></b>	    //2) Compute HASHValue(m)
+<b><a name="line479">479    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.hashValue, HAL_SEC_PQC_KAZ_SYS_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, digest);
+<b><a name="line480">480    </a></b>	
+<b><a name="line481">481    </a></b>	    lenG1qQ = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->sign.sign_local_var_s.G1qQ, 2UL);
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	    //3) Generate random prime r, random OMEGA2
+<b><a name="line484">484    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.r1, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line485">485    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line486">486    </a></b>	
+<b><a name="line487">487    </a></b>	    hal_sec_pqc_kaz_pke_find_next_prime(kaz_buf_ptr->sign.sign_local_var_s.r1, kaz_buf_ptr->sign.sign_local_var_s.r1, &kaz_buf_ptr->sign.sign_buf_s.next_prime_buf, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.OMEGA2, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line490">490    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	    //4) Compute BETA
+<b><a name="line493">493    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.OMEGA2, kaz_buf_ptr->sign.sign_local_var_s.phiG1);
+<b><a name="line494">494    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.BETA, kaz_buf_ptr->sign.sign_local_var_s.r1, kaz_buf_ptr->sign.sign_local_var_s.phiphiG1, kaz_buf_ptr->sign.sign_local_var_s.tmp, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line495">495    </a></b>	
+<b><a name="line496">496    </a></b>	    //5) Generate random prime r, random OMEGA2
+<b><a name="line497">497    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.r2, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line498">498    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	    hal_sec_pqc_kaz_pke_find_next_prime(kaz_buf_ptr->sign.sign_local_var_s.r2, kaz_buf_ptr->sign.sign_local_var_s.r2, &kaz_buf_ptr->sign.sign_buf_s.next_prime_buf, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line501">501    </a></b>	
+<b><a name="line502">502    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.OMEGA3, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line503">503    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    //6) Compute BETA
+<b><a name="line506">506    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.OMEGA3, kaz_buf_ptr->sign.sign_local_var_s.phiG1);
+<b><a name="line507">507    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.BETA2, kaz_buf_ptr->sign.sign_local_var_s.r2, kaz_buf_ptr->sign.sign_local_var_s.phiphiG1, kaz_buf_ptr->sign.sign_local_var_s.tmp, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line508">508    </a></b>	
+<b><a name="line509">509    </a></b>	    for (;;)
+<b><a name="line510">510    </a></b>	    {
+<b><a name="line511">511    </a></b>	        //7) Compute Signature
+<b><a name="line512">512    </a></b>	        (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.phiqQ, kaz_buf_ptr->sign.sign_local_var_s.BETA);
+<b><a name="line513">513    </a></b>	        hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.hashValue, kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.G1qQ, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	        (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.phiqQ, kaz_buf_ptr->sign.sign_local_var_s.BETA2);
+<b><a name="line516">516    </a></b>	        hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.hashValue, kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.G1qQ, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line517">517    </a></b>	        (void)hal_sec_pqc_kaz_pke_add(kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.tmp);
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	        (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.G1qQ, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line520">520    </a></b>	
+<b><a name="line521">521    </a></b>	        (void)hal_sec_pqc_kaz_pke_mpy64_mod(kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.SK, kaz_buf_ptr->sign.sign_local_var_s.G1qQ);
+<b><a name="line522">522    </a></b>	
+<b><a name="line523">523    </a></b>	        lenS = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->sign.sign_local_var_s.S1, 2UL);
+<b><a name="line524">524    </a></b>	
+<b><a name="line525">525    </a></b>	        //FILTER 3
+<b><a name="line526">526    </a></b>	        hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.Y1, kaz_buf_ptr->sign.sign_local_var_s. V1, kaz_buf_ptr->sign.sign_local_var_s.phiQ, kaz_buf_ptr->sign.sign_local_var_s.G1Q, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line527">527    </a></b>	        hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.hashValue, kaz_buf_ptr->sign.sign_local_var_s.phiqQ, kaz_buf_ptr->sign.sign_local_var_s.G1Q, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line528">528    </a></b>	        (void)hal_sec_pqc_kaz_pke_shf(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.tmp, HAL_SEC_PKE_SHIFT_L1);
+<b><a name="line529">529    </a></b>	        (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.G1Q, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line530">530    </a></b>	        (void)hal_sec_pqc_kaz_pke_mpy64_mod(kaz_buf_ptr->sign.sign_local_var_s.Y1, kaz_buf_ptr->sign.sign_local_var_s.Y1, kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.G1Q);
+<b><a name="line531">531    </a></b>	
+<b><a name="line532">532    </a></b>	        hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.x[0], (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_x0), HAL_SEC_PQC_KAZ_SIGN_X0_LEN);
+<b><a name="line533">533    </a></b>	        hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.x[1], (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_x1), HAL_SEC_PQC_KAZ_SIGN_X1_LEN);
+<b><a name="line534">534    </a></b>	        hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.modulus[0], (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_modulus0), HAL_SEC_PQC_KAZ_SIGN_MODULUS0_LEN);
+<b><a name="line535">535    </a></b>	        hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.modulus[1], (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_modulus1), HAL_SEC_PQC_KAZ_SIGN_MODULUS1_LEN);
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	        (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->sign.sign_local_var_s.x[0], kaz_buf_ptr->sign.sign_local_var_s.V2, kaz_buf_ptr->sign.sign_local_var_s.Q, HAL_SEC_PQC_KAZ_PKE_DIV);
+<b><a name="line538">538    </a></b>	        hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->sign.sign_local_var_s.x[1], kaz_buf_ptr->sign.sign_local_var_s.Y1);
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	        hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->sign.sign_local_var_s.modulus[0], kaz_buf_ptr->sign.sign_local_var_s.q);
+<b><a name="line541">541    </a></b>	        hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->sign.sign_local_var_s.modulus[1], kaz_buf_ptr->sign.sign_local_var_s.G1Q);
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	        (void)hal_sec_pqc_kaz_pke_crt_mpz(kaz_buf_ptr->sign.sign_local_var_s.x, kaz_buf_ptr->sign.sign_local_var_s.modulus, kaz_buf_ptr->sign.sign_local_var_s.SF1, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	        if ((lenS == lenG1qQ) && (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->sign.sign_local_var_s.S1, kaz_buf_ptr->sign.sign_local_var_s.SF1) != 0))
+<b><a name="line546">546    </a></b>	        {
+<b><a name="line547">547    </a></b>	            break;
+<b><a name="line548">548    </a></b>	        }
+<b><a name="line549">549    </a></b>	        else
+<b><a name="line550">550    </a></b>	        {
+<b><a name="line551">551    </a></b>	            S2 = S2 + 1U;
+<b><a name="line552">552    </a></b>	            (void)hal_sec_pqc_kaz_pke_add_ui(kaz_buf_ptr->sign.sign_local_var_s.hashValue, kaz_buf_ptr->sign.sign_local_var_s.hashValue, 1UL);
+<b><a name="line553">553    </a></b>	        }
+<b><a name="line554">554    </a></b>	
+<b><a name="line555">555    </a></b>	        if (S2 > 0xFFU) // max 1 byte
+<b><a name="line556">556    </a></b>	        {
+<b><a name="line557">557    </a></b>	            return SEC_NO;
+<b><a name="line558">558    </a></b>	        }
+<b><a name="line559">559    </a></b>	    }
+<b><a name="line560">560    </a></b>	
+<b><a name="line561">561    </a></b>	    //6) Set signature=(S, m)
+<b><a name="line562">562    </a></b>	    SSIZE = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->sign.sign_local_var_s.S1, 16UL);
+<b><a name="line563">563    </a></b>	
+<b><a name="line564">564    </a></b>	    hal_sec_pqc_kaz_mp_export(kaz_buf_ptr->sign.sign_local_var_s.SBYTE, &SSIZE, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, kaz_buf_ptr->sign.sign_local_var_s.S1);
+<b><a name="line565">565    </a></b>	
+<b><a name="line566">566    </a></b>	    for (int i = 0; i < HAL_SEC_PQC_KAZ_DS_SIG_LEN; i++)
+<b><a name="line567">567    </a></b>	    {
+<b><a name="line568">568    </a></b>	        signature[i] = 0;
+<b><a name="line569">569    </a></b>	    }
+<b><a name="line570">570    </a></b>	
+<b><a name="line571">571    </a></b>	    int je = HAL_SEC_PQC_KAZ_DS_SIG_LEN - 1;
+<b><a name="line572">572    </a></b>	    signature[je] = (U8)(S2 & 0xFFU);
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    je = HAL_SEC_PQC_KAZ_DS_SIG_LEN - 2;
+<b><a name="line575">575    </a></b>	
+<b><a name="line576">576    </a></b>	    for (int i = (int)SSIZE - 1; i >= 0; i--)
+<b><a name="line577">577    </a></b>	    {
+<b><a name="line578">578    </a></b>	        signature[je] = kaz_buf_ptr->sign.sign_local_var_s.SBYTE[i];
+<b><a name="line579">579    </a></b>	        je--;
+<b><a name="line580">580    </a></b>	    }
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	    return SEC_YES;
+<b><a name="line583">583    </a></b>	}
+<b><a name="line584">584    </a></b>	
+<b><a name="line585">585    </a></b>	U32 hal_sec_pqc_kaz_verify(U8 *digest, U8 *sm, U8 *pk, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line586">586    </a></b>	{
+<b><a name="line587">587    </a></b>	    U32 salt = 0UL;
+<b><a name="line588">588    </a></b>	    U32 lenS = 0UL;
+<b><a name="line589">589    </a></b>	    U32 lenG1qQ = 0UL;
+<b><a name="line590">590    </a></b>	    U32 W1 = 0UL;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.V1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_v1),        HAL_SEC_PQC_KAZ_VERIFY_V1_LEN);
+<b><a name="line593">593    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.V2,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_v2),        HAL_SEC_PQC_KAZ_VERIFY_V2_LEN);
+<b><a name="line594">594    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.S1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_s1),        HAL_SEC_PQC_KAZ_VERIFY_S1_LEN);
+<b><a name="line595">595    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.hashValue,  (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_hash_val),  HAL_SEC_PQC_KAZ_VERIFY_HASH_VAL_LEN);
+<b><a name="line596">596    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.tmp,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_temp),      HAL_SEC_PQC_KAZ_VERIFY_TEMP_LEN);
+<b><a name="line597">597    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.tmp2,       (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_temp2),     HAL_SEC_PQC_KAZ_VERIFY_TEMP2_LEN);
+<b><a name="line598">598    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.SF1,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_sf1),       HAL_SEC_PQC_KAZ_VERIFY_SF1_LEN);
+<b><a name="line599">599    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.SF2,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_sf2),       HAL_SEC_PQC_KAZ_VERIFY_SF2_LEN);
+<b><a name="line600">600    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.W4,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_w4),        HAL_SEC_PQC_KAZ_VERIFY_W4_LEN);
+<b><a name="line601">601    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.W5,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_w5),        HAL_SEC_PQC_KAZ_VERIFY_W5_LEN);
+<b><a name="line602">602    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.Y1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_y1),        HAL_SEC_PQC_KAZ_VERIFY_Y1_LEN);
+<b><a name="line603">603    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.Y2,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_y2),        HAL_SEC_PQC_KAZ_VERIFY_Y2_LEN);
+<b><a name="line604">604    </a></b>	
+<b><a name="line605">605    </a></b>	    // Get all system parameters and precomputed parameters
+<b><a name="line606">606    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G0,          sizeof(G0_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G0_CHAR);
+<b><a name="line607">607    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.R,           sizeof(R_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)R_CHAR);
+<b><a name="line608">608    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1,          sizeof(G1_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line609">609    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.q,           sizeof(q_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><a name="line610">610    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.Q,           sizeof(Q_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line611">611    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1Q,         sizeof(G1Q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><a name="line612">612    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1qQ,        sizeof(G1qQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line613">613    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.phiQ,        sizeof(PHIQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line614">614    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.qQ,          sizeof(qQ_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line615">615    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.phiqQ,       sizeof(PHIqQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIqQ_CHAR);
+<b><a name="line616">616    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.qQ_div_e,    sizeof(qQ_div_e_CHAR),   sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_div_e_CHAR);
+<b><a name="line617">617    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1qQ_div_e,  sizeof(G1qQ_div_e_CHAR), sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_div_e_CHAR);
+<b><a name="line618">618    </a></b>	
+<b><a name="line619">619    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.V1, HAL_SEC_PQC_KAZ_DS_V1_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &pk[0]);
+<b><a name="line620">620    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.V2, HAL_SEC_PQC_KAZ_DS_V2_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &pk[HAL_SEC_PQC_KAZ_DS_V1_LEN]);
+<b><a name="line621">621    </a></b>	
+<b><a name="line622">622    </a></b>	    //2) Get signature=(S, m)
+<b><a name="line623">623    </a></b>	    salt = (U32)(sm[HAL_SEC_PQC_KAZ_DS_SIG_LEN - 1]);
+<b><a name="line624">624    </a></b>	
+<b><a name="line625">625    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.S1, HAL_SEC_PQC_KAZ_DS_SIG_LEN - 1, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &sm[0]);
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	    //3) Compute the hash value of the message
+<b><a name="line628">628    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.hashValue, HAL_SEC_PQC_KAZ_SYS_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, digest);
+<b><a name="line629">629    </a></b>	
+<b><a name="line630">630    </a></b>	    (void)hal_sec_pqc_kaz_pke_add_ui(kaz_buf_ptr->verify.verify_local_var_s.hashValue, kaz_buf_ptr->verify.verify_local_var_s.hashValue, salt);
+<b><a name="line631">631    </a></b>	
+<b><a name="line632">632    </a></b>	    //4) Filtering Procedures
+<b><a name="line633">633    </a></b>	    if (salt > 255UL)
+<b><a name="line634">634    </a></b>	    {
+<b><a name="line635">635    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_0_ERR);
+<b><a name="line636">636    </a></b>	    }
+<b><a name="line637">637    </a></b>	
+<b><a name="line638">638    </a></b>	    //FILTER 1
+<b><a name="line639">639    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1, kaz_buf_ptr->verify.verify_local_var_s.G1qQ, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line640">640    </a></b>	
+<b><a name="line641">641    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1) != 0)
+<b><a name="line642">642    </a></b>	    {
+<b><a name="line643">643    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_1_ERR);
+<b><a name="line644">644    </a></b>	    }
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	    //FILTER 2
+<b><a name="line647">647    </a></b>	    lenS = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->verify.verify_local_var_s.S1, 2U);
+<b><a name="line648">648    </a></b>	    lenG1qQ = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->verify.verify_local_var_s.G1qQ, 2U);
+<b><a name="line649">649    </a></b>	    W1 = lenS - lenG1qQ;
+<b><a name="line650">650    </a></b>	
+<b><a name="line651">651    </a></b>	    if (W1 != 0UL)
+<b><a name="line652">652    </a></b>	    {
+<b><a name="line653">653    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_2_ERR);
+<b><a name="line654">654    </a></b>	    }
+<b><a name="line655">655    </a></b>	
+<b><a name="line656">656    </a></b>	    //FILTER 3
+<b><a name="line657">657    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->verify.verify_local_var_s.Y1, kaz_buf_ptr->verify.verify_local_var_s.V1, kaz_buf_ptr->verify.verify_local_var_s.phiQ, kaz_buf_ptr->verify.verify_local_var_s.G1Q, &kaz_buf_ptr->verify.verify_buf_s.powm_buf);
+<b><a name="line658">658    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->verify.verify_local_var_s.tmp2, kaz_buf_ptr->verify.verify_local_var_s.hashValue, kaz_buf_ptr->verify.verify_local_var_s.phiqQ, kaz_buf_ptr->verify.verify_local_var_s.G1Q, &kaz_buf_ptr->verify.verify_buf_s.powm_buf);
+<b><a name="line659">659    </a></b>	    (void)hal_sec_pqc_kaz_pke_shf(kaz_buf_ptr->verify.verify_local_var_s.tmp2, kaz_buf_ptr->verify.verify_local_var_s.tmp2, HAL_SEC_PKE_SHIFT_L1);
+<b><a name="line660">660    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.tmp2, kaz_buf_ptr->verify.verify_local_var_s.tmp2, kaz_buf_ptr->verify.verify_local_var_s.G1Q, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line661">661    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64_mod(kaz_buf_ptr->verify.verify_local_var_s.Y1, kaz_buf_ptr->verify.verify_local_var_s.Y1, kaz_buf_ptr->verify.verify_local_var_s.tmp2, kaz_buf_ptr->verify.verify_local_var_s.G1Q);
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.x[0], (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_x0), HAL_SEC_PQC_KAZ_VERIFY_X0_LEN);
+<b><a name="line664">664    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.x[1], (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_x1), HAL_SEC_PQC_KAZ_VERIFY_X1_LEN);
+<b><a name="line665">665    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.modulus[0], (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_modulus0), HAL_SEC_PQC_KAZ_VERIFY_MODULUS0_LEN);
+<b><a name="line666">666    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.modulus[1], (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_modulus1), HAL_SEC_PQC_KAZ_VERIFY_MODULUS1_LEN);
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.x[0], kaz_buf_ptr->verify.verify_local_var_s.V2, kaz_buf_ptr->verify.verify_local_var_s.Q, HAL_SEC_PQC_KAZ_PKE_DIV);
+<b><a name="line669">669    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.x[1], kaz_buf_ptr->verify.verify_local_var_s.Y1);
+<b><a name="line670">670    </a></b>	
+<b><a name="line671">671    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.modulus[0], kaz_buf_ptr->verify.verify_local_var_s.q);
+<b><a name="line672">672    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.modulus[1], kaz_buf_ptr->verify.verify_local_var_s.G1Q);
+<b><a name="line673">673    </a></b>	
+<b><a name="line674">674    </a></b>	    (void)hal_sec_pqc_kaz_pke_crt_mpz(kaz_buf_ptr->verify.verify_local_var_s.x, kaz_buf_ptr->verify.verify_local_var_s.modulus, kaz_buf_ptr->verify.verify_local_var_s.SF1, &kaz_buf_ptr->verify.verify_buf_s.powm_buf);
+<b><a name="line675">675    </a></b>	
+<b><a name="line676">676    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.SF1) == 0)
+<b><a name="line677">677    </a></b>	    {
+<b><a name="line678">678    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_3_ERR);
+<b><a name="line679">679    </a></b>	    }
+<b><a name="line680">680    </a></b>	
+<b><a name="line681">681    </a></b>	    //FILTER 4
+<b><a name="line682">682    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.Y2, kaz_buf_ptr->verify.verify_local_var_s.Y1, kaz_buf_ptr->verify.verify_local_var_s.G1, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line683">683    </a></b>	
+<b><a name="line684">684    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.x[1], kaz_buf_ptr->verify.verify_local_var_s.Y2);
+<b><a name="line685">685    </a></b>	
+<b><a name="line686">686    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.modulus[0], kaz_buf_ptr->verify.verify_local_var_s.qQ_div_e);
+<b><a name="line687">687    </a></b>	    hal_sec_pqc_kaz_mp_set(kaz_buf_ptr->verify.verify_local_var_s.modulus[1], kaz_buf_ptr->verify.verify_local_var_s.G1);
+<b><a name="line688">688    </a></b>	
+<b><a name="line689">689    </a></b>	    (void)hal_sec_pqc_kaz_pke_crt_mpz(kaz_buf_ptr->verify.verify_local_var_s.x, kaz_buf_ptr->verify.verify_local_var_s.modulus, kaz_buf_ptr->verify.verify_local_var_s.SF2, &kaz_buf_ptr->verify.verify_buf_s.powm_buf);
+<b><a name="line690">690    </a></b>	
+<b><a name="line691">691    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1, kaz_buf_ptr->verify.verify_local_var_s.G1qQ_div_e, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line692">692    </a></b>	
+<b><a name="line693">693    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.SF2) == 0)
+<b><a name="line694">694    </a></b>	    {
+<b><a name="line695">695    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_4_ERR);
+<b><a name="line696">696    </a></b>	    }
+<b><a name="line697">697    </a></b>	
+<b><a name="line698">698    </a></b>	    //FILTER 5
+<b><a name="line699">699    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64_mod(kaz_buf_ptr->verify.verify_local_var_s.W4, kaz_buf_ptr->verify.verify_local_var_s.Q, kaz_buf_ptr->verify.verify_local_var_s.S1, kaz_buf_ptr->verify.verify_local_var_s.qQ);
+<b><a name="line700">700    </a></b>	    (void)hal_sec_pqc_kaz_pke_shf(kaz_buf_ptr->verify.verify_local_var_s.W5, kaz_buf_ptr->verify.verify_local_var_s.V2, HAL_SEC_PKE_SHIFT_L1);
+<b><a name="line701">701    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.W5, kaz_buf_ptr->verify.verify_local_var_s.W5, kaz_buf_ptr->verify.verify_local_var_s.qQ, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line702">702    </a></b>	
+<b><a name="line703">703    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->verify.verify_local_var_s.W5, kaz_buf_ptr->verify.verify_local_var_s.W4) != 0)
+<b><a name="line704">704    </a></b>	    {
+<b><a name="line705">705    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_5_ERR);
+<b><a name="line706">706    </a></b>	    }
+<b><a name="line707">707    </a></b>	
+<b><a name="line708">708    </a></b>	    //5) Verifying Procedures
+<b><a name="line709">709    </a></b>	    // abs(S1 - Y2) mod G1
+<b><a name="line710">710    </a></b>	    (void)hal_sec_pqc_kaz_pke_sub_mod(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1, kaz_buf_ptr->verify.verify_local_var_s.Y2, kaz_buf_ptr->verify.verify_local_var_s.G1);
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp_ui(kaz_buf_ptr->verify.verify_local_var_s.tmp, 0) != 0)
+<b><a name="line713">713    </a></b>	    {
+<b><a name="line714">714    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_6_ERR);
+<b><a name="line715">715    </a></b>	    }
+<b><a name="line716">716    </a></b>	
+<b><a name="line717">717    </a></b>	    return HAL_SEC_PQC_KAZ_ERROR(SEC_YES);
+<b><a name="line718">718    </a></b>	}
+<b><a name="line719">719    </a></b>	
+</pre></body>
+</html>

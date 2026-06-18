@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3629">3629    </a></b>	    //Structure location
+<b><a name="line3630">3630    </a></b>	    p_load_code_status->a_id_table = a_id_table;
+<b><a name="line3631">3631    </a></b>	    p_load_code_status->p_code_pointer = p_code_pointer;
+<b><a name="line3632">3632    </a></b>	    p_load_code_status->p_project_binary_header = p_project_binary_header;
+<b><a name="line3633">3633    </a></b>	
+<b><a name="line3634">3634    </a></b>	
+<b><a name="line3635">3635    </a></b>	    //Parameter Initialization
+<b><a name="line3636">3636    </a></b>	    if (p_efuse_nand_setting->read_retry_enable) {
+<b><a name="line3637">3637    </a></b>	        p_load_code_status->parameters.nand_retry_count = (FIP_READ_RETRY_3 + 1);
+<b><a name="line3638">3638    </a></b>	    }
+<b><a name="line3639">3639    </a></b>	    else {
+<b><a name="line3640">3640    </a></b>	        p_load_code_status->parameters.nand_retry_count = (FIP_NORMAL_READ + 1);
+<b><a name="line3641">3641    </a></b>	    }
+<b><a name="line3642">3642    </a></b>	
+<b><a name="line3643">3643    </a></b>	    //Code Pointer Block scanning variables
+<b><a name="line3644">3644    </a></b>	    //TODO sanitize?
+<b><a name="line3645">3645    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_block_start = EFUSE_PARSE_SCAN_BLOCK_WINDOW_START(p_efuse_nand_setting->scan_block_window_start);
+<b><a name="line3646">3646    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_block_count = EFUSE_PARSE_SCAN_BLOCK_WINDOW_COUNT(p_efuse_nand_setting->scan_block_window_count);
+<b><a name="line3647">3647    </a></b>	
+<b><a name="line3648">3648    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_plane_start = 0;
+<b><a name="line3649">3649    </a></b>	    p_load_code_status->parameters.code_pointer_block_scan_plane_count = EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count);
+<b><a name="line3650">3650    </a></b>	
+<b><a name="line3651">3651    </a></b>	    p_load_code_status->parameters.id_page_offset = EFUSE_PARSE_ID_PAGE_OFFSET(p_efuse_nand_setting->id_page_skip, p_efuse_nand_setting->id_page_shift);
+<b><a name="line3652">3652    </a></b>	    p_load_code_status->parameters.id_table_per_page = EFUSE_PARSE_NODE_PER_PAGE(p_efuse_nand_setting->node_per_page);
+<b><a name="line3653">3653    </a></b>	
+<b><a name="line3654">3654    </a></b>	    p_load_code_status->parameters.channel_exist_bitmap = p_efuse_nand_setting->channel_exist_bitmap;
+<b><a name="line3655">3655    </a></b>	    //Find the number of copies that should be found within an Code Pointer Block set
+<b><a name="line3656">3656    </a></b>	    copy = 0;
+<b><a name="line3657">3657    </a></b>	    for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line3658">3658    </a></b>	        if (0 != (p_load_code_status->parameters.channel_exist_bitmap & (1 << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0UL" (signed) is not the same as that of the right operand "p_load_code_status->parameters.channel_exist_bitmap & (1 << channel)"(unsigned).</font>
+<b><a name="line3659">3659    </a></b>	            copy++;
+<b><a name="line3660">3660    </a></b>	        }
+<b><a name="line3661">3661    </a></b>	    }
+<b><a name="line3662">3662    </a></b>	    if (2 > copy) {
+<b><a name="line3663">3663    </a></b>	        copy = 2;
+<b><a name="line3664">3664    </a></b>	    }
+<b><a name="line3665">3665    </a></b>	    p_load_code_status->parameters.code_pointer_block_per_set = copy;
+<b><a name="line3666">3666    </a></b>	
+<b><a name="line3667">3667    </a></b>	
+<b><a name="line3668">3668    </a></b>	
+<b><a name="line3669">3669    </a></b>	    reset_load_code_status(p_load_code_status, 0, p_efuse_nand_setting);
+<b><a name="line3670">3670    </a></b>	
+<b><a name="line3671">3671    </a></b>	    return;
+<b><a name="line3672">3672    </a></b>	}
+<b><a name="line3673">3673    </a></b>	
+<b><a name="line3674">3674    </a></b>	//This is used for resetting the Load Code Status so that the load code process can be performed again
+<b><a name="line3675">3675    </a></b>	void reset_load_code_status(LOAD_CODE_STATUS *p_load_code_status, U32 reset_reason, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line3676">3676    </a></b>	{
+<b><a name="line3677">3677    </a></b>	    U8 set;
+<b><a name="line3678">3678    </a></b>	
+<b><a name="line3679">3679    </a></b>	    //Load code state is not reset
+<b><a name="line3680">3680    </a></b>	    //All other status can only be marked to be on to indicate that
+<b><a name="line3681">3681    </a></b>	    p_load_code_status->reset_count++; //TODO refine this
+<b><a name="line3682">3682    </a></b>	    if (reset_reason & LOAD_CODE_RESET_FLASH_RESET) {
+<b><a name="line3683">3683    </a></b>	        p_load_code_status->flash_reset = 1;
+<b><a name="line3684">3684    </a></b>	    }
+<b><a name="line3685">3685    </a></b>	
+<b><a name="line3686">3686    </a></b>	    //Restart the scanning process
+<b><a name="line3687">3687    </a></b>	    p_load_code_status->code_pointer_block_scan_nand_retry_next = 0;
+<b><a name="line3688">3688    </a></b>	    p_load_code_status->code_pointer_block_scan_block_next = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line3689">3689    </a></b>	    p_load_code_status->code_pointer_block_scan_plane_next = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+</pre></body>
+</html>

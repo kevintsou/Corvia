@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	/**
+<b><a name="line328">328    </a></b>	 * Checks the CRC (offset 0x9C within the Project Binary Header) of the
+<b><a name="line329">329    </a></b>	 * specified Project Binary. The area of protection provided by the CRC starts
+<b><a name="line330">330    </a></b>	 * from the Project ID within the Project Binary Header (offset 0x80) until the
+<b><a name="line331">331    </a></b>	 * end, not including the Code Signature
+<b><a name="line332">332    </a></b>	 *
+<b><a name="line333">333    </a></b>	 * @param p_project_binary_header
+<b><a name="line334">334    </a></b>	 *  The location of the Project Binary to be checked
+<b><a name="line335">335    </a></b>	 *
+<b><a name="line336">336    </a></b>	 * @return
+<b><a name="line337">337    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred
+<b><a name="line338">338    </a></b>	 *      BIT8 (PROJECT_BINARY_ERROR_CRC)
+<b><a name="line339">339    </a></b>	 *          The CRC is incorrect
+<b><a name="line340">340    </a></b>	 *      BIT13 (PROJECT_BINARY_ERROR_HW_ERROR)
+<b><a name="line341">341    </a></b>	 *          The hardware required to check the CRC has failed
+<b><a name="line342">342    </a></b>	 */
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	static U32 check_project_binary_crc(PROJECT_BINARY_HEADER *p_project_binary_header)
+<b><a name="line345">345    </a></b>	{
+<b><a name="line346">346    </a></b>	    U32 check_project_binary_error;
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	    volatile U32 *p_crc;
+<b><a name="line349">349    </a></b>	    U32 crc_address, crc_length;
+<b><a name="line350">350    </a></b>	    U32 crc_bin, crc_calc;
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	    check_project_binary_error = 0;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    if (0 == p_project_binary_header->code_sign_finish) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "p_project_binary_header->code_sign_finish"(unsigned).</font>
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	        Dump_LoadCode(tprintf("Check CRC: Code Sign CRC"));
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	        //Check code_sign_crc Byte 0~511 + Extension
+<b><a name="line359">359    </a></b>	        p_crc = &(p_project_binary_header->code_sign_crc);
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	        crc_address = (U32) & (p_project_binary_header->a_code_signature_marking[0]);
+<b><a name="line362">362    </a></b>	        crc_length = (SECTOR_SIZE * p_project_binary_header->project_binary_header_sector_size);
+<b><a name="line363">363    </a></b>	    }
+<b><a name="line364">364    </a></b>	    else {
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	        Dump_LoadCode(tprintf("Check CRC: Project Binary Header CRC "));
+<b><a name="line367">367    </a></b>	
+<b><a name="line368">368    </a></b>	        //Check project binary head CRC Byte 128~511 + Extension
+<b><a name="line369">369    </a></b>	        p_crc = &(p_project_binary_header->project_binary_header_crc);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	        crc_address = (U32) & (p_project_binary_header->project_id);
+<b><a name="line372">372    </a></b>	        crc_length = (SECTOR_SIZE * p_project_binary_header->project_binary_header_sector_size) - (crc_address - (U32)p_project_binary_header);
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    }
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    Dump_LoadCode(tprintf("CRC : %x @ %x, Start %x for Size %x", *p_crc, p_crc, crc_address, crc_length));
+<b><a name="line377">377    </a></b>	
+<b><a name="line378">378    </a></b>	    crc_calc = 0;
+<b><a name="line379">379    </a></b>	    crc_bin = *p_crc;
+<b><a name="line380">380    </a></b>	    *p_crc = 0;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	    crc_calc = phal_dmac_crc32((U32)crc_address, crc_length, CRC_CHK_BINARY);
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    //Restore the Binary CRC after calculation has finished
+<b><a name="line385">385    </a></b>	    *p_crc = crc_bin;
+</pre></body>
+</html>

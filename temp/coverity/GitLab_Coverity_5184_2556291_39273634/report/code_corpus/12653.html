@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/host/nvme/protocol/nvme_feature.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _NVME_FEATURE_H_
+<b><a name="line2">2    </a></b>	#define _NVME_FEATURE_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_NVME_FEATURE_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// NVMe Base Specification v1.4c
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	/*************************************************************************************************
+<b><a name="line11">11    </a></b>	 * NVMe Version
+<b><a name="line12">12    </a></b>	 *************************************************************************************************/
+<b><a name="line13">13    </a></b>	typedef enum {
+<b><a name="line14">14    </a></b>	    E_NVME_VERSION_1_4_0 = 0,
+<b><a name="line15">15    </a></b>	    E_NVME_VERSION_2_1_0,
+<b><a name="line16">16    </a></b>	} NVME_VERSION_E;
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define M_GEN_NVME_VERSION(major, minor, tertiary)          ((U32)((major << 16U) | (minor << 8U) | (tertiary)))
+<b><a name="line19">19    </a></b>	#define NVME_VERSION_1_4_0                                  M_GEN_NVME_VERSION(1UL, 4UL, 0UL)
+<b><a name="line20">20    </a></b>	#define NVME_VERSION_2_1_0                                  M_GEN_NVME_VERSION(2UL, 1UL, 0UL)
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	/*************************************************************************************************
+<b><a name="line24">24    </a></b>	 * Feature
+<b><a name="line25">25    </a></b>	 *************************************************************************************************/
+<b><a name="line26">26    </a></b>	// OACS (Optional Admin Command Support)
+<b><a name="line27">27    </a></b>	#define OACS_SECURITY_SEND_RECEIVE_EN                       (1)
+<b><a name="line28">28    </a></b>	#define OACS_FORMAT_NVM_CMD_EN                              (0)
+<b><a name="line29">29    </a></b>	#define OACS_FW_DOWNLOAD_COMMIT_EN                          (0)
+<b><a name="line30">30    </a></b>	#define OACS_NAMESPACE_MANAGEMENT_CAPABILITY_EN             (0) // 8.12
+<b><a name="line31">31    </a></b>	#define OACS_DEVICE_SELF_TEST_CMD_EN                        (0)
+<b><a name="line32">32    </a></b>	#define OACS_DIRECTIVE_EN                                   (0)
+<b><a name="line33">33    </a></b>	#define OACS_NVME_MI_SEND_RECEIVE_EN                        (0)
+</pre></body>
+</html>

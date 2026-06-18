@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line430">430    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_push(&apu_sq, sizeof(HAL_APU_FW_BCMD_SQ_HW), HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	        cur_buf_addr = cur_buf_addr + LC_BYTE_SIZE;
+<b><a name="line433">433    </a></b>	        --remain_4K_cnt;
+<b><a name="line434">434    </a></b>	        ++cur_4k_cnt;
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line437">437    </a></b>	            break;
+<b><a name="line438">438    </a></b>	        }
+<b><a name="line439">439    </a></b>	    }
+<b><a name="line440">440    </a></b>	}
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	static void nvme_security_send(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line443">443    </a></b>	{
+<b><a name="line444">444    </a></b>	    Dump_NVME(tprintf("  >> sec send.\n\r"));
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    U32 buf_base  = host->buffer_base;
+<b><a name="line447">447    </a></b>	    U32 buf_addr  = buf_base;
+<b><a name="line448">448    </a></b>	    U32 byte_cnt  = host->sq_cmd.payload_opt.raw.cdw11;
+<b><a name="line449">449    </a></b>	    U8      secp  = host->sq_cmd.payload_opt.adm.adm_sec_send.secp;
+<b><a name="line450">450    </a></b>	    U8     spsp0  = host->sq_cmd.payload_opt.adm.adm_sec_send.spsp0;
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    VUC_DISPATCH_PTR vuc_dispatch = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><a name="line453">453    </a></b>	
+<b><a name="line454">454    </a></b>	    if (secp == 0xFE && ((spsp0 == SCSI_PASS_THROUGH_SEND_SQ) || (spsp0 == SCSI_PASS_THROUGH_WRITE_DATA))) {
+<b><a name="line455">455    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_WRITE);
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	        if (SCSI_PASS_THROUGH_SEND_SQ == spsp0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "192" (signed) is not the same as that of the right operand "spsp0"(unsigned).</font>
+<b><a name="line458">458    </a></b>	            Dump_NVME(tprintf("      >> Send SQ.\n\r "));
+<b><a name="line459">459    </a></b>	            vuc_dispatch->mode = VUC_HANDLER_PACKET_MODE;
+<b><a name="line460">460    </a></b>	            vuc_sq_rcv();
+<b><a name="line461">461    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line462">462    </a></b>	        }
+<b><a name="line463">463    </a></b>	        else if ((VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state)) { //(SCSI_PASS_THROUGH_WRITE_DATA == spsp0)
+<b><a name="line464">464    </a></b>	            Dump_NVME(tprintf("      >> write data.\n\r "));
+<b><a name="line465">465    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line466">466    </a></b>	        }
+<b><a name="line467">467    </a></b>	        else {
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	        }
+<b><a name="line470">470    </a></b>	    }
+<b><a name="line471">471    </a></b>	    /*
+<b><a name="line472">472    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_IDENTIFY)
+<b><a name="line473">473    </a></b>	    {
+<b><a name="line474">474    </a></b>	        //PRINTF("\r\n security send : identify \r\n");
+<b><a name="line475">475    </a></b>	    }
+<b><a name="line476">476    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_GET_LOG_PAGE)
+<b><a name="line477">477    </a></b>	    {
+<b><a name="line478">478    </a></b>	        //PRINTF("\r\n security send : get log page \r\n");
+<b><a name="line479">479    </a></b>	    }
+<b><a name="line480">480    </a></b>	    */
+<b><a name="line481">481    </a></b>	    else {
+<b><a name="line482">482    </a></b>	        //PRINTF("\r\n security send do nothing , secp = %x",secp);
+<b><a name="line483">483    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line484">484    </a></b>	    }
+<b><a name="line485">485    </a></b>	    Dump_NVME(tprintf("end nvme_security_send\n\r"));
+<b><a name="line486">486    </a></b>	}
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	static void nvme_security_receive(HOST_API_STRUCT_PTR host, U16 ctag)
+</pre></body>
+</html>

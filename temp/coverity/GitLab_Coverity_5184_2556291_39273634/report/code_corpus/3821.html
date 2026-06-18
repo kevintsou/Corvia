@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line358">358    </a></b>	    sq_size = (U32)cnt * HAL_DB_DATA_SIZE_8B;
+<b><a name="line359">359    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_check_wr_cnt(q_id, sq_size) == TRUE), GERNAL_TIMEOUT_THRESHOLD, ERR_CHKSTATUS_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    db_tail_w_rest = dal_db_api_get_tail_w_rst(q_id);
+<b><a name="line362">362    </a></b>	
+<b><a name="line363">363    </a></b>	    db_remain_size = db_tail_w_rest * HAL_DB_DATA_SIZE_8B;
+<b><a name="line364">364    </a></b>	    //PTR adopt cpu view address
+<b><a name="line365">365    </a></b>	    db_queue_addr = (U32 *)hal_db_api_get_wptr(q_id);
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	    if (db_remain_size >= sq_size)
+<b><a name="line368">368    </a></b>	    {
+<b><a name="line369">369    </a></b>	        (void)memcpy((void *)db_queue_addr, (void *)data, sq_size);
+<b><a name="line370">370    </a></b>	    }
+<b><a name="line371">371    </a></b>	    else
+<b><a name="line372">372    </a></b>	    {
+<b><a name="line373">373    </a></b>	#if 0//FW_VERIFY_FPGA_COP0
+<b><a name="line374">374    </a></b>	        db_base_addr = (U32 *)hal_db_api_get_base_adr(q_id);
+<b><a name="line375">375    </a></b>	        (void)memcpy((void *)db_queue_addr, (void *)data, db_remain_size);
+<b><a name="line376">376    </a></b>	        (void)memcpy((void *)db_base_addr, (void *)((U64 *)data + db_tail_w_rest), (U32)sq_size - db_remain_size);
+<b><a name="line377">377    </a></b>	#else
+<b><a name="line378">378    </a></b>	        db_base_addr = (U32 *)hal_db_api_get_base_adr(q_id);
+<b><a name="line379">379    </a></b>	        (void)memcpy((void *)db_queue_addr, (void *)data, db_remain_size);
+<b><a name="line380">380    </a></b>	        data_addr = (U32)((U32 *)data) + db_remain_size;
+<b><a name="line381">381    </a></b>	        data = (void *)((U32 *)data_addr);
+<b><a name="line382">382    </a></b>	        (void)memcpy((void *)db_base_addr, (void *)data, (U32)sq_size - db_remain_size);
+<b><a name="line383">383    </a></b>	#endif
+<b><a name="line384">384    </a></b>	    }
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	    ASM_DSB();
+<b><a name="line387">387    </a></b>	    dal_db_api_set_wpiu(q_id, cnt);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "q_id" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line388">388    </a></b>	    db_queue_addr = (U32 *)hal_db_api_get_wptr(q_id);
+<b><a name="line389">389    </a></b>	    ASM_DSB();
+<b><a name="line390">390    </a></b>	}
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	void hal_db_pop_ext(void *data, U32 q_id, U32 pop)
+<b><a name="line393">393    </a></b>	{
+<b><a name="line394">394    </a></b>	    U32 *db_base_addr, *db_queue_addr;
+<b><a name="line395">395    </a></b>	    U32 data_addr, cq_size;
+<b><a name="line396">396    </a></b>	    U16 db_tail_r_rest, db_remain_size;
+<b><a name="line397">397    </a></b>	    U8 cnt;
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	    //UART_OUT_HEX(db_queue_addr);
+<b><a name="line401">401    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_check_rd_cnt(q_id, HAL_DB_DATA_SIZE_8B) == TRUE), GERNAL_TIMEOUT_THRESHOLD, MABIAO_APU_WAIT_RDY);
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    //PTR adopt cpu view address
+<b><a name="line404">404    </a></b>	    db_queue_addr = (U32 *)hal_db_api_get_rptr(q_id);
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    cnt = (U8)(((MR_HDR_STRUCT *)((void *)db_queue_addr))->len) + 1U;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    cq_size = (U32)cnt * HAL_DB_DATA_SIZE_8B;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_check_rd_cnt(q_id, cq_size) == TRUE), GERNAL_TIMEOUT_THRESHOLD, MABIAO_APU_WAIT_RDY);
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	    db_tail_r_rest = dal_db_api_get_tail_r_rst(q_id);
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    db_remain_size = db_tail_r_rest * HAL_DB_DATA_SIZE_8B;
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	    if (db_remain_size >= cq_size)
+<b><a name="line417">417    </a></b>	    {
+<b><a name="line418">418    </a></b>	        (void)memcpy((void *)data, (void *)db_queue_addr, cq_size);
+</pre></body>
+</html>

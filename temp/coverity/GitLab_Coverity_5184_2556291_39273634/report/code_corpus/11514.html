@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sys.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	    switch (itc_id) {
+<b><a name="line89">89    </a></b>	    case GIC_ID_UART0_INT:
+<b><a name="line90">90    </a></b>	        uart_isr();
+<b><a name="line91">91    </a></b>	        break;
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    case GIC_ID_PERSTN_EVT_0:  // PERST_F of Port0
+<b><a name="line94">94    </a></b>	    case GIC_ID_PERSTN_EVT_1:  // PERST_R of Port0
+<b><a name="line95">95    </a></b>	        Dump_Debug(tprintf("GIC_ID_PERSTN_EVT_0 or 1 :%x",itc_id));
+<b><a name="line96">96    </a></b>	        host_api_perst_isr(itc_id);
+<b><a name="line97">97    </a></b>	        break;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    case GIC_ID_PCIE_P0_INTR_N:
+<b><a name="line100">100    </a></b>	        Dump_Debug(tprintf("GIC_ID_PCIE_P0_INTR_N"));
+<b><a name="line101">101    </a></b>	        host_api_pcie_isr();
+<b><a name="line102">102    </a></b>	        break;
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    case GIC_ID_NVME_INT:
+<b><a name="line105">105    </a></b>	        Dump_Debug(tprintf("GIC_ID_NVME_INT"));
+<b><a name="line106">106    </a></b>	        host_api_nvme_isr();
+<b><a name="line107">107    </a></b>	        break;
+<b><a name="line108">108    </a></b>	
+<b><a name="line109">109    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line110">110    </a></b>	    case GIC_ID_SMBS_INT:   //TODO: need to confirm
+<b><a name="line111">111    </a></b>	        sys_api_smbs_isr();
+<b><a name="line112">112    </a></b>	        break;
+<b><a name="line113">113    </a></b>	#endif
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    default :
+<b><a name="line116">116    </a></b>	        break;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement does not have a non-empty default clause.</font>
+<b><a name="line117">117    </a></b>	    }
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    dal_gic_clear_interrupt(itc_id);
+<b><a name="line120">120    </a></b>	    DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	}
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	void phal_led_control(U8 type)
+<b><a name="line125">125    </a></b>	{
+<b><a name="line126">126    </a></b>	    if (type) {
+<b><a name="line127">127    </a></b>	        w_CR_DAS_LIGHT_THR(0x7DU); // 0x03600000UL, 0xD8  0~15
+<b><a name="line128">128    </a></b>	        w_CR_DAS_DARK_THR(0x177U); // 0x03600000UL,  0xD8 16~31
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	    else {
+<b><a name="line131">131    </a></b>	        w_CR_DAS_LIGHT_THR(0x7DU);
+<b><a name="line132">132    </a></b>	        w_CR_DAS_DARK_THR(0x7DU);
+<b><a name="line133">133    </a></b>	    }
+<b><a name="line134">134    </a></b>	
+<b><a name="line135">135    </a></b>	    // Trigger DAS
+<b><a name="line136">136    </a></b>	    w_CR_DAS_CNT_MODE(0U);
+<b><a name="line137">137    </a></b>	    w_CR_DAS_ALWAYS_EN(1U);
+<b><a name="line138">138    </a></b>	    w_CR_DAS_TRIGGER(0U);
+<b><a name="line139">139    </a></b>	    w_CR_DAS_TRIGGER(1U);
+<b><a name="line140">140    </a></b>	}
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	U32 phal_get_hw_ver(void)
+<b><a name="line144">144    </a></b>	{
+<b><a name="line145">145    </a></b>	    return ((hal_chip_id_95_64_get() >> 16U) & 0x7);
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	void hal_db_pop_block(void *p_data, U16 size, U8 db_id, U8 timeout)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_pop(p_data, size, db_id) == FAIL), GERNAL_TIMEOUT_THRESHOLD, timeout);
+<b><a name="line6">6    </a></b>	}
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	void hal_db_pop_block_sqz(void *p_data, U16 size, U8 db_id, U8 timeout)
+<b><a name="line9">9    </a></b>	{
+<b><a name="line10">10    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_pop(p_data, size, db_id) == FAIL), SQZ_TIMEOUT_THRESHOLD, timeout);
+<b><a name="line11">11    </a></b>	    memset((void *)phal_sqz_get_param_buf_base(), 0U, 0x1000);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "phal_sqz_get_param_buf_base()" of type "U32" is cast to type "void *".</font>
+<b><a name="line12">12    </a></b>	}
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	void bootcode_hal_db_init(void)
+<b><a name="line16">16    </a></b>	{
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	    //FE usage SQ doorbell
+<b><a name="line19">19    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_0, MR_OFF_CPU0_CMD_PORT_0, MR_LEN_CPU0_CMD_PORT_0); // HOST_MR_QID_CPU0_SQ_NVME_HCPL_P0    - use
+<b><a name="line20">20    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_1, MR_OFF_CPU0_CMD_PORT_1, MR_LEN_CPU0_CMD_PORT_1); // HOST_MR_QID_CPU0_SQ_NVME_HCPL_P1    - no use
+<b><a name="line21">21    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_2, MR_OFF_CPU0_CMD_PORT_2, MR_LEN_CPU0_CMD_PORT_2); // HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0 - use
+<b><a name="line22">22    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_3, MR_OFF_CPU0_CMD_PORT_3, MR_LEN_CPU0_CMD_PORT_3); // HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P1 - no use
+<b><a name="line23">23    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_4, MR_OFF_CPU0_CMD_PORT_4, MR_LEN_CPU0_CMD_PORT_4); // HOST_MR_QID_CPU0_SQ_NVME_RDMA_P0    - no use
+<b><a name="line24">24    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_5, MR_OFF_CPU0_CMD_PORT_5, MR_LEN_CPU0_CMD_PORT_5); // HOST_MR_QID_CPU0_SQ_NVME_RDMA_P1    - no use
+<b><a name="line25">25    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_6, MR_OFF_CPU0_CMD_PORT_6, MR_LEN_CPU0_CMD_PORT_6); // HOST_MR_QID_CPU0_SQ_NVME_WDMA_P0    - no use
+<b><a name="line26">26    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CMD_PORT_7, MR_OFF_CPU0_CMD_PORT_7, MR_LEN_CPU0_CMD_PORT_7); // HOST_MR_QID_CPU0_SQ_NVME_WDMA_P1    - no use
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    //FE usage CQ doorbell
+<b><a name="line29">29    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_0, MR_OFF_CPU0_CPL_PORT_0, MR_LEN_CPU0_CPL_PORT_0); // HOST_MR_QID_CPU0_CQ_NVME_HCMD_SYNC   - use
+<b><a name="line30">30    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_1, MR_OFF_CPU0_CPL_PORT_1, MR_LEN_CPU0_CPL_PORT_1); // HOST_MR_QID_CPU0_CQ_NVME_HCMD_ASYNC  - no use
+<b><a name="line31">31    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_2, MR_OFF_CPU0_CPL_PORT_2, MR_LEN_CPU0_CPL_PORT_2); // HOST_MR_QID_CPU0_CQ_NVME_HTD_READ    - use
+<b><a name="line32">32    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_3, MR_OFF_CPU0_CPL_PORT_3, MR_LEN_CPU0_CPL_PORT_3); // HOST_MR_QID_CPU0_CQ_NVME_HTD_WRITE   - use
+<b><a name="line33">33    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_4, MR_OFF_CPU0_CPL_PORT_4, MR_LEN_CPU0_CPL_PORT_4); // HOST_MR_QID_CPU0_CQ_NVME_HCMD_IO     - no use
+<b><a name="line34">34    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_5, MR_OFF_CPU0_CPL_PORT_5, MR_LEN_CPU0_CPL_PORT_5); // HOST_MR_QID_CPU0_CQ_NVME_DN_READ_P0  - no use
+<b><a name="line35">35    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_6, MR_OFF_CPU0_CPL_PORT_6, MR_LEN_CPU0_CPL_PORT_6); // HOST_MR_QID_CPU0_CQ_NVME_DN_READ_P1  - no use
+<b><a name="line36">36    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_7, MR_OFF_CPU0_CPL_PORT_7, MR_LEN_CPU0_CPL_PORT_7); // HOST_MR_QID_CPU0_CQ_NVME_DN_WRITE_P0 - no use
+<b><a name="line37">37    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_8, MR_OFF_CPU0_CPL_PORT_8, MR_LEN_CPU0_CPL_PORT_8); // HOST_MR_QID_CPU0_CQ_NVME_DN_WRITE_P1 - no use
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_9, MR_OFF_CPU0_CPL_PORT_9, MR_LEN_CPU0_CPL_PORT_9);
+<b><a name="line40">40    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_10, MR_OFF_CPU0_CPL_PORT_10, MR_LEN_CPU0_CPL_PORT_10);
+<b><a name="line41">41    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_11, MR_OFF_CPU0_CPL_PORT_11, MR_LEN_CPU0_CPL_PORT_11);
+<b><a name="line42">42    </a></b>	    hal_db_q_info_init(MR_QID_CPU0_CPL_PORT_12, MR_OFF_CPU0_CPL_PORT_12, MR_LEN_CPU0_CPL_PORT_12);
+</pre></body>
+</html>

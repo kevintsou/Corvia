@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1473">1473    </a></b>	    }
+<b><a name="line1474">1474    </a></b>	}
+<b><a name="line1475">1475    </a></b>	
+<b><a name="line1476">1476    </a></b>	void hal_flash_pio_pkt_header(U8 ch, U8 len, U32 header)
+<b><a name="line1477">1477    </a></b>	{
+<b><a name="line1478">1478    </a></b>	    w_FCTL_PKT_DATA_HEADER(ch, header);
+<b><a name="line1479">1479    </a></b>	    w_FCTL_PKT_LEN_HEADER(ch, len);
+<b><a name="line1480">1480    </a></b>	}
+<b><a name="line1481">1481    </a></b>	
+<b><a name="line1482">1482    </a></b>	void hal_flash_pio_pkt_body(U8 ch, U8 len, U32 body)
+<b><a name="line1483">1483    </a></b>	{
+<b><a name="line1484">1484    </a></b>	    w_FCTL_PKT_DATA_BODY(ch, body);
+<b><a name="line1485">1485    </a></b>	    w_FCTL_PKT_LEN_BODY(ch, len);
+<b><a name="line1486">1486    </a></b>	}
+<b><a name="line1487">1487    </a></b>	
+<b><a name="line1488">1488    </a></b>	void hal_flash_pio_pkt(U8 ch, U32 pkt)
+<b><a name="line1489">1489    </a></b>	{
+<b><a name="line1490">1490    </a></b>	    w_PIO_PKT(ch, pkt);
+<b><a name="line1491">1491    </a></b>	}
+<b><a name="line1492">1492    </a></b>	
+<b><a name="line1493">1493    </a></b>	void hal_ca_rescue_setting(U8 ch, U8 increase_2, U8 increase_1)
+<b><a name="line1494">1494    </a></b>	{
+<b><a name="line1495">1495    </a></b>	    /*
+<b><a name="line1496">1496    </a></b>	    track ratio = osc clk / (ca clk * 2) * 256
+<b><a name="line1497">1497    </a></b>	    50Hz : 800 / 100 * 256 = 2048
+<b><a name="line1498">1498    </a></b>	    40Hz : 800 / 80 * 256 = 2560
+<b><a name="line1499">1499    </a></b>	    25Hz : 800 / 50 * 256 = 4096
+<b><a name="line1500">1500    </a></b>	    */
+<b><a name="line1501">1501    </a></b>	    if (increase_1) {
+<b><a name="line1502">1502    </a></b>	        if (increase_2) {   //  8 -> 5 -> 4
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "increase_2" does not have an essentially boolean type.</font>
+<b><a name="line1503">1503    </a></b>	            //800MHz / (8 * 2)  = 50MHz
+<b><a name="line1504">1504    </a></b>	            w_CA_CLK_RATIO_TX(ch, 8U);
+<b><a name="line1505">1505    </a></b>	            w_FLH_DLL_DLL_CH0_W_SCA_TRACK_RATIO(ch, 2048U);
+<b><a name="line1506">1506    </a></b>	            w_CA_CLK_RATIO_RX(ch, 8U);
+<b><a name="line1507">1507    </a></b>	            w_FLH_DLL_DLL_CH0_SCA_TRACK_RATIO(ch, 2048U);
+<b><a name="line1508">1508    </a></b>	        }
+<b><a name="line1509">1509    </a></b>	        else {
+<b><a name="line1510">1510    </a></b>	            //800MHz / (10 * 2) = 40MHz
+<b><a name="line1511">1511    </a></b>	            w_CA_CLK_RATIO_TX(ch, 10U);
+<b><a name="line1512">1512    </a></b>	            w_FLH_DLL_DLL_CH0_W_SCA_TRACK_RATIO(ch, 2560U);
+<b><a name="line1513">1513    </a></b>	            w_CA_CLK_RATIO_RX(ch, 10U);
+<b><a name="line1514">1514    </a></b>	            w_FLH_DLL_DLL_CH0_SCA_TRACK_RATIO(ch, 2560U);
+<b><a name="line1515">1515    </a></b>	        }
+<b><a name="line1516">1516    </a></b>	    } else {
+<b><a name="line1517">1517    </a></b>	        //800MHz / (16 * 2) = 25MHz
+<b><a name="line1518">1518    </a></b>	        w_CA_CLK_RATIO_TX(ch, 16U);
+<b><a name="line1519">1519    </a></b>	        w_FLH_DLL_DLL_CH0_W_SCA_TRACK_RATIO(ch, 4096U);
+<b><a name="line1520">1520    </a></b>	        w_CA_CLK_RATIO_RX(ch, 16U);
+<b><a name="line1521">1521    </a></b>	        w_FLH_DLL_DLL_CH0_SCA_TRACK_RATIO(ch, 4096U);
+<b><a name="line1522">1522    </a></b>	    }
+<b><a name="line1523">1523    </a></b>	}
+<b><a name="line1524">1524    </a></b>	
+<b><a name="line1525">1525    </a></b>	U32 hal_fip_set_ctrl_zq_calibration(void)
+<b><a name="line1526">1526    </a></b>	{
+<b><a name="line1527">1527    </a></b>	    U8 ch;
+<b><a name="line1528">1528    </a></b>	    const U32 ulDelayForZqClk16t = 400;
+<b><a name="line1529">1529    </a></b>	    U32 status = 0U;
+<b><a name="line1530">1530    </a></b>	    U32 mabiao_addr;
+<b><a name="line1531">1531    </a></b>	
+<b><a name="line1532">1532    </a></b>	    w_CR_FPHYA_DRVPN_SYS_EN_0(0U);
+<b><a name="line1533">1533    </a></b>	
+</pre></body>
+</html>

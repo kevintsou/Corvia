@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#define SQZ_REG_BASE                        (*(volatile U32*)0x0360b000)
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	// SQZ status reg
+<b><a name="line6">6    </a></b>	#define SQZ_STS_ROM_FW_OFT                  (BIT0)
+<b><a name="line7">7    </a></b>	#define SQZ_STS_JUMP_CODE_OFT               (BIT1)
+<b><a name="line8">8    </a></b>	#define SQZ_STS_READY_OFT                   (BIT2)
+<b><a name="line9">9    </a></b>	#define SQZ_STS_IDLE_BUSY_OFT               (BIT3)
+<b><a name="line10">10    </a></b>	#define SQZ_STS_CPTRA_PENDING_CMD_OFT       (BIT4)
+<b><a name="line11">11    </a></b>	#define SQZ_STS_EFUSE_CTRL_LOCK_OFT         (BIT5)
+<b><a name="line12">12    </a></b>	#define SQZ_STS_EFUSE_CTRL_BUSY_OFT         (BIT6)
+<b><a name="line13">13    </a></b>	#define SQZ_STS_MPU_LOCK_OFT                (BIT8)
+<b><a name="line14">14    </a></b>	#define SQZ_STS_CPTRA_DISABLE_OFT           (BIT9)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define SQZ_TIMEOUT_VALUE  (0xFFFFFFFF) //TODO: move to mabiao
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line17">17    </a></b>	#define BYPASS_SQZ (TRUE)
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	typedef struct {
+<b><a name="line20">20    </a></b>	    U32 sqz_en        : 1;
+<b><a name="line21">21    </a></b>	    U32 pk_done       : 1;  // for caliptra
+<b><a name="line22">22    </a></b>	    U32 metadata_type : 1;  // for caliptra
+<b><a name="line23">23    </a></b>	    U32 svn           : 16; // for caliptra
+<b><a name="line24">24    </a></b>	    U32 rsv           : 13;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    U32 param_buf_base;
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    U8  key_hash[HAL_SEC_SHA2_384_DIGEST_LEN];
+<b><a name="line29">29    </a></b>	    U32 metadata;
+<b><a name="line30">30    </a></b>	} SQZ_INFO;
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	SQZ_INFO gSQZInfo = {0};
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	// static void init_efuse(void)
+<b><a name="line35">35    </a></b>	// {
+<b><a name="line36">36    </a></b>	//     U32 ret = 0;
+<b><a name="line37">37    </a></b>	//     ret |= hal_sqz_efuse_program(25, 1, 0x3300000, TRUE); //caliptra lifecycle
+<b><a name="line38">38    </a></b>	//     ret |= hal_sqz_efuse_program(86, 0, 0x68625f8e, TRUE); // obf
+<b><a name="line39">39    </a></b>	//     ret |= hal_sqz_efuse_program(86, 1, 0xa8328ffe, TRUE); // obf
+<b><a name="line40">40    </a></b>	//     ret |= hal_sqz_efuse_program(86, 2, 0x48522fce, TRUE); // obf
+<b><a name="line41">41    </a></b>	//     ret |= hal_sqz_efuse_program(86, 3, 0xf8b27fae, TRUE); // obf
+<b><a name="line42">42    </a></b>	//     ret |= hal_sqz_efuse_program(86, 4, 0x38a2efbe, TRUE); // obf
+<b><a name="line43">43    </a></b>	//     ret |= hal_sqz_efuse_program(86, 5, 0x98c2df5e, TRUE); // obf
+<b><a name="line44">44    </a></b>	//     ret |= hal_sqz_efuse_program(86, 6, 0x63615688, TRUE); // obf
+<b><a name="line45">45    </a></b>	//     ret |= hal_sqz_efuse_program(86, 7, 0xa33186f8, TRUE); // obf
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	//     ret |= hal_sqz_efuse_program(72, 0, 0x00010203, TRUE); // uds_kdk0
+</pre></body>
+</html>

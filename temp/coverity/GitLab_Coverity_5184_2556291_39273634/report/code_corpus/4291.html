@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1674">1674    </a></b>	                    else {
+<b><a name="line1675">1675    </a></b>	                        set_feat_seq_id++;
+<b><a name="line1676">1676    </a></b>	                    }
+<b><a name="line1677">1677    </a></b>	                }
+<b><a name="line1678">1678    </a></b>	                op_id++;
+<b><a name="line1679">1679    </a></b>	            }
+<b><a name="line1680">1680    </a></b>	            op_id++;
+<b><a name="line1681">1681    </a></b>	            break;
+<b><a name="line1682">1682    </a></b>	
+<b><a name="line1683">1683    </a></b>	        case INST_CMD_EFh:
+<b><a name="line1684">1684    </a></b>	            for (index = 0U; index < fpl_ptr->set_if_adr_count; index++) {
+<b><a name="line1685">1685    </a></b>	                fpl_ptr->set_feat_if_seq[index][set_feat_seq_id] = CMD_EFh;
+<b><a name="line1686">1686    </a></b>	            }
+<b><a name="line1687">1687    </a></b>	            set_feat_flag = FALSE;
+<b><a name="line1688">1688    </a></b>	            op_id  ++;
+<b><a name="line1689">1689    </a></b>	            set_feat_seq_id ++;
+<b><a name="line1690">1690    </a></b>	            break;
+<b><a name="line1691">1691    </a></b>	
+<b><a name="line1692">1692    </a></b>	        case INST_CMD_EEh:
+<b><a name="line1693">1693    </a></b>	            for (index = 0U; index < fpl_ptr->set_if_adr_count; index++) {
+<b><a name="line1694">1694    </a></b>	                fpl_ptr->get_feat_if_seq[index][get_feat_seq_id] = CMD_EEh;
+<b><a name="line1695">1695    </a></b>	            }
+<b><a name="line1696">1696    </a></b>	            op_id  ++;
+<b><a name="line1697">1697    </a></b>	            get_feat_seq_id ++;
+<b><a name="line1698">1698    </a></b>	            break;
+<b><a name="line1699">1699    </a></b>	
+<b><a name="line1700">1700    </a></b>	        default:
+<b><a name="line1701">1701    </a></b>	            // assert
+<b><a name="line1702">1702    </a></b>	            /* coverity[assert_side_effect] */
+<b><a name="line1703">1703    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_FLOW_FPL_FIP_INIT_FAIL, (_hang == FALSE));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "BCODE_ERROR_FLOW_FPL_FIP_INIT_FAIL" from essential type "anonymous enum" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line1704">1704    </a></b>	            break;
+<b><a name="line1705">1705    </a></b>	        }
+<b><a name="line1706">1706    </a></b>	    }
+<b><a name="line1707">1707    </a></b>	
+<b><a name="line1708">1708    </a></b>	#if 0
+<b><a name="line1709">1709    </a></b>	    for (index = 0U; index < fpl_ptr->set_if_adr_count; index++) {
+<b><a name="line1710">1710    </a></b>	        tprintf("---FeatAddr(%d)---", index);
+<b><a name="line1711">1711    </a></b>	        U8 i;
+<b><a name="line1712">1712    </a></b>	        for (i = 0U; i < EFUSE_PARAM_SET_FEAT_IF_DAT_MAX ; i++) {
+<b><a name="line1713">1713    </a></b>	            if (i == 0U) {
+<b><a name="line1714">1714    </a></b>	                tprintf("CMD(0x%x)", fpl_ptr->set_feat_if_seq[index][i]);
+<b><a name="line1715">1715    </a></b>	            }
+<b><a name="line1716">1716    </a></b>	            else if (i == 1) {
+<b><a name="line1717">1717    </a></b>	                tprintf("ADR(0x%x)", fpl_ptr->set_feat_if_seq[index][i]);
+<b><a name="line1718">1718    </a></b>	            }
+<b><a name="line1719">1719    </a></b>	            else {
+<b><a name="line1720">1720    </a></b>	                tprintf("DAT(0x%x)", fpl_ptr->set_feat_if_seq[index][i]);
+<b><a name="line1721">1721    </a></b>	            }
+<b><a name="line1722">1722    </a></b>	        }
+<b><a name="line1723">1723    </a></b>	        for (i = 0U; i < EFUSE_PARAM_SET_FEAT_IF_DAT_MAX ; i++) {
+<b><a name="line1724">1724    </a></b>	            if (i == 0U) {
+<b><a name="line1725">1725    </a></b>	                tprintf("CMD(0x%x)", fpl_ptr->get_feat_if_seq[index][i]);
+<b><a name="line1726">1726    </a></b>	            }
+<b><a name="line1727">1727    </a></b>	            else if (i == 1) {
+<b><a name="line1728">1728    </a></b>	                tprintf("ADR(0x%x)", fpl_ptr->get_feat_if_seq[index][i]);
+<b><a name="line1729">1729    </a></b>	            }
+<b><a name="line1730">1730    </a></b>	            else {
+<b><a name="line1731">1731    </a></b>	                tprintf("DAT(0x%x)", fpl_ptr->get_feat_if_seq[index][i]);
+<b><a name="line1732">1732    </a></b>	            }
+<b><a name="line1733">1733    </a></b>	        }
+<b><a name="line1734">1734    </a></b>	    }
+</pre></body>
+</html>

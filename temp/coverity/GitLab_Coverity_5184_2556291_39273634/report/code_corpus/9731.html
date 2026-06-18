@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line262">262    </a></b>	    if ((VUC_ISP_UART_TEST_BAUDRATE_CHANGE == sq->sub_feature)) {
+<b><a name="line263">263    </a></b>	        bootcode_hal_uart_api_w_baud_rate(ROUNDING((U32)UART_REFERENCE_CLOCK, (sq->baudrate * 100)));
+<b><a name="line264">264    </a></b>	        Dump_Vendor(tprintf("hal_uart_init_register_setting",  sq->baudrate * 100, TRUE));
+<b><a name="line265">265    </a></b>	    }
+<b><a name="line266">266    </a></b>	    else {
+<b><a name="line267">267    </a></b>	        status_code = INVALID_STATUS_PARAMETER_ERROR;
+<b><a name="line268">268    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line269">269    </a></b>	    }
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	/*
+<b><a name="line274">274    </a></b>	 *  Data In
+<b><a name="line275">275    </a></b>	 */
+<b><a name="line276">276    </a></b>	#define BURNER_FAIL_COUNT_MAX       1
+<b><a name="line277">277    </a></b>	U8 gBurnerFailCount = 0;//TODO do this better
+<b><a name="line278">278    </a></b>	#define DB_VUC_ISP_PROGRAM_PRAM         ((1) && DB_FTL_VENDOR)
+<b><a name="line279">279    </a></b>	void vuc_isp_program_pram(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line280">280    </a></b>	{
+<b><a name="line281">281    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line282">282    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	    U32 project_binary_address;
+<b><a name="line285">285    </a></b>	    U32 project_binary_offset_address;
+<b><a name="line286">286    </a></b>	    U32 project_binary_partial_size;
+<b><a name="line287">287    </a></b>	    U32 err_status;
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line290">290    </a></b>	
+<b><a name="line291">291    </a></b>	    volatile VUC_ISP_PROGRAM_PRAM_PARAM_PTR sq = (VUC_ISP_PROGRAM_PRAM_PARAM_PTR)param->sq;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "param->sq" of type "VUC_SQ_STRUCT_PTR volatile" is cast to type "VUC_ISP_PROGRAM_PRAM_PARAM_PTR".</font>
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	#if DB_VUC_ISP_PROGRAM_PRAM
+<b><a name="line294">294    </a></b>	    Dump_Vendor(tprintf("\n\r Type: %x", sq->type));
+<b><a name="line295">295    </a></b>	    Dump_Vendor(tprintf(", Scrambled: %x", sq->scrambled));
+<b><a name="line296">296    </a></b>	    Dump_Vendor(tprintf(", Commit: %x", sq->commit));
+<b><a name="line297">297    </a></b>	    Dump_Vendor(tprintf(", Offset: %x", sq->offset));
+<b><a name="line298">298    </a></b>	    Dump_Vendor(tprintf(", sq->ndt: %x", sq->ndt));
+<b><a name="line299">299    </a></b>	    Dump_Vendor(tprintf(", Total size: %x", sq->total_size));
+<b><a name="line300">300    </a></b>	#endif  //  DB_VUC_ISP_PROGRAM_PRAM
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    if ((0 == gBCodeGlobalStruct.p_efuse_security_setting->production_prohibit_enable) || (0 == gBCodeGlobalStruct.production_mode)) {
+<b><a name="line303">303    </a></b>	        project_binary_address = DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line304">304    </a></b>	        project_binary_offset_address = DBUF_API_BOOTCODE_DATA_BUFFER_BASE + (U32)sq->offset;
+<b><a name="line305">305    </a></b>	        project_binary_partial_size = (sq->ndt * NDT_SIZE);
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (sq->scrambled) {
+<b><a name="line308">308    </a></b>	            err_status = decrypt_partial_project_binary((U32)param->host_buf, (sq->offset >> SECTOR_SIZE_SHIFT), (project_binary_partial_size >> SECTOR_SIZE_SHIFT));
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	            if (0 != err_status) {
+<b><a name="line311">311    </a></b>	                status_code = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line312">312    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	
+<b><a name="line317">317    </a></b>	        if (sq->type) {
+<b><a name="line318">318    </a></b>	            if (memcmp((void *)project_binary_offset_address, (void *)(param->host_buf), project_binary_partial_size)) {
+<b><a name="line319">319    </a></b>	                status_code = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line320">320    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line321">321    </a></b>	            }
+<b><a name="line322">322    </a></b>	        }
+</pre></body>
+</html>

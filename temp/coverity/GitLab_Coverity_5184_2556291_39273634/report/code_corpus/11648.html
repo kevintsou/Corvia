@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line588">588    </a></b>	 * @note
+<b><a name="line589">589    </a></b>	 *
+<b><a name="line590">590    </a></b>	 */
+<b><a name="line591">591    </a></b>	U32 dal_fip_fpu_fill_raw_write(U32 fpu_base, U8 raw_prog_src_ibf)
+<b><a name="line592">592    </a></b>	{
+<b><a name="line593">593    </a></b>	    DAL_FIP_FPU_DMA_STRUCT_PTR ptr = (DAL_FIP_FPU_DMA_STRUCT_PTR)fpu_base;
+<b><a name="line594">594    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line595">595    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_DMA;
+<b><a name="line596">596    </a></b>	    ptr->raw_prog_ibf     = 1;
+<b><a name="line597">597    </a></b>	    ptr->raw_prog_en     = 1;
+<b><a name="line598">598    </a></b>	    ptr->wr     = 1/* DMA write */;
+<b><a name="line599">599    </a></b>	    ptr->raw_prog_src_ibf     = raw_prog_src_ibf;
+<b><a name="line600">600    </a></b>	
+<b><a name="line601">601    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line602">602    </a></b>	}
+<b><a name="line603">603    </a></b>	
+<b><a name="line604">604    </a></b>	/*!
+<b><a name="line605">605    </a></b>	 * @brief
+<b><a name="line606">606    </a></b>	 *
+<b><a name="line607">607    </a></b>	 * - TODO:
+<b><a name="line608">608    </a></b>	 *
+<b><a name="line609">609    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line610">610    </a></b>	 * @return    Next FPU Base.
+<b><a name="line611">611    </a></b>	 * @note
+<b><a name="line612">612    </a></b>	 *
+<b><a name="line613">613    </a></b>	 */
+<b><a name="line614">614    </a></b>	U32 dal_fip_fpu_fill_raw_write_non_ibuf(U32 fpu_base)
+<b><a name="line615">615    </a></b>	{
+<b><a name="line616">616    </a></b>	    DAL_FIP_FPU_DMA_STRUCT_PTR ptr = (DAL_FIP_FPU_DMA_STRUCT_PTR)fpu_base;
+<b><a name="line617">617    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line618">618    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_DMA;
+<b><a name="line619">619    </a></b>	    ptr->raw_prog_ibf     = 0;
+<b><a name="line620">620    </a></b>	    ptr->raw_prog_en     = 1;
+<b><a name="line621">621    </a></b>	    ptr->wr     = 1/* DMA write */;
+<b><a name="line622">622    </a></b>	    ptr->raw_prog_src_ibf     = 0;
+<b><a name="line623">623    </a></b>	
+<b><a name="line624">624    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line625">625    </a></b>	}
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	
+<b><a name="line628">628    </a></b>	/*!
+<b><a name="line629">629    </a></b>	 * @brief
+<b><a name="line630">630    </a></b>	 *
+<b><a name="line631">631    </a></b>	 * - TODO:
+<b><a name="line632">632    </a></b>	 *
+<b><a name="line633">633    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line634">634    </a></b>	 * @return    Next FPU Base.
+<b><a name="line635">635    </a></b>	 * @note
+<b><a name="line636">636    </a></b>	 *
+<b><a name="line637">637    </a></b>	 */
+<b><a name="line638">638    </a></b>	U32 dal_fip_fpu_fill_adr_gen(U32 fpu_base)
+<b><a name="line639">639    </a></b>	{
+<b><a name="line640">640    </a></b>	    DAL_FIP_FPU_ADR_GEN_STRUCT_PTR ptr = (DAL_FIP_FPU_ADR_GEN_STRUCT_PTR)fpu_base;
+<b><a name="line641">641    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line642">642    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_ADR_GEN;
+<b><a name="line643">643    </a></b>	
+<b><a name="line644">644    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line645">645    </a></b>	}
+<b><a name="line646">646    </a></b>	
+<b><a name="line647">647    </a></b>	/*!
+<b><a name="line648">648    </a></b>	 * @brief
+</pre></body>
+</html>

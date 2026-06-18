@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define COP2_DMAC_ENTRY_SIZE_1B                     (0x0U)
+<b><a name="line24">24    </a></b>	#define COP2_DMAC_ENTRY_SIZE_2B                     (0x1U)
+<b><a name="line25">25    </a></b>	#define COP2_DMAC_ENTRY_SIZE_4B                     (0x2U)
+<b><a name="line26">26    </a></b>	#define COP2_DMAC_ENTRY_SIZE_8B                     (0x3U)
+<b><a name="line27">27    </a></b>	#define COP2_DMAC_ENTRY_SIZE_16B                    (0x4U)
+<b><a name="line28">28    </a></b>	#define COP2_DMAC_ENTRY_SIZE_32B                    (0x5U)
+<b><a name="line29">29    </a></b>	#define COP2_DMAC_ENTRY_SIZE_NUM                    (0x6U)
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	// IP number
+<b><a name="line32">32    </a></b>	#define HAL_COP2_MR_IP_R5_0                (1U)
+<b><a name="line33">33    </a></b>	// mr target id
+<b><a name="line34">34    </a></b>	#define HAL_COP2_MR_TID_DMAC_L             (0x5F3U)
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	// mr cpu0 cq target id
+<b><a name="line37">37    </a></b>	#define HAL_COP2_MR_CPU0_CQ_TID_DMAC_L     (0x591U) // MR_CPU0_MVP(17U)
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	#define CRC_32_WIDTH       (2)
+<b><a name="line40">40    </a></b>	#define CRC_16_WIDTH       (1)
+<b><a name="line41">41    </a></b>	#define CRC_8_WIDTH        (0)
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	#define REFIN_DISABLE      (0)
+<b><a name="line44">44    </a></b>	#define REFIN_ENABLE       (1)
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	#define REFOUT_DISABLE     (0)
+<b><a name="line47">47    </a></b>	#define REFOUT_ENABLE      (1)
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	#define XOR_OUT_DISABLE    (0)
+<b><a name="line50">50    </a></b>	#define XOR_OUT_ENABLE     (1)
+<b><a name="line51">51    </a></b>	#define INVALID_VALUE      (0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	#define FIXED_CRC32_POLY    0x04c11db7
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	#define CRC_JUMP            (0)
+<b><a name="line56">56    </a></b>	#define CRC_CHK_BINARY      (1)
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	enum LO_PRESSURE_TEST_RAM_TYPE
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    LO_DBUF_TO_DBUF = 0,
+<b><a name="line61">61    </a></b>	    LO_DBUF_TO_DDR,
+<b><a name="line62">62    </a></b>	    LO_DDR_TO_DBUF,
+<b><a name="line63">63    </a></b>	    LO_DDR_TO_DDR,
+<b><a name="line64">64    </a></b>	    LO_REGION_NUM
+<b><a name="line65">65    </a></b>	};
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	enum DMAC_ENTRY_SIZE
+<b><a name="line68">68    </a></b>	{
+<b><a name="line69">69    </a></b>	    ENTRY_SIZE_1B = 0,
+<b><a name="line70">70    </a></b>	    ENTRY_SIZE_2B,
+<b><a name="line71">71    </a></b>	    ENTRY_SIZE_4B,
+<b><a name="line72">72    </a></b>	    ENTRY_SIZE_8B,
+<b><a name="line73">73    </a></b>	    ENTRY_SIZE_16B,
+<b><a name="line74">74    </a></b>	    ENTRY_SIZE_32B,
+<b><a name="line75">75    </a></b>	    ENTRY_SIZE_CNT
+<b><a name="line76">76    </a></b>	};
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	typedef struct cop2_dmac_sv_sq_cmd         COP2_DMAC_SV_SQ_CMD, *COP2_DMAC_SV_SQ_CMD_PTR;
+<b><a name="line81">81    </a></b>	struct cop2_dmac_sv_sq_cmd
+<b><a name="line82">82    </a></b>	{
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_nvm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line54">54    </a></b>	        write_buf_ready.wr_buf_rdy.sv = hcmd->payload.info.user.esv;
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	    else {
+<b><a name="line57">57    </a></b>	        write_buf_ready.wr_buf_rdy.sv = 0xFF;
+<b><a name="line58">58    </a></b>	    }
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    write_buf_ready.wr_buf_rdy.am       = 1U;
+<b><a name="line61">61    </a></b>	    write_buf_ready.wr_buf_rdy.dma_done = 1U;
+<b><a name="line62">62    </a></b>	    write_buf_ready.wr_buf_rdy.err_info = 0U;
+<b><a name="line63">63    </a></b>	    write_buf_ready.wr_buf_rdy.e3dp     = 0U;
+<b><a name="line64">64    </a></b>	    write_buf_ready.wr_buf_rdy.e3d      = 0U;
+<b><a name="line65">65    </a></b>	    write_buf_ready.wr_buf_rdy.aes      = 0U;
+<b><a name="line66">66    </a></b>	    write_buf_ready.wr_buf_rdy.acpl     = 0U;
+<b><a name="line67">67    </a></b>	    write_buf_ready.wr_buf_rdy.tnlc     = hcmd->payload.info.user.tnlc;
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    hal_apu_fill_wr_buf_rdy_sq(&apu_sq, &write_buf_ready);
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == TRUE), GERNAL_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line72">72    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_push(&apu_sq, sizeof(HAL_APU_FW_BCMD_SQ_HW), HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == FAIL), GERNAL_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	}
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	static void read_buffer_ready(HOST_API_STRUCT_PTR host, U64 lca, U16 nlc)
+<b><a name="line77">77    </a></b>	{
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	    HAL_HCMD_STRUCT_PTR hcmd = (HAL_HCMD_STRUCT_PTR)&host->hcmd;
+<b><a name="line80">80    </a></b>	    HAL_APU_RD_BUF_RDY_SQ_HW apu_sq;
+<b><a name="line81">81    </a></b>	    HAL_APU_TRIG_DMA_PARAM read_buf_ready;
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    memset((void *)&read_buf_ready, 0x0U, sizeof(HAL_APU_TRIG_DMA_PARAM));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0U" from essential type "unsigned 8-bit int" to different or narrower essential type "signed 32-bit int".</font>
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    Dump_NVME(tprintf("read_buf_ready lca:%x_%x", (U32)(lca>>32), (U32)lca&0xFFFFFFFF));
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    read_buf_ready.ctag                 = hcmd->payload.info.user.ctag;
+<b><a name="line88">88    </a></b>	    read_buf_ready.ud                   = 1U; // 1: user data
+<b><a name="line89">89    </a></b>	    read_buf_ready.dir                  = 0U; // 1: write
+<b><a name="line90">90    </a></b>	    read_buf_ready.fst                  = (nlc == hcmd->payload.info.user.tnlc) ? TRUE : FALSE;
+<b><a name="line91">91    </a></b>	    read_buf_ready.lst                  = (nlc == 1U) ? TRUE : FALSE;
+<b><a name="line92">92    </a></b>	    read_buf_ready.node_tag             = 0U;
+<b><a name="line93">93    </a></b>	    //read_buf_ready.pb                   = (U32)((host->buffer_base - phal_dbuf_get_base()) >> 5);
+<b><a name="line94">94    </a></b>	    read_buf_ready.buf_addr_l           = (U32)host->buffer_base;
+<b><a name="line95">95    </a></b>	    read_buf_ready.buf_addr_h           = 0;
+<b><a name="line96">96    </a></b>	    read_buf_ready.spr_addr_l           = (U32)host->spr_base;
+<b><a name="line97">97    </a></b>	    read_buf_ready.spr_addr_h           = 0;
+<b><a name="line98">98    </a></b>	    read_buf_ready.pb_type              = 0U; // 0: dbuf, 1: dram
+<b><a name="line99">99    </a></b>	    read_buf_ready.rd_buf_rdy.ior       = hcmd->payload.info.user.ior;
+<b><a name="line100">100    </a></b>	    read_buf_ready.rd_buf_rdy.rd_zero   = 0U;
+<b><a name="line101">101    </a></b>	    read_buf_ready.rd_buf_rdy.lcap      = lca;
+<b><a name="line102">102    </a></b>	    read_buf_ready.rd_buf_rdy.lca       = lca;
+<b><a name="line103">103    </a></b>	    read_buf_ready.rd_buf_rdy.rnt_idx   = 0U;
+<b><a name="line104">104    </a></b>	    read_buf_ready.rd_buf_rdy.dma_done  = 1U;
+<b><a name="line105">105    </a></b>	    read_buf_ready.rd_buf_rdy.err_info  = 0U;
+<b><a name="line106">106    </a></b>	    read_buf_ready.rd_buf_rdy.e3dp      = 0U;
+<b><a name="line107">107    </a></b>	    read_buf_ready.rd_buf_rdy.e3d       = 0U;
+<b><a name="line108">108    </a></b>	    read_buf_ready.rd_buf_rdy.aes       = 0U;
+<b><a name="line109">109    </a></b>	    read_buf_ready.rd_buf_rdy.ver       = 0U;
+<b><a name="line110">110    </a></b>	    read_buf_ready.rd_buf_rdy.prd       = 0U;
+<b><a name="line111">111    </a></b>	    read_buf_ready.rd_buf_rdy.free_flag = 0U;
+<b><a name="line112">112    </a></b>	    read_buf_ready.rd_buf_rdy.am        = 1U;
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	    hal_apu_fill_rd_buf_rdy_sq(&apu_sq, &read_buf_ready);
+</pre></body>
+</html>

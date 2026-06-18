@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    int_flag = dal_cmgr_get_int_bitmap();
+<b><a name="line453">453    </a></b>	    int_cmgr_err = dal_cmgr_get_int_p_bitmap(0);
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	    dal_cmgr_w1c_int_cmgr_port_err_bitmap(int_cmgr_err);
+<b><a name="line456">456    </a></b>	    dal_cmgr_w1c_int_cmgr_bitmap(int_flag);
+<b><a name="line457">457    </a></b>	    nvme_clr_cmgr_hw_lock();
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	}
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	void init_smbus_variables(void)
+<b><a name="line462">462    </a></b>	{
+<b><a name="line463">463    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line464">464    </a></b>	    U16 uwVID   = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line465">465    </a></b>	    U16 uwDID   = phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line466">466    </a></b>	    U16 uwSSVID = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line467">467    </a></b>	    U16 uwSSDID = phal_pcie_get_subsystem_device_id(PCIE_PORT_0);
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	    /* OCP recovery */
+<b><a name="line470">470    </a></b>	    DT_PCI sDtPci;
+<b><a name="line471">471    </a></b>	    memset((void *)sDtPci.aubVendorID,          uwVID,      sizeof(sDtPci.aubVendorID));
+<b><a name="line472">472    </a></b>	    memset((void *)sDtPci.aubDeviceID,          uwDID,      sizeof(sDtPci.aubDeviceID));
+<b><a name="line473">473    </a></b>	    memset((void *)sDtPci.aubSubsystemVendorID, uwSSVID,    sizeof(sDtPci.aubVendorID));
+<b><a name="line474">474    </a></b>	    memset((void *)sDtPci.aubSubsystemID,       uwSSDID,    sizeof(sDtPci.aubDeviceID));
+<b><a name="line475">475    </a></b>	    sDtPci.ubRevisionID = 0xFF;
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    memset((void *)sDtPci.aubPAD, 0U, sizeof(sDtPci.aubPAD));
+<b><a name="line478">478    </a></b>	
+<b><a name="line479">479    </a></b>	    OcpRecoveryInitDescriptorInfo(IDT_PCI_VENDOR, &sDtPci);
+<b><a name="line480">480    </a></b>	    OcpRecoverySetCmsInfo(E_CMS_INFO_IDX_RECOVERY,    (CMS_INFO){DBUF_API_BOOTCODE_DATA_BUFFER_BASE, DBUF_API_BOOTCODE_DATA_BUFFER_SIZE, TOR_CODE_SPACE_FOR_RECOVERY});
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134750208UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line481">481    </a></b>	    OcpRecoverySetCmsInfo(E_CMS_INFO_IDX_UNSUPPORTED, (CMS_INFO){0U, 0U, TOR_UNSUPPORTED});
+<b><a name="line482">482    </a></b>	#endif
+<b><a name="line483">483    </a></b>	}
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line486">486    </a></b>	static void smbs_disable_specific_addr_to_avoid_illegal_usage(U8 ent)
+<b><a name="line487">487    </a></b>	{
+<b><a name="line488">488    </a></b>	    // Jira: https://jira.phison.com:8443/browse/SDKBOOT-386
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    // 1. Disable HW debug address
+<b><a name="line491">491    </a></b>	    hal_hw_cfg_dis_set(HW_CFG_DIS_I2CS_DIS, 0U);
+<b><a name="line492">492    </a></b>	
+<b><a name="line493">493    </a></b>	    // 2. Disable PMBus read/write address
+<b><a name="line494">494    </a></b>	    dal_smbs_api_set_zone_command_en(ent, (U8)0U);
+<b><a name="line495">495    </a></b>	
+<b><a name="line496">496    </a></b>	    // 3. Disable alert response address (ARA)
+<b><a name="line497">497    </a></b>	#if SMBUS_ARA_EN
+<b><a name="line498">498    </a></b>	    phal_smbs_disable_addr(SMBUS0, BIT(SMBUS_ADDRESS_INDEX_ARA));
+<b><a name="line499">499    </a></b>	#endif
+<b><a name="line500">500    </a></b>	    w_SMBS_ALERT_AUTO_EN(ent, 0U);   // AUTO ALERT unsupported in HW
+<b><a name="line501">501    </a></b>	    phal_smbs_hw_alert_disable(ent); // AUTO ALERT unsupported in HW
+<b><a name="line502">502    </a></b>	
+<b><a name="line503">503    </a></b>	    // 4. HW auto reset SMBS while 35ms timeout
+<b><a name="line504">504    </a></b>	    dal_smbs_api_set_en_auto_rst_det(ent, (U8)1U);
+<b><a name="line505">505    </a></b>	    dal_smbs_api_set_smbclk_low_count(ent, 0xD59F7UL);  // 25MHz, 35ms
+<b><a name="line506">506    </a></b>	    dal_smbs_api_set_auto_rst_en(ent, (U8)1U);
+<b><a name="line507">507    </a></b>	}
+<b><a name="line508">508    </a></b>	#endif
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	void smbus_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line511">511    </a></b>	{
+</pre></body>
+</html>

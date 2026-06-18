@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line325">325    </a></b>	    // Power State Descriptors 2048~3071
+<b><a name="line326">326    </a></b>	    ctrl_data_ptr->ps_des[0].mp     = 100;      // [15:0]   --> 1W  //TODO: chk
+<b><a name="line327">327    </a></b>	    ctrl_data_ptr->ps_des[0].enlat  = 5;        // [63:32]  --> 5us //TODO: chk
+<b><a name="line328">328    </a></b>	    ctrl_data_ptr->ps_des[0].exlat  = 5;        // [95:64]  --> 5us //TODO: chk
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	    // Assert ID
+<b><a name="line331">331    </a></b>	    U32 error_log_1st = sal_log_error_get_base()[0];
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	    ctrl_data_ptr->vendor_data2[809] = ((error_log_1st >> 24) & 0xFF);
+<b><a name="line334">334    </a></b>	    ctrl_data_ptr->vendor_data2[810] = ((error_log_1st >> 16) & 0xFF);
+<b><a name="line335">335    </a></b>	    ctrl_data_ptr->vendor_data2[811] = ((error_log_1st >> 8) & 0xFF);
+<b><a name="line336">336    </a></b>	    ctrl_data_ptr->vendor_data2[812] = ((error_log_1st >> 0) & 0xFF);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	}
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	static void fill_cns_nsid_list(U32 buf_addr)
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	    U32 *nsid_list_ptr = (U32 *)buf_addr;
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    nsid_list_ptr[0] = NS1;
+<b><a name="line345">345    </a></b>	}
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	static void fill_cns_nsid_des_list(U32 buf_addr, U32 nsid)
+<b><a name="line348">348    </a></b>	{
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    NVME_IDEN_NSID_DES_WITH_UUID_PTR  nsid_des_ptr = (NVME_IDEN_NSID_DES_WITH_UUID_PTR)buf_addr;
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	    nsid_des_ptr->nidt_0        = NVME_NIDT_EUI64;
+<b><a name="line353">353    </a></b>	    nsid_des_ptr->nidl_0        = NVME_NIDL_EUI64;
+<b><a name="line354">354    </a></b>	    nsid_des_ptr->nid_eui64     = NVME_EUI64_NS1;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "1 << 24U", shifting more than 7 bits, the number of bits in the essential type of the left expression, "1", is not allowed.  The shift amount is 24.</font>
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    nsid_des_ptr->nidt_1        = NVME_NIDT_NGUID;
+<b><a name="line357">357    </a></b>	    nsid_des_ptr->nidl_1        = NVME_NIDL_NGUID;
+<b><a name="line358">358    </a></b>	    nsid_des_ptr->nid_nguid[0]  = NVME_NGUID_L_NS1;
+<b><a name="line359">359    </a></b>	    nsid_des_ptr->nid_nguid[1]  = NVME_NGUID_H_NS1;
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    nsid_des_ptr->nidt_2        = NVME_NIDT_UUID;
+<b><a name="line362">362    </a></b>	    nsid_des_ptr->nidl_2        = NVME_NIDL_UUID;
+<b><a name="line363">363    </a></b>	    nsid_des_ptr->nid_uuid[0]   = NVME_UUID_L;
+<b><a name="line364">364    </a></b>	    nsid_des_ptr->nid_uuid[1U]  = NVME_UUID_H;
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	}
+<b><a name="line367">367    </a></b>	
+<b><a name="line368">368    </a></b>	static void host_admin_nud_dma_and_td_handle(HOST_API_STRUCT_PTR host, U32 buf_addr, U16 ctag, U32 byte_cnt, U8 op)
+<b><a name="line369">369    </a></b>	{
+<b><a name="line370">370    </a></b>	    if (host->hcmd.mctp_fake_hcmd == FALSE) {
+<b><a name="line371">371    </a></b>	        host_nud_dma(buf_addr, host->spr_base, ctag, byte_cnt, op);
+<b><a name="line372">372    </a></b>	        nvme_htd_handle(host, op);
+<b><a name="line373">373    </a></b>	    }
+<b><a name="line374">374    </a></b>	    else {
+<b><a name="line375">375    </a></b>	        // MCTP over SMBus
+<b><a name="line376">376    </a></b>	        host->buffer_base = buf_addr;
+<b><a name="line377">377    </a></b>	        host->buffer_size = byte_cnt;
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	        // sync to oob nvme-mi admin response dw 0
+<b><a name="line380">380    </a></b>	        host->hcpl.dw0  = 0;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	        // sync to oob nvme-mi admin response dw 1
+<b><a name="line383">383    </a></b>	        host->hcpl.dw1  = 0;
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	        // sync to oob nvme-mi admin response dw 3
+</pre></body>
+</html>

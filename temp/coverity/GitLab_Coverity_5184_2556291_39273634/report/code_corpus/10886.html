@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	    memcpy((void *)pDatacenter->sByteOffset_96_153.aubModelNumber, (void *)pHostVar->aubNvmeModelNumber, sizeof(pDatacenter->sByteOffset_96_153.aubModelNumber));
+<b><a name="line261">261    </a></b>	#endif
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	    /********************************************************************************************
+<b><a name="line265">265    </a></b>	     * Byte Offset 154:166
+<b><a name="line266">266    </a></b>	     ********************************************************************************************/
+<b><a name="line267">267    </a></b>	    pDatacenter->sByteOffset_154_166.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_154;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-2] no reset action is neeeded */
+<b><a name="line270">270    </a></b>	    pDatacenter->sByteOffset_154_166.ubPanicResetAction = 0x00U;
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-3] no action required */
+<b><a name="line273">273    </a></b>	    pDatacenter->sByteOffset_154_166.ubDeviceRecoveryAction_1 = 0x00U;
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-4] no panic */
+<b><a name="line276">276    </a></b>	    for (ubIdx = 0U; ubIdx < 8U; ubIdx++)
+<b><a name="line277">277    </a></b>	    {
+<b><a name="line278">278    </a></b>	        pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx] = 0x00U;
+<b><a name="line279">279    </a></b>	    }
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-14] no reset action is neeeded */
+<b><a name="line282">282    </a></b>	    pDatacenter->sByteOffset_154_166.ubDeviceRecoveryAction_2 = 0x00U;
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	    /* [OCP datacenter v2.6, REQ ID: SMBUS-8] */
+<b><a name="line285">285    </a></b>	    for (ubIdx = 0; ubIdx < sizeof(pDatacenter->sByteOffset_154_166.aubPanicID); ubIdx++)
+<b><a name="line286">286    </a></b>	    {
+<b><a name="line287">287    </a></b>	        // A non-zero value in the Panic ID results in clearing drive functional bit to 0
+<b><a name="line288">288    </a></b>	        if (pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx])
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx]" does not have an essentially boolean type.</font>
+<b><a name="line289">289    </a></b>	        {
+<b><a name="line290">290    </a></b>	            pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btDriveFunctional = 0x0U;
+<b><a name="line291">291    </a></b>	            break;
+<b><a name="line292">292    </a></b>	        }
+<b><a name="line293">293    </a></b>	    }
+<b><a name="line294">294    </a></b>	
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    /********************************************************************************************
+<b><a name="line297">297    </a></b>	     * Byte Offset 167:200
+<b><a name="line298">298    </a></b>	     ********************************************************************************************/
+<b><a name="line299">299    </a></b>	    pDatacenter->sByteOffset_167_200.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_167;
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    /********************************************************************************************
+<b><a name="line303">303    </a></b>	     * Byte Offset 201:241
+<b><a name="line304">304    </a></b>	     ********************************************************************************************/
+<b><a name="line305">305    </a></b>	    // all 0
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	    /********************************************************************************************
+<b><a name="line309">309    </a></b>	     * Byte Offset 242:247
+<b><a name="line310">310    </a></b>	     ********************************************************************************************/
+<b><a name="line311">311    </a></b>	    pDatacenter->sByteOffset_242_247.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_242;
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	    // When set to 1b the secure boot feature reporting is supported
+<b><a name="line314">314    </a></b>	    // Set further value while device status is !healthy and going to start ocp recovery
+<b><a name="line315">315    </a></b>	    // See OcpRecoveryUpdateSubsystemManagementData
+<b><a name="line316">316    </a></b>	    /* [OCP datacenter v2.6, REQ ID: SMBUS-5 */
+<b><a name="line317">317    </a></b>	    pDatacenter->sByteOffset_242_247.uSecurityBootFailureReporting.sBit.btSecureBootFailureReportingSupport = 0x1U;
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	
+</pre></body>
+</html>

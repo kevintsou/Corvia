@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line741">741    </a></b>	        else if (p_nvme_admin_cmd_req->dlen != request_data.size) {
+<b><a name="line742">742    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line743">743    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_INPUT_DATA_SIZE;
+<b><a name="line744">744    </a></b>	            p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line745">745    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] Request Data Size != DLEN"));
+<b><a name="line746">746    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Request Data Size : %d", request_data.size));
+<b><a name="line747">747    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN              : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line748">748    </a></b>	        }
+<b><a name="line749">749    </a></b>	        else {
+<b><a name="line750">750    </a></b>	            /*do nothing*/
+<b><a name="line751">751    </a></b>	        }
+<b><a name="line752">752    </a></b>	    }
+<b><a name="line753">753    </a></b>	    else {
+<b><a name="line754">754    </a></b>	        request_data_exists = FALSE;
+<b><a name="line755">755    </a></b>	    }
+<b><a name="line756">756    </a></b>	
+<b><a name="line757">757    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line758">758    </a></b>	        mctp_message_handle_set_fake_admin_param(host, p_nvme_admin_cmd_req, request_data_exists, &request_data);
+<b><a name="line759">759    </a></b>	
+<b><a name="line760">760    </a></b>	        nvme_adm_cmd_handler(host);
+<b><a name="line761">761    </a></b>	
+<b><a name="line762">762    </a></b>	        mctp_message_handle_get_admin_cq_param(host, p_nvme_admin_cmd_req, p_nvme_admin_cmd_resp, request_data_exists, &response_data);
+<b><a name="line763">763    </a></b>	    }
+<b><a name="line764">764    </a></b>	
+<b><a name="line765">765    </a></b>	    p_nvme_admin_cmd_resp->dw1.generic_resp.status = message_response_status;
+<b><a name="line766">766    </a></b>	
+<b><a name="line767">767    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line768">768    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line769">769    </a></b>	
+<b><a name="line770">770    </a></b>	    mctp_message_handle_nvme_mi_message_response(
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "mctp_message_handle_nvme_mi_message_response" is unused.</font>
+<b><a name="line771">771    </a></b>	        &p_transmit_handler->message_info,
+<b><a name="line772">772    </a></b>	        p_nvme_admin_cmd_req->mi_header.csi,
+<b><a name="line773">773    </a></b>	        NMIMT_NVME_ADMIN_COMMAND,
+<b><a name="line774">774    </a></b>	        (U8 *)p_nvme_admin_cmd_resp,
+<b><a name="line775">775    </a></b>	        sizeof(NVME_MI_NVME_ADMIN_CMD_RESP),
+<b><a name="line776">776    </a></b>	        (U8 *)response_data.p_base,
+<b><a name="line777">777    </a></b>	        response_data.size);
+<b><a name="line778">778    </a></b>	
+<b><a name="line779">779    </a></b>	}
+<b><a name="line780">780    </a></b>	
+<b><a name="line781">781    </a></b>	U32 mctp_message_handle_nvme_mi_message(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line782">782    </a></b>	{
+<b><a name="line783">783    </a></b>	    U32 crc_32c;
+<b><a name="line784">784    </a></b>	    U32 message_response_status;
+<b><a name="line785">785    </a></b>	    NVME_MI_MSG_HEADER_PTR p_nvme_mi_msg_header = (NVME_MI_MSG_HEADER_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line786">786    </a></b>	    NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line787">787    </a></b>	
+<b><a name="line788">788    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line789">789    </a></b>	
+<b><a name="line790">790    </a></b>	    //TODO the NVME MI message response should be initialized here and the buffer passed into relevant handling functions
+<b><a name="line791">791    </a></b>	
+<b><a name="line792">792    </a></b>	    //The MCTP Message must have enough data to form the header (MCTP Header + Message Type specific header)
+<b><a name="line793">793    </a></b>	    //There is no Message Type specific header to be parsed at this level
+<b><a name="line794">794    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count < sizeof(NVME_MI_MSG_HEADER)) {
+<b><a name="line795">795    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line796">796    </a></b>	    }
+<b><a name="line797">797    </a></b>	
+<b><a name="line798">798    </a></b>	    // This bit indicates whether the message is a Request Message or Response Message.
+<b><a name="line799">799    </a></b>	    // This bit is cleared to ���0��� for Request Messages. This bit is set to ���1��� for Response Messages.
+<b><a name="line800">800    </a></b>	    if (ROR_REQUEST != p_nvme_mi_msg_header->ror) {
+<b><a name="line801">801    </a></b>	        message_response_status |= PEL_ROR;
+</pre></body>
+</html>

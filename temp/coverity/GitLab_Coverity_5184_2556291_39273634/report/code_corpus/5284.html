@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line624">624    </a></b>	    U8 match_udid;
+<b><a name="line625">625    </a></b>	    U8 arp_idx;
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	    // If none of the UDID match, HW will NACK immediately
+<b><a name="line628">628    </a></b>	    // So FW does not need to compare UDID
+<b><a name="line629">629    </a></b>	
+<b><a name="line630">630    </a></b>	    Dump_SMBUS(tprintf(" [ARP] Assign Address HDL"));
+<b><a name="line631">631    </a></b>	
+<b><a name="line632">632    </a></b>	
+<b><a name="line633">633    </a></b>	    match_udid = phal_smbs_get_first_udid_match_index(SMBUS0);
+<b><a name="line634">634    </a></b>	
+<b><a name="line635">635    </a></b>	    if (SMBS_ERROR_CODE_UDID_UNMATCH == match_udid) {
+<b><a name="line636">636    </a></b>	        return; // no UDID matched!!! shall not set address.
+<b><a name="line637">637    </a></b>	    }
+<b><a name="line638">638    </a></b>	
+<b><a name="line639">639    </a></b>	    if (match_udid < SMBUS_ADDRESS_INDEX_ARP) {
+<b><a name="line640">640    </a></b>	        p_smbs->a_slave[match_udid].arp_ext.smbs_arp.ar_flag = 1U;
+<b><a name="line641">641    </a></b>	        p_smbs->a_slave[match_udid].arp_ext.smbs_arp.av_flag = 1U;
+<b><a name="line642">642    </a></b>	        p_smbs->a_slave[match_udid].arp_ext.smbs_arp.slave_address = (p_smbs_rx->base.pu8[SMBUS_UDID_SLAVE_ADDR_OFFSET + 1U] & 0xFEU); //add 1 for command code
+<b><a name="line643">643    </a></b>	        phal_smbs_set_device_addr(SMBUS0, match_udid, p_smbs->a_slave[match_udid].arp_ext.smbs_arp.slave_address);
+<b><a name="line644">644    </a></b>	    }
+<b><a name="line645">645    </a></b>	    else {
+<b><a name="line646">646    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_INDEX_COVERITY_OVERRUN, FALSE);
+<b><a name="line647">647    </a></b>	    }
+<b><a name="line648">648    </a></b>	
+<b><a name="line649">649    </a></b>	    // Scan all support arp device and check if ar flag all is true
+<b><a name="line650">650    </a></b>	    // If all ar flag is true, get udid general will response nack
+<b><a name="line651">651    </a></b>	    for (arp_idx = 0U; arp_idx < SMBUS_ADDRESS_INDEX_ARP; arp_idx++) {
+<b><a name="line652">652    </a></b>	        if (p_smbs->a_slave[arp_idx].arp_ext.smbs_arp.ar_flag == FALSE) {
+<b><a name="line653">653    </a></b>	            all_ar_flag = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line654">654    </a></b>	        }
+<b><a name="line655">655    </a></b>	    }
+<b><a name="line656">656    </a></b>	
+<b><a name="line657">657    </a></b>	    // Set force nack when GET UDID General is detected
+<b><a name="line658">658    </a></b>	    if (all_ar_flag == TRUE) {
+<b><a name="line659">659    </a></b>	        phal_smbs_ack_arp_cmd_dis(SMBUS0, SMBS_ARP_GET_UDID_GENERAL);
+<b><a name="line660">660    </a></b>	    }
+<b><a name="line661">661    </a></b>	}
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	
+<b><a name="line664">664    </a></b>	void hal_smbs_reset_2(U8 ent)
+<b><a name="line665">665    </a></b>	{
+<b><a name="line666">666    </a></b>	
+<b><a name="line667">667    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_SMBUS_RESET, GLOBAL_SYSTEM_UNDEFINED_TIMEOUT_MS);
+<b><a name="line668">668    </a></b>	    phal_smbs_api_set_sw_reset(ent);
+<b><a name="line669">669    </a></b>	
+<b><a name="line670">670    </a></b>	    while (phal_smbs_api_get_sw_reset(ent) == TRUE_8BIT) {
+<b><a name="line671">671    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line672">672    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_SYS_SMBS_UNDEFINED_TIMEOUT, FALSE);
+<b><a name="line673">673    </a></b>	            Dump_SMBUS(tprintf(" [SMBS] Undefined Timeout "));
+<b><a name="line674">674    </a></b>	            break;
+<b><a name="line675">675    </a></b>	        }
+<b><a name="line676">676    </a></b>	    }
+<b><a name="line677">677    </a></b>	}
+<b><a name="line678">678    </a></b>	
+<b><a name="line679">679    </a></b>	#if SMBUS_ARA_EN   // SMBUS_ARA_EN = 0 for X3/X2/PS5018
+<b><a name="line680">680    </a></b>	
+<b><a name="line681">681    </a></b>	void smbs_trigger_smbus_alert(void)
+<b><a name="line682">682    </a></b>	{
+<b><a name="line683">683    </a></b>	    // X3 smbus alert unsupported
+<b><a name="line684">684    </a></b>	    // hal_padc_set_gpio_direction(GPIO_SMBUS_ALERT, GPIO_OUT);
+</pre></body>
+</html>

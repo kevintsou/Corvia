@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line493">493    </a></b>	/*******************************************************************************************************
+<b><a name="line494">494    </a></b>	 * ACROT
+<b><a name="line495">495    </a></b>	 *******************************************************************************************************/
+<b><a name="line496">496    </a></b>	
+<b><a name="line497">497    </a></b>	/*!
+<b><a name="line498">498    </a></b>	   @brief      Return ACROT data pointer
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	   @return     ACROT_DATA*
+<b><a name="line501">501    </a></b>	 */
+<b><a name="line502">502    </a></b>	ACROT_DATA *GetACRotDataPtr(void)
+<b><a name="line503">503    </a></b>	{
+<b><a name="line504">504    </a></b>	    return &sACRotData;
+<b><a name="line505">505    </a></b>	}
+<b><a name="line506">506    </a></b>	
+<b><a name="line507">507    </a></b>	/*!
+<b><a name="line508">508    </a></b>	   @brief      Manage device status with corresponding recovery process state
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line511">511    </a></b>	   @param      eRpState          recovery process state
+<b><a name="line512">512    </a></b>	 */
+<b><a name="line513">513    </a></b>	static void RpDeviceStatusManagement(ACROT_DATA *pACRotData, RP_STATE_E eRpState)
+<b><a name="line514">514    </a></b>	{
+<b><a name="line515">515    </a></b>	    static U8 ubDeviceStatus = DS_STATUS_PENDING;
+<b><a name="line516">516    </a></b>	
+<b><a name="line517">517    </a></b>	    switch (eRpState)
+<b><a name="line518">518    </a></b>	    {
+<b><a name="line519">519    </a></b>	        case E_RP_STATE_UPDATE_STATUS_BOOT_FAILURE_WITH_RCV_Y:
+<b><a name="line520">520    </a></b>	            // switch device status to DS_RECOVERY_MODE and follows previous recovery reason code
+<b><a name="line521">521    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_RECOVERY_MODE);
+<b><a name="line522">522    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_AWAITING_RECOVERY_IMAGE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">            ^</font>
+<b><a name="line523">523    </a></b>	            break;
+<b><a name="line524">524    </a></b>	
+<b><a name="line525">525    </a></b>	        case E_RP_STATE_UPDATE_STATUS_DEVICE_ERROR_FATAL_ERROR:
+<b><a name="line526">526    </a></b>	        case E_RP_STATE_UPDATE_STATUS_BOOT_FAILURE_WITH_RCV_N_M:
+<b><a name="line527">527    </a></b>	            // do nothing, let host to determine if need to forced recovery
+<b><a name="line528">528    </a></b>	            break;
+<b><a name="line529">529    </a></b>	
+<b><a name="line530">530    </a></b>	        case E_RP_STATE_DEVICE_RESET_CONTROL:
+<b><a name="line531">531    </a></b>	            // Record previous device status for the case of without forced recovery
+<b><a name="line532">532    </a></b>	            // with forced recovery: DS_RECOVERY_PENDING -> DS_RECOVERY_MODE
+<b><a name="line533">533    </a></b>	            // without forced recovery: ubDeviceStatus -> DS_RECOVERY_PENDING -> ubDeviceStatus
+<b><a name="line534">534    </a></b>	            ubDeviceStatus = pACRotData->sDeviceStatus.ubDeviceStatus;
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	            // At the next reset, the device will enter recovery mode
+<b><a name="line537">537    </a></b>	            M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_RECOVERY_PENDING);
+<b><a name="line538">538    </a></b>	            break;
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	        case E_RP_STATE_FINISH_DEVICE_RESET:
+<b><a name="line541">541    </a></b>	            if (RRC_FORCED_RECOVERY == pACRotData->sDeviceStatus.uwRecoveryReasonCode)
+<b><a name="line542">542    </a></b>	            {
+<b><a name="line543">543    </a></b>	                M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, DS_RECOVERY_MODE);
+<b><a name="line544">544    </a></b>	            }
+<b><a name="line545">545    </a></b>	            else
+<b><a name="line546">546    </a></b>	            {
+<b><a name="line547">547    </a></b>	                M_OCP_RECOVERY_SET_DEVICE_STATUS(pACRotData, ubDeviceStatus);
+<b><a name="line548">548    </a></b>	            }
+<b><a name="line549">549    </a></b>	            break;
+<b><a name="line550">550    </a></b>	
+<b><a name="line551">551    </a></b>	        case E_RP_STATE_FORCED_RECOVERY_WITH_PROT_CAP_DISABLE:
+<b><a name="line552">552    </a></b>	            // A device which has been commanded to enter recovery but forced recovery is disable
+<b><a name="line553">553    </a></b>	            // MUST report "Error entering recovery mode" in RECOVERY_STATUS register
+</pre></body>
+</html>

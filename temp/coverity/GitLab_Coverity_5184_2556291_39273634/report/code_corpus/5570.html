@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	   @param      ubCmdType         type of command (RO/RW) issued by RA
+<b><a name="line227">227    </a></b>	   @param      ubCmdCode         recieved command code
+<b><a name="line228">228    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line229">229    </a></b>	   @return     BOOL
+<b><a name="line230">230    </a></b>	 */
+<b><a name="line231">231    </a></b>	BOOL CheckIsOcpRecoveryCmdCode(U8 ubCmdType, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line232">232    </a></b>	{
+<b><a name="line233">233    </a></b>	    BOOL bIsCmdValid = FALSE;
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	    ACROT_DATA *pACRotData = GetACRotDataPtr();
+<b><a name="line236">236    </a></b>	
+<b><a name="line237">237    </a></b>	    Dump_OCP(tprintf(""));
+<b><a name="line238">238    </a></b>	    Dump_OCP(tprintf("[OCP] Receive OCP %s Command (CmdCode: %d)", ((RP_CMD_TYPE_WRITE == ubCmdType) ? "Write" : "Read"), ubCmdCode));
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	    // There are 3 prerequisites to be a valid command:
+<b><a name="line241">241    </a></b>	    do {
+<b><a name="line242">242    </a></b>	        // 1. It's a recovery command (cmdcode = 34h ~ 44h)
+<b><a name="line243">243    </a></b>	        // 2. The protocol must match the command type (RW for both block write/read while RO is only for block read)
+<b><a name="line244">244    </a></b>	        if ((!M_IS_OCP_RECOVERY_COMMAND(ubCmdCode)) ||
+<b><a name="line245">245    </a></b>	            ((RP_CMD_TYPE_WRITE == ubCmdType) && M_IS_OCP_RECOVERY_RO_COMMAND(ubCmdCode)))
+<b><a name="line246">246    </a></b>	        {
+<b><a name="line247">247    </a></b>	            Dump_OCP(tprintf("  - Unsupported or write RO command"));
+<b><a name="line248">248    </a></b>	            M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_OR_WRITE_COMMAND);
+<b><a name="line249">249    </a></b>	            break;
+<b><a name="line250">250    </a></b>	        }
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	        // 3. The command should be supported in PROT_CAP
+<b><a name="line253">253    </a></b>	        if (((RECOVERY_CMD_DEVICE_ID == ubCmdCode)      && (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btIdentification))       ||
+<b><a name="line254">254    </a></b>	            ((RECOVERY_CMD_DEVICE_STATUS == ubCmdCode)  && (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btDeviceStatus))         ||
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (boolean) is not the same as that of the right operand "pACRotData->sProtCap.sCapabilities.sAgent.btDeviceStatus"(unsigned).</font>
+<b><a name="line255">255    </a></b>	            ((RECOVERY_CMD_HW_STATUS == ubCmdCode)      && (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btHwStatus))             ||
+<b><a name="line256">256    </a></b>	            ((RECOVERY_CMD_INDIRECT_CTRL == ubCmdCode)  && (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btRecoveryMemoryAccess)) ||
+<b><a name="line257">257    </a></b>	            ((RECOVERY_CMD_VENDOR == ubCmdCode)         && (FALSE == pACRotData->sProtCap.sCapabilities.sAgent.btVendorsCommand)))
+<b><a name="line258">258    </a></b>	        {
+<b><a name="line259">259    </a></b>	            Dump_OCP(tprintf("  - Unsupported in PROT_CAP"));
+<b><a name="line260">260    </a></b>	            M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_OR_WRITE_COMMAND);
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	            if (RP_CMD_TYPE_READ == ubCmdType)
+<b><a name="line263">263    </a></b>	            {
+<b><a name="line264">264    </a></b>	                bRpReadUnsupportedCmd = TRUE;
+<b><a name="line265">265    </a></b>	            }
+<b><a name="line266">266    </a></b>	            break;
+<b><a name="line267">267    </a></b>	        }
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	        // 4. In cases of R-scope commands, they're only accepted when device status = !healthy
+<b><a name="line270">270    </a></b>	        if (M_IS_OCP_RECOVERY_R_SCOPE_COMMAND(ubCmdCode) && (DS_STATUS_PENDING == pACRotData->sDeviceStatus.ubDeviceStatus))
+<b><a name="line271">271    </a></b>	        {
+<b><a name="line272">272    </a></b>	            Dump_OCP(tprintf("  - R-scope command"));
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	            if (RP_CMD_TYPE_READ == ubCmdType)
+<b><a name="line275">275    </a></b>	            {
+<b><a name="line276">276    </a></b>	                bRpReadUnsupportedCmd = TRUE;
+<b><a name="line277">277    </a></b>	            }
+<b><a name="line278">278    </a></b>	            break;
+<b><a name="line279">279    </a></b>	        }
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	        bIsCmdValid = TRUE;
+<b><a name="line282">282    </a></b>	    } while(0);
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	    return (bIsCmdValid | bRpReadUnsupportedCmd);
+<b><a name="line285">285    </a></b>	}
+</pre></body>
+</html>

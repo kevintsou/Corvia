@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/apu/hal_apu_cmd_proc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line145">145    </a></b>	    sq_cmd->info.ei = param->rd_buf_rdy.err_info;
+<b><a name="line146">146    </a></b>	    sq_cmd->info.e3dp = param->rd_buf_rdy.e3dp;
+<b><a name="line147">147    </a></b>	    sq_cmd->info.e3d = param->rd_buf_rdy.e3d;
+<b><a name="line148">148    </a></b>	    sq_cmd->info.aes = param->rd_buf_rdy.aes;
+<b><a name="line149">149    </a></b>	
+<b><a name="line150">150    </a></b>	    sq_cmd->info.pi = param->rd_buf_rdy.raw_pi;
+<b><a name="line151">151    </a></b>	    sq_cmd->info.rt = param->rd_buf_rdy.release_ctag;
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	    sq_cmd->info.rsp = param->rd_buf_rdy.rsp;
+<b><a name="line154">154    </a></b>	    sq_cmd->info.abt = param->rd_buf_rdy.abt;
+<b><a name="line155">155    </a></b>	    sq_cmd->info.damper = param->rd_buf_rdy.damper;
+<b><a name="line156">156    </a></b>	    sq_cmd->info.buf_addr_l = param->buf_addr_l;
+<b><a name="line157">157    </a></b>	    sq_cmd->info.buf_addr_h = param->buf_addr_h;
+<b><a name="line158">158    </a></b>	    sq_cmd->info.spare_addr_l = param->spr_addr_l;
+<b><a name="line159">159    </a></b>	    sq_cmd->info.spare_addr_h = param->spr_addr_h;
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	
+<b><a name="line162">162    </a></b>	    Dump_NVME_HAL(tprintf("rd_buf_rdy buf_addr:%x spr_addr:%x",param->buf_addr_l,param->spr_addr_l));
+<b><a name="line163">163    </a></b>	    Dump_NVME_HAL(tprintf("%x %x %x %x",sq_cmd->info.all[0],sq_cmd->info.all[1],sq_cmd->info.all[2],sq_cmd->info.all[3]));
+<b><a name="line164">164    </a></b>	    Dump_NVME_HAL(tprintf("%x %x %x %x",sq_cmd->info.all[4],sq_cmd->info.all[5],sq_cmd->info.all[6],sq_cmd->info.all[7]));
+<b><a name="line165">165    </a></b>	    Dump_NVME_HAL(tprintf("%x",sq_cmd->info.all[8]));
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	static void hal_apu_fill_cpl_sq_init(void *sq_ptr)
+<b><a name="line170">170    </a></b>	{
+<b><a name="line171">171    </a></b>	    DAL_APU_CPL_SQ_PTR sq_cmd = (DAL_APU_CPL_SQ_PTR)sq_ptr;
+<b><a name="line172">172    </a></b>	    (void)memset((void *)sq_cmd, 0, sizeof(DAL_APU_CPL_SQ));
+<b><a name="line173">173    </a></b>	
+<b><a name="line174">174    </a></b>	    sq_cmd->tid = MR_TID_NVME0_FW_CPL;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "1488U" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line175">175    </a></b>	    sq_cmd->len = HAL_MR_HDR_LEN_OF(DAL_APU_CPL_SQ);
+<b><a name="line176">176    </a></b>	}
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	void hal_apu_fill_cpl_sq(void *sq_ptr, HAL_APU_CPL_SQ_PARAM_PTR param)
+<b><a name="line179">179    </a></b>	{
+<b><a name="line180">180    </a></b>	    DAL_APU_CPL_SQ_PTR sq_cmd = (DAL_APU_CPL_SQ_PTR)sq_ptr;
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	    hal_apu_fill_cpl_sq_init(sq_cmd);
+<b><a name="line183">183    </a></b>	    Dump_NVME_HAL(tprintf("fill cpl cq tag:%x",param->ctag));
+<b><a name="line184">184    </a></b>	    sq_cmd->ctag = param->ctag;
+<b><a name="line185">185    </a></b>	    sq_cmd->log_en = param->log_en;
+<b><a name="line186">186    </a></b>	    sq_cmd->status = (U32)param->sc | ((U32)param->sct << 8U) | ((U32)param->more << 13) | ((U32)param->dnr << 14);
+<b><a name="line187">187    </a></b>	    sq_cmd->cmd_spec = param->cmd_spec;
+<b><a name="line188">188    </a></b>	    sq_cmd->dw1 = param->dw1;
+<b><a name="line189">189    </a></b>	}
+<b><a name="line190">190    </a></b>	
+<b><a name="line191">191    </a></b>	
+</pre></body>
+</html>

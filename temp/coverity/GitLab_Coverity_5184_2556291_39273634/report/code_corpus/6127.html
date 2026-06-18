@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line292">292    </a></b>	            }
+<b><a name="line293">293    </a></b>	            else if (sqz_status == SQZ_STATUS_CASE2)
+<b><a name="line294">294    </a></b>	            {
+<b><a name="line295">295    </a></b>	                sal_log_info_char('r');
+<b><a name="line296">296    </a></b>	                sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line297">297    </a></b>	                ret = phal_sqz_reset_isp_jump();
+<b><a name="line298">298    </a></b>	            }
+<b><a name="line299">299    </a></b>	            else if (sqz_status == SQZ_STATUS_CASE3)
+<b><a name="line300">300    </a></b>	            {
+<b><a name="line301">301    </a></b>	                sal_log_info_char('e');
+<b><a name="line302">302    </a></b>	                sal_log_tracker_set(sal_locate(0x0C, TYPE_STEP));
+<b><a name="line303">303    </a></b>	                ret = phal_sqz_reset_error_handle();
+<b><a name="line304">304    </a></b>	            }
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	            //5. polling operation_status
+<b><a name="line307">307    </a></b>	            // while(((SQZ_REG_BASE & 0x4) == 0)) {}
+<b><a name="line308">308    </a></b>	            WAIT_UNTIL_TIMEOUT_RETURN_RESULT(((SQZ_REG_BASE & SQZ_STS_READY_OFT) == 0), SQZ_TIMEOUT_VALUE, FAIL, ret, MABIAO_SQZ);
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	            if (ret == FAIL) {
+<b><a name="line311">311    </a></b>	                sal_log_tracker_set(sal_locate(0x23, TYPE_FATAL));
+<b><a name="line312">312    </a></b>	                break;
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	            Dump_SEC(tprintf("SQZ ready"));
+<b><a name="line316">316    </a></b>	            sal_log_tracker_set(sal_locate(0x24, TYPE_STEP));
+<b><a name="line317">317    </a></b>	        }
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	        gSQZInfo.sqz_en = TRUE;
+<b><a name="line320">320    </a></b>	        gSQZInfo.param_buf_base = param_buf_base;
+<b><a name="line321">321    </a></b>	        sal_log_tracker_set(sal_locate(0x25, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "321" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line322">322    </a></b>	    } while (0);
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    return ret;
+<b><a name="line325">325    </a></b>	}
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	#define STASH_MEASUREMENT_OP (0x4d454153)
+<b><a name="line328">328    </a></b>	U8 phal_sqz_cptra_stash_measurement(STASH_MEASUREMENT_REQ_PTR cptra_req)
+<b><a name="line329">329    </a></b>	{
+<b><a name="line330">330    </a></b>	    U8 ret = PASS;
+<b><a name="line331">331    </a></b>	    MR_SQ_PARAM sq;
+<b><a name="line332">332    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    CALIPTRA_BUF_PTR cptra_buf = (CALIPTRA_BUF_PTR)phal_sqz_get_param_buf_base();
+<b><a name="line335">335    </a></b>	    STASH_MEASUREMENT_RESP_PTR cptra_resp_buf = (STASH_MEASUREMENT_RESP_PTR)(phal_sqz_get_param_buf_base() + 0x100);
+<b><a name="line336">336    </a></b>	    STASH_MEASUREMENT_REQ_PTR cptra_req_tmp = (STASH_MEASUREMENT_REQ_PTR)(phal_sqz_get_param_buf_base() + 0x200);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	    //Check cptra init status
+<b><a name="line339">339    </a></b>	    // while(((SQZ_REG_BASE & BIT9) == BIT9)) {}
+<b><a name="line340">340    </a></b>	    sal_log_tracker_set(sal_locate(0x30, TYPE_STEP));
+<b><a name="line341">341    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT(((SQZ_REG_BASE & SQZ_STS_CPTRA_DISABLE_OFT) == SQZ_STS_CPTRA_DISABLE_OFT), SQZ_TIMEOUT_VALUE, FAIL, ret, MABIAO_SQZ);
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	    if (ret == FAIL) {
+<b><a name="line344">344    </a></b>	        sal_log_tracker_set(sal_locate(0x31, TYPE_FATAL));
+<b><a name="line345">345    </a></b>	        return ret;
+<b><a name="line346">346    </a></b>	    }
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	    Dump_SEC(tprintf("CPTRA ready"));
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    memcpy((void *)cptra_req_tmp, (void *)cptra_req, sizeof(STASH_MEASUREMENT_REQ));
+<b><a name="line351">351    </a></b>	    memset(cptra_resp_buf, 0, sizeof(STASH_MEASUREMENT_RESP));
+<b><a name="line352">352    </a></b>	
+</pre></body>
+</html>

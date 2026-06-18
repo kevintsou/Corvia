@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line61">61    </a></b>	    if (cq.cmd_result != SEC_YES || cq.sqz_result != SQZ_CMD_PASS){
+<b><a name="line62">62    </a></b>	        Dump_SEC(tprintf("[SQZ][RSA ENC] Fail, sqz_result: %u, cmd_result %u\n", cq.sqz_result, cq.cmd_result));
+<b><a name="line63">63    </a></b>	        return cq.cmd_result;
+<b><a name="line64">64    </a></b>	    }
+<b><a name="line65">65    </a></b>	    return SEC_YES;
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	static void hal_rsa4096_enc(U32 ulDecryptDesAdr, SEC_RSA_PARAMS_T_PTR rsa_param){
+<b><a name="line70">70    </a></b>	    if (hal_sec_rsa_trigger(HAL_SEC_RSA_PKE_PUBLIC_MODE, rsa_param) != SEC_YES) {
+<b><a name="line71">71    </a></b>	        Dump_SEC(tprintf("VUC RSA PKE Fail\r\n"));
+<b><a name="line72">72    </a></b>	    }
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    if (hal_sec_rsa_polling(HAL_SEC_RSA_4096_8BIT_LENGTH/*size n*/, (U8 *)(U32)ulDecryptDesAdr, rsa_param->dummy_en, rsa_param->timeout_val) != SEC_YES) {
+<b><a name="line75">75    </a></b>	        Dump_SEC(tprintf("VUC RSA polling fail\r\n"));
+<b><a name="line76">76    </a></b>	    }
+<b><a name="line77">77    </a></b>	}
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	U32 phal_rsa_pkcs1v21_verify(SEC_RSA_ENCODING_PARAMS_T_PTR params){
+<b><a name="line81">81    </a></b>	    if(phal_sqz_is_en())
+<b><a name="line82">82    </a></b>	    {
+<b><a name="line83">83    </a></b>	        return hal_rsa_pkcs1v21_verify_sqz(params);
+<b><a name="line84">84    </a></b>	    }
+<b><a name="line85">85    </a></b>	    return hal_rsa_pkcs1v21_verify(params);
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	}
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	void phal_rsa4096_enc(U32 ulDecryptDesAdr, U32 ulSignatureSrcAdr, U32 *KeyBase){
+<b><a name="line90">90    </a></b>	    struct _RSAPublicKey_t {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "_RSAPublicKey_t" is already used to represent a type.</font>
+<b><a name="line91">91    </a></b>	    U8 ubN[512];
+<b><a name="line92">92    </a></b>	    U8 ubE[4];
+<b><a name="line93">93    </a></b>	    U8 ubN0[8];
+<b><a name="line94">94    </a></b>	    U8 ubR[512];
+<b><a name="line95">95    </a></b>	    U8 ubRR[512];
+<b><a name="line96">96    </a></b>	    };
+<b><a name="line97">97    </a></b>	    struct _RSAPublicKey_t *pRSAPublicKey = (struct _RSAPublicKey_t *)((U32)KeyBase);
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    if(phal_sqz_is_en())
+<b><a name="line100">100    </a></b>	    {
+<b><a name="line101">101    </a></b>	        SEC_RSA_PARAMS_T_PTR rsa_param = (SEC_RSA_PARAMS_T_PTR)phal_sqz_get_param_buf_base();
+<b><a name="line102">102    </a></b>	        memset((void *)rsa_param, 0, sizeof(SEC_RSA_PARAMS_T));
+<b><a name="line103">103    </a></b>	        rsa_param->n           = pRSAPublicKey->ubN;
+<b><a name="line104">104    </a></b>	        rsa_param->n0          = pRSAPublicKey->ubN0;
+<b><a name="line105">105    </a></b>	        rsa_param->r           = pRSAPublicKey->ubR;
+<b><a name="line106">106    </a></b>	        rsa_param->rr          = pRSAPublicKey->ubRR;
+<b><a name="line107">107    </a></b>	        rsa_param->kx          = pRSAPublicKey->ubE;
+<b><a name="line108">108    </a></b>	        rsa_param->input       = (U8 *)ulSignatureSrcAdr;
+<b><a name="line109">109    </a></b>	        rsa_param->size_rsa    = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line110">110    </a></b>	        rsa_param->size_kx     = 4U;
+<b><a name="line111">111    </a></b>	        rsa_param->timeout_val = 8ULL * 1000ULL * 1000ULL * 333;//SEC_TIMEOUT_TICKS = 8ULL * 1000ULL * 1000ULL * TICKS_1_US
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	        hal_rsa4096_enc_sqz(ulDecryptDesAdr, rsa_param);
+<b><a name="line114">114    </a></b>	    }
+<b><a name="line115">115    </a></b>	    else{
+<b><a name="line116">116    </a></b>	        SEC_RSA_PARAMS_T rsa_param;
+<b><a name="line117">117    </a></b>	        memset((void *)&rsa_param, 0, sizeof(SEC_RSA_PARAMS_T));
+<b><a name="line118">118    </a></b>	        rsa_param.n           = pRSAPublicKey->ubN;
+<b><a name="line119">119    </a></b>	        rsa_param.n0          = pRSAPublicKey->ubN0;
+<b><a name="line120">120    </a></b>	        rsa_param.r           = pRSAPublicKey->ubR;
+<b><a name="line121">121    </a></b>	        rsa_param.rr          = pRSAPublicKey->ubRR;
+<b><a name="line122">122    </a></b>	        rsa_param.kx          = pRSAPublicKey->ubE;
+<b><a name="line123">123    </a></b>	        rsa_param.input       = (U8 *)ulSignatureSrcAdr;
+<b><a name="line124">124    </a></b>	        rsa_param.size_rsa    = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line125">125    </a></b>	        rsa_param.size_kx     = 4U;
+<b><a name="line126">126    </a></b>	        rsa_param.timeout_val = 8ULL * 1000ULL * 1000ULL * 333;//SEC_TIMEOUT_TICKS = 8ULL * 1000ULL * 1000ULL * TICKS_1_US
+<b><a name="line127">127    </a></b>	        hal_rsa4096_enc(ulDecryptDesAdr, &rsa_param);
+<b><a name="line128">128    </a></b>	    }
+<b><a name="line129">129    </a></b>	}
+<b><a name="line130">130    </a></b>	
+</pre></body>
+</html>

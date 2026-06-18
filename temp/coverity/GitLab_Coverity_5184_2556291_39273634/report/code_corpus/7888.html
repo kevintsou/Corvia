@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line46">46    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line47">47    </a></b>	    MR_SQ_PARAM sq;
+<b><a name="line48">48    </a></b>	    SQZ_KAT_SHA_PARAM *param = (SQZ_KAT_SHA_PARAM *)phal_sqz_get_param_buf_base();
+<b><a name="line49">49    </a></b>	    memset((void *)param, 0, sizeof(SQZ_KAT_SHA_PARAM));
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    param->mode = HAL_SEC_SHA2_512_MODE;
+<b><a name="line52">52    </a></b>	    sq = form_sq(param, MR_KAT, KAT_SHA2, 0xFF);
+<b><a name="line53">53    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line54">54    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line55">55    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line56">56    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SHA2 512] Fail\n"));
+<b><a name="line57">57    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><a name="line58">58    </a></b>	    }
+<b><a name="line59">59    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SHA2 512] P\n"));
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line62">62    </a></b>	}
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	U32 sec_sqz_kat_SHA256(void)
+<b><a name="line65">65    </a></b>	{
+<b><a name="line66">66    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line67">67    </a></b>	    MR_SQ_PARAM sq;
+<b><a name="line68">68    </a></b>	    SQZ_KAT_SHA_PARAM *param = (SQZ_KAT_SHA_PARAM *)phal_sqz_get_param_buf_base();
+<b><a name="line69">69    </a></b>	    memset((void *)param, 0, sizeof(SQZ_KAT_SHA_PARAM));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    param->mode = HAL_SEC_SHA2_256_MODE;
+<b><a name="line72">72    </a></b>	    sq = form_sq(param, MR_KAT, KAT_SHA2, 0xFF);
+<b><a name="line73">73    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line74">74    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line75">75    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "cq.cmd_result" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line76">76    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SHA2 256] Fail\n"));
+<b><a name="line77">77    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SHA2 256] P\n"));
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line82">82    </a></b>	}
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	#if 0 // BC no use
+<b><a name="line85">85    </a></b>	U32 sec_sqz_kat_SHA384(void)
+<b><a name="line86">86    </a></b>	{
+<b><a name="line87">87    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line88">88    </a></b>	    MR_SQ_PARAM sq;
+<b><a name="line89">89    </a></b>	    SQZ_KAT_SHA_PARAM *param = (SQZ_KAT_SHA_PARAM *)phal_sqz_get_param_buf_base();
+<b><a name="line90">90    </a></b>	    memset((void *)param, 0, sizeof(SQZ_KAT_SHA_PARAM));
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    param->mode = HAL_SEC_SHA2_384_MODE;
+<b><a name="line93">93    </a></b>	    sq = form_sq(param, MR_KAT, KAT_SHA2, 0xFF);
+<b><a name="line94">94    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line95">95    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line96">96    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line97">97    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SHA2 384] Fail\n"));
+<b><a name="line98">98    </a></b>	        return (KAT_TYPE_SHA | KAT_ERROR_VERIFY);
+<b><a name="line99">99    </a></b>	    }
+<b><a name="line100">100    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SHA2 384] P\n"));
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line103">103    </a></b>	}
+<b><a name="line104">104    </a></b>	#endif
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	U32 sec_sqz_kat_SHA3(void)
+</pre></body>
+</html>

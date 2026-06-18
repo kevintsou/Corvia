@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line544">544    </a></b>	                {
+<b><a name="line545">545    </a></b>	                    ul_tail += 4U;
+<b><a name="line546">546    </a></b>	                }
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	                if (ul_tail == (ul_base + (U32)(dal_db_api_get_buf_len(db_id) * (U32)BIT(dal_db_api_get_data_size(db_id)))))
+<b><a name="line549">549    </a></b>	                {
+<b><a name="line550">550    </a></b>	                    ul_tail = ul_base;       //ring to head
+<b><a name="line551">551    </a></b>	                }
+<b><a name="line552">552    </a></b>	                (void)memcpy((void *)(U32 *)ul_tail, (void *)(U32 *)((U32)(U32 *)p_data + (U32)(i * 4UL)), 4U);
+<b><a name="line553">553    </a></b>	            }
+<b><a name="line554">554    </a></b>	
+<b><a name="line555">555    </a></b>	            ASM_DSB();
+<b><a name="line556">556    </a></b>	
+<b><a name="line557">557    </a></b>	            /*Update write pointer to trigger SQ*/
+<b><a name="line558">558    </a></b>	            // dal_db_api_set_wpiu(db_id, (U16)((U16)size / (U16)4U));
+<b><a name="line559">559    </a></b>	            // SVN 4354 [WA]
+<b><a name="line560">560    </a></b>	            dal_db_api_set_wpiu(db_id, 1U);
+<b><a name="line561">561    </a></b>	        }
+<b><a name="line562">562    </a></b>	
+<b><a name="line563">563    </a></b>	        return PASS;
+<b><a name="line564">564    </a></b>	    }
+<b><a name="line565">565    </a></b>	    else
+<b><a name="line566">566    </a></b>	    {
+<b><a name="line567">567    </a></b>	        return FAIL;
+<b><a name="line568">568    </a></b>	    }
+<b><a name="line569">569    </a></b>	}
+<b><a name="line570">570    </a></b>	
+<b><a name="line571">571    </a></b>	void hal_db_push_block(void *p_data, U16 size, U8 db_id)
+<b><a name="line572">572    </a></b>	{
+<b><a name="line573">573    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_push(p_data, size, db_id) == FAIL), GERNAL_TIMEOUT_THRESHOLD, MABIAO_APU_WAIT_RDY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line574">574    </a></b>	}
+<b><a name="line575">575    </a></b>	
+<b><a name="line576">576    </a></b>	/*!
+<b><a name="line577">577    </a></b>	 @brief hal_db_api_get_rd_packet_cnt
+<b><a name="line578">578    </a></b>	 @param n doorbell queue id
+<b><a name="line579">579    </a></b>	 @return rd_cnt
+<b><a name="line580">580    </a></b>	 @note Indicate that how many amount of packet can be read to the circular queue.
+<b><a name="line581">581    </a></b>	 */
+<b><a name="line582">582    </a></b>	U16 hal_db_api_get_rd_packet_cnt(U8 db_id)
+<b><a name="line583">583    </a></b>	{
+<b><a name="line584">584    </a></b>	    return dal_db_api_get_rd_cnt(db_id);
+<b><a name="line585">585    </a></b>	}
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	U32 hal_flh_scq_mr_header(U8 *buf, U32 tar_id, U32 src_id, U32 byte_len)
+<b><a name="line588">588    </a></b>	{
+<b><a name="line589">589    </a></b>	    MR_HDR_STRUCT_PTR mr;
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    mr = (MR_HDR_STRUCT_PTR)(void *)buf;
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	    // include mr header, must > 0 byte, MR packet is 8 bytes aligned
+<b><a name="line595">595    </a></b>	
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    mr->target_id = (U16)(tar_id);
+<b><a name="line598">598    </a></b>	    mr->cq_target_id = (U16)(src_id);
+<b><a name="line599">599    </a></b>	    mr->len    = (U8)((byte_len >> 3U) - 1U);
+<b><a name="line600">600    </a></b>	
+<b><a name="line601">601    </a></b>	    return (U32)&buf[byte_len];
+<b><a name="line602">602    </a></b>	}
+<b><a name="line603">603    </a></b>	
+</pre></body>
+</html>

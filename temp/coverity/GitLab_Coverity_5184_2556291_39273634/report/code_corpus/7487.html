@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9345">9345    </a></b>	}
+<b><a name="line9346">9346    </a></b>	#endif
+<b><a name="line9347">9347    </a></b>	#if KAT_DRBG_EN
+<b><a name="line9348">9348    </a></b>	U32 host_sec_drbg_kat(U32 buf_addr)
+<b><a name="line9349">9349    </a></b>	{
+<b><a name="line9350">9350    </a></b>	    Dump_SEC(tprintf("DRBG KAT"));
+<b><a name="line9351">9351    </a></b>	
+<b><a name="line9352">9352    </a></b>	    U8 status = FALSE;
+<b><a name="line9353">9353    </a></b>	    U32 tmp_len = 0;
+<b><a name="line9354">9354    </a></b>	
+<b><a name="line9355">9355    </a></b>	    U32 out = buf_addr;
+<b><a name="line9356">9356    </a></b>	    tmp_len += 0x100;
+<b><a name="line9357">9357    </a></b>	
+<b><a name="line9358">9358    </a></b>	    DRBG_API_STRUCT_PTR drbg_api_struct_ptr = (DRBG_API_STRUCT_PTR)(buf_addr + 0x100);
+<b><a name="line9359">9359    </a></b>	    tmp_len += 0x200;
+<b><a name="line9360">9360    </a></b>	
+<b><a name="line9361">9361    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr   = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9362">9362    </a></b>	    tmp_len += 0x200;
+<b><a name="line9363">9363    </a></b>	    drbg_api_struct_ptr->drbg_material.seed_material_ptr    = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9364">9364    </a></b>	    tmp_len += 0x200;
+<b><a name="line9365">9365    </a></b>	    drbg_api_struct_ptr->drbg_material.entropy_input_ptr    = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9366">9366    </a></b>	    tmp_len += 0x200;
+<b><a name="line9367">9367    </a></b>	    drbg_api_struct_ptr->drbg_material.personal_str_ptr     = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9368">9368    </a></b>	    tmp_len += 0x200;
+<b><a name="line9369">9369    </a></b>	    drbg_api_struct_ptr->drbg_material.additional_input_ptr = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9370">9370    </a></b>	    tmp_len += 0x200;
+<b><a name="line9371">9371    </a></b>	    drbg_api_struct_ptr->drbg_material.nonce_ptr            = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9372">9372    </a></b>	    tmp_len += 0x200;
+<b><a name="line9373">9373    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_key_buf_ptr     = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9374">9374    </a></b>	    tmp_len += 0x200;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "tmp_len" (unsigned) is not the same as that of the right operand "512"(signed).</font>
+<b><a name="line9375">9375    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr     = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9376">9376    </a></b>	    tmp_len += 0x200;
+<b><a name="line9377">9377    </a></b>	    drbg_api_struct_ptr->drbg_material.tmp_buf_ptr          = (U8 *)(buf_addr + tmp_len);
+<b><a name="line9378">9378    </a></b>	    tmp_len += 0x200;
+<b><a name="line9379">9379    </a></b>	
+<b><a name="line9380">9380    </a></b>	    (void)memset((void *)(buf_addr + 0x300), 0, tmp_len);
+<b><a name="line9381">9381    </a></b>	
+<b><a name="line9382">9382    </a></b>	    // INSTANTIATE
+<b><a name="line9383">9383    </a></b>	    drbg_hash_mac_var_init(drbg_api_struct_ptr);
+<b><a name="line9384">9384    </a></b>	    status |= drbg_get_entropy_input(drbg_api_struct_ptr, (U8 *)drbg_kat_entropy_input, sizeof(drbg_kat_entropy_input), NULL);
+<b><a name="line9385">9385    </a></b>	    status |= drbg_get_nonce(drbg_api_struct_ptr, (U8 *)drbg_kat_entropy_nonce, sizeof(drbg_kat_entropy_nonce), NULL);
+<b><a name="line9386">9386    </a></b>	
+<b><a name="line9387">9387    </a></b>	    if (status != FALSE)
+<b><a name="line9388">9388    </a></b>	    {
+<b><a name="line9389">9389    </a></b>	        return (KAT_TYPE_DRBG | KAT_ERROR_VERIFY);
+<b><a name="line9390">9390    </a></b>	    }
+<b><a name="line9391">9391    </a></b>	
+<b><a name="line9392">9392    </a></b>	    drbg_get_personal_str(drbg_api_struct_ptr, (U8 *)drbg_kat_perso_str, sizeof(drbg_kat_perso_str));
+<b><a name="line9393">9393    </a></b>	    drbg_instantiation(drbg_api_struct_ptr);
+<b><a name="line9394">9394    </a></b>	
+<b><a name="line9395">9395    </a></b>	    // GENERATE with additional input
+<b><a name="line9396">9396    </a></b>	    drbg_generate(drbg_api_struct_ptr, sizeof(drbg_kat_ans) * 8, DRBG_SS_256, (U8 *)pr_entropy_input_1, sizeof(pr_entropy_input_1), (U8 *)addition_input1, sizeof(addition_input1), TRUE, (U8 *)out, NULL);
+<b><a name="line9397">9397    </a></b>	    drbg_generate(drbg_api_struct_ptr, sizeof(drbg_kat_ans) * 8, DRBG_SS_256, (U8 *)pr_entropy_input_2, sizeof(pr_entropy_input_2), (U8 *)addition_input2, sizeof(addition_input2), TRUE, (U8 *)out, NULL);
+<b><a name="line9398">9398    </a></b>	
+<b><a name="line9399">9399    </a></b>	    if (0 != (memcmp((void *)drbg_kat_ans, (U32 *)out, sizeof(drbg_kat_ans))))
+<b><a name="line9400">9400    </a></b>	    {
+<b><a name="line9401">9401    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9402">9402    </a></b>	        return (KAT_TYPE_DRBG | KAT_ERROR_VERIFY);
+<b><a name="line9403">9403    </a></b>	    }
+<b><a name="line9404">9404    </a></b>	
+<b><a name="line9405">9405    </a></b>	    return KAT_ERROR_NONE;
+</pre></body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/key_manifest_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line236">236    </a></b>	            sig_size = 2048U; // 2048 byte for LMS_SHA256_192 signature(1624) and padding(424)
+<b><a name="line237">237    </a></b>	            break;
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9:
+<b><a name="line240">240    </a></b>	            Dump_SEC(tprintf(" SM9"));
+<b><a name="line241">241    </a></b>	            key_size = sizeof(SM9_KEY_STRUCT);
+<b><a name="line242">242    </a></b>	            sig_size = 512U; // 512 byte for SW SM9 signature(32+64) and padding(416)
+<b><a name="line243">243    </a></b>	            break;
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH:
+<b><a name="line246">246    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE:
+<b><a name="line247">247    </a></b>	            Dump_SEC(tprintf(" MLDSA %s", (algorithm_type == PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE)? "pure" : "prehash"));
+<b><a name="line248">248    </a></b>	            key_size = sizeof(MLDSA_KEY_STRUCT);
+<b><a name="line249">249    </a></b>	            sig_size = 5120U; // 4627 byte for MLDSA signature and padding(493)
+<b><a name="line250">250    </a></b>	            break;
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ:
+<b><a name="line253">253    </a></b>	            Dump_SEC(tprintf(" KAZ"));
+<b><a name="line254">254    </a></b>	            key_size = sizeof(KAZ_KEY_STRUCT);
+<b><a name="line255">255    </a></b>	            sig_size = 512U; // 64 byte for KAZ signature and padding(448)
+<b><a name="line256">256    </a></b>	            break;
+<b><a name="line257">257    </a></b>	        default:
+<b><a name="line258">258    </a></b>	            Dump_SEC(tprintf("!!!Check Fail %x: ", PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line259">259    </a></b>	            Dump_SEC(tprintf("Algorithm Type Project Binary: %x", algorithm_type));
+<b><a name="line260">260    </a></b>	            key_size = 0;
+<b><a name="line261">261    </a></b>	            sig_size = 0;
+<b><a name="line262">262    </a></b>	            break;
+<b><a name="line263">263    </a></b>	    }
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	    result = (U32)(((U32)key_size & 0xFFFF) | ((U32)(sig_size & 0xFFFF) << 16U));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "65535UL" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	    return result;
+<b><a name="line268">268    </a></b>	}
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	U16 get_key_size(U8 algorithm_type)
+<b><a name="line271">271    </a></b>	{
+<b><a name="line272">272    </a></b>	    return get_key_sign_size(algorithm_type) & 0xFFFF;
+<b><a name="line273">273    </a></b>	}
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	U16 get_sig_size(U8 algorithm_type)
+<b><a name="line276">276    </a></b>	{
+<b><a name="line277">277    </a></b>	    return  (get_key_sign_size(algorithm_type) >> 16U ) & 0xFFFF;
+<b><a name="line278">278    </a></b>	}
+<b><a name="line279">279    </a></b>	
+</pre></body>
+</html>

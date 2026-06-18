@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line142">142    </a></b>	/*!
+<b><a name="line143">143    </a></b>	   @brief      Fill subsystem management command data into SMBus slave TX buffer
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line146">146    </a></b>	   @param      ubSlaveAddr                  slave address
+<b><a name="line147">147    </a></b>	   @param      ubCmdCode                    command code
+<b><a name="line148">148    </a></b>	   @param      pSmbsTx                      pointer to SMBus slave TX buffer
+<b><a name="line149">149    </a></b>	 */
+<b><a name="line150">150    </a></b>	void SmbusFillTxBufferSubsystemManagementData(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, U8 ubSlaveAddr, U8 ubCmdCode, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line151">151    </a></b>	{
+<b><a name="line152">152    </a></b>	    U8 aubReturnData[SUBSYSTEM_MANAGEMENT_DATA_LENGTH_TOTAL] = {0};
+<b><a name="line153">153    </a></b>	    U8 *pLengthByte = &aubReturnData[ubCmdCode];
+<b><a name="line154">154    </a></b>	    U8 *pPecByte = NULL;
+<b><a name="line155">155    </a></b>	    U8 ubDataLength = 0U;
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	    // Copy subsystem management data and start PEC calculation
+<b><a name="line158">158    </a></b>	    memcpy((void *)aubReturnData, (void *)pSubsystemManagementData, sizeof(SUBSYSTEM_MANAGEMENT_DATA_T));
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	    // For the case that the received cmd code represents an all zero value data block
+<b><a name="line161">161    </a></b>	    // e.g received cmd code 50h (ocp hyperscale)
+<b><a name="line162">162    </a></b>	    if (0U == *pLengthByte)
+<b><a name="line163">163    </a></b>	    {
+<b><a name="line164">164    </a></b>	        MoveToNextNonZeroDataBlock(&pLengthByte);
+<b><a name="line165">165    </a></b>	    }
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	    // Loop while length byte is within data range
+<b><a name="line168">168    </a></b>	    while (pLengthByte < (U8 *)(&aubReturnData[SUBSYSTEM_MANAGEMENT_DATA_LENGTH_TOTAL]))
+<b><a name="line169">169    </a></b>	    {
+<b><a name="line170">170    </a></b>	        pPecByte = &pLengthByte[*pLengthByte + 1U];
+<b><a name="line171">171    </a></b>	        ubDataLength = (U8)(pPecByte - &aubReturnData[ubCmdCode]);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast of composite expression of essential type signed to essential type unsigned.</font>
+<b><a name="line172">172    </a></b>	
+<b><a name="line173">173    </a></b>	        *pPecByte = SmbsBlockReadCalculatePEC((ubSlaveAddr >> 1), ubCmdCode, ubDataLength, &aubReturnData[ubCmdCode]);
+<b><a name="line174">174    </a></b>	        MoveToNextNonZeroDataBlock(&pLengthByte);
+<b><a name="line175">175    </a></b>	    }
+<b><a name="line176">176    </a></b>	
+<b><a name="line177">177    </a></b>	    // Copy data from command offset to the end
+<b><a name="line178">178    </a></b>	    pSmbsTx->uwOffset = 0U;
+<b><a name="line179">179    </a></b>	    pSmbsTx->uwCount  = SUBSYSTEM_MANAGEMENT_DATA_LENGTH_TOTAL - ubCmdCode;
+<b><a name="line180">180    </a></b>	
+<b><a name="line181">181    </a></b>	    if (0 != pSmbsTx->uwCount)
+<b><a name="line182">182    </a></b>	    {
+<b><a name="line183">183    </a></b>	        memcpy((void *)pSmbsTx->pdata.pu8, &aubReturnData[ubCmdCode], pSmbsTx->uwCount);
+<b><a name="line184">184    </a></b>	    }
+<b><a name="line185">185    </a></b>	}
+<b><a name="line186">186    </a></b>	
+<b><a name="line187">187    </a></b>	/*!
+<b><a name="line188">188    </a></b>	   @brief      Init vendor specific in subsystem management data based on OCP datacenter definition
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line191">191    </a></b>	   @param      pHostVar                     pointer to host variable
+<b><a name="line192">192    </a></b>	 */
+<b><a name="line193">193    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line194">194    </a></b>	static void VendorSpecificInitOcpDatacenter(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, HOST_VAR_T *pHostVar)
+<b><a name="line195">195    </a></b>	#else
+<b><a name="line196">196    </a></b>	static void VendorSpecificInitOcpDatacenter(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData)
+<b><a name="line197">197    </a></b>	#endif
+<b><a name="line198">198    </a></b>	{
+<b><a name="line199">199    </a></b>	    OCP_DATACENTER_T *pDatacenter = &pSubsystemManagementData->uVendorSpecific.sDatacenter;
+<b><a name="line200">200    </a></b>	    U8 ubIdx;
+<b><a name="line201">201    </a></b>	
+<b><a name="line202">202    </a></b>	    /********************************************************************************************
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2639">2639    </a></b>	
+<b><a name="line2640">2640    </a></b>	U8 dal_cmgr_get_stable(U8 p_ofst)
+<b><a name="line2641">2641    </a></b>	{
+<b><a name="line2642">2642    </a></b>	    return (U8)r_all_CMGR_STABLE(p_ofst);
+<b><a name="line2643">2643    </a></b>	    //return ((r32_CMGR_REG[(0x1288UL >> 2U)] & 0x61U) != 0U); // RESET-TODO: Temp WA until bitfile ver >= r25184
+<b><a name="line2644">2644    </a></b>	}
+<b><a name="line2645">2645    </a></b>	
+<b><a name="line2646">2646    </a></b>	U8 dal_cmgr_get_idle(U8 p_ofst)
+<b><a name="line2647">2647    </a></b>	{
+<b><a name="line2648">2648    </a></b>	    return (U8)r_all_CMGR_IDLE(p_ofst);
+<b><a name="line2649">2649    </a></b>	}
+<b><a name="line2650">2650    </a></b>	
+<b><a name="line2651">2651    </a></b>	U8 dal_cmgr_get_pn_alloc_fail(U8 p_ofst)
+<b><a name="line2652">2652    </a></b>	{
+<b><a name="line2653">2653    </a></b>	    return (U8)r_all_CMGR_MDPN_ALLOC_FAIL(p_ofst);
+<b><a name="line2654">2654    </a></b>	}
+<b><a name="line2655">2655    </a></b>	
+<b><a name="line2656">2656    </a></b>	U8 dal_cmgr_get_busy(U8 p_ofst)
+<b><a name="line2657">2657    </a></b>	{
+<b><a name="line2658">2658    </a></b>	    return (U8)r_all_CMGR_BUSY(p_ofst);
+<b><a name="line2659">2659    </a></b>	}
+<b><a name="line2660">2660    </a></b>	
+<b><a name="line2661">2661    </a></b>	U16 dal_cmgr_get_rpf_q_ctag(U8 p_ofst, U8 entry)
+<b><a name="line2662">2662    </a></b>	{
+<b><a name="line2663">2663    </a></b>	    return (U16)R32_CMGR_REG_M_READ(r_all_CMGR_RPF_Q_CTAG_0(p_ofst) + (U32)entry, all_CMGR_RPF_Q_CTAG_0_SHIFT, all_CMGR_RPF_Q_CTAG_0_MASK);
+<b><a name="line2664">2664    </a></b>	}
+<b><a name="line2665">2665    </a></b>	
+<b><a name="line2666">2666    </a></b>	U8 dal_cmgr_get_rpf_q_vld(U8 p_ofst, U8 entry)
+<b><a name="line2667">2667    </a></b>	{
+<b><a name="line2668">2668    </a></b>	    return (U8)R32_CMGR_REG_M_READ(r_all_CMGR_RPF_Q_VLD_0(p_ofst) + (U32)entry, all_CMGR_RPF_Q_VLD_0_SHIFT, all_CMGR_RPF_Q_VLD_0_MASK);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "((U8 volatile *)0x3000000[(2416UL + 512UL * (U32)p_ofst >> 0U) + 3UL] >> 7U) & 1U" (8 bits) is less that the right hand operand "(U32)entry" (32 bits).</font>
+<b><a name="line2669">2669    </a></b>	}
+<b><a name="line2670">2670    </a></b>	
+<b><a name="line2671">2671    </a></b>	U8 dal_cmgr_get_fw_thr_rslt_l(U8 p_ofst)
+<b><a name="line2672">2672    </a></b>	{
+<b><a name="line2673">2673    </a></b>	    return r_all_CMGR_THR_RSLT_L(p_ofst);
+<b><a name="line2674">2674    </a></b>	}
+<b><a name="line2675">2675    </a></b>	
+<b><a name="line2676">2676    </a></b>	U32 dal_cmgr_get_fw_thr_rslt(U8 p_ofst)
+<b><a name="line2677">2677    </a></b>	{
+<b><a name="line2678">2678    </a></b>	    return r_all_CMGR_THR_RSLT(p_ofst);
+<b><a name="line2679">2679    </a></b>	}
+<b><a name="line2680">2680    </a></b>	
+<b><a name="line2681">2681    </a></b>	U64 dal_cmgr_get_dbg_port(void)
+<b><a name="line2682">2682    </a></b>	{
+<b><a name="line2683">2683    </a></b>	    //TODO: wait CMGR reg ready
+<b><a name="line2684">2684    </a></b>	    return 0U;
+<b><a name="line2685">2685    </a></b>	
+<b><a name="line2686">2686    </a></b>	    // U32 low_value, high_value;
+<b><a name="line2687">2687    </a></b>	
+<b><a name="line2688">2688    </a></b>	    // low_value = r32_r_all_CMGR_DBG_PORT();
+<b><a name="line2689">2689    </a></b>	    // high_value = r32_r_all_CMGR_DBG_PORT_1();
+<b><a name="line2690">2690    </a></b>	    // return (low_value | ((U64)high_value << 32ULL));
+<b><a name="line2691">2691    </a></b>	}
+<b><a name="line2692">2692    </a></b>	
+<b><a name="line2693">2693    </a></b>	U16 dal_cmgr_get_p_dbg_ctag(U8 p_ofst)
+<b><a name="line2694">2694    </a></b>	{
+<b><a name="line2695">2695    </a></b>	    (void)p_ofst;
+<b><a name="line2696">2696    </a></b>	    //TODO: wait CMGR reg ready
+<b><a name="line2697">2697    </a></b>	    return 0U;
+<b><a name="line2698">2698    </a></b>	    // return (U16)r32_r_all_CMGR_P0_DBG_CTAG();
+<b><a name="line2699">2699    </a></b>	}
+</pre></body>
+</html>

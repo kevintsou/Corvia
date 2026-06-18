@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9193">9193    </a></b>	    else {
+<b><a name="line9194">9194    </a></b>	        (void)memcpy((void *)n_endian_buffer, (void *)&public_key->key.n, 0x200U);
+<b><a name="line9195">9195    </a></b>	    }
+<b><a name="line9196">9196    </a></b>	}
+<b><a name="line9197">9197    </a></b>	U32 host_sec_rsa_pkcs2_1_4096_verify_kat(U32 buf_addr)
+<b><a name="line9198">9198    </a></b>	{
+<b><a name="line9199">9199    </a></b>	    SEC_RSA_ENCODING_PARAMS_T rsa_encode_param = {{0}};
+<b><a name="line9200">9200    </a></b>	
+<b><a name="line9201">9201    </a></b>	    U32 hash_addr       = buf_addr;
+<b><a name="line9202">9202    </a></b>	    U32 encode_msg_addr = hash_addr       + 0x200;
+<b><a name="line9203">9203    </a></b>	    U32 mgf_addr        = encode_msg_addr + 0x200;
+<b><a name="line9204">9204    </a></b>	    U32 temp_addr       = mgf_addr        + 0x200;
+<b><a name="line9205">9205    </a></b>	    U32 signature_addr  = temp_addr       + 0x200;
+<b><a name="line9206">9206    </a></b>	    U32 mask_addr       = signature_addr  + 0x200;
+<b><a name="line9207">9207    </a></b>	    U32 msg_addr        = mask_addr       + 0x200;
+<b><a name="line9208">9208    </a></b>	    U32 rsa_n_little    = msg_addr        + 0x200;
+<b><a name="line9209">9209    </a></b>	    U32 rsa_kx_little   = rsa_n_little      + 0x200UL; // rsa 4096
+<b><a name="line9210">9210    </a></b>	    U32 rsa_r_little    = rsa_kx_little     + 0x200UL;
+<b><a name="line9211">9211    </a></b>	    U32 rsa_rr_little   = rsa_r_little      + 0x200UL;
+<b><a name="line9212">9212    </a></b>	    U32 rsa_n0          = rsa_rr_little    + 0x200UL;
+<b><a name="line9213">9213    </a></b>	    U32 rsa_e_little    = rsa_n0            + 0x200UL;
+<b><a name="line9214">9214    </a></b>	
+<b><a name="line9215">9215    </a></b>	
+<b><a name="line9216">9216    </a></b>	    memset((void *)hash_addr, 0U, 0x2000);
+<b><a name="line9217">9217    </a></b>	
+<b><a name="line9218">9218    </a></b>	    hal_sec_api_reverse_endian((void *)(rsa_e_little), (void *)(rsa_e), 4);
+<b><a name="line9219">9219    </a></b>	
+<b><a name="line9220">9220    </a></b>	    const PKCS1V21_KATPattern *pattern = &pkcs2v1_rsa4096_test2;
+<b><a name="line9221">9221    </a></b>	
+<b><a name="line9222">9222    </a></b>	    memcpy_P((void *)(msg_addr), (void *)(pattern->msg), pattern->msg_len);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "msg_addr" of type "U32" is cast to type "void *".</font>
+<b><a name="line9223">9223    </a></b>	    memcpy_P((void *)(signature_addr), (void *)(pattern->sig), pattern->nbytes);
+<b><a name="line9224">9224    </a></b>	    memcpy_P((void *)(rsa_n_little), (void *)(pattern->n), HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line9225">9225    </a></b>	    memcpy_P((void *)(rsa_n0), (void *)(pattern->n0), 8);
+<b><a name="line9226">9226    </a></b>	    memcpy_P((void *)(rsa_r_little), (void *)(pattern->r), HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line9227">9227    </a></b>	    memcpy_P((void *)(rsa_rr_little), (void *)(pattern->rr), HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line9228">9228    </a></b>	
+<b><a name="line9229">9229    </a></b>	    Dump_SEC(tprintf("RSASSA-PSS KAT"));
+<b><a name="line9230">9230    </a></b>	
+<b><a name="line9231">9231    </a></b>	    // Verify
+<b><a name="line9232">9232    </a></b>	    memset((void *)&rsa_encode_param, 0U, sizeof(SEC_RSA_ENCODING_PARAMS_T));
+<b><a name="line9233">9233    </a></b>	
+<b><a name="line9234">9234    </a></b>	    rsa_encode_param.rsa.n             = (U8 *)(rsa_n_little);
+<b><a name="line9235">9235    </a></b>	    rsa_encode_param.rsa.size_rsa      = pattern->nbytes;
+<b><a name="line9236">9236    </a></b>	    rsa_encode_param.rsa.n0            = (U8 *)(rsa_n0);
+<b><a name="line9237">9237    </a></b>	    rsa_encode_param.rsa.r             = (U8 *)(rsa_r_little);
+<b><a name="line9238">9238    </a></b>	    rsa_encode_param.rsa.rr            = (U8 *)(rsa_rr_little);
+<b><a name="line9239">9239    </a></b>	    rsa_encode_param.rsa.kx            = (U8 *)(rsa_e_little);
+<b><a name="line9240">9240    </a></b>	    rsa_encode_param.rsa.size_kx       = (U16) 4U;
+<b><a name="line9241">9241    </a></b>	    rsa_encode_param.msg_addr.low      = msg_addr;
+<b><a name="line9242">9242    </a></b>	    rsa_encode_param.msg_len           = pattern->msg_len;
+<b><a name="line9243">9243    </a></b>	    rsa_encode_param.hash_addr.low     = hash_addr;
+<b><a name="line9244">9244    </a></b>	    rsa_encode_param.encmsg_addr.low   = encode_msg_addr;
+<b><a name="line9245">9245    </a></b>	    rsa_encode_param.mgf_addr.low      = mgf_addr;
+<b><a name="line9246">9246    </a></b>	    rsa_encode_param.mask_addr.low     = mask_addr;
+<b><a name="line9247">9247    </a></b>	    rsa_encode_param.tmp_addr.low      = temp_addr;
+<b><a name="line9248">9248    </a></b>	    rsa_encode_param.salt_len          = 20U; /*Salt Length*/
+<b><a name="line9249">9249    </a></b>	
+<b><a name="line9250">9250    </a></b>	    rsa_encode_param.hash_id         = (U8) pattern->hash_id;
+<b><a name="line9251">9251    </a></b>	    rsa_encode_param.rsa.input       = (U8 *)signature_addr;
+<b><a name="line9252">9252    </a></b>	    rsa_encode_param.rsa.timeout_val = (U64)HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line9253">9253    </a></b>	
+</pre></body>
+</html>

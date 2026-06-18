@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line109">109    </a></b>	{
+<b><a name="line110">110    </a></b>	    U32 check_project_binary_error;
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    const U8 a_code_signature_marking[PROJECT_BINARY_HEADER_CODE_SIGNATURE_MARKING_SIZE] =
+<b><a name="line113">113    </a></b>	    {'C', 'O', 'D', 'E', ' ', 'B', 'L', 'O', 'C', 'K', 0x55, 0xAA, 0xAA, 0x55, 0x00, 0xFF};
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    check_project_binary_error = 0;
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    Dump_SEC(tprintf("Check Header"));
+<b><a name="line118">118    </a></b>	    Dump_SEC(tprintf("marking addr :%x",p_project_binary_header->a_code_signature_marking));
+<b><a name="line119">119    </a></b>	    //Check the Code Signature Marking
+<b><a name="line120">120    </a></b>	    if (memcmp((void *)(p_project_binary_header->a_code_signature_marking), (void *)a_code_signature_marking, sizeof(p_project_binary_header->a_code_signature_marking))) {
+<b><a name="line121">121    </a></b>	        Dump_SEC(tprintf("!!!Check Fail %L: ", (U64)PROJECT_BINARY_ERROR_HEADER_CODE_SIGNATURE_MARKING));
+<b><a name="line122">122    </a></b>	        Dump_SEC(tprintf("Code Signature Marking"));
+<b><a name="line123">123    </a></b>	        check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_CODE_SIGNATURE_MARKING;
+<b><a name="line124">124    </a></b>	    }
+<b><a name="line125">125    </a></b>	    Dump_SEC(tprintf("version addr :%x",p_project_binary_header->a_ic_version));
+<b><a name="line126">126    </a></b>	    //Check the IC Version Marking
+<b><a name="line127">127    </a></b>	    if (memcmp((void *)(p_project_binary_header->a_ic_version), (void *)ga_ic_version, sizeof(p_project_binary_header->a_ic_version))) {
+<b><a name="line128">128    </a></b>	        Dump_SEC(tprintf("!!!Check Fail %L: ", (U64)PROJECT_BINARY_ERROR_HEADER_IC_VERSION));
+<b><a name="line129">129    </a></b>	        Dump_SEC(tprintf("IC Version"));
+<b><a name="line130">130    </a></b>	        check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_IC_VERSION;
+<b><a name="line131">131    </a></b>	    }
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	    // Check file format - only support FMT5
+<b><a name="line134">134    </a></b>	    if (p_project_binary_header->file_format != PROJECT_BINARY_HEADER_SIGNATURE_FILE_FORMAT_KEY_SIGNATURE)
+<b><a name="line135">135    </a></b>	    {
+<b><a name="line136">136    </a></b>	        Dump_SEC(tprintf("!!!Chk F"));
+<b><a name="line137">137    </a></b>	        Dump_SEC(tprintf("File Format %d not supported", p_project_binary_header->file_format));
+<b><a name="line138">138    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_FILE_FORMAT;
+<b><a name="line139">139    </a></b>	    }
+<b><a name="line140">140    </a></b>	
+<b><a name="line141">141    </a></b>	    //TODO add checking section sizes
+<b><a name="line142">142    </a></b>	    //needs at least 1 sector for atcm
+<b><a name="line143">143    </a></b>	    //atcm and btcm should not exceed the memory map definition
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    return check_project_binary_error;
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	static U32 check_project_binary_security_setting(const PROJECT_BINARY_HEADER *p_project_binary_header, const EFUSE_SECURITY_SETTING *p_efuse_security_setting, U32 project_binary_source)
+<b><a name="line149">149    </a></b>	{
+<b><a name="line150">150    </a></b>	    U32 check_project_binary_error;
+<b><a name="line151">151    </a></b>	
+<b><a name="line152">152    </a></b>	    check_project_binary_error = 0;
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	    //Checks the CIDM
+<b><a name="line155">155    </a></b>	    //The CIDM in the Project Binary must match a valid CIDM in eFuse
+<b><a name="line156">156    </a></b>	    //Fails if ALL of the below conditions are NOT true
+<b><a name="line157">157    </a></b>	    //1. Project Binary CIDM is 0x0000 (can be accepted by all eFuse CIDM)
+<b><a name="line158">158    </a></b>	    //2. EFuse CIDM is valid and matches Project Binary's CIDM
+<b><a name="line159">159    </a></b>	    //3. EFuse CIDM has not been specified
+<b><a name="line160">160    </a></b>	    //4. CIDM checking can be bypassed
+<b><a name="line161">161    </a></b>	    if (!(
+<b><a name="line162">162    </a></b>	            (0x0000 == p_project_binary_header->cidm) ||
+<b><a name="line163">163    </a></b>	            ((0xFFFF == (p_efuse_security_setting->cidm ^ p_efuse_security_setting->cidm_inverse)) &&
+<b><a name="line164">164    </a></b>	                (p_efuse_security_setting->cidm == p_project_binary_header->cidm)) ||
+<b><a name="line165">165    </a></b>	            ((0x0000 == p_efuse_security_setting->cidm) &&
+<b><a name="line166">166    </a></b>	                (0x0000 == p_efuse_security_setting->cidm_inverse)) ||
+<b><a name="line167">167    </a></b>	            ((0 == p_efuse_security_setting->cidm_bypass_disable) &&
+<b><a name="line168">168    </a></b>	                (0xFFFF == p_efuse_security_setting->cidm) &&
+<b><a name="line169">169    </a></b>	                (0xFFFF == p_efuse_security_setting->cidm_inverse)))) {
+<b><a name="line170">170    </a></b>	
+<b><a name="line171">171    </a></b>	        Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_SECURITY_SETTING_CIDM));
+<b><a name="line172">172    </a></b>	        Dump_SEC(tprintf("CIDM"));
+<b><a name="line173">173    </a></b>	        Dump_SEC(tprintf("CIDM Project Binary: 0x%x", p_project_binary_header->cidm));
+<b><a name="line174">174    </a></b>	        Dump_SEC(tprintf("CIDM eFuse: 0x%x, ", p_efuse_security_setting->cidm));
+<b><a name="line175">175    </a></b>	        Dump_SEC(tprintf("CIDM eFuse Inverse: 0x%x", p_efuse_security_setting->cidm_inverse));
+<b><a name="line176">176    </a></b>	        Dump_SEC(tprintf("CIDM Bypass Disable: %d", p_efuse_security_setting->cidm_bypass_disable));
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	        //TODO this isn't a good way to use production_mode, actually modify CIDM value instead so that CIDM checks actually passes
+<b><a name="line179">179    </a></b>	        if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line180">180    </a></b>	            check_project_binary_error |= PROJECT_BINARY_ERROR_SECURITY_SETTING_CIDM;
+<b><a name="line181">181    </a></b>	        }
+<b><a name="line182">182    </a></b>	    }
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	    //Checks the Security Version based on how the Project Binary is obtained
+<b><a name="line185">185    </a></b>	    //The highest bit of the Security Version in the Project Binary must be
+<b><a name="line186">186    </a></b>	    //  greater than or equal to the highest bit of the Security Version in eFuse
+<b><a name="line187">187    </a></b>	    //Fails if ALL of the below conditions are NOT true
+<b><a name="line188">188    </a></b>	    //1. Obtained from NAND and Security Version in the is lower
+<b><a name="line189">189    </a></b>	    if (!(
+<b><a name="line190">190    </a></b>	            ((PROJECT_BINARY_SOURCE_NAND == project_binary_source) &&
+<b><a name="line191">191    </a></b>	                (0 == check_field_valid(p_efuse_security_setting->security_version_nand, p_project_binary_header->security_version))) ||
+<b><a name="line192">192    </a></b>	            ((PROJECT_BINARY_SOURCE_HOST == project_binary_source) &&
+<b><a name="line193">193    </a></b>	                (0 == check_field_valid(p_efuse_security_setting->security_version_host, p_project_binary_header->security_version))))) {
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	        Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_SECURITY_SETTING_SECURITY_VERSION));
+<b><a name="line196">196    </a></b>	        Dump_SEC(tprintf("Security Version"));
+<b><a name="line197">197    </a></b>	        Dump_SEC(tprintf("Security Version Project Binary: 0x%x", p_project_binary_header->security_version));
+<b><a name="line198">198    </a></b>	        Dump_SEC(tprintf("Security Version NAND: 0x%x", p_efuse_security_setting->security_version_nand));
+<b><a name="line199">199    </a></b>	        Dump_SEC(tprintf("Security Version Host: 0x%x", p_efuse_security_setting->security_version_host));
+<b><a name="line200">200    </a></b>	
+<b><a name="line201">201    </a></b>	        //TODO this isn't a good way to use production_mode, actually modify security version instead so tht the check passes
+<b><a name="line202">202    </a></b>	        if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line203">203    </a></b>	            check_project_binary_error |= PROJECT_BINARY_ERROR_SECURITY_SETTING_SECURITY_VERSION;
+<b><a name="line204">204    </a></b>	        }
+<b><a name="line205">205    </a></b>	    }
+<b><a name="line206">206    </a></b>	
+<b><a name="line207">207    </a></b>	    //Code Signature Check is required, but the Project Binary is not signed
+<b><a name="line208">208    </a></b>	    if (0 == p_project_binary_header->code_sign_finish) {
+<b><a name="line209">209    </a></b>	        if (0 != p_efuse_security_setting->check_code_signature_enable) {
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	            Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_SECURITY_SETTING_NOT_SIGNED));
+<b><a name="line212">212    </a></b>	            Dump_SEC(tprintf("Code Signature Required"));
+<b><a name="line213">213    </a></b>	            Dump_SEC(tprintf("eFuse Code Signature Check: %d", p_efuse_security_setting->check_code_signature_enable));
+<b><a name="line214">214    </a></b>	            Dump_SEC(tprintf("Binary Code Signature Finish: %d", p_project_binary_header->code_sign_finish));
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	            //Code Signature related Security Settings are checked when checking Code Signature
+<b><a name="line217">217    </a></b>	            if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line218">218    </a></b>	                check_project_binary_error |= PROJECT_BINARY_ERROR_SECURITY_SETTING_NOT_SIGNED;
+<b><a name="line219">219    </a></b>	            }
+<b><a name="line220">220    </a></b>	        }
+<b><a name="line221">221    </a></b>	    }
+<b><a name="line222">222    </a></b>	    else {
+<b><a name="line223">223    </a></b>	        //Check the accepted algorithm(0x17)
+<b><a name="line224">224    </a></b>	        switch (p_project_binary_header->algorithm_type) {
+<b><a name="line225">225    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line226">226    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.rsa4096_pkcs2_1_disable) {
+<b><a name="line227">227    </a></b>	
+<b><a name="line228">228    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line229">229    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line230">230    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (RSA4096 SHA512 PKCS1 V2.1)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1));
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line233">233    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line234">234    </a></b>	                }
+<b><a name="line235">235    </a></b>	            }
+<b><a name="line236">236    </a></b>	            break;
+<b><a name="line237">237    </a></b>	
+<b><a name="line238">238    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3:
+<b><a name="line239">239    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.sm2_sm3_disable) {
+<b><a name="line240">240    </a></b>	
+<b><a name="line241">241    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line242">242    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line243">243    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (SM3 SM2)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3));
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line246">246    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line247">247    </a></b>	                }
+<b><a name="line248">248    </a></b>	            }
+<b><a name="line249">249    </a></b>	            break;
+<b><a name="line250">250    </a></b>	
+<b><a name="line251">251    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192:
+<b><a name="line252">252    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.lms_sha256_192_disable) {
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line255">255    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line256">256    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (LMS SHA256)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192));
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line259">259    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line260">260    </a></b>	                }
+<b><a name="line261">261    </a></b>	            }
+<b><a name="line262">262    </a></b>	            break;
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9:
+<b><a name="line265">265    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.sw_sm9_disable) {
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line268">268    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line269">269    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (SM9)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9));
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line272">272    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line273">273    </a></b>	                }
+<b><a name="line274">274    </a></b>	            }
+<b><a name="line275">275    </a></b>	            break;
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH:
+<b><a name="line278">278    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.mldsa_hash_sha512_disable) {
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line281">281    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line282">282    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (MLDSA PREHASH)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH));
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line285">285    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line286">286    </a></b>	                }
+<b><a name="line287">287    </a></b>	            }
+<b><a name="line288">288    </a></b>	            break;
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE:
+<b><a name="line291">291    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.mldsa_pure_disable) {
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line294">294    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line295">295    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (MLDSA PURE)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE));
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line298">298    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line299">299    </a></b>	                }
+<b><a name="line300">300    </a></b>	            }
+<b><a name="line301">301    </a></b>	            break;
+<b><a name="line302">302    </a></b>	
+<b><a name="line303">303    </a></b>	        case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ:
+<b><a name="line304">304    </a></b>	            if (0 != gEFuseAPI.efuse_security_setting.kaz_disable) {
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	                Dump_SEC(tprintf("!!!Check Fail %x: ", (U64)PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE));
+<b><a name="line307">307    </a></b>	                Dump_SEC(tprintf("Code Signature Algorithm Disabled"));
+<b><a name="line308">308    </a></b>	                Dump_SEC(tprintf("Algorithm 0x%x (KAZ)", PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ));
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	                if (gBCodeGlobalStruct.production_mode) {
+<b><a name="line311">311    </a></b>	                    check_project_binary_error |= PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line312">312    </a></b>	                }
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	            break;
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	        default:
+<b><a name="line317">317    </a></b>	            //The support of the algorithm itself is determined in the checck signature itself
+<b><a name="line318">318    </a></b>	            break;
+<b><a name="line319">319    </a></b>	        }
+<b><a name="line320">320    </a></b>	    }
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	    return check_project_binary_error;
+<b><a name="line323">323    </a></b>	}
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	/**
+<b><a name="line328">328    </a></b>	 * Checks the CRC (offset 0x9C within the Project Binary Header) of the
+<b><a name="line329">329    </a></b>	 * specified Project Binary. The area of protection provided by the CRC starts
+<b><a name="line330">330    </a></b>	 * from the Project ID within the Project Binary Header (offset 0x80) until the
+<b><a name="line331">331    </a></b>	 * end, not including the Code Signature
+<b><a name="line332">332    </a></b>	 *
+<b><a name="line333">333    </a></b>	 * @param p_project_binary_header
+<b><a name="line334">334    </a></b>	 *  The location of the Project Binary to be checked
+<b><a name="line335">335    </a></b>	 *
+<b><a name="line336">336    </a></b>	 * @return
+<b><a name="line337">337    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred
+<b><a name="line338">338    </a></b>	 *      BIT8 (PROJECT_BINARY_ERROR_CRC)
+<b><a name="line339">339    </a></b>	 *          The CRC is incorrect
+<b><a name="line340">340    </a></b>	 *      BIT13 (PROJECT_BINARY_ERROR_HW_ERROR)
+<b><a name="line341">341    </a></b>	 *          The hardware required to check the CRC has failed
+<b><a name="line342">342    </a></b>	 */
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	static U32 check_project_binary_crc(PROJECT_BINARY_HEADER *p_project_binary_header)
+<b><a name="line345">345    </a></b>	{
+<b><a name="line346">346    </a></b>	    U32 check_project_binary_error;
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	    volatile U32 *p_crc;
+<b><a name="line349">349    </a></b>	    U32 crc_address, crc_length;
+<b><a name="line350">350    </a></b>	    U32 crc_bin, crc_calc;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "crc_calc" hides another declaration.</font>
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	    check_project_binary_error = 0;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    if (0 == p_project_binary_header->code_sign_finish) {
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	        Dump_LoadCode(tprintf("Check CRC: Code Sign CRC"));
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	        //Check code_sign_crc Byte 0~511 + Extension
+<b><a name="line359">359    </a></b>	        p_crc = &(p_project_binary_header->code_sign_crc);
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	        crc_address = (U32) & (p_project_binary_header->a_code_signature_marking[0]);
+<b><a name="line362">362    </a></b>	        crc_length = (SECTOR_SIZE * p_project_binary_header->project_binary_header_sector_size);
+<b><a name="line363">363    </a></b>	    }
+<b><a name="line364">364    </a></b>	    else {
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	        Dump_LoadCode(tprintf("Check CRC: Project Binary Header CRC "));
+<b><a name="line367">367    </a></b>	
+<b><a name="line368">368    </a></b>	        //Check project binary head CRC Byte 128~511 + Extension
+<b><a name="line369">369    </a></b>	        p_crc = &(p_project_binary_header->project_binary_header_crc);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	        crc_address = (U32) & (p_project_binary_header->project_id);
+<b><a name="line372">372    </a></b>	        crc_length = (SECTOR_SIZE * p_project_binary_header->project_binary_header_sector_size) - (crc_address - (U32)p_project_binary_header);
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    }
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    Dump_LoadCode(tprintf("CRC : %x @ %x, Start %x for Size %x", *p_crc, p_crc, crc_address, crc_length));
+<b><a name="line377">377    </a></b>	
+<b><a name="line378">378    </a></b>	    crc_calc = 0;
+<b><a name="line379">379    </a></b>	    crc_bin = *p_crc;
+<b><a name="line380">380    </a></b>	    *p_crc = 0;
+<b><a name="line381">381    </a></b>	
+</pre></body>
+</html>

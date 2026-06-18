@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/log/sal_log.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line67">67    </a></b>	}
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	static void sal_log_init(volatile SAL_LOG* log, U32 base, U16 size, U8 tag, U8 uart_en)
+<b><a name="line70">70    </a></b>	{
+<b><a name="line71">71    </a></b>	    log->size = size;
+<b><a name="line72">72    </a></b>	    log->offset   = 0;
+<b><a name="line73">73    </a></b>	    log->uart_en = uart_en;
+<b><a name="line74">74    </a></b>	    log->start = (char *)(base);
+<b><a name="line75">75    </a></b>	    log->ubTag = tag;
+<b><a name="line76">76    </a></b>	    log->mlog_en = TRUE;
+<b><a name="line77">77    </a></b>	    memset((void *)(log->start), 0x0, log->size);
+<b><a name="line78">78    </a></b>	}
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	static void sal_log_set32(volatile SAL_LOG* log, U32 value)
+<b><a name="line81">81    </a></b>	{
+<b><a name="line82">82    </a></b>	    if (gsSalLogInfo.mlog_en)
+<b><a name="line83">83    </a></b>	    {
+<b><a name="line84">84    </a></b>	        if ((log->offset + sizeof(U32)) <= log->size) {
+<b><a name="line85">85    </a></b>	            *(U32*)&log->start[log->offset] = value;
+<b><a name="line86">86    </a></b>	            log->offset += sizeof(U32);
+<b><a name="line87">87    </a></b>	        }
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	void sal_log_info_init(U32 base, U16 size, U8 uart_en)
+<b><a name="line92">92    </a></b>	{
+<b><a name="line93">93    </a></b>	    sal_log_init(&gsSalLogInfo, base, size, 'I', uart_en);
+<b><a name="line94">94    </a></b>	}
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	void sal_log_info_char(char log_char)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "sal_log_info_char".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">     ^</font>
+<b><a name="line97">97    </a></b>	{
+<b><a name="line98">98    </a></b>	    if (gsSalLogInfo.uart_en)
+<b><a name="line99">99    </a></b>	    {
+<b><a name="line100">100    </a></b>	        if (sal_print_is_en())
+<b><a name="line101">101    </a></b>	        {
+<b><a name="line102">102    </a></b>	            phal_uart_putc('\r');
+<b><a name="line103">103    </a></b>	            phal_uart_putc('\n');
+<b><a name="line104">104    </a></b>	        }
+<b><a name="line105">105    </a></b>	        phal_uart_putc(log_char);
+<b><a name="line106">106    </a></b>	    }
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	    if (gsSalLogInfo.mlog_en)
+<b><a name="line109">109    </a></b>	    {
+<b><a name="line110">110    </a></b>	        if (gsSalLogInfo.offset < gsSalLogInfo.size) {
+<b><a name="line111">111    </a></b>	            gsSalLogInfo.start[gsSalLogInfo.offset] = log_char;
+<b><a name="line112">112    </a></b>	            gsSalLogInfo.offset++;
+<b><a name="line113">113    </a></b>	        }
+<b><a name="line114">114    </a></b>	    }
+<b><a name="line115">115    </a></b>	}
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	void sal_log_info_num(U64 log_num)
+<b><a name="line118">118    </a></b>	{
+<b><a name="line119">119    </a></b>	    U8 nibble_offset;
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    for (nibble_offset = (sizeof(log_num) * 2) - 1; nibble_offset > 0; nibble_offset--) {
+<b><a name="line122">122    </a></b>	        if (0 != ((log_num >> (nibble_offset * 4)) & 0x0F)) {
+<b><a name="line123">123    </a></b>	            break;
+<b><a name="line124">124    </a></b>	        }
+<b><a name="line125">125    </a></b>	    }
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	    for (nibble_offset = (nibble_offset + 1); nibble_offset > 0; nibble_offset--) {
+<b><a name="line128">128    </a></b>	        sal_log_info_char("0123456789abcdef"[((log_num >> ((nibble_offset - 1) * 4)) & 0x0F)]);
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    return;
+<b><a name="line132">132    </a></b>	}
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	char* sal_log_info_get_base(void)
+<b><a name="line135">135    </a></b>	{
+<b><a name="line136">136    </a></b>	    return gsSalLogInfo.start;
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	U16 sal_log_info_get_size(void)
+<b><a name="line140">140    </a></b>	{
+<b><a name="line141">141    </a></b>	    return gsSalLogInfo.size;
+<b><a name="line142">142    </a></b>	}
+<b><a name="line143">143    </a></b>	
+<b><a name="line144">144    </a></b>	char* sal_log_error_get_base(void)
+<b><a name="line145">145    </a></b>	{
+<b><a name="line146">146    </a></b>	    return gsSalLogError.start;
+<b><a name="line147">147    </a></b>	}
+<b><a name="line148">148    </a></b>	
+<b><a name="line149">149    </a></b>	void sal_log_error_init(U32 base, U16 size, U8 uart_en)
+<b><a name="line150">150    </a></b>	{
+<b><a name="line151">151    </a></b>	    sal_log_init(&gsSalLogError, base, size, 'E', uart_en);
+<b><a name="line152">152    </a></b>	}
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	void sal_log_error_set(U32 nplace)
+<b><a name="line155">155    </a></b>	{
+<b><a name="line156">156    </a></b>	    tprintf("[!!!!] ASSERT = %x", nplace);
+<b><a name="line157">157    </a></b>	    sal_log_set32(&gsSalLogError, nplace);
+<b><a name="line158">158    </a></b>	}
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	void sal_log_tracker_init(U32 base, U16 size, U32 time_base, U16 time_size, U8 uart_en)
+<b><a name="line161">161    </a></b>	{
+<b><a name="line162">162    </a></b>	    sal_log_init(&gsSalLogTracker, base, size, 'T', uart_en);
+<b><a name="line163">163    </a></b>	    sal_log_init(&gsSalLogTimeStamp, time_base, time_size, 'S', uart_en);
+<b><a name="line164">164    </a></b>	}
+<b><a name="line165">165    </a></b>	
+<b><a name="line166">166    </a></b>	void sal_log_tracker_set(U32 value)
+<b><a name="line167">167    </a></b>	{
+<b><a name="line168">168    </a></b>	    *gpSimLog = value;
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	#if HW_SIM_LOG_PRINT
+<b><a name="line171">171    </a></b>	    tprintf("[HW SIM] %x", value);
+<b><a name="line172">172    </a></b>	#endif
+<b><a name="line173">173    </a></b>	
+<b><a name="line174">174    </a></b>	    sal_log_set32(&gsSalLogTracker, value);
+<b><a name="line175">175    </a></b>	}
+<b><a name="line176">176    </a></b>	
+<b><a name="line177">177    </a></b>	void sal_log_tracker_set_with_time(U32 value)
+<b><a name="line178">178    </a></b>	{
+<b><a name="line179">179    </a></b>	    sal_log_tracker_set(value);
+<b><a name="line180">180    </a></b>	    sal_log_set32(&gsSalLogTimeStamp, phal_sys_rtt_get_us());
+<b><a name="line181">181    </a></b>	    sal_log_set32(&gsSalLogTimeStamp, value);
+<b><a name="line182">182    </a></b>	}
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	static void sal_log_dump_logsize(U32 tar_addr)
+<b><a name="line185">185    </a></b>	{
+<b><a name="line186">186    </a></b>	    if(0 == gsSalLog.ulTotalLogNum)
+<b><a name="line187">187    </a></b>	    {
+<b><a name="line188">188    </a></b>	        // Update descriptor
+<b><a name="line189">189    </a></b>	        sal_log_update_descriptor(&gsSalLogInfo);
+<b><a name="line190">190    </a></b>	        sal_log_update_descriptor(&gsSalLogError);
+<b><a name="line191">191    </a></b>	        sal_log_update_descriptor(&gsSalLogTimeStamp);
+<b><a name="line192">192    </a></b>	        sal_log_update_descriptor(&gsSalLogTracker);
+<b><a name="line193">193    </a></b>	    }
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	    // Copy Log Descriptor to tar_addr
+<b><a name="line196">196    </a></b>	    memcpy((void *)tar_addr, (void *)&gsSalLog, sizeof(gsSalLog));
+<b><a name="line197">197    </a></b>	}
+<b><a name="line198">198    </a></b>	
+<b><a name="line199">199    </a></b>	static U8 sal_log_dump_for_vuc(U32 tar_addr)
+<b><a name="line200">200    </a></b>	{
+<b><a name="line201">201    </a></b>	    U32 ulOffset = 0;
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	    // Host didn't issue "readlogsize" VUC first -> return FALSE !
+<b><a name="line204">204    </a></b>	    if(0 == gsSalLog.ulTotalLogNum)
+<b><a name="line205">205    </a></b>	    {
+<b><a name="line206">206    </a></b>	        return FALSE;
+<b><a name="line207">207    </a></b>	    }
+<b><a name="line208">208    </a></b>	    else
+<b><a name="line209">209    </a></b>	    {
+<b><a name="line210">210    </a></b>	        // Copy log to tar_addr
+<b><a name="line211">211    </a></b>	        sal_log_copy_logdata_ToBuffer(tar_addr, &gsSalLogInfo);
+<b><a name="line212">212    </a></b>	
+<b><a name="line213">213    </a></b>	        ulOffset += gsSalLogInfo.size;
+<b><a name="line214">214    </a></b>	        sal_log_copy_logdata_ToBuffer(tar_addr + ulOffset, &gsSalLogError);
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	        ulOffset += gsSalLogError.size;
+<b><a name="line217">217    </a></b>	        sal_log_copy_logdata_ToBuffer(tar_addr + ulOffset, &gsSalLogTimeStamp);
+<b><a name="line218">218    </a></b>	
+<b><a name="line219">219    </a></b>	        ulOffset += gsSalLogTimeStamp.size;
+<b><a name="line220">220    </a></b>	        sal_log_copy_logdata_ToBuffer(tar_addr + ulOffset, &gsSalLogTracker);
+<b><a name="line221">221    </a></b>	
+<b><a name="line222">222    </a></b>	        return TRUE;
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	}
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	U8 sal_log_handler(U8 sub_feature, U32 tar_addr)
+<b><a name="line227">227    </a></b>	{
+<b><a name="line228">228    </a></b>	    U8 ubresult = TRUE;
+<b><a name="line229">229    </a></b>	    switch(sub_feature)
+<b><a name="line230">230    </a></b>	    {
+<b><a name="line231">231    </a></b>	        case DUMP_LOGSIZE:
+<b><a name="line232">232    </a></b>	            sal_log_dump_logsize(tar_addr);
+<b><a name="line233">233    </a></b>	            break;
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	        case DUMP_FOR_VUC:
+<b><a name="line236">236    </a></b>	            ubresult = sal_log_dump_for_vuc(tar_addr);
+<b><a name="line237">237    </a></b>	            break;
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	        default:
+<b><a name="line240">240    </a></b>	            Dump_Debug(tprintf("Wrong SAL sub-feature Index !"));
+<b><a name="line241">241    </a></b>	            break;
+<b><a name="line242">242    </a></b>	    }
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	    return ubresult;
+<b><a name="line245">245    </a></b>	}
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	void sal_log_enable_disable_all_uart(U8 uart_en)
+<b><a name="line248">248    </a></b>	{
+<b><a name="line249">249    </a></b>	    gSalPrintfEn = uart_en ;
+<b><a name="line250">250    </a></b>	    gsSalLogInfo.uart_en = uart_en;
+<b><a name="line251">251    </a></b>	    gsSalLogTracker.uart_en = uart_en;
+<b><a name="line252">252    </a></b>	    gsSalLogTimeStamp.uart_en = uart_en;
+<b><a name="line253">253    </a></b>	    gsSalLogError.uart_en = uart_en;
+<b><a name="line254">254    </a></b>	}
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	void sal_log_disable_all_mem_log(void)
+<b><a name="line257">257    </a></b>	{
+<b><a name="line258">258    </a></b>	    gsSalLogInfo.mlog_en = FALSE;
+<b><a name="line259">259    </a></b>	    gsSalLogTracker.mlog_en = FALSE;
+<b><a name="line260">260    </a></b>	    gsSalLogTimeStamp.mlog_en = FALSE;
+<b><a name="line261">261    </a></b>	    gsSalLogError.mlog_en = FALSE;
+<b><a name="line262">262    </a></b>	}
+<b><a name="line263">263    </a></b>	
+</pre></body>
+</html>

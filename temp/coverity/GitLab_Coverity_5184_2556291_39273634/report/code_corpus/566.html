@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line790">790    </a></b>	/*!
+<b><a name="line791">791    </a></b>	 @brief      polling shake squeeze
+<b><a name="line792">792    </a></b>	 @param[in]   timeout_val     - setting timeout value
+<b><a name="line793">793    </a></b>	 @param[out]  ret             - polling done or not
+<b><a name="line794">794    </a></b>	
+<b><a name="line795">795    </a></b>	 @return    Check polling reuslt
+<b><a name="line796">796    </a></b>	 @retval     1U - polling done
+<b><a name="line797">797    </a></b>	 @retval     0U - polling not finished
+<b><a name="line798">798    </a></b>	
+<b><a name="line799">799    </a></b>	 @note
+<b><a name="line800">800    </a></b>	
+<b><a name="line801">801    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line802">802    </a></b>	
+<b><a name="line803">803    </a></b>	 */
+<b><a name="line804">804    </a></b>	U8 hal_sec_sha3_shake_sqz_polling(U64 timeout_val)
+<b><a name="line805">805    </a></b>	{
+<b><a name="line806">806    </a></b>	    U8 trigger_done = SEC_NO;
+<b><a name="line807">807    </a></b>	
+<b><a name="line808">808    </a></b>	    if (timeout_val == 0U)
+<b><a name="line809">809    </a></b>	    {
+<b><a name="line810">810    </a></b>	        if (0U == dal_sec_sha_get_sqz_trig())
+<b><a name="line811">811    </a></b>	        {
+<b><a name="line812">812    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line813">813    </a></b>	        }
+<b><a name="line814">814    </a></b>	    }
+<b><a name="line815">815    </a></b>	    else if (timeout_val < HAL_SEC_BLOCKING_TIME_VAL)
+<b><a name="line816">816    </a></b>	    {
+<b><a name="line817">817    </a></b>	        U8 is_timeout = SEC_NO;
+<b><a name="line818">818    </a></b>	
+<b><a name="line819">819    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "13104" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line820">820    </a></b>	
+<b><a name="line821">821    </a></b>	        while (1UL == dal_sec_sha_get_sqz_trig())
+<b><a name="line822">822    </a></b>	        {
+<b><a name="line823">823    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line824">824    </a></b>	            {
+<b><a name="line825">825    </a></b>	                is_timeout = SEC_YES;
+<b><a name="line826">826    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line827">827    </a></b>	                break;
+<b><a name="line828">828    </a></b>	            }
+<b><a name="line829">829    </a></b>	        }
+<b><a name="line830">830    </a></b>	
+<b><a name="line831">831    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line832">832    </a></b>	        {
+<b><a name="line833">833    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line834">834    </a></b>	        }
+<b><a name="line835">835    </a></b>	    }
+<b><a name="line836">836    </a></b>	    else
+<b><a name="line837">837    </a></b>	    {
+<b><a name="line838">838    </a></b>	        while (1UL == dal_sec_sha_get_sqz_trig())
+<b><a name="line839">839    </a></b>	        {
+<b><a name="line840">840    </a></b>	            ASM_DSB();
+<b><a name="line841">841    </a></b>	        };
+<b><a name="line842">842    </a></b>	
+<b><a name="line843">843    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line844">844    </a></b>	    }
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	    return trigger_done;
+<b><a name="line847">847    </a></b>	}
+<b><a name="line848">848    </a></b>	
+<b><a name="line849">849    </a></b>	/*!
+<b><a name="line850">850    </a></b>	 @brief      trigger and polling shake squeeze
+</pre></body>
+</html>

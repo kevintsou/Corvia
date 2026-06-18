@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/nvme/mi/nvme_mi_basic_management_command.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    Dump_SMBUS(tprintf(" [SMBS] Basic Management Command Init\r\n"));
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    if (1U == gBCodeGlobalStruct.p_efuse_security_setting->ocp_smbus_basic_mgr_cmd_spec_sel)
+<b><a name="line126">126    </a></b>	    {
+<b><a name="line127">127    </a></b>	        ConfigSubsystemManagementDataVendorSpecific(VS_CONFIG_OCP_DATACENTER);
+<b><a name="line128">128    </a></b>	    }
+<b><a name="line129">129    </a></b>	    else
+<b><a name="line130">130    </a></b>	    {
+<b><a name="line131">131    </a></b>	        ConfigSubsystemManagementDataVendorSpecific(VS_CONFIG_OCP_HYPERSCALE);
+<b><a name="line132">132    </a></b>	    }
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line135">135    </a></b>	    SubsystemManagementDataInit(p_subsystem_management_data, 0 /* pHostGM */);
+<b><a name="line136">136    </a></b>	#else
+<b><a name="line137">137    </a></b>	    SubsystemManagementDataInit(p_subsystem_management_data);
+<b><a name="line138">138    </a></b>	#endif
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	    nvme_basic_management_command_subsystem_management_data_update(p_subsystem_management_data);
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	#if SMBUS_ARP_EN
+<b><a name="line143">143    </a></b>	    sys_api_smbs_arp_init(&arp_ext, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_ARP_CAPABLE, SMBUS_DEVICE_TYPE_DSA);
+<b><a name="line144">144    </a></b>	    nvme_basic_management_command_default_udid(&arp_ext.udid);
+<b><a name="line145">145    </a></b>	#else
+<b><a name="line146">146    </a></b>	    sys_api_smbs_arp_init(&arp_ext, arp_ext.smbs_arp.slave_address, SMBUS_DEVICE_CATEGORY_NON_ARP_CAPABLE, SMBUS_DEVICE_TYPE_NON_PSA_NON_RANDOM);
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	    memset((void *) & (arp_ext.udid), 0xFF, sizeof(arp_ext.udid));
+<b><a name="line149">149    </a></b>	#endif
+<b><a name="line150">150    </a></b>	
+<b><a name="line151">151    </a></b>	    sys_api_smbs_register_device(&gSMBS, SMBUS_ADDRESS_INDEX_BASIC_MGR_CMD, &arp_ext, (SMBS_PROTOCOL_HDL_PTR)SmbsProtocolHandler_BasicManagementCommand, p_subsystem_management_data);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Casting the expression "SmbsProtocolHandler_BasicManagementCommand" of type "U32 (*)(SUBSYSTEM_MANAGEMENT_DATA_T *, U16, SMBUS_BUFFER_T *, SMBUS_BUFFER_T *)" to a function pointer type "SMBS_PROTOCOL_HDL_PTR".</font>
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	#if SMBUS_ARA_EN
+<b><a name="line154">154    </a></b>	    if ((1 == gBCodeGlobalStruct.p_efuse_security_setting->smbus_trg_alert_signal_in_bc_en)
+<b><a name="line155">155    </a></b>	        && (0 == gBCodeGlobalStruct.parameter_config.edsff_enable_flag))
+<b><a name="line156">156    </a></b>	    {
+<b><a name="line157">157    </a></b>	        phal_smbs_set_addr_enable(SMBUS0, BIT(SMBUS_ADDRESS_INDEX_ARA));
+<b><a name="line158">158    </a></b>	
+<b><a name="line159">159    </a></b>	        // FW control the ARA response but ARA requires enable/disable HW separately.
+<b><a name="line160">160    </a></b>	        // It must enable HW ARA auto ACK function or FW will not the ARA ACK flow.
+<b><a name="line161">161    </a></b>	        phal_smbs_hw_alert_enable(SMBUS0);
+<b><a name="line162">162    </a></b>	        smbs_trigger_smbus_alert();
+<b><a name="line163">163    </a></b>	    }
+<b><a name="line164">164    </a></b>	#endif /* SMBUS_ARA_EN */
+<b><a name="line165">165    </a></b>	}
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line168">168    </a></b>	
+</pre></body>
+</html>

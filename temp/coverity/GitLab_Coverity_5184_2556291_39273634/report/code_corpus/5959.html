@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line825">825    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line826">826    </a></b>	        // set controller odt disable
+<b><a name="line827">827    </a></b>	        //dal_fip_set_odt_en(ch, 0U, 0U);
+<b><a name="line828">828    </a></b>	        w_FORCE_ODT_EN(ch, 0U);
+<b><a name="line829">829    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0U);
+<b><a name="line830">830    </a></b>	        //tCSVOL
+<b><a name="line831">831    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line832">832    </a></b>	        // set nand odt disable
+<b><a name="line833">833    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line834">834    </a></b>	        //tODT on/off
+<b><a name="line835">835    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line836">836    </a></b>	    }
+<b><a name="line837">837    </a></b>	
+<b><a name="line838">838    </a></b>	    //cmd 36h
+<b><a name="line839">839    </a></b>	    w_PIO_CMD(ch, cmd[0]);
+<b><a name="line840">840    </a></b>	
+<b><a name="line841">841    </a></b>	    FIP_DBG_INFO_PRINTF(" set parameter %xh", cmd[0]);
+<b><a name="line842">842    </a></b>	
+<b><a name="line843">843    </a></b>	    for (i = 0; i < data_cnt; i++) {
+<b><a name="line844">844    </a></b>	        //addr
+<b><a name="line845">845    </a></b>	        w_PIO_ADR(ch, feat_adr[i]);
+<b><a name="line846">846    </a></b>	        //tADL
+<b><a name="line847">847    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TADL]);
+<b><a name="line848">848    </a></b>	        if (is_sca == 0U) {
+<b><a name="line849">849    </a></b>	            //dal_fip_pio_dqs(ch, 0U);
+<b><a name="line850">850    </a></b>	            w_PIO_DQS_OE(ch, 1);
+<b><a name="line851">851    </a></b>	            w_PIO_DQS(ch, 0U);
+<b><a name="line852">852    </a></b>	        }
+<b><a name="line853">853    </a></b>	        //set parameter
+<b><a name="line854">854    </a></b>	        hal_nand_ctrl_api_write_data_dobule_byte(ch, (dat + (i * 8)), 1U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "i" (unsigned) is not the same as that of the right operand "8"(signed).</font>
+<b><a name="line855">855    </a></b>	        FIP_DBG_INFO_PRINTF(" - (%xh) - %xh", feat_adr[i], (dat + (i * 8))[i]);
+<b><a name="line856">856    </a></b>	    }
+<b><a name="line857">857    </a></b>	
+<b><a name="line858">858    </a></b>	    //cmd 16h
+<b><a name="line859">859    </a></b>	    w_PIO_CMD(ch, cmd[1]);
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	    FIP_DBG_INFO_PRINTF(" - %xh\r\n", cmd[1]);
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line864">864    </a></b>	        // restore nand odt
+<b><a name="line865">865    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line866">866    </a></b>	        //tODT on/off
+<b><a name="line867">867    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	        // restore controller odt
+<b><a name="line870">870    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line871">871    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line872">872    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line873">873    </a></b>	    }
+<b><a name="line874">874    </a></b>	
+<b><a name="line875">875    </a></b>	    // wait nand busy
+<b><a name="line876">876    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TPARAM]);
+<b><a name="line877">877    </a></b>	
+<b><a name="line878">878    </a></b>	    //Check R/B pin before read
+<b><a name="line879">879    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><a name="line880">880    </a></b>	    do {
+<b><a name="line881">881    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line882">882    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line883">883    </a></b>	            break;
+<b><a name="line884">884    </a></b>	        }
+<b><a name="line885">885    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+</pre></body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1878">1878    </a></b>	
+<b><a name="line1879">1879    </a></b>	    return status;
+<b><a name="line1880">1880    </a></b>	}
+<b><a name="line1881">1881    </a></b>	
+<b><a name="line1882">1882    </a></b>	void fip_set_data_size_mode(U8 ch, U8 ldpc_mode, U8 ldpc_2_mode)
+<b><a name="line1883">1883    </a></b>	{
+<b><a name="line1884">1884    </a></b>	    U8 meta_mode = DAL_FIP_META_DATA_MODE_0;
+<b><a name="line1885">1885    </a></b>	    U8 data_mode = DAL_FIP_DATA_MODE_4096B;
+<b><a name="line1886">1886    </a></b>	    U8 spr_mode = HAL_FIP_SPARE_MODE;
+<b><a name="line1887">1887    </a></b>	
+<b><a name="line1888">1888    </a></b>	    // Note: this part original from X2
+<b><a name="line1889">1889    </a></b>	    U8 ch_idx_sub = (U8)hal_fip_get_fipview_ch(ch) % 4U;
+<b><a name="line1890">1890    </a></b>	    //tprintf("fip_set_data_size_mode, cfg = %d, ch_idx_sub = %d", cfg, ch_idx_sub);
+<b><a name="line1891">1891    </a></b>	    // fip setting
+<b><a name="line1892">1892    </a></b>	    if (ch_idx_sub >= DAL_FIP_CH_NUM_PER_HD)
+<b><a name="line1893">1893    </a></b>	    {
+<b><a name="line1894">1894    </a></b>	        //ALWAYS_ASSERT(ch_idx_sub);
+<b><a name="line1895">1895    </a></b>	        Dump_Debug(tprintf("ch_idx_sub >= DAL_FIP_CH_NUM_PER_HD"));
+<b><a name="line1896">1896    </a></b>	    }
+<b><a name="line1897">1897    </a></b>	
+<b><a name="line1898">1898    </a></b>	    // case 0U:
+<b><a name="line1899">1899    </a></b>	    // fip setting
+<b><a name="line1900">1900    </a></b>	    w_DATA_META_MODE(ch, meta_mode);
+<b><a name="line1901">1901    </a></b>	    w_DATA_SPR_MODE(ch, spr_mode);
+<b><a name="line1902">1902    </a></b>	    w_DATA_UD_MODE(ch, data_mode);
+<b><a name="line1903">1903    </a></b>	    w_DATA_LDPC_MODE(ch, ldpc_mode);
+<b><a name="line1904">1904    </a></b>	    w_DATA_LDPC_2_MODE(ch, ldpc_2_mode);
+<b><a name="line1905">1905    </a></b>	
+<b><a name="line1906">1906    </a></b>	    // epu setting
+<b><a name="line1907">1907    </a></b>	    switch (ch_idx_sub)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event missing_default:</font></b> <font face="Arial"; size="3"; color="#FF5959">No default case found for the switch statement "switch (ch_idx_sub)".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_16_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement is not well formed.</font>
+<b><a name="line1908">1908    </a></b>	    {
+<b><a name="line1909">1909    </a></b>	        case 0U:
+<b><a name="line1910">1910    </a></b>	            w_FLH_CFG0_META_MODE_CH0(ch, meta_mode);
+<b><a name="line1911">1911    </a></b>	            w_FLH_CFG0_SPR_MODE_CH0(ch, spr_mode);
+<b><a name="line1912">1912    </a></b>	            w_FLH_CFG0_DATA_MODE_CH0(ch, data_mode);
+<b><a name="line1913">1913    </a></b>	            w_FLH_CFG0_LDPC_MODE_CH0(ch, ldpc_mode);
+<b><a name="line1914">1914    </a></b>	            w_FLH_CFG0_LDPC_2_MODE_CH0(ch, ldpc_2_mode);
+<b><a name="line1915">1915    </a></b>	            break;
+<b><a name="line1916">1916    </a></b>	
+<b><a name="line1917">1917    </a></b>	        case 1U:
+<b><a name="line1918">1918    </a></b>	            w_FLH_CFG0_META_MODE_CH1(ch, meta_mode);
+<b><a name="line1919">1919    </a></b>	            w_FLH_CFG0_SPR_MODE_CH1(ch, spr_mode);
+<b><a name="line1920">1920    </a></b>	            w_FLH_CFG0_DATA_MODE_CH1(ch, data_mode);
+<b><a name="line1921">1921    </a></b>	            w_FLH_CFG0_LDPC_MODE_CH1(ch, ldpc_mode);
+<b><a name="line1922">1922    </a></b>	            w_FLH_CFG0_LDPC_2_MODE_CH1(ch, ldpc_2_mode);
+<b><a name="line1923">1923    </a></b>	            break;
+<b><a name="line1924">1924    </a></b>	
+<b><a name="line1925">1925    </a></b>	        case 2U:
+<b><a name="line1926">1926    </a></b>	            w_FLH_CFG0_META_MODE_CH2(ch, meta_mode);
+<b><a name="line1927">1927    </a></b>	            w_FLH_CFG0_SPR_MODE_CH2(ch, spr_mode);
+<b><a name="line1928">1928    </a></b>	            w_FLH_CFG0_DATA_MODE_CH2(ch, data_mode);
+<b><a name="line1929">1929    </a></b>	            w_FLH_CFG0_LDPC_MODE_CH2(ch, ldpc_mode);
+<b><a name="line1930">1930    </a></b>	            w_FLH_CFG0_LDPC_2_MODE_CH2(ch, ldpc_2_mode);
+<b><a name="line1931">1931    </a></b>	            break;
+<b><a name="line1932">1932    </a></b>	
+<b><a name="line1933">1933    </a></b>	        case 3U:
+<b><a name="line1934">1934    </a></b>	            w_FLH_CFG0_META_MODE_CH3(ch, meta_mode);
+<b><a name="line1935">1935    </a></b>	            w_FLH_CFG0_SPR_MODE_CH3(ch, spr_mode);
+<b><a name="line1936">1936    </a></b>	            w_FLH_CFG0_DATA_MODE_CH3(ch, data_mode);
+<b><a name="line1937">1937    </a></b>	            w_FLH_CFG0_LDPC_MODE_CH3(ch, ldpc_mode);
+<b><a name="line1938">1938    </a></b>	            w_FLH_CFG0_LDPC_2_MODE_CH3(ch, ldpc_2_mode);
+</pre></body>
+</html>

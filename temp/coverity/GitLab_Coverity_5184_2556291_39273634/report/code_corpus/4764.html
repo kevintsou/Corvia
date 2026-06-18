@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9397">9397    </a></b>	    drbg_generate(drbg_api_struct_ptr, sizeof(drbg_kat_ans) * 8, DRBG_SS_256, (U8 *)pr_entropy_input_2, sizeof(pr_entropy_input_2), (U8 *)addition_input2, sizeof(addition_input2), TRUE, (U8 *)out, NULL);
+<b><a name="line9398">9398    </a></b>	
+<b><a name="line9399">9399    </a></b>	    if (0 != (memcmp((void *)drbg_kat_ans, (U32 *)out, sizeof(drbg_kat_ans))))
+<b><a name="line9400">9400    </a></b>	    {
+<b><a name="line9401">9401    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9402">9402    </a></b>	        return (KAT_TYPE_DRBG | KAT_ERROR_VERIFY);
+<b><a name="line9403">9403    </a></b>	    }
+<b><a name="line9404">9404    </a></b>	
+<b><a name="line9405">9405    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9406">9406    </a></b>	}
+<b><a name="line9407">9407    </a></b>	#endif
+<b><a name="line9408">9408    </a></b>	#if KAT_SM2_EN
+<b><a name="line9409">9409    </a></b>	U32 host_sec_sw_sm2_verify_kat(U32 buf_addr)
+<b><a name="line9410">9410    </a></b>	{
+<b><a name="line9411">9411    </a></b>	    SEC_ECC_PARAMS_T_PTR sm2_param_ptr = (SEC_ECC_PARAMS_T_PTR)(buf_addr);
+<b><a name="line9412">9412    </a></b>	
+<b><a name="line9413">9413    </a></b>	    U32 z_result_addr = buf_addr      + sizeof(SEC_ECC_PARAMS_T)/*0x640*/;
+<b><a name="line9414">9414    </a></b>	    U32 z_data_addr   = z_result_addr + 0x200;
+<b><a name="line9415">9415    </a></b>	    U32 hash_buffer   = z_data_addr   + 0x200;
+<b><a name="line9416">9416    </a></b>	    U32 sm2_buffer    = hash_buffer   + 0x200;
+<b><a name="line9417">9417    </a></b>	    U32 msg_addr      = sm2_buffer    + 0xC00/*0x328+0x870*/;
+<b><a name="line9418">9418    </a></b>	
+<b><a name="line9419">9419    </a></b>	    U32 key_address, sign_address, id_address;
+<b><a name="line9420">9420    </a></b>	    U32 key_endian_buffer       = msg_addr + 0x600U;
+<b><a name="line9421">9421    </a></b>	    U32 signature_endian_buffer = key_endian_buffer + 0x200U;
+<b><a name="line9422">9422    </a></b>	
+<b><a name="line9423">9423    </a></b>	    const U8 sha_mode = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line9424">9424    </a></b>	
+<b><a name="line9425">9425    </a></b>	    U32 public_key_size = 0U;
+<b><a name="line9426">9426    </a></b>	    U8  key_index[4]                 = {'P', '6', '0', '1'};
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "80" from essential type "character" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line9427">9427    </a></b>	    U8  a_record_key_information[16] = {'P', '6', '0', '1'};
+<b><a name="line9428">9428    </a></b>	    U8  a_timestamp[16]              = {'2', '0', '2', '4', '-', '0', '6', '-', '2', '7', '1', '9', '1', '7', '3', '6'};
+<b><a name="line9429">9429    </a></b>	
+<b><a name="line9430">9430    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line9431">9431    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line9432">9432    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line9433">9433    </a></b>	
+<b><a name="line9434">9434    </a></b>	    Dump_SEC(tprintf("SM2-Verify KAT"));
+<b><a name="line9435">9435    </a></b>	
+<b><a name="line9436">9436    </a></b>	    public_key_size = ALIGN(sizeof(SW_SM2_KEY_STRUCT), SECTOR_SIZE);
+<b><a name="line9437">9437    </a></b>	
+<b><a name="line9438">9438    </a></b>	    (void)memset((void *)sm2_param_ptr, 0U, sizeof(SEC_ECC_PARAMS_T));
+<b><a name="line9439">9439    </a></b>	
+<b><a name="line9440">9440    </a></b>	    // init msg
+<b><a name="line9441">9441    </a></b>	    memset((void *)(U32)msg_addr, 0U, 0x600U);
+<b><a name="line9442">9442    </a></b>	    sec_fill_kat_bin_header(msg_addr, &key_index[0], PROJECT_BINARY_HEADER_SIGNATURE_FILE_FORMAT_KEY_SIGNATURE, PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3, public_key_size, &a_record_key_information[0], &a_timestamp[0]);
+<b><a name="line9443">9443    </a></b>	
+<b><a name="line9444">9444    </a></b>	    // copy key
+<b><a name="line9445">9445    </a></b>	    key_address = msg_addr + SECTOR_SIZE;
+<b><a name="line9446">9446    </a></b>	    (void)memcpy((void *)key_address, (void *)&code_sign_sw_sm2_key_p601[0], sizeof(code_sign_sw_sm2_key_p601));
+<b><a name="line9447">9447    </a></b>	    (void)memcpy((void *)key_endian_buffer, (void *)&code_sign_sw_sm2_key_p601[0], sizeof(code_sign_sw_sm2_key_p601));
+<b><a name="line9448">9448    </a></b>	    id_address = (U32)((SW_SM2_KEY_STRUCT *)key_address)->id_a;
+<b><a name="line9449">9449    </a></b>	    // copy r s
+<b><a name="line9450">9450    </a></b>	    sign_address = key_address + ALIGN(sizeof(SW_SM2_KEY_STRUCT), SECTOR_SIZE);
+<b><a name="line9451">9451    </a></b>	    (void)memcpy((void *)sign_address, (void *)&kat_code_sign_sw_sm2_r_s[0], sizeof(kat_code_sign_sw_sm2_r_s));
+<b><a name="line9452">9452    </a></b>	    (void)memcpy((void *)signature_endian_buffer, (void *)&kat_code_sign_sw_sm2_r_s[0], sizeof(kat_code_sign_sw_sm2_r_s));
+<b><a name="line9453">9453    </a></b>	
+<b><a name="line9454">9454    </a></b>	    // Make sure all fields in public key and signature are little endian
+<b><a name="line9455">9455    </a></b>	    sec_sm2_verify_param_reverse(key_endian_buffer, signature_endian_buffer, ((U8 *)(U32)msg_addr)[0x29]);
+<b><a name="line9456">9456    </a></b>	
+<b><a name="line9457">9457    </a></b>	    code_sign_sw_sm2_init_param(sm2_param_ptr, key_endian_buffer, signature_endian_buffer, hash_buffer, msg_addr, sm2_buffer);
+</pre></body>
+</html>

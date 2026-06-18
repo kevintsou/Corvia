@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dbuf.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	static void phal_dbuf_init_by_bank(U32 bank_bitmap, U8 sync)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    bank_bitmap = (bank_bitmap & (U32)PHAL_DBUF_BANK_ALL);
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	    dal_dbuf_api_set_init_addr(bank_bitmap, 0UL);
+<b><a name="line8">8    </a></b>	    dal_dbuf_api_set_init_len(bank_bitmap, dal_dbuf_get_bank_size());
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	    dal_dbuf_api_set_sram_init_bank(bank_bitmap);
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	    if (sync == TRUE)
+<b><a name="line13">13    </a></b>	    {
+<b><a name="line14">14    </a></b>	        WAIT_UNTIL_TIMEOUT(((dal_dbuf_api_get_sram_init_bank() & bank_bitmap) != 0U), GERNAL_TIMEOUT_THRESHOLD, ERR_DBUFINIT_TIMEOUT, MABIAO_INIT_DBUF);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-16645920" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line15">15    </a></b>	    }
+<b><a name="line16">16    </a></b>	}
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	void phal_dbuf_api_init_all(U8 sync)
+<b><a name="line19">19    </a></b>	{
+<b><a name="line20">20    </a></b>	    U32 bank_bitmap = (U32)PHAL_DBUF_BANK_ALL;
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	    phal_dbuf_init_by_bank(bank_bitmap, sync);
+<b><a name="line23">23    </a></b>	}
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	U8 phal_dbuf_init_check_all(void)
+<b><a name="line26">26    </a></b>	{
+<b><a name="line27">27    </a></b>	    U8 result = PASS;
+<b><a name="line28">28    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT(((dal_dbuf_api_get_sram_init_bank() & (U32)PHAL_DBUF_BANK_ALL) != 0U), GERNAL_TIMEOUT_THRESHOLD, ERR_DBUFINIT_TIMEOUT, result, MABIAO_INIT_DBUF);
+<b><a name="line29">29    </a></b>	    return result;
+<b><a name="line30">30    </a></b>	}
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	U32 phal_dbuf_get_base(void)
+<b><a name="line33">33    </a></b>	{
+<b><a name="line34">34    </a></b>	    return dal_dbuf_get_normal_base();
+<b><a name="line35">35    </a></b>	}
+<b><a name="line36">36    </a></b>	
+</pre></body>
+</html>

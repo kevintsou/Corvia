@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line191">191    </a></b>	static void nvme_mi_message_configuration_set_smbus_freq(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U8 port_id, U8 smbus_i2c_freq, MCTP_TRANSPORT *p_transport)
+<b><a name="line192">192    </a></b>	{
+<b><a name="line193">193    </a></b>	    if ((NVME_MI_SMBUS_PORT_ID == port_id) && (0x0U < smbus_i2c_freq) && (smbus_i2c_freq <= NVME_MI_CFGID_SMBUS_FREQ_1M)) {
+<b><a name="line194">194    </a></b>	        p_transport->smbus_i2c_freq = smbus_i2c_freq;
+<b><a name="line195">195    </a></b>	        p_transport->need_set_freq = TRUE;
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	        //Check if need to set SMBus freq (received Configuration Set before)
+<b><a name="line198">198    </a></b>	        if (p_transport->need_set_freq == TRUE) {
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	            hal_smbm_reset_2();
+<b><a name="line201">201    </a></b>	
+<b><a name="line202">202    </a></b>	            switch (p_transport->smbus_i2c_freq)
+<b><a name="line203">203    </a></b>	            {
+<b><a name="line204">204    </a></b>	                case NVME_MI_CFGID_SMBUS_FREQ_100K:
+<b><a name="line205">205    </a></b>	                    phal_smbm_set_frequency(SMBUS0, 100U);
+<b><a name="line206">206    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> SET SMBUS FREQ 100KHz Done"));
+<b><a name="line207">207    </a></b>	                    break;
+<b><a name="line208">208    </a></b>	
+<b><a name="line209">209    </a></b>	                case NVME_MI_CFGID_SMBUS_FREQ_400K:
+<b><a name="line210">210    </a></b>	                    phal_smbm_set_frequency(SMBUS0, 400U);
+<b><a name="line211">211    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> SET SMBUS FREQ 400KHz Done"));
+<b><a name="line212">212    </a></b>	                    break;
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	                default:
+<b><a name="line215">215    </a></b>	                    phal_smbm_set_frequency(SMBUS0, 1000U);
+<b><a name="line216">216    </a></b>	                    Dump_SMBUS(tprintf("    >>>>> SET SMBUS FREQ 1MHz Done"));
+<b><a name="line217">217    </a></b>	                    break;
+<b><a name="line218">218    </a></b>	            }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	            p_transport->need_set_freq = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line221">221    </a></b>	        }
+<b><a name="line222">222    </a></b>	    }
+<b><a name="line223">223    </a></b>	    else {
+<b><a name="line224">224    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Invalid Parameter Frequency"));
+<b><a name="line225">225    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_FREQ; //error byte 9, error bit 0, frequency error
+<b><a name="line226">226    </a></b>	    }
+<b><a name="line227">227    </a></b>	}
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	static void nvme_mi_message_configuration_set_health_sts_chg(NVME_MI_CMD_REQ_MSG_PTR p_nvme_mi_cmd_req_msg)
+<b><a name="line230">230    </a></b>	{
+<b><a name="line231">231    </a></b>	    MI_NVM_SS_HEALTH_DATA_STRUCT_PTR nvm_subsys_health_data_ptr = NULL;
+<b><a name="line232">232    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	    nvm_subsys_health_data_ptr = &host->nvme_feature.nvm_subsys_health_data;
+<b><a name="line235">235    </a></b>	    // used to clear the selected status bit in the composite controller status field
+<b><a name="line236">236    </a></b>	    nvm_subsys_health_data_ptr->ccs.all &= (U16)(~(p_nvme_mi_cmd_req_msg->mngmt_req_dw1.config_set.health_status_change.all & 0x7U));
+<b><a name="line237">237    </a></b>	    nvm_subsys_health_data_ptr->ccs.all &= (U16)(~(p_nvme_mi_cmd_req_msg->mngmt_req_dw1.config_set.health_status_change.all & 0x1FF8U) << 1);
+<b><a name="line238">238    </a></b>	}
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	static void nvme_mi_message_configuration_set_mctp_trans_unit_size(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U8 port_id, U16 mctp_trns_unit_size, MCTP_TRANSPORT *p_transport)
+<b><a name="line241">241    </a></b>	{
+<b><a name="line242">242    </a></b>	    if ((NVME_MI_SMBUS_PORT_ID == port_id) && (NVME_MI_MIN_MCTP_TRANS_UNIT_SIZE_64B <= mctp_trns_unit_size) && (mctp_trns_unit_size <= NVME_MI_MAX_MCTP_TRANS_UNIT_SIZE_250B)) {
+<b><a name="line243">243    </a></b>	        Dump_SMBUS(tprintf("    >>>>> SET MCTP Transmission Unit Size Done -> Size : %x", mctp_trns_unit_size));
+<b><a name="line244">244    </a></b>	        p_transport->transmission_unit = mctp_trns_unit_size;
+<b><a name="line245">245    </a></b>	    }
+<b><a name="line246">246    </a></b>	    else {
+<b><a name="line247">247    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Invalid Parameter MCTP Transmission Unit Size"));
+<b><a name="line248">248    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_MTUS; //error byte 12, error bit 0, MCTP transmission unit size error
+<b><a name="line249">249    </a></b>	    }
+<b><a name="line250">250    </a></b>	}
+<b><a name="line251">251    </a></b>	
+</pre></body>
+</html>

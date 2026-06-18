@@ -1,0 +1,738 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line487">487    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line488">488    </a></b>	}
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	void hal_fip_pio_ce_disable(U8 ch, U8 ce)
+<b><a name="line491">491    </a></b>	{
+<b><a name="line492">492    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line493">493    </a></b>	}
+<b><a name="line494">494    </a></b>	
+<b><a name="line495">495    </a></b>	static void hal_nand_ctrl_api_write_data_dobule_byte(U8 ch, U8 *data, U16 size)
+<b><a name="line496">496    </a></b>	{
+<b><a name="line497">497    </a></b>	    U16 i;
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	    if (dal_fip_get_io_type(ch) == DAL_FIP_IO_TYPE_LEGACY) { // sdr
+<b><a name="line500">500    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line501">501    </a></b>	            // datw
+<b><a name="line502">502    </a></b>	            r16_w_FCH_PIO_DAT(ch, 0, (U16)data[i] | ((U16)data[i] << 8U));
+<b><a name="line503">503    </a></b>	        }
+<b><a name="line504">504    </a></b>	    }
+<b><a name="line505">505    </a></b>	    else { // ddr
+<b><a name="line506">506    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line507">507    </a></b>	            // set dqs feature
+<b><a name="line508">508    </a></b>	            if (i == 0U) {
+<b><a name="line509">509    </a></b>	                //dal_fip_set_pio_dat_first(ch);
+<b><a name="line510">510    </a></b>	                w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line511">511    </a></b>	                w_PIO_DAT_LAST(ch, 0);
+<b><a name="line512">512    </a></b>	            }
+<b><a name="line513">513    </a></b>	            else if (i == (size - 1U)) {
+<b><a name="line514">514    </a></b>	                //dal_fip_set_pio_dat_last(ch);
+<b><a name="line515">515    </a></b>	                w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line516">516    </a></b>	                w_PIO_DAT_LAST(ch, 1);
+<b><a name="line517">517    </a></b>	            }
+<b><a name="line518">518    </a></b>	            else {
+<b><a name="line519">519    </a></b>	                //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line520">520    </a></b>	                w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line521">521    </a></b>	                w_PIO_DAT_LAST(ch, 0);
+<b><a name="line522">522    </a></b>	            }
+<b><a name="line523">523    </a></b>	
+<b><a name="line524">524    </a></b>	            // datw
+<b><a name="line525">525    </a></b>	            r16_w_FCH_PIO_DAT(ch, 0, (U16)data[i] | ((U16)data[i] << 8U));
+<b><a name="line526">526    </a></b>	        }
+<b><a name="line527">527    </a></b>	
+<b><a name="line528">528    </a></b>	        // restore dqs feature
+<b><a name="line529">529    </a></b>	        //dal_fip_set_pio_dat_default(ch);
+<b><a name="line530">530    </a></b>	        w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line531">531    </a></b>	        w_PIO_DAT_LAST(ch, 1);
+<b><a name="line532">532    </a></b>	    }
+<b><a name="line533">533    </a></b>	}
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	U32 hal_nand_ctrl_api_read_data_skip_highbyte(U8 ch, U8 *data, U16 size, U32 *ac_timing)
+<b><a name="line536">536    </a></b>	{
+<b><a name="line537">537    </a></b>	    U16 i;
+<b><a name="line538">538    </a></b>	    U32 status;
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	    status = 0U;
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    if (dal_fip_get_io_type(ch) == DAL_FIP_IO_TYPE_LEGACY) { // sdr
+<b><a name="line543">543    </a></b>	        for (i = 0U; i < size; i++) {
+<b><a name="line544">544    </a></b>	            // datr
+<b><a name="line545">545    </a></b>	            data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line546">546    </a></b>	        }
+<b><a name="line547">547    </a></b>	    }
+<b><a name="line548">548    </a></b>	    else { // ddr
+<b><a name="line549">549    </a></b>	        if ((U8)r_SCA_PROT(ch) == 0U) {
+<b><a name="line550">550    </a></b>	            for (i = 0U; i < size; i++) {
+<b><a name="line551">551    </a></b>	                // set dqs feature
+<b><a name="line552">552    </a></b>	                if (i == 0U) {
+<b><a name="line553">553    </a></b>	                    //dal_fip_set_pio_dat_first(ch);
+<b><a name="line554">554    </a></b>	                    w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line555">555    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line556">556    </a></b>	                }
+<b><a name="line557">557    </a></b>	                else if (i == (size - 1U)) {
+<b><a name="line558">558    </a></b>	                    //dal_fip_set_pio_dat_last(ch);
+<b><a name="line559">559    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line560">560    </a></b>	                    w_PIO_DAT_LAST(ch, 1);
+<b><a name="line561">561    </a></b>	                }
+<b><a name="line562">562    </a></b>	                else {
+<b><a name="line563">563    </a></b>	                    //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line564">564    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line565">565    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line566">566    </a></b>	                }
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	                // datr (trim high byte)
+<b><a name="line569">569    </a></b>	                data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line570">570    </a></b>	            }
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line573">573    </a></b>	            if ((((U8)r_PIOR_DQS_TIMEOUT_FLAG(ch)) == TRUE) || (((U8)r_PIO_DQS_VALID(ch)) == FALSE)) {
+<b><a name="line574">574    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x, dqs vld = 0x%x\r\n", ch, (U8)r_PIOR_DQS_TIMEOUT_FLAG(ch), (U8)r_PIO_DQS_VALID(ch));
+<b><a name="line575">575    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line576">576    </a></b>	                //Clear time out flag
+<b><a name="line577">577    </a></b>	                w_PIOR_DQS_TIMEOUT_FLAG(ch, 0);
+<b><a name="line578">578    </a></b>	            }
+<b><a name="line579">579    </a></b>	        }
+<b><a name="line580">580    </a></b>	        else { // sca mode (single byte output)
+<b><a name="line581">581    </a></b>	            for (i = 0U; i < size; i++) {
+<b><a name="line582">582    </a></b>	                // datr (trim high byte)
+<b><a name="line583">583    </a></b>	                data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line584">584    </a></b>	
+<b><a name="line585">585    </a></b>	                // signle byte output terminate
+<b><a name="line586">586    </a></b>	                //dal_fip_pio_ce_disable(ch, 0U);
+<b><a name="line587">587    </a></b>	                r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(0)));
+<b><a name="line588">588    </a></b>	                dal_fip_delay(ac_timing[HAL_DLY_TCEH2]);
+<b><a name="line589">589    </a></b>	                //dal_fip_pio_ce_enable(ch, 0U);
+<b><a name="line590">590    </a></b>	                r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(0));
+<b><a name="line591">591    </a></b>	                w_DQ_BIT_REV_IDX(ch, 0);
+<b><a name="line592">592    </a></b>	            }
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line595">595    </a></b>	            if (((U8)r_PIOR_ALE_TIMEOUT_FLAG(ch)) == TRUE) {
+<b><a name="line596">596    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x\r\n", ch, (U8)r_PIOR_ALE_TIMEOUT_FLAG(ch));
+<b><a name="line597">597    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line598">598    </a></b>	                //Clear time out flag
+<b><a name="line599">599    </a></b>	                w_PIOR_ALE_TIMEOUT_FLAG(ch, 0);
+<b><a name="line600">600    </a></b>	            }
+<b><a name="line601">601    </a></b>	        }
+<b><a name="line602">602    </a></b>	
+<b><a name="line603">603    </a></b>	        // restore dqs feature
+<b><a name="line604">604    </a></b>	        //dal_fip_set_pio_dat_default(ch);
+<b><a name="line605">605    </a></b>	        w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line606">606    </a></b>	        w_PIO_DAT_LAST(ch, 1);
+<b><a name="line607">607    </a></b>	    }
+<b><a name="line608">608    </a></b>	    return status;
+<b><a name="line609">609    </a></b>	}
+<b><a name="line610">610    </a></b>	
+<b><a name="line611">611    </a></b>	U32 hal_fip_api_set_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 odt_terminated, U32 *ac_timing, U32 chk_rdy)
+<b><a name="line612">612    </a></b>	{
+<b><a name="line613">613    </a></b>	    U32 status;
+<b><a name="line614">614    </a></b>	    U32 tFEAT;
+<b><a name="line615">615    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line616">616    </a></b>	
+<b><a name="line617">617    </a></b>	    tFEAT = ((feat_adr < 0x80U) ? (ac_timing[HAL_DLY_TFEAT_1]) : (ac_timing[HAL_DLY_TFEAT_2]));
+<b><a name="line618">618    </a></b>	    tFEAT = (ac_timing[HAL_DLY_TWB] + tFEAT);
+<b><a name="line619">619    </a></b>	
+<b><a name="line620">620    </a></b>	    status      = 0U;
+<b><a name="line621">621    </a></b>	    // set feature
+<b><a name="line622">622    </a></b>	    if (is_sca == 0U) {
+<b><a name="line623">623    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line624">624    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line625">625    </a></b>	    }
+<b><a name="line626">626    </a></b>	    else {
+<b><a name="line627">627    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line628">628    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line629">629    </a></b>	    }
+<b><a name="line630">630    </a></b>	
+<b><a name="line631">631    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line632">632    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line633">633    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line634">634    </a></b>	    //tCS
+<b><a name="line635">635    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line636">636    </a></b>	
+<b><a name="line637">637    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line638">638    </a></b>	        // set controller odt disable
+<b><a name="line639">639    </a></b>	        //dal_fip_set_odt_en(ch, 0U, 0U);
+<b><a name="line640">640    </a></b>	        w_FORCE_ODT_EN(ch, 0U);
+<b><a name="line641">641    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0U);
+<b><a name="line642">642    </a></b>	
+<b><a name="line643">643    </a></b>	        //tCSVOL
+<b><a name="line644">644    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line645">645    </a></b>	        // set nand odt disable
+<b><a name="line646">646    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line647">647    </a></b>	        //tODT on/off
+<b><a name="line648">648    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line649">649    </a></b>	    }
+<b><a name="line650">650    </a></b>	
+<b><a name="line651">651    </a></b>	    w_PIO_CMD(ch, cmd);
+<b><a name="line652">652    </a></b>	    w_PIO_ADR(ch, feat_adr);
+<b><a name="line653">653    </a></b>	    //tADL
+<b><a name="line654">654    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TADL]);
+<b><a name="line655">655    </a></b>	    if (is_sca == 0U) {
+<b><a name="line656">656    </a></b>	        //dal_fip_pio_dqs(ch, 0U);
+<b><a name="line657">657    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line658">658    </a></b>	        w_PIO_DQS(ch, 0U);
+<b><a name="line659">659    </a></b>	    }
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	    hal_nand_ctrl_api_write_data_dobule_byte(ch, dat, 4U);
+<b><a name="line662">662    </a></b>	
+<b><a name="line663">663    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line664">664    </a></b>	        // restore nand odt
+<b><a name="line665">665    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line666">666    </a></b>	        //tODT on/off
+<b><a name="line667">667    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	        // restore controller odt
+<b><a name="line670">670    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line671">671    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line672">672    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line673">673    </a></b>	    }
+<b><a name="line674">674    </a></b>	
+<b><a name="line675">675    </a></b>	    // wait nand busy
+<b><a name="line676">676    </a></b>	    dal_fip_delay(tFEAT);
+<b><a name="line677">677    </a></b>	
+<b><a name="line678">678    </a></b>	    //Check R/B pin before read
+<b><a name="line679">679    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><a name="line680">680    </a></b>	    do {
+<b><a name="line681">681    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line682">682    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line683">683    </a></b>	            break;
+<b><a name="line684">684    </a></b>	        }
+<b><a name="line685">685    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line686">686    </a></b>	
+<b><a name="line687">687    </a></b>	    //tCH
+<b><a name="line688">688    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line689">689    </a></b>	    //dal_fip_pio_ce_disable(ch, ce); // micron need exit data input by ce high when set feature to feature addres 02h
+<b><a name="line690">690    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line691">691    </a></b>	
+<b><a name="line692">692    </a></b>	    //tprintf("ch = %d, ce = %d, set feature (%xh) - %x %x %x %x", ch, ce, feat_adr, dat[0], dat[1], dat[2], dat[3]);
+<b><a name="line693">693    </a></b>	    //tprintf("hal_fip_api_set_feature status = %x", status);
+<b><a name="line694">694    </a></b>	    return  status;
+<b><a name="line695">695    </a></b>	}
+<b><a name="line696">696    </a></b>	
+<b><a name="line697">697    </a></b>	U32 hal_fip_api_get_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 odt_terminated, U32 *ac_timing, U8 ch_bitmap, U32 chk_rdy)
+<b><a name="line698">698    </a></b>	{
+<b><a name="line699">699    </a></b>	    //tprintf("hal_fip_api_get_feature Exec, ch = %d", ch);
+<b><a name="line700">700    </a></b>	    U32 status;
+<b><a name="line701">701    </a></b>	    U32 tFEAT;
+<b><a name="line702">702    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line703">703    </a></b>	
+<b><a name="line704">704    </a></b>	    tFEAT = ((cmd < 0x80U) ? (ac_timing[HAL_DLY_TFEAT_1]) : (ac_timing[HAL_DLY_TFEAT_2]));
+<b><a name="line705">705    </a></b>	    tFEAT = (ac_timing[HAL_DLY_TWB] + tFEAT + ac_timing[HAL_DLY_TRR]);
+<b><a name="line706">706    </a></b>	    status      = 0U;
+<b><a name="line707">707    </a></b>	
+<b><a name="line708">708    </a></b>	    // get feature
+<b><a name="line709">709    </a></b>	    if (is_sca == 0U) {
+<b><a name="line710">710    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line711">711    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line712">712    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line713">713    </a></b>	    }
+<b><a name="line714">714    </a></b>	    else {
+<b><a name="line715">715    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line716">716    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line717">717    </a></b>	    }
+<b><a name="line718">718    </a></b>	
+<b><a name="line719">719    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line720">720    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line721">721    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line722">722    </a></b>	    //tCS
+<b><a name="line723">723    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line724">724    </a></b>	
+<b><a name="line725">725    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line726">726    </a></b>	        // set controller odt disable
+<b><a name="line727">727    </a></b>	        //dal_fip_set_odt_en(ch, 0U, 0U);
+<b><a name="line728">728    </a></b>	        w_FORCE_ODT_EN(ch, 0U);
+<b><a name="line729">729    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0U);
+<b><a name="line730">730    </a></b>	
+<b><a name="line731">731    </a></b>	        //tCSVOL
+<b><a name="line732">732    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line733">733    </a></b>	        // set nand odt disable
+<b><a name="line734">734    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line735">735    </a></b>	        //tODT on/off
+<b><a name="line736">736    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line737">737    </a></b>	    }
+<b><a name="line738">738    </a></b>	
+<b><a name="line739">739    </a></b>	    w_PIO_CMD(ch, cmd);
+<b><a name="line740">740    </a></b>	    w_PIO_ADR(ch, feat_adr);
+<b><a name="line741">741    </a></b>	
+<b><a name="line742">742    </a></b>	    // wait nand busy
+<b><a name="line743">743    </a></b>	    dal_fip_delay(tFEAT);
+<b><a name="line744">744    </a></b>	
+<b><a name="line745">745    </a></b>	    //Check R/B pin before read
+<b><a name="line746">746    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><a name="line747">747    </a></b>	    do {
+<b><a name="line748">748    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line749">749    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line750">750    </a></b>	            break;
+<b><a name="line751">751    </a></b>	        }
+<b><a name="line752">752    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line753">753    </a></b>	
+<b><a name="line754">754    </a></b>	    if (ch == DAL_FIP_REG_FALL_CH_00_15_ALL_IDX) {
+<b><a name="line755">755    </a></b>	        for (U8 chi = 0; chi < HAL_FIP_CH_NUM; chi++) {
+<b><a name="line756">756    </a></b>	            if (BITS_GET(ch_bitmap, chi, 1U) == TRUE) {
+<b><a name="line757">757    </a></b>	                status |= hal_nand_ctrl_api_read_data_skip_highbyte(chi, dat + (chi * 4U), 4U, ac_timing);
+<b><a name="line758">758    </a></b>	            }
+<b><a name="line759">759    </a></b>	        }
+<b><a name="line760">760    </a></b>	    }
+<b><a name="line761">761    </a></b>	    else {
+<b><a name="line762">762    </a></b>	        status |= hal_nand_ctrl_api_read_data_skip_highbyte(ch, dat, 4U, ac_timing);
+<b><a name="line763">763    </a></b>	    }
+<b><a name="line764">764    </a></b>	
+<b><a name="line765">765    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line766">766    </a></b>	        // restore nand odt
+<b><a name="line767">767    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line768">768    </a></b>	        //tODT on/off
+<b><a name="line769">769    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line770">770    </a></b>	
+<b><a name="line771">771    </a></b>	        // restore controller odt
+<b><a name="line772">772    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line773">773    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line774">774    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line775">775    </a></b>	    }
+<b><a name="line776">776    </a></b>	
+<b><a name="line777">777    </a></b>	    //tCH
+<b><a name="line778">778    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line779">779    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line780">780    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line781">781    </a></b>	
+<b><a name="line782">782    </a></b>	#if 0
+<b><a name="line783">783    </a></b>	    if (ch == DAL_FIP_REG_FALL_CH_00_15_ALL_IDX) {
+<b><a name="line784">784    </a></b>	        for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line785">785    </a></b>	            if (BITS_GET(ch_bitmap, ch, 1U) == TRUE) {
+<b><a name="line786">786    </a></b>	                tprintf("ch = %d, ce = %d, get feature (%xh) - %x %x %x %x\r\n", ch, ce, feat_adr, (dat + (ch * 4U))[0U], (dat + (ch * 4U))[1U], (dat + (ch * 4U))[2U], (dat + (ch * 4U))[3U]);
+<b><a name="line787">787    </a></b>	            }
+<b><a name="line788">788    </a></b>	        }
+<b><a name="line789">789    </a></b>	    }
+<b><a name="line790">790    </a></b>	    else {
+<b><a name="line791">791    </a></b>	        tprintf("ch = %d, ce = %d, get feature (%xh) - %x %x %x %x", ch, ce, feat_adr, dat[0U], dat[1U], dat[2U], dat[3U]);
+<b><a name="line792">792    </a></b>	    }
+<b><a name="line793">793    </a></b>	    tprintf("hal_fip_api_get_feature status = %x", status);
+<b><a name="line794">794    </a></b>	#endif
+<b><a name="line795">795    </a></b>	    return status;
+<b><a name="line796">796    </a></b>	}
+<b><a name="line797">797    </a></b>	
+<b><a name="line798">798    </a></b>	U32 hal_fip_api_set_parameter(U8 ch, U8 ce, U8 *cmd, U8 *feat_adr, U8 *dat, U8 data_cnt, U8 cmd_dqs_h, U8 odt_terminated, U32 *ac_timing, U32 chk_rdy)
+<b><a name="line799">799    </a></b>	{
+<b><a name="line800">800    </a></b>	
+<b><a name="line801">801    </a></b>	    U32 status;
+<b><a name="line802">802    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line803">803    </a></b>	    U8 i;
+<b><a name="line804">804    </a></b>	
+<b><a name="line805">805    </a></b>	    status      = 0U;
+<b><a name="line806">806    </a></b>	    // set parameter
+<b><a name="line807">807    </a></b>	    if (is_sca == 0U) {
+<b><a name="line808">808    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line809">809    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line810">810    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line811">811    </a></b>	    }
+<b><a name="line812">812    </a></b>	    else {
+<b><a name="line813">813    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line814">814    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line815">815    </a></b>	    }
+<b><a name="line816">816    </a></b>	
+<b><a name="line817">817    </a></b>	    FIP_DBG_INFO_PRINTF("ch = %d, ce = %d,", ch, ce);
+<b><a name="line818">818    </a></b>	
+<b><a name="line819">819    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line820">820    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line821">821    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line822">822    </a></b>	    //tCS
+<b><a name="line823">823    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line824">824    </a></b>	
+<b><a name="line825">825    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line826">826    </a></b>	        // set controller odt disable
+<b><a name="line827">827    </a></b>	        //dal_fip_set_odt_en(ch, 0U, 0U);
+<b><a name="line828">828    </a></b>	        w_FORCE_ODT_EN(ch, 0U);
+<b><a name="line829">829    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0U);
+<b><a name="line830">830    </a></b>	        //tCSVOL
+<b><a name="line831">831    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line832">832    </a></b>	        // set nand odt disable
+<b><a name="line833">833    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line834">834    </a></b>	        //tODT on/off
+<b><a name="line835">835    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line836">836    </a></b>	    }
+<b><a name="line837">837    </a></b>	
+<b><a name="line838">838    </a></b>	    //cmd 36h
+<b><a name="line839">839    </a></b>	    w_PIO_CMD(ch, cmd[0]);
+<b><a name="line840">840    </a></b>	
+<b><a name="line841">841    </a></b>	    FIP_DBG_INFO_PRINTF(" set parameter %xh", cmd[0]);
+<b><a name="line842">842    </a></b>	
+<b><a name="line843">843    </a></b>	    for (i = 0; i < data_cnt; i++) {
+<b><a name="line844">844    </a></b>	        //addr
+<b><a name="line845">845    </a></b>	        w_PIO_ADR(ch, feat_adr[i]);
+<b><a name="line846">846    </a></b>	        //tADL
+<b><a name="line847">847    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TADL]);
+<b><a name="line848">848    </a></b>	        if (is_sca == 0U) {
+<b><a name="line849">849    </a></b>	            //dal_fip_pio_dqs(ch, 0U);
+<b><a name="line850">850    </a></b>	            w_PIO_DQS_OE(ch, 1);
+<b><a name="line851">851    </a></b>	            w_PIO_DQS(ch, 0U);
+<b><a name="line852">852    </a></b>	        }
+<b><a name="line853">853    </a></b>	        //set parameter
+<b><a name="line854">854    </a></b>	        hal_nand_ctrl_api_write_data_dobule_byte(ch, (dat + (i * 8)), 1U);
+<b><a name="line855">855    </a></b>	        FIP_DBG_INFO_PRINTF(" - (%xh) - %xh", feat_adr[i], (dat + (i * 8))[i]);
+<b><a name="line856">856    </a></b>	    }
+<b><a name="line857">857    </a></b>	
+<b><a name="line858">858    </a></b>	    //cmd 16h
+<b><a name="line859">859    </a></b>	    w_PIO_CMD(ch, cmd[1]);
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	    FIP_DBG_INFO_PRINTF(" - %xh\r\n", cmd[1]);
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line864">864    </a></b>	        // restore nand odt
+<b><a name="line865">865    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line866">866    </a></b>	        //tODT on/off
+<b><a name="line867">867    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	        // restore controller odt
+<b><a name="line870">870    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line871">871    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line872">872    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line873">873    </a></b>	    }
+<b><a name="line874">874    </a></b>	
+<b><a name="line875">875    </a></b>	    // wait nand busy
+<b><a name="line876">876    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TPARAM]);
+<b><a name="line877">877    </a></b>	
+<b><a name="line878">878    </a></b>	    //Check R/B pin before read
+<b><a name="line879">879    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><a name="line880">880    </a></b>	    do {
+<b><a name="line881">881    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line882">882    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line883">883    </a></b>	            break;
+<b><a name="line884">884    </a></b>	        }
+<b><a name="line885">885    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line886">886    </a></b>	
+<b><a name="line887">887    </a></b>	    //tCH
+<b><a name="line888">888    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line889">889    </a></b>	    //dal_fip_pio_ce_disable(ch, ce); // micron need exit data input by ce high when set feature to feature addres 02h
+<b><a name="line890">890    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line891">891    </a></b>	
+<b><a name="line892">892    </a></b>	    return  status;
+<b><a name="line893">893    </a></b>	}
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	U32 hal_fip_api_get_parameter(U8 ch, U8 ce, U8 *cmd, U8 *feat_adr, U8 *dat, U8 data_cnt, U8 cmd_dqs_h, U8 odt_terminated, U32 *ac_timing, U32 chk_rdy)
+<b><a name="line896">896    </a></b>	{
+<b><a name="line897">897    </a></b>	    U32 status;
+<b><a name="line898">898    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line899">899    </a></b>	    U8 i;
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	    status      = 0U;
+<b><a name="line902">902    </a></b>	
+<b><a name="line903">903    </a></b>	    // get parameter
+<b><a name="line904">904    </a></b>	    if (is_sca == 0U) {
+<b><a name="line905">905    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line906">906    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line907">907    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line908">908    </a></b>	    }
+<b><a name="line909">909    </a></b>	    else {
+<b><a name="line910">910    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line911">911    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line912">912    </a></b>	    }
+<b><a name="line913">913    </a></b>	
+<b><a name="line914">914    </a></b>	    FIP_DBG_INFO_PRINTF("ch = %d, ce = %d,", ch, ce);
+<b><a name="line915">915    </a></b>	
+<b><a name="line916">916    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line917">917    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line918">918    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line919">919    </a></b>	    //tCS
+<b><a name="line920">920    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line921">921    </a></b>	
+<b><a name="line922">922    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line923">923    </a></b>	        // set controller odt disable
+<b><a name="line924">924    </a></b>	        //dal_fip_set_odt_en(ch, 0U, 0U);
+<b><a name="line925">925    </a></b>	        w_FORCE_ODT_EN(ch, 0U);
+<b><a name="line926">926    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0U);
+<b><a name="line927">927    </a></b>	
+<b><a name="line928">928    </a></b>	        //tCSVOL
+<b><a name="line929">929    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line930">930    </a></b>	        // set nand odt disable
+<b><a name="line931">931    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line932">932    </a></b>	        //tODT on/off
+<b><a name="line933">933    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line934">934    </a></b>	    }
+<b><a name="line935">935    </a></b>	    //cmd 37h
+<b><a name="line936">936    </a></b>	    w_PIO_CMD(ch, cmd[0]);
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    FIP_DBG_INFO_PRINTF(" get parameter %xh", cmd[0]);
+<b><a name="line939">939    </a></b>	
+<b><a name="line940">940    </a></b>	    for (i = 0; i < data_cnt; i++) {
+<b><a name="line941">941    </a></b>	        // wait nand busy
+<b><a name="line942">942    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TPARAM]);
+<b><a name="line943">943    </a></b>	
+<b><a name="line944">944    </a></b>	        w_PIO_ADR(ch, feat_adr[i]);
+<b><a name="line945">945    </a></b>	
+<b><a name="line946">946    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TWHR]);
+<b><a name="line947">947    </a></b>	
+<b><a name="line948">948    </a></b>	        //Check R/B pin before read
+<b><a name="line949">949    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, chk_rdy);
+<b><a name="line950">950    </a></b>	        do {
+<b><a name="line951">951    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line952">952    </a></b>	                status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line953">953    </a></b>	                break;
+<b><a name="line954">954    </a></b>	            }
+<b><a name="line955">955    </a></b>	        } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line956">956    </a></b>	
+<b><a name="line957">957    </a></b>	        status |= hal_nand_ctrl_api_read_data_skip_highbyte(ch, (dat + (i * 8)), 1U, ac_timing);
+<b><a name="line958">958    </a></b>	        FIP_DBG_INFO_PRINTF(" - (%xh) - %xh\r\n", feat_adr[i], (dat + (i * 8))[i]);
+<b><a name="line959">959    </a></b>	    }
+<b><a name="line960">960    </a></b>	
+<b><a name="line961">961    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line962">962    </a></b>	        // restore nand odt
+<b><a name="line963">963    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line964">964    </a></b>	        //tODT on/off
+<b><a name="line965">965    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line966">966    </a></b>	
+<b><a name="line967">967    </a></b>	        // restore controller odt
+<b><a name="line968">968    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line969">969    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line970">970    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line971">971    </a></b>	    }
+<b><a name="line972">972    </a></b>	
+<b><a name="line973">973    </a></b>	    //tCH
+<b><a name="line974">974    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line975">975    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line976">976    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line977">977    </a></b>	
+<b><a name="line978">978    </a></b>	    return status;
+<b><a name="line979">979    </a></b>	}
+<b><a name="line980">980    </a></b>	
+<b><a name="line981">981    </a></b>	static U32 hal_nand_api_read_data(U8 ch, U8 *data, U16 size)
+<b><a name="line982">982    </a></b>	{
+<b><a name="line983">983    </a></b>	    U16 i;
+<b><a name="line984">984    </a></b>	    U16 pio_cycle;
+<b><a name="line985">985    </a></b>	    U32 status;
+<b><a name="line986">986    </a></b>	
+<b><a name="line987">987    </a></b>	    status = 0U;
+<b><a name="line988">988    </a></b>	
+<b><a name="line989">989    </a></b>	    if (dal_fip_get_io_type(ch) == DAL_FIP_IO_TYPE_LEGACY) { // sdr
+<b><a name="line990">990    </a></b>	        pio_cycle = size;
+<b><a name="line991">991    </a></b>	        for (i = 0U; i < pio_cycle; i++) {
+<b><a name="line992">992    </a></b>	            // datr
+<b><a name="line993">993    </a></b>	            data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line994">994    </a></b>	        }
+<b><a name="line995">995    </a></b>	    }
+<b><a name="line996">996    </a></b>	    else { // ddr
+<b><a name="line997">997    </a></b>	        pio_cycle = (size >> 1U);
+<b><a name="line998">998    </a></b>	        U16 *p16_data = (U16 *)((void *)data);
+<b><a name="line999">999    </a></b>	        if ((U8)r_SCA_PROT(ch) == 0U) {
+<b><a name="line1000">1000    </a></b>	            for (i = 0U; i < pio_cycle; i++) {
+<b><a name="line1001">1001    </a></b>	                // set dqs feature
+<b><a name="line1002">1002    </a></b>	                if (i == 0U) {
+<b><a name="line1003">1003    </a></b>	                    //dal_fip_set_pio_dat_first(ch);
+<b><a name="line1004">1004    </a></b>	                    w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line1005">1005    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line1006">1006    </a></b>	                }
+<b><a name="line1007">1007    </a></b>	                else if (i == (pio_cycle - 1U)) {
+<b><a name="line1008">1008    </a></b>	                    //dal_fip_set_pio_dat_last(ch);
+<b><a name="line1009">1009    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line1010">1010    </a></b>	                    w_PIO_DAT_LAST(ch, 1);
+<b><a name="line1011">1011    </a></b>	                }
+<b><a name="line1012">1012    </a></b>	                else {
+<b><a name="line1013">1013    </a></b>	                    //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line1014">1014    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line1015">1015    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line1016">1016    </a></b>	                }
+<b><a name="line1017">1017    </a></b>	
+<b><a name="line1018">1018    </a></b>	                // datr
+<b><a name="line1019">1019    </a></b>	                p16_data[i] = (U16)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line1020">1020    </a></b>	            }
+<b><a name="line1021">1021    </a></b>	
+<b><a name="line1022">1022    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line1023">1023    </a></b>	            if ((((U8)r_PIOR_DQS_TIMEOUT_FLAG(ch)) == TRUE) || (((U8)r_PIO_DQS_VALID(ch)) == FALSE)) {
+<b><a name="line1024">1024    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x, dqs vld = 0x%x\r\n", ch, (U8)r_PIOR_DQS_TIMEOUT_FLAG(ch), (U8)r_PIO_DQS_VALID(ch));
+<b><a name="line1025">1025    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line1026">1026    </a></b>	                //Clear time out flag
+<b><a name="line1027">1027    </a></b>	                w_PIOR_DQS_TIMEOUT_FLAG(ch, 0);
+<b><a name="line1028">1028    </a></b>	            }
+<b><a name="line1029">1029    </a></b>	        }
+<b><a name="line1030">1030    </a></b>	        else { // sca mode (single byte output)
+<b><a name="line1031">1031    </a></b>	            //set fip fetch pio data from ca bus
+<b><a name="line1032">1032    </a></b>	            w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1033">1033    </a></b>	
+<b><a name="line1034">1034    </a></b>	            // set SCE pkt header and body
+<b><a name="line1035">1035    </a></b>	            //hal_flash_pio_pkt_header(ch, 0x1, 0x7);
+<b><a name="line1036">1036    </a></b>	            w_FCTL_PKT_DATA_HEADER(ch, 0x7);
+<b><a name="line1037">1037    </a></b>	            w_FCTL_PKT_LEN_HEADER(ch, 0x1);
+<b><a name="line1038">1038    </a></b>	
+<b><a name="line1039">1039    </a></b>	            //hal_flash_pio_pkt_body(ch, 0x2, 0x0);
+<b><a name="line1040">1040    </a></b>	            w_FCTL_PKT_DATA_BODY(ch, 0x0);
+<b><a name="line1041">1041    </a></b>	            w_FCTL_PKT_LEN_BODY(ch, 0x2);
+<b><a name="line1042">1042    </a></b>	
+<b><a name="line1043">1043    </a></b>	            //hal_flash_pio_pkt(ch, 0x1);
+<b><a name="line1044">1044    </a></b>	            w_PIO_PKT(ch, 0x1);
+<b><a name="line1045">1045    </a></b>	
+<b><a name="line1046">1046    </a></b>	            //set fip fetch pio data from dq bus
+<b><a name="line1047">1047    </a></b>	            w_PIO_DATA_MODE(ch, 1);
+<b><a name="line1048">1048    </a></b>	
+<b><a name="line1049">1049    </a></b>	            for (i = 0U; i < pio_cycle; i++) {
+<b><a name="line1050">1050    </a></b>	                // set dqs feature
+<b><a name="line1051">1051    </a></b>	                if (i == 0U) {
+<b><a name="line1052">1052    </a></b>	                    //dal_fip_set_pio_dat_first(ch);
+<b><a name="line1053">1053    </a></b>	                    w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line1054">1054    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line1055">1055    </a></b>	                }
+<b><a name="line1056">1056    </a></b>	                else if (i == (pio_cycle - 1U)) {
+<b><a name="line1057">1057    </a></b>	                    //dal_fip_set_pio_dat_last(ch);
+<b><a name="line1058">1058    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line1059">1059    </a></b>	                    w_PIO_DAT_LAST(ch, 1);
+<b><a name="line1060">1060    </a></b>	                }
+<b><a name="line1061">1061    </a></b>	                else {
+<b><a name="line1062">1062    </a></b>	                    //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line1063">1063    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line1064">1064    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line1065">1065    </a></b>	                }
+<b><a name="line1066">1066    </a></b>	
+<b><a name="line1067">1067    </a></b>	                // datr
+<b><a name="line1068">1068    </a></b>	                p16_data[i] = (U16)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line1069">1069    </a></b>	            }
+<b><a name="line1070">1070    </a></b>	
+<b><a name="line1071">1071    </a></b>	            //set fip fetch pio data from ca bus
+<b><a name="line1072">1072    </a></b>	            w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1073">1073    </a></b>	            // set SCT pkt header and body
+<b><a name="line1074">1074    </a></b>	            //hal_flash_pio_pkt_header(ch, 0x1, 0xF);
+<b><a name="line1075">1075    </a></b>	            w_FCTL_PKT_DATA_HEADER(ch, 0xF);
+<b><a name="line1076">1076    </a></b>	            w_FCTL_PKT_LEN_HEADER(ch, 0x1);
+<b><a name="line1077">1077    </a></b>	
+<b><a name="line1078">1078    </a></b>	            //hal_flash_pio_pkt_body(ch, 0x2, 0x0);
+<b><a name="line1079">1079    </a></b>	            w_FCTL_PKT_DATA_BODY(ch, 0x0);
+<b><a name="line1080">1080    </a></b>	            w_FCTL_PKT_LEN_BODY(ch, 0x2);
+<b><a name="line1081">1081    </a></b>	
+<b><a name="line1082">1082    </a></b>	            //hal_flash_pio_pkt(ch, 0x1);
+<b><a name="line1083">1083    </a></b>	            w_PIO_PKT(ch, 0x1);
+<b><a name="line1084">1084    </a></b>	
+<b><a name="line1085">1085    </a></b>	            // Pull DQS_OE and RE high
+<b><a name="line1086">1086    </a></b>	            w_GPO_DQS_OE(ch, 1);
+<b><a name="line1087">1087    </a></b>	            w_GPO_RE(ch, 1);
+<b><a name="line1088">1088    </a></b>	            w_GPO_WE(ch, 0);
+<b><a name="line1089">1089    </a></b>	
+<b><a name="line1090">1090    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line1091">1091    </a></b>	            if (((U8)r_PIOR_ALE_TIMEOUT_FLAG(ch)) == TRUE) {
+<b><a name="line1092">1092    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x\r\n", ch, (U8)r_PIOR_ALE_TIMEOUT_FLAG(ch));
+<b><a name="line1093">1093    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line1094">1094    </a></b>	                //Clear time out flag
+<b><a name="line1095">1095    </a></b>	                w_PIOR_ALE_TIMEOUT_FLAG(ch, 0);
+<b><a name="line1096">1096    </a></b>	            }
+<b><a name="line1097">1097    </a></b>	        }
+<b><a name="line1098">1098    </a></b>	
+<b><a name="line1099">1099    </a></b>	        // restore dqs feature
+<b><a name="line1100">1100    </a></b>	        //dal_fip_set_pio_dat_default(ch);
+<b><a name="line1101">1101    </a></b>	        w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line1102">1102    </a></b>	        w_PIO_DAT_LAST(ch, 1);
+<b><a name="line1103">1103    </a></b>	    }
+<b><a name="line1104">1104    </a></b>	    return status;
+<b><a name="line1105">1105    </a></b>	}
+<b><a name="line1106">1106    </a></b>	
+<b><a name="line1107">1107    </a></b>	U32 hal_fip_api_dma_out(U8 ch, U8 ce, U8 *cmd, U8 *addr_dat, U8 addr_num1, U8 addr_num2, U32 data_address, U32 data_length, U8 cmd_dqs_h, U32 *ac_timing, U8 is_change_column_enhanced)
+<b><a name="line1108">1108    </a></b>	{
+<b><a name="line1109">1109    </a></b>	    U32 status;
+<b><a name="line1110">1110    </a></b>	    U8 i;
+<b><a name="line1111">1111    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1112">1112    </a></b>	
+<b><a name="line1113">1113    </a></b>	    status      = 0U;
+<b><a name="line1114">1114    </a></b>	
+<b><a name="line1115">1115    </a></b>	    if (is_sca == 0U) {
+<b><a name="line1116">1116    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line1117">1117    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line1118">1118    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line1119">1119    </a></b>	    }
+<b><a name="line1120">1120    </a></b>	    else {
+<b><a name="line1121">1121    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line1122">1122    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1123">1123    </a></b>	    }
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line1126">1126    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line1127">1127    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line1128">1128    </a></b>	    //tCS
+<b><a name="line1129">1129    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line1130">1130    </a></b>	
+<b><a name="line1131">1131    </a></b>	    if (is_change_column_enhanced == TRUE) {
+<b><a name="line1132">1132    </a></b>	        //SAMSUNG_V8
+<b><a name="line1133">1133    </a></b>	        w_PIO_CMD(ch, 0U);
+<b><a name="line1134">1134    </a></b>	        for (i = 0U; i < addr_num1; i++) {
+<b><a name="line1135">1135    </a></b>	            w_PIO_ADR(ch, addr_dat[i]);
+<b><a name="line1136">1136    </a></b>	        }
+<b><a name="line1137">1137    </a></b>	    }
+<b><a name="line1138">1138    </a></b>	
+<b><a name="line1139">1139    </a></b>	    w_PIO_CMD(ch, cmd[0U]);
+<b><a name="line1140">1140    </a></b>	    for (i = 0U; i < addr_num2; i++) {
+<b><a name="line1141">1141    </a></b>	        w_PIO_ADR(ch, addr_dat[i]);
+<b><a name="line1142">1142    </a></b>	    }
+<b><a name="line1143">1143    </a></b>	    w_PIO_CMD(ch, cmd[1U]);
+<b><a name="line1144">1144    </a></b>	    // tWHR2 ~= tWHR * 2 //tCCS ~= tWHR * 4
+<b><a name="line1145">1145    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWHR] * 4U);
+<b><a name="line1146">1146    </a></b>	
+<b><a name="line1147">1147    </a></b>	    // dma out
+<b><a name="line1148">1148    </a></b>	    status |= hal_nand_api_read_data(ch, (U8 *)data_address, data_length);
+<b><a name="line1149">1149    </a></b>	
+<b><a name="line1150">1150    </a></b>	    //tCH
+<b><a name="line1151">1151    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1152">1152    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1153">1153    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1154">1154    </a></b>	
+<b><a name="line1155">1155    </a></b>	    return status;
+<b><a name="line1156">1156    </a></b>	}
+<b><a name="line1157">1157    </a></b>	
+<b><a name="line1158">1158    </a></b>	void hal_pio_cmd(U8 ch, U8 cmd, U32 *ac_timing)
+<b><a name="line1159">1159    </a></b>	{
+<b><a name="line1160">1160    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1161">1161    </a></b>	
+<b><a name="line1162">1162    </a></b>	    if (is_sca == 1U) {
+<b><a name="line1163">1163    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line1164">1164    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1165">1165    </a></b>	    }
+<b><a name="line1166">1166    </a></b>	
+<b><a name="line1167">1167    </a></b>	    // enable ce 0
+<b><a name="line1168">1168    </a></b>	    //dal_fip_pio_ce_enable(ch, 0U);
+<b><a name="line1169">1169    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(0));
+<b><a name="line1170">1170    </a></b>	    w_DQ_BIT_REV_IDX(ch, 0);
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line1173">1173    </a></b>	
+<b><a name="line1174">1174    </a></b>	    // issue read mode command
+<b><a name="line1175">1175    </a></b>	    w_PIO_CMD(ch, cmd);
+<b><a name="line1176">1176    </a></b>	
+<b><a name="line1177">1177    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWHR]);
+<b><a name="line1178">1178    </a></b>	
+<b><a name="line1179">1179    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1180">1180    </a></b>	
+<b><a name="line1181">1181    </a></b>	    // disable all ce
+<b><a name="line1182">1182    </a></b>	    w_CE_BITMAP(ch, 0U);
+<b><a name="line1183">1183    </a></b>	}
+<b><a name="line1184">1184    </a></b>	
+<b><a name="line1185">1185    </a></b>	void hal_fip_api_zq_calibration_long(U8 ch, U8 ce, U8 die, U32 *ac_timing)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter name than "hal_fip_api_zq_calibration_long".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">     ^</font>
+<b><a name="line1186">1186    </a></b>	{
+<b><a name="line1187">1187    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1188">1188    </a></b>	
+<b><a name="line1189">1189    </a></b>	    if (is_sca == 1U) {
+<b><a name="line1190">1190    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line1191">1191    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1192">1192    </a></b>	    }
+<b><a name="line1193">1193    </a></b>	
+<b><a name="line1194">1194    </a></b>	    // zq calibration (long)
+<b><a name="line1195">1195    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line1196">1196    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line1197">1197    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line1198">1198    </a></b>	
+<b><a name="line1199">1199    </a></b>	    //tCS
+<b><a name="line1200">1200    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line1201">1201    </a></b>	
+<b><a name="line1202">1202    </a></b>	    w_PIO_CMD(ch, (U8)HAL_NAND_CMD_ZQC_LONG_F9);
+<b><a name="line1203">1203    </a></b>	    w_PIO_ADR(ch, die);
+<b><a name="line1204">1204    </a></b>	    //tWB
+<b><a name="line1205">1205    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWB]);
+<b><a name="line1206">1206    </a></b>	
+<b><a name="line1207">1207    </a></b>	    //tZQCL
+<b><a name="line1208">1208    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TZQCL]);
+<b><a name="line1209">1209    </a></b>	
+<b><a name="line1210">1210    </a></b>	    //tCH
+<b><a name="line1211">1211    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1212">1212    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1213">1213    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1214">1214    </a></b>	}
+<b><a name="line1215">1215    </a></b>	
+<b><a name="line1216">1216    </a></b>	void hal_fip_api_hard_reset(U8 ch, U8 ce, U32 *ac_timing)
+</pre></body>
+</html>

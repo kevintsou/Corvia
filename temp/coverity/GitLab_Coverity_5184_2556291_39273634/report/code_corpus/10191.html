@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/hal_fw_nvme.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line249">249    </a></b>	    phal_nvme_create_ns(hw_nsid, ns_size, lbas, 0U, 0U, 0U, 0U, 0U, 0U, 0xFFFFFFFFFFFFFFFFULL, 0U);
+<b><a name="line250">250    </a></b>	    dal_cmgr_set_ns_afid(hw_nsid, 0);
+<b><a name="line251">251    </a></b>	    hal_nvme_attach_ns(fofst, hw_nsid);
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	}
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	void hal_fw_nvme_boot_code_cmgr_init(HAL_CMGR_INIT_PARAM_PTR param, U64 time_out, U16 lbas, U64 ns_size)
+<b><a name="line257">257    </a></b>	{
+<b><a name="line258">258    </a></b>	    hal_fw_nvme_boot_code_cmgr_sram_init(time_out);
+<b><a name="line259">259    </a></b>	    hal_fw_nvme_boot_code_cmgr_setting_init(param);
+<b><a name="line260">260    </a></b>	    hal_fw_nvme_boot_code_cmgr_ns_init(param, lbas, ns_size);
+<b><a name="line261">261    </a></b>	}
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	static void dal_apu_set_pi_reverse(void)
+<b><a name="line264">264    </a></b>	{
+<b><a name="line265">265    </a></b>	    w_all_APU_PI_REVERSE(1U);
+<b><a name="line266">266    </a></b>	}
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	static void dal_apu_set_stg_tag_dis(void)
+<b><a name="line269">269    </a></b>	{
+<b><a name="line270">270    </a></b>	    w_all_APU_STG_TAG_DIS(1U);
+<b><a name="line271">271    </a></b>	}
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	void hal_fw_apu_init(HAL_APU_INIT_PARAM_PTR param)
+<b><a name="line274">274    </a></b>	{
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    //init apu sram
+<b><a name="line277">277    </a></b>	    dal_apu_set_sram_init_req();
+<b><a name="line278">278    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_APU_SRAM_INIT, 100);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xff << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "255", is not allowed.  The shift amount is 24.</font>
+<b><a name="line279">279    </a></b>	    while (dal_apu_get_sram_init_req() == 1UL) {
+<b><a name="line280">280    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line281">281    </a></b>	            sal_uart_printf("apu_sram_init timout\r\n");
+<b><a name="line282">282    </a></b>	            return;
+<b><a name="line283">283    </a></b>	        }
+<b><a name="line284">284    </a></b>	    }
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	    dal_apu_set_p1_iom_sram_init_req();
+<b><a name="line287">287    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_APU_SRAM_INIT, 100);
+<b><a name="line288">288    </a></b>	    while (dal_apu_get_p1_iom_sram_init_req() == 1UL) {
+<b><a name="line289">289    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line290">290    </a></b>	            sal_uart_printf("apu_sram_init timout\r\n");
+<b><a name="line291">291    </a></b>	            return;
+<b><a name="line292">292    </a></b>	        }
+<b><a name="line293">293    </a></b>	    }
+<b><a name="line294">294    </a></b>	
+<b><a name="line295">295    </a></b>	    //init apu int
+<b><a name="line296">296    </a></b>	    dal_apu_set_en_int_bmp(param->apu_int_en_bmp);
+<b><a name="line297">297    </a></b>	    dal_apu_set_en_int_sram_cor_bmp(param->ecc_cor_int_en_bmp);
+<b><a name="line298">298    </a></b>	    dal_apu_set_en_int_sram_err_bmp(param->ecc_err_int_en_bmp);
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	    //init write err : 0 dont care axi_bresp_err, wcsh_ecc_err, dat_par_err, pir_err, pia_err, pig_err, pis_err
+<b><a name="line301">301    </a></b>	    dal_apu_set_en_werr_bmp(0);
+<b><a name="line302">302    </a></b>	    //init read err : 0 dont care axi_rresp_err, e3d_err, e3dp_err, pir_err, pia_err, pig_err, pis_err, key_err,
+<b><a name="line303">303    </a></b>	    dal_apu_set_en_rerr_bmp(0);
+<b><a name="line304">304    </a></b>	
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	    // aes setting : boot code no need use aes check in nvme dma
+<b><a name="line307">307    </a></b>	    dal_apu_clr_en_rdmgr_e3dp();
+<b><a name="line308">308    </a></b>	    dal_apu_clr_en_rdmgr_aes();
+<b><a name="line309">309    </a></b>	    dal_apu_clr_en_wrmgr_e3dp();
+</pre></body>
+</html>

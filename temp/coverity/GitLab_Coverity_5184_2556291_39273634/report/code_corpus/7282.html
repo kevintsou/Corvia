@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/nvme/host_nvme.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line40">40    </a></b>	    // set delete type
+<b><a name="line41">41    </a></b>	    dal_nl_set_del_type(0,1);          //  00b: RSVD; 01b: subsys level del; 10b : func del; 11b : queue del
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	    // trigger
+<b><a name="line44">44    </a></b>	    dal_nl_set_del_req(0);
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    // wait ready
+<b><a name="line47">47    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_NVME_WAIT, 100);
+<b><a name="line48">48    </a></b>	    while (hal_nl_get_del_req()) {
+<b><a name="line49">49    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line50">50    </a></b>	            break;
+<b><a name="line51">51    </a></b>	        }
+<b><a name="line52">52    </a></b>	    }
+<b><a name="line53">53    </a></b>	}
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	/*
+<b><a name="line56">56    </a></b>	U8 hal_nvme_apu_chk_p_cpl_empty(U8 pid)
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    return (U8)r32_r_all_APU_P_CPL_EMPTY(pid);
+<b><a name="line59">59    </a></b>	}
+<b><a name="line60">60    </a></b>	*/
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	void hal_nvme_nl_clr_sq_en(U16 qid, U8 rst_admin_q_reg)
+<b><a name="line63">63    </a></b>	{
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	    dal_nl_set_fw_set_fid(0U);
+<b><a name="line66">66    </a></b>	    dal_nl_set_fw_set_pid(0U);
+<b><a name="line67">67    </a></b>	    dal_nl_clr_sq_en(qid);
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    if ((qid == 0U) && (rst_admin_q_reg == TRUE)) { // Clear ASQ/ACQ/AQA based on rule in NVMe spec
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "rst_admin_q_reg" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line70">70    </a></b>	        dal_nl_set_sq_base(qid, 0U);
+<b><a name="line71">71    </a></b>	        dal_nl_set_sq_size(qid, 0U);
+<b><a name="line72">72    </a></b>	    }
+<b><a name="line73">73    </a></b>	}
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	void hal_nvme_nl_clr_cq_en(U16 qid, U8 rst_admin_q_reg)
+<b><a name="line76">76    </a></b>	{
+<b><a name="line77">77    </a></b>	    dal_nl_set_fw_set_fid(0U);
+<b><a name="line78">78    </a></b>	    dal_nl_set_fw_set_pid(0U);
+<b><a name="line79">79    </a></b>	    dal_nl_clr_cq_en(qid);
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    if ((qid == 0U) && (rst_admin_q_reg == TRUE)) { // Clear ASQ/ACQ/AQA based on rule in NVMe spec
+<b><a name="line82">82    </a></b>	        dal_nl_set_cq_base(qid, 0U);
+<b><a name="line83">83    </a></b>	        dal_nl_set_cq_size(qid, 0U);
+<b><a name="line84">84    </a></b>	    }
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	
+</pre></body>
+</html>

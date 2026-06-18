@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	void dal_set_port_cnt(U32 port_cnt)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    // 1 port
+<b><a name="line6">6    </a></b>	    if (port_cnt == 2)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "port_cnt" (unsigned) is not the same as that of the right operand "2"(signed).</font>
+<b><a name="line7">7    </a></b>	    {
+<b><a name="line8">8    </a></b>	        dal_set_pcie_dual_port(DAL_PCIE_ENABLE);
+<b><a name="line9">9    </a></b>	    }
+<b><a name="line10">10    </a></b>	    else
+<b><a name="line11">11    </a></b>	    {
+<b><a name="line12">12    </a></b>	        dal_set_pcie_dual_port(DAL_PCIE_DISABLE);
+<b><a name="line13">13    </a></b>	    }
+<b><a name="line14">14    </a></b>	    // Set pcie_ref_en
+<b><a name="line15">15    </a></b>	    U32 port_id, max_port_cnt = 2U;
+<b><a name="line16">16    </a></b>	    for (port_id = DAL_PCIE_PORT_0; port_id < max_port_cnt; port_id++)
+<b><a name="line17">17    </a></b>	    {
+<b><a name="line18">18    </a></b>	        if (port_id < port_cnt)
+<b><a name="line19">19    </a></b>	        {
+<b><a name="line20">20    </a></b>	            dal_set_pcie_ref_clk(port_id, DAL_PCIE_ENABLE);
+<b><a name="line21">21    </a></b>	        }
+<b><a name="line22">22    </a></b>	        else
+<b><a name="line23">23    </a></b>	        {
+<b><a name="line24">24    </a></b>	            dal_set_pcie_ref_clk(port_id, DAL_PCIE_DISABLE);
+<b><a name="line25">25    </a></b>	        }
+<b><a name="line26">26    </a></b>	    }
+<b><a name="line27">27    </a></b>	}
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	void dal_set_clkreq_mode(U32 port_id, U32 mode)
+<b><a name="line30">30    </a></b>	{
+<b><a name="line31">31    </a></b>	#if defined(PS5028)
+<b><a name="line32">32    </a></b>	    if (mode == PCIE_CLKREQ_HW_CTRL)
+<b><a name="line33">33    </a></b>	    {
+<b><a name="line34">34    </a></b>	        //e27:dal_s0_set_clkreqb_mux_sel(); // HW mode
+<b><a name="line35">35    </a></b>	        //e27://e27:dal_s0_set_clkreqb_pad_en();
+<b><a name="line36">36    </a></b>	        dal_s0_set_clkreqb_oe_mode0();
+<b><a name="line37">37    </a></b>	        dal_s0_set_clkreqb_en();
+</pre></body>
+</html>

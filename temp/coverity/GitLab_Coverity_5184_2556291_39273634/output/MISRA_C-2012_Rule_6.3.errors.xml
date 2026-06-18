@@ -1,0 +1,36 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 6.3</checker>
+<type>MISRA_C_2012_Rule_6.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/apu/dal_apu_struct.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_6_3_violation</tag>
+<description>{CovLStrv2{{t{Bit field {0} declared as a member of union.}{{code{tbc}}}}}}</description>
+<line>531</line>
+<column>17</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 6.3</checker>
+<type>MISRA_C_2012_Rule_6.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/apu/dal_apu_struct.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_6_3_violation</tag>
+<description>{CovLStrv2{{t{Bit field {0} declared as a member of union.}{{code{fw_ofst}}}}}}</description>
+<line>532</line>
+<column>17</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3092">3092    </a></b>	    }
+<b><a name="line3093">3093    </a></b>	#endif
+<b><a name="line3094">3094    </a></b>	
+<b><a name="line3095">3095    </a></b>	    // CC to confirm : add this case to simulation
+<b><a name="line3096">3096    </a></b>	#if HOST_ID_TABLE
+<b><a name="line3097">3097    </a></b>	    HOST_API_STRUCT_PTR             host      = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line3098">3098    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR   host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line3099">3099    </a></b>	
+<b><a name="line3100">3100    </a></b>	    host->host_id_tbl_base = DBUF_API_BOOTCODE_ID_TABLE_BASE + p_id_table->pcie_landmark_pre.offset;
+<b><a name="line3101">3101    </a></b>	    host->host_id_tbl_size = p_id_table->pcie_landmark_pre.count * sizeof(ID_TABLE_LANDMARK);
+<b><a name="line3102">3102    </a></b>	    memcpy((void *)&host->host_id_tbl, (void *)&p_id_table->host_flow, sizeof(HOST_API_HOST_ID_TBL_STRUCT));
+<b><a name="line3103">3103    </a></b>	
+<b><a name="line3104">3104    </a></b>	    Dump_FastLink(tprintf("xtal_mode_ssc_off_p0:%d xtal_mode_ssc_off_p1:%d",host_flow->attr.xtal_mode_ssc_off_p0,host_flow->attr.xtal_mode_ssc_off_p1));
+<b><a name="line3105">3105    </a></b>	
+<b><a name="line3106">3106    </a></b>	    // foolproof for wrong port_mode, to avoid unable to build the link
+<b><a name="line3107">3107    </a></b>	    if ((host_flow->attr.port_mode < PCIE_PORT_MODE_SINGLE) ||
+<b><a name="line3108">3108    </a></b>	        (host_flow->attr.port_mode > PCIE_PORT_MODE_DUAL)) {
+<b><a name="line3109">3109    </a></b>	        host_flow->attr.port_mode = PCIE_PORT_MODE_SINGLE;
+<b><a name="line3110">3110    </a></b>	    }
+<b><a name="line3111">3111    </a></b>	    // get ready to service PERST event in Boot Code stage, but can't update PCIe phy iccm dccm
+<b><a name="line3112">3112    </a></b>	    if(p_id_table->update_iccm_en == 0)
+<b><a name="line3113">3113    </a></b>	    {
+<b><a name="line3114">3114    </a></b>	        host_api_chk_pcie_link_without_isr(host);
+<b><a name="line3115">3115    </a></b>	    }
+<b><a name="line3116">3116    </a></b>	
+<b><a name="line3117">3117    </a></b>	#endif
+<b><a name="line3118">3118    </a></b>	
+<b><a name="line3119">3119    </a></b>	    if(0 == gFplApiStruct.p_efuse_nand_setting->fast_scan_idpg_disable)
+<b><a name="line3120">3120    </a></b>	    {
+<b><a name="line3121">3121    </a></b>	        if(0 != p_id_table->idpg_valid_ch_cnt)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "p_id_table->idpg_valid_ch_cnt"(unsigned).</font>
+<b><a name="line3122">3122    </a></b>	        {
+<b><a name="line3123">3123    </a></b>	            // scan idpg end early needs cp addr from idpg
+<b><a name="line3124">3124    </a></b>	            for(U8 ubCh = 0; ubCh < p_id_table->idpg_valid_ch_cnt; ubCh++)
+<b><a name="line3125">3125    </a></b>	            {
+<b><a name="line3126">3126    </a></b>	                p_code_pointer_block_status->a_id_table_fsa[ubCh] = (U64)p_id_table->all_idpg_fsa[ubCh].all;
+<b><a name="line3127">3127    </a></b>	            }
+<b><a name="line3128">3128    </a></b>	            p_code_pointer_block_status->code_pointer_block_copy_count = p_id_table->idpg_valid_ch_cnt;
+<b><a name="line3129">3129    </a></b>	        }
+<b><a name="line3130">3130    </a></b>	    }
+<b><a name="line3131">3131    </a></b>	
+<b><a name="line3132">3132    </a></b>	    return;
+<b><a name="line3133">3133    </a></b>	}
+<b><a name="line3134">3134    </a></b>	
+<b><a name="line3135">3135    </a></b>	void revert_id_table_settings(ID_TABLE *p_id_table)
+<b><a name="line3136">3136    </a></b>	{
+<b><a name="line3137">3137    </a></b>	    id_table_general_landmark_handle((ID_TABLE_LANDMARK_PTR)(DBUF_API_BOOTCODE_ID_TABLE_BASE + p_id_table->general_landmark_post.offset), p_id_table->general_landmark_post.count);
+<b><a name="line3138">3138    </a></b>	
+<b><a name="line3139">3139    </a></b>	    return;
+<b><a name="line3140">3140    </a></b>	}
+<b><a name="line3141">3141    </a></b>	
+<b><a name="line3142">3142    </a></b>	U8 check_code_pointer_offset(const CODE_POINTER_INFO *p_code_pointer_info, U16 code_pointer_offset, CODE_POINTER *p_code_pointer, U32 data_buffer, U32 spare_buffer, LOAD_CODE_STATUS *p_load_code_status, CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line3143">3143    </a></b>	{
+<b><a name="line3144">3144    </a></b>	    U32 code_pointer_page;
+<b><a name="line3145">3145    </a></b>	    U32 code_pointer_valid_copy_bitmap;
+<b><a name="line3146">3146    </a></b>	
+<b><a name="line3147">3147    </a></b>	    U8 nand_retry, nand_retry_max;
+<b><a name="line3148">3148    </a></b>	
+<b><a name="line3149">3149    </a></b>	    //Indicates which Copies have not been checked
+<b><a name="line3150">3150    </a></b>	    U32 not_checked_copy_bitmap;
+<b><a name="line3151">3151    </a></b>	
+<b><a name="line3152">3152    </a></b>	    //Indicates which Copies have not been checked in the loops
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    while (status) {
+<b><a name="line474">474    </a></b>	        switch (cmd_info_ptr->op[cmd_info_ptr->op_id]) {
+<b><a name="line475">475    </a></b>	        case INST_END:
+<b><a name="line476">476    </a></b>	            status = FALSE;
+<b><a name="line477">477    </a></b>	            break;
+<b><a name="line478">478    </a></b>	
+<b><a name="line479">479    </a></b>	        case INST_CMD:
+<b><a name="line480">480    </a></b>	            param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line481">481    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line482">482    </a></b>	            cmd_info_ptr->data_id ++;
+<b><a name="line483">483    </a></b>	            param->cmd_addr.cmd_len_l++;
+<b><a name="line484">484    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line485">485    </a></b>	                if (cmd_info_ptr->op[cmd_info_ptr->op_id] != INST_CMD_EEh) {
+<b><a name="line486">486    </a></b>	                    cmd_info_ptr->op_id   ++;
+<b><a name="line487">487    </a></b>	                    cmd_info_ptr->data_id ++;
+<b><a name="line488">488    </a></b>	                }
+<b><a name="line489">489    </a></b>	            }
+<b><a name="line490">490    </a></b>	            break;
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	        case INST_ADR:
+<b><a name="line493">493    </a></b>	        case INST_POR_ADR:
+<b><a name="line494">494    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line495">495    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line496">496    </a></b>	            cmd_info_ptr->data_id ++;
+<b><a name="line497">497    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line498">498    </a></b>	            break;
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	        case INST_ADR_C_0:
+<b><a name="line501">501    </a></b>	            addr_ref_num   = ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] >> ADR_ZERO_CYCLE_BIT_NUM) & ADR_REF_CYCLE_MASK);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] >> 2U" (8 bits) is less that the right hand operand "7UL" (32 bits).</font>
+<b><a name="line502">502    </a></b>	            addr_zero_num  = (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & ADR_ZERO_CYCLE_MASK);
+<b><a name="line503">503    </a></b>	            for (i = 0U; i < (addr_ref_num + addr_zero_num); i++) {
+<b><a name="line504">504    </a></b>	                if (i < addr_ref_num) {
+<b><a name="line505">505    </a></b>	                    param->cmd_addr.addr[param->cmd_addr.addr_len] = cmd_info_ptr->data[cmd_info_ptr->data_id];
+<b><a name="line506">506    </a></b>	                    cmd_info_ptr->data_id ++;
+<b><a name="line507">507    </a></b>	                }
+<b><a name="line508">508    </a></b>	                param->cmd_addr.addr_len++;
+<b><a name="line509">509    </a></b>	            }
+<b><a name="line510">510    </a></b>	            cmd_info_ptr->op_id += 2U;
+<b><a name="line511">511    </a></b>	            break;
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	        case INST_DAT_C_0:
+<b><a name="line514">514    </a></b>	            data_ref_idx   = ((cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] >> DAT_ZERO_CYCLE_BIT_NUM) & DAT_REF_CYCLE_MASK);
+<b><a name="line515">515    </a></b>	            data_zero_num  = (cmd_info_ptr->op[cmd_info_ptr->op_id + 1U] & DAT_ZERO_CYCLE_MASK);
+<b><a name="line516">516    </a></b>	            for (i = 0U; i < (data_ref_idx + data_zero_num + 1U); i++) {
+<b><a name="line517">517    </a></b>	                if (get_feat == FALSE) {
+<b><a name="line518">518    </a></b>	                    if (i == data_ref_idx) {
+<b><a name="line519">519    </a></b>	                        param->cmd_addr.dat_buf[param->cmd_addr.dat_len] = retry_tbl[i];
+<b><a name="line520">520    </a></b>	                    }
+<b><a name="line521">521    </a></b>	                }
+<b><a name="line522">522    </a></b>	                param->cmd_addr.dat_len++;
+<b><a name="line523">523    </a></b>	            }
+<b><a name="line524">524    </a></b>	            cmd_info_ptr->op_id += 2U;
+<b><a name="line525">525    </a></b>	            break;
+<b><a name="line526">526    </a></b>	
+<b><a name="line527">527    </a></b>	        case INST_PLANE_ADR_RTY:
+<b><a name="line528">528    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = gFplApiStruct.plane_adr_tbl[param->comm.plane];
+<b><a name="line529">529    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line530">530    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line531">531    </a></b>	            break;
+<b><a name="line532">532    </a></b>	
+</pre></body>
+</html>

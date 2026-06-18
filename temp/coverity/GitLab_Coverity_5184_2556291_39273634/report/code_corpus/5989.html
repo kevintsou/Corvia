@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1721">1721    </a></b>	
+<b><a name="line1722">1722    </a></b>	    status = 0U;
+<b><a name="line1723">1723    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_MDLL, HAL_MDLL_TRACKING_TIMEOUT_LEN_MS);
+<b><a name="line1724">1724    </a></b>	    do {
+<b><a name="line1725">1725    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1726">1726    </a></b>	            status |= HAL_STATUS_MDLL_TRACKING_TIMEOUT;
+<b><a name="line1727">1727    </a></b>	            break;
+<b><a name="line1728">1728    </a></b>	        }
+<b><a name="line1729">1729    </a></b>	    } while (dal_fip_mdll_tracking_chk_done() != 1U);
+<b><a name="line1730">1730    </a></b>	
+<b><a name="line1731">1731    </a></b>	    if (dal_fip_mdll_tracking_end() != 0U) {
+<b><a name="line1732">1732    </a></b>	        status |= HAL_STATUS_MDLL_TRACKING_FAIL;
+<b><a name="line1733">1733    </a></b>	    }
+<b><a name="line1734">1734    </a></b>	
+<b><a name="line1735">1735    </a></b>	    return status;
+<b><a name="line1736">1736    </a></b>	}
+<b><a name="line1737">1737    </a></b>	
+<b><a name="line1738">1738    </a></b>	void hal_fip_set_io_driving(HAL_FIP_IO_DRV_STRUCT_PTR io_drv_ptr, U8 is_ctt)
+<b><a name="line1739">1739    </a></b>	{
+<b><a name="line1740">1740    </a></b>	    U8 ch;
+<b><a name="line1741">1741    </a></b>	
+<b><a name="line1742">1742    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1743">1743    </a></b>	        // IOLH_ALE/CLE/WEB/WPB/CEB are controled by same reg IOLH_CA
+<b><a name="line1744">1744    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_CA(ch, (U8)io_drv_ptr->hal_drv_ca);
+<b><a name="line1745">1745    </a></b>	        //dal_fip_set_io_driving_iolh_ctt(ch, (U8)io_drv_ptr->hal_drv_ctt_dq, (U8)io_drv_ptr->hal_drv_ctt_dqs, (U8)io_drv_ptr->hal_drv_ctt_reb);
+<b><a name="line1746">1746    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_CTT_DQ(ch, (U8)io_drv_ptr->hal_drv_ctt_dq);
+<b><a name="line1747">1747    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_CTT_DQS(ch, (U8)io_drv_ptr->hal_drv_ctt_dqs);
+<b><a name="line1748">1748    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_CTT_REB(ch, (U8)io_drv_ptr->hal_drv_ctt_reb);
+<b><a name="line1749">1749    </a></b>	
+<b><a name="line1750">1750    </a></b>	        if (is_ctt == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "is_ctt" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line1751">1751    </a></b>	            //dal_fip_set_io_driving_odt(ch, (U8)io_drv_ptr->hal_odt_ctt_dq_dqs, (U8)io_drv_ptr->hal_odt_ctt_dq_dqs);
+<b><a name="line1752">1752    </a></b>	            w_FLH_FPHI_REG_RX_ODT_DQ(ch, (U8)io_drv_ptr->hal_odt_ctt_dq_dqs);
+<b><a name="line1753">1753    </a></b>	            w_FLH_FPHI_REG_RX_ODT_DQS(ch, (U8)io_drv_ptr->hal_odt_ctt_dq_dqs);
+<b><a name="line1754">1754    </a></b>	        }
+<b><a name="line1755">1755    </a></b>	        else {
+<b><a name="line1756">1756    </a></b>	            //dal_fip_set_io_driving_odt(ch, (U8)io_drv_ptr->hal_odt_ltt_dq_dqs, (U8)io_drv_ptr->hal_odt_ltt_dq_dqs);
+<b><a name="line1757">1757    </a></b>	            w_FLH_FPHI_REG_RX_ODT_DQ(ch, (U8)io_drv_ptr->hal_odt_ltt_dq_dqs);
+<b><a name="line1758">1758    </a></b>	            w_FLH_FPHI_REG_RX_ODT_DQS(ch, (U8)io_drv_ptr->hal_odt_ltt_dq_dqs);
+<b><a name="line1759">1759    </a></b>	        }
+<b><a name="line1760">1760    </a></b>	
+<b><a name="line1761">1761    </a></b>	        //dal_fip_set_io_driving_iolh_ltt_up(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_dq, (U8)io_drv_ptr->hal_drv_ltt_chodt_dqs, (U8)io_drv_ptr->hal_drv_ltt_chodt_reb);
+<b><a name="line1762">1762    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQ(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_dq);
+<b><a name="line1763">1763    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQS(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_dqs);
+<b><a name="line1764">1764    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_REB(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_reb);
+<b><a name="line1765">1765    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQ_1(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_dq);
+<b><a name="line1766">1766    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQS_1(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_dqs);
+<b><a name="line1767">1767    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_UP_REB_1(ch, (U8)io_drv_ptr->hal_drv_ltt_chodt_reb);
+<b><a name="line1768">1768    </a></b>	
+<b><a name="line1769">1769    </a></b>	        //dal_fip_set_io_driving_iolh_ltt_dn(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_dq, (U8)io_drv_ptr->hal_drv_ltt_pd_dqs, (U8)io_drv_ptr->hal_drv_ltt_pd_reb);
+<b><a name="line1770">1770    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQ(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_dq);
+<b><a name="line1771">1771    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQS(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_dqs);
+<b><a name="line1772">1772    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_REB(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_reb);
+<b><a name="line1773">1773    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQ_1(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_dq);
+<b><a name="line1774">1774    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQS_1(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_dqs);
+<b><a name="line1775">1775    </a></b>	        w_FLH_FPHI_REG_TX_IOLH_LTT_DN_REB_1(ch, (U8)io_drv_ptr->hal_drv_ltt_pd_reb);
+<b><a name="line1776">1776    </a></b>	
+<b><a name="line1777">1777    </a></b>	
+<b><a name="line1778">1778    </a></b>	        dal_fip_set_io_driving_dynamic_odt(ch, (U8)io_drv_ptr->hal_odt_dq_dqs_en, 0U);
+<b><a name="line1779">1779    </a></b>	    }
+<b><a name="line1780">1780    </a></b>	}
+<b><a name="line1781">1781    </a></b>	void hal_set_fphy_ltt_drvn_in(U8 ch, U8 value)
+</pre></body>
+</html>

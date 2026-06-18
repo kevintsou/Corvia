@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1018">1018    </a></b>	        sec_sha_param.shake_out_type = 3U;
+<b><a name="line1019">1019    </a></b>	        sec_sha_param.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line1020">1020    </a></b>	        sec_sha_param.dummy_en       = FALSE;
+<b><a name="line1021">1021    </a></b>	        phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line1022">1022    </a></b>	
+<b><a name="line1023">1023    </a></b>	        // Padding
+<b><a name="line1024">1024    </a></b>	        *(U8 *)(U32 *)(temp_addr + HAL_SEC_PQC_MLDSA_CRH_LEN) = 0x0U;
+<b><a name="line1025">1025    </a></b>	        *(U8 *)(U32 *)(temp_addr + HAL_SEC_PQC_MLDSA_CRH_LEN + 1) = ctx_len;
+<b><a name="line1026">1026    </a></b>	        (void)memcpy((void *)(U32 *)(temp_addr + HAL_SEC_PQC_MLDSA_CRH_LEN + 2UL), (void *)(U32 *)(ctx_addr), ctx_len);
+<b><a name="line1027">1027    </a></b>	
+<b><a name="line1028">1028    </a></b>	        if ((HAL_SEC_PQC_MLDSA_CRH_LEN + 2 + ctx_len + message_size) > calculation_buffer_size)
+<b><a name="line1029">1029    </a></b>	        {
+<b><a name="line1030">1030    </a></b>	            sec_mldsa_pure_batch_sha_calculate(temp_addr, (U32)hash_buffer, (HAL_SEC_PQC_MLDSA_CRH_LEN + 2UL + ctx_len), message_address, message_size);
+<b><a name="line1031">1031    </a></b>	        }
+<b><a name="line1032">1032    </a></b>	        else
+<b><a name="line1033">1033    </a></b>	        {
+<b><a name="line1034">1034    </a></b>	            (void)memcpy((void *)(U32 *)(temp_addr + HAL_SEC_PQC_MLDSA_CRH_LEN + 2UL + ctx_len), (void *)message_address, message_size);
+<b><a name="line1035">1035    </a></b>	
+<b><a name="line1036">1036    </a></b>	            memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line1037">1037    </a></b>	            sec_sha_param.src_addr.low   = (U32)temp_addr;
+<b><a name="line1038">1038    </a></b>	            sec_sha_param.src_len        = HAL_SEC_PQC_MLDSA_CRH_LEN + 2 + ctx_len + message_size;
+<b><a name="line1039">1039    </a></b>	            sec_sha_param.targ_addr.low  = (U32)hash_buffer;
+<b><a name="line1040">1040    </a></b>	            sec_sha_param.sha_mode       =  HAL_SEC_SHA3_SHAKE_256_MODE;
+<b><a name="line1041">1041    </a></b>	            sec_sha_param.shake_out_type = 3U;
+<b><a name="line1042">1042    </a></b>	            sec_sha_param.timeout_val    = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line1043">1043    </a></b>	            sec_sha_param.dummy_en       = FALSE;
+<b><a name="line1044">1044    </a></b>	            phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line1045">1045    </a></b>	        }
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line1048">1048    </a></b>	        memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_512_DIGEST_LEN); //64B
+<b><a name="line1049">1049    </a></b>	
+<b><a name="line1050">1050    </a></b>	        tmp_msg_len = HAL_SEC_PQC_MLDSA_CRH_LEN;
+<b><a name="line1051">1051    </a></b>	        padding_msg_addr = hash_buffer + tmp_msg_len;
+<b><a name="line1052">1052    </a></b>	
+<b><a name="line1053">1053    </a></b>	        (void)memset((void *)mldsa_buf_ptr, 0, sizeof(HAL_SEC_PQC_MLDSA_BUF_S));
+<b><a name="line1054">1054    </a></b>	        (void)memset((void *)tmp_btcm_addr, 0, sizeof(HAL_SEC_PQC_MLDSA_TEMP_BUF_S));
+<b><a name="line1055">1055    </a></b>	
+<b><a name="line1056">1056    </a></b>	        mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_src  = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_src);
+<b><a name="line1057">1057    </a></b>	        mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_targ = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_targ);
+<b><a name="line1058">1058    </a></b>	        mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.u64_hash_sqz  = (U64)(mldsa_buf_ptr->verify.verify_buf.verify_hash_buffer.hash_sqz);
+<b><a name="line1059">1059    </a></b>	
+<b><a name="line1060">1060    </a></b>	        mldsa_buf_ptr->verify.temp_buf_ptr = (HAL_SEC_PQC_MLDSA_TEMP_BUF_S_PTR)(void *)(tmp_btcm_addr);
+<b><a name="line1061">1061    </a></b>	
+<b><a name="line1062">1062    </a></b>	        (void)memcpy((void *)(U32 *)(mldsa_buf_ptr->verify.verify_buf.verify_mu), (void *)(U32 *)(hash_buffer), HAL_SEC_PQC_MLDSA_CRH_LEN);
+<b><a name="line1063">1063    </a></b>	    }
+<b><a name="line1064">1064    </a></b>	    else  // prehash + sha2-512
+<b><a name="line1065">1065    </a></b>	    {
+<b><a name="line1066">1066    </a></b>	        sec_sha_param.src_addr.low  = (U32)message_address;
+<b><a name="line1067">1067    </a></b>	        sec_sha_param.src_len       = message_size;
+<b><a name="line1068">1068    </a></b>	        sec_sha_param.targ_addr.low = (U32)hash_buffer;
+<b><a name="line1069">1069    </a></b>	        sec_sha_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line1070">1070    </a></b>	        sec_sha_param.timeout_val   = HAL_SEC_BLOCKING_TIME_VAL;
+<b><a name="line1071">1071    </a></b>	        sec_sha_param.dummy_en      = FALSE;
+<b><a name="line1072">1072    </a></b>	        phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line1073">1073    </a></b>	
+<b><a name="line1074">1074    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1075">1075    </a></b>	        memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1076">1076    </a></b>	
+<b><a name="line1077">1077    </a></b>	        tmp_msg_len = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line1078">1078    </a></b>	        hash_src_addr = hash_buffer + tmp_msg_len;
+</pre></body>
+</html>

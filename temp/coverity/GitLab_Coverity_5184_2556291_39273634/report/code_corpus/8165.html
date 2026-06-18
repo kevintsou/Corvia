@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1139">1139    </a></b>	    Dump_SEC(tprintf("DSAV PA"));
+<b><a name="line1140">1140    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1141">1141    </a></b>	
+<b><a name="line1142">1142    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line1143">1143    </a></b>	}
+<b><a name="line1144">1144    </a></b>	
+<b><a name="line1145">1145    </a></b>	static U32 check_project_binary_code_sign_kaz(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U8 *project_binary_hash)
+<b><a name="line1146">1146    </a></b>	{
+<b><a name="line1147">1147    </a></b>	    U32 data_address, data_size;
+<b><a name="line1148">1148    </a></b>	    U32 key_address, key_size;
+<b><a name="line1149">1149    </a></b>	    U32 signature_address;
+<b><a name="line1150">1150    </a></b>	    U32 message_address, message_size;
+<b><a name="line1151">1151    </a></b>	    U32 hash_buffer = calculation_buffer;
+<b><a name="line1152">1152    </a></b>	
+<b><a name="line1153">1153    </a></b>	    U32 verify_sts;
+<b><a name="line1154">1154    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line1155">1155    </a></b>	
+<b><a name="line1156">1156    </a></b>	    SEC_SHA_PARAMS_T  sha2_param;
+<b><a name="line1157">1157    </a></b>	    HAL_SEC_PQC_KAZ_BUF_S_PTR sec_kaz_buf = (HAL_SEC_PQC_KAZ_BUF_S_PTR)(hash_buffer + 0x2000U);
+<b><a name="line1158">1158    </a></b>	
+<b><a name="line1159">1159    </a></b>	    Dump_SEC(tprintf("KAZ"));
+<b><a name="line1160">1160    </a></b>	
+<b><a name="line1161">1161    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line1162">1162    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line1163">1163    </a></b>	    key_size  = sizeof(KAZ_KEY_STRUCT);
+<b><a name="line1164">1164    </a></b>	
+<b><a name="line1165">1165    </a></b>	    //Key is located at after the original data
+<b><a name="line1166">1166    </a></b>	    key_address = data_address + data_size;
+<b><a name="line1167">1167    </a></b>	    //Signature is located right after the key, aligned to 512B
+<b><a name="line1168">1168    </a></b>	    signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "key_size" (unsigned) is not the same as that of the right operand "512 - 1"(signed).</font>
+<b><a name="line1169">1169    </a></b>	
+<b><a name="line1170">1170    </a></b>	    message_address = data_address;
+<b><a name="line1171">1171    </a></b>	    message_size = signature_address - data_address;
+<b><a name="line1172">1172    </a></b>	
+<b><a name="line1173">1173    </a></b>	    (void)memset(&sha2_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line1174">1174    </a></b>	    sha2_param.src_addr.all  = message_address;
+<b><a name="line1175">1175    </a></b>	    sha2_param.targ_addr.all = hash_buffer;
+<b><a name="line1176">1176    </a></b>	    sha2_param.src_len       = message_size;
+<b><a name="line1177">1177    </a></b>	    sha2_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line1178">1178    </a></b>	    (void)phal_sec_sha_blocking(&sha2_param);
+<b><a name="line1179">1179    </a></b>	    memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1180">1180    </a></b>	    memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1181">1181    </a></b>	
+<b><a name="line1182">1182    </a></b>	    verify_sts = phal_sec_pqc_kaz_verify((U8 *)hash_buffer, (U8 *)(U32 *)(signature_address), (U8 *)(U32 *)(key_address + 8U), sec_kaz_buf);
+<b><a name="line1183">1183    </a></b>	
+<b><a name="line1184">1184    </a></b>	    ret = (U8)(verify_sts == HAL_SEC_PQC_KAZ_ERROR(SEC_YES));
+<b><a name="line1185">1185    </a></b>	
+<b><a name="line1186">1186    </a></b>	    if (ret != SEC_YES)
+<b><a name="line1187">1187    </a></b>	    {
+<b><a name="line1188">1188    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line1189">1189    </a></b>	        Dump_SEC(tprintf("DSAV F!"));
+<b><a name="line1190">1190    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1191">1191    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1192">1192    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line1193">1193    </a></b>	    }
+<b><a name="line1194">1194    </a></b>	
+<b><a name="line1195">1195    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line1196">1196    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1197">1197    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line1198">1198    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line1199">1199    </a></b>	    }
+</pre></body>
+</html>

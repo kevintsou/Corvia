@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1351">1351    </a></b>	                    data_adr_ptr --;
+<b><a name="line1352">1352    </a></b>	                    fpl_ptr->por_rty_tbl[retry_idx][bit] = data_ref_ptr[data_adr_ptr];
+<b><a name="line1353">1353    </a></b>	                }
+<b><a name="line1354">1354    </a></b>	            }
+<b><a name="line1355">1355    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]por_rty_bit_map[%d] = 0x%x\r\n", retry_idx, por_rty_bit_map[retry_idx]);
+<b><a name="line1356">1356    </a></b>	        }
+<b><a name="line1357">1357    </a></b>	
+<b><a name="line1358">1358    </a></b>	        for (z = 0; z < EFUSE_PARAM_POR_RTY_TBL_SIZE; z++) {
+<b><a name="line1359">1359    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]por_rty_tbl[%d] = 0x%x 0x%x 0x%x 0x%x\r\n", \
+<b><a name="line1360">1360    </a></b>	                z, fpl_ptr->por_rty_tbl[z][0], fpl_ptr->por_rty_tbl[z][1], \
+<b><a name="line1361">1361    </a></b>	                fpl_ptr->por_rty_tbl[z][2], fpl_ptr->por_rty_tbl[z][3]);
+<b><a name="line1362">1362    </a></b>	        }
+<b><a name="line1363">1363    </a></b>	    }
+<b><a name="line1364">1364    </a></b>	
+<b><a name="line1365">1365    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->plane_address_enable == TRUE) {
+<b><a name="line1366">1366    </a></b>	        data_adr_ptr -= fpl_ptr->plane_count;
+<b><a name="line1367">1367    </a></b>	        memcpy((void *) fpl_ptr->plane_adr_tbl, (void *) & (data_ref_ptr[data_adr_ptr]), fpl_ptr->plane_count);
+<b><a name="line1368">1368    </a></b>	        for (z = 0; z < fpl_ptr->plane_count; z++) {
+<b><a name="line1369">1369    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]pln_adr_tbl[%d] = 0x%x\r\n", z, fpl_ptr->plane_adr_tbl[z]);
+<b><a name="line1370">1370    </a></b>	        }
+<b><a name="line1371">1371    </a></b>	    }
+<b><a name="line1372">1372    </a></b>	
+<b><a name="line1373">1373    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->set_feature_enable == TRUE) {
+<b><a name="line1374">1374    </a></b>	        data_adr_ptr -= fpl_ptr->set_if_adr_count;
+<b><a name="line1375">1375    </a></b>	        memcpy((void *) fpl_ptr->set_if_adr_tbl, (void *) & (data_ref_ptr[data_adr_ptr]), fpl_ptr->set_if_adr_count);
+<b><a name="line1376">1376    </a></b>	        for (z = 0; z < fpl_ptr->set_if_adr_count; z++) {
+<b><a name="line1377">1377    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]set_if_adr_tbl[%d] = 0x%x\r\n", z, fpl_ptr->set_if_adr_tbl[z]);
+<b><a name="line1378">1378    </a></b>	        }
+<b><a name="line1379">1379    </a></b>	
+<b><a name="line1380">1380    </a></b>	        data_adr_ptr -= fpl_ptr->set_if_dat_count;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "fpl_ptr->set_if_dat_count" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1381">1381    </a></b>	        memcpy((void *) fpl_ptr->set_if_dat_tbl, (void *) & (data_ref_ptr[data_adr_ptr]), fpl_ptr->set_if_dat_count);
+<b><a name="line1382">1382    </a></b>	        for (z = 0; z < fpl_ptr->set_if_dat_count; z++) {
+<b><a name="line1383">1383    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]set_if_dat_count[%d] = 0x%x\r\n", z, fpl_ptr->set_if_dat_tbl[z]);
+<b><a name="line1384">1384    </a></b>	        }
+<b><a name="line1385">1385    </a></b>	    }
+<b><a name="line1386">1386    </a></b>	
+<b><a name="line1387">1387    </a></b>	    data_adr_ptr -= 1;
+<b><a name="line1388">1388    </a></b>	
+<b><a name="line1389">1389    </a></b>	    while (cnt_end < (INST_ID_NUM - 3)) {
+<b><a name="line1390">1390    </a></b>	
+<b><a name="line1391">1391    </a></b>	        //tprintf("get_bit = %d", get_bit);
+<b><a name="line1392">1392    </a></b>	        //tprintf("data_ref_id = %d", data_adr_ptr);
+<b><a name="line1393">1393    </a></b>	
+<b><a name="line1394">1394    </a></b>	        if (get_bit < 10U) {
+<b><a name="line1395">1395    </a></b>	            val = MERGE_VAL(val, efuse_param_ptr[i], get_bit);
+<b><a name="line1396">1396    </a></b>	            get_bit += 16U;
+<b><a name="line1397">1397    </a></b>	            i ++;
+<b><a name="line1398">1398    </a></b>	        }
+<b><a name="line1399">1399    </a></b>	        //tprintf("val = %x", val);
+<b><a name="line1400">1400    </a></b>	
+<b><a name="line1401">1401    </a></b>	        op_code_ref_num = INST_REF_ZERO_OP_CODE;
+<b><a name="line1402">1402    </a></b>	        data_ref_num    = INST_REF_ZERO_BYTE_DATA;
+<b><a name="line1403">1403    </a></b>	
+<b><a name="line1404">1404    </a></b>	        //tprintf("val & 0x1F = %d", (val & EFUSE_PARAM_OP_CODE_MASK));
+<b><a name="line1405">1405    </a></b>	
+<b><a name="line1406">1406    </a></b>	        switch ((val & EFUSE_PARAM_OP_CODE_MASK)) {
+<b><a name="line1407">1407    </a></b>	        case INST_CMD:
+<b><a name="line1408">1408    </a></b>	            if (cmd_type == INST_ID_READ_CMD) {
+<b><a name="line1409">1409    </a></b>	                fpl_op_code_ref(&(fip_inst_ptr->inst[INST_ID_PREFIX_FOR_RETRY]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1410">1410    </a></b>	                fpl_data_ref(&(fip_inst_ptr->inst[INST_ID_PREFIX_FOR_RETRY]), data_ref_ptr, data_adr_ptr, INST_REF_ONE_BYTE_DATA);
+<b><a name="line1411">1411    </a></b>	            }
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line608">608    </a></b>	        wcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line609">609    </a></b>	
+<b><a name="line610">610    </a></b>	        // set log data index for SLOG_WDATA_CNT
+<b><a name="line611">611    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_WRITE, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line612">612    </a></b>	        wdata_cnt = hal_nvme_get_rw_log_from_qw_ctrl(1U);
+<b><a name="line613">613    </a></b>	
+<b><a name="line614">614    </a></b>	        // set log data index for busy timer
+<b><a name="line615">615    </a></b>	        busy_time = hal_nvme_get_busytime_from_qw_ctrl(PCIE_PF_0);
+<b><a name="line616">616    </a></b>	
+<b><a name="line617">617    </a></b>	        smart_data_ptr->data_unit_read_l     = ( (rdata_cnt % 1000) == 0 ) ? ( rdata_cnt / 1000 ) : (rdata_cnt / 1000 + 1);
+<b><a name="line618">618    </a></b>	        smart_data_ptr->data_unit_write_l    = ( (wdata_cnt % 1000) == 0 ) ? ( wdata_cnt / 1000 ) : (wdata_cnt / 1000 + 1);
+<b><a name="line619">619    </a></b>	        smart_data_ptr->host_read_cmds_l     = ( (rcmd_cnt  % 1000) == 0 ) ? ( rcmd_cnt  / 1000 ) : (rcmd_cnt  / 1000 + 1);
+<b><a name="line620">620    </a></b>	        smart_data_ptr->host_write_cmds_l    = ( (wcmd_cnt  % 1000) == 0 ) ? ( wcmd_cnt  / 1000 ) : (wcmd_cnt  / 1000 + 1);
+<b><a name="line621">621    </a></b>	        smart_data_ptr->ctrlr_busy_time_l    = busy_time;
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	        smart_data_ptr->pwr_cycles_l         = 1;
+<b><a name="line624">624    </a></b>	        break;
+<b><a name="line625">625    </a></b>	
+<b><a name="line626">626    </a></b>	    case LID_FW_SLOT_INFO:  // (M)
+<b><a name="line627">627    </a></b>	        Dump_NVME(tprintf("      >> FW Slot Log\n\r"));
+<b><a name="line628">628    </a></b>	        fw_slot_ptr = (NVME_FW_SLOT_INFO_PTR)buf_addr;
+<b><a name="line629">629    </a></b>	        fw_slot_ptr->afi = (1 << 4) | 1;    // both this time and next time use slot 1
+<b><a name="line630">630    </a></b>	        memcpy((void *) & (fw_slot_ptr->fsr1[0]), (void *) & (fw_version[0]), HOST_FW_VER_BYTES);
+<b><a name="line631">631    </a></b>	        break;
+<b><a name="line632">632    </a></b>	
+<b><a name="line633">633    </a></b>	    case LID_PERSISTENT_EVENT_LOG:
+<b><a name="line634">634    </a></b>	        action = log_ptr->lsp & BITMSK(2, 0);
+<b><a name="line635">635    </a></b>	        switch (action) {
+<b><a name="line636">636    </a></b>	        case NVME_PE_ACT_RD_LOG_DATA:
+<b><a name="line637">637    </a></b>	            if (host->nvme_feature.prstnt_establish_step == 1) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "host->nvme_feature.prstnt_establish_step" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line638">638    </a></b>	                nvme_prstnt_event_log(buf_addr, 0, host);
+<b><a name="line639">639    </a></b>	            }
+<b><a name="line640">640    </a></b>	            else {
+<b><a name="line641">641    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_CMD_SEQ_ERR);
+<b><a name="line642">642    </a></b>	            }
+<b><a name="line643">643    </a></b>	            break;
+<b><a name="line644">644    </a></b>	
+<b><a name="line645">645    </a></b>	        case NVME_PE_ACT_ESTABLISH_CONTEXT_AND_RD:
+<b><a name="line646">646    </a></b>	            if (host->nvme_feature.prstnt_establish_step == 0) {
+<b><a name="line647">647    </a></b>	                nvme_prstnt_event_log(buf_addr, 1, host);
+<b><a name="line648">648    </a></b>	                host->nvme_feature.prstnt_establish_step = 1;
+<b><a name="line649">649    </a></b>	            }
+<b><a name="line650">650    </a></b>	            else {
+<b><a name="line651">651    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_CMD_SEQ_ERR);
+<b><a name="line652">652    </a></b>	            }
+<b><a name="line653">653    </a></b>	            break;
+<b><a name="line654">654    </a></b>	
+<b><a name="line655">655    </a></b>	        default:
+<b><a name="line656">656    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line657">657    </a></b>	            break;
+<b><a name="line658">658    </a></b>	        }
+<b><a name="line659">659    </a></b>	        break;
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	    default:
+<b><a name="line662">662    </a></b>	        Dump_NVME(tprintf("      >> Invalid Log\n\r"));
+<b><a name="line663">663    </a></b>	        byte_cnt = 0;
+<b><a name="line664">664    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_LOG_PAGE);
+<b><a name="line665">665    </a></b>	        break;
+<b><a name="line666">666    </a></b>	    }
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	    if ( byte_cnt > 0 ) {
+</pre></body>
+</html>

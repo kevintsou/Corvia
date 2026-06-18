@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2126">2126    </a></b>	    hal_sec_sm9_z256_fp12_type3_frobenius(*t1, f, comm_buf);
+<b><a name="line2127">2127    </a></b>	    hal_sec_sm9_z256_fp12_mul(*t1, *t1, *t0, comm_buf);
+<b><a name="line2128">2128    </a></b>	
+<b><a name="line2129">2129    </a></b>	    hal_sec_sm9_z256_fp12_copy(r, *t1);
+<b><a name="line2130">2130    </a></b>	}
+<b><a name="line2131">2131    </a></b>	
+<b><a name="line2132">2132    </a></b>	void hal_sec_sm9_z256_easy_part_final_exponent(HAL_SEC_SM9_Z256_FP12_T r, HAL_SEC_SM9_Z256_FP12_T f, HAL_SEC_SM9_COMM_BUF_T_PTR comm_buf)
+<b><a name="line2133">2133    </a></b>	{
+<b><a name="line2134">2134    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *t0 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(comm_buf->comm_z256_final_exp_t0_addr);
+<b><a name="line2135">2135    </a></b>	    HAL_SEC_SM9_Z256_FP12_T *t1 = (HAL_SEC_SM9_Z256_FP12_T *)(void *)(U32 *)(comm_buf->comm_z256_final_exp_t1_addr);
+<b><a name="line2136">2136    </a></b>	
+<b><a name="line2137">2137    </a></b>	    hal_sec_sm9_z256_fp12_type6_frobenius(*t0, f);
+<b><a name="line2138">2138    </a></b>	    hal_sec_sm9_z256_fp12_inv(*t1, f, comm_buf);
+<b><a name="line2139">2139    </a></b>	    hal_sec_sm9_z256_fp12_mul(*t0, *t0, *t1, comm_buf);
+<b><a name="line2140">2140    </a></b>	    hal_sec_sm9_z256_fp12_type2_frobenius(*t1, *t0);
+<b><a name="line2141">2141    </a></b>	    hal_sec_sm9_z256_fp12_mul(*t0, *t0, *t1, comm_buf);
+<b><a name="line2142">2142    </a></b>	    hal_sec_sm9_z256_hard_part_final_exponent(*t0, *t0, comm_buf);
+<b><a name="line2143">2143    </a></b>	
+<b><a name="line2144">2144    </a></b>	    hal_sec_sm9_z256_fp12_copy(r, *t0);
+<b><a name="line2145">2145    </a></b>	}
+<b><a name="line2146">2146    </a></b>	
+<b><a name="line2147">2147    </a></b>	void hal_sec_sm9_z256_point_to_affine(HAL_SEC_SM9_Z256_AFFINE_POINT_T *Q, HAL_SEC_SM9_Z256_POINT_T *P)
+<b><a name="line2148">2148    </a></b>	{
+<b><a name="line2149">2149    </a></b>	    HAL_SEC_SM9_Z256_T z_inv = {0ULL};
+<b><a name="line2150">2150    </a></b>	
+<b><a name="line2151">2151    </a></b>	    // TODO:
+<b><a name="line2152">2152    </a></b>	    // assert(!sm9_z256_is_zero(P->Z));
+<b><a name="line2153">2153    </a></b>	
+<b><a name="line2154">2154    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_modp_mont_one;
+<b><a name="line2155">2155    </a></b>	    (void)memcpy(sm9_z256_modp_mont_one, SM9_Z256_MODP_MONT_ONE, sizeof(SM9_Z256_MODP_MONT_ONE));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "SM9_Z256_MODP_MONT_ONE" of type "HAL_SEC_SM9_Z256_T const *" is cast to type "U64 const *".</font>
+<b><a name="line2156">2156    </a></b>	    if (hal_sec_sm9_z256_equ(P->Z, sm9_z256_modp_mont_one) == 1U)
+<b><a name="line2157">2157    </a></b>	    {
+<b><a name="line2158">2158    </a></b>	        hal_sec_sm9_z256_copy(Q->X, P->X);
+<b><a name="line2159">2159    </a></b>	        hal_sec_sm9_z256_copy(Q->Y, P->Y);
+<b><a name="line2160">2160    </a></b>	        return;
+<b><a name="line2161">2161    </a></b>	    }
+<b><a name="line2162">2162    </a></b>	
+<b><a name="line2163">2163    </a></b>	    hal_sec_sm9_z256_modp_mont_inv(z_inv, P->Z);
+<b><a name="line2164">2164    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(Q->Y, P->Y, z_inv);
+<b><a name="line2165">2165    </a></b>	    hal_sec_sm9_z256_modp_mont_sqr(z_inv, z_inv);
+<b><a name="line2166">2166    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(Q->X, P->X, z_inv);
+<b><a name="line2167">2167    </a></b>	    hal_sec_sm9_z256_modp_mont_mul_pke(Q->Y, Q->Y, z_inv);
+<b><a name="line2168">2168    </a></b>	}
+<b><a name="line2169">2169    </a></b>	
+<b><a name="line2170">2170    </a></b>	// Multiplication with lw[0] + lw[1] * w^2 + lw[2] * w^3
+<b><a name="line2171">2171    </a></b>	void hal_sec_sm9_z256_fp12_line_mul(HAL_SEC_SM9_Z256_FP12_T r, HAL_SEC_SM9_Z256_FP12_T a, HAL_SEC_SM9_Z256_FP2_T lw[3], HAL_SEC_SM9_COMM_BUF_T_PTR comm_buf)
+<b><a name="line2172">2172    </a></b>	{
+<b><a name="line2173">2173    </a></b>	    HAL_SEC_SM9_Z256_FP4_T r0, r1, r2;
+<b><a name="line2174">2174    </a></b>	    HAL_SEC_SM9_Z256_FP2_T t = {{0ULL}};
+<b><a name="line2175">2175    </a></b>	    HAL_SEC_SM9_Z256_FP4_T lw4;
+<b><a name="line2176">2176    </a></b>	
+<b><a name="line2177">2177    </a></b>	    hal_sec_sm9_z256_fp2_copy(lw4[0], lw[0]);
+<b><a name="line2178">2178    </a></b>	    hal_sec_sm9_z256_fp2_copy(lw4[1], lw[2]);
+<b><a name="line2179">2179    </a></b>	
+<b><a name="line2180">2180    </a></b>	    hal_sec_sm9_z256_fp4_mul_pke(r0, a[0], lw4);
+<b><a name="line2181">2181    </a></b>	    hal_sec_sm9_z256_fp4_mul_pke(r1, a[1], lw4);
+<b><a name="line2182">2182    </a></b>	    hal_sec_sm9_z256_fp4_mul_pke(r2, a[2], lw4);
+<b><a name="line2183">2183    </a></b>	
+<b><a name="line2184">2184    </a></b>	    hal_sec_sm9_z256_fp2_mul  (t, a[0][0], lw[1], comm_buf);
+<b><a name="line2185">2185    </a></b>	    hal_sec_sm9_z256_fp2_add  (r2[0], r2[0], t);
+<b><a name="line2186">2186    </a></b>	    hal_sec_sm9_z256_fp2_mul  (t, a[0][1], lw[1], comm_buf);
+</pre></body>
+</html>

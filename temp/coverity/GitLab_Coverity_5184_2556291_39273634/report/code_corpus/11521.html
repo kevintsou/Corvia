@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/uart.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line96">96    </a></b>	/*
+<b><a name="line97">97    </a></b>	 * API to Init UART
+<b><a name="line98">98    </a></b>	 */
+<b><a name="line99">99    </a></b>	void sys_api_uart_init(U8 baudrate_mode, U8 rx_latch_position_config_enable, U8 rx_latch_position)
+<b><a name="line100">100    </a></b>	{
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    if(gUartInitDone)
+<b><a name="line103">103    </a></b>	    {
+<b><a name="line104">104    </a></b>	        return;
+<b><a name="line105">105    </a></b>	    }
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if (rx_latch_position_config_enable == TRUE) {
+<b><a name="line108">108    </a></b>	        bootcode_hal_uart_api_set_rx_lat_posi(rx_latch_position);
+<b><a name="line109">109    </a></b>	    }
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    switch (baudrate_mode) {
+<b><a name="line112">112    </a></b>	    case BAUDRATE_115200_MODE:
+<b><a name="line113">113    </a></b>	        hal_uart_init(UART_BAUDRATE_115200);
+<b><a name="line114">114    </a></b>	        break;
+<b><a name="line115">115    </a></b>	    case BAUDRATE_38400_MODE:
+<b><a name="line116">116    </a></b>	        hal_uart_init(UART_BAUDRATE_38400);
+<b><a name="line117">117    </a></b>	        break;
+<b><a name="line118">118    </a></b>	    case BAUDRATE_460800_MODE:
+<b><a name="line119">119    </a></b>	        hal_uart_init(UART_BAUDRATE_460800);
+<b><a name="line120">120    </a></b>	        break;
+<b><a name="line121">121    </a></b>	    case BAUDRATE_921600_MODE:
+<b><a name="line122">122    </a></b>	        hal_uart_init(UART_BAUDRATE_921600);
+<b><a name="line123">123    </a></b>	        break;
+<b><a name="line124">124    </a></b>	    default:
+<b><a name="line125">125    </a></b>	        break;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement does not have a non-empty default clause.</font>
+<b><a name="line126">126    </a></b>	    }
+<b><a name="line127">127    </a></b>	
+<b><a name="line128">128    </a></b>	    // disable UART OCP interrupt
+<b><a name="line129">129    </a></b>	    bootcode_hal_uart_api_set_int_mask_ocp_err_cnt((U8)TRUE);
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    hal_uart_interrupt_rx_enable(UART_INT_RX_FIFO_OVER_FLOW_ERR);
+<b><a name="line132">132    </a></b>	    hal_uart_interrupt_rx_enable(UART_INT_RX_FIFO_PARITY_ERR);
+<b><a name="line133">133    </a></b>	    hal_uart_interrupt_rx_enable(UART_INT_RX_FIFO_FRAME_ERR);
+<b><a name="line134">134    </a></b>	    hal_uart_interrupt_rx_enable(UART_INT_RX_FIFO_NOT_EMPTY);
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	    gUartInitDone = TRUE;
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+</pre></body>
+</html>

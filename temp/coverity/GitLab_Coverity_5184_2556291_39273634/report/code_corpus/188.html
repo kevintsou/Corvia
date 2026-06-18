@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line416">416    </a></b>	}
+<b><a name="line417">417    </a></b>	U8 dal_cmgr_get_int_en_p_wch_lca_err(U8 p_ofst)
+<b><a name="line418">418    </a></b>	{
+<b><a name="line419">419    </a></b>	    if (p_ofst == 0U)
+<b><a name="line420">420    </a></b>	    {
+<b><a name="line421">421    </a></b>	        return r_all_CMGR_P0_WCH_LCA_ERR_INT_EN();
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line424">424    </a></b>	    {
+<b><a name="line425">425    </a></b>	        return r_all_CMGR_P1_WCH_LCA_ERR_INT_EN();
+<b><a name="line426">426    </a></b>	    }
+<b><a name="line427">427    </a></b>	    else
+<b><a name="line428">428    </a></b>	    {
+<b><a name="line429">429    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line430">430    </a></b>	        return 0U;
+<b><a name="line431">431    </a></b>	    }
+<b><a name="line432">432    </a></b>	}
+<b><a name="line433">433    </a></b>	U8 dal_cmgr_get_int_en_p_ppaf_werr(U8 p_ofst)
+<b><a name="line434">434    </a></b>	{
+<b><a name="line435">435    </a></b>	    if (p_ofst == 0U)
+<b><a name="line436">436    </a></b>	    {
+<b><a name="line437">437    </a></b>	        return r_all_CMGR_P0_PPAF_WERR_INT_EN();
+<b><a name="line438">438    </a></b>	    }
+<b><a name="line439">439    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line440">440    </a></b>	    {
+<b><a name="line441">441    </a></b>	        return r_all_CMGR_P1_PPAF_WERR_INT_EN();
+<b><a name="line442">442    </a></b>	    }
+<b><a name="line443">443    </a></b>	    else
+<b><a name="line444">444    </a></b>	    {
+<b><a name="line445">445    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line446">446    </a></b>	        return 0U;
+<b><a name="line447">447    </a></b>	    }
+<b><a name="line448">448    </a></b>	}
+<b><a name="line449">449    </a></b>	
+<b><a name="line450">450    </a></b>	U8 dal_cmgr_get_int_en_p_sram_err_flag(U8 p_ofst)
+<b><a name="line451">451    </a></b>	{
+<b><a name="line452">452    </a></b>	    if (p_ofst == 0U)
+<b><a name="line453">453    </a></b>	    {
+<b><a name="line454">454    </a></b>	        return r_all_CMGR_P0_SRAM_ERR_FLAG_EN();
+<b><a name="line455">455    </a></b>	    }
+<b><a name="line456">456    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line457">457    </a></b>	    {
+<b><a name="line458">458    </a></b>	        return r_all_CMGR_P1_SRAM_ERR_FLAG_EN();
+<b><a name="line459">459    </a></b>	    }
+<b><a name="line460">460    </a></b>	    else
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line463">463    </a></b>	        return 0U;
+<b><a name="line464">464    </a></b>	    }
+<b><a name="line465">465    </a></b>	}
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	U8 dal_cmgr_get_int_ctm(void)
+<b><a name="line468">468    </a></b>	{
+<b><a name="line469">469    </a></b>	    return r_all_CMGR_CTM_INT();
+<b><a name="line470">470    </a></b>	}
+<b><a name="line471">471    </a></b>	
+<b><a name="line472">472    </a></b>	U8 dal_cmgr_get_int_cmgr_sram_err(void)
+<b><a name="line473">473    </a></b>	{
+<b><a name="line474">474    </a></b>	    return r_all_CMGR_SRAM_ERR_INT();
+<b><a name="line475">475    </a></b>	}
+<b><a name="line476">476    </a></b>	U8 dal_cmgr_get_int_p0_err(void)
+</pre></body>
+</html>

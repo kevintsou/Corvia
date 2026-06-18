@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line345">345    </a></b>	    while ((dal_sec_pke_get_tb_out() & ((U32)BIT0 << bitnum)) == 0UL)
+<b><a name="line346">346    </a></b>	    {
+<b><a name="line347">347    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line348">348    </a></b>	        {
+<b><a name="line349">349    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line350">350    </a></b>	            break;
+<b><a name="line351">351    </a></b>	        }
+<b><a name="line352">352    </a></b>	    }
+<b><a name="line353">353    </a></b>	}
+<b><a name="line354">354    </a></b>	
+<b><a name="line355">355    </a></b>	/*!
+<b><a name="line356">356    </a></b>	 @brief       clear specific TB value
+<b><a name="line357">357    </a></b>	 @param[in]   bitnum      - which TB bit to clear
+<b><a name="line358">358    </a></b>	 @param[in]   timeout_val - setting timeout value
+<b><a name="line359">359    </a></b>	
+<b><a name="line360">360    </a></b>	 @note
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	 */
+<b><a name="line365">365    </a></b>	void hal_sec_pke_clr_reg_tb_val(U8 bitnum, U64 timeout_val)
+<b><a name="line366">366    </a></b>	{
+<b><a name="line367">367    </a></b>	    ASSERT(0U, (bitnum < 16U));
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	    dal_sec_pke_clr_tb_in();
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    dal_sec_pke_set_tb_sel(bitnum);
+<b><a name="line372">372    </a></b>	    dal_sec_pke_set_tb_wr();
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    while (1U == dal_sec_pke_get_tb_wr()) {}
+<b><a name="line377">377    </a></b>	    // while (((dal_sec_pke_get_tb_out() & ((U32)BIT0 << bitnum)) > 0U) && (r32_r_cr_SR_HWCFG_8() == 0U)) {}  //TODO (need check system reg)
+<b><a name="line378">378    </a></b>	    while ((dal_sec_pke_get_tb_out() & ((U32)BIT0 << bitnum)) > 0U)
+<b><a name="line379">379    </a></b>	    {
+<b><a name="line380">380    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line381">381    </a></b>	        {
+<b><a name="line382">382    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line383">383    </a></b>	            break;
+<b><a name="line384">384    </a></b>	        }
+<b><a name="line385">385    </a></b>	    }
+<b><a name="line386">386    </a></b>	}
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	/*!
+<b><a name="line389">389    </a></b>	 @brief       check specific TB value
+<b><a name="line390">390    </a></b>	 @param[in]   bitnum       - which TB bit to check
+<b><a name="line391">391    </a></b>	 @param[in]   timeout_us   - timeout value
+<b><a name="line392">392    </a></b>	 @param[out]  ret          - check tb register done or not
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	 @return    check tb register done or not
+<b><a name="line395">395    </a></b>	 @retval     0 - check not finished
+<b><a name="line396">396    </a></b>	 @retval     1 - check pass
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	 @note
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	 */
+<b><a name="line403">403    </a></b>	U8 hal_sec_pke_chk_reg_tb_val(U8 bitnum, U64 timeout_val)
+<b><a name="line404">404    </a></b>	{
+<b><a name="line405">405    </a></b>	    ASSERT(0U, (bitnum < 16U));
+</pre></body>
+</html>

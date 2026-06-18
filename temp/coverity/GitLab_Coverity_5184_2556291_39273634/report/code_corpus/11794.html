@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1278">1278    </a></b>	
+<b><a name="line1279">1279    </a></b>	    case NVME_CNS_NSID_DES_LIST: // cns = 3
+<b><a name="line1280">1280    </a></b>	        Dump_NVME(tprintf("      >> identify NSID des list.\n\r"));
+<b><a name="line1281">1281    </a></b>	        fill_cns_nsid_des_list(buf_addr, NS1);
+<b><a name="line1282">1282    </a></b>	        break;
+<b><a name="line1283">1283    </a></b>	
+<b><a name="line1284">1284    </a></b>	    default:
+<b><a name="line1285">1285    </a></b>	        vuc_cq_report_status(param->cq, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1286">1286    </a></b>	        break;
+<b><a name="line1287">1287    </a></b>	    }
+<b><a name="line1288">1288    </a></b>	
+<b><a name="line1289">1289    </a></b>	}
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	void vuc_nvme_get_log_page(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line1292">1292    </a></b>	{
+<b><a name="line1293">1293    </a></b>	    Dump_NVME(tprintf("  >> get log\n\r"));
+<b><a name="line1294">1294    </a></b>	
+<b><a name="line1295">1295    </a></b>	    volatile VUC_GET_LOG_PARAM_PTR sq = (VUC_GET_LOG_PARAM_PTR)param->sq;
+<b><a name="line1296">1296    </a></b>	    U32 byte_cnt = (sq->ndt) * 4;
+<b><a name="line1297">1297    </a></b>	    U32 buf_addr = (U32) param->host_buf;
+<b><a name="line1298">1298    </a></b>	    NVME_SMART_DATA_PTR                 smart_data_ptr;
+<b><a name="line1299">1299    </a></b>	    NVME_FW_SLOT_INFO_PTR               fw_slot_ptr;
+<b><a name="line1300">1300    </a></b>	    // for NVME_GMGR_GP_LOG_DATA
+<b><a name="line1301">1301    </a></b>	    U64 rcmd_cnt;
+<b><a name="line1302">1302    </a></b>	    U64 wcmd_cnt;
+<b><a name="line1303">1303    </a></b>	    U64 rdata_cnt;
+<b><a name="line1304">1304    </a></b>	    U64 wdata_cnt;
+<b><a name="line1305">1305    </a></b>	    U64 busy_time;
+<b><a name="line1306">1306    </a></b>	
+<b><a name="line1307">1307    </a></b>	    memset((void *)buf_addr, 0, byte_cnt);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	    if (byte_cnt > LC_BYTE_SIZE) {
+<b><a name="line1310">1310    </a></b>	        vuc_cq_report_status(param->cq, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1311">1311    </a></b>	        return;
+<b><a name="line1312">1312    </a></b>	    }
+<b><a name="line1313">1313    </a></b>	
+<b><a name="line1314">1314    </a></b>	    //if (sq->offset != 0)
+<b><a name="line1315">1315    </a></b>	    //{
+<b><a name="line1316">1316    </a></b>	    //    vuc_cq_report_status(param->cq, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line1317">1317    </a></b>	    //    return;
+<b><a name="line1318">1318    </a></b>	    //}
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    Dump_NVME(tprintf("[VUC] GetLogPage LID :%x\n", sq->log_index));
+<b><a name="line1321">1321    </a></b>	
+<b><a name="line1322">1322    </a></b>	    switch (sq->log_index) {
+<b><a name="line1323">1323    </a></b>	    case LID_ERR_INFO:      // (M)
+<b><a name="line1324">1324    </a></b>	        Dump_NVME(tprintf("      >> Err Info Log\n\r"));
+<b><a name="line1325">1325    </a></b>	        break;
+<b><a name="line1326">1326    </a></b>	
+<b><a name="line1327">1327    </a></b>	    case LID_SMART_INFO:    // (M)
+<b><a name="line1328">1328    </a></b>	        Dump_NVME(tprintf("      >> SMART Info Log\n\r"));
+<b><a name="line1329">1329    </a></b>	        smart_data_ptr                       = ( NVME_SMART_DATA_PTR )buf_addr;
+<b><a name="line1330">1330    </a></b>	        smart_data_ptr->comp_temp            = 273 + 30;
+<b><a name="line1331">1331    </a></b>	        smart_data_ptr->available_spare      = 100;
+<b><a name="line1332">1332    </a></b>	        smart_data_ptr->available_spare_thes = 5;
+<b><a name="line1333">1333    </a></b>	
+<b><a name="line1334">1334    </a></b>	        // set log data index for SLOG_RCMD_CNT
+<b><a name="line1335">1335    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_READ, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line1336">1336    </a></b>	        rcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line1337">1337    </a></b>	
+<b><a name="line1338">1338    </a></b>	        // set log data index for SLOG_RDATA_CNT
+</pre></body>
+</html>

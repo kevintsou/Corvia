@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1003">1003    </a></b>	    //Update the data count in the SMBus buffer
+<b><a name="line1004">1004    </a></b>	    p_smbm->tx.uwCount = (sizeof(*p_medium_specific_header) + packet_descriptor.size);
+<b><a name="line1005">1005    </a></b>	    p_smbm->tx.uwOffset = 0U;
+<b><a name="line1006">1006    </a></b>	
+<b><a name="line1007">1007    </a></b>	    // mctp_set_smbus_block_write_register(NVME_MI_RSP_MSG_STS_SUCCESS, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line1008">1008    </a></b>	    // phal_smbm_set_txrx_sys_addr(SMBUS0, phal_smb_point_convert2_U64(p_smbm->tx.base.pu8), phal_smb_point_convert2_U64(p_smbm->rx.base.pu8));
+<b><a name="line1009">1009    </a></b>	    phal_set_smbm_block_write_register(SMBUS0, 0, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line1010">1010    </a></b>	}
+<b><a name="line1011">1011    </a></b>	
+<b><a name="line1012">1012    </a></b>	void mctp_smbus_send_more_preocessing_required_response(MCTP_MANAGEMENT *p_mctp, SMBM *p_smbm)
+<b><a name="line1013">1013    </a></b>	{
+<b><a name="line1014">1014    </a></b>	    NVME_MI_CMD_REQ_MSG_PTR p_nvme_mi_cmd_req_msg;
+<b><a name="line1015">1015    </a></b>	    NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg;
+<b><a name="line1016">1016    </a></b>	    MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *p_medium_specific_header;
+<b><a name="line1017">1017    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line1018">1018    </a></b>	    MCTP_TRANSPORT_INFO_SMBUS *p_destination_transport_info;
+<b><a name="line1019">1019    </a></b>	    MCTP_TRANSPORT_INFO_SMBUS *p_source_transport_info;
+<b><a name="line1020">1020    </a></b>	    DATA_DESCRIPTOR packet_descriptor;
+<b><a name="line1021">1021    </a></b>	
+<b><a name="line1022">1022    </a></b>	    //Bootcode transmit handler only one
+<b><a name="line1023">1023    </a></b>	    p_transmit_handler = &p_mctp->transmit_handler;
+<b><a name="line1024">1024    </a></b>	
+<b><a name="line1025">1025    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line1026">1026    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line1027">1027    </a></b>	
+<b><a name="line1028">1028    </a></b>	    p_nvme_mi_cmd_req_msg = (NVME_MI_CMD_REQ_MSG_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line1029">1029    </a></b>	    p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line1030">1030    </a></b>	
+<b><a name="line1031">1031    </a></b>	    //Init response header + format (8 byte)
+<b><a name="line1032">1032    </a></b>	    memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line1033">1033    </a></b>	
+<b><a name="line1034">1034    </a></b>	    p_nvme_mi_cmd_resp_msg->dw1.more_processing_required.status = NVME_MI_RSP_MSG_STS_MORE_PROCESSING_REQUIRED;
+<b><a name="line1035">1035    </a></b>	
+<b><a name="line1036">1036    </a></b>	    p_nvme_mi_cmd_resp_msg->dw1.more_processing_required.mprt = 0x80U; // 128(80h) * 100ms = 12.8s
+<b><a name="line1037">1037    </a></b>	
+<b><a name="line1038">1038    </a></b>	    mctp_message_handle_nvme_mi_message_response(
+<b><a name="line1039">1039    </a></b>	        &p_transmit_handler->message_info,
+<b><a name="line1040">1040    </a></b>	        p_nvme_mi_cmd_req_msg->mi_header.csi,
+<b><a name="line1041">1041    </a></b>	        NMIMT_NVME_ADMIN_COMMAND,
+<b><a name="line1042">1042    </a></b>	        (U8 *)p_nvme_mi_cmd_resp_msg,
+<b><a name="line1043">1043    </a></b>	        sizeof(NVME_MI_CMD_RESP_MSG),
+<b><a name="line1044">1044    </a></b>	        0U,
+<b><a name="line1045">1045    </a></b>	        0U);
+<b><a name="line1046">1046    </a></b>	
+<b><a name="line1047">1047    </a></b>	    //Prepare the SMBus data to be spent
+<b><a name="line1048">1048    </a></b>	    p_source_transport_info = (MCTP_TRANSPORT_INFO_SMBUS *) & (p_transmit_handler->message_info.p_transport->transport_info);
+<b><a name="line1049">1049    </a></b>	    p_destination_transport_info = ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_transmit_handler->message_info.source_transport_info));
+<b><a name="line1050">1050    </a></b>	
+<b><a name="line1051">1051    </a></b>	    //Medium Specific Header
+<b><a name="line1052">1052    </a></b>	    p_medium_specific_header = (MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *) & (p_smbm->tx.base.pu8[0U]);
+<b><a name="line1053">1053    </a></b>	    p_medium_specific_header->command_code = MCTP_SMBUS_COMMAND_CODE;
+<b><a name="line1054">1054    </a></b>	    p_medium_specific_header->byte_count = 1U;
+<b><a name="line1055">1055    </a></b>	    p_medium_specific_header->ipmi = 1U;
+<b><a name="line1056">1056    </a></b>	    p_medium_specific_header->source_slave_address = (p_source_transport_info->slave_address >> 1U);
+<b><a name="line1057">1057    </a></b>	
+<b><a name="line1058">1058    </a></b>	    //Transport Header + Packet Payload
+<b><a name="line1059">1059    </a></b>	    packet_descriptor.p_base = &(p_smbm->tx.base.pu8[sizeof(*p_medium_specific_header)]);
+<b><a name="line1060">1060    </a></b>	    packet_descriptor.size = (p_smbm->tx.uwSize - sizeof(*p_medium_specific_header));
+<b><a name="line1061">1061    </a></b>	    mctp_message_transmit_handler_disassemble_message(p_transmit_handler, &packet_descriptor);
+<b><a name="line1062">1062    </a></b>	
+<b><a name="line1063">1063    </a></b>	    //Update the Byte Count in the Block Write command
+</pre></body>
+</html>

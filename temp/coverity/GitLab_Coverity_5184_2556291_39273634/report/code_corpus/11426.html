@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line110">110    </a></b>	                {
+<b><a name="line111">111    </a></b>	                    gpFwSimCtrl0Reg->send_cpl= 1;
+<b><a name="line112">112    </a></b>	                }
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	                gpFwSimCtrl1Reg->ctag= gHostApiStruct.hcmd.payload.info.nonuser.ctag;
+<b><a name="line115">115    </a></b>	#if 0
+<b><a name="line116">116    </a></b>	                if (HAL_SIM_CHK(SIM_BOOT_CODE, BOOT_CODE_NO_LOAD_CODE)) {
+<b><a name="line117">117    </a></b>	                    log_printf("\n\r SIM_REG_NO_LOAD_CODE");
+<b><a name="line118">118    </a></b>	                }
+<b><a name="line119">119    </a></b>	                if (HAL_SIM_CHK(SIM_BOOT_CODE, BOOT_CODE_SEND_CPL)) {
+<b><a name="line120">120    </a></b>	                    log_printf("\n\r SIM_REG_SEND_CPL");
+<b><a name="line121">121    </a></b>	                }
+<b><a name="line122">122    </a></b>	                if (HAL_SIM_CHK(SIM_BOOT_CODE, BOOT_CODE_NOT_INIT_HOST_HW)) {
+<b><a name="line123">123    </a></b>	                    log_printf("\n\r SIM_REG_NOT_INIT_HOST_HW");
+<b><a name="line124">124    </a></b>	                }
+<b><a name="line125">125    </a></b>	                if (GET_CR_SIM_STS(0)) {
+<b><a name="line126">126    </a></b>	                    log_printf("\n\r SIM_REG_CTAG: 0x%x", GET_CR_SIM_STS(0));
+<b><a name="line127">127    </a></b>	                }
+<b><a name="line128">128    </a></b>	#endif
+<b><a name="line129">129    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line130">130    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line133">133    </a></b>	                if (TRUE == host->hcmd.mctp_fake_hcmd)
+<b><a name="line134">134    </a></b>	                {
+<b><a name="line135">135    </a></b>	                    mctp_smbus_send_cpl_after_jump(&gMCTP, &gSMBM);
+<b><a name="line136">136    </a></b>	                }
+<b><a name="line137">137    </a></b>	#endif
+<b><a name="line138">138    </a></b>	                jump_pram((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE);
+<b><a name="line139">139    </a></b>	                while (1);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_15_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The body of the "while" loop is not a compound statement.</font>
+<b><a name="line140">140    </a></b>	            }
+<b><a name="line141">141    </a></b>	        }
+<b><a name="line142">142    </a></b>	        else
+<b><a name="line143">143    </a></b>	        {
+<b><a name="line144">144    </a></b>	            switch (sq->sub_feature)
+<b><a name="line145">145    </a></b>	            {
+<b><a name="line146">146    </a></b>	                default:
+<b><a name="line147">147    </a></b>	                /* fall through */
+<b><a name="line148">148    </a></b>	                case VUC_ISP_JUMP_ROM_MODE_LOAD_FW:
+<b><a name="line149">149    </a></b>	#if DB_VUC_ISP_JUMP
+<b><a name="line150">150    </a></b>	                    Dump_Vendor(tprintf("\n\r Jump to Boot Code then load FW"));
+<b><a name="line151">151    </a></b>	#endif
+<b><a name="line152">152    </a></b>	                    gpFwSimCtrl0Reg->no_load_code = 0;
+<b><a name="line153">153    </a></b>	                    gpFwSimCtrl0Reg->not_init_host_hw= 1;
+<b><a name="line154">154    </a></b>	
+<b><a name="line155">155    </a></b>	                    if (host_service_type != HOST_SERVICE_UART_TYPE)
+<b><a name="line156">156    </a></b>	                    {
+<b><a name="line157">157    </a></b>	                        if (FALSE == host->hcmd.mctp_fake_hcmd)
+<b><a name="line158">158    </a></b>	                        {
+<b><a name="line159">159    </a></b>	                            gpFwSimCtrl0Reg->send_cpl= 1;
+<b><a name="line160">160    </a></b>	                        }
+<b><a name="line161">161    </a></b>	                        else
+<b><a name="line162">162    </a></b>	                        {
+<b><a name="line163">163    </a></b>	                            gpFwSimCtrl0Reg->smbus_send_cpl= 1;
+<b><a name="line164">164    </a></b>	                        }
+<b><a name="line165">165    </a></b>	                    }
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	                    mode = ISP_ROM_MODE;
+<b><a name="line168">168    </a></b>	                    break;
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	                case VUC_ISP_JUMP_ROM_MODE:
+</pre></body>
+</html>

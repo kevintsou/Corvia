@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line216">216    </a></b>	    if (host_flow->attr.pcie_link_mode == PCIE_NORMAL_LINK)
+<b><a name="line217">217    </a></b>	    {
+<b><a name="line218">218    </a></b>	        dal_init_pcie_int(PCIE_PORT_0);
+<b><a name="line219">219    </a></b>	        host_pcie_init_interrupt_resource();    // (icv: host_ramdisk_pcie_init_interrupt_resource_by_port)
+<b><a name="line220">220    </a></b>	        host_snps_reg_init(pcie);               // synopsys phy init (icv: host_ramdisk_snps_reg_init)
+<b><a name="line221">221    </a></b>	
+<b><a name="line222">222    </a></b>	        hal_fw_pcie_set_pl_bist_cap(0,0x01);
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	    phal_check_pcie_phy_done();
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    if (host_flow->attr.pcie_link_mode == PCIE_NORMAL_LINK)
+<b><a name="line228">228    </a></b>	    {
+<b><a name="line229">229    </a></b>	        U8 efuse_pcie_landmark_data_buf[EFUSE_BANK_PCIE_LANDMARK_COUNT * 32];
+<b><a name="line230">230    </a></b>	        eFuseToRam((U32)efuse_pcie_landmark_data_buf, EF_PCIE_LM0_BANK, FALSE);
+<b><a name="line231">231    </a></b>	        eFuseToRam((U32)(&efuse_pcie_landmark_data_buf[32]), EF_PCIE_LM1_BANK, FALSE);
+<b><a name="line232">232    </a></b>	        efuse_pcie_landmark_handle((EFUSE_PCIE_LANDMARK_PTR)efuse_pcie_landmark_data_buf, sizeof(efuse_pcie_landmark_data_buf));
+<b><a name="line233">233    </a></b>	    }
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	#if HOST_ID_TABLE
+<b><a name="line236">236    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV10));
+<b><a name="line237">237    </a></b>	    host_api_set_id_table_config(host);
+<b><a name="line238">238    </a></b>	#endif
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	    host->host_event.pcie_init_done = TRUE;
+<b><a name="line241">241    </a></b>	}
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	void host_pcie_init_interrupt_resource(void)
+<b><a name="line244">244    </a></b>	{
+<b><a name="line245">245    </a></b>	    U8  queue_cnt = NVME_MAX_Q_CNT;
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event assignment:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning: "queue_cnt" = "9".</font>
+<b><a name="line246">246    </a></b>	    U32 number_of_msi = 0;
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	    if (queue_cnt > 1U)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event const:</font></b> <font face="Arial"; size="3"; color="#FF5959">At condition "queue_cnt > 1U", the value of "queue_cnt" must be equal to 9.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition "queue_cnt > 1U" must be true.</font>
+<b><a name="line249">249    </a></b>	    {
+<b><a name="line250">250    </a></b>	        queue_cnt--;
+<b><a name="line251">251    </a></b>	        number_of_msi = 1;
+<b><a name="line252">252    </a></b>	    }
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	    while ((queue_cnt >>= 1U) > 0U)
+<b><a name="line255">255    </a></b>	    {
+<b><a name="line256">256    </a></b>	        number_of_msi++;
+<b><a name="line257">257    </a></b>	    }
+<b><a name="line258">258    </a></b>	    Dump_PCIE(tprintf("number_of_msi:0x%x",number_of_msi));
+<b><a name="line259">259    </a></b>	    phal_set_number_of_msi_msg(PCIE_PORT_0, PCIE_PF_0, number_of_msi);
+<b><a name="line260">260    </a></b>	    phal_set_msix_table_size(PCIE_PORT_0, PCIE_PF_0, NVME_MAX_IV_NUM);
+<b><a name="line261">261    </a></b>	}
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	// refer to icv: host_ramdisk_snps_reg_init
+<b><a name="line264">264    </a></b>	void host_snps_reg_init(PCIE_STRUCT_PTR pcie)
+<b><a name="line265">265    </a></b>	{
+<b><a name="line266">266    </a></b>	    PCIE_BAR_STRUCT bar;
+<b><a name="line267">267    </a></b>	    U8 pfid = PCIE_PF_0;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	    /********** Config space registers init flow start **********/
+<b><a name="line270">270    </a></b>	    // X3 only have single port 64PF or 1PF + 128VF/ Dual port 1 PF + 64 VF
+<b><a name="line271">271    </a></b>	    // Set vf count
+<b><a name="line272">272    </a></b>	    dal_set_sriov_bypass_en(PCIE_PORT_0, PCIE_ENABLE);
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	    // r_link_req_rst_not_flsh_axi_en
+<b><a name="line275">275    </a></b>	    dal_set_r_link_req_rst_not_flsh_axi_en(0, PCIE_ENABLE);
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    *(volatile U32 *) (0x03116008U + (pfid * 0x800U)) &= (0xFFFFFF00U); // revision id = port id
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    //force gen 1
+</pre></body>
+</html>

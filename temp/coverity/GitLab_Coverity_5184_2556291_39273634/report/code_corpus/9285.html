@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line355">355    </a></b>	    Dump_XModem(tprintf("xmod_buf: 0x%x", xmod_buf));
+<b><a name="line356">356    </a></b>	    Dump_XModem(tprintf("packet_size: %d", xmodem->packet_size));
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    for (buf_idx = 0; buf_idx < xmodem->packet_size; buf_idx++) { //print too much, it may cuase uart vuc fail, so only print 8 bytes
+<b><a name="line359">359    </a></b>	#if 0
+<b><a name="line360">360    </a></b>	        if ((buf_idx % 16) == 0) {
+<b><a name="line361">361    </a></b>	            Dump_XModem(tprintf("\n\r"));
+<b><a name="line362">362    </a></b>	        }
+<b><a name="line363">363    </a></b>	        Dump_XModem(tprintf(" %x", xmod_buf[buf_idx]));
+<b><a name="line364">364    </a></b>	#endif
+<b><a name="line365">365    </a></b>	        xmodem_send_byte(xmod_buf[buf_idx]);
+<b><a name="line366">366    </a></b>	    }
+<b><a name="line367">367    </a></b>	}
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	static void xmodem_send_to_state(XMOD_STRUCT_PTR xmodem, U8 next_state)
+<b><a name="line370">370    </a></b>	{
+<b><a name="line371">371    </a></b>	    Dump_XModem(tprintf("S%d->%d", xmodem->send_state, next_state));
+<b><a name="line372">372    </a></b>	    xmodem->send_state = next_state;
+<b><a name="line373">373    </a></b>	}
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	void xmodem_send_handler(XMOD_STRUCT_PTR xmodem, U8 xmod_data)
+<b><a name="line376">376    </a></b>	{
+<b><a name="line377">377    </a></b>	    Dump_XModem(tprintf("X%d s%x", xmodem->send_state, xmod_data));
+<b><a name="line378">378    </a></b>	    if (XMOD_CAN == xmod_data) {
+<b><a name="line379">379    </a></b>	        xmodem->abort_type = XMOD_RCV_CANCEL;
+<b><a name="line380">380    </a></b>	        xmodem_send_to_state(xmodem, XMOD_SEND_INVALID_STATE);
+<b><a name="line381">381    </a></b>	        return;
+<b><a name="line382">382    </a></b>	    }
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    if (XMOD_SEND_WAIT == xmodem->send_state) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "20" (signed) is not the same as that of the right operand "xmodem->send_state"(unsigned).</font>
+<b><a name="line385">385    </a></b>	        /*
+<b><a name="line386">386    </a></b>	         * Wait state, only "C" and "NAK" are acceptable.
+<b><a name="line387">387    </a></b>	         */
+<b><a name="line388">388    </a></b>	        if ((XMOD_CRC16 == xmod_data) || (XMOD_NAK == xmod_data)) {
+<b><a name="line389">389    </a></b>	            /*
+<b><a name="line390">390    </a></b>	             *  Setup packet depends on request, go to send data process.
+<b><a name="line391">391    </a></b>	             */
+<b><a name="line392">392    </a></b>	            xmodem->protect_mode = xmod_data;
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	            xmodem_send_packet_setup(xmodem);
+<b><a name="line395">395    </a></b>	            xmodem_send_to_state(xmodem, XMOD_SEND_1ST_TOK);
+<b><a name="line396">396    </a></b>	        }
+<b><a name="line397">397    </a></b>	    }
+<b><a name="line398">398    </a></b>	    else if (XMOD_SEND_POLL_FEEDBACK == xmodem->send_state) {
+<b><a name="line399">399    </a></b>	        if (XMOD_ACK == xmod_data) {
+<b><a name="line400">400    </a></b>	            /*
+<b><a name="line401">401    </a></b>	             *  Send packet successed, increase send byte count and shift data buffer offset.
+<b><a name="line402">402    </a></b>	             */
+<b><a name="line403">403    </a></b>	            Dump_XModem(tprintf("[packet size %d]", xmodem->packet_size));
+<b><a name="line404">404    </a></b>	            Dump_XModem(tprintf("[packet %d sent]", xmodem->packet_id));
+<b><a name="line405">405    </a></b>	            Dump_XModem(tprintf("[buffer] 0x%x", xmodem->xmod_buf));
+<b><a name="line406">406    </a></b>	            xmodem_send_packet_refresh(xmodem, xmodem->packet_size);
+<b><a name="line407">407    </a></b>	            xmodem->packet_id++;
+<b><a name="line408">408    </a></b>	
+<b><a name="line409">409    </a></b>	            if (xmodem->send_byte_cnt < xmodem->trans_byte_cnt) {
+<b><a name="line410">410    </a></b>	                /*
+<b><a name="line411">411    </a></b>	                 *  During data transmission, go to send data process.
+<b><a name="line412">412    </a></b>	                 */
+<b><a name="line413">413    </a></b>	                xmodem_send_packet_setup(xmodem);
+<b><a name="line414">414    </a></b>	                xmodem_send_to_state(xmodem, XMOD_SEND_1ST_TOK);
+<b><a name="line415">415    </a></b>	            }
+</pre></body>
+</html>

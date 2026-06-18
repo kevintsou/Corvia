@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3386">3386    </a></b>	                            sal_log_tracker_set(sal_locate(0xEC, TYPE_LOAD_CODE_ERR));
+<b><a name="line3387">3387    </a></b>	                            //The other backups do not need to be read since
+<b><a name="line3388">3388    </a></b>	                            //one empty node would mean that the entire page is empty
+<b><a name="line3389">3389    </a></b>	                            reading_copy_bitmap &= ~(1 << copy);
+<b><a name="line3390">3390    </a></b>	
+<b><a name="line3391">3391    </a></b>	                            //The other NAND retries do not need to be read since
+<b><a name="line3392">3392    </a></b>	                            //it has been determined that this page is empty
+<b><a name="line3393">3393    </a></b>	                            not_checked_copy_bitmap &= ~(1 << copy);
+<b><a name="line3394">3394    </a></b>	                        }
+<b><a name="line3395">3395    </a></b>	                        else if (a_fip_read_param[copy].error_map[backup] & FIP_READ_CRC_ERROR) {
+<b><a name="line3396">3396    </a></b>	                            sal_log_tracker_set(sal_locate(0xED, TYPE_LOAD_CODE_ERR));
+<b><a name="line3397">3397    </a></b>	                            Dump_ScanID(tprintf("!!!Copy %d (FSA %L) CRC %x", copy, a_fip_read_param[copy].nand_addr.all, a_fip_read_param[copy].error_map[backup]));
+<b><a name="line3398">3398    </a></b>	                            sal_log_info_char('U');
+<b><a name="line3399">3399    </a></b>	                            sal_log_info_num(a_fip_read_param[copy].nand_addr.all);
+<b><a name="line3400">3400    </a></b>	
+<b><a name="line3401">3401    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_CODE_POINTER_UECC] |= (1 << a_channel[copy]);
+<b><a name="line3402">3402    </a></b>	                        }
+<b><a name="line3403">3403    </a></b>	                        else {
+<b><a name="line3404">3404    </a></b>	                            sal_log_tracker_set(sal_locate(0xEE, TYPE_LOAD_CODE_ERR));
+<b><a name="line3405">3405    </a></b>	                            Dump_ScanID(tprintf("!!!Copy %d (FSA %L) UECC %x", copy, a_fip_read_param[copy].nand_addr.all, a_fip_read_param[copy].error_map[backup]));
+<b><a name="line3406">3406    </a></b>	                            sal_log_info_char('U');
+<b><a name="line3407">3407    </a></b>	                            sal_log_info_num(a_fip_read_param[copy].nand_addr.all);
+<b><a name="line3408">3408    </a></b>	
+<b><a name="line3409">3409    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_CODE_POINTER_UECC] |= (1 << a_channel[copy]);
+<b><a name="line3410">3410    </a></b>	                        }
+<b><a name="line3411">3411    </a></b>	                    }
+<b><a name="line3412">3412    </a></b>	                    else {
+<b><a name="line3413">3413    </a></b>	                        //The other backups do not need to be read since
+<b><a name="line3414">3414    </a></b>	                        //they will most likely timeout as well
+<b><a name="line3415">3415    </a></b>	                        reading_copy_bitmap &= ~(1 << copy);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1 << copy" to the operator "~" does not have an essentially unsigned type.</font>
+<b><a name="line3416">3416    </a></b>	                        sal_log_tracker_set(sal_locate(0xEF, TYPE_LOAD_CODE_ERR));
+<b><a name="line3417">3417    </a></b>	                        Dump_ScanID(tprintf("!!!Copy %d (Channel %d) DMA Timeout", copy, (U16)((U32)(a_fip_read_param[copy].nand_addr.all >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask)));
+<b><a name="line3418">3418    </a></b>	
+<b><a name="line3419">3419    </a></b>	                        sal_log_info_char('T');
+<b><a name="line3420">3420    </a></b>	                        sal_log_info_num(a_fip_read_param[copy].nand_addr.all);
+<b><a name="line3421">3421    </a></b>	
+<b><a name="line3422">3422    </a></b>	                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[copy]);
+<b><a name="line3423">3423    </a></b>	                    }
+<b><a name="line3424">3424    </a></b>	                }
+<b><a name="line3425">3425    </a></b>	
+<b><a name="line3426">3426    </a></b>	                //The data in all the copies are known
+<b><a name="line3427">3427    </a></b>	                //No further DMA on other backups are required
+<b><a name="line3428">3428    </a></b>	                if (0 == reading_copy_bitmap) {
+<b><a name="line3429">3429    </a></b>	                    //This basically skips subsequent loops that
+<b><a name="line3430">3430    </a></b>	                    //will all continue because of a 0 bitmap
+<b><a name="line3431">3431    </a></b>	                    break;
+<b><a name="line3432">3432    </a></b>	                }
+<b><a name="line3433">3433    </a></b>	
+<b><a name="line3434">3434    </a></b>	                //At least one Code Pointer is valid
+<b><a name="line3435">3435    </a></b>	                //It is not necessary to look through the backups to find all copies
+<b><a name="line3436">3436    </a></b>	                if (0x00 != code_pointer_valid_copy_bitmap) {
+<b><a name="line3437">3437    </a></b>	                    break;
+<b><a name="line3438">3438    </a></b>	                }
+<b><a name="line3439">3439    </a></b>	            }
+<b><a name="line3440">3440    </a></b>	
+<b><a name="line3441">3441    </a></b>	            //All copies in this retry setting has been checked
+<b><a name="line3442">3442    </a></b>	            //No further loops required
+<b><a name="line3443">3443    </a></b>	            if (0x00 == loop_copy_bitmap) {
+<b><a name="line3444">3444    </a></b>	                break;
+<b><a name="line3445">3445    </a></b>	            }
+<b><a name="line3446">3446    </a></b>	        }
+</pre></body>
+</html>

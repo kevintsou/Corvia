@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line629">629    </a></b>	    if (1U == r1_enable)
+<b><a name="line630">630    </a></b>	    {
+<b><a name="line631">631    </a></b>	        kwrap_func |= DAL_SEC_AESOFL_R1_EN_LOC_VAL(1U);
+<b><a name="line632">632    </a></b>	    }
+<b><a name="line633">633    </a></b>	
+<b><a name="line634">634    </a></b>	    //9. To start dummy calculation after normal data calculation done, please set KWRAP_DUM_EN to 1 and set dummy data length by KWRAP_DUM_LEN
+<b><a name="line635">635    </a></b>	    if (dummy_len > 0U)
+<b><a name="line636">636    </a></b>	    {
+<b><a name="line637">637    </a></b>	        kwrap_func |= DAL_SEC_AESOFL_KWRAP_DUM_EN_LOC_VAL(1U);
+<b><a name="line638">638    </a></b>	    }
+<b><a name="line639">639    </a></b>	
+<b><a name="line640">640    </a></b>	    reg_aes_kwrap_len |= DAL_SEC_AESOFL_SET_KWRAP_DUM_LEN_LOC_VAL(dummy_len);
+<b><a name="line641">641    </a></b>	
+<b><a name="line642">642    </a></b>	    DAL_SEC_AESOFL_SET_KWRAP_LEN(reg_aes_kwrap_len);
+<b><a name="line643">643    </a></b>	    DAL_SEC_AESOFL_SET_KWRAP_FUNC(kwrap_func);
+<b><a name="line644">644    </a></b>	}
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	U8 dal_sec_aes_ofl_get_keywrap_result(U32 *targ_addr, U64 timeout_val)
+<b><a name="line647">647    </a></b>	{
+<b><a name="line648">648    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line649">649    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line650">650    </a></b>	
+<b><a name="line651">651    </a></b>	    //12. Read out IV result from KWRAP_IV_0 and KWRAP_IV_1
+<b><a name="line652">652    </a></b>	    // TO-DO: Coverity targ_addr unused
+<b><a name="line653">653    </a></b>	    // ((U32 *)(U32)targ_addr)[1] = SEC_INVERSE_LONG(DAL_SEC_AESOFL_GET_KWRAP_IV_0());
+<b><a name="line654">654    </a></b>	    // ((U32 *)(U32)targ_addr)[0] = SEC_INVERSE_LONG(DAL_SEC_AESOFL_GET_KWRAP_IV_1());
+<b><a name="line655">655    </a></b>	    *(targ_addr + 1) = SEC_INVERSE_LONG(DAL_SEC_AESOFL_GET_KWRAP_IV_0());
+<b><a name="line656">656    </a></b>	    *targ_addr = SEC_INVERSE_LONG(DAL_SEC_AESOFL_GET_KWRAP_IV_1());
+<b><a name="line657">657    </a></b>	
+<b><a name="line658">658    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "10528" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line659">659    </a></b>	
+<b><a name="line660">660    </a></b>	    while (DAL_SEC_AESOFL_GET_KWRAP_DUM_BSY() == 1U)
+<b><a name="line661">661    </a></b>	    {
+<b><a name="line662">662    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line663">663    </a></b>	        {
+<b><a name="line664">664    </a></b>	            is_timeout = 1U;
+<b><a name="line665">665    </a></b>	            break;
+<b><a name="line666">666    </a></b>	        }
+<b><a name="line667">667    </a></b>	    }
+<b><a name="line668">668    </a></b>	
+<b><a name="line669">669    </a></b>	    //14.Disable dummy operation by setting KWRAP_DUM_EN = 0
+<b><a name="line670">670    </a></b>	    DAL_SEC_AESOFL_CLR_KWRAP_DUM_EN();
+<b><a name="line671">671    </a></b>	
+<b><a name="line672">672    </a></b>	    //15.Disable key wrap process by setting KWRAP_EN = 0
+<b><a name="line673">673    </a></b>	    DAL_SEC_AESOFL_CLR_KWRAP_EN();
+<b><a name="line674">674    </a></b>	
+<b><a name="line675">675    </a></b>	    if (is_timeout == 0U)
+<b><a name="line676">676    </a></b>	    {
+<b><a name="line677">677    </a></b>	        trigger_done = 1U;
+<b><a name="line678">678    </a></b>	    }
+<b><a name="line679">679    </a></b>	
+<b><a name="line680">680    </a></b>	    return trigger_done;
+<b><a name="line681">681    </a></b>	}
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	// ------ AESOTF ------
+<b><a name="line684">684    </a></b>	void dal_sec_aes_otf_direct_path_init(U32 core_idx, U32 is_ecb, U32 is_lba_core, U32 dup_core_sel)
+<b><a name="line685">685    </a></b>	{
+<b><a name="line686">686    </a></b>	    U32 aes_dir_func = 0UL;
+<b><a name="line687">687    </a></b>	
+<b><a name="line688">688    </a></b>	    aes_dir_func |= DAL_SEC_AESOTF_DIR_TEST_EN_LOC_VAL(1U);
+<b><a name="line689">689    </a></b>	    aes_dir_func |= DAL_SEC_AESOTF_DIR_CORE_IDX_LOC_VAL(core_idx); // HW don't care
+</pre></body>
+</html>

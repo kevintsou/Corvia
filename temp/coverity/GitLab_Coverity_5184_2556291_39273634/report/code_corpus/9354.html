@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line340">340    </a></b>	    w_spi_CMD_OD_3(0x07U);          // Execute Command 7 (0x00, READ DATA COMPARE VALUE)
+<b><a name="line341">341    </a></b>	    w_spi_CMD_OD_4(0x05U);          // Execute Command 5 (0x06, WRITE ENABLE)
+<b><a name="line342">342    </a></b>	    w_spi_CMD_OD_5(0x01U);          // Execute Command 1
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    w_spi_SPI_DMA_TRIG(1);
+<b><a name="line345">345    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG(r_spi_SPI_DMA_TRIG(), SPI_GERNAL_TIMEOUT_THRESHOLD, MABIAO_SPI_TRIG_ERASE);
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    // Check WIP of status
+<b><a name="line348">348    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WIP, 0U)) {
+<b><a name="line349">349    </a></b>	        return;
+<b><a name="line350">350    </a></b>	    }
+<b><a name="line351">351    </a></b>	}
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	U8 phal_spi_read_buffer(U32 ulDstAddr, U32 ulSrcSPIOffset, U32 ulSize)
+<b><a name="line354">354    </a></b>	{
+<b><a name="line355">355    </a></b>	#if 0
+<b><a name="line356">356    </a></b>	    Dump_SPI(tprintf("DstAddr %x", ulDstAddr));
+<b><a name="line357">357    </a></b>	    Dump_SPI(tprintf("SrcSPIOffset %x", ulSrcSPIOffset));
+<b><a name="line358">358    </a></b>	    Dump_SPI(tprintf("Size %x", ulSize));
+<b><a name="line359">359    </a></b>	#endif
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    return hal_spi_dma_fast_read_nbytes(ulSrcSPIOffset, ulDstAddr, ulSize);
+<b><a name="line362">362    </a></b>	}
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	U8 phal_spi_write_buffer(U32 ulDstAddr,U32 ulSrcAddr, U32 ulSize)
+<b><a name="line365">365    </a></b>	{
+<b><a name="line366">366    </a></b>	    U32 ul_index;
+<b><a name="line367">367    </a></b>	
+<b><a name="line368">368    </a></b>	    for (ul_index = 0U; ul_index < ulSize; ul_index += SPI_ROM_PAGE_SIZE) {
+<b><a name="line369">369    </a></b>	        hal_spi_dma_write_one_page((ulDstAddr + ul_index), (ulSrcAddr + ul_index));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "ulSrcAddr + ul_index" of width 32 to a target of width 64.</font>
+<b><a name="line370">370    </a></b>	    }
+<b><a name="line371">371    </a></b>	
+<b><a name="line372">372    </a></b>	#if 0//(BURNER_SPI_DEBUG)
+<b><a name="line373">373    </a></b>	    Dump_SPI(tprintf("Read SPI CB Size %x", ulSize));
+<b><a name="line374">374    </a></b>	    M_SPI_SCR_DISABLE_SET();
+<b><a name="line375">375    </a></b>	    hal_spi_dma_fast_read_nbytes(0, XMODEM_RECV_BASE, ulSize);
+<b><a name="line376">376    </a></b>	    Dump_SPI(tprintf("Done"));
+<b><a name="line377">377    </a></b>	#endif
+<b><a name="line378">378    </a></b>	    return PASS;
+<b><a name="line379">379    </a></b>	}
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	U8 phal_spi_check_valid(void)
+<b><a name="line382">382    </a></b>	{
+<b><a name="line383">383    </a></b>	    U32 ulID = spi_read_id();
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	    //Dump_SPI(tprintf("ID = %x", ulID));
+<b><a name="line386">386    </a></b>	    if ((0 == ulID) || (0x00FFFFFF == ulID)) {
+<b><a name="line387">387    </a></b>	        return FAIL;
+<b><a name="line388">388    </a></b>	    }
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	    return PASS;
+<b><a name="line391">391    </a></b>	}
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	
+</pre></body>
+</html>

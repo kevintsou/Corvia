@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line252">252    </a></b>	                    break;
+<b><a name="line253">253    </a></b>	                }
+<b><a name="line254">254    </a></b>	            }
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	            //Reset smbs tx/rx buffer
+<b><a name="line257">257    </a></b>	            phal_smbus_buffer_reset(&(p_smbs->tx));
+<b><a name="line258">258    </a></b>	            phal_smbus_buffer_reset(&(p_smbs->rx));
+<b><a name="line259">259    </a></b>	            //Cleare force nack bit map
+<b><a name="line260">260    </a></b>	            phal_smbs_clr_force_nack(SMBUS0);
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	            //Interrupts has been handled, clear and re-enable the interrupts
+<b><a name="line263">263    </a></b>	            //Disable IRQ while clearing and re-enabling
+<b><a name="line264">264    </a></b>	            p_smbs->interrupt_status &= ~interrupt_status;
+<b><a name="line265">265    </a></b>	            phal_smbs_rx_vld_clr(SMBUS0);
+<b><a name="line266">266    </a></b>	            phal_smbs_clr_ints(SMBUS0, SMBS_INT_SMBRST_N_DET_BIT);
+<b><a name="line267">267    </a></b>	            phal_smbs_int_en(SMBUS0, interrupt_status);
+<b><a name="line268">268    </a></b>	            return;
+<b><a name="line269">269    </a></b>	        }
+<b><a name="line270">270    </a></b>	    }
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    if (0U != interrupt_status) {
+<b><a name="line273">273    </a></b>	        Dump_SMBUS(tprintf(" [SMBS] Slave ISR Sts : %x", interrupt_status));
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	        //Handling of SMBus Slave is required
+<b><a name="line276">276    </a></b>	        if ((slave_address & 0xFEU) == p_smbs->debug_address) {
+<b><a name="line277">277    </a></b>	            //SMBus Debug protocol detected, ignore (could possibly record event)
+<b><a name="line278">278    </a></b>	        }
+<b><a name="line279">279    </a></b>	        else {
+<b><a name="line280">280    </a></b>	            //Find the corresponding slave device and its protocol handler function
+<b><a name="line281">281    </a></b>	            for (slave_device = 0U; slave_device < SMBS_SLAVE_DEVICE_COUNT; slave_device++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "slave_device" (unsigned) is not the same as that of the right operand "SMBS_SLAVE_DEVICE_COUNT"(enum).</font>
+<b><a name="line282">282    </a></b>	                if ((slave_address & 0xFEU) == p_smbs->a_slave[slave_device].arp_ext.smbs_arp.slave_address) {
+<b><a name="line283">283    </a></b>	                    p_smbs_device = &(p_smbs->a_slave[slave_device]);
+<b><a name="line284">284    </a></b>	
+<b><a name="line285">285    </a></b>	                    break;
+<b><a name="line286">286    </a></b>	                }
+<b><a name="line287">287    </a></b>	            }
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	            if (0U == p_smbs_device) {
+<b><a name="line290">290    </a></b>	                //Unknown address, ignore
+<b><a name="line291">291    </a></b>	            }
+<b><a name="line292">292    </a></b>	            else {
+<b><a name="line293">293    </a></b>	                error_interrupt = (interrupt_status & SMBS_ERROR_INT_BITMAP);
+<b><a name="line294">294    </a></b>	
+<b><a name="line295">295    </a></b>	                protocol_interrupt = (interrupt_status & SMBS_PROTOCOL_INT_BITMAP);
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	                //Protocol is not handled if error interrupt has occurred
+<b><a name="line298">298    </a></b>	                if ((slave_device == SMBUS_ADDRESS_INDEX_BASIC_MGR_CMD) && (0U != (error_interrupt & SMBS_INT_PEC_ERR_BIT))) {
+<b><a name="line299">299    </a></b>	                    p_smbs->interrupt_status &= ~SMBS_INT_PEC_ERR_BIT;
+<b><a name="line300">300    </a></b>	                    sys_smbs_isr_protocol_handle(p_smbs_device, slave_address, &(p_smbs->rx), &(p_smbs->tx), protocol_interrupt);
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	                    if (M_IS_OCP_RECOVERY_COMMAND(p_smbs->rx.base.pu8[0U]))
+<b><a name="line303">303    </a></b>	                    {
+<b><a name="line304">304    </a></b>	                        OcpRecoverySetProtocolCRCError();
+<b><a name="line305">305    </a></b>	                    }
+<b><a name="line306">306    </a></b>	                }
+<b><a name="line307">307    </a></b>	                else if (0U != error_interrupt) {
+<b><a name="line308">308    </a></b>	                    sys_smbs_isr_error_handle(p_smbs_device, slave_address, &(p_smbs->rx), &(p_smbs->tx), error_interrupt);
+<b><a name="line309">309    </a></b>	                }
+<b><a name="line310">310    </a></b>	                else {
+<b><a name="line311">311    </a></b>	                    sys_smbs_isr_protocol_handle(p_smbs_device, slave_address, &(p_smbs->rx), &(p_smbs->tx), protocol_interrupt);
+<b><a name="line312">312    </a></b>	                }
+</pre></body>
+</html>

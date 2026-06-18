@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1136">1136    </a></b>	        Dump_NVME(tprintf("    >>>>> Recovery Prohibit Enable : %x", gBCodeGlobalStruct.p_efuse_security_setting->recovery_prohibit_enable));
+<b><a name="line1137">1137    </a></b>	        Dump_NVME(tprintf("    >>>>> Production Mode          :%x ", gBCodeGlobalStruct.production_mode));
+<b><a name="line1138">1138    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_GENERIC_STS_INVALID_OPC);
+<b><a name="line1139">1139    </a></b>	    }
+<b><a name="line1140">1140    </a></b>	}
+<b><a name="line1141">1141    </a></b>	
+<b><a name="line1142">1142    </a></b>	static void nvme_fw_download(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line1143">1143    </a></b>	{
+<b><a name="line1144">1144    </a></b>	    U32 buf_addr = host->buffer_base;
+<b><a name="line1145">1145    </a></b>	    // numd is number of Dwords (4byte). It is a 0's based value
+<b><a name="line1146">1146    </a></b>	    U32 numd = host->sq_cmd.payload_opt.adm.adm_fw_img_dl.numd;
+<b><a name="line1147">1147    </a></b>	    // ofst is the number of Dwords offset (4byte)
+<b><a name="line1148">1148    </a></b>	    U32 ofst = (host->sq_cmd.payload_opt.adm.adm_fw_img_dl.ofst);
+<b><a name="line1149">1149    </a></b>	    U32 byte_cnt = (numd + 1) << 2;
+<b><a name="line1150">1150    </a></b>	    U32 byte_ofst = ofst << 2;
+<b><a name="line1151">1151    </a></b>	    U8 is_chk_pass;
+<b><a name="line1152">1152    </a></b>	    U32 project_binary_offset_address;
+<b><a name="line1153">1153    </a></b>	    U32 project_binary_partial_size;
+<b><a name="line1154">1154    </a></b>	    U32 err_status;
+<b><a name="line1155">1155    </a></b>	
+<b><a name="line1156">1156    </a></b>	    // chk parm
+<b><a name="line1157">1157    </a></b>	    Dump_NVME(tprintf("  [Firmware Download] numd  : %x", numd));
+<b><a name="line1158">1158    </a></b>	    Dump_NVME(tprintf("  [Firmware Download] byte_cnt  : %x", byte_cnt));
+<b><a name="line1159">1159    </a></b>	    Dump_NVME(tprintf("  [Firmware Download] byte_ofst : %x", byte_ofst));
+<b><a name="line1160">1160    </a></b>	
+<b><a name="line1161">1161    </a></b>	    is_chk_pass = fw_download_chk_parm(host, ctag);
+<b><a name="line1162">1162    </a></b>	    if ( is_chk_pass == TRUE ) {
+<b><a name="line1163">1163    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_WRITE);
+<b><a name="line1164">1164    </a></b>	
+<b><a name="line1165">1165    </a></b>	        if ((0 == gBCodeGlobalStruct.p_efuse_security_setting->recovery_prohibit_enable) || (0 == gBCodeGlobalStruct.production_mode)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "(*gBCodeGlobalStruct.p_efuse_security_setting).recovery_prohibit_enable"(unsigned).</font>
+<b><a name="line1166">1166    </a></b>	            project_binary_offset_address = (DBUF_API_BOOTCODE_DATA_BUFFER_BASE + byte_ofst);
+<b><a name="line1167">1167    </a></b>	            project_binary_partial_size = byte_cnt;
+<b><a name="line1168">1168    </a></b>	
+<b><a name="line1169">1169    </a></b>	            // decrypt
+<b><a name="line1170">1170    </a></b>	            err_status = decrypt_partial_project_binary(buf_addr, (byte_ofst >> SECTOR_SIZE_SHIFT), (project_binary_partial_size >> SECTOR_SIZE_SHIFT));
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	            if (0 != err_status) {
+<b><a name="line1173">1173    </a></b>	                Dump_NVME(tprintf("  [Firmware Download] Decrypt Binary Error : %x", err_status));
+<b><a name="line1174">1174    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_FW_IMAGE);
+<b><a name="line1175">1175    </a></b>	            }
+<b><a name="line1176">1176    </a></b>	            else {
+<b><a name="line1177">1177    </a></b>	                // copy to host buffer
+<b><a name="line1178">1178    </a></b>	                phal_dmac_copy(project_binary_offset_address, buf_addr, project_binary_partial_size, TRUE, TRUE);
+<b><a name="line1179">1179    </a></b>	            }
+<b><a name="line1180">1180    </a></b>	        }
+<b><a name="line1181">1181    </a></b>	        else {
+<b><a name="line1182">1182    </a></b>	            Dump_NVME(tprintf("  [Firmware Download] Recovery Prohibit Enable = 1 and Production Mode = 1\r\n"));
+<b><a name="line1183">1183    </a></b>	            Dump_NVME(tprintf("    >>>>> Recovery Prohibit Enable : %x", gBCodeGlobalStruct.p_efuse_security_setting->recovery_prohibit_enable));
+<b><a name="line1184">1184    </a></b>	            Dump_NVME(tprintf("    >>>>> Production Mode          : %x", gBCodeGlobalStruct.production_mode));
+<b><a name="line1185">1185    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_GENERIC_STS_INVALID_OPC);
+<b><a name="line1186">1186    </a></b>	        }
+<b><a name="line1187">1187    </a></b>	    }
+<b><a name="line1188">1188    </a></b>	}
+<b><a name="line1189">1189    </a></b>	
+<b><a name="line1190">1190    </a></b>	static void nvme_vuc_cmd_no_data(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line1191">1191    </a></b>	{
+<b><a name="line1192">1192    </a></b>	    Dump_NVME(tprintf("  >> vuc no data.\n\r"));
+<b><a name="line1193">1193    </a></b>	
+<b><a name="line1194">1194    </a></b>	    VUC_CQ_STRUCT                       cq;
+<b><a name="line1195">1195    </a></b>	
+<b><a name="line1196">1196    </a></b>	    (void)memset((void *)(&cq), 0, sizeof(VUC_CQ_STRUCT));
+</pre></body>
+</html>

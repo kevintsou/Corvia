@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line529">529    </a></b>	
+<b><a name="line530">530    </a></b>	// parity flag
+<b><a name="line531">531    </a></b>	void dal_fip_set_rty_insert_err(BOOL is_enable);
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	//GPO
+<b><a name="line534">534    </a></b>	void dal_fip_set_gpo_we(U8 ch, BOOL is_we_en);
+<b><a name="line535">535    </a></b>	void dal_fip_set_gpo_re(U8 ch, BOOL is_re_en);
+<b><a name="line536">536    </a></b>	void dal_fip_set_gpo_cle(U8 ch, BOOL is_cle_en);
+<b><a name="line537">537    </a></b>	void dal_fip_set_gpo_ale(U8 ch, BOOL is_ale_en);
+<b><a name="line538">538    </a></b>	void dal_fip_set_gpo_dqs(U8 ch, BOOL is_dqs_en);
+<b><a name="line539">539    </a></b>	void dal_fip_set_gpo_dqs_oe(U8 ch, BOOL is_dqs_oe_en);
+<b><a name="line540">540    </a></b>	void dal_fip_set_gpo_io(U8 ch, U8 io_value);
+<b><a name="line541">541    </a></b>	void dal_fip_set_gpo_io_oe(U8 ch, BOOL is_io_oe_en);
+<b><a name="line542">542    </a></b>	void dal_fip_set_wp_value(U8 ch, BOOL is_wp_en);
+<b><a name="line543">543    </a></b>	
+<b><a name="line544">544    </a></b>	//other
+<b><a name="line545">545    </a></b>	void dal_fip_set_r_end_dqs_high_en(U8 ch, BOOL is_enable);
+<b><a name="line546">546    </a></b>	void dal_fip_set_fphy_tx_dly_vale_die_2(U8 ch, U32 val);
+<b><a name="line547">547    </a></b>	U32 dal_fip_get_fphy_rx_vref_cfg_die_0(U8 ch);
+<b><a name="line548">548    </a></b>	void dal_fip_set_fphy_rx_vref_cfg_die_0(U8 ch, U32 val);
+<b><a name="line549">549    </a></b>	U32 dal_fip_get_fphy_rx_unmatch_dqs_rx_0(U8 ch);
+<b><a name="line550">550    </a></b>	void dal_fip_set_fphy_rx_unmatch_dqs_rx_0(U8 ch, U32 val);
+<b><a name="line551">551    </a></b>	void dal_fip_set_wdma_wat_phs_en(U8 ch, BOOL is_enable);
+<b><a name="line552">552    </a></b>	void dal_fip_page_fa_trig(U8 ch, U8 page_fa_sel);
+<b><a name="line553">553    </a></b>	void dal_fip_set_tadl_phs_cnt(U8 ch, U16 val);
+<b><a name="line554">554    </a></b>	void dal_fip_set_sdll_w_phs_len_pio(U8 ch, U8 val);
+<b><a name="line555">555    </a></b>	void dal_fip_set_low_page_stnum(U8 ch, U32 val);
+<b><a name="line556">556    </a></b>	void dal_fip_set_mid_page_stnum(U8 ch, U32 val);
+<b><a name="line557">557    </a></b>	void dal_fip_set_up_page_stnum(U8 ch, U32 val);
+<b><a name="line558">558    </a></b>	void dal_fip_set_top_page_stnum(U8 ch, U32 val);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "dal_fip_set_top_page_stnum" is declared more than once.</font>
+<b><a name="line559">559    </a></b>	void dal_fip_set_slc_stnum(U8 ch, U32 val);
+<b><a name="line560">560    </a></b>	void dal_fip_set_top_page_stnum(U8 ch, U32 val);
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">Another declaration for "dal_fip_set_top_page_stnum".</font>
+<b><a name="line561">561    </a></b>	void dal_fip_set_page_fa_sel(U8 ch, U8 sel);
+<b><a name="line562">562    </a></b>	void dal_fip_set_page_fa_trigger(U8 ch, U8 enable);
+<b><a name="line563">563    </a></b>	U8 dal_fip_get_page_fa_trigger(U8 ch);
+<b><a name="line564">564    </a></b>	void dal_fip_set_pl_page_fa_sel(U8 ch, U8 sel);
+<b><a name="line565">565    </a></b>	void dal_fip_set_pl_page_fa_trigger(U8 ch, U8 enable);
+<b><a name="line566">566    </a></b>	U8 dal_fip_get_pl_page_fa_trigger(U8 ch);
+<b><a name="line567">567    </a></b>	void dal_fip_set_pl_l_page_fa(U8 ch, U32 val);
+<b><a name="line568">568    </a></b>	void dal_fip_set_pl_m_page_fa(U8 ch, U32 val);
+<b><a name="line569">569    </a></b>	void dal_fip_set_pl_u_page_fa(U8 ch, U32 val);
+<b><a name="line570">570    </a></b>	void dal_fip_set_pl_t_page_fa(U8 ch, U32 val);
+<b><a name="line571">571    </a></b>	U32 dal_fip_get_pl_0_rr_fa_cfg(U8 ch);
+<b><a name="line572">572    </a></b>	U32 dal_fip_get_pl_1_rr_fa_cfg_ro(U8 ch);
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	//
+<b><a name="line575">575    </a></b>	void dal_fip_init_top_reg(void);
+<b><a name="line576">576    </a></b>	void dal_fip_init_ch_reg(void);
+<b><a name="line577">577    </a></b>	void dal_fip_set_rd_dll90_reg(U8 ch, U32 rdll_md, U32 sdll_r_dir_val);
+<b><a name="line578">578    </a></b>	void dal_fip_set_wr_dll90_reg(U8 ch, U32 wdll_md, U32 sdll_w_dir_val);
+<b><a name="line579">579    </a></b>	U32 dal_fip_get_mdll_rd_dll90_reg(U8 ch);
+<b><a name="line580">580    </a></b>	U32 dal_fip_get_mdll_wr_dll90_reg(U8 ch);
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	void dal_fip_set_sca_prot(U8 ch, U8 enable);
+<b><a name="line583">583    </a></b>	U8 dal_fip_get_sca_prot(U8 ch);
+<b><a name="line584">584    </a></b>	void dal_fip_set_sca_auto_mode(U8 ch, U8 enable);
+<b><a name="line585">585    </a></b>	void dal_fip_set_sca_mt_abt_clr(U8 ch, U8 enable);
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	#endif /* DAL_FIP_H */
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	
+<b><a name="line590">590    </a></b>	
+</pre></body>
+</html>

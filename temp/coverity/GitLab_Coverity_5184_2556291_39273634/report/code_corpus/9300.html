@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1272">1272    </a></b>	    default:
+<b><a name="line1273">1273    </a></b>	        ALWAYS_ASSERT(ce);
+<b><a name="line1274">1274    </a></b>	        break;
+<b><a name="line1275">1275    </a></b>	    }
+<b><a name="line1276">1276    </a></b>	}
+<b><a name="line1277">1277    </a></b>	void dal_fip_set_pio_cer(U8 ch, U8 cer_val, U8 is_cer_last)
+<b><a name="line1278">1278    </a></b>	{
+<b><a name="line1279">1279    </a></b>	    w_PIO_CER_LAST(ch, is_cer_last);
+<b><a name="line1280">1280    </a></b>	    w_PIO_CER(ch, cer_val);
+<b><a name="line1281">1281    </a></b>	}
+<b><a name="line1282">1282    </a></b>	
+<b><a name="line1283">1283    </a></b>	void dal_fip_set_fpu_cer(U8 ch, U8 cer_sel, BOOL cer_val)
+<b><a name="line1284">1284    </a></b>	{
+<b><a name="line1285">1285    </a></b>	    w_CER_SEL(ch, cer_sel);
+<b><a name="line1286">1286    </a></b>	    w_CER_VAL(ch, cer_val);
+<b><a name="line1287">1287    </a></b>	}
+<b><a name="line1288">1288    </a></b>	
+<b><a name="line1289">1289    </a></b>	void dal_fip_set_fpu_cer_trig(U8 ch)
+<b><a name="line1290">1290    </a></b>	{
+<b><a name="line1291">1291    </a></b>	    w_CER_TRIG(ch, 1);
+<b><a name="line1292">1292    </a></b>	}
+<b><a name="line1293">1293    </a></b>	
+<b><a name="line1294">1294    </a></b>	U32 dal_fip_get_cer_val_ro(U8 ch)
+<b><a name="line1295">1295    </a></b>	{
+<b><a name="line1296">1296    </a></b>	    return r_CER_VAL_RO(ch);
+<b><a name="line1297">1297    </a></b>	}
+<b><a name="line1298">1298    </a></b>	
+<b><a name="line1299">1299    </a></b>	U32 dal_fip_get_die_num_for_each_ce(U8 ch)
+<b><a name="line1300">1300    </a></b>	{
+<b><a name="line1301">1301    </a></b>	    return r_DIE_MODE(ch);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "((U8 volatile *)gFlhRegTxChBase[ch][172U] >> 0U) & 3U" of width 8 to a target of width 32.</font>
+<b><a name="line1302">1302    </a></b>	}
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	void dal_fip_set_mt_auto_poll_compare_mode(U8 ch, U8 equal_rule)
+<b><a name="line1305">1305    </a></b>	{
+<b><a name="line1306">1306    </a></b>	    // 1: ==
+<b><a name="line1307">1307    </a></b>	    // 0: !=
+<b><a name="line1308">1308    </a></b>	    w_AP_CMP_MODE(ch, equal_rule);
+<b><a name="line1309">1309    </a></b>	}
+<b><a name="line1310">1310    </a></b>	
+<b><a name="line1311">1311    </a></b>	/*!
+<b><a name="line1312">1312    </a></b>	 * @brief   Set fpu warmup cycle enable.
+<b><a name="line1313">1313    </a></b>	 *
+<b><a name="line1314">1314    </a></b>	 * -
+<b><a name="line1315">1315    </a></b>	 *
+<b><a name="line1316">1316    </a></b>	 * @param[in]  ch     Channel index.
+<b><a name="line1317">1317    </a></b>	 * @param[in]  enable Warmup cycle enable.
+<b><a name="line1318">1318    </a></b>	 * @return     Void.
+<b><a name="line1319">1319    </a></b>	 * @note
+<b><a name="line1320">1320    </a></b>	 *
+<b><a name="line1321">1321    </a></b>	 * -
+<b><a name="line1322">1322    </a></b>	 *
+<b><a name="line1323">1323    </a></b>	 */
+<b><a name="line1324">1324    </a></b>	void dal_fip_set_fpu_warmup_en(U8 ch, U8 enable)
+<b><a name="line1325">1325    </a></b>	{
+<b><a name="line1326">1326    </a></b>	    w_W_WARMUP_CYCLE_EN(ch, enable);
+<b><a name="line1327">1327    </a></b>	    w_R_WARMUP_CYCLE_EN(ch, enable);
+<b><a name="line1328">1328    </a></b>	}
+<b><a name="line1329">1329    </a></b>	
+<b><a name="line1330">1330    </a></b>	U8 dal_fip_get_fpu_busy(U8 ch)
+<b><a name="line1331">1331    </a></b>	{
+<b><a name="line1332">1332    </a></b>	    return r_FPU_BSY(ch);
+</pre></body>
+</html>

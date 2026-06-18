@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line286">286    </a></b>	        (void)memcpy((void *)ul_tail, (void *)p_data, sq_size);
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	    else
+<b><a name="line289">289    </a></b>	    {
+<b><a name="line290">290    </a></b>	        (void)memcpy((void *)ul_tail, (void *)p_data, db_remain_size);
+<b><a name="line291">291    </a></b>	        (void)memcpy((void *)(U32 *)ul_base, (void *)(U32 *)((U32)(U32 *)p_data + db_remain_size), sq_size - db_remain_size);
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    ASM_DSB();
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    /*Update write pointer to trigger SQ*/
+<b><a name="line297">297    </a></b>	    dal_db_api_set_wpiu(db_id, (U16)(sq_size / (U16)8U));
+<b><a name="line298">298    </a></b>	    return PASS;
+<b><a name="line299">299    </a></b>	}
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	/*!
+<b><a name="line302">302    </a></b>	 @brief   check rd_cnt is enough
+<b><a name="line303">303    </a></b>	 @param[in] q_id The queue id
+<b><a name="line304">304    </a></b>	 @param[in] pop_size The pop size
+<b><a name="line305">305    </a></b>	 @return TURE : rd_cnt is not enough
+<b><a name="line306">306    </a></b>	 @return FALSE : rd_cnt is enough
+<b><a name="line307">307    </a></b>	 @note
+<b><a name="line308">308    </a></b>	 - NONE
+<b><a name="line309">309    </a></b>	*/
+<b><a name="line310">310    </a></b>	static BOOL hal_db_check_rd_cnt(U32 q_id, U32 pop_size)
+<b><a name="line311">311    </a></b>	{
+<b><a name="line312">312    </a></b>	    volatile U16 rd_cnt;
+<b><a name="line313">313    </a></b>	    U8 retval = TRUE;
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	    rd_cnt = (volatile U16) dal_db_api_get_rd_cnt(q_id);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "q_id" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line316">316    </a></b>	
+<b><a name="line317">317    </a></b>	    //UART_OUT_DEC(rd_cnt);
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	    if (((U32)rd_cnt * HAL_DB_DATA_SIZE_8B) >= pop_size)
+<b><a name="line320">320    </a></b>	    {
+<b><a name="line321">321    </a></b>	        retval = FALSE;
+<b><a name="line322">322    </a></b>	    }
+<b><a name="line323">323    </a></b>	
+<b><a name="line324">324    </a></b>	    return retval;
+<b><a name="line325">325    </a></b>	}
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	
+<b><a name="line328">328    </a></b>	U8 hal_db_check_wr_cnt(U32 q_id, U32 push_size)
+<b><a name="line329">329    </a></b>	{
+<b><a name="line330">330    </a></b>	    volatile U16 wr_cnt;
+<b><a name="line331">331    </a></b>	    U8 retval = TRUE;
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	    wr_cnt = (volatile U16) dal_db_api_get_wr_cnt(q_id);
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    if (((U32)wr_cnt * HAL_DB_DATA_SIZE_8B) >= push_size)
+<b><a name="line336">336    </a></b>	    {
+<b><a name="line337">337    </a></b>	        retval = FALSE;
+<b><a name="line338">338    </a></b>	    }
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	    return retval;
+<b><a name="line341">341    </a></b>	}
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	U8 hal_db_is_mst_full(U8 QID, U8 SIZE)
+<b><a name="line344">344    </a></b>	{
+<b><a name="line345">345    </a></b>	    U32 ubResult = 0;
+<b><a name="line346">346    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT((hal_db_check_wr_cnt(QID, SIZE) == TRUE), GERNAL_TIMEOUT_THRESHOLD, ERR_CHKSTATUS_TIMEOUT, ubResult, MABIAO_DB_WAIT_CQ);
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  c0_vuc_protect.c                                                      */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	//Key number : P101
+<b><a name="line21">21    </a></b>	#define PUBLIC_KEY_ID_VUC_RSA4096   (('P' << 0) | ('1' << 8) | ('0' << 16) | ('1' << 24))
+<b><a name="line22">22    </a></b>	#define QMP_SEED (0)
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	static BOOL vuc_rsa4096_enc(RSA4096_PUBLIC_KEY_PTR p_rsa_key, U8 *dest_addr){
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    phal_rsa4096_enc((U32)dest_addr, (U32)dest_addr, (U32 *)((U32)p_rsa_key + 4/*skip id*/));
+<b><a name="line27">27    </a></b>	    hal_sec_api_reverse_endian((void *)dest_addr, (void *)dest_addr, VUA_RSA_CT_LEN);
+<b><a name="line28">28    </a></b>	    // tprintf("\np_encryption_data->a_encrypt_random:\n");
+<b><a name="line29">29    </a></b>	    // tprintm((U32)p_encryption_data->a_encrypt_random, VUA_RSA_CT_LEN);
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    return PASS;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "signed 8-bit int" to different or narrower essential type "boolean".</font>
+<b><a name="line32">32    </a></b>	}
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	static U32 vuc_protect_crc32(U32 source_addr, U32 source_size){
+<b><a name="line35">35    </a></b>	    return crc_calc(source_addr, source_size, QMP_SEED, FIXED_CRC32_POLY, XOR_OUT_DISABLE, 32, TRUE);
+<b><a name="line36">36    </a></b>	}
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	static U8 vuc_protect_hmac(U32 sha_mode, U32 key_addr, U32 key_size, U32 src_addr, U32 src_size, U32 targ_addr){
+<b><a name="line39">39    </a></b>	    U8 ret = SEC_YES;
+<b><a name="line40">40    </a></b>	    SEC_HMAC_PARAMS_T sec_hmac_sha_param;
+<b><a name="line41">41    </a></b>	    memset((void *)&sec_hmac_sha_param, 0x00, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line42">42    </a></b>	    sec_hmac_sha_param.key_addr.all         = (U64)key_addr;
+<b><a name="line43">43    </a></b>	    sec_hmac_sha_param.key_len              = key_size;
+<b><a name="line44">44    </a></b>	    sec_hmac_sha_param.sha.sha_mode         = sha_mode;
+<b><a name="line45">45    </a></b>	    sec_hmac_sha_param.sha.src_addr.all     = (U64)src_addr;
+<b><a name="line46">46    </a></b>	    sec_hmac_sha_param.sha.src_len          = src_size;
+<b><a name="line47">47    </a></b>	    sec_hmac_sha_param.sha.targ_addr.all    = (U64)targ_addr;
+<b><a name="line48">48    </a></b>	    sec_hmac_sha_param.sha.r1_enable        = FALSE;
+<b><a name="line49">49    </a></b>	    sec_hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    ret = phal_sec_hmac_sha_blocking(&sec_hmac_sha_param);
+<b><a name="line52">52    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line53">53    </a></b>	        Dump_SEC(tprintf("HMAC F!"));
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	    return ret;
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	VUC_PROTECT gVUCProtect;
+<b><a name="line59">59    </a></b>	const U32 ga_aes_cbc_iv[4] = {
+<b><a name="line60">60    </a></b>	    0x8215C782,
+<b><a name="line61">61    </a></b>	    0x08E2AF38,
+<b><a name="line62">62    </a></b>	    0xEF5726E1,
+</pre></body>
+</html>

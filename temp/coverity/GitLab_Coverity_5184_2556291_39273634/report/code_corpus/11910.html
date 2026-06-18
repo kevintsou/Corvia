@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line584">584    </a></b>	    aesofl_param.cbc.setkey.gen_key_en   = TRUE;
+<b><a name="line585">585    </a></b>	
+<b><a name="line586">586    </a></b>	    U8 is_step_clock_enable;
+<b><a name="line587">587    </a></b>	    U8 is_random_clock_enable;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line592">592    </a></b>	
+<b><a name="line593">593    </a></b>	    memcpy((void *) ((U32)sq_cmd + (sizeof(*sq_cmd) - VUC_PROTECT_DECODE_COMMAND_SIZE)), (void *)calculation_buffer, VUC_PROTECT_DECODE_COMMAND_SIZE);
+<b><a name="line594">594    </a></b>	    memcpy((void *)calculation_buffer, calculation_buffer_backup, 32 + 32);
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	/**
+<b><a name="line598">598    </a></b>	 * @brief Check the crc of encrypted command is correct after decryption
+<b><a name="line599">599    </a></b>	 *
+<b><a name="line600">600    </a></b>	 * @param sq_cmd sq pointer
+<b><a name="line601">601    </a></b>	 * @return U32 fail or not
+<b><a name="line602">602    </a></b>	 */
+<b><a name="line603">603    </a></b>	U32 vuc_protect_check_command(VUC_SQ_STRUCT_PTR sq_cmd)
+<b><a name="line604">604    </a></b>	{
+<b><a name="line605">605    </a></b>	    VUC_SQ_STRUCT temp_sq_cmd;
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    U32 crc_cmd;
+<b><a name="line608">608    </a></b>	    U32 crc_calc_result[2];
+<b><a name="line609">609    </a></b>	
+<b><a name="line610">610    </a></b>	    //Set the CRC field to 0 before calculating the CRC
+<b><a name="line611">611    </a></b>	    //The CRC stored is in Big Endian
+<b><a name="line612">612    </a></b>	    //The CRC calculation uses the same one that the XModem uses
+<b><a name="line613">613    </a></b>	    memcpy((void *)&temp_sq_cmd, (void *)sq_cmd, sizeof(temp_sq_cmd));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line614">614    </a></b>	    crc_cmd = temp_sq_cmd.crc_word;
+<b><a name="line615">615    </a></b>	    crc_cmd = (((crc_cmd & 0xFF00) >> 8) | ((crc_cmd & 0x00FF) << 8));
+<b><a name="line616">616    </a></b>	    temp_sq_cmd.crc_word = 0;
+<b><a name="line617">617    </a></b>	
+<b><a name="line618">618    </a></b>	    //1. Calculate the CRC of the entire SQ without clearing anything
+<b><a name="line619">619    </a></b>	    //This is the old way of calculating CRC. This is left over from the time
+<b><a name="line620">620    </a></b>	    //when the CRC is only used for VUC in UART. It is recommended to be
+<b><a name="line621">621    </a></b>	    //implemented to allow compatibility with older tools that may still fill
+<b><a name="line622">622    </a></b>	    //in B1 and B2
+<b><a name="line623">623    </a></b>	    crc_calc_result[0] = CRC_16_XMODEM((U32)&temp_sq_cmd, sizeof(temp_sq_cmd), CRC_16_XMODEM_INIT);
+<b><a name="line624">624    </a></b>	
+<b><a name="line625">625    </a></b>	    //2. Calculate the CRC of the entire SQ after clearing B1~3, DW1, DW2, DW3, DW4, DW5, DW6, DW7, DW8, DW9, DW11
+<b><a name="line626">626    </a></b>	    //This is the new and correct way of calculating CRC. This is required
+<b><a name="line627">627    </a></b>	    //after VUC Protect is implemented and the CRC is used to check for the
+<b><a name="line628">628    </a></b>	    //VUC's correctness for all interface. The fields that are cleared to 0 are
+<b><a name="line629">629    </a></b>	    //the fields in NVMe that the MP has no control over and may be filled
+<b><a name="line630">630    </a></b>	    //automatically by the driver. The CRC is calculated with these fields set
+<b><a name="line631">631    </a></b>	    //to 0.
+<b><a name="line632">632    </a></b>	    memset((void *)((U32)&temp_sq_cmd + 1), 0x00, (3 + (9 * 4))); //Up to and including DW9
+<b><a name="line633">633    </a></b>	    temp_sq_cmd.rsv_dw11 = 0;
+<b><a name="line634">634    </a></b>	    crc_calc_result[1] = CRC_16_XMODEM((U32)&temp_sq_cmd, sizeof(temp_sq_cmd), CRC_16_XMODEM_INIT);
+<b><a name="line635">635    </a></b>	
+<b><a name="line636">636    </a></b>	    if ((crc_calc_result[0] == crc_cmd) || (crc_calc_result[1] == crc_cmd)) {
+<b><a name="line637">637    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line638">638    </a></b>	        Dump_Debug(tprintf("\n\nAES de crc pass!"));
+<b><a name="line639">639    </a></b>	#endif
+<b><a name="line640">640    </a></b>	        return VUC_PROTECT_CHECK_COMMAND_STATUS_PASS;
+<b><a name="line641">641    </a></b>	    }
+<b><a name="line642">642    </a></b>	    else {
+<b><a name="line643">643    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line644">644    </a></b>	        Dump_Debug(tprintf("\n\nRcv CRC (0x%llx) != CRC[0] (0x%llx) or CRC[1] (0x%llx)\r\n", (U64)crc_cmd, (U64)crc_calc_result[0], (U64)crc_calc_result[1]));
+</pre></body>
+</html>

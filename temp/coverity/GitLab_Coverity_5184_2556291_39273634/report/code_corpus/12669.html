@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/hook/hook_tp.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _HOOK_TP_H_
+<b><a name="line2">2    </a></b>	#define _HOOK_TP_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_HOOK_TP_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	typedef struct {
+<b><a name="line5">5    </a></b>	    // sim_ctl0
+<b><a name="line6">6    </a></b>	    U8 hw_verify_finish         : 1; //#define BOOT_CODE_HW_VERIFY_FINISH                      (BIT0)    // 1: notify HW verify finish. DO NOT modify!
+<b><a name="line7">7    </a></b>	    U8 no_load_code             : 1; //#define BOOT_CODE_NO_LOAD_CODE                          (BIT1)    // 1: vendor command force boot code mode
+<b><a name="line8">8    </a></b>	    U8 send_cpl                 : 1; //#define BOOT_CODE_SEND_CPL                              (BIT2)    // 1: jumped from other place, need to send CPL (NVMe)
+<b><a name="line9">9    </a></b>	    U8 not_init_host_hw         : 1; //#define BOOT_CODE_NOT_INIT_HOST_HW                      (BIT3)    // 1: not init host HW, used when these HW hs been initialized (eg, jumped from FW)
+<b><a name="line10">10    </a></b>	    U8 pcie_link_start          : 1; //#define BOOT_CODE_PCIE_LINK_START                       (BIT4)    // 1: PCIe link has been started
+<b><a name="line11">11    </a></b>	    U8 disable_hw_force_boot    : 1; //#define BOOT_CODE_DISABLE_HARDWARE_FORCE_BOOTCODE       (BIT5)    //
+<b><a name="line12">12    </a></b>	    U8 smbus_send_cpl           : 1; //#define BOOT_CODE_SMBUS_SEND_CPL                        (BIT6)    // 1: jumped from other place, need to send CPL (SMBus)
+<b><a name="line13">13    </a></b>	    U8 not_aes_key_ram_clr      : 1; //#define BOOT_CODE_NOT_AES_KEY_RAM_CLR                   (BIT7)    // 1: jumped from FW, boot code NOT issue sec aes key ram clear.
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	    // sim_ctl1
+<b><a name="line16">16    </a></b>	    U8 rsv_byte1;
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	    // sim_ctl2
+<b><a name="line19">19    </a></b>	    U8 rsv_byte2;
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	    // sim_ctl3 --> for meet HW sim's request. DO NOT modify!
+<b><a name="line22">22    </a></b>	    U8 hw_verify_message;             //[7:0] 0: pass; others: fail message
+<b><a name="line23">23    </a></b>	} MISC_SIM_CTRL_ID_0_REG;   // sim_ctl0 ~ sim_ctl3A
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	typedef struct {
+<b><a name="line26">26    </a></b>	    // sim_ctl4 & sim_ctl5
+<b><a name="line27">27    </a></b>	    U16 ctag                    : 11;// [7:0]
+<b><a name="line28">28    </a></b>	    U8  hw_sim_used             : 5;
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	    // sim_ctl6
+<b><a name="line31">31    </a></b>	    U8 activate_other_loader    : 1; //#define         BOOT_CODE_ACTIVATE_OTHER_LOADER         (BIT0)              // Sim CTL6 flag
+<b><a name="line32">32    </a></b>	    U8 jump_to_fw               : 1; //#define         BOOT_CODE_JUMP_TO_FW                    (BIT1)              // Sim CTL6 flag
+<b><a name="line33">33    </a></b>	    U8 redriver_reset_cmd       : 1; //#define         BOOT_CODE_REDRIVER_RESET_CMD            (BIT2)              // Sim CTL6 flag
+</pre></body>
+</html>

@@ -1,0 +1,90 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.2</checker>
+<type>MISRA_C_2012_Rule_14.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_pcie_landmark_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_2_violation</tag>
+<description>{CovLStrv2{{t{The condition clause expression of the for loop has persistent side-effects.}}}}</description>
+<line>144</line>
+<column>5</column>
+</event>
+<extra>index,landmark_set_count</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.2</checker>
+<type>MISRA_C_2012_Rule_14.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbs.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_2_violation</tag>
+<description>{CovLStrv2{{t{The third clause of the for loop has more than one persistent side-effect.}}}}</description>
+<line>27</line>
+<column>5</column>
+</event>
+<extra>ulj</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.2</checker>
+<type>MISRA_C_2012_Rule_14.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>SMBMCalCRC8Addr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_2_violation</tag>
+<description>{CovLStrv2{{t{The third clause of the for loop has more than one persistent side-effect.}}}}</description>
+<line>24</line>
+<column>5</column>
+</event>
+<extra>ulj</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.2</checker>
+<type>MISRA_C_2012_Rule_14.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_mem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_2_violation</tag>
+<description>{CovLStrv2{{t{The third clause of the for loop has more than one persistent side-effect.}}}}</description>
+<line>183</line>
+<column>5</column>
+</event>
+<extra>i,len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 14.2</checker>
+<type>MISRA_C_2012_Rule_14.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/hal_fw_nvme.c</file>
+<function>hal_fw_nvme_boot_code_nl_setting_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_14_2_violation</tag>
+<description>{CovLStrv2{{t{The condition clause expression of the for loop has persistent side-effects.}}}}</description>
+<line>76</line>
+<column>5</column>
+</event>
+<extra>hal_nl_get_fqc,q_ofst</extra>
+<subcategory>none</subcategory>
+</error>

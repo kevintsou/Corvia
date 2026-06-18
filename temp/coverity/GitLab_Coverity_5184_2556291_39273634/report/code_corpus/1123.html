@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line323">323    </a></b>	        if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_400MT) {
+<b><a name="line324">324    </a></b>	            hal_fip_set_clk_div_en(TRUE, 0U);
+<b><a name="line325">325    </a></b>	        }
+<b><a name="line326">326    </a></b>	        else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_200MT) {
+<b><a name="line327">327    </a></b>	            hal_fip_set_clk_div_en(TRUE, 1U);
+<b><a name="line328">328    </a></b>	        }
+<b><a name="line329">329    </a></b>	        else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_50MT) {
+<b><a name="line330">330    </a></b>	            hal_fip_set_clk_div_en(TRUE, 3U);
+<b><a name="line331">331    </a></b>	        }
+<b><a name="line332">332    </a></b>	        else {
+<b><a name="line333">333    </a></b>	            hal_fip_set_clk_div_en(TRUE, 2U); // FIP_TEST_TOGGLE_100MT
+<b><a name="line334">334    </a></b>	        }
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	void fpl_fip_sys_init(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line340">340    </a></b>	{
+<b><a name="line341">341    </a></b>	    // PMU have already done fphy_power_on and fphy_osc_enable in pmu
+<b><a name="line342">342    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line343">343    </a></b>	    U8 fphy_clk[HAL_FPL_OSC_CLK_CNT] = {0U, 1U, 2U, 3U, 4U}; // from syspd2_oscctrl_fphy
+<b><a name="line344">344    </a></b>	    U8 fphy_div[HAL_FPL_OSC_DIV_CNT] = {0U, 1U, 2U, 3U, 4U, 5U, 6U, 7U}; // from syspd2_oscctrl_fphy
+<b><a name="line345">345    </a></b>	    U8 fphy_clk_val = fphy_clk[HAL_FPL_OSC_CLK_3200M]; // 800M is max clock speed before dq training
+<b><a name="line346">346    </a></b>	    U8 fphy_div_val = fphy_div[HAL_FPL_OSC_DIV_4];  //Ken : yeeee shou said it should set to 2
+<b><a name="line347">347    </a></b>	    U16 ftrack_osc_th_h = 3184;
+<b><a name="line348">348    </a></b>	    U8 ftrack_osc_filter_h = 9;
+<b><a name="line349">349    </a></b>	    U16 ftrack_osc_th_v = 3184;
+<b><a name="line350">350    </a></b>	    U8 ftrack_osc_filter_v = 9;
+<b><a name="line351">351    </a></b>	    U8 ftrack_en, ssc_en;
+<b><a name="line352">352    </a></b>	    if (!fpl_ptr->p_efuse_nand_setting->ftrack_disable) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "(*fpl_ptr->p_efuse_nand_setting).ftrack_disable" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line353">353    </a></b>	        ftrack_en = BOOT_EN_FTRACK;
+<b><a name="line354">354    </a></b>	    } else {
+<b><a name="line355">355    </a></b>	        ftrack_en = BOOT_DIS_FTRACK;
+<b><a name="line356">356    </a></b>	    }
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    if (!fpl_ptr->p_efuse_nand_setting->ssc_disable) {
+<b><a name="line359">359    </a></b>	        ssc_en = BOOT_EN_SSC;
+<b><a name="line360">360    </a></b>	        ftrack_osc_th_h = 3168U;
+<b><a name="line361">361    </a></b>	        ftrack_osc_th_v = 3168U;
+<b><a name="line362">362    </a></b>	        ftrack_osc_filter_h = 15U;
+<b><a name="line363">363    </a></b>	        ftrack_osc_filter_v = 15U;
+<b><a name="line364">364    </a></b>	    } else {
+<b><a name="line365">365    </a></b>	        ssc_en = BOOT_DIS_SSC;
+<b><a name="line366">366    </a></b>	        ftrack_osc_th_h = 3184;
+<b><a name="line367">367    </a></b>	        ftrack_osc_th_v = 3184;
+<b><a name="line368">368    </a></b>	        ftrack_osc_filter_h = 9;
+<b><a name="line369">369    </a></b>	        ftrack_osc_filter_v = 9;
+<b><a name="line370">370    </a></b>	    }
+<b><a name="line371">371    </a></b>	    flh_clock_setting(ssc_en, ftrack_en, fphy_clk_val, fphy_div_val, ftrack_osc_th_h, ftrack_osc_filter_h, ftrack_osc_th_v, ftrack_osc_filter_v);
+<b><a name="line372">372    </a></b>	#else
+<b><a name="line373">373    </a></b>	    dal_fip_fphy_enable();
+<b><a name="line374">374    </a></b>	#endif
+<b><a name="line375">375    </a></b>	}
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	U32 fpl_nand_zq_calibration(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    U32 ch;
+<b><a name="line380">380    </a></b>	    U32 bank;
+<b><a name="line381">381    </a></b>	    U8  die;
+<b><a name="line382">382    </a></b>	    U32 status;
+<b><a name="line383">383    </a></b>	
+</pre></body>
+</html>

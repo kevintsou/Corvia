@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line218">218    </a></b>	}
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	static U8 phal_sqz_reset_error_handle(void)
+<b><a name="line221">221    </a></b>	{
+<b><a name="line222">222    </a></b>	    U8 ret = PASS;
+<b><a name="line223">223    </a></b>	    sal_log_tracker_set(sal_locate(0xA2, TYPE_STEP));
+<b><a name="line224">224    </a></b>	    PHAL_RST_N_CLR_RST_N_SQZ_CORE_SEL();
+<b><a name="line225">225    </a></b>	    PHAL_RST_N_CLR_RST_N_SQZ_SEC_SEL();
+<b><a name="line226">226    </a></b>	    PHAL_RST_N_CLR_RST_N_SQZ_SEL();
+<b><a name="line227">227    </a></b>	    PHAL_RST_N_SET_RST_N_SQZ_SEL();
+<b><a name="line228">228    </a></b>	    PHAL_RST_N_SET_RST_N_SQZ_SEC_SEL();
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	    WAIT_UNTIL_TIMEOUT_RETURN_RESULT((r_SQZ_MBIST_N25_MEM_PUDELAY_SD() == 1U), SQZ_TIMEOUT_VALUE, FAIL, ret, MABIAO_SQZ);
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	    if (ret == PASS) {
+<b><a name="line233">233    </a></b>	#if 0  /* if load sqz bin need to open this define start from sqz ilm, otherwise start from sqz rom*/
+<b><a name="line234">234    </a></b>	        w_PMU_N25_RST_VCT(SQZ_ILM_LOCAL_BASE);
+<b><a name="line235">235    </a></b>	#endif
+<b><a name="line236">236    </a></b>	        PHAL_RST_N_SET_RST_N_SQZ_CORE_SEL();
+<b><a name="line237">237    </a></b>	    }
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    return ret;
+<b><a name="line240">240    </a></b>	}
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	U8 phal_sqz_init(U32 param_buf_base, U8 pre_chk)
+<b><a name="line243">243    </a></b>	{
+<b><a name="line244">244    </a></b>	    U8  ret = PASS;
+<b><a name="line245">245    </a></b>	    U8  sqz_status = SQZ_STATUS_CASE1;
+<b><a name="line246">246    </a></b>	    U32 crc_val = 0;
+<b><a name="line247">247    </a></b>	    sal_log_tracker_set(sal_locate(0x20, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xff << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "255", is not allowed.  The shift amount is 24.</font>
+<b><a name="line248">248    </a></b>	    sal_log_info_char('q');
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	    do
+<b><a name="line251">251    </a></b>	    {
+<b><a name="line252">252    </a></b>	        //1. Check SQZ status from sim register
+<b><a name="line253">253    </a></b>	        if ((gpFwSimCtrl1Reg->jump_to_fw == 1) && (gpFwSimCtrl1Reg->sqz_enable == 1))
+<b><a name="line254">254    </a></b>	        {
+<b><a name="line255">255    </a></b>	            sqz_status = SQZ_STATUS_CASE3;
+<b><a name="line256">256    </a></b>	        }
+<b><a name="line257">257    </a></b>	        else if ((gpFwSimCtrl1Reg->jump_to_fw == 0) && (gpFwSimCtrl1Reg->sqz_enable == 1))
+<b><a name="line258">258    </a></b>	        {
+<b><a name="line259">259    </a></b>	            sqz_status = SQZ_STATUS_CASE2;
+<b><a name="line260">260    </a></b>	        }
+<b><a name="line261">261    </a></b>	        else
+<b><a name="line262">262    </a></b>	        {
+<b><a name="line263">263    </a></b>	            sqz_status = SQZ_STATUS_CASE1;
+<b><a name="line264">264    </a></b>	            if (pre_chk == TRUE)
+<b><a name="line265">265    </a></b>	            {
+<b><a name="line266">266    </a></b>	                break;
+<b><a name="line267">267    </a></b>	            }
+<b><a name="line268">268    </a></b>	        }
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	        if (gSQZInfo.sqz_en == FALSE)
+<b><a name="line271">271    </a></b>	        {
+<b><a name="line272">272    </a></b>	            if (!gpFwSimCtrl1Reg->sqz_rom_crc_chk_disable)
+<b><a name="line273">273    </a></b>	            {
+<b><a name="line274">274    </a></b>	                //2. Check SQZ ROM CRC /*if load sqz bin can skip sqz rom crc check!*/
+<b><a name="line275">275    </a></b>	                crc_val = phal_dmac_crc32((U32)MEMORY_MAP_SQZ_ROM_ADDRESS, (U32)MEMORY_MAP_SQZ_ROM_SIZE, CRC_JUMP);
+<b><a name="line276">276    </a></b>	                if (crc_val != *(U32 *)(MEMORY_MAP_SQZ_ROM_ADDRESS + MEMORY_MAP_SQZ_ROM_SIZE)) {
+<b><a name="line277">277    </a></b>	                    sal_log_tracker_set(sal_locate(0x21, TYPE_FATAL));
+<b><a name="line278">278    </a></b>	                    return FAIL;
+</pre></body>
+</html>

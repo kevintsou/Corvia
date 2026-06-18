@@ -1,0 +1,2750 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_cpu.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining function 'idlePCInline', which has external linkage, but no visible external declaration.</description>
+<line>105</line>
+<column>20</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                   ^</description>
+<line>105</line>
+<column>20</column>
+</event>
+<extra>ALWAYS_INLINE void idlePCInline(U32 ulLoopCount)</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_cpu.h</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining function 'CPUEnterStandbyMode', which has external linkage, but no visible external declaration.</description>
+<line>115</line>
+<column>20</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                   ^</description>
+<line>115</line>
+<column>20</column>
+</event>
+<extra>ALWAYS_INLINE void CPUEnterStandbyMode()</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/version.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'code_version', which has external linkage, but no visible external declaration.</description>
+<line>22</line>
+<column>30</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                             ^</description>
+<line>22</line>
+<column>30</column>
+</event>
+<extra>BOOT_ROM_FW_VERSION const U8 code_version[FW_VER_BYTES] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gBurnerFailCount', which has external linkage, but no visible external declaration.</description>
+<line>277</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>277</line>
+<column>4</column>
+</event>
+<extra>U8 gBurnerFailCount = 0;//TODO do this better</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gUartInitDone', which has external linkage, but no visible external declaration.</description>
+<line>22</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>22</line>
+<column>4</column>
+</event>
+<extra>U8 gUartInitDone = FALSE;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'ga_ic_version', which has external linkage, but no visible external declaration.</description>
+<line>91</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>91</line>
+<column>10</column>
+</event>
+<extra>const U8 ga_ic_version[PROJECT_BINARY_HEADER_IC_VERSION_SIZE] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gCheckProjectBinaryDMSCA', which has external linkage, but no visible external declaration.</description>
+<line>1488</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>1488</line>
+<column>5</column>
+</event>
+<extra>U32 gCheckProjectBinaryDMSCA = 0;//HAL_SEC_DMSCA_FAIL;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gLRURetryLevel', which has external linkage, but no visible external declaration.</description>
+<line>29</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>29</line>
+<column>4</column>
+</event>
+<extra>U8 gLRURetryLevel;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gaulVUCLockAesCBCIV', which has external linkage, but no visible external declaration.</description>
+<line>5</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>5</line>
+<column>11</column>
+</event>
+<extra>const U32 gaulVUCLockAesCBCIV[4] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'ga_aes_cbc_iv', which has external linkage, but no visible external declaration.</description>
+<line>59</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>59</line>
+<column>11</column>
+</event>
+<extra>const U32 ga_aes_cbc_iv[4] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gVUCProtect', which has external linkage, but no visible external declaration.</description>
+<line>58</line>
+<column>13</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>            ^</description>
+<line>58</line>
+<column>13</column>
+</event>
+<extra>VUC_PROTECT gVUCProtect;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatIV_0', which has external linkage, but no visible external declaration.</description>
+<line>26</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>26</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatIV_0[4] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatIV_1', which has external linkage, but no visible external declaration.</description>
+<line>30</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>30</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatIV_1[4] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatKey4L_0', which has external linkage, but no visible external declaration.</description>
+<line>34</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>34</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatKey4L_0[4] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatKey8L_0', which has external linkage, but no visible external declaration.</description>
+<line>38</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>38</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatKey8L_0[8] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatKey8L_1', which has external linkage, but no visible external declaration.</description>
+<line>43</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>43</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatKey8L_1[8] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gulKatKey16L_0', which has external linkage, but no visible external declaration.</description>
+<line>48</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>48</line>
+<column>11</column>
+</event>
+<extra>const U32 gulKatKey16L_0[16] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gubKatCbc256b_64B', which has external linkage, but no visible external declaration.</description>
+<line>164</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>164</line>
+<column>10</column>
+</event>
+<extra>const U8 gubKatCbc256b_64B[64] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsKatCbc256b_64B', which has external linkage, but no visible external declaration.</description>
+<line>171</line>
+<column>27</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                          ^</description>
+<line>171</line>
+<column>27</column>
+</event>
+<extra>const SEC_AES_KAT_PATTERN gsKatCbc256b_64B = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gubKatXts256b_512B', which has external linkage, but no visible external declaration.</description>
+<line>284</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>284</line>
+<column>10</column>
+</event>
+<extra>const U8 gubKatXts256b_512B[512] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsKatXts256b_512B', which has external linkage, but no visible external declaration.</description>
+<line>319</line>
+<column>27</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                          ^</description>
+<line>319</line>
+<column>27</column>
+</event>
+<extra>const SEC_AES_KAT_PATTERN gsKatXts256b_512B = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_aes_kat_patterns', which has external linkage, but no visible external declaration.</description>
+<line>380</line>
+<column>34</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                 ^</description>
+<line>380</line>
+<column>34</column>
+</event>
+<extra>const SEC_AES_KAT_PATTERN *const sec_aes_kat_patterns[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_sm4_kat_xts_key_1', which has external linkage, but no visible external declaration.</description>
+<line>459</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>459</line>
+<column>11</column>
+</event>
+<extra>const U32 sec_sm4_kat_xts_key_1[8] = {0x11111111, 0x11111111, 0x11111111, 0x11111111, 0x22222222, 0x22222222, 0x22222222, 0x22222222};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_sm4_kat_xts_ctx_1', which has external linkage, but no visible external declaration.</description>
+<line>465</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>465</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_sm4_kat_xts_ctx_1[] = {0xA7, 0x4D, 0x72, 0x6C, 0x11, 0x19, 0x6A, 0x32, 0xBE, 0x04, 0xE0, 0x01, 0xFF, 0x29, 0xD0, 0xC7,</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_sm4_xts_pat_1', which has external linkage, but no visible external declaration.</description>
+<line>468</line>
+<column>27</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                          ^</description>
+<line>468</line>
+<column>27</column>
+</event>
+<extra>const SEC_AES_KAT_PATTERN sec_sm4_xts_pat_1 = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_n0', which has external linkage, but no visible external declaration.</description>
+<line>510</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>510</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_n0[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_n', which has external linkage, but no visible external declaration.</description>
+<line>516</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>516</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_n[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_d', which has external linkage, but no visible external declaration.</description>
+<line>552</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>552</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_d[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_r', which has external linkage, but no visible external declaration.</description>
+<line>588</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>588</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_r[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_rr', which has external linkage, but no visible external declaration.</description>
+<line>624</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>624</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_rr[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_msg2', which has external linkage, but no visible external declaration.</description>
+<line>664</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>664</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_msg2[128] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pkcs2v1_rsa4096_sig2', which has external linkage, but no visible external declaration.</description>
+<line>676</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>676</line>
+<column>10</column>
+</event>
+<extra>const U8 pkcs2v1_rsa4096_sig2[512] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'rsa4096_textbook_n', which has external linkage, but no visible external declaration.</description>
+<line>727</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>727</line>
+<column>10</column>
+</event>
+<extra>const U8 rsa4096_textbook_n[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'rsa4096_textbook_r', which has external linkage, but no visible external declaration.</description>
+<line>764</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>764</line>
+<column>10</column>
+</event>
+<extra>const U8 rsa4096_textbook_r[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'rsa4096_textbook_rr', which has external linkage, but no visible external declaration.</description>
+<line>800</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>800</line>
+<column>10</column>
+</event>
+<extra>const U8 rsa4096_textbook_rr[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'rsa4096_textbook_n0', which has external linkage, but no visible external declaration.</description>
+<line>836</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>836</line>
+<column>11</column>
+</event>
+<extra>const U64 rsa4096_textbook_n0[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'rsa4096_textbook_ctx', which has external linkage, but no visible external declaration.</description>
+<line>881</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>881</line>
+<column>10</column>
+</event>
+<extra>const U8 rsa4096_textbook_ctx[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'code_sign_sw_sm2_key_p601', which has external linkage, but no visible external declaration.</description>
+<line>2776</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2776</line>
+<column>10</column>
+</event>
+<extra>const U8 code_sign_sw_sm2_key_p601[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'kat_code_sign_sw_sm2_r_s', which has external linkage, but no visible external declaration.</description>
+<line>2804</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2804</line>
+<column>10</column>
+</event>
+<extra>const U8 kat_code_sign_sw_sm2_r_s[] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'lms_sha256_192_key_data', which has external linkage, but no visible external declaration.</description>
+<line>2815</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2815</line>
+<column>10</column>
+</event>
+<extra>const U8 lms_sha256_192_key_data[60] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'lms_sha256_192_code_sign', which has external linkage, but no visible external declaration.</description>
+<line>2822</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2822</line>
+<column>10</column>
+</event>
+<extra>const U8 lms_sha256_192_code_sign[1632] = {</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_sm9_sign_kat_mpk_1', which has external linkage, but no visible external declaration.</description>
+<line>2929</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2929</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_sm9_sign_kat_mpk_1[128] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_sm9_sign_kat_sig_1', which has external linkage, but no visible external declaration.</description>
+<line>2941</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2941</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_sm9_sign_kat_sig_1[96] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_pk_1', which has external linkage, but no visible external declaration.</description>
+<line>2966</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>2966</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_pk_1[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_msg_1', which has external linkage, but no visible external declaration.</description>
+<line>3132</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3132</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_msg_1[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_sig_1', which has external linkage, but no visible external declaration.</description>
+<line>3144</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3144</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_sig_1[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_z_2', which has external linkage, but no visible external declaration.</description>
+<line>3439</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3439</line>
+<column>10</column>
+</event>
+<extra>const S8 sec_mldsa_kat_verify_z_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_c_2', which has external linkage, but no visible external declaration.</description>
+<line>3559</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3559</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_c_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_rhoprime_2', which has external linkage, but no visible external declaration.</description>
+<line>3567</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3567</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_rhoprime_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_msg_2', which has external linkage, but no visible external declaration.</description>
+<line>3575</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3575</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_msg_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_pk_2', which has external linkage, but no visible external declaration.</description>
+<line>3581</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3581</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_pk_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mldsa_kat_verify_h_2', which has external linkage, but no visible external declaration.</description>
+<line>3747</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3747</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mldsa_kat_verify_h_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mlkem_kat_enc_ek', which has external linkage, but no visible external declaration.</description>
+<line>3775</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3775</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mlkem_kat_enc_ek[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mlkem_kat_enc_msg', which has external linkage, but no visible external declaration.</description>
+<line>3877</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3877</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mlkem_kat_enc_msg[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mlkem_kat_enc_ctx', which has external linkage, but no visible external declaration.</description>
+<line>3883</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3883</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mlkem_kat_enc_ctx[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'sec_mlkem_kat_enc_ss', which has external linkage, but no visible external declaration.</description>
+<line>3985</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3985</line>
+<column>10</column>
+</event>
+<extra>const U8 sec_mlkem_kat_enc_ss[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'drbg_kat_entropy_input', which has external linkage, but no visible external declaration.</description>
+<line>3993</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3993</line>
+<column>10</column>
+</event>
+<extra>const U8 drbg_kat_entropy_input[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'drbg_kat_entropy_nonce', which has external linkage, but no visible external declaration.</description>
+<line>3999</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>3999</line>
+<column>10</column>
+</event>
+<extra>const U8 drbg_kat_entropy_nonce[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'drbg_kat_perso_str', which has external linkage, but no visible external declaration.</description>
+<line>4004</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4004</line>
+<column>10</column>
+</event>
+<extra>const U8 drbg_kat_perso_str[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pr_entropy_input_1', which has external linkage, but no visible external declaration.</description>
+<line>4010</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4010</line>
+<column>10</column>
+</event>
+<extra>const U8 pr_entropy_input_1[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'pr_entropy_input_2', which has external linkage, but no visible external declaration.</description>
+<line>4016</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4016</line>
+<column>10</column>
+</event>
+<extra>const U8 pr_entropy_input_2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'addition_input1', which has external linkage, but no visible external declaration.</description>
+<line>4022</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4022</line>
+<column>10</column>
+</event>
+<extra>const U8 addition_input1[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'addition_input2', which has external linkage, but no visible external declaration.</description>
+<line>4027</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4027</line>
+<column>10</column>
+</event>
+<extra>const U8 addition_input2[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'drbg_kat_ans', which has external linkage, but no visible external declaration.</description>
+<line>4032</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4032</line>
+<column>10</column>
+</event>
+<extra>const U8 drbg_kat_ans[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'kaz_msg', which has external linkage, but no visible external declaration.</description>
+<line>4046</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4046</line>
+<column>10</column>
+</event>
+<extra>const U8 kaz_msg[32] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'kaz_pk', which has external linkage, but no visible external declaration.</description>
+<line>4052</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4052</line>
+<column>10</column>
+</event>
+<extra>const U8 kaz_pk[HAL_SEC_PQC_KAZ_PUB_KEY_LEN] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'kaz_signature', which has external linkage, but no visible external declaration.</description>
+<line>4061</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4061</line>
+<column>10</column>
+</event>
+<extra>const U8 kaz_signature[HAL_SEC_PQC_KAZ_DS_SIG_LEN] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'key', which has external linkage, but no visible external declaration.</description>
+<line>4072</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4072</line>
+<column>10</column>
+</event>
+<extra>const U8 key[]  =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'fixed_input_data', which has external linkage, but no visible external declaration.</description>
+<line>4080</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4080</line>
+<column>10</column>
+</event>
+<extra>const U8 fixed_input_data[]  =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'ans', which has external linkage, but no visible external declaration.</description>
+<line>4088</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>4088</line>
+<column>10</column>
+</event>
+<extra>const U8 ans[]  =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKatLCP', which has external linkage, but no visible external declaration.</description>
+<line>10264</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>10264</line>
+<column>14</column>
+</event>
+<extra>const FP_KAT gKatLCP[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKatSIB', which has external linkage, but no visible external declaration.</description>
+<line>10278</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>10278</line>
+<column>14</column>
+</event>
+<extra>const FP_KAT gKatSIB[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKatVUC', which has external linkage, but no visible external declaration.</description>
+<line>10284</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>10284</line>
+<column>14</column>
+</event>
+<extra>const FP_KAT gKatVUC[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKatVUA', which has external linkage, but no visible external declaration.</description>
+<line>10293</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>10293</line>
+<column>14</column>
+</event>
+<extra>const FP_KAT gKatVUA[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKatDice', which has external linkage, but no visible external declaration.</description>
+<line>10303</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>10303</line>
+<column>14</column>
+</event>
+<extra>const FP_KAT gKatDice[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gSecKatRecord', which has external linkage, but no visible external declaration.</description>
+<line>22</line>
+<column>16</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>               ^</description>
+<line>22</line>
+<column>16</column>
+</event>
+<extra>SEC_KAT_RECORD gSecKatRecord;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'wait_connect_flag', which has external linkage, but no visible external declaration.</description>
+<line>3</line>
+<column>14</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>             ^</description>
+<line>3</line>
+<column>14</column>
+</event>
+<extra>volatile U32 wait_connect_flag = 0;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gMabiaoInfo', which has external linkage, but no visible external declaration.</description>
+<line>17</line>
+<column>13</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>            ^</description>
+<line>17</line>
+<column>13</column>
+</event>
+<extra>MABIAO_INFO gMabiaoInfo = {0};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gSalPrintfEn', which has external linkage, but no visible external declaration.</description>
+<line>3</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>3</line>
+<column>4</column>
+</event>
+<extra>U8 gSalPrintfEn = FALSE;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_init.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gVucApiCmdStruct', which has external linkage, but no visible external declaration.</description>
+<line>20</line>
+<column>16</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>               ^</description>
+<line>20</line>
+<column>16</column>
+</event>
+<extra>VUC_CMD_STRUCT gVucApiCmdStruct;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsSalLog', which has external linkage, but no visible external declaration.</description>
+<line>25</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>25</line>
+<column>10</column>
+</event>
+<extra>SalLog_t gsSalLog = {0};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsSalLogInfo', which has external linkage, but no visible external declaration.</description>
+<line>38</line>
+<column>18</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                 ^</description>
+<line>38</line>
+<column>18</column>
+</event>
+<extra>volatile SAL_LOG gsSalLogInfo;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsSalLogTracker', which has external linkage, but no visible external declaration.</description>
+<line>39</line>
+<column>18</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                 ^</description>
+<line>39</line>
+<column>18</column>
+</event>
+<extra>volatile SAL_LOG gsSalLogTracker;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsSalLogTimeStamp', which has external linkage, but no visible external declaration.</description>
+<line>40</line>
+<column>18</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                 ^</description>
+<line>40</line>
+<column>18</column>
+</event>
+<extra>volatile SAL_LOG gsSalLogTimeStamp;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gsSalLogError', which has external linkage, but no visible external declaration.</description>
+<line>41</line>
+<column>18</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                 ^</description>
+<line>41</line>
+<column>18</column>
+</event>
+<extra>volatile SAL_LOG gsSalLogError;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gb_insert_error', which has external linkage, but no visible external declaration.</description>
+<line>26</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>26</line>
+<column>5</column>
+</event>
+<extra>U16 gb_insert_error;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gVendorDispatchParam', which has external linkage, but no visible external declaration.</description>
+<line>4</line>
+<column>27</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                          ^</description>
+<line>4</line>
+<column>27</column>
+</event>
+<extra>VUC_DISPATCH_PARAM_STRUCT gVendorDispatchParam;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gpSimLog', which has external linkage, but no visible external declaration.</description>
+<line>15</line>
+<column>22</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                     ^</description>
+<line>15</line>
+<column>22</column>
+</event>
+<extra>volatile U32 * const gpSimLog = &amp;SYS_MISCL_PDAON_UPIF[(0x48UL &gt;&gt; 2U)];</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gSQZInfo', which has external linkage, but no visible external declaration.</description>
+<line>32</line>
+<column>10</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>         ^</description>
+<line>32</line>
+<column>10</column>
+</event>
+<extra>SQZ_INFO gSQZInfo = {0};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sec.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gSelfChkFunc', which has external linkage, but no visible external declaration.</description>
+<line>14</line>
+<column>21</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                    ^</description>
+<line>14</line>
+<column>21</column>
+</event>
+<extra>const SELF_CHK_FUNC gSelfChkFunc[] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gHealthTestEn', which has external linkage, but no visible external declaration.</description>
+<line>20</line>
+<column>4</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>   ^</description>
+<line>20</line>
+<column>4</column>
+</event>
+<extra>U8 gHealthTestEn;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_ZERO', which has external linkage, but no visible external declaration.</description>
+<line>16</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>16</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_ZERO = {0, 0, 0, 0};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_ONE', which has external linkage, but no visible external declaration.</description>
+<line>17</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>17</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_ONE = {1, 0, 0, 0};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_P', which has external linkage, but no visible external declaration.</description>
+<line>20</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>20</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_P =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_N', which has external linkage, but no visible external declaration.</description>
+<line>26</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>26</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_N =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_NEG_N', which has external linkage, but no visible external declaration.</description>
+<line>31</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>31</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_NEG_N =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_MODP_MONT_ONE', which has external linkage, but no visible external declaration.</description>
+<line>36</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>36</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_MODP_MONT_ONE = {0x1a9064d81caeba83ULL, 0xde0d6cb4e5851124ULL, 0x29fc54b00a7138baULL, 0x49bffffffd5c590eULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_MODP_MONT_FIVE', which has external linkage, but no visible external declaration.</description>
+<line>37</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>37</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_Z256_MODP_MONT_FIVE = {0xb9f2c1e8c8c71995ULL, 0x125df8f246a377fcULL, 0x25e650d049188d1cULL, 0x43fffffed866f63ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_MONT_P1', which has external linkage, but no visible external declaration.</description>
+<line>39</line>
+<column>32</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                               ^</description>
+<line>39</line>
+<column>32</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_POINT_T SM9_Z256_MONT_P1 =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_MONT_P2', which has external linkage, but no visible external declaration.</description>
+<line>46</line>
+<column>38</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                                     ^</description>
+<line>46</line>
+<column>38</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_TWIST_POINT_T SM9_Z256_MONT_P2 =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_Z256_P_PRIME', which has external linkage, but no visible external declaration.</description>
+<line>60</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>60</line>
+<column>11</column>
+</event>
+<extra>const U64 SM9_Z256_P_PRIME[4] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_BETA', which has external linkage, but no visible external declaration.</description>
+<line>66</line>
+<column>30</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                             ^</description>
+<line>66</line>
+<column>30</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_FP2_T SM9_MONT_BETA  = {{0x39b4ef0f3ee72529ULL, 0xdb043bf508582782ULL, 0xb8554ab054ac91e3ULL, 0x9848eec25498cab5ULL}, {0}};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_ALPHA1', which has external linkage, but no visible external declaration.</description>
+<line>67</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>67</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_MONT_ALPHA1   = {0x1a98dfbd4575299fULL, 0x9ec8547b245c54fdULL, 0xf51f5eac13df846cULL, 0x9ef74015d5a16393ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_ALPHA2', which has external linkage, but no visible external declaration.</description>
+<line>68</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>68</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_MONT_ALPHA2   = {0xb626197dce4736caULL, 0x08296b3557ed0186ULL, 0x9c705db2fd91512aULL, 0x1c753e748601c992ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_ALPHA3', which has external linkage, but no visible external declaration.</description>
+<line>69</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>69</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_MONT_ALPHA3   = {0x39b4ef0f3ee72529ULL, 0xdb043bf508582782ULL, 0xb8554ab054ac91e3ULL, 0x9848eec25498cab5ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_ALPHA4', which has external linkage, but no visible external declaration.</description>
+<line>70</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>70</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_MONT_ALPHA4   = {0x81054fcd94e9c1c4ULL, 0x4c0e91cb8ce2df3eULL, 0x4877b452e8aedfb4ULL, 0x88f53e748b491776ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'SM9_MONT_ALPHA5', which has external linkage, but no visible external declaration.</description>
+<line>71</line>
+<column>26</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                         ^</description>
+<line>71</line>
+<column>26</column>
+</event>
+<extra>const HAL_SEC_SM9_Z256_T SM9_MONT_ALPHA5   = {0x048baa79dcc34107ULL, 0x5e2e7ac4fe76c161ULL, 0x99399754365bd4bcULL, 0xaf91aeac819b0e13ULL};</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_mldsa_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'dillithium_zetas', which has external linkage, but no visible external declaration.</description>
+<line>15</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>15</line>
+<column>11</column>
+</event>
+<extra>const S32 dillithium_zetas[256] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'gKAZ_N0_8B_PKE_CMD', which has external linkage, but no visible external declaration.</description>
+<line>11</line>
+<column>11</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>          ^</description>
+<line>11</line>
+<column>11</column>
+</event>
+<extra>const U64 gKAZ_N0_8B_PKE_CMD[HAL_SEC_PQC_KAZ_GEN_N0_8B_CMD_CNT] =</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.4</checker>
+<type>MISRA_C_2012_Rule_8.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_4_violation</tag>
+<description>Defining 'dal_fip_gFphyRxRefBackup', which has external linkage, but no visible external declaration.</description>
+<line>314</line>
+<column>5</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>    ^</description>
+<line>314</line>
+<column>5</column>
+</event>
+<extra>U32 dal_fip_gFphyRxRefBackup[8] = {1, 1, 1, 1, 1, 1, 1, 1};</extra>
+<subcategory>none</subcategory>
+</error>

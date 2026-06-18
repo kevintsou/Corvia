@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line5">5    </a></b>	#define ERR_UART_IP_INIT_FAIL   (BIT2)
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	#undef LOGID
+<b><a name="line8">8    </a></b>	#define LOGID LOGID_USER_TP
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	extern SEC_KAT_RECORD gSecKatRecord;
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	static U8 sys_ip_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line13">13    </a></b>	{
+<b><a name="line14">14    </a></b>	    U8 sys_ip_init_result = PASS;
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	    /*
+<b><a name="line17">17    </a></b>	     *  Initialize all necessary hardware ip for load boot loader,
+<b><a name="line18">18    </a></b>	     *  including  UART_IP:   enable UART
+<b><a name="line19">19    </a></b>	     */
+<b><a name="line20">20    </a></b>	    sys_api_uart_init(gBCodeGlobalStruct.parameter_config.uart_baudrate_mode,
+<b><a name="line21">21    </a></b>	        gBCodeGlobalStruct.parameter_config.uart_rx_latch_position_config_enable,
+<b><a name="line22">22    </a></b>	        gBCodeGlobalStruct.parameter_config.uart_rx_latch_position);
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	    if (hal_gic_interface_identification()) {
+<b><a name="line25">25    </a></b>	        sys_ip_init_result |= ERR_GIC_IP_INIT_FAIL;
+<b><a name="line26">26    </a></b>	    }
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    return sys_ip_init_result;
+<b><a name="line29">29    </a></b>	}
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line32">32    </a></b>	static void init_ocp_device_info(void)
+<b><a name="line33">33    </a></b>	{
+<b><a name="line34">34    </a></b>	    U32 ulRpSharedDataBase = DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_OCP_RECV_RP_SHARED_DATA;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134750208UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line35">35    </a></b>	    RP_SHARED_DATA *pRpSharedData = (RP_SHARED_DATA *)(ulRpSharedDataBase);
+<b><a name="line36">36    </a></b>	    BOOL bCopySharedDataFromDbuf = FALSE;
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	    // Init a DBUF base for bootcode and loader/fw to share OCP ACRoT data
+<b><a name="line39">39    </a></b>	    SetRpSharedDataBase(ulRpSharedDataBase);
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    if (gpFwSimCtrl1Reg->ocp_recovery_is_trigger)
+<b><a name="line42">42    </a></b>	    {
+<b><a name="line43">43    </a></b>	        // Change shared base while FW jump to bootcode
+<b><a name="line44">44    </a></b>	        pRpSharedData = &gpLoaderErrMessage->sRpSharedData;
+<b><a name="line45">45    </a></b>	        bCopySharedDataFromDbuf = TRUE;
+<b><a name="line46">46    </a></b>	    }
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    OcpRecoveryACRotDataInit(pRpSharedData, bCopySharedDataFromDbuf);
+<b><a name="line49">49    </a></b>	}
+<b><a name="line50">50    </a></b>	#endif
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	#define ERR_SYS_IP_INIT_FAIL    (BIT0)
+<b><a name="line53">53    </a></b>	#define ERR_DBUF_INIT_FAIL      (BIT1)
+<b><a name="line54">54    </a></b>	#define ERR_RNG_INIT_FAIL       (BIT2)
+<b><a name="line55">55    </a></b>	#define ERR_SQZ_INIT_FAIL       (BIT3)
+<b><a name="line56">56    </a></b>	U8 sys_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    U8 sys_init_result = PASS;
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV2));
+<b><a name="line61">61    </a></b>	    // reset uart, spi, i2c at the same time
+<b><a name="line62">62    </a></b>	    PHAL_RST_N_CLR_RST_N_PIP_SEL();
+<b><a name="line63">63    </a></b>	    PHAL_RST_N_SET_RST_N_PIP_SEL();
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	    PHAL_RST_N_CLR_RST_N_PIP_PDAON_SEL();
+</pre></body>
+</html>

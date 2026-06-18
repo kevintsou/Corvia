@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line391">391    </a></b>	    //Check the VUC Protect state machine
+<b><a name="line392">392    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_ENCRYPTION_DATA_SENT != p_vuc_protect->protect_state) {
+<b><a name="line393">393    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line394">394    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line395">395    </a></b>	
+<b><a name="line396">396    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line397">397    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line398">398    </a></b>	        Dump_Debug(tprintf("\nC6 state wrong"));
+<b><a name="line399">399    </a></b>	#endif
+<b><a name="line400">400    </a></b>	        return TRUE;
+<b><a name="line401">401    </a></b>	    }
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    host_buf = (U32)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE); // data receive from host is same as param->host_buf
+<b><a name="line404">404    </a></b>	    data_buf = (U32)(DBUF_API_BOOTCODE_KEY_CAL_BUFFER_BASE);
+<b><a name="line405">405    </a></b>	    (void)memcpy((void *)sk_nv, (void *)(U32 *)host_buf, sizeof(sk_nv));
+<b><a name="line406">406    </a></b>	    (void)memcpy((void *)mactagv, (void *)(U32 *)(host_buf + 64U), sizeof(mactagv));
+<b><a name="line407">407    </a></b>	    (void)memcpy((void *)z_tmp_input, (void *)p_vuc_protect->z, 32);
+<b><a name="line408">408    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line409">409    </a></b>	    Dump_Debug(tprintf("send_encryption_data host_buf : "));
+<b><a name="line410">410    </a></b>	    Dump_Debug(tprintf("N_v : "));
+<b><a name="line411">411    </a></b>	    Dump_Debug(tprintm((U32)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, 64));
+<b><a name="line412">412    </a></b>	    Dump_Debug(tprintf("mac tag : "));
+<b><a name="line413">413    </a></b>	    Dump_Debug(tprintm((U32)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 64), 32));
+<b><a name="line414">414    </a></b>	#endif
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	    // Generate Session Key = HMAC-SHA256(default salt, i || Z || L || HMAC_256 || IDu || IDv || N_v)
+<b><a name="line417">417    </a></b>	    kdf_input_size = 0;
+<b><a name="line418">418    </a></b>	    (void)memset((void *)data_buf, 0x00, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line419">419    </a></b>	
+<b><a name="line420">420    </a></b>	    (void)memcpy((void *)data_buf, (void *)&i, sizeof(i));//4
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "data_buf" of type "U32" is cast to type "void *".</font>
+<b><a name="line421">421    </a></b>	    kdf_input_size += sizeof(i);
+<b><a name="line422">422    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)z_tmp_input, sizeof(z_tmp_input));//32
+<b><a name="line423">423    </a></b>	    kdf_input_size += sizeof(z_tmp_input);
+<b><a name="line424">424    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_l, sizeof(sk_l));//4
+<b><a name="line425">425    </a></b>	    kdf_input_size += sizeof(sk_l);
+<b><a name="line426">426    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_hmac_256, sizeof(sk_hmac_256));//8
+<b><a name="line427">427    </a></b>	    kdf_input_size += sizeof(sk_hmac_256);
+<b><a name="line428">428    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idu, sizeof(sk_idu));//8
+<b><a name="line429">429    </a></b>	    kdf_input_size += sizeof(sk_idu);
+<b><a name="line430">430    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idv, sizeof(sk_idv));//8
+<b><a name="line431">431    </a></b>	    kdf_input_size += sizeof(sk_idv);
+<b><a name="line432">432    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_nv, sizeof(sk_nv));//64
+<b><a name="line433">433    </a></b>	    kdf_input_size += sizeof(sk_nv); //should be 128 Bytes
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    memcpy((void *)(data_buf + 1024), &default_salt[0], 64);
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line438">438    </a></b>	    Dump_Debug(tprintf("Dump Z | OtherInput : "));
+<b><a name="line439">439    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line440">440    </a></b>	#endif
+<b><a name="line441">441    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 64U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	    memset((void *)(p_vuc_protect->a_session_key), 0x00, VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line444">444    </a></b>	    memcpy((void *)(p_vuc_protect->a_session_key), (void *)(data_buf + 2048), VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // destory secret value Z
+<b><a name="line447">447    </a></b>	    (void)memset((void *)p_vuc_protect->z, 0x00, 32);
+<b><a name="line448">448    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line449">449    </a></b>	    Dump_Debug(tprintf("Dump session key : "));
+<b><a name="line450">450    </a></b>	    Dump_Debug(tprintm((U32)p_vuc_protect->a_session_key, 32));
+<b><a name="line451">451    </a></b>	#endif
+</pre></body>
+</html>

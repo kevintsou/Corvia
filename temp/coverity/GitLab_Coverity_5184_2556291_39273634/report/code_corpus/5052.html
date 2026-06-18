@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/landmark.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line165">165    </a></b>	        DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line166">166    </a></b>	    }
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	static void efuse_bootcode_landmark_handle(EFUSE_BOOTCODE_LANDMARK_PTR landmark)
+<b><a name="line170">170    </a></b>	{
+<b><a name="line171">171    </a></b>	    volatile U8 *address_base = 0;
+<b><a name="line172">172    </a></b>	    U32 reg_data, poll_time_us, poll_status;
+<b><a name="line173">173    </a></b>	    U32 idle_unit_cnt;
+<b><a name="line174">174    </a></b>	    U32 fail_cnt = 0;
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	    Dump_LM(tprintf("Data %x, Addr %x, Ctrl %x \r\n", landmark->data, landmark->addr, landmark->ctrl));
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	    if (landmark->ctrl == 0x0) { //nop
+<b><a name="line179">179    </a></b>	        return;
+<b><a name="line180">180    </a></b>	    }
+<b><a name="line181">181    </a></b>	    if (landmark->ctrl == 0x1) {
+<b><a name="line182">182    </a></b>	
+<b><a name="line183">183    </a></b>	        Dump_LM(tprintf("assign:"));
+<b><a name="line184">184    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line185">185    </a></b>	        reg_data = landmark->data;
+<b><a name="line186">186    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line187">187    </a></b>	        *address_base = reg_data;
+<b><a name="line188">188    </a></b>	    }
+<b><a name="line189">189    </a></b>	    else if (landmark->ctrl == 0x2) {
+<b><a name="line190">190    </a></b>	        Dump_LM(tprintf("and:"));
+<b><a name="line191">191    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line192">192    </a></b>	        reg_data = landmark->data;
+<b><a name="line193">193    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line194">194    </a></b>	        *address_base &= reg_data;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "reg_data" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line195">195    </a></b>	    }
+<b><a name="line196">196    </a></b>	    else if (landmark->ctrl == 0x3) {
+<b><a name="line197">197    </a></b>	        Dump_LM(tprintf("or:"));
+<b><a name="line198">198    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line199">199    </a></b>	        reg_data = landmark->data;
+<b><a name="line200">200    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line201">201    </a></b>	        *address_base |= reg_data;
+<b><a name="line202">202    </a></b>	    }
+<b><a name="line203">203    </a></b>	    else if (landmark->ctrl == 0x4) {
+<b><a name="line204">204    </a></b>	        Dump_LM(tprintf("xor:"));
+<b><a name="line205">205    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line206">206    </a></b>	        reg_data = landmark->data;
+<b><a name="line207">207    </a></b>	        Dump_LM(tprintf("Addr 0x%x Data 0x%x (Orig 0x%x)", address_base, reg_data, *address_base));
+<b><a name="line208">208    </a></b>	        *address_base ^= reg_data;
+<b><a name="line209">209    </a></b>	    }
+<b><a name="line210">210    </a></b>	    else if (landmark->ctrl == 0x5) { //idle
+<b><a name="line211">211    </a></b>	        Dump_LM(tprintf("idle:"));
+<b><a name="line212">212    </a></b>	        idle_unit_cnt = landmark->addr;
+<b><a name="line213">213    </a></b>	        Dump_LM(tprintf("idle %d ", idle_unit_cnt));
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	        switch (landmark->data) {
+<b><a name="line216">216    </a></b>	        case 0x0000:
+<b><a name="line217">217    </a></b>	            Dump_LM(tprintf("PC"));
+<b><a name="line218">218    </a></b>	            idle_pc(idle_unit_cnt);
+<b><a name="line219">219    </a></b>	            break;
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	        case 0x0001:
+<b><a name="line222">222    </a></b>	            Dump_LM(tprintf("uS"));
+<b><a name="line223">223    </a></b>	            MABIAO_IDLE_US(idle_unit_cnt);
+<b><a name="line224">224    </a></b>	            break;
+<b><a name="line225">225    </a></b>	
+</pre></body>
+</html>

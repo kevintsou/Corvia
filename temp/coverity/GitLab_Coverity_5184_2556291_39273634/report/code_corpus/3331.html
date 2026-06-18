@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3829">3829    </a></b>	                            dice_param.loader_measure_addr                            = (U32) & (gProjectBinaryHash[0U]);
+<b><a name="line3830">3830    </a></b>	                            dice_param.device_product_id_setting                      = 0x00;
+<b><a name="line3831">3831    </a></b>	
+<b><a name="line3832">3832    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.u16               = 0; //Initialize all reserved fields in sec_mode_confg_efuse_setting to 0
+<b><a name="line3833">3833    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.jtag_disable      = M_MISCL_GET_JTAG_DISABLE();
+<b><a name="line3834">3834    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.jtag_disable_0_6  = M_MISCL_GET_JTAG_DISABLE_0_6();
+<b><a name="line3835">3835    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.jtag_status_lock  = M_MISCL_GET_JTAG_STATUS_LOCK();
+<b><a name="line3836">3836    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.production_state  = gEFuseAPI.efuse_security_setting.production_state;
+<b><a name="line3837">3837    </a></b>	                            dice_param.sec_mode_confg_efuse_setting.rma_state         = gEFuseAPI.efuse_security_setting.rma_state;
+<b><a name="line3838">3838    </a></b>	
+<b><a name="line3839">3839    </a></b>	                            dice_param.dice_boot_confg_efuse_setting.u8               = 0; //Initialize all reserved fields in dice_boot_confg_efuse_setting to 0
+<b><a name="line3840">3840    </a></b>	                            dice_param.dice_boot_confg_efuse_setting.dice_state       = gEFuseAPI.efuse_security_setting.dice_state;
+<b><a name="line3841">3841    </a></b>	
+<b><a name="line3842">3842    </a></b>	                            dice_param.cdi_input_type                                 = gEFuseAPI.efuse_security_setting.cdi_input_type;
+<b><a name="line3843">3843    </a></b>	
+<b><a name="line3844">3844    </a></b>	                            dice_gen_cdi(&dice_param, DBUF_API_BOOTCODE_TEMP_BUFFER_BASE, (DICE_OUTPUT *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_CDI));
+<b><a name="line3845">3845    </a></b>	                            sal_log_tracker_set(sal_locate(0x55, TYPE_RSV12));
+<b><a name="line3846">3846    </a></b>	                        }
+<b><a name="line3847">3847    </a></b>	
+<b><a name="line3848">3848    </a></b>	                        // Clear buffer
+<b><a name="line3849">3849    </a></b>	                        memset((void *) & (gProjectBinaryHash[0]), 0x00, sizeof(gProjectBinaryHash));
+<b><a name="line3850">3850    </a></b>	                    }
+<b><a name="line3851">3851    </a></b>	                    else {
+<b><a name="line3852">3852    </a></b>	                        memset((void *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_CDI), 0x00, sizeof(DICE_OUTPUT));
+<b><a name="line3853">3853    </a></b>	                    }
+<b><a name="line3854">3854    </a></b>	                }
+<b><a name="line3855">3855    </a></b>	
+<b><a name="line3856">3856    </a></b>	                //Clear the UDS KDK that may have been read out
+<b><a name="line3857">3857    </a></b>	                clear_uds_kdk(&gEFuseAPI);
+<b><a name="line3858">3858    </a></b>	                sal_log_tracker_set(sal_locate(0x56, TYPE_RSV12));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line3859">3859    </a></b>	
+<b><a name="line3860">3860    </a></b>	                Dump_LoadCode(tprintf("Error of this Code Pointer Block Set is %L", (U64)p_code_pointer_block_status->error.all));
+<b><a name="line3861">3861    </a></b>	                Dump_LoadCode(tprintf("Jumping to Firmware slot %d", p_code_pointer_block_status->firmware_priority_used));
+<b><a name="line3862">3862    </a></b>	
+<b><a name="line3863">3863    </a></b>	                //p_code_pointer_block_status->error.move = move_project_binary((PROJECT_BINARY_HEADER *)DBUF_BCODE_DATA_BUFFER_BASE);
+<b><a name="line3864">3864    </a></b>	                sal_log_info_char('J'); //Jump to PRAM
+<b><a name="line3865">3865    </a></b>	                sal_log_info_char('\r'); //Output the token separators
+<b><a name="line3866">3866    </a></b>	                sal_log_info_char('\n');
+<b><a name="line3867">3867    </a></b>	
+<b><a name="line3868">3868    </a></b>	                efuse_bootcode_landmark_index_api(&gEFuseAPI, 4);
+<b><a name="line3869">3869    </a></b>	
+<b><a name="line3870">3870    </a></b>	#if (BOOT_TYPE == BOOT_TYPE_MASKROM)
+<b><a name="line3871">3871    </a></b>	                DISABLE_ALL_IRQ();
+<b><a name="line3872">3872    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3873">3873    </a></b>	
+<b><a name="line3874">3874    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line3875">3875    </a></b>	
+<b><a name="line3876">3876    </a></b>	                if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line3877">3877    </a></b>	                    clear_sec_key_hash_and_data(&gEFuseAPI);
+<b><a name="line3878">3878    </a></b>	                    return 1;
+<b><a name="line3879">3879    </a></b>	                }
+<b><a name="line3880">3880    </a></b>	
+<b><a name="line3881">3881    </a></b>	                sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_7_AHEAD_JUMP, TYPE_TIMESTAMP));
+<b><a name="line3882">3882    </a></b>	
+<b><a name="line3883">3883    </a></b>	                sal_log_tracker_set(sal_locate(0x0F, TYPE_RSV6));
+<b><a name="line3884">3884    </a></b>	
+<b><a name="line3885">3885    </a></b>	                jump_pram((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE);
+<b><a name="line3886">3886    </a></b>	#else
+<b><a name="line3887">3887    </a></b>	                tprintf("Ice Mode, going into while(1)");
+<b><a name="line3888">3888    </a></b>	#endif
+<b><a name="line3889">3889    </a></b>	                while (1);
+</pre></body>
+</html>

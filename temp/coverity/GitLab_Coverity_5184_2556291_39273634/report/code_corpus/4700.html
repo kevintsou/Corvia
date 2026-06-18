@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line347">347    </a></b>	        break;
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	    case NVME_MI_CFGID_MCTP_TRANS_UNIT_SIZE:
+<b><a name="line350">350    </a></b>	        //spec. p56, shall be set to a value between 64 bytes and 250 byte
+<b><a name="line351">351    </a></b>	        mctp_trns_unit_size = p_nvme_mi_cmd_req_msg->mngmt_req_dw1.config_set.mctp_transmission_unit_size.mctp_transmission_unit_size;
+<b><a name="line352">352    </a></b>	        port_id = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_set.mctp_transmission_unit_size.port_id;
+<b><a name="line353">353    </a></b>	        Dump_SMBUS(tprintf("    >>>>> SET MCTP Transmission Unit Size : %x", mctp_trns_unit_size));
+<b><a name="line354">354    </a></b>	        Dump_SMBUS(tprintf("    >>>>> SET PORT ID    : %x", port_id));
+<b><a name="line355">355    </a></b>	        nvme_mi_message_configuration_set_mctp_trans_unit_size(p_nvme_mi_cmd_resp_msg, port_id, mctp_trns_unit_size, p_transport);
+<b><a name="line356">356    </a></b>	        break;
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    default:
+<b><a name="line359">359    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Reserved CFG_ID"));
+<b><a name="line360">360    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_CFGID; //error byte 8, error bit 0, configuration id error
+<b><a name="line361">361    </a></b>	        break;
+<b><a name="line362">362    </a></b>	    }
+<b><a name="line363">363    </a></b>	}
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	static void mctp_message_handle_nvme_mi_message_configuration_get(NVME_MI_CMD_REQ_MSG_PTR p_nvme_mi_cmd_req_msg, NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, MCTP_TRANSPORT *p_transport)
+<b><a name="line366">366    </a></b>	{
+<b><a name="line367">367    </a></b>	    U8 port_id;
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Configuration Get"));
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    Dump_SMBUS(tprintf("    >>>>> CFGID : %x", p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_get.all.cfgid));
+<b><a name="line372">372    </a></b>	
+<b><a name="line373">373    </a></b>	    switch (p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_get.all.cfgid)
+<b><a name="line374">374    </a></b>	    {
+<b><a name="line375">375    </a></b>	        case NVME_MI_CFGID_SMBUS_FREQ:
+<b><a name="line376">376    </a></b>	            port_id = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_get.smbus_i2c_frequency.port_id;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_get.smbus_i2c_frequency.port_id" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line377">377    </a></b>	            Dump_SMBUS(tprintf("    >>>>> PORT ID : %x", port_id));
+<b><a name="line378">378    </a></b>	            nvme_mi_message_configuration_get_smbus_freq(p_nvme_mi_cmd_resp_msg, port_id, p_transport);
+<b><a name="line379">379    </a></b>	            break;
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	        case NVME_MI_CFGID_HEALTH_STS_CHG:
+<b><a name="line382">382    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Health Status Change"));
+<b><a name="line383">383    </a></b>	            // Success Response, no Response Data, MI spec 1.2 chapter 5.1.2
+<b><a name="line384">384    </a></b>	            break;
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	        case NVME_MI_CFGID_MCTP_TRANS_UNIT_SIZE:
+<b><a name="line387">387    </a></b>	            port_id = p_nvme_mi_cmd_req_msg->mngmt_req_dw0.config_get.mctp_transmission_unit_size.port_id;
+<b><a name="line388">388    </a></b>	            Dump_SMBUS(tprintf("    >>>>> PORT ID : %x", port_id));
+<b><a name="line389">389    </a></b>	            nvme_mi_message_configuration_get_mctp_trans_unit_size(p_nvme_mi_cmd_resp_msg, port_id, p_transport);
+<b><a name="line390">390    </a></b>	            break;
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	        default:
+<b><a name="line393">393    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Reserved CFG_ID"));
+<b><a name="line394">394    </a></b>	            p_nvme_mi_cmd_resp_msg->dw1.all = PEL_CFG_CFGID; //error byte 8, error bit 0, configuration id error
+<b><a name="line395">395    </a></b>	            break;
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	}
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	//NVM ExpressTM Management Interface Revision 1.1
+<b><a name="line400">400    </a></b>	//Figure 112: NVMe Admin Command Request Description
+<b><a name="line401">401    </a></b>	//Byt 35:32
+<b><a name="line402">402    </a></b>	#define NVME_MI_ADMIN_COMMAND_DLEN_MAX      (4096U)
+<b><a name="line403">403    </a></b>	static void mctp_message_handle_set_fake_admin_param(HOST_API_STRUCT_PTR host, NVME_MI_NVME_ADMIN_CMD_REQ_PTR p_nvme_admin_cmd_req, U8 request_data_exists, DATA_DESCRIPTOR *p_request_data)
+<b><a name="line404">404    </a></b>	{
+<b><a name="line405">405    </a></b>	    // init hcpl
+<b><a name="line406">406    </a></b>	    memset((void *) & (host->hcpl), 0, sizeof(HAL_APU_CPL_SQ_PARAM));
+<b><a name="line407">407    </a></b>	
+</pre></body>
+</html>

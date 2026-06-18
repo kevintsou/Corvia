@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3005">3005    </a></b>	 * @return    None.
+<b><a name="line3006">3006    </a></b>	 * @note
+<b><a name="line3007">3007    </a></b>	 *
+<b><a name="line3008">3008    </a></b>	 * -
+<b><a name="line3009">3009    </a></b>	 *
+<b><a name="line3010">3010    </a></b>	 */
+<b><a name="line3011">3011    </a></b>	void dal_fip_set_fpu_jmp_sr_mask(U8 ch, U32 mask)
+<b><a name="line3012">3012    </a></b>	{
+<b><a name="line3013">3013    </a></b>	    w_FPU_JMP_SR_MASK(ch, mask);
+<b><a name="line3014">3014    </a></b>	}
+<b><a name="line3015">3015    </a></b>	
+<b><a name="line3016">3016    </a></b>	/*!
+<b><a name="line3017">3017    </a></b>	 * @brief Set fpu jmp sr data
+<b><a name="line3018">3018    </a></b>	 *
+<b><a name="line3019">3019    </a></b>	 * - TODO
+<b><a name="line3020">3020    </a></b>	 *
+<b><a name="line3021">3021    </a></b>	 * @param[in] ch        Index of the channel.
+<b><a name="line3022">3022    </a></b>	 * @param[in] mask      fpu jmp sr data
+<b><a name="line3023">3023    </a></b>	 * @return    None.
+<b><a name="line3024">3024    </a></b>	 * @note
+<b><a name="line3025">3025    </a></b>	 *
+<b><a name="line3026">3026    </a></b>	 * -
+<b><a name="line3027">3027    </a></b>	 *
+<b><a name="line3028">3028    </a></b>	 */
+<b><a name="line3029">3029    </a></b>	void dal_fip_set_fpu_jmp_sr_data(U8 ch, U32 value)
+<b><a name="line3030">3030    </a></b>	{
+<b><a name="line3031">3031    </a></b>	    w_FPU_JMP_SR_DATA(ch, value);
+<b><a name="line3032">3032    </a></b>	}
+<b><a name="line3033">3033    </a></b>	
+<b><a name="line3034">3034    </a></b>	void dal_fip_delay(U32 tick_num)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_fip_delay" is declared but never defined.</font>
+<b><a name="line3035">3035    </a></b>	{
+<b><a name="line3036">3036    </a></b>	    U32 tick;
+<b><a name="line3037">3037    </a></b>	
+<b><a name="line3038">3038    </a></b>	    for (tick = 0 ; tick < tick_num ; tick++) {
+<b><a name="line3039">3039    </a></b>	        asm volatile("nop");
+<b><a name="line3040">3040    </a></b>	    }
+<b><a name="line3041">3041    </a></b>	}
+<b><a name="line3042">3042    </a></b>	
+<b><a name="line3043">3043    </a></b>	void dal_fip_fphy_enable(void)
+<b><a name="line3044">3044    </a></b>	{
+<b><a name="line3045">3045    </a></b>	    // step1
+<b><a name="line3046">3046    </a></b>	    //run fphy_osc_enable
+<b><a name="line3047">3047    </a></b>	
+<b><a name="line3048">3048    </a></b>	    // step2
+<b><a name="line3049">3049    </a></b>	    sal_delay(25U);
+<b><a name="line3050">3050    </a></b>	
+<b><a name="line3051">3051    </a></b>	    // step3
+<b><a name="line3052">3052    </a></b>	    //w_CR_SRST_ZQ_ORG(1U);
+<b><a name="line3053">3053    </a></b>	
+<b><a name="line3054">3054    </a></b>	    // step4
+<b><a name="line3055">3055    </a></b>	    sal_delay(25U);
+<b><a name="line3056">3056    </a></b>	
+<b><a name="line3057">3057    </a></b>	    // step5
+<b><a name="line3058">3058    </a></b>	    for (U8 ch = 0U; ch < DAL_FIP_CH_NUM; ch++)
+<b><a name="line3059">3059    </a></b>	    {
+<b><a name="line3060">3060    </a></b>	        dal_fip_set_fphy_rstb_clk(ch, 1U);
+<b><a name="line3061">3061    </a></b>	    }
+<b><a name="line3062">3062    </a></b>	
+<b><a name="line3063">3063    </a></b>	    for (U8 ch = 0U; ch < DAL_FIP_CH_NUM; ch++)
+<b><a name="line3064">3064    </a></b>	    {
+<b><a name="line3065">3065    </a></b>	        dal_fip_set_fphy_en_clk(ch, 1U);
+</pre></body>
+</html>

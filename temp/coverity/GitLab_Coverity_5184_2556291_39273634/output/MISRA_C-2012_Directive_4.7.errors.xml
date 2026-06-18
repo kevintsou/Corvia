@@ -1,0 +1,312 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Directive 4.7</checker>
+<type>MISRA_C_2012_Directive_4.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_bootcode_load_all_project_binary</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{key_manifest_api_ptr-&gt;err_bit_map != 0U}}}}}}</description>
+<line>1630</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>1633</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{key_manifest_api_ptr-&gt;key_skip == 1U}}}}}}</description>
+<line>1636</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>if_fallthrough</tag>
+<description>{CovLStrv2{{t{Falling through to end of if statement.}}}}</description>
+<line>1638</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>1645</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{return_error_bitmap == 0U}}}}}}</description>
+<line>1647</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>assigning_error_info_to_var</tag>
+<description>{CovLStrv2{{t{Assigning error information returned from function {0} to the variable {1}.}{{code{check_project_binary(p_project_binary_header, project_binary_source, 0)}}}{{code{return_error_bitmap}}}}}}</description>
+<line>1649</line>
+<column>9</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_directive_4_7_violation</tag>
+<description>{CovLStrv2{{t{The variable {0} which contains error information hasn't been tested.}{{code{return_error_bitmap}}}}}}</description>
+<line>1649</line>
+<column>9</column>
+</event>
+<extra>return_error_bitmap</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Directive 4.7</checker>
+<type>MISRA_C_2012_Directive_4.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_id_table_active_fw_slot</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{p_id_table-&gt;active_fw_slot_info_valid}}}}}}</description>
+<line>2550</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>assigning_error_info_to_var</tag>
+<description>{CovLStrv2{{t{Assigning error information returned from function {0} to the variable {1}.}{{code{use_fw_slot(&amp;p_id_table-&gt;active_fw_slot_info, p_fw_slot_status, project_binary_address, p_load_code_status, a_flash_error_channel_bitmap)}}}{{code{error_firmware}}}}}}</description>
+<line>2560</line>
+<column>9</column>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{3U == p_fw_slot_status-&gt;state}}}}}}</description>
+<line>2566</line>
+<column>9</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>2569</line>
+<column>14</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_directive_4_7_violation</tag>
+<description>{CovLStrv2{{t{The variable {0} which contains error information hasn't been tested.}{{code{error_firmware}}}}}}</description>
+<line>2560</line>
+<column>9</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Directive 4.7</checker>
+<type>MISRA_C_2012_Directive_4.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_code_pointer</function>
+<score>100</score>
+<ordered>true</ordered>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{slot_priority &lt; 3}}}}}}</description>
+<line>3545</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{3 &gt; slot_id}}}}}}</description>
+<line>3553</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{0 != (p_code_pointer-&gt;header.valid_slot_bitmap &amp; (1 &lt;&lt; slot_id))}}}}}}</description>
+<line>3553</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>if_fallthrough</tag>
+<description>{CovLStrv2{{t{Falling through to end of if statement.}}}}</description>
+<line>3557</line>
+<column>9</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>3567</line>
+<column>9</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{3U == p_fw_slot_status-&gt;state}}}}}}</description>
+<line>3575</line>
+<column>9</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>3577</line>
+<column>9</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>loop</tag>
+<description>{CovLStrv2{{t{Jumping back to the beginning of the loop.}}}}</description>
+<line>3578</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>loop_begin</tag>
+<description>{CovLStrv2{{t{Jumped back to beginning of loop.}}}}</description>
+<line>3545</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{slot_priority &lt; 3}}}}}}</description>
+<line>3545</line>
+<column>5</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{3 &gt; slot_id}}}}}}</description>
+<line>3553</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{0 != (p_code_pointer-&gt;header.valid_slot_bitmap &amp; (1 &lt;&lt; slot_id))}}}}}}</description>
+<line>3553</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>assigning_error_info_to_var</tag>
+<description>{CovLStrv2{{t{Assigning error information returned from function {0} to the variable {1}.}{{code{use_fw_slot(&amp;p_code_pointer-&gt;a_slot_info[slot_id], p_fw_slot_status, project_binary_address, p_load_code_status, a_flash_error_channel_bitmap)}}}{{code{error_firmware}}}}}}</description>
+<line>3556</line>
+<column>13</column>
+</event>
+<event>
+<tag>if_fallthrough</tag>
+<description>{CovLStrv2{{t{Falling through to end of if statement.}}}}</description>
+<line>3557</line>
+<column>9</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>if_end</tag>
+<description>{CovLStrv2{{t{End of if statement.}}}}</description>
+<line>3567</line>
+<column>9</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_true</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking true branch.}{{code{3U == p_fw_slot_status-&gt;state}}}}}}</description>
+<line>3575</line>
+<column>9</column>
+<path_event></path_event>
+</event>
+<event>
+<tag>break</tag>
+<description>{CovLStrv2{{t{Breaking from loop.}}}}</description>
+<line>3576</line>
+<column>13</column>
+<path_event>
+<jump>true</jump>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>loop_end</tag>
+<description>{CovLStrv2{{t{Reached end of loop.}}}}</description>
+<line>3578</line>
+<column>5</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<tag>cond_false</tag>
+<description>{CovLStrv2{{t{Condition {0}, taking false branch.}{{code{3 == slot_priority}}}}}}</description>
+<line>3582</line>
+<column>5</column>
+<path_event>
+<jump>true</jump>
+</path_event>
+</event>
+<event>
+<tag>else_branch</tag>
+<description>{CovLStrv2{{t{Reached else branch.}}}}</description>
+<line>3589</line>
+<column>10</column>
+<path_event>
+<suppressible>true</suppressible>
+</path_event>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_directive_4_7_violation</tag>
+<description>{CovLStrv2{{t{The variable {0} which contains error information hasn't been tested.}{{code{error_firmware}}}}}}</description>
+<line>3556</line>
+<column>13</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>

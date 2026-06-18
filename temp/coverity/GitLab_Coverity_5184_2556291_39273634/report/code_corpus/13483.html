@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sys.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#define RTT_TIMER_SK_TREF    (0)
+<b><a name="line4">4    </a></b>	#define RTT_TIMER_SK_NS      (1)
+<b><a name="line5">5    </a></b>	#define RTT_TIMER_SK_US      (2)
+<b><a name="line6">6    </a></b>	#define RTT_TIMER_SK_MS      (3)
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	// TODO: replace reg definition
+<b><a name="line9">9    </a></b>	// FW SIM INFO
+<b><a name="line10">10    </a></b>	volatile MISC_SIM_CTRL_ID_0_REG * const gpFwSimCtrl0Reg = (volatile MISC_SIM_CTRL_ID_0_REG * const) &r32_SYS_MISCL_PDAON_UPIF[r32_SIM_CTRL_0];
+<b><a name="line11">11    </a></b>	volatile MISC_SIM_CTRL_ID_1_REG * const gpFwSimCtrl1Reg = (volatile MISC_SIM_CTRL_ID_1_REG * const) &r32_SYS_MISCL_PDAON_UPIF[r32_SIM_CTRL_1];
+<b><a name="line12">12    </a></b>	volatile MISC_SIM_CTRL_ID_2_REG * const gpFwSimCtrl2Reg = (volatile MISC_SIM_CTRL_ID_2_REG * const) &r32_SYS_MISCL_PDAON_UPIF[r32_SIM_CTRL_2];
+<b><a name="line13">13    </a></b>	// volatile U32 * const gpSimLog =  &r32_SYS_MISCL_PDAON_UPIF[r32_FW_SIM_INFO4_PD0];
+<b><a name="line14">14    </a></b>	#define SYS_MISCL_PDAON_UPIF ((volatile U32 *) 0x03600000)
+<b><a name="line15">15    </a></b>	volatile U32 * const gpSimLog = &SYS_MISCL_PDAON_UPIF[(0x48UL >> 2U)];
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'gpSimLog', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                     ^</font>
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	void phal_hw_sim_log(void)
+<b><a name="line18">18    </a></b>	{
+<b><a name="line19">19    </a></b>	    w_CR_SIM_STS0('L');
+<b><a name="line20">20    </a></b>	    w_CR_SIM_STS1('O');
+<b><a name="line21">21    </a></b>	    w_CR_SIM_STS2('A');
+<b><a name="line22">22    </a></b>	    w_CR_SIM_STS3('D');
+<b><a name="line23">23    </a></b>	    w_CR_SIM_STS4('E');
+<b><a name="line24">24    </a></b>	    w_CR_SIM_STS5('R');
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    *(U32 *)(0x03600040) |= BIT0; //sim stop
+<b><a name="line27">27    </a></b>	}
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	void phal_sys_rtt_enable(void)
+<b><a name="line30">30    </a></b>	{
+<b><a name="line31">31    </a></b>	    dal_s1_set_rt1_sk(RTT_TIMER_SK_MS);
+<b><a name="line32">32    </a></b>	    dal_s1_set_rt2_sk(RTT_TIMER_SK_US);
+<b><a name="line33">33    </a></b>	    dal_s1_set_rt1_en();
+<b><a name="line34">34    </a></b>	    dal_s1_set_rt2_en();
+<b><a name="line35">35    </a></b>	}
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	U32 phal_sys_rtt_get_ms(void)
+<b><a name="line38">38    </a></b>	{
+<b><a name="line39">39    </a></b>	    return dal_s1_get_rt1_cnt();
+<b><a name="line40">40    </a></b>	}
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	U16 phal_get_sys_clk_MHz(void)
+<b><a name="line43">43    </a></b>	{
+<b><a name="line44">44    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line45">45    </a></b>	    // refer to : https://confluence.phison.com:8443/pages/viewpage.action?spaceKey=PS5303X3&title=Clock+Table
+<b><a name="line46">46    </a></b>	    // X3 ASIC system default clock : 250MHz
+</pre></body>
+</html>

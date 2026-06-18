@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line426">426    </a></b>	    return;
+<b><a name="line427">427    </a></b>	}
+<b><a name="line428">428    </a></b>	#endif
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	void vuc_read_system_info_drive_information(DRIVE_INFORMATION *p_drive_information_content)
+<b><a name="line431">431    </a></b>	{
+<b><a name="line432">432    </a></b>	    /*
+<b><a name="line433">433    </a></b>	    p_drive_information_content->cpu_clock         = 233; //233Mhz
+<b><a name="line434">434    </a></b>	    p_drive_information_content->system_clock      = 280; //28Mhz
+<b><a name="line435">435    </a></b>	    p_drive_information_content->security_clock    = 350; //350Mhz
+<b><a name="line436">436    </a></b>	    p_drive_information_content->flash_read_speed  = 33; //33Mhz? even check
+<b><a name="line437">437    </a></b>	    p_drive_information_content->flash_write_speed = 33; //33Mhz even check
+<b><a name="line438">438    </a></b>	    */
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    memset((void *)(p_drive_information_content->chip_identifier), 0x00, sizeof(p_drive_information_content->chip_identifier));
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_0]  = (U8)BYTE0(hal_chip_id_31_0_get());
+<b><a name="line443">443    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_1]  = (U8)BYTE1(hal_chip_id_31_0_get());
+<b><a name="line444">444    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_2]  = (U8)BYTE2(hal_chip_id_31_0_get());
+<b><a name="line445">445    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_3]  = (U8)BYTE3(hal_chip_id_31_0_get());
+<b><a name="line446">446    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_4]  = (U8)BYTE0(hal_chip_id_63_32_get());
+<b><a name="line447">447    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_5]  = (U8)BYTE1(hal_chip_id_63_32_get());
+<b><a name="line448">448    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_6]  = (U8)BYTE2(hal_chip_id_63_32_get());
+<b><a name="line449">449    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_7]  = (U8)BYTE3(hal_chip_id_63_32_get());
+<b><a name="line450">450    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_8]  = (U8)BYTE0(hal_chip_id_95_64_get());
+<b><a name="line451">451    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_9]  = (U8)BYTE1(hal_chip_id_95_64_get());
+<b><a name="line452">452    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_10] = (U8)BYTE2(hal_chip_id_95_64_get());
+<b><a name="line453">453    </a></b>	    p_drive_information_content->chip_identifier[MISC_CHIP_IDENTIFIER_11] = (U8)BYTE3(hal_chip_id_95_64_get());
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	    /*
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line456">456    </a></b>	    p_drive_information_content->ddr_speed = 2400;//2400Mhz
+<b><a name="line457">457    </a></b>	    p_drive_information_content->ddr_size;
+<b><a name="line458">458    </a></b>	    p_drive_information_content->ddr_type;
+<b><a name="line459">459    </a></b>	    p_drive_information_content->form_factor;
+<b><a name="line460">460    </a></b>	    p_drive_information_content->security_state;
+<b><a name="line461">461    </a></b>	    p_drive_information_content->tcg_status;
+<b><a name="line462">462    </a></b>	    p_drive_information_content->drive_support_attribute;
+<b><a name="line463">463    </a></b>	    p_drive_information_content->write_buffer_size;
+<b><a name="line464">464    </a></b>	    */
+<b><a name="line465">465    </a></b>	    return;
+<b><a name="line466">466    </a></b>	}
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	#if 0
+<b><a name="line469">469    </a></b>	void vuc_read_system_info_verification(VERIFICATION *p_verification_content)
+<b><a name="line470">470    </a></b>	{
+<b><a name="line471">471    </a></b>	    /*
+<b><a name="line472">472    </a></b>	    p_verification_content->ps0_enter_latency_ms;
+<b><a name="line473">473    </a></b>	    p_verification_content->ps1_enter_latency_ms;
+<b><a name="line474">474    </a></b>	    p_verification_content->ps2_enter_latency_ms;
+<b><a name="line475">475    </a></b>	    p_verification_content->ps3_enter_latency_ms;
+<b><a name="line476">476    </a></b>	    p_verification_content->ps4_enter_latency_ms;
+<b><a name="line477">477    </a></b>	    p_verification_content->status_confirm;
+<b><a name="line478">478    </a></b>	    p_verification_content->total_vb_count;
+<b><a name="line479">479    </a></b>	    p_verification_content->remaining_vb_count;
+<b><a name="line480">480    </a></b>	    p_verification_content->wear_leveling_trig_count;
+<b><a name="line481">481    </a></b>	    p_verification_content->garbage_collection_trig_count;
+<b><a name="line482">482    </a></b>	    p_verification_content->read_disturb_trig_count;
+<b><a name="line483">483    </a></b>	    p_verification_content->rsv_206_217[12];
+<b><a name="line484">484    </a></b>	    */
+<b><a name="line485">485    </a></b>	    return;
+<b><a name="line486">486    </a></b>	}
+</pre></body>
+</html>

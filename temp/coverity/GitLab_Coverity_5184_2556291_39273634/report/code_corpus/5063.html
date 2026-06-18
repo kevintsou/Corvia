@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line58">58    </a></b>	    U32 cpu0_atcm_size, cpu0_btcm_size;
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line61">61    </a></b>	    const PROJECT_BINARY_HEADER *ptr_project_binary_header;
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    gpFwSimCtrl1Reg->jump_to_fw = 1;
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	    update_dbuf_for_fw();
+<b><a name="line66">66    </a></b>	    project_binary_address = (U64)(U32)p_project_binary_header;
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line69">69    </a></b>	    project_binary_address += (p_load_code_status->key_manifest_size);
+<b><a name="line70">70    </a></b>	    ptr_project_binary_header = (const PROJECT_BINARY_HEADER *)((U32)(project_binary_address & 0x00000000FFFFFFFF));
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    cpu0_atcm_address = project_binary_address + (SECTOR_SIZE * ptr_project_binary_header->project_binary_header_sector_size);
+<b><a name="line73">73    </a></b>	    cpu0_atcm_size = (ptr_project_binary_header->section_sector_size[0] << SECTOR_SIZE_SHIFT);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    cpu0_btcm_address = cpu0_atcm_address + cpu0_atcm_size;
+<b><a name="line76">76    </a></b>	    cpu0_btcm_size = (ptr_project_binary_header->section_sector_size[1] << SECTOR_SIZE_SHIFT);
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line79">79    </a></b>	    // SMBS force NACK and disable INT prior to jump code
+<b><a name="line80">80    </a></b>	    // JIRA: https://jira.phison.com:8443/browse/SDKBOOT-1127
+<b><a name="line81">81    </a></b>	    phal_smbs_clr_int_en(SMBUS0, SMBS_PROTOCOL_INT_BITMAP | SMBS_ERROR_INT_BITMAP);
+<b><a name="line82">82    </a></b>	    phal_smbs_set_force_nack(SMBUS0);
+<b><a name="line83">83    </a></b>	    phal_smbs_rx_vld_clr(SMBUS0);
+<b><a name="line84">84    </a></b>	    hal_smbs_reset_2(SMBUS0);
+<b><a name="line85">85    </a></b>	#endif
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    phal_pmu_switch_jump(cpu0_atcm_address,  MEMORY_MAP_CPU0_ATCM_BASE, cpu0_atcm_size, cpu0_btcm_address, MEMORY_MAP_CPU0_B0TCM_BASE, cpu0_btcm_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "cpu0_atcm_address" from essential type "unsigned 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	const U8 ga_ic_version[PROJECT_BINARY_HEADER_IC_VERSION_SIZE] =
+<b><a name="line92">92    </a></b>	{'P', 'S', '5', '3', '0', '3', 0x00, 0x00};
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	/**
+<b><a name="line95">95    </a></b>	 * Checks the Project Binary header marking within the specified Project Binary
+<b><a name="line96">96    </a></b>	 *
+<b><a name="line97">97    </a></b>	 * @param p_project_binary_header
+<b><a name="line98">98    </a></b>	 *  The location of the Project Binary to be checked
+<b><a name="line99">99    </a></b>	 *
+<b><a name="line100">100    </a></b>	 * @return
+<b><a name="line101">101    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred,
+<b><a name="line102">102    </a></b>	 *      BIT0 (PROJECT_BINARY_ERROR_HEADER_CODE_SIGNATURE_MARKING)
+<b><a name="line103">103    </a></b>	 *          The Code Signature Marking field (offset 0x00, size 0x10) is incorrect
+<b><a name="line104">104    </a></b>	 *      BIT1 (PROJECT_BINARY_ERROR_HEADER_IC_VERSION)
+<b><a name="line105">105    </a></b>	 *          The IC Version field (offset 0x18, Size 0x08) is incorrect
+<b><a name="line106">106    </a></b>	 */
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	static U32 check_project_binary_header(const PROJECT_BINARY_HEADER *p_project_binary_header)
+<b><a name="line109">109    </a></b>	{
+<b><a name="line110">110    </a></b>	    U32 check_project_binary_error;
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    const U8 a_code_signature_marking[PROJECT_BINARY_HEADER_CODE_SIGNATURE_MARKING_SIZE] =
+<b><a name="line113">113    </a></b>	    {'C', 'O', 'D', 'E', ' ', 'B', 'L', 'O', 'C', 'K', 0x55, 0xAA, 0xAA, 0x55, 0x00, 0xFF};
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    check_project_binary_error = 0;
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    Dump_SEC(tprintf("Check Header"));
+<b><a name="line118">118    </a></b>	    Dump_SEC(tprintf("marking addr :%x",p_project_binary_header->a_code_signature_marking));
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2413">2413    </a></b>	        return SEC_YES;
+<b><a name="line2414">2414    </a></b>	    }
+<b><a name="line2415">2415    </a></b>	    else if ((memcmp(P_char, G1Q_odd, sizeof(G1Q_odd)) == 0) && (memcmp(Q_char, G1Q_even, sizeof(G1Q_even)) == 0))
+<b><a name="line2416">2416    </a></b>	    {
+<b><a name="line2417">2417    </a></b>	        (void)memcpy(P_RR, G1Q_odd_RR_40, sizeof(G1Q_odd_RR_40));
+<b><a name="line2418">2418    </a></b>	        (void)memcpy(P_N0, G1Q_odd_n0, sizeof(G1Q_odd_n0));
+<b><a name="line2419">2419    </a></b>	        (void)memcpy(QInv, G1Q_even_INV, sizeof(G1Q_even_INV));
+<b><a name="line2420">2420    </a></b>	
+<b><a name="line2421">2421    </a></b>	        return SEC_YES;
+<b><a name="line2422">2422    </a></b>	    }
+<b><a name="line2423">2423    </a></b>	    else
+<b><a name="line2424">2424    </a></b>	    {
+<b><a name="line2425">2425    </a></b>	        (void)memset((void *)kaz_powm_buf_ptr->r_tmp, 0, size_n);
+<b><a name="line2426">2426    </a></b>	
+<b><a name="line2427">2427    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_n0(P_char, size_n, (U64 *)(void *)P_N0);
+<b><a name="line2428">2428    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_r_rr(P_char, size_n, (U64 *)(void *)P_N0, (U8 *)kaz_powm_buf_ptr->r_tmp, P_RR, 0, kaz_powm_buf_ptr);
+<b><a name="line2429">2429    </a></b>	        (void)hal_sec_pqc_kaz_pke_gen_qinv(P_char, Q_char, size_n, QInv);
+<b><a name="line2430">2430    </a></b>	
+<b><a name="line2431">2431    </a></b>	        return SEC_YES;
+<b><a name="line2432">2432    </a></b>	    }
+<b><a name="line2433">2433    </a></b>	
+<b><a name="line2434">2434    </a></b>	    return SEC_NO;
+<b><a name="line2435">2435    </a></b>	}
+<b><a name="line2436">2436    </a></b>	
+<b><a name="line2437">2437    </a></b>	U8 hal_sec_pqc_kaz_pke_crt_mpz(HAL_SEC_PQC_KAZ_MP_S_LIST *x, HAL_SEC_PQC_KAZ_MP_S_LIST *modulus, HAL_SEC_PQC_KAZ_MP_S_LIST crt, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_powm_buf_ptr)
+<b><a name="line2438">2438    </a></b>	{
+<b><a name="line2439">2439    </a></b>	    // calculate size_n
+<b><a name="line2440">2440    </a></b>	    U16 size_n = (U16)HAL_SEC_PQC_KAZ_MAX(modulus[0]->mp_size, modulus[1]->mp_size); // unsigned long size
+<b><a name="line2441">2441    </a></b>	    size_n = size_n << 2U; // unsigned char size
+<b><a name="line2442">2442    </a></b>	    size_n = (U16)HAL_SEC_PQC_KAZ_SIZE_ALIGN_8BYTE(size_n);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "8UL" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line2443">2443    </a></b>	
+<b><a name="line2444">2444    </a></b>	    // alloc buffer
+<b><a name="line2445">2445    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->m1),     0x00, size_n);
+<b><a name="line2446">2446    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->m2),     0x00, size_n);
+<b><a name="line2447">2447    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->p),      0x00, size_n);
+<b><a name="line2448">2448    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->p_rr),   0x00, size_n);
+<b><a name="line2449">2449    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->p_n0),   0x00, sizeof(U64));
+<b><a name="line2450">2450    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->q),      0x00, size_n);
+<b><a name="line2451">2451    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->q_inv),  0x00, size_n);
+<b><a name="line2452">2452    </a></b>	    (void)memset((void *)(kaz_powm_buf_ptr->output), 0x00, (U32)size_n << 1UL);
+<b><a name="line2453">2453    </a></b>	
+<b><a name="line2454">2454    </a></b>	    // uM1, uM2 and P, Q, P needs to be odd number
+<b><a name="line2455">2455    </a></b>	    if ((modulus[0]->mp_d_ptr[0] & 1UL) == 1UL)  // odd
+<b><a name="line2456">2456    </a></b>	    {
+<b><a name="line2457">2457    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m1), (void *)(U8 *)(x[0]->mp_d_ptr),       (x[0]->mp_size << 2));
+<b><a name="line2458">2458    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->p),  (void *)(U8 *)(modulus[0]->mp_d_ptr), (modulus[0]->mp_size << 2));
+<b><a name="line2459">2459    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m2), (void *)(U8 *)(x[1]->mp_d_ptr),       (x[1]->mp_size << 2));
+<b><a name="line2460">2460    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->q),  (void *)(U8 *)(modulus[1]->mp_d_ptr), (modulus[1]->mp_size << 2));
+<b><a name="line2461">2461    </a></b>	    }
+<b><a name="line2462">2462    </a></b>	    else
+<b><a name="line2463">2463    </a></b>	    {
+<b><a name="line2464">2464    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m1), (void *)(U8 *)(x[1]->mp_d_ptr),       (x[1]->mp_size << 2));
+<b><a name="line2465">2465    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->p),  (void *)(U8 *)(modulus[1]->mp_d_ptr), (modulus[1]->mp_size << 2));
+<b><a name="line2466">2466    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->m2), (void *)(U8 *)(x[0]->mp_d_ptr),       (x[0]->mp_size << 2));
+<b><a name="line2467">2467    </a></b>	        (void)memcpy((void *)(kaz_powm_buf_ptr->q),  (void *)(U8 *)(modulus[0]->mp_d_ptr), (modulus[0]->mp_size << 2));
+<b><a name="line2468">2468    </a></b>	    }
+<b><a name="line2469">2469    </a></b>	
+<b><a name="line2470">2470    </a></b>	    // import P_RR, P_N0, QInv
+<b><a name="line2471">2471    </a></b>	    if (hal_sec_pqc_kaz_crt_gen_r_Inv((U8 *)kaz_powm_buf_ptr->p, (U8 *)kaz_powm_buf_ptr->q, size_n, (U8 *)kaz_powm_buf_ptr->p_rr, (U8 *)kaz_powm_buf_ptr->p_n0, (U8 *)kaz_powm_buf_ptr->q_inv, kaz_powm_buf_ptr) == SEC_YES)
+<b><a name="line2472">2472    </a></b>	    {
+<b><a name="line2473">2473    </a></b>	        if (hal_sec_pqc_kaz_pke_crt((size_n << 1U), (U8 *)kaz_powm_buf_ptr->m1, (U8 *)kaz_powm_buf_ptr->m2, (U8 *)kaz_powm_buf_ptr->p, size_n, (U8 *)kaz_powm_buf_ptr->p_rr, (U8 *)kaz_powm_buf_ptr->p_n0, (U8 *)kaz_powm_buf_ptr->q, size_n, (U8 *)kaz_powm_buf_ptr->q_inv, (U8 *)kaz_powm_buf_ptr->output) != SEC_YES)
+</pre></body>
+</html>

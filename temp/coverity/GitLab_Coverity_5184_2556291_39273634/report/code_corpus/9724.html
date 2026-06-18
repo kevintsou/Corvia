@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2234">2234    </a></b>	                    //Indicate which parallels are being read in this loop
+<b><a name="line2235">2235    </a></b>	                    reading_parallel_bitmap = 0;
+<b><a name="line2236">2236    </a></b>	                    //Indicate which channels are being read in this loop
+<b><a name="line2237">2237    </a></b>	                    channel_bitmap = 0;
+<b><a name="line2238">2238    </a></b>	
+<b><a name="line2239">2239    </a></b>	                    //Start the Read Trigger
+<b><a name="line2240">2240    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2241">2241    </a></b>	                        //Skip loading the parallels that have already been read
+<b><a name="line2242">2242    </a></b>	                        if (0 == (loop_parallel_bitmap & (1 << parallel))) {
+<b><a name="line2243">2243    </a></b>	                            continue;
+<b><a name="line2244">2244    </a></b>	                        }
+<b><a name="line2245">2245    </a></b>	
+<b><a name="line2246">2246    </a></b>	                        //The slot wordline that this parallel will be reading
+<b><a name="line2247">2247    </a></b>	                        parallel_slot_wordline = (wordline + parallel);
+<b><a name="line2248">2248    </a></b>	
+<b><a name="line2249">2249    </a></b>	                        //The starting chunk of this parallel for this copy retry
+<b><a name="line2250">2250    </a></b>	                        //Will turn into the chunk that contains the wordline for this copy
+<b><a name="line2251">2251    </a></b>	                        parallel_chunk = p_fw_slot_info->a_chunk_offset[(parallel + copy_retry) % copy_retry_max];
+<b><a name="line2252">2252    </a></b>	                        //The slot wordline to load
+<b><a name="line2253">2253    </a></b>	                        //Will turn into the logical wordline offset within this chunk to load
+<b><a name="line2254">2254    </a></b>	                        parallel_chunk_wordline = parallel_slot_wordline;
+<b><a name="line2255">2255    </a></b>	
+<b><a name="line2256">2256    </a></b>	                        Dump_LoadCode(tprintf("Parallel %d ", parallel));
+<b><a name="line2257">2257    </a></b>	                        Dump_LoadCode(tprintf("is Slot Wordline %d ", (U16)parallel_slot_wordline));
+<b><a name="line2258">2258    </a></b>	                        Dump_LoadCode(tprintf("of Copy %d ", ((parallel + copy_retry) % copy_retry_max)));
+<b><a name="line2259">2259    </a></b>	                        Dump_LoadCode(tprintf("starts in Chunk %d", (U16)parallel_chunk));
+<b><a name="line2260">2260    </a></b>	
+<b><a name="line2261">2261    </a></b>	                        //Input the starting chunk of this copy and output will be the chunk in this copy that contains the wordline
+<b><a name="line2262">2262    </a></b>	                        //Input the slot wordline to load and output will be the logical wordline offset within this chunk to load
+<b><a name="line2263">2263    </a></b>	                        relative_chunk = get_fw_chunk_info_from_slot_wordline(p_fw_slot_info->a_chunk_info, &parallel_chunk, &parallel_chunk_wordline);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_fw_slot_info->a_chunk_info" of type "FW_CHUNK_INFO ( const *)[120]" is cast to type "FW_CHUNK_INFO const *".</font>
+<b><a name="line2264">2264    </a></b>	                        if (FW_SLOT_CHUNK_COUNT <= relative_chunk) {
+<b><a name="line2265">2265    </a></b>	                            //This should never occur, as the FW_SLOT_INFO is checked earlier
+<b><a name="line2266">2266    </a></b>	                            p_fw_slot_status->fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_CHUNK_INFO;
+<b><a name="line2267">2267    </a></b>	
+<b><a name="line2268">2268    </a></b>	                            //This parallel does not need to be read in subsequent loops
+<b><a name="line2269">2269    </a></b>	                            //as it doesn't exist according to the FW Slot Info
+<b><a name="line2270">2270    </a></b>	                            loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2271">2271    </a></b>	                        }
+<b><a name="line2272">2272    </a></b>	                        else {
+<b><a name="line2273">2273    </a></b>	
+<b><a name="line2274">2274    </a></b>	                            fsa =
+<b><a name="line2275">2275    </a></b>	                                p_fw_slot_info->a_chunk_info[parallel_chunk].fsa +
+<b><a name="line2276">2276    </a></b>	                                ((parallel_chunk_wordline * (1 + p_fw_slot_info->a_chunk_info[parallel_chunk].wordline_skip)) << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line2277">2277    </a></b>	                            a_channel[parallel] = ((fsa >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask);
+<b><a name="line2278">2278    </a></b>	                            //TODO add a pointer to fpl in a structure that will be passed in so that no gfplapi struct access is required
+<b><a name="line2279">2279    </a></b>	
+<b><a name="line2280">2280    </a></b>	                            //Data Address depends on the slot wordline being loaded
+<b><a name="line2281">2281    </a></b>	                            //Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2282">2282    </a></b>	                            data_address = (project_binary_address + (parallel_slot_wordline * (node_max << LC_BYTE_SIZE_SHIFT)));
+<b><a name="line2283">2283    </a></b>	                            spare_address = (spare_buffer + (a_channel[parallel] * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT)));
+<b><a name="line2284">2284    </a></b>	
+<b><a name="line2285">2285    </a></b>	                            Dump_LoadCode(tprintf("Read Trigger Parallel %d", parallel));
+<b><a name="line2286">2286    </a></b>	                            Dump_LoadCode(tprintf("(Channel %d) ", a_channel[parallel]));
+<b><a name="line2287">2287    </a></b>	
+<b><a name="line2288">2288    </a></b>	                            Dump_LoadCode(tprintf("FSA %x to ", (U32)fsa));
+<b><a name="line2289">2289    </a></b>	                            Dump_LoadCode(tprintf("Data @ %x ", data_address));
+<b><a name="line2290">2290    </a></b>	                            Dump_LoadCode(tprintf("Spare @ %x", spare_address));
+<b><a name="line2291">2291    </a></b>	
+<b><a name="line2292">2292    </a></b>	                            Dump_LoadCode(tprintf("Bank %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_phy_bank.shift) & gFplApiStruct.addr_rule->rule_phy_bank.mask)));
+<b><a name="line2293">2293    </a></b>	                            Dump_LoadCode(tprintf("Channel %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask)));
+<b><a name="line2294">2294    </a></b>	                            Dump_LoadCode(tprintf("Die %x, ", (U32)((fsa >> gFplApiStruct.addr_rule->rule_die.shift) & gFplApiStruct.addr_rule->rule_die.mask)));
+</pre></body>
+</html>

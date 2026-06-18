@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_control.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line44">44    </a></b>	            else if ((MCTP_NULL_EID != p_transmit_handler->message_info.p_transport->endpoint.eid) && (MCTP_CTRL_SET_EID_OP_FORCE_EID != p_mctp_control_req->req_data.set_eid.operation)) {
+<b><a name="line45">45    </a></b>	                Dump_SMBUS(tprintf("    >>>>> EID has already been assigned and the Set Endpoint ID command is issued from a different bus without forcing an EID assignment"));
+<b><a name="line46">46    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Already been assigned EID : %x", p_transmit_handler->message_info.p_transport->endpoint.eid));
+<b><a name="line47">47    </a></b>	                p_mctp_control_resp->resp_data.set_eid.assign_status = MCTP_CTRL_SET_EID_STATUS_REJECT;
+<b><a name="line48">48    </a></b>	            }
+<b><a name="line49">49    </a></b>	            else {
+<b><a name="line50">50    </a></b>	                Dump_SMBUS(tprintf("    >>>>> EID : %x", p_mctp_control_req->req_data.set_eid.eid));
+<b><a name="line51">51    </a></b>	                p_mctp_control_resp->resp_data.set_eid.assign_status = MCTP_CTRL_SET_EID_STATUS_ACCEPT;
+<b><a name="line52">52    </a></b>	                p_mctp_control_resp->resp_data.set_eid.eid_setting = p_mctp_control_req->req_data.set_eid.eid;
+<b><a name="line53">53    </a></b>	                p_transmit_handler->message_info.p_transport->endpoint.eid = p_mctp_control_req->req_data.set_eid.eid;
+<b><a name="line54">54    </a></b>	            }
+<b><a name="line55">55    </a></b>	            break;
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	        default :
+<b><a name="line58">58    </a></b>	            //bootcode not support
+<b><a name="line59">59    </a></b>	            p_mctp_control_resp->resp_data.set_eid.cpl_code |= MCTP_CTRL_CPL_ERROR_INVALID_DATA;
+<b><a name="line60">60    </a></b>	            break;
+<b><a name="line61">61    </a></b>	    }
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    if (MCTP_CTRL_CPL_SUCCESS == p_mctp_control_resp->resp_data.set_eid.cpl_code)
+<b><a name="line64">64    </a></b>	    {
+<b><a name="line65">65    </a></b>	        reponse_data_size = MCTP_RESP_DATA_SIZE_4B;
+<b><a name="line66">66    </a></b>	    }
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    return reponse_data_size;
+<b><a name="line69">69    </a></b>	}
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	static U32 mctp_message_handle_mctp_control_get_eid(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line72">72    </a></b>	{
+<b><a name="line73">73    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_resp = (MCTP_CONTROL_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_transmit_handler->reponse_packet_handler.buffer.p_base" of type "U8 *" is cast to type "MCTP_CONTROL_PTR".</font>
+<b><a name="line74">74    </a></b>	    U32 reponse_data_size = MCTP_RESP_DATA_SIZE_4B;
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    Dump_SMBUS(tprintf(" [MCTP CONTROL] Get EID"));
+<b><a name="line77">77    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	    // Byte 0 : Completion Code
+<b><a name="line80">80    </a></b>	    p_mctp_control_resp->resp_data.get_eid.cpl_code = MCTP_CTRL_CPL_SUCCESS;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    // Byte 1 : 0x00 = EID not yet assigned.
+<b><a name="line83">83    </a></b>	    p_mctp_control_resp->resp_data.get_eid.epid = p_transmit_handler->message_info.p_transport->endpoint.eid;
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    // Byte 2 (Bit1, Bit0)
+<b><a name="line86">86    </a></b>	    // 00b = dynamic EID : The endpoint uses a dynamic EID only.
+<b><a name="line87">87    </a></b>	    // 01b = static EID supported. : The endpoint was configured with a static EID.
+<b><a name="line88">88    </a></b>	    // 10b = static EID supported. : Present EID matches static EID. The endpoint has been configured with a static EID. The present value is the same as the static value.
+<b><a name="line89">89    </a></b>	    // 11b = static EID supported. : Present EID does not match static EID. Endpoint has been configured with a static EID. The present value is different than the static value.
+<b><a name="line90">90    </a></b>	    p_mctp_control_resp->resp_data.get_eid.epidtype = MCTP_CTRL_DYNAMIC_EID;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    // Byte 2 (Bit5, Bit4)
+<b><a name="line93">93    </a></b>	    // 00b = simple endpoint
+<b><a name="line94">94    </a></b>	    // 01b = bus owner/bridge
+<b><a name="line95">95    </a></b>	    // 10b = reserved
+<b><a name="line96">96    </a></b>	    // 11b = reserved
+<b><a name="line97">97    </a></b>	    p_mctp_control_resp->resp_data.get_eid.eptype = MCTP_CTRL_SIMPLE_ENDPOINT;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    // Byte 3
+<b><a name="line100">100    </a></b>	    // Medium-Specific Information.
+<b><a name="line101">101    </a></b>	    // This byte can hold additional information about optional configuration of the
+<b><a name="line102">102    </a></b>	    // endpoint on the given medium, such as whether certain types of timing or arbitration are supported.
+<b><a name="line103">103    </a></b>	    // This should only be used to report static information.
+<b><a name="line104">104    </a></b>	    // This byte shall be returned as 0x00 unless otherwise specified by the transport binding.
+</pre></body>
+</html>

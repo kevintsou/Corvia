@@ -1,0 +1,54 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.1</checker>
+<type>MISRA_C_2012_Rule_11.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_api_smbs_register_device</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_1_violation</tag>
+<description>{CovLStrv2{{t{Casting the expression {0} of type {1} to a function pointer type {2}.}{{code{sys_smbs_arp_hdl}}}{{code{U32 (*)(SMBS *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *)}}}{{code{SMBS_PROTOCOL_HDL_PTR}}}}}}</description>
+<line>145</line>
+<column>69</column>
+</event>
+<extra>sys_smbs_arp_hdl</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.1</checker>
+<type>MISRA_C_2012_Rule_11.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>mctp_management_transport_init_smbus</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_1_violation</tag>
+<description>{CovLStrv2{{t{Casting the expression {0} of type {1} to a function pointer type {2}.}{{code{smbs_protocol_handler_mctp_packet}}}{{code{U32 (*)(MCTP_TRANSPORT *, U16, SMBUS_BUFFER *, SMBUS_BUFFER *)}}}{{code{SMBS_PROTOCOL_HDL_PTR}}}}}}</description>
+<line>83</line>
+<column>81</column>
+</event>
+<extra>smbs_protocol_handler_mctp_packet</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.1</checker>
+<type>MISRA_C_2012_Rule_11.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/nvme/mi/nvme_mi_basic_management_command.c</file>
+<function>nvme_basic_management_command_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_1_violation</tag>
+<description>{CovLStrv2{{t{Casting the expression {0} of type {1} to a function pointer type {2}.}{{code{SmbsProtocolHandler_BasicManagementCommand}}}{{code{U32 (*)(SUBSYSTEM_MANAGEMENT_DATA_T *, U16, SMBUS_BUFFER_T *, SMBUS_BUFFER_T *)}}}{{code{SMBS_PROTOCOL_HDL_PTR}}}}}}</description>
+<line>151</line>
+<column>87</column>
+</event>
+<extra>SmbsProtocolHandler_BasicManagementCommand</extra>
+<subcategory>none</subcategory>
+</error>

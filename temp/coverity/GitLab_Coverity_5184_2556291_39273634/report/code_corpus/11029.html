@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_aes.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line102">102    </a></b>	    if (params->comm.src_len == 0)
+<b><a name="line103">103    </a></b>	    {
+<b><a name="line104">104    </a></b>	        return SEC_NO;
+<b><a name="line105">105    </a></b>	    }
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    if(phal_sqz_is_en())
+<b><a name="line108">108    </a></b>	    {
+<b><a name="line109">109    </a></b>	        // Force blocking
+<b><a name="line110">110    </a></b>	        params->comm.setkey.timeout_val = (U64)HAL_MABIAO_SEC_TIMEOUT;
+<b><a name="line111">111    </a></b>	        params->comm.timeout_val = (U64)HAL_MABIAO_SEC_TIMEOUT;
+<b><a name="line112">112    </a></b>	        return hal_sec_aes_ofl_blocking_sqz(params);
+<b><a name="line113">113    </a></b>	    }
+<b><a name="line114">114    </a></b>	    return hal_sec_aes_ofl_blocking(params);
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	}
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	U8 phal_sec_aes_keywrap_blocking(SEC_KEYWRAP_PARAMS_T_PTR params){
+<b><a name="line119">119    </a></b>	    if(phal_sqz_is_en())
+<b><a name="line120">120    </a></b>	    {
+<b><a name="line121">121    </a></b>	        // Force blocking
+<b><a name="line122">122    </a></b>	        params->setkey.timeout_val = (U64)HAL_MABIAO_SEC_TIMEOUT;
+<b><a name="line123">123    </a></b>	        return hal_sec_aes_keywrap_blocking_sqz(params);
+<b><a name="line124">124    </a></b>	    }
+<b><a name="line125">125    </a></b>	    return hal_sec_aes_keywrap_blocking(params);
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	}
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	void phal_sec_aes_kram_clr(void)
+<b><a name="line130">130    </a></b>	{
+<b><a name="line131">131    </a></b>	    if(phal_sqz_is_en())
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "phal_sqz_is_en()" does not have an essentially boolean type.</font>
+<b><a name="line132">132    </a></b>	    {
+<b><a name="line133">133    </a></b>	        hal_sec_aes_kram_clr_sqz();
+<b><a name="line134">134    </a></b>	    }
+<b><a name="line135">135    </a></b>	    else
+<b><a name="line136">136    </a></b>	    {
+<b><a name="line137">137    </a></b>	        hal_sec_aes_kram_clr(HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line138">138    </a></b>	    }
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	}
+<b><a name="line141">141    </a></b>	
+</pre></body>
+</html>

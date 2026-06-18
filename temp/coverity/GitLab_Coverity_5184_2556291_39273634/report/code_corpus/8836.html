@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line211">211    </a></b>	    U32 ver_num = 0;
+<b><a name="line212">212    </a></b>	    U32 spi_write_flag = 0xFFUL;
+<b><a name="line213">213    </a></b>	    U32 spi_addr[2] = {spi_dbg_base_addr, spi_dbg_base_addr + 0x1000UL};
+<b><a name="line214">214    </a></b>	    SPI_LOG_HEADER* header = (SPI_LOG_HEADER*)dbuf_temp_addr;
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	    phal_spi_boot_init(bc_ptr->p_efuse_security_setting->spi_mode_sel);
+<b><a name="line217">217    </a></b>	
+<b><a name="line218">218    </a></b>	    phal_spi_read_buffer((U32)&header[0], spi_addr[0], 8UL);
+<b><a name="line219">219    </a></b>	    phal_spi_read_buffer((U32)&header[1], spi_addr[1], 8UL);
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	    if(header[0].mark == valid_mark)
+<b><a name="line222">222    </a></b>	    {
+<b><a name="line223">223    </a></b>	        spi_write_flag = 0UL;
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	        if(header[1].mark == bdbg_mark)
+<b><a name="line226">226    </a></b>	        {
+<b><a name="line227">227    </a></b>	            ver_num = header[1].version + 1UL;
+<b><a name="line228">228    </a></b>	        }
+<b><a name="line229">229    </a></b>	    }
+<b><a name="line230">230    </a></b>	    else if(header[1].mark == valid_mark)
+<b><a name="line231">231    </a></b>	    {
+<b><a name="line232">232    </a></b>	        spi_write_flag = 1UL;
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	        if(header[0].mark == bdbg_mark)
+<b><a name="line235">235    </a></b>	        {
+<b><a name="line236">236    </a></b>	            ver_num = header[0].version + 1UL;
+<b><a name="line237">237    </a></b>	        }
+<b><a name="line238">238    </a></b>	    }
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	    if(spi_write_flag < 2)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "spi_write_flag" (unsigned) is not the same as that of the right operand "2"(signed).</font>
+<b><a name="line241">241    </a></b>	    {
+<b><a name="line242">242    </a></b>	        SPI_LOG_DESC* pt_data = (SPI_LOG_DESC*)dbuf_temp_addr;
+<b><a name="line243">243    </a></b>	        (void)memset((void *)pt_data, (S32)0, sizeof(SPI_LOG_DESC));
+<b><a name="line244">244    </a></b>	        pt_data->header.mark = bdbg_mark;
+<b><a name="line245">245    </a></b>	        pt_data->header.version = ver_num;
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	        (void)memcpy((void *)pt_data->assert_code, (void *)LOG_ERROR_BASE, sizeof(pt_data->assert_code));
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	        pt_data->sim_ctrl_reg0 = hal_sim_info_0_get();
+<b><a name="line250">250    </a></b>	        pt_data->sim_ctrl_reg1 = hal_sim_info_1_get();
+<b><a name="line251">251    </a></b>	        pt_data->sim_ctrl_reg2 = hal_sim_info_2_get();
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	        (void)memcpy((void *)(pt_data->dbuf_misc), (void *)DBUF_API_BOOTCODE_MISC_BASE, sizeof(pt_data->dbuf_misc));
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	        if (PASS == phal_spi_check_valid())
+<b><a name="line256">256    </a></b>	        {
+<b><a name="line257">257    </a></b>	            phal_spi_write_buffer(spi_addr[spi_write_flag], (U32)pt_data, sizeof(SPI_LOG_DESC));
+<b><a name="line258">258    </a></b>	        }
+<b><a name="line259">259    </a></b>	    }
+<b><a name="line260">260    </a></b>	    sal_log_tracker_set(sal_locate(0x32, TYPE_STEP));
+<b><a name="line261">261    </a></b>	}
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	U32 program_loader_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line264">264    </a></b>	{
+<b><a name="line265">265    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line266">266    </a></b>	    U32 reset_status;
+<b><a name="line267">267    </a></b>	    U32 fpl_status;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line271">271    </a></b>	    sal_log_info_char('N'); //Start of Load Code flow
+</pre></body>
+</html>

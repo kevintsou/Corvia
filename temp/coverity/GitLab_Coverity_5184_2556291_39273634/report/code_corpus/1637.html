@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    param->ecc_err_int_en_bmp = 0U;
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    //TODO : dbuf/ddr base
+<b><a name="line362">362    </a></b>	    param->dbuf_base = phal_dbuf_get_base();
+<b><a name="line363">363    </a></b>	    param->ddr_base = 0xC0000000U;
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	    //TODO: rcq_depth, apu will not set rcq_pend_cnt
+<b><a name="line366">366    </a></b>	    param->rcq_depth = 64U;
+<b><a name="line367">367    </a></b>	    param->spare_mode = 1U;
+<b><a name="line368">368    </a></b>	    param->aes_en = 0U;
+<b><a name="line369">369    </a></b>	    param->nsrmp_gran = HAL_APU_NSRMP_GRAN_1GB;
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    param->skip_dma = 0U;
+<b><a name="line372">372    </a></b>	    param->write_merge_en = 0U;
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	}
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	void host_nvme_init(HOST_API_STRUCT_PTR host)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    HAL_NL_INIT_PARAM   nl_param;
+<b><a name="line380">380    </a></b>	    HAL_CMGR_INIT_PARAM cmgr_param;
+<b><a name="line381">381    </a></b>	    HAL_APU_INIT_PARAM  apu_param;
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	    Dump_NVME(tprintf("nvme_init\n\r"));
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	    // APU
+<b><a name="line386">386    </a></b>	    fill_apu_init_param(&apu_param);
+<b><a name="line387">387    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_RSV9));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "387" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line388">388    </a></b>	    hal_fw_apu_init(&apu_param);
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	    // CMGR
+<b><a name="line391">391    </a></b>	    fill_cmgr_init_param(&cmgr_param);
+<b><a name="line392">392    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_RSV9));
+<b><a name="line393">393    </a></b>	    hal_fw_nvme_boot_code_cmgr_init(&cmgr_param, 100U, 512, (DBUF_API_BOOTCODE_DATA_BUFFER_SIZE >> SECTOR_SIZE_SHIFT)); //ns size: 4096 bytes
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	    // NL
+<b><a name="line396">396    </a></b>	    fill_nl_init_param(&nl_param);
+<b><a name="line397">397    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV9));
+<b><a name="line398">398    </a></b>	    hal_fw_nvme_boot_code_nl_init(&nl_param, 100U);
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	void host_init(HOST_API_STRUCT_PTR host)
+<b><a name="line403">403    </a></b>	{
+<b><a name="line404">404    </a></b>	    sal_log_info_char('H');
+<b><a name="line405">405    </a></b>	    host->_uart_cmd_in = FALSE;
+<b><a name="line406">406    </a></b>	    U8  p_ofst = hal_pcie_get_port_ofst(PCIE_SINGLE_PORT, PCIE_PORT_0);
+<b><a name="line407">407    </a></b>	    U32 int_flag;
+<b><a name="line408">408    </a></b>	    U32 int_cmgr_err;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	
+<b><a name="line411">411    </a></b>	    sal_log_info_char('\r'); //End of Boot Code UART Log
+<b><a name="line412">412    </a></b>	    sal_log_info_char('\n');
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    /*
+<b><a name="line415">415    </a></b>	     * init sturct and HW
+<b><a name="line416">416    </a></b>	     */
+<b><a name="line417">417    </a></b>	
+<b><a name="line418">418    </a></b>	    host_struct_init(host);
+</pre></body>
+</html>

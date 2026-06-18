@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_miscl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line11">11    </a></b>	}
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	U32 hal_sim_info_2_get(void)
+<b><a name="line14">14    </a></b>	{
+<b><a name="line15">15    </a></b>	    return r32_r_SIM_CTRL_2();
+<b><a name="line16">16    </a></b>	}
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	U32 hal_hw_cfg_get(U8 cfg_sel)
+<b><a name="line19">19    </a></b>	{
+<b><a name="line20">20    </a></b>	    U32 temp;
+<b><a name="line21">21    </a></b>	    U8 temp1;
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	    if (cfg_sel == HW_CFG_AES_OFL_DIS)
+<b><a name="line24">24    </a></b>	    {
+<b><a name="line25">25    </a></b>	        temp1 = r_CR_AES_OFL_DISABLE();
+<b><a name="line26">26    </a></b>	        temp = (U32)temp1;
+<b><a name="line27">27    </a></b>	    }
+<b><a name="line28">28    </a></b>	    else if (cfg_sel == HW_CFG_SHA_DIS)
+<b><a name="line29">29    </a></b>	    {
+<b><a name="line30">30    </a></b>	        temp1 = r_CR_SHA_DISABLE();
+<b><a name="line31">31    </a></b>	        temp = (U32)temp1;
+<b><a name="line32">32    </a></b>	    }
+<b><a name="line33">33    </a></b>	    else if (cfg_sel == HW_CFG_PKE_DIS)
+<b><a name="line34">34    </a></b>	    {
+<b><a name="line35">35    </a></b>	        temp1 = r_CR_PKE_DISABLE();
+<b><a name="line36">36    </a></b>	        temp = (U32)temp1;
+<b><a name="line37">37    </a></b>	    }
+<b><a name="line38">38    </a></b>	    else
+<b><a name="line39">39    </a></b>	    {
+<b><a name="line40">40    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line41">41    </a></b>	        temp = 1UL;
+<b><a name="line42">42    </a></b>	    }
+<b><a name="line43">43    </a></b>	    return temp;
+<b><a name="line44">44    </a></b>	}
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	void hal_hw_cfg_dis_set(U8 cfg_sel, U8 vlaue_7bit)
+<b><a name="line47">47    </a></b>	{
+<b><a name="line48">48    </a></b>	    if (cfg_sel == HW_CFG_DIS_I2CS_DIS)
+<b><a name="line49">49    </a></b>	    {
+<b><a name="line50">50    </a></b>	        w_CR_I2CS_DISABLE(1U);
+<b><a name="line51">51    </a></b>	    }
+<b><a name="line52">52    </a></b>	    else
+<b><a name="line53">53    </a></b>	    {
+<b><a name="line54">54    </a></b>	        ALWAYS_ASSERT(0U);
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	}
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	U32 hal_chip_id_31_0_get(void)
+<b><a name="line59">59    </a></b>	{
+<b><a name="line60">60    </a></b>	    return r_CR_SYS_CHIP_ID_31_0();
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	U32 hal_chip_id_63_32_get(void)
+<b><a name="line64">64    </a></b>	{
+<b><a name="line65">65    </a></b>	    return r_CR_SYS_CHIP_ID_63_32();
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	U32 hal_chip_id_95_64_get(void)
+<b><a name="line69">69    </a></b>	{
+<b><a name="line70">70    </a></b>	    return r_CR_SYS_CHIP_ID_95_64();
+<b><a name="line71">71    </a></b>	}
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line69">69    </a></b>	 */
+<b><a name="line70">70    </a></b>	U8 drbg_get_entropy_input(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U8 *entropy_input_ptr, U32 entropy_input_len, RNG_HEALTH_TEST_DATA_STRUCT_PTR rng_health_ptr)
+<b><a name="line71">71    </a></b>	{
+<b><a name="line72">72    </a></b>	    U8  fail_status = FALSE;
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    if (entropy_input_len == 0U) {
+<b><a name="line75">75    </a></b>	        drbg_api_struct_ptr->drbg_material.entropy_input_len = DRBG_ENTROPY_INPUT_LEN;
+<b><a name="line76">76    </a></b>	        drbg_get_try_limit_rng_data(rng_health_ptr, drbg_api_struct_ptr->drbg_material.entropy_input_len, drbg_api_struct_ptr->drbg_material.entropy_input_ptr);
+<b><a name="line77">77    </a></b>	    }
+<b><a name="line78">78    </a></b>	    else {
+<b><a name="line79">79    </a></b>	        (void)memset((void *)drbg_api_struct_ptr->drbg_material.entropy_input_ptr, 0x00, DRBG_ENTROPY_INPUT_BUF_LEN);
+<b><a name="line80">80    </a></b>	        drbg_api_struct_ptr->drbg_material.entropy_input_len = entropy_input_len;
+<b><a name="line81">81    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.entropy_input_ptr, (void *)entropy_input_ptr, entropy_input_len);
+<b><a name="line82">82    </a></b>	    }
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    return fail_status;
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	/*!
+<b><a name="line88">88    </a></b>	 @brief DRBG get nonce
+<b><a name="line89">89    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line90">90    </a></b>	 @param[in] nonce_ptr            nonce pointer for KAT
+<b><a name="line91">91    </a></b>	 @param[in] nonce_len            nonce length for KAT
+<b><a name="line92">92    </a></b>	 @return NONE
+<b><a name="line93">93    </a></b>	 @note
+<b><a name="line94">94    </a></b>	 - NONE
+<b><a name="line95">95    </a></b>	 */
+<b><a name="line96">96    </a></b>	U8 drbg_get_nonce(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U8 *nonce_ptr, U32 nonce_len, RNG_HEALTH_TEST_DATA_STRUCT_PTR rng_health_ptr)
+<b><a name="line97">97    </a></b>	{
+<b><a name="line98">98    </a></b>	    U8  fail_status = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	    if (nonce_len == 0U) {
+<b><a name="line101">101    </a></b>	        drbg_api_struct_ptr->drbg_material.nonce_len = DRBG_NONCE_LEN;
+<b><a name="line102">102    </a></b>	        drbg_get_try_limit_rng_data(rng_health_ptr, drbg_api_struct_ptr->drbg_material.nonce_len, drbg_api_struct_ptr->drbg_material.nonce_ptr);
+<b><a name="line103">103    </a></b>	    }
+<b><a name="line104">104    </a></b>	    else {
+<b><a name="line105">105    </a></b>	        (void)memset((void *)drbg_api_struct_ptr->drbg_material.nonce_ptr, 0x00, DRBG_NONCE_BUF_LEN);
+<b><a name="line106">106    </a></b>	        drbg_api_struct_ptr->drbg_material.nonce_len = nonce_len;
+<b><a name="line107">107    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.nonce_ptr, (void *)nonce_ptr, nonce_len);
+<b><a name="line108">108    </a></b>	    }
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	    return fail_status;
+<b><a name="line111">111    </a></b>	}
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	/*!
+<b><a name="line114">114    </a></b>	 @brief DRBG get nonce
+<b><a name="line115">115    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line116">116    </a></b>	 @param[in] personal_str_ptr     personalization string pointer for KAT
+<b><a name="line117">117    </a></b>	 @param[in] personal_str_len     personalization string length for KAT
+<b><a name="line118">118    </a></b>	 @return NONE
+<b><a name="line119">119    </a></b>	 @note
+<b><a name="line120">120    </a></b>	 - NONE
+<b><a name="line121">121    </a></b>	 */
+<b><a name="line122">122    </a></b>	void drbg_get_personal_str(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U8 *personal_str_ptr, U32 personal_str_len)
+<b><a name="line123">123    </a></b>	{
+<b><a name="line124">124    </a></b>	    (void)memset((void *)drbg_api_struct_ptr->drbg_material.personal_str_ptr, 0x00, DRBG_PERSIONAL_STR_BUF_LEN);
+<b><a name="line125">125    </a></b>	    drbg_api_struct_ptr->drbg_material.personal_str_len = personal_str_len;
+<b><a name="line126">126    </a></b>	    if (personal_str_len > 0U) {
+<b><a name="line127">127    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.personal_str_ptr, (void *)personal_str_ptr, personal_str_len);
+<b><a name="line128">128    </a></b>	    }
+<b><a name="line129">129    </a></b>	}
+</pre></body>
+</html>

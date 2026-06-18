@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1299">1299    </a></b>	
+<b><a name="line1300">1300    </a></b>	/*!
+<b><a name="line1301">1301    </a></b>	   @brief      Return current CMS info pointer
+<b><a name="line1302">1302    </a></b>	
+<b><a name="line1303">1303    </a></b>	   @param      ubCmsIdx          cms idx
+<b><a name="line1304">1304    </a></b>	   @return     CMS_INFO*
+<b><a name="line1305">1305    </a></b>	 */
+<b><a name="line1306">1306    </a></b>	CMS_INFO * GetCurrentCmsInfoPtr(U8 ubCmsIdx)
+<b><a name="line1307">1307    </a></b>	{
+<b><a name="line1308">1308    </a></b>	    return &sCmsInfo[M_GET_CMS_INFO_IDX(ubCmsIdx)];
+<b><a name="line1309">1309    </a></b>	}
+<b><a name="line1310">1310    </a></b>	
+<b><a name="line1311">1311    </a></b>	/*!
+<b><a name="line1312">1312    </a></b>	   @brief      Calculate indirect address
+<b><a name="line1313">1313    </a></b>	
+<b><a name="line1314">1314    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1315">1315    </a></b>	   @param      pCmsInfo          pointer to CMS info
+<b><a name="line1316">1316    </a></b>	   @return     U32
+<b><a name="line1317">1317    </a></b>	 */
+<b><a name="line1318">1318    </a></b>	static U32 CalculateIndirectAddress(ACROT_DATA *pACRotData, CMS_INFO *pCmsInfo)
+<b><a name="line1319">1319    </a></b>	{
+<b><a name="line1320">1320    </a></b>	    U32 ulIndirectAddress = NULL;
+<b><a name="line1321">1321    </a></b>	
+<b><a name="line1322">1322    </a></b>	    if (TOR_UNSUPPORTED != pCmsInfo->ubTypeOfRegion)
+<b><a name="line1323">1323    </a></b>	    {
+<b><a name="line1324">1324    </a></b>	        // The offset must be 4-byte aligned (e.g, the lower 2-bit are always zero).
+<b><a name="line1325">1325    </a></b>	        // Writes and reads that are not 4-byte multiples will increment to the next 4-byte offset.
+<b><a name="line1326">1326    </a></b>	        if (pACRotData->sIndirectCtrl.sConfig.ulIMO & 0x3U)
+<b><a name="line1327">1327    </a></b>	        {
+<b><a name="line1328">1328    </a></b>	            pACRotData->sIndirectCtrl.sConfig.ulIMO = (pACRotData->sIndirectCtrl.sConfig.ulIMO + 0x3U) & 0xFFFFFFFC;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "4294967292U" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line1329">1329    </a></b>	        }
+<b><a name="line1330">1330    </a></b>	
+<b><a name="line1331">1331    </a></b>	        ulIndirectAddress = pCmsInfo->ulBase + pACRotData->sIndirectCtrl.sConfig.ulIMO;
+<b><a name="line1332">1332    </a></b>	
+<b><a name="line1333">1333    </a></b>	        Dump_OCP(tprintf("    [IMO %x] Indirect Address = %x", pACRotData->sIndirectCtrl.sConfig.ulIMO, ulIndirectAddress));
+<b><a name="line1334">1334    </a></b>	    }
+<b><a name="line1335">1335    </a></b>	
+<b><a name="line1336">1336    </a></b>	    return ulIndirectAddress;
+<b><a name="line1337">1337    </a></b>	}
+<b><a name="line1338">1338    </a></b>	
+<b><a name="line1339">1339    </a></b>	/*!
+<b><a name="line1340">1340    </a></b>	   @brief      Addressing within CMS and update INDIRECT_STATUS while occuring error,
+<b><a name="line1341">1341    </a></b>	               return NULL if needs to stop transaction
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1344">1344    </a></b>	   @param      ubCmdType         type of command (RO/RW) issued by RA
+<b><a name="line1345">1345    </a></b>	   @return     U32
+<b><a name="line1346">1346    </a></b>	 */
+<b><a name="line1347">1347    </a></b>	static U32 CmsAddressing(ACROT_DATA *pACRotData, U8 ubCmdType)
+<b><a name="line1348">1348    </a></b>	{
+<b><a name="line1349">1349    </a></b>	    CMS_INFO *pCmsInfo = GetCurrentCmsInfoPtr(pACRotData->sIndirectCtrl.ubCMS);
+<b><a name="line1350">1350    </a></b>	    U32 ulIndirectAddress = CalculateIndirectAddress(pACRotData, pCmsInfo);
+<b><a name="line1351">1351    </a></b>	
+<b><a name="line1352">1352    </a></b>	    DeviceAckForPollingRegion(pACRotData, pCmsInfo);
+<b><a name="line1353">1353    </a></b>	
+<b><a name="line1354">1354    </a></b>	    /*
+<b><a name="line1355">1355    </a></b>	     *  Error condition 1 (spec p.16)
+<b><a name="line1356">1356    </a></b>	     *  Address Wrapping: (e.g the IMO extends beyond the reported size).
+<b><a name="line1357">1357    </a></b>	     *  This MUST wrap to the beginning of the buffer AND report an overflow in the INDIRECT_STATUS.
+<b><a name="line1358">1358    </a></b>	     */
+<b><a name="line1359">1359    </a></b>	    if (ulIndirectAddress > (pCmsInfo->ulBase + pCmsInfo->ulSize))
+</pre></body>
+</html>

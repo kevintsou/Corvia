@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1204">1204    </a></b>	        hal_get_feature(0xEE, ubAddr, ubFeaData);
+<b><a name="line1205">1205    </a></b>	    }
+<b><a name="line1206">1206    </a></b>	}
+<b><a name="line1207">1207    </a></b>	
+<b><a name="line1208">1208    </a></b>	void hal_set_feature(U8 ubCmd, U8 ubAddr, U8 *ubData)
+<b><a name="line1209">1209    </a></b>	{
+<b><a name="line1210">1210    </a></b>	    U8 ubCH;
+<b><a name="line1211">1211    </a></b>	    U8 ubCe = 0;
+<b><a name="line1212">1212    </a></b>	
+<b><a name="line1213">1213    </a></b>	    for (ubCH = 0; ubCH < FLH_MAX_CH_NUM; ubCH++) {
+<b><a name="line1214">1214    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ubCH, 1U) == TRUE) {
+<b><a name="line1215">1215    </a></b>	
+<b><a name="line1216">1216    </a></b>	            //enable ce
+<b><a name="line1217">1217    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCe));
+<b><a name="line1218">1218    </a></b>	            w_DQ_BIT_REV_IDX(ubCH, ubCe);
+<b><a name="line1219">1219    </a></b>	
+<b><a name="line1220">1220    </a></b>	            M_FIP_CH_SET_PIO_CMD(ubCH, ubCmd);
+<b><a name="line1221">1221    </a></b>	            M_FIP_CH_SET_PIO_ADR(ubCH, ubAddr);
+<b><a name="line1222">1222    </a></b>	
+<b><a name="line1223">1223    </a></b>	            M_FIP_CH_SET_PIO_DAT(ubCH, ((U32)((U16)ubData[0]) << 8) | (U32)((U16)ubData[0]));
+<b><a name="line1224">1224    </a></b>	            M_FIP_CH_SET_PIO_DAT(ubCH, ((U32)((U16)ubData[1]) << 8) | (U32)((U16)ubData[1]));
+<b><a name="line1225">1225    </a></b>	            M_FIP_CH_SET_PIO_DAT(ubCH, ((U32)((U16)ubData[2]) << 8) | (U32)((U16)ubData[2]));
+<b><a name="line1226">1226    </a></b>	            M_FIP_CH_SET_PIO_DAT(ubCH, ((U32)((U16)ubData[3]) << 8) | (U32)((U16)ubData[3]));
+<b><a name="line1227">1227    </a></b>	
+<b><a name="line1228">1228    </a></b>	            idle_us(1);
+<b><a name="line1229">1229    </a></b>	
+<b><a name="line1230">1230    </a></b>	            U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 20);
+<b><a name="line1231">1231    </a></b>	
+<b><a name="line1232">1232    </a></b>	            while (hal_fip_chk_rby_sts(0) == FALSE) {
+<b><a name="line1233">1233    </a></b>	                if (MABIAO_CHK(mabiao_addr)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line1234">1234    </a></b>	                    break;
+<b><a name="line1235">1235    </a></b>	                }
+<b><a name="line1236">1236    </a></b>	            }
+<b><a name="line1237">1237    </a></b>	
+<b><a name="line1238">1238    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ubCe)));
+<b><a name="line1239">1239    </a></b>	        }
+<b><a name="line1240">1240    </a></b>	    }
+<b><a name="line1241">1241    </a></b>	}
+<b><a name="line1242">1242    </a></b>	void hal_get_feature(U8 ubCmd, U8 ubAddr, U8 *ubData)
+<b><a name="line1243">1243    </a></b>	{
+<b><a name="line1244">1244    </a></b>	    U8 ubCH;
+<b><a name="line1245">1245    </a></b>	    U8 ubCe = 0;
+<b><a name="line1246">1246    </a></b>	    U32 ulidx = 0;
+<b><a name="line1247">1247    </a></b>	
+<b><a name="line1248">1248    </a></b>	    memset((void *)ubData, 0x00, 4);
+<b><a name="line1249">1249    </a></b>	
+<b><a name="line1250">1250    </a></b>	    for (ubCH = 0; ubCH < FLH_MAX_CH_NUM; ubCH++) {
+<b><a name="line1251">1251    </a></b>	        if (BITS_GET(gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap, ubCH, 1U) == TRUE){
+<b><a name="line1252">1252    </a></b>	
+<b><a name="line1253">1253    </a></b>	            //enable ce
+<b><a name="line1254">1254    </a></b>	            r32_FLH_REG_TX(ubCH)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCe));
+<b><a name="line1255">1255    </a></b>	            w_DQ_BIT_REV_IDX(ubCH, ubCe);
+<b><a name="line1256">1256    </a></b>	
+<b><a name="line1257">1257    </a></b>	            M_FIP_CH_SET_PIO_CMD(ubCH, ubCmd);
+<b><a name="line1258">1258    </a></b>	            M_FIP_CH_SET_PIO_ADR(ubCH, ubAddr);
+<b><a name="line1259">1259    </a></b>	
+<b><a name="line1260">1260    </a></b>	            if (!gFplApiStruct.flash_if) {
+<b><a name="line1261">1261    </a></b>	                for (ulidx = 0; ulidx < 4; ulidx ++ ) {
+<b><a name="line1262">1262    </a></b>	                    ubData[ulidx] = (U16) M_FIP_CH_GET_PIO_DAT(ubCH);
+<b><a name="line1263">1263    </a></b>	                }
+<b><a name="line1264">1264    </a></b>	            } else {
+</pre></body>
+</html>

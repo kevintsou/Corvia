@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9511">9511    </a></b>	        return (KAT_TYPE_SM9 | KAT_ERROR_VERIFY);
+<b><a name="line9512">9512    </a></b>	    }
+<b><a name="line9513">9513    </a></b>	
+<b><a name="line9514">9514    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9515">9515    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9516">9516    </a></b>	        return (KAT_TYPE_SM9 | KAT_ERROR_TIMEOUT);
+<b><a name="line9517">9517    </a></b>	    }
+<b><a name="line9518">9518    </a></b>	
+<b><a name="line9519">9519    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9520">9520    </a></b>	}
+<b><a name="line9521">9521    </a></b>	#endif
+<b><a name="line9522">9522    </a></b>	#if KAT_LMS_EN
+<b><a name="line9523">9523    </a></b>	U32 host_sec_lms_verify_kat(U32 buf_addr)
+<b><a name="line9524">9524    </a></b>	{
+<b><a name="line9525">9525    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9526">9526    </a></b>	
+<b><a name="line9527">9527    </a></b>	    U32 lms_msg_addr         = buf_addr + 0x1000U;
+<b><a name="line9528">9528    </a></b>	    U32 lms_hash_addr        = buf_addr + 0x3000U;
+<b><a name="line9529">9529    </a></b>	    //	U32 buffer_addr_for_lms  = buf_addr + 0x3200U;
+<b><a name="line9530">9530    </a></b>	    U32 lms_pk_addr          = 0UL;
+<b><a name="line9531">9531    </a></b>	    U32 lms_sig_addr         = 0UL;
+<b><a name="line9532">9532    </a></b>	
+<b><a name="line9533">9533    </a></b>	    U8  sha_mode      = 0U;
+<b><a name="line9534">9534    </a></b>	
+<b><a name="line9535">9535    </a></b>	    //	U32 lms_pk_len    = 60UL;
+<b><a name="line9536">9536    </a></b>	    U32 lms_sig_len   = 0UL;
+<b><a name="line9537">9537    </a></b>	    U32 public_key_size = 0U;
+<b><a name="line9538">9538    </a></b>	    U8  key_index[4]                 = {'P', '5', '0', '1'};
+<b><a name="line9539">9539    </a></b>	    U8  a_record_key_information[16] = {0x50, 0x35, 0x30, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00};
+<b><a name="line9540">9540    </a></b>	    U8  a_timestamp[16]              = {'2', '0', '2', '4', '-', '0', '6', '-', '2', '7', '1', '9', '1', '7', '1', '9'};
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "54" from essential type "character" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line9541">9541    </a></b>	
+<b><a name="line9542">9542    </a></b>	    LMS_HASH_BUF_T lms_buffer;
+<b><a name="line9543">9543    </a></b>	
+<b><a name="line9544">9544    </a></b>	    public_key_size = ALIGN(sizeof(LMS_KEY_STRUCT), SECTOR_SIZE);
+<b><a name="line9545">9545    </a></b>	
+<b><a name="line9546">9546    </a></b>	    Dump_SEC(tprintf("LMS-Verify KAT"));
+<b><a name="line9547">9547    </a></b>	
+<b><a name="line9548">9548    </a></b>	    memset((void *)(U32)lms_msg_addr, 0U, 0xC00U);
+<b><a name="line9549">9549    </a></b>	    sec_fill_kat_bin_header(lms_msg_addr, &key_index[0], PROJECT_BINARY_HEADER_SIGNATURE_FILE_FORMAT_KEY_SIGNATURE, PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192, public_key_size, &a_record_key_information[0], &a_timestamp[0]);
+<b><a name="line9550">9550    </a></b>	    memcpy((void *)(U32)(lms_msg_addr + 0x200U), (void *)&lms_sha256_192_key_data[0], sizeof(lms_sha256_192_key_data));
+<b><a name="line9551">9551    </a></b>	    memcpy((void *)(U32)(lms_msg_addr + 0x400U), (void *)&lms_sha256_192_code_sign[0], sizeof(lms_sha256_192_code_sign));
+<b><a name="line9552">9552    </a></b>	
+<b><a name="line9553">9553    </a></b>	    {
+<b><a name="line9554">9554    </a></b>	        /* [0x17]: determine HASH algorithm */
+<b><a name="line9555">9555    </a></b>	        if (((U8 *)lms_msg_addr)[0x17U] == 0x24U || ((U8 *)lms_msg_addr)[0x17U] == 0x25U) {
+<b><a name="line9556">9556    </a></b>	            sha_mode = HAL_SEC_SHA2_256_MODE;
+<b><a name="line9557">9557    </a></b>	        }
+<b><a name="line9558">9558    </a></b>	
+<b><a name="line9559">9559    </a></b>	        /* [0x16]: determin file format of code header */
+<b><a name="line9560">9560    </a></b>	        if (((U8 *)lms_msg_addr)[0x16U] == 0x05U) {
+<b><a name="line9561">9561    </a></b>	            lms_pk_addr  = lms_msg_addr + 0x200U + 8U;
+<b><a name="line9562">9562    </a></b>	            lms_sig_addr = lms_msg_addr + 0x200U + (((volatile U8 *)lms_msg_addr)[0x21U] << 9);
+<b><a name="line9563">9563    </a></b>	
+<b><a name="line9564">9564    </a></b>	
+<b><a name="line9565">9565    </a></b>	            SEC_SHA_PARAMS_T sha_params;
+<b><a name="line9566">9566    </a></b>	            (void)memset(&sha_params, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line9567">9567    </a></b>	            sha_params.src_addr.low  = lms_msg_addr;
+<b><a name="line9568">9568    </a></b>	            sha_params.sha_mode      = sha_mode;
+<b><a name="line9569">9569    </a></b>	            sha_params.src_len       = 0x200 + (((volatile U8 *)lms_msg_addr)[0x21U] << 9);
+<b><a name="line9570">9570    </a></b>	            sha_params.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line9571">9571    </a></b>	            sha_params.targ_addr.low = lms_hash_addr;
+</pre></body>
+</html>

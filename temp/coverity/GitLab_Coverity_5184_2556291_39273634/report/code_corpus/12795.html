@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/host/nvme/protocol/adm_cmd/set_features.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SET_FEATURES_H_
+<b><a name="line2">2    </a></b>	#define _SET_FEATURES_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SET_FEATURES_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// NVMe Base Specification v1.4c
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line9">9    </a></b>	// Figure 275: Set Features ��� Feature Identifiers
+<b><a name="line10">10    </a></b>	#define FID_ARBITRATION                                 (0x01U)
+<b><a name="line11">11    </a></b>	#define FID_POWER_MANAGEMENT                            (0x02U)
+<b><a name="line12">12    </a></b>	#define FID_LBA_RANGE_TYPE                              (0x03U)
+<b><a name="line13">13    </a></b>	#define FID_TEMPERATURE_THRESHOLD                       (0x04U)
+<b><a name="line14">14    </a></b>	#define FID_ERROR_RECOVERY                              (0x05U)
+<b><a name="line15">15    </a></b>	#define FID_VOLATILE_WRITE_CACHE                        (0x06U)
+<b><a name="line16">16    </a></b>	#define FID_NUMBER_OF_QUEUES                            (0x07U)
+<b><a name="line17">17    </a></b>	#define FID_INTERRUPT_COALESCING                        (0x08U)
+<b><a name="line18">18    </a></b>	#define FID_INTERRUPT_VECTOR_CONFIGURATION              (0x09U)
+<b><a name="line19">19    </a></b>	#define FID_WRITE_ATOMICITY_NORMAL                      (0x0AU)
+<b><a name="line20">20    </a></b>	#define FID_ASYNC_EVENT_CONFIGURATION                   (0x0BU)
+<b><a name="line21">21    </a></b>	#define FID_AUTONOMOUS_POWER_STATE_TRANSITION           (0x0CU)
+<b><a name="line22">22    </a></b>	#define FID_HOST_MEMORY_BUFFER                          (0x0DU)
+<b><a name="line23">23    </a></b>	#define FID_TIMESTAMP                                   (0x0EU)
+<b><a name="line24">24    </a></b>	#define FID_KEEP_LIVE_TIMER                             (0x0FU)
+<b><a name="line25">25    </a></b>	#define FID_HOST_CONTROLLED_THERMAL_MANAGEMENT          (0x10U)
+<b><a name="line26">26    </a></b>	#define FID_NON_OPERATIONAL_POWER_STATE_CONFIG          (0x11U)
+<b><a name="line27">27    </a></b>	#define FID_READ_RECOVERY_LEVEL_CONFIG                  (0x12U)
+<b><a name="line28">28    </a></b>	#define FID_PREDICTABLE_LATENCY_MODE_CONFIG             (0x13U)
+<b><a name="line29">29    </a></b>	#define FID_PREDICTABLE_LATENCY_MODE_WINDOW             (0x14U)
+<b><a name="line30">30    </a></b>	#define FID_LBA_STATUS_INFO_REPORT_INTERVAL             (0x15U)
+<b><a name="line31">31    </a></b>	#define FID_HOST_BEHAVIOR_SUPPORT                       (0x16U)
+<b><a name="line32">32    </a></b>	#define FID_SANITIZE_CONFIG                             (0x17U)
+<b><a name="line33">33    </a></b>	#define FID_ENDURANCE_GROUP_EVENT_CONFIGURATION         (0x18U)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line168">168    </a></b>	        }
+<b><a name="line169">169    </a></b>	#if DEBUG_VUA
+<b><a name="line170">170    </a></b>	        // Dump_SEC(tprintf("KeySize: %x", ulKeySize));
+<b><a name="line171">171    </a></b>	        // Dump_SEC(tprintf("Key Data"));
+<b><a name="line172">172    </a></b>	        // Dump_SEC(tprintm((U32)pInputKey, ulKeySize));
+<b><a name="line173">173    </a></b>	        Dump_SEC(tprintf("Key Hash"));
+<b><a name="line174">174    </a></b>	        Dump_SEC(tprint8h((U8 *)gVUALock.ulHashCalBufBase, VUA_KEY_HASH_SIZE));
+<b><a name="line175">175    </a></b>	#endif
+<b><a name="line176">176    </a></b>	
+<b><a name="line177">177    </a></b>	        // use gVUALock.ulHashCalBufBase to verify key hash
+<b><a name="line178">178    </a></b>	        if (!MyAssert(SECResult_PASS == VUA_verify_key_hash(gVUALock.ulHashCalBufBase))) {
+<b><a name="line179">179    </a></b>	            // Compare eFuse Key Hash Fail
+<b><a name="line180">180    </a></b>	            ulStatus   = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line181">181    </a></b>	            ulFailCode = STATUS_VERIFY_FAIL;
+<b><a name="line182">182    </a></b>	            Dump_SEC(tprintf("VK F!"));
+<b><a name="line183">183    </a></b>	            break;
+<b><a name="line184">184    </a></b>	        }
+<b><a name="line185">185    </a></b>	
+<b><a name="line186">186    </a></b>	        memcpy((void *)&gVUALock.VUAPublicKey, (void *)pInputKey, sizeof(PublicKey_t));
+<b><a name="line187">187    </a></b>	        memcpy(&gVUALock.aubN_v, pInput->ucN_v, 64);
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	        ulStatus = VALID_STATUS;
+<b><a name="line190">190    </a></b>	        ulFailCode = STATUS_DEFAULT;
+<b><a name="line191">191    </a></b>	        gVUALock.ubVUCLockState = VUA_VERIFY_STATE_ENGINEERING;
+<b><a name="line192">192    </a></b>	
+<b><a name="line193">193    </a></b>	        Dump_SEC(tprintf("send key ok!"));
+<b><a name="line194">194    </a></b>	        return result;
+<b><a name="line195">195    </a></b>	    } while (0);
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	    VUA_FailHandle(&result, ulStatus, ulFailCode);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "ulStatus" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 16-bit int".</font>
+<b><a name="line198">198    </a></b>	    Dump_SEC(tprintf("send key F!"));
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    return result;
+<b><a name="line201">201    </a></b>	}
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	/**
+<b><a name="line205">205    </a></b>	 * Host request to start the verification procedure
+<b><a name="line206">206    </a></b>	 *
+<b><a name="line207">207    </a></b>	 * @return ulFailCode
+<b><a name="line208">208    </a></b>	 */
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	VUAStatus_t VUA_sendHandshakeRequest(void)
+<b><a name="line211">211    </a></b>	{
+<b><a name="line212">212    </a></b>	    VUAStatus_t result;
+<b><a name="line213">213    </a></b>	    VUA_InitResult(&result);
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	    if (!MyAssert(gVUALock.ubEn)) {
+<b><a name="line216">216    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line217">217    </a></b>	        return result;
+<b><a name="line218">218    </a></b>	    }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    if (!MyAssert(VUA_VERIFY_STATE_ENGINEERING <= gVUALock.ubVUCLockState)) {
+<b><a name="line221">221    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line222">222    </a></b>	        return result;
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	    gVUALock.ubVUCLockState = VUA_VERIFY_STATE_HANDSHAKE_START;
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    return result;
+<b><a name="line228">228    </a></b>	}
+</pre></body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/build/sal_build_feature.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_BUILD_FEATURE_H_
+<b><a name="line2">2    </a></b>	#define _SAL_BUILD_FEATURE_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SAL_BUILD_FEATURE_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#define SAL_DEF_HOST_PHY_ATTACHED   (TRUE || (IC_TYPE_ASIC == IC_TYPE))
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	//==========================================================
+<b><a name="line7">7    </a></b>	//  TP
+<b><a name="line8">8    </a></b>	//==========================================================
+<b><a name="line9">9    </a></b>	#define SPI_CLK_INIT                ((IC_PS2327 == IC_NAME))
+<b><a name="line10">10    </a></b>	#define SECURITY_DICE_EN            ((IC_PS5037 == IC_NAME))
+<b><a name="line11">11    </a></b>	#define SECURITY_SCA_DEFENSE_EN     ((IC_PS2327 == IC_NAME))
+<b><a name="line12">12    </a></b>	#define SHA3_EN                     ((IC_PS5037 == IC_NAME) || (IC_PS2327 == IC_NAME))
+<b><a name="line13">13    </a></b>	#define SHA3_QUEUE_NOT_SUPOORT      (FALSE)
+<b><a name="line14">14    </a></b>	#define HMAC_EN                     ((IC_PS2327 == IC_NAME))
+<b><a name="line15">15    </a></b>	#define ECDSA_EN                    ((IC_PS2327 == IC_NAME))
+<b><a name="line16">16    </a></b>	#define LMS_EN                      ((IC_PS5303 == IC_NAME) || (IC_PS5037 == IC_NAME) || (IC_PS2327 == IC_NAME))
+<b><a name="line17">17    </a></b>	#define MLDSA_EN                    ((IC_PS5303 == IC_NAME) || (IC_PS5037 == IC_NAME))
+<b><a name="line18">18    </a></b>	#define MLKEM_EN                    ((IC_PS5303 == IC_NAME) || (IC_PS5037 == IC_NAME))
+<b><a name="line19">19    </a></b>	#define KAZ_EN                      ((IC_PS5303 == IC_NAME) || (IC_PS5037 == IC_NAME))
+<b><a name="line20">20    </a></b>	#define DRBG_EN                     ((IC_PS5037 == IC_NAME))
+<b><a name="line21">21    </a></b>	#define CODE_SIZE_REDUCE_EN         (FALSE)
+<b><a name="line22">22    </a></b>	#define ROM_FUNCTION                ((IC_PS5037 == IC_NAME))
+<b><a name="line23">23    </a></b>	#define COPY_BY_BOOTHEADER          ((IC_PS5963 == IC_NAME) || (IC_PS5037 == IC_NAME))
+<b><a name="line24">24    </a></b>	#define SEC_ATTACK_DEFENSE_EN       (FALSE)
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	//==========================================================
+<b><a name="line27">27    </a></b>	// FE
+<b><a name="line28">28    </a></b>	//==========================================================
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	#define SAL_DEF_FE_FRAMEWORK_SUPPORT    ((IC_PS5963 == IC_NAME))
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	#define SAL_DEF_HOST_PCIE_SUPPORT       ((IC_PS5963 == IC_NAME) || (IC_PS5037 == IC_NAME) || (IC_PS5033 == IC_NAME))
+<b><a name="line33">33    </a></b>	#define GEN5_SUPPORT_EN					((IC_PS5037 == IC_NAME))
+</pre></body>
+</html>

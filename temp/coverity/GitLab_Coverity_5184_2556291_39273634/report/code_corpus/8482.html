@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2981">2981    </a></b>	                            }
+<b><a name="line2982">2982    </a></b>	                            else {
+<b><a name="line2983">2983    </a></b>	                                sal_log_tracker_set(sal_locate(0xE2, TYPE_LOAD_CODE_ERR));
+<b><a name="line2984">2984    </a></b>	                                Dump_ScanID(tprintf("!!!Channel %d (FSA %L) ", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2985">2985    </a></b>	                                Dump_ScanID(tprintf("Incorrect Marking %x (!%x)", ((ID_TABLE *)(a_fip_read_param[channel].buf_addr[backup]))->id_table_mark, TABLE_MARK_ID_TABLE));
+<b><a name="line2986">2986    </a></b>	                            }
+<b><a name="line2987">2987    </a></b>	                        }
+<b><a name="line2988">2988    </a></b>	                        else {
+<b><a name="line2989">2989    </a></b>	                            sal_log_tracker_set(sal_locate(0xE3, TYPE_LOAD_CODE_ERR));
+<b><a name="line2990">2990    </a></b>	                            Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2991">2991    </a></b>	                            Dump_ScanID(tprintf("Incorrect Spare %x (!=%x)", ((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[channel].spr_addr[backup]))->page_mark & 0xFF, PAGE_MARK_ID_PAGE));
+<b><a name="line2992">2992    </a></b>	                        }
+<b><a name="line2993">2993    </a></b>	                    }
+<b><a name="line2994">2994    </a></b>	                    else if (a_fip_read_param[channel].error_map[backup] & FIP_READ_EMPTY_ERROR) {
+<b><a name="line2995">2995    </a></b>	                        sal_log_tracker_set(sal_locate(0xE4, TYPE_LOAD_CODE_ERR));
+<b><a name="line2996">2996    </a></b>	                        Dump_ScanID(tprintf("Channel %d Empty", channel));
+<b><a name="line2997">2997    </a></b>	                        //The other backups do not need to be read since
+<b><a name="line2998">2998    </a></b>	                        //one empty node would mean that the entire page is empty
+<b><a name="line2999">2999    </a></b>	                        reading_channel_bitmap &= ~(1 << channel);
+<b><a name="line3000">3000    </a></b>	                    }
+<b><a name="line3001">3001    </a></b>	                    else if (a_fip_read_param[channel].error_map[backup] & FIP_READ_CRC_ERROR) {
+<b><a name="line3002">3002    </a></b>	                        sal_log_tracker_set(sal_locate(0xE5, TYPE_LOAD_CODE_ERR));
+<b><a name="line3003">3003    </a></b>	                        Dump_ScanID(tprintf("!!!Channel %d (FSA %L) CRC %x", channel, a_fip_read_param[channel].nand_addr.all, a_fip_read_param[channel].error_map[backup]));
+<b><a name="line3004">3004    </a></b>	                        sal_log_info_char('C');
+<b><a name="line3005">3005    </a></b>	                        sal_log_info_num(a_fip_read_param[channel].nand_addr.all);
+<b><a name="line3006">3006    </a></b>	
+<b><a name="line3007">3007    </a></b>	                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_IDPG_UECC] |= (1 << channel);
+<b><a name="line3008">3008    </a></b>	                    }
+<b><a name="line3009">3009    </a></b>	                    else {
+<b><a name="line3010">3010    </a></b>	                        sal_log_tracker_set(sal_locate(0xE6, TYPE_LOAD_CODE_ERR));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "-2082078720" (unsigned) is not the same as that of the right operand "0xbc2 << 4"(signed).</font>
+<b><a name="line3011">3011    </a></b>	                        Dump_ScanID(tprintf("!!!Channel %d (FSA %L) UECC %x", channel, a_fip_read_param[channel].nand_addr.all, a_fip_read_param[channel].error_map[backup]));
+<b><a name="line3012">3012    </a></b>	                        sal_log_info_char('U');
+<b><a name="line3013">3013    </a></b>	                        sal_log_info_num(a_fip_read_param[channel].nand_addr.all);
+<b><a name="line3014">3014    </a></b>	
+<b><a name="line3015">3015    </a></b>	                        a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_IDPG_UECC] |= (1 << channel);
+<b><a name="line3016">3016    </a></b>	                    }
+<b><a name="line3017">3017    </a></b>	                }
+<b><a name="line3018">3018    </a></b>	                else {
+<b><a name="line3019">3019    </a></b>	                    //The other backups do not need to be read since
+<b><a name="line3020">3020    </a></b>	                    //they will most likely timeout as well
+<b><a name="line3021">3021    </a></b>	                    reading_channel_bitmap &= ~(1 << channel);
+<b><a name="line3022">3022    </a></b>	                    sal_log_tracker_set(sal_locate(0xE7, TYPE_LOAD_CODE_ERR));
+<b><a name="line3023">3023    </a></b>	                    Dump_ScanID(tprintf("!!!Channel %d, DMA Timeout", channel))
+<b><a name="line3024">3024    </a></b>	                    sal_log_info_char('T');
+<b><a name="line3025">3025    </a></b>	                    sal_log_info_num(a_fip_read_param[channel].nand_addr.all);
+<b><a name="line3026">3026    </a></b>	
+<b><a name="line3027">3027    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line3028">3028    </a></b>	                }
+<b><a name="line3029">3029    </a></b>	            }
+<b><a name="line3030">3030    </a></b>	
+<b><a name="line3031">3031    </a></b>	            //The data in all the copies are known
+<b><a name="line3032">3032    </a></b>	            //No further DMA on other backups are required
+<b><a name="line3033">3033    </a></b>	            if (0 == reading_channel_bitmap) {
+<b><a name="line3034">3034    </a></b>	                //This basically skips subsequent loops that
+<b><a name="line3035">3035    </a></b>	                //will all continue because of a 0 bitmap
+<b><a name="line3036">3036    </a></b>	                break;
+<b><a name="line3037">3037    </a></b>	            }
+<b><a name="line3038">3038    </a></b>	        }
+<b><a name="line3039">3039    </a></b>	
+<b><a name="line3040">3040    </a></b>	        //This exit condition is when a Complete Set is found
+<b><a name="line3041">3041    </a></b>	        //Scanning can exit early and perform load code
+</pre></body>
+</html>

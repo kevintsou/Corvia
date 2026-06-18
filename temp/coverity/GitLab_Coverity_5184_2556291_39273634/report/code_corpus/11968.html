@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line22">22    </a></b>	{
+<b><a name="line23">23    </a></b>	    U8 result = KAT_ERROR_NONE;
+<b><a name="line24">24    </a></b>	    memset((void *)&gVUALock, 0, sizeof(VUALock_t));
+<b><a name="line25">25    </a></b>	    gVUALock.ubEn = gVucDispatch.lock_en && gVucDispatch.lock_by_sp800_227;
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    if (!gVUALock.ubEn) {
+<b><a name="line28">28    </a></b>	        return;
+<b><a name="line29">29    </a></b>	    }
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    if(gBCodeGlobalStruct.p_efuse_security_setting->kat_enable){
+<b><a name="line32">32    </a></b>	        result = host_sec_kat_vua(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><a name="line33">33    </a></b>	        if (KAT_ERROR_NONE != result){
+<b><a name="line34">34    </a></b>	            gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line35">35    </a></b>	            gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line36">36    </a></b>	            return;
+<b><a name="line37">37    </a></b>	        }
+<b><a name="line38">38    </a></b>	    }
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    Dump_SEC(tprintf("VUCLock_en"));
+<b><a name="line41">41    </a></b>	    gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_PROTECT;
+<b><a name="line42">42    </a></b>	    gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    // Set receive date buf & calculate buf
+<b><a name="line45">45    </a></b>	    gVUALock.ulVendorBufBase = DBUF_API_BOOTCODE_HOST_BUFFER_BASE;          // Receive/Sent Data
+<b><a name="line46">46    </a></b>	    gVUALock.ulHashCalBufBase = DBUF_API_BOOTCODE_TEMP_BUFFER_BASE + BC_8KB;
+<b><a name="line47">47    </a></b>	    gVUALock.ulVendorTmpBase = DBUF_API_BOOTCODE_VUC_PROTECT_BUFFER_BASE;
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    gVUALock.ubVerifyFailCount = 0;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    memcpy((void *)(gVUALock.ulAESCipherBlockChainingInitializayionVector), (void *)(gaulVUCLockAesCBCIV), sizeof(gVUALock.ulAESCipherBlockChainingInitializayionVector));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    U8 ControllerName[PARTY_U_INFO_LEN] = {0x50, 0x53, 0x35, 0x33, 0x30, 0x33, 0x00, 0x00};   // PS530300
+<b><a name="line54">54    </a></b>	    memcpy((void *)gVUALock.ubControllerName, (void *)ControllerName, PARTY_U_INFO_LEN);
+<b><a name="line55">55    </a></b>	}
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	void VUA_sha_blocking(U32 KeyAdr, U32 ulDesAdr, U32 KeyLen)
+<b><a name="line58">58    </a></b>	{
+<b><a name="line59">59    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line60">60    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line61">61    </a></b>	    sec_sha_param.src_addr.all     = KeyAdr;
+<b><a name="line62">62    </a></b>	    sec_sha_param.src_len          = KeyLen;
+<b><a name="line63">63    </a></b>	    sec_sha_param.targ_addr.all    = (U64)ulDesAdr;
+<b><a name="line64">64    </a></b>	    sec_sha_param.sha_mode         = HAL_SEC_SHA2_512_MODE;
+<b><a name="line65">65    </a></b>	    sec_sha_param.timeout_val      = SEC_TIMEOUT_TICKS;
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line68">68    </a></b>	}
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	SECResult_e VUA_verify_key_hash(U32 KeyHashAdr)
+<b><a name="line71">71    </a></b>	{
+<b><a name="line72">72    </a></b>	    U8 rng[6] = {0};
+<b><a name="line73">73    </a></b>	    EFUSE_VUC_PROTECT_KEY_HASH *pVUCKeyHash = (EFUSE_VUC_PROTECT_KEY_HASH *)gVUALock.ulVendorTmpBase;
+<b><a name="line74">74    </a></b>	    pVUCKeyHash = get_efuse_vuc_protect_key_hash(&gEFuseAPI);
+<b><a name="line75">75    </a></b>	    drbg_get_try_limit_rng_data(&gRnghealth, sizeof(rng), rng);
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	    // Compare all efuse key hash
+<b><a name="line78">78    </a></b>	    for (U8 idx = 0; idx < EFUSE_VUC_PROTECT_KEY_INDEX_COUNT; idx++)
+<b><a name="line79">79    </a></b>	    {
+<b><a name="line80">80    </a></b>	        if (HAL_SEC_DMSCA_PASS == hal_sec_dmsca_def_cmp((U8 *)(pVUCKeyHash + idx), (U8 *)KeyHashAdr, 48, 48, rng))
+<b><a name="line81">81    </a></b>	        {
+<b><a name="line82">82    </a></b>	#if DEBUG_VUC_PROTECT
+</pre></body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/scr_seed_ps.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line135">135    </a></b>	    a = temp;
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	    /*
+<b><a name="line138">138    </a></b>	     *  output
+<b><a name="line139">139    </a></b>	     */
+<b><a name="line140">140    </a></b>	    a += (U8)(so >> 24);
+<b><a name="line141">141    </a></b>	    b += (U8)(so >> 16);
+<b><a name="line142">142    </a></b>	    c += (U8)(so >> 8);
+<b><a name="line143">143    </a></b>	    d += (U8)(so >> 0);
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    return (((U32)a << 24) | ((U32)b << 16) | ((U32)c << 8) | (U32)d);
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	/*
+<b><a name="line149">149    </a></b>	 *  public
+<b><a name="line150">150    </a></b>	 *
+<b><a name="line151">151    </a></b>	 */
+<b><a name="line152">152    </a></b>	
+<b><a name="line153">153    </a></b>	U32 ps_rand_seed_gen(U32 pe, U32 vb, U32 pg, U32 fm)
+<b><a name="line154">154    </a></b>	{
+<b><a name="line155">155    </a></b>	    U32 index, agitation;
+<b><a name="line156">156    </a></b>	    U32 k;
+<b><a name="line157">157    </a></b>	    U32 seed;
+<b><a name="line158">158    </a></b>	
+<b><a name="line159">159    </a></b>	    index = (pg << PS_SEED_FRAME_SIZE_SHIFT) | fm;
+<b><a name="line160">160    </a></b>	    agitation = PS_SEED_AGITATION_OFST + vb + pe;
+<b><a name="line161">161    </a></b>	
+<b><a name="line162">162    </a></b>	    seed  = table_0[index & 0x1f];
+<b><a name="line163">163    </a></b>	    seed ^= table_1[(index >>  5) & 0x1f];
+<b><a name="line164">164    </a></b>	    seed ^= table_2[(index >> 10) & 0x0f];
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15UL" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line165">165    </a></b>	    seed ^= table_3[(index >> 14) & 0x0f];
+<b><a name="line166">166    </a></b>	    seed ^= agitation;
+<b><a name="line167">167    </a></b>	
+<b><a name="line168">168    </a></b>	    k = table_4[(index >> 18) & 0x07];
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	    return my_hash(seed, k);
+<b><a name="line171">171    </a></b>	}
+<b><a name="line172">172    </a></b>	
+</pre></body>
+</html>

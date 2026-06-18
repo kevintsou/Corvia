@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line47">47    </a></b>	static void nvme_vuc_cmd_data_out(HOST_API_STRUCT_PTR host, U16 ctag);
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	/*
+<b><a name="line50">50    </a></b>	 *  private
+<b><a name="line51">51    </a></b>	 */
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	static U32 get_4k_cnt(U32 byte_cnt)
+<b><a name="line54">54    </a></b>	{
+<b><a name="line55">55    </a></b>	    U32 byte_4k_cnt;
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    byte_4k_cnt = byte_cnt / LC_BYTE_SIZE;
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    if (byte_cnt % LC_BYTE_SIZE) {
+<b><a name="line60">60    </a></b>	        byte_4k_cnt++;
+<b><a name="line61">61    </a></b>	    }
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    return byte_4k_cnt;
+<b><a name="line64">64    </a></b>	}
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	static void nvme_create_io_cq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    Dump_NVME(tprintf("  >> create IO CQ.\n\r"));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    U8  fid        = host->hcmd.payload.info.nonuser.fid;
+<b><a name="line72">72    </a></b>	    U16 qid        = host->sq_cmd.payload_opt.adm.create_cq.qid;
+<b><a name="line73">73    </a></b>	    U16 qsize      = host->sq_cmd.payload_opt.adm.create_cq.qsize;
+<b><a name="line74">74    </a></b>	    U16 ivid       = host->sq_cmd.payload_opt.adm.create_cq.iv;
+<b><a name="line75">75    </a></b>	    U8  pc         = host->sq_cmd.payload_opt.adm.create_cq.pc;
+<b><a name="line76">76    </a></b>	    U8  ie         = host->sq_cmd.payload_opt.adm.create_cq.ien;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "host->sq_cmd.payload_opt.adm.create_cq.ien" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line77">77    </a></b>	    U16 max_num_cq = (host->nvme_feature.cq_num + 1);
+<b><a name="line78">78    </a></b>	    U32 intr_en    = host->sq_cmd.payload_opt.adm.create_cq.ien;
+<b><a name="line79">79    </a></b>	    U64 prp1_base  = (U64)host->sq_cmd.ct_prp1;
+<b><a name="line80">80    </a></b>	    U8  cap_cqr    = hal_nl_get_cap_cqr(PCIE_PORT_OFST_0);
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    // chk fields
+<b><a name="line83">83    </a></b>	    if ((qid == 0) || (qid > max_num_cq) || (host->host_info.ioq.iocq[qid].en)) {
+<b><a name="line84">84    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line85">85    </a></b>	        return;
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	    else if ((qsize == 0) || (qsize > NVME_MQES)) {
+<b><a name="line88">88    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_SIZE);
+<b><a name="line89">89    </a></b>	        return;
+<b><a name="line90">90    </a></b>	    }
+<b><a name="line91">91    </a></b>	    else if (ivid > NVME_MAX_IV_NUM) { // max q
+<b><a name="line92">92    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_INT_VECTOR);
+<b><a name="line93">93    </a></b>	        return;
+<b><a name="line94">94    </a></b>	    }
+<b><a name="line95">95    </a></b>	    else if ((host->sq_cmd.payload_opt.adm.create_cq.pc == 0) && (cap_cqr == 1)) {
+<b><a name="line96">96    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line97">97    </a></b>	        return;
+<b><a name="line98">98    </a></b>	    }
+<b><a name="line99">99    </a></b>	    // TODO:
+<b><a name="line100">100    </a></b>	#if 0
+<b><a name="line101">101    </a></b>	    else if (prp1_base & ((U64)1 << (12 + (U8)hal_nl_get_cc_mps(FUNC0)) - 1)) {
+<b><a name="line102">102    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_PRP_OFFSET_INVALID);
+<b><a name="line103">103    </a></b>	        return;
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	#endif
+<b><a name="line106">106    </a></b>	    Dump_NVME(tprintf("create io cq check pass"));
+<b><a name="line107">107    </a></b>	    // create queue
+</pre></body>
+</html>

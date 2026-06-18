@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_i2c.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_I2C_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_I2C_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_PHAL_I2C_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// GPX (group #x) setting
+<b><a name="line7">7    </a></b>	#define GPX_DONE_INT_EN                             (BIT1)
+<b><a name="line8">8    </a></b>	#define GPX_HS_MODE                                 (BIT2)
+<b><a name="line9">9    </a></b>	#define GPX_COMBI_MODE                              (BIT3)
+<b><a name="line10">10    </a></b>	#define GPX_BUF_SEL                                 (BIT4)
+<b><a name="line11">11    </a></b>	#define GPX_PD1_CTRL                                (BIT5)
+<b><a name="line12">12    </a></b>	#define GPX_ADDR_10BIT_EN                           (BIT6)
+<b><a name="line13">13    </a></b>	#define GPX_DIR                                     (BIT7)
+<b><a name="line14">14    </a></b>	#define GPX_EOP_MOD                                 (BIT24)
+<b><a name="line15">15    </a></b>	#define GPX_EOP_EN                                  (BIT25)
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	// wr/rd mode
+<b><a name="line18">18    </a></b>	#define I2C_WR_MODE                                 (0U)
+<b><a name="line19">19    </a></b>	#define I2C_WR_DATA_CNT                             (0U)
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#define I2C_RD_MODE                                 (GPX_DIR)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	// normal mode
+<b><a name="line24">24    </a></b>	#define I2C_NM_100K                                 (100U)
+<b><a name="line25">25    </a></b>	#define I2C_NM_400K                                 (400U)
+<b><a name="line26">26    </a></b>	#define I2C_NM_1M                                   (1000U)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	// high speed mode
+<b><a name="line29">29    </a></b>	#define I2C_HS_1M7                                  (1700U)
+<b><a name="line30">30    </a></b>	#define I2C_HS_3M4                                  (3400U)
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	// power domain group
+<b><a name="line33">33    </a></b>	#define I2C_PD0                                     (0U)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1243">1243    </a></b>	    set_if_addr_idx = 0U;
+<b><a name="line1244">1244    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->set_feature_parallel_dis == FALSE) {
+<b><a name="line1245">1245    </a></b>	        status = fpl_set_feature_if_parallel(fip_inst_ptr, fpl_ptr, &set_if_addr_idx);
+<b><a name="line1246">1246    </a></b>	
+<b><a name="line1247">1247    </a></b>	        if (0U != status) {
+<b><a name="line1248">1248    </a></b>	            status = fpl_set_feature_if_non_parallel(fip_inst_ptr, fpl_ptr, &set_if_addr_idx);
+<b><a name="line1249">1249    </a></b>	        }
+<b><a name="line1250">1250    </a></b>	    }
+<b><a name="line1251">1251    </a></b>	    else {
+<b><a name="line1252">1252    </a></b>	        status = fpl_set_feature_if_non_parallel(fip_inst_ptr, fpl_ptr, &set_if_addr_idx);
+<b><a name="line1253">1253    </a></b>	    }
+<b><a name="line1254">1254    </a></b>	
+<b><a name="line1255">1255    </a></b>	    return status;
+<b><a name="line1256">1256    </a></b>	}
+<b><a name="line1257">1257    </a></b>	
+<b><a name="line1258">1258    </a></b>	void fpl_data_ref(FIP_CMD_INFO_PTR cmd_info_ptr, U8 *source_buf, U8 data_ref_id, U8 len)
+<b><a name="line1259">1259    </a></b>	{
+<b><a name="line1260">1260    </a></b>	    U8 i;
+<b><a name="line1261">1261    </a></b>	
+<b><a name="line1262">1262    </a></b>	    for (i = 0U; i < len; i++) {
+<b><a name="line1263">1263    </a></b>	        cmd_info_ptr->data[cmd_info_ptr->data_id] =  source_buf[data_ref_id - i];
+<b><a name="line1264">1264    </a></b>	        //tprintf("data[%d] = %d", cmd_info_ptr->data_id, cmd_info_ptr->data[cmd_info_ptr->data_id]);
+<b><a name="line1265">1265    </a></b>	        cmd_info_ptr->data_id ++;
+<b><a name="line1266">1266    </a></b>	    }
+<b><a name="line1267">1267    </a></b>	}
+<b><a name="line1268">1268    </a></b>	
+<b><a name="line1269">1269    </a></b>	void fpl_op_code_ref(FIP_CMD_INFO_PTR cmd_info_ptr, U32 *buf, U8 len)
+<b><a name="line1270">1270    </a></b>	{
+<b><a name="line1271">1271    </a></b>	    U8 i;
+<b><a name="line1272">1272    </a></b>	    for (i = 0U; i < (len + 1); i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "i" (unsigned) is not the same as that of the right operand "len + 1"(signed).</font>
+<b><a name="line1273">1273    </a></b>	        cmd_info_ptr->op[cmd_info_ptr->op_id] = ((buf[0U] >> (i * EFUSE_PARAM_BIT_PER_OP_CODE)) & EFUSE_PARAM_OP_CODE_MASK);
+<b><a name="line1274">1274    </a></b>	        //tprintf("op_id[%d] = %d, op_num = %d", cmd_info_ptr->op_id, cmd_info_ptr->op[cmd_info_ptr->op_id], cmd_info_ptr->op_num);
+<b><a name="line1275">1275    </a></b>	        cmd_info_ptr->op_num ++;
+<b><a name="line1276">1276    </a></b>	        cmd_info_ptr->op_id  ++;
+<b><a name="line1277">1277    </a></b>	    }
+<b><a name="line1278">1278    </a></b>	}
+<b><a name="line1279">1279    </a></b>	
+<b><a name="line1280">1280    </a></b>	void fpl_api_parsing_efuse_param(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr, U16 *efuse_param_ptr)
+<b><a name="line1281">1281    </a></b>	{
+<b><a name="line1282">1282    </a></b>	    U8  i;
+<b><a name="line1283">1283    </a></b>	    U8  cnt_end;
+<b><a name="line1284">1284    </a></b>	    U8  data_adr_ptr;
+<b><a name="line1285">1285    </a></b>	    U8 *data_ref_ptr;
+<b><a name="line1286">1286    </a></b>	    U8  data_ref_num;
+<b><a name="line1287">1287    </a></b>	    U8  op_code_ref_num;
+<b><a name="line1288">1288    </a></b>	    U8  cmd_type;
+<b><a name="line1289">1289    </a></b>	    U8  data_len;
+<b><a name="line1290">1290    </a></b>	    U16 get_bit;
+<b><a name="line1291">1291    </a></b>	    U32 val;
+<b><a name="line1292">1292    </a></b>	    U8 z = 0U; //Only for UART
+<b><a name="line1293">1293    </a></b>	    U8 bit = 0U;
+<b><a name="line1294">1294    </a></b>	    U8 read_rty_bit_map[EFUSE_PARAM_READ_RTY_TBL_SIZE];
+<b><a name="line1295">1295    </a></b>	    U8 por_rty_bit_map[EFUSE_PARAM_POR_RTY_TBL_SIZE];
+<b><a name="line1296">1296    </a></b>	    U8 retry_idx = 0U;
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	    i               = 0U;
+<b><a name="line1299">1299    </a></b>	    cnt_end         = 0U;
+<b><a name="line1300">1300    </a></b>	    val             = 0U;
+<b><a name="line1301">1301    </a></b>	    data_adr_ptr    = EFUSE_NAND_SETTING_FPU_SEQUENCE_SIZE;
+<b><a name="line1302">1302    </a></b>	    data_ref_ptr     = (U8 *)efuse_param_ptr;
+<b><a name="line1303">1303    </a></b>	    data_ref_num    = 0U;
+</pre></body>
+</html>

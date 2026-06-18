@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line439">439    </a></b>	    HAL_SEC_AES_CBC_MODE,
+<b><a name="line440">440    </a></b>	    HAL_SEC_AES_KEY128_MODE,
+<b><a name="line441">441    </a></b>	    (U16)sizeof(sec_sm4_kat_key_1),
+<b><a name="line442">442    </a></b>	    (U32 *)(sec_sm4_kat_key_1),
+<b><a name="line443">443    </a></b>	    (U32 *)(sec_sm4_kat_iv),
+<b><a name="line444">444    </a></b>	    (U8 *)(sec_sm4_kat_ptx_1),
+<b><a name="line445">445    </a></b>	    (U8 *)(sec_sm4_kat_cbc_ctx_1)
+<b><a name="line446">446    </a></b>	};
+<b><a name="line447">447    </a></b>	
+<b><a name="line448">448    </a></b>	const SEC_AES_KAT_PATTERN sec_sm4_ofb_pat_1 = {
+<b><a name="line449">449    </a></b>	    32UL,
+<b><a name="line450">450    </a></b>	    HAL_SEC_AES_OFB_MODE,
+<b><a name="line451">451    </a></b>	    HAL_SEC_AES_KEY128_MODE,
+<b><a name="line452">452    </a></b>	    (U16)sizeof(sec_sm4_kat_key_1),
+<b><a name="line453">453    </a></b>	    (U32 *)(sec_sm4_kat_key_1),
+<b><a name="line454">454    </a></b>	    (U32 *)(sec_sm4_kat_iv),
+<b><a name="line455">455    </a></b>	    (U8 *)(sec_sm4_kat_ptx_1),
+<b><a name="line456">456    </a></b>	    (U8 *)(sec_sm4_kat_ofb_ctx_1)
+<b><a name="line457">457    </a></b>	};
+<b><a name="line458">458    </a></b>	#endif //BC_USE_EXTRA_KAT
+<b><a name="line459">459    </a></b>	const U32 sec_sm4_kat_xts_key_1[8] = {0x11111111, 0x11111111, 0x11111111, 0x11111111, 0x22222222, 0x22222222, 0x22222222, 0x22222222};
+<b><a name="line460">460    </a></b>	#if 0  //RUNTIME GEN
+<b><a name="line461">461    </a></b>	const U8 sec_sm4_kat_xts_ptx_1[] = {0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44,
+<b><a name="line462">462    </a></b>	        0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44
+<b><a name="line463">463    </a></b>	    };
+<b><a name="line464">464    </a></b>	#endif
+<b><a name="line465">465    </a></b>	const U8 sec_sm4_kat_xts_ctx_1[] = {0xA7, 0x4D, 0x72, 0x6C, 0x11, 0x19, 0x6A, 0x32, 0xBE, 0x04, 0xE0, 0x01, 0xFF, 0x29, 0xD0, 0xC7,
+<b><a name="line466">466    </a></b>	        0x93, 0x2F, 0x9F, 0x3E, 0xC2, 0x9B, 0xFC, 0xB6, 0x4D, 0xD1, 0x7F, 0x63, 0xCB, 0xD3, 0xEA, 0x31
+<b><a name="line467">467    </a></b>	    };
+<b><a name="line468">468    </a></b>	const SEC_AES_KAT_PATTERN sec_sm4_xts_pat_1 = {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'sec_sm4_xts_pat_1', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                          ^</font>
+<b><a name="line469">469    </a></b>	    32UL,
+<b><a name="line470">470    </a></b>	    HAL_SEC_AES_XTS_MODE,
+<b><a name="line471">471    </a></b>	    HAL_SEC_AES_KEY128_MODE,
+<b><a name="line472">472    </a></b>	    (U16)sizeof(sec_sm4_kat_xts_key_1),
+<b><a name="line473">473    </a></b>	    (U32 *)(sec_sm4_kat_xts_key_1),
+<b><a name="line474">474    </a></b>	    0x00000000,
+<b><a name="line475">475    </a></b>	    //(U8 *)(sec_sm4_kat_xts_ptx_1),  //RUNTIME GEN
+<b><a name="line476">476    </a></b>	    (U8 *)(sec_sm4_kat_xts_ctx_1),
+<b><a name="line477">477    </a></b>	    {
+<b><a name="line478">478    </a></b>	        .xts =
+<b><a name="line479">479    </a></b>	        {
+<b><a name="line480">480    </a></b>	            0x0000003333333333,
+<b><a name="line481">481    </a></b>	            0X0000000000000000
+<b><a name="line482">482    </a></b>	        }
+<b><a name="line483">483    </a></b>	    }
+<b><a name="line484">484    </a></b>	};
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	#if BC_USE_EXTRA_KAT
+<b><a name="line487">487    </a></b>	const SEC_AES_KAT_PATTERN sec_sm4_ctr_pat_1 = {
+<b><a name="line488">488    </a></b>	    64UL,
+<b><a name="line489">489    </a></b>	    HAL_SEC_AES_CTR_MODE,
+<b><a name="line490">490    </a></b>	    HAL_SEC_AES_KEY128_MODE,
+<b><a name="line491">491    </a></b>	    (U16)sizeof(sec_sm4_kat_key_1),
+<b><a name="line492">492    </a></b>	    (U32 *)(sec_sm4_kat_key_1),
+<b><a name="line493">493    </a></b>	    (U32 *)(sec_sm4_kat_iv),
+<b><a name="line494">494    </a></b>	    (U8 *)(sec_sm4_kat_ctr_ptx_0),
+<b><a name="line495">495    </a></b>	    (U8 *)(sec_sm4_kat_ctr_ctx_1)
+<b><a name="line496">496    </a></b>	};
+<b><a name="line497">497    </a></b>	
+<b><a name="line498">498    </a></b>	const SEC_AES_KAT_PATTERN *const sec_sm4_kat_patterns[] = {
+<b><a name="line499">499    </a></b>	    &sec_sm4_ecb_pat_1,
+</pre></body>
+</html>

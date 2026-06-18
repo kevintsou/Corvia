@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line800">800    </a></b>	    ptr->we_value = we_value;
+<b><a name="line801">801    </a></b>	    ptr->we_change_en = we_change_en;
+<b><a name="line802">802    </a></b>	    ptr->dqs_value = dqs_value;
+<b><a name="line803">803    </a></b>	    ptr->dqs_change_en = dqs_change_en;
+<b><a name="line804">804    </a></b>	    ptr->dqs_dir = dqs_dir;
+<b><a name="line805">805    </a></b>	    ptr->dqs_dir_en = dqs_dir_en;
+<b><a name="line806">806    </a></b>	    ptr->re_value = re_value;
+<b><a name="line807">807    </a></b>	    ptr->re_change_en = re_change_en;
+<b><a name="line808">808    </a></b>	    ptr->cle_value = cle_value;
+<b><a name="line809">809    </a></b>	    ptr->cle_change_en = cle_change_en;
+<b><a name="line810">810    </a></b>	    ptr->ale_value = ale_value;
+<b><a name="line811">811    </a></b>	    ptr->ale_change_en = ale_change_en;
+<b><a name="line812">812    </a></b>	
+<b><a name="line813">813    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line814">814    </a></b>	}
+<b><a name="line815">815    </a></b>	
+<b><a name="line816">816    </a></b>	/*!
+<b><a name="line817">817    </a></b>	 * @brief
+<b><a name="line818">818    </a></b>	 *
+<b><a name="line819">819    </a></b>	 * - TODO:
+<b><a name="line820">820    </a></b>	 *
+<b><a name="line821">821    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line822">822    </a></b>	 * @return    Next FPU Base.
+<b><a name="line823">823    </a></b>	 * @note
+<b><a name="line824">824    </a></b>	 *
+<b><a name="line825">825    </a></b>	 */
+<b><a name="line826">826    </a></b>	U32 dal_fip_fpu_fill_br(U32 fpu_base, U8 mode, U8 direction, U8 ibuf_ptr, U8 all, U8 trn_en)
+<b><a name="line827">827    </a></b>	{
+<b><a name="line828">828    </a></b>	    DAL_FIP_FPU_BR_STRUCT_PTR ptr = (DAL_FIP_FPU_BR_STRUCT_PTR)fpu_base;
+<b><a name="line829">829    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line830">830    </a></b>	    ptr->opcode     = DAL_FIP_FPU_OPCODE_BR;
+<b><a name="line831">831    </a></b>	    ptr->mode       = mode;
+<b><a name="line832">832    </a></b>	    ptr->direction  = direction;
+<b><a name="line833">833    </a></b>	    ptr->ibuf_ptr   = ibuf_ptr;
+<b><a name="line834">834    </a></b>	    ptr->all        = all;
+<b><a name="line835">835    </a></b>	    ptr->trn_en     = trn_en;
+<b><a name="line836">836    </a></b>	
+<b><a name="line837">837    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line838">838    </a></b>	}
+<b><a name="line839">839    </a></b>	
+<b><a name="line840">840    </a></b>	U32 dal_fip_fpu_fill_jmp(U32 fpu_base, U8 adr_mode, U8 c_sr, U8 c_ce, U8 c_fseq, U8 c_force, U16 addr)
+<b><a name="line841">841    </a></b>	{
+<b><a name="line842">842    </a></b>	    DAL_FIP_FPU_JMP_STRUCT_PTR ptr;
+<b><a name="line843">843    </a></b>	
+<b><a name="line844">844    </a></b>	#if DAL_FIP_CONF_FPU_INSERT_NOP_EN
+<b><a name="line845">845    </a></b>	    while ((fpu_base % 8U) != 0U/* aligned */) {
+<b><a name="line846">846    </a></b>	        // add nop and update fpu_base
+<b><a name="line847">847    </a></b>	        fpu_base = dal_fip_fpu_fill_nop(fpu_base);
+<b><a name="line848">848    </a></b>	    }
+<b><a name="line849">849    </a></b>	#else
+<b><a name="line850">850    </a></b>	    ASSERT(fpu_base, (fpu_base % 8) == 0/* aligned */);
+<b><a name="line851">851    </a></b>	#endif
+<b><a name="line852">852    </a></b>	
+<b><a name="line853">853    </a></b>	    ptr = (DAL_FIP_FPU_JMP_STRUCT_PTR)fpu_base;
+<b><a name="line854">854    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line855">855    </a></b>	    ptr->opcode     = DAL_FIP_FPU_OPCODE_JMP;
+<b><a name="line856">856    </a></b>	    ptr->adr_mode   = adr_mode;
+<b><a name="line857">857    </a></b>	    ptr->c_sr       = c_sr;
+<b><a name="line858">858    </a></b>	    ptr->c_ce       = c_ce;
+<b><a name="line859">859    </a></b>	    ptr->c_fseq     = c_fseq;
+<b><a name="line860">860    </a></b>	    ptr->c_force    = c_force;
+</pre></body>
+</html>

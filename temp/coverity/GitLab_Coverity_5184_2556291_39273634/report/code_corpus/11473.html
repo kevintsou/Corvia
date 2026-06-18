@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1966">1966    </a></b>	            break;
+<b><a name="line1967">1967    </a></b>	
+<b><a name="line1968">1968    </a></b>	        case 2U:
+<b><a name="line1969">1969    </a></b>	            w_FLH_CFG1_META_MODE_CH2(ch, meta_mode);
+<b><a name="line1970">1970    </a></b>	            w_FLH_CFG1_SPR_MODE_CH2(ch, spr_mode);
+<b><a name="line1971">1971    </a></b>	            w_FLH_CFG1_DATA_MODE_CH2(ch, data_mode);
+<b><a name="line1972">1972    </a></b>	            w_FLH_CFG1_LDPC_MODE_CH2(ch, ldpc_mode);
+<b><a name="line1973">1973    </a></b>	            w_FLH_CFG1_LDPC_2_MODE_CH2(ch, ldpc_2_mode);
+<b><a name="line1974">1974    </a></b>	            break;
+<b><a name="line1975">1975    </a></b>	
+<b><a name="line1976">1976    </a></b>	        case 3U:
+<b><a name="line1977">1977    </a></b>	            w_FLH_CFG1_META_MODE_CH3(ch, meta_mode);
+<b><a name="line1978">1978    </a></b>	            w_FLH_CFG1_SPR_MODE_CH3(ch, spr_mode);
+<b><a name="line1979">1979    </a></b>	            w_FLH_CFG1_DATA_MODE_CH3(ch, data_mode);
+<b><a name="line1980">1980    </a></b>	            w_FLH_CFG1_LDPC_MODE_CH3(ch, ldpc_mode);
+<b><a name="line1981">1981    </a></b>	            w_FLH_CFG1_LDPC_2_MODE_CH3(ch, ldpc_2_mode);
+<b><a name="line1982">1982    </a></b>	            break;
+<b><a name="line1983">1983    </a></b>	    }
+<b><a name="line1984">1984    </a></b>	
+<b><a name="line1985">1985    </a></b>	
+<b><a name="line1986">1986    </a></b>	    // case 2U:
+<b><a name="line1987">1987    </a></b>	    // fip setting
+<b><a name="line1988">1988    </a></b>	    w_CODE_META_MODE(ch, meta_mode);
+<b><a name="line1989">1989    </a></b>	    w_CODE_SPR_MODE(ch, spr_mode);
+<b><a name="line1990">1990    </a></b>	    w_CODE_UD_MODE(ch, data_mode);
+<b><a name="line1991">1991    </a></b>	    w_CODE_LDPC_MODE(ch, ldpc_mode);
+<b><a name="line1992">1992    </a></b>	    w_CODE_LDPC_2_MODE(ch, ldpc_2_mode);
+<b><a name="line1993">1993    </a></b>	
+<b><a name="line1994">1994    </a></b>	    // epu setting
+<b><a name="line1995">1995    </a></b>	    switch (ch_idx_sub)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event missing_default:</font></b> <font face="Arial"; size="3"; color="#FF5959">No default case found for the switch statement "switch (ch_idx_sub)".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_16_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement is not well formed.</font>
+<b><a name="line1996">1996    </a></b>	    {
+<b><a name="line1997">1997    </a></b>	        case 0U:
+<b><a name="line1998">1998    </a></b>	            w_FLH_CFG2_META_MODE_CH0(ch, meta_mode);
+<b><a name="line1999">1999    </a></b>	            w_FLH_CFG2_SPR_MODE_CH0(ch, spr_mode);
+<b><a name="line2000">2000    </a></b>	            w_FLH_CFG2_DATA_MODE_CH0(ch, data_mode);
+<b><a name="line2001">2001    </a></b>	            w_FLH_CFG2_LDPC_MODE_CH0(ch, ldpc_mode);
+<b><a name="line2002">2002    </a></b>	            w_FLH_CFG2_LDPC_2_MODE_CH0(ch, ldpc_2_mode);
+<b><a name="line2003">2003    </a></b>	            break;
+<b><a name="line2004">2004    </a></b>	
+<b><a name="line2005">2005    </a></b>	        case 1U:
+<b><a name="line2006">2006    </a></b>	            w_FLH_CFG2_META_MODE_CH1(ch, meta_mode);
+<b><a name="line2007">2007    </a></b>	            w_FLH_CFG2_SPR_MODE_CH1(ch, spr_mode);
+<b><a name="line2008">2008    </a></b>	            w_FLH_CFG2_DATA_MODE_CH1(ch, data_mode);
+<b><a name="line2009">2009    </a></b>	            w_FLH_CFG2_LDPC_MODE_CH1(ch, ldpc_mode);
+<b><a name="line2010">2010    </a></b>	            w_FLH_CFG2_LDPC_2_MODE_CH1(ch, ldpc_2_mode);
+<b><a name="line2011">2011    </a></b>	            break;
+<b><a name="line2012">2012    </a></b>	
+<b><a name="line2013">2013    </a></b>	        case 2U:
+<b><a name="line2014">2014    </a></b>	            w_FLH_CFG2_META_MODE_CH2(ch, meta_mode);
+<b><a name="line2015">2015    </a></b>	            w_FLH_CFG2_SPR_MODE_CH2(ch, spr_mode);
+<b><a name="line2016">2016    </a></b>	            w_FLH_CFG2_DATA_MODE_CH2(ch, data_mode);
+<b><a name="line2017">2017    </a></b>	            w_FLH_CFG2_LDPC_MODE_CH2(ch, ldpc_mode);
+<b><a name="line2018">2018    </a></b>	            w_FLH_CFG2_LDPC_2_MODE_CH2(ch, ldpc_2_mode);
+<b><a name="line2019">2019    </a></b>	            break;
+<b><a name="line2020">2020    </a></b>	
+<b><a name="line2021">2021    </a></b>	        case 3U:
+<b><a name="line2022">2022    </a></b>	            w_FLH_CFG2_META_MODE_CH3(ch, meta_mode);
+<b><a name="line2023">2023    </a></b>	            w_FLH_CFG2_SPR_MODE_CH3(ch, spr_mode);
+<b><a name="line2024">2024    </a></b>	            w_FLH_CFG2_DATA_MODE_CH3(ch, data_mode);
+<b><a name="line2025">2025    </a></b>	            w_FLH_CFG2_LDPC_MODE_CH3(ch, ldpc_mode);
+<b><a name="line2026">2026    </a></b>	            w_FLH_CFG2_LDPC_2_MODE_CH3(ch, ldpc_2_mode);
+</pre></body>
+</html>

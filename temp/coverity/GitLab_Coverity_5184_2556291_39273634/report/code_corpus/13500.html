@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2020, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  host_api_aes.c                                                        */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	#include "user_libs.h"
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	#undef LOGID
+<b><a name="line20">20    </a></b>	#define LOGID LOGID_USER_TP
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	SEC_KAT_RECORD gSecKatRecord;
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#if KAT_AES_EN
+<b><a name="line25">25    </a></b>	// global varible for aes kat
+<b><a name="line26">26    </a></b>	const U32 gulKatIV_0[4] = {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'gulKatIV_0', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">          ^</font>
+<b><a name="line27">27    </a></b>	    0x03020100UL, 0x07060504UL, 0x0B0A0908UL, 0x0F0E0D0CUL
+<b><a name="line28">28    </a></b>	};
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	const U32 gulKatIV_1[4] = {
+<b><a name="line31">31    </a></b>	    0xF3F2F1F0UL, 0xF7F6F5F4UL, 0xFBFAF9F8UL, 0xFFFEFDFCUL
+<b><a name="line32">32    </a></b>	};
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	const U32 gulKatKey4L_0[4] = {
+<b><a name="line35">35    </a></b>	    0x16157E2BUL, 0xA6D2AE28UL, 0x8815F7ABUL, 0x3C4FCF09UL
+<b><a name="line36">36    </a></b>	};
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	const U32 gulKatKey8L_0[8] = {
+<b><a name="line39">39    </a></b>	    0x10EB3D60UL, 0xBE71CA15UL, 0xF0AE732BUL, 0x81777D85UL,
+<b><a name="line40">40    </a></b>	    0x072C351FUL, 0xD708613BUL, 0xA310982DUL, 0xF4DF1409UL
+<b><a name="line41">41    </a></b>	};
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	const U32 gulKatKey8L_1[8] = {
+<b><a name="line44">44    </a></b>	    0x18281827UL, 0x45904528UL, 0x28605323UL, 0x26357174UL,
+<b><a name="line45">45    </a></b>	    0x57774962UL, 0x69937024UL, 0x49575999UL, 0x27769666UL,
+<b><a name="line46">46    </a></b>	};
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	const U32 gulKatKey16L_0[16] = {
+<b><a name="line49">49    </a></b>	    0x18281827UL, 0x45904528UL, 0x28605323UL, 0x26357174UL,
+<b><a name="line50">50    </a></b>	    0x57774962UL, 0x69937024UL, 0x49575999UL, 0x27769666UL,
+<b><a name="line51">51    </a></b>	    0x26594131UL, 0x93975853UL, 0x64628423UL, 0x95278333UL,
+<b><a name="line52">52    </a></b>	    0x97418802UL, 0x37999316UL, 0x09820551UL, 0x92459474UL
+<b><a name="line53">53    </a></b>	};
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	#if 0 //RUNTIME GEN
+<b><a name="line56">56    </a></b>	const U8 gubKatPlain64B_0[64] = {
+<b><a name="line57">57    </a></b>	    0x6BU, 0xC1U, 0xBEU, 0xE2U, 0x2EU, 0x40U, 0x9FU, 0x96U, 0xE9U, 0x3DU, 0x7EU, 0x11U, 0x73U, 0x93U, 0x17U, 0x2AU,
+</pre></body>
+</html>

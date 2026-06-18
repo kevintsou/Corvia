@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/apu/dal_apu_flow.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	static DAL_APU_UD_SPARE_STRUCT_PTR dal_apu_get_ud_spr_struct_ptr(U8 ud_fmt)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    return (DAL_APU_UD_SPARE_STRUCT_PTR)&r8_APU_REG[r8_APU_SPARE_MODE + (ud_fmt)];
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&(U8 volatile *)0x3080000[48U + ud_fmt]" to type "DAL_APU_UD_SPARE_STRUCT_PTR" removes "volatile" qualifier from the pointed to type.</font>
+<b><a name="line6">6    </a></b>	}
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	static DAL_APU_SPARE_MSDF_STRUCT_PTR dal_apu_get_spr_msdf_struct_ptr(U8 spr_type)
+<b><a name="line9">9    </a></b>	{
+<b><a name="line10">10    </a></b>	    return (DAL_APU_SPARE_MSDF_STRUCT_PTR)&r8_APU_REG[r8_APU_SPARE_MODE + 2 + (spr_type)];
+<b><a name="line11">11    </a></b>	}
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	void dal_apu_set_en_int_bmp(U32 bmp)
+<b><a name="line14">14    </a></b>	{
+<b><a name="line15">15    </a></b>	    U32 cur_bmp = r32_r_APU_INT_EN();
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	    cur_bmp |= bmp;
+<b><a name="line18">18    </a></b>	    r32_w_APU_INT_EN(cur_bmp);
+<b><a name="line19">19    </a></b>	}
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	U32 dal_apu_get_int_bmp(void)
+<b><a name="line22">22    </a></b>	{
+<b><a name="line23">23    </a></b>	    return r32_r_APU_INT();
+<b><a name="line24">24    </a></b>	}
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	void dal_apu_w1c_int_bmp(U32 bmp)
+<b><a name="line27">27    </a></b>	{
+<b><a name="line28">28    </a></b>	    r32_w_APU_INT(bmp);
+<b><a name="line29">29    </a></b>	}
+<b><a name="line30">30    </a></b>	void dal_apu_clr_en_rdmgr_aes(void)
+<b><a name="line31">31    </a></b>	{
+<b><a name="line32">32    </a></b>	    w_all_APU_AES_EN(0U);
+<b><a name="line33">33    </a></b>	}
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	void dal_apu_clr_en_rdmgr_e3dp(void)
+<b><a name="line36">36    </a></b>	{
+</pre></body>
+</html>

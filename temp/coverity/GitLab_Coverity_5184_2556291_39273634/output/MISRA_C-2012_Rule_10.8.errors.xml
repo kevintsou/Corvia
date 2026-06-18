@@ -1,0 +1,1458 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_tb_wr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[15U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>344</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_ram_abc_clr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[28U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>419</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_que_ful</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[16U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>369</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_ram_q_clr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[28U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>429</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_op_bsy</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[16U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>359</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_start</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[4U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>268</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_que_start</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[4U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>278</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_que_busy</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[3U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>258</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_dum_bsy</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[4U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>273</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_sqz_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[20U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>318</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_ots_start</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[68U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>424</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_print32d</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type unsigned to essential type char.}}}}</description>
+<line>56</line>
+<column>20</column>
+</event>
+<extra>ulData</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_func.c</file>
+<function>hal_func_set_bar</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>108</line>
+<column>40</column>
+</event>
+<extra>bar</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_func.c</file>
+<function>hal_func_set_bar</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>109</line>
+<column>42</column>
+</event>
+<extra>bar</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/key_manifest_api.c</file>
+<function>get_key_sign_size</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>265</line>
+<column>48</column>
+</event>
+<extra>sig_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_ofl_get_start</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ab00[4U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>823</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</file>
+<function>phal_i2c_trigger_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>146</line>
+<column>5</column>
+</event>
+<extra>pI2cParam,ubGroup</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>fill_cns_ctrl_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>291</line>
+<column>38</column>
+</event>
+<extra>i</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>decrypt_partial_project_binary</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{initial_lba + (sector_start - 1UL)}}}{64}}}}</description>
+<line>1699</line>
+<column>48</column>
+</event>
+<extra>initial_lba,sector_start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>flh_power_reset_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>173</line>
+<column>25</column>
+</event>
+<extra>result</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>flh_power_reset_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>178</line>
+<column>25</column>
+</event>
+<extra>tmp</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_boot_init_ch_reg</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>14</line>
+<column>9</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_dqs_time_out_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>1373</line>
+<column>5</column>
+</event>
+<extra>gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_dqs_time_out_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>1374</line>
+<column>5</column>
+</event>
+<extra>gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_dqs_time_out_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>1378</line>
+<column>5</column>
+</event>
+<extra>gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_dqs_time_out_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>1396</line>
+<column>5</column>
+</event>
+<extra>gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_fip_conf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>508</line>
+<column>5</column>
+</event>
+<extra>fpl_ptr,frame_cnt,p_efuse_nand_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if_parallel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{1U &lt;&lt; ch}}}{16}}}}</description>
+<line>1136</line>
+<column>50</column>
+</event>
+<extra>ch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>fw_download_chk_parm</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{1UL &lt;&lt; 2}}}{64}}}}</description>
+<line>1015</line>
+<column>27</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</file>
+<function>phal_i2cm_set_hs_frequency_violate</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>68</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</file>
+<function>phal_i2cm_set_hs_frequency_violate</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>80</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_memk_init_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[74U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>1048</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.c</file>
+<function>calculate_chksum</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>74</line>
+<column>24</column>
+</event>
+<extra>curr_byte,k</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>449</line>
+<column>26</column>
+</event>
+<extra>boot_landmark_0_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>450</line>
+<column>51</column>
+</event>
+<extra>baudrate_bd_data</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>453</line>
+<column>35</column>
+</event>
+<extra>boot_landmark_0_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>458</line>
+<column>35</column>
+</event>
+<extra>boot_landmark_0_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>462</line>
+<column>44</column>
+</event>
+<extra>boot_landmark_0_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>466</line>
+<column>30</column>
+</event>
+<extra>boot_landmark_0_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>474</line>
+<column>23</column>
+</event>
+<extra>boot_landmark_1_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>get_all_efuse_sys_landmark</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>477</line>
+<column>25</column>
+</event>
+<extra>boot_landmark_1_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_ofl_get_keywrap_toram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ab00[65U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>848</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_ofl_get_keywrap_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ab00[65U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>843</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_restr_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[52U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>394</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</file>
+<function>dal_sec_sha_get_rdout_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360aa00[44U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>364</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_dir_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[33U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>998</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_otf_rbuf_clr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[108U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>1133</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_jmp_isr_st</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[90U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>469</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_key_chg</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[4U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>923</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_key_gen</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[8U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>933</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_key_mode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[12U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>963</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_kidx_ini</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[12U] &gt;&gt; 5U) &amp; 1U}}}{32}}}}</description>
+<line>988</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_otf_to</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[102U] &gt;&gt; 3U) &amp; 1U}}}{32}}}}</description>
+<line>1103</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_otf_bypass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[0U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>878</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_jmp_isr_clr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[90U] &gt;&gt; 0U) &amp; 1U}}}{32}}}}</description>
+<line>464</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_que_empty</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[16U] &gt;&gt; 1U) &amp; 1U}}}{32}}}}</description>
+<line>364</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_ramb_bank_num</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[20U] &gt;&gt; 2U) &amp; 3U}}}{32}}}}</description>
+<line>404</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_rama_bank_num</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[20U] &gt;&gt; 0U) &amp; 3U}}}{32}}}}</description>
+<line>399</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_ramc_bank_num</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360a800[20U] &gt;&gt; 4U) &amp; 3U}}}{32}}}}</description>
+<line>409</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_d2h_to</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[102U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>1098</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_r2_reload</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[8U] &gt;&gt; 2U) &amp; 1U}}}{32}}}}</description>
+<line>948</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_r2_update</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((U8 volatile *)0x360ac00[8U] &gt;&gt; 3U) &amp; 1U}}}{32}}}}</description>
+<line>958</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_dbi_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>781</line>
+<column>9</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_dbi_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>782</line>
+<column>9</column>
+</event>
+<extra>ch,gFlhFphiRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_dbi_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>785</line>
+<column>9</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_dbi_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type ambiguous essential type to essential type unsigned.}}}}</description>
+<line>786</line>
+<column>9</column>
+</event>
+<extra>ch,gFlhFphiRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_set_cs_sqid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>3240</line>
+<column>5</column>
+</event>
+<extra>sqid</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_set_tadl_phs_cnt</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{16}{{code{val &amp; 0x7ffU}}}{32}}}}</description>
+<line>2490</line>
+<column>5</column>
+</event>
+<extra>val</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>dal_cmgr_get_cs_sqid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{8}{{code{((((U8 volatile *)0x3000000[(49156UL + 8UL * (U32)ctag &gt;&gt; 0U) + 0UL] &gt;&gt; 0U) &amp; 3U) &lt;&lt; 8U) | (U8 volatile *)0x3000000[(49152UL + 8UL * (U32)ctag &gt;&gt; 0U) + 3UL]}}}{16}}}}</description>
+<line>3266</line>
+<column>12</column>
+</event>
+<extra>ctag</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>makeError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>146</line>
+<column>19</column>
+</event>
+<extra>rand</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_set_cpl_fid</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>1328</line>
+<column>5</column>
+</event>
+<extra>fid</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_rcv_check_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>82</line>
+<column>43</column>
+</event>
+<extra>packet_id,xmodem</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_hard_reset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{die &amp; gFplApiStruct.addr_rule-&gt;rule_die.mask}}}{64}}}}</description>
+<line>1851</line>
+<column>35</column>
+</event>
+<extra>addr_rule,die,gFplApiStruct,mask,rule_die</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_hard_reset</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{die &amp; gFplApiStruct.addr_rule-&gt;rule_die.mask}}}{64}}}}</description>
+<line>1864</line>
+<column>35</column>
+</event>
+<extra>addr_rule,die,gFplApiStruct,mask,rule_die</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>1939</line>
+<column>29</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{project_binary_address + 512UL}}}{64}}}}</description>
+<line>2049</line>
+<column>54</column>
+</event>
+<extra>project_binary_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast from {0} bit width expression {1} to a wider {2} bit type.}{32}{{code{project_binary_address + 512UL}}}{64}}}}</description>
+<line>2051</line>
+<column>54</column>
+</event>
+<extra>project_binary_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>2126</line>
+<column>25</column>
+</event>
+<extra>error_firmware</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</file>
+<function>SmbusFillTxBufferSubsystemManagementData</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>171</line>
+<column>24</column>
+</event>
+<extra>aubReturnData,pPecByte,ubCmdCode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>275</line>
+<column>76</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.8</checker>
+<type>MISRA_C_2012_Rule_10.8</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_self_check_api.c</file>
+<function>sec_self_check_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_8_violation</tag>
+<description>{CovLStrv2{{t{Cast of composite expression of essential type signed to essential type unsigned.}}}}</description>
+<line>151</line>
+<column>33</column>
+</event>
+<extra>restart_num</extra>
+<subcategory>none</subcategory>
+</error>

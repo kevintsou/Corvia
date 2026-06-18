@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line372">372    </a></b>	
+<b><a name="line373">373    </a></b>	 - global variable gSecAesTimeout change to 1U if timeout occurs
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	 */
+<b><a name="line376">376    </a></b>	void hal_sec_aes_ofl_trigger(SEC_AESOFL_PARAMS_T_PTR params)
+<b><a name="line377">377    </a></b>	{
+<b><a name="line378">378    </a></b>	    U8  is_first_round = 0U;
+<b><a name="line379">379    </a></b>	    U32 blk_num        = 0UL;
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	    ASSERT(0U, ((((U8)params->comm.src_addr.all & HAL_SEC_ALIGN_BYTE_MASK) | ((U8)params->comm.targ_addr.all & HAL_SEC_ALIGN_BYTE_MASK)) == 0U));   //align
+<b><a name="line382">382    </a></b>	    ASSERT(0U, ((((params->comm.src_addr.all >> 32UL) & (~HAL_SEC_HIGH_BYTE_MASK)) | ((params->comm.targ_addr.all >> 32UL) & (~HAL_SEC_HIGH_BYTE_MASK))) == 0UL));
+<b><a name="line383">383    </a></b>	    ASSERT(0U, (params->comm.aes_mode < HAL_SEC_AES_UND_MODE));
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	    if (params->comm.blk_num > 0U)
+<b><a name="line386">386    </a></b>	    {
+<b><a name="line387">387    </a></b>	        blk_num = params->comm.blk_num;
+<b><a name="line388">388    </a></b>	    }
+<b><a name="line389">389    </a></b>	    else if (((params->comm.src_len > (16U * 1024U)) && (params->comm.aes_mode != HAL_SEC_AES_GCM_MODE)) || (params->comm.aes_mode == HAL_SEC_AES_XTS_MODE))
+<b><a name="line390">390    </a></b>	    {
+<b><a name="line391">391    </a></b>	        blk_num = 0x20UL; // default value
+<b><a name="line392">392    </a></b>	    }
+<b><a name="line393">393    </a></b>	    else
+<b><a name="line394">394    </a></b>	    {
+<b><a name="line395">395    </a></b>	        blk_num = 0x02UL;
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    if (params->comm.set_key_en == SEC_YES)
+<b><a name="line399">399    </a></b>	    {
+<b><a name="line400">400    </a></b>	        params->comm.setkey.aes_mode = params->comm.aes_mode;
+<b><a name="line401">401    </a></b>	        phal_sec_aes_set_ram_key(&(params->comm.setkey));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "phal_sec_aes_set_ram_key" is unused.</font>
+<b><a name="line402">402    </a></b>	    }
+<b><a name="line403">403    </a></b>	
+<b><a name="line404">404    </a></b>	    is_first_round = (U8)(((params->comm.batch_en == 1U) && (params->comm.is_batch_first == 1U)) || (params->comm.batch_en == 0U));
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    // 5. set EN_DE
+<b><a name="line407">407    </a></b>	    dal_sec_aes_ofl_mode_set(params->comm.aes_mode, HAL_SEC_AES_RAM_DAT_LSB_FST, params->comm.encrypt, params->comm.sm4_en);
+<b><a name="line408">408    </a></b>	
+<b><a name="line409">409    </a></b>	    //4. set IV / LBA
+<b><a name="line410">410    </a></b>	    // 0: is first(default), 1:is not first
+<b><a name="line411">411    </a></b>	    if (is_first_round == 1U)
+<b><a name="line412">412    </a></b>	    {
+<b><a name="line413">413    </a></b>	        if (params->comm.aes_mode == HAL_SEC_AES_ECB_MODE)
+<b><a name="line414">414    </a></b>	        {
+<b><a name="line415">415    </a></b>	            ;//not to do
+<b><a name="line416">416    </a></b>	        }
+<b><a name="line417">417    </a></b>	        else if (params->comm.aes_mode == HAL_SEC_AES_GCM_MODE)
+<b><a name="line418">418    </a></b>	        {
+<b><a name="line419">419    </a></b>	            ASSERT(0U, params->comm.iv_len > 0U);
+<b><a name="line420">420    </a></b>	
+<b><a name="line421">421    </a></b>	            if (0U == dal_sec_aes_ofl_gcm_set_aad(params->gcm.aad_addr.all, params->gcm.aad_len, params->comm.timeout_val))
+<b><a name="line422">422    </a></b>	            {
+<b><a name="line423">423    </a></b>	                gSecAesTimeout = SEC_YES;
+<b><a name="line424">424    </a></b>	            }
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	            if (0U == dal_sec_aes_init_iv(params->gcm.iv_ptr, params->comm.timeout_val))
+<b><a name="line427">427    </a></b>	            {
+<b><a name="line428">428    </a></b>	                gSecAesTimeout = SEC_YES;
+<b><a name="line429">429    </a></b>	            }
+<b><a name="line430">430    </a></b>	        }
+<b><a name="line431">431    </a></b>	        else if (params->comm.aes_mode == HAL_SEC_AES_XTS_MODE)
+<b><a name="line432">432    </a></b>	        {
+</pre></body>
+</html>

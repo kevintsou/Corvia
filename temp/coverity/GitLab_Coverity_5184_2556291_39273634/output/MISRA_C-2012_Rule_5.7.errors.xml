@@ -1,0 +1,650 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{read_nvme_mi_data_struct}}}}}}</description>
+<line>143</line>
+<column>11</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{read_nvme_mi_data_struct}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/nvme_protocol.h</file>
+<line>1463</line>
+<column>8</column>
+</event>
+<extra>read_nvme_mi_data_struct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_rsa.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{_RSAPublicKey_t}}}}}}</description>
+<line>90</line>
+<column>12</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{_RSAPublicKey_t}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<line>9273</line>
+<column>12</column>
+</event>
+<extra>_RSAPublicKey_t</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>134</line>
+<column>39</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>198</line>
+<column>49</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>60</line>
+<column>38</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>211</line>
+<column>42</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>268</line>
+<column>56</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>309</line>
+<column>40</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>90</line>
+<column>36</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_p_int}}}}}}</description>
+<line>139</line>
+<column>70</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_p_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>112</line>
+<column>8</column>
+</event>
+<extra>dal_nl_p_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_fw_int}}}}}}</description>
+<line>118</line>
+<column>52</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_fw_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>29</line>
+<column>8</column>
+</event>
+<extra>dal_nl_fw_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_int_info}}}}}}</description>
+<line>92</line>
+<column>56</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_int_info}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>84</line>
+<column>8</column>
+</event>
+<extra>dal_nl_int_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_p_int}}}}}}</description>
+<line>266</line>
+<column>67</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_p_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>112</line>
+<column>8</column>
+</event>
+<extra>dal_nl_p_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_fw_int}}}}}}</description>
+<line>132</line>
+<column>52</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_fw_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>29</line>
+<column>8</column>
+</event>
+<extra>dal_nl_fw_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_int_info}}}}}}</description>
+<line>111</line>
+<column>56</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_int_info}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>84</line>
+<column>8</column>
+</event>
+<extra>dal_nl_int_info</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_nl_p_int}}}}}}</description>
+<line>152</line>
+<column>70</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_nl_p_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>112</line>
+<column>8</column>
+</event>
+<extra>dal_nl_p_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_cmgr_int}}}}}}</description>
+<line>548</line>
+<column>50</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_cmgr_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>281</line>
+<column>8</column>
+</event>
+<extra>dal_cmgr_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_cmgr_port_err_int}}}}}}</description>
+<line>556</line>
+<column>72</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_cmgr_port_err_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>230</line>
+<column>8</column>
+</event>
+<extra>dal_cmgr_port_err_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_cmgr_int}}}}}}</description>
+<line>514</line>
+<column>50</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_cmgr_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>281</line>
+<column>8</column>
+</event>
+<extra>dal_cmgr_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dal_cmgr_port_err_int}}}}}}</description>
+<line>519</line>
+<column>72</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dal_cmgr_port_err_int}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_def.h</file>
+<line>230</line>
+<column>8</column>
+</event>
+<extra>dal_cmgr_port_err_int</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{efuse_bootcode_landmark}}}}}}</description>
+<line>277</line>
+<column>29</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{efuse_bootcode_landmark}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.h</file>
+<line>49</line>
+<column>8</column>
+</event>
+<extra>efuse_bootcode_landmark</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dice_param}}}}}}</description>
+<line>3826</line>
+<column>40</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dice_param}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.h</file>
+<line>31</line>
+<column>8</column>
+</event>
+<extra>dice_param</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{dice_param}}}}}}</description>
+<line>71</line>
+<column>34</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{dice_param}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.h</file>
+<line>31</line>
+<column>8</column>
+</event>
+<extra>dice_param</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{mctp_control_header}}}}}}</description>
+<line>346</line>
+<column>25</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{mctp_control_header}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.h</file>
+<line>276</line>
+<column>8</column>
+</event>
+<extra>mctp_control_header</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>502</line>
+<column>22</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.7</checker>
+<type>MISRA_C_2012_Rule_5.7</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_7_violation</tag>
+<description>{CovLStrv2{{t{Identifier {0} is already used to represent a type.}{{code{vuc_dispatch}}}}}}</description>
+<line>452</line>
+<column>22</column>
+</event>
+<event>
+<tag>type_declaration</tag>
+<description>{CovLStrv2{{t{Declaring a type with identifier {0}.}{{code{vuc_dispatch}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>78</line>
+<column>8</column>
+</event>
+<extra>vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>

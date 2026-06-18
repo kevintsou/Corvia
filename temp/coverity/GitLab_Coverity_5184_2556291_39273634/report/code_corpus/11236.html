@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_key_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*                                                                        */
+<b><a name="line13">13    </a></b>	/*  sec_key_api.c                                                         */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/**************************************************************************/
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	#include "user_libs.h"
+<b><a name="line18">18    </a></b>	#include "sec/sec_key_api.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	void sec_rsa4096_key_structure_convert2(RSA4096_PUBLIC_KEY_PTR rsa4096_key, SEC_RSA_ENCODING_PARAMS_T_PTR rsa_key)
+<b><a name="line21">21    </a></b>	{
+<b><a name="line22">22    </a></b>	    rsa_key->rsa.n   = rsa4096_key->key.n;
+<b><a name="line23">23    </a></b>	    rsa_key->rsa.n0  = rsa4096_key->n0;
+<b><a name="line24">24    </a></b>	    rsa_key->rsa.r   = rsa4096_key->r;
+<b><a name="line25">25    </a></b>	    rsa_key->rsa.rr  = rsa4096_key->rr;
+<b><a name="line26">26    </a></b>	    rsa_key->rsa.kx  = (U8 *)(void *)(&rsa4096_key->key.e); //"e" for public key, "d" for private key
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    rsa_key->rsa.size_rsa = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line29">29    </a></b>	}
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	void sec_ecc_ecdsa_verify_param_reverse(U32 key_addr, U32 sig_addr, U32 hash_addr, U32 ecc_sup_byte, U8 endian)
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    ECC_KEY_STRUCT_PTR ecc_key_struct_ptr = (ECC_KEY_STRUCT_PTR)key_addr;
+<b><a name="line34">34    </a></b>	    ECC_SIG_STRUCT_PTR ecc_sig_struct_ptr;
+<b><a name="line35">35    </a></b>	    U8 *z;
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    ecc_sig_struct_ptr = (ECC_SIG_STRUCT_PTR)sig_addr;
+<b><a name="line38">38    </a></b>	    z = (U8 * )hash_addr;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    if (endian & BIT0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "endian & 1UL" does not have an essentially boolean type.</font>
+<b><a name="line41">41    </a></b>	        //R/S/Z
+<b><a name="line42">42    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_sig_struct_ptr->mema_head.r, (void *)ecc_sig_struct_ptr->mema_head.r, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line43">43    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_sig_struct_ptr->mema_head.s, (void *)ecc_sig_struct_ptr->mema_head.s, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line44">44    </a></b>	        hal_sec_api_reverse_endian((void *)z, (void *)z, ecc_sup_byte);
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    if (endian & BIT1) {
+<b><a name="line48">48    </a></b>	        //N_N0
+<b><a name="line49">49    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memr_head.nn0, (void *)ecc_key_struct_ptr->memr_head.nn0, SEC_ECC_REG_SUPPORT_BYTE_NUM);
+<b><a name="line50">50    </a></b>	    }
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    if (!(endian & BIT2)) {
+<b><a name="line53">53    </a></b>	        //N/NR/NRR
+<b><a name="line54">54    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_head.n, (void *)ecc_key_struct_ptr->memc_head.n, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line55">55    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_head.nr, (void *)ecc_key_struct_ptr->memb_head.nr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line56">56    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->nrr, (void *)ecc_key_struct_ptr->nrr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line57">57    </a></b>	    }
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    if (endian & BIT3) {
+<b><a name="line60">60    </a></b>	        //P_N0
+<b><a name="line61">61    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memr_head.pn0, (void *)ecc_key_struct_ptr->memr_head.pn0, SEC_ECC_REG_SUPPORT_BYTE_NUM);
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    if (!(endian & BIT4)) {
+<b><a name="line65">65    </a></b>	        //P/PR/PRR
+<b><a name="line66">66    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_head.p, (void *)ecc_key_struct_ptr->memb_head.p, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line67">67    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_head.pr, (void *)ecc_key_struct_ptr->memc_head.pr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line68">68    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->prr, (void *)ecc_key_struct_ptr->prr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    if (!(endian & BIT5)) {
+</pre></body>
+</html>

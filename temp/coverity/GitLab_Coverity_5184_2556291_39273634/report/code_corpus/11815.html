@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line266">266    </a></b>	    PCIE_BAR_STRUCT bar;
+<b><a name="line267">267    </a></b>	    U8 pfid = PCIE_PF_0;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	    /********** Config space registers init flow start **********/
+<b><a name="line270">270    </a></b>	    // X3 only have single port 64PF or 1PF + 128VF/ Dual port 1 PF + 64 VF
+<b><a name="line271">271    </a></b>	    // Set vf count
+<b><a name="line272">272    </a></b>	    dal_set_sriov_bypass_en(PCIE_PORT_0, PCIE_ENABLE);
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	    // r_link_req_rst_not_flsh_axi_en
+<b><a name="line275">275    </a></b>	    dal_set_r_link_req_rst_not_flsh_axi_en(0, PCIE_ENABLE);
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    *(volatile U32 *) (0x03116008U + (pfid * 0x800U)) &= (0xFFFFFF00U); // revision id = port id
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    //force gen 1
+<b><a name="line280">280    </a></b>	    dal_set_sup_max_link_speed(PCIE_PORT_0, 0, PCIE_GEN_1);
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	#if (IC_TYPE_FPGA_HAPS == IC_TYPE)
+<b><a name="line283">283    </a></b>	        //set Lane number
+<b><a name="line284">284    </a></b>	        dal_set_sup_link_width(PCIE_PORT_0, 0, 1);
+<b><a name="line285">285    </a></b>	#else // ASIC
+<b><a name="line286">286    </a></b>	        //set Lane numberPCIE_PORT_0
+<b><a name="line287">287    </a></b>	        dal_set_sup_link_width(PCIE_PORT_0, 0, 4);
+<b><a name="line288">288    </a></b>	#endif
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    //Set BAR0 MASK = 0x7FFF, remove later
+<b><a name="line291">291    </a></b>	    bar.bar          = 0;
+<b><a name="line292">292    </a></b>	    bar.mem_type     = 0x2; //Set bar0 type 64 bits
+<b><a name="line293">293    </a></b>	    bar.mem_prefetch = 0;
+<b><a name="line294">294    </a></b>	    bar.mask         = 0x7FFF; //Set bar0 mask
+<b><a name="line295">295    </a></b>	    hal_func_set_bar(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, &bar);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "hal_func_set_bar" is unused.</font>
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	}
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	static U32 nvme_nl_time_unit_calc(void)
+<b><a name="line301">301    </a></b>	{
+<b><a name="line302">302    </a></b>	    U32 nl_time_unit = 0U;
+<b><a name="line303">303    </a></b>	    U32 sys_clk = phal_get_sys_clk_MHz(); //MHZ //TODO: get from sys
+<b><a name="line304">304    </a></b>	    U32 sys_clk_to_ns = 1000U / sys_clk;
+<b><a name="line305">305    </a></b>	    nl_time_unit = ((1000U /  sys_clk_to_ns) - 1U);
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	    return nl_time_unit;
+<b><a name="line308">308    </a></b>	}
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	void fill_nl_init_param(HAL_NL_INIT_PARAM_PTR param)
+<b><a name="line311">311    </a></b>	{
+<b><a name="line312">312    </a></b>	    // hal_nvme_boot_code_nl_setting_init
+<b><a name="line313">313    </a></b>	    param->fqc = NVME_MAX_Q_CNT;
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	    param->time_unit = nvme_nl_time_unit_calc();
+<b><a name="line316">316    </a></b>	    // hal_nvme_boot_code_nl_ctrl_reg_init
+<b><a name="line317">317    </a></b>	    param->cap_crms = 0;// X3 only report version 1.4, no need to support crms
+<b><a name="line318">318    </a></b>	    param->cap_mpsmax = NVME_CAP_MPSMAX_DEFAULT;
+<b><a name="line319">319    </a></b>	    param->cap_mpsmin = NVME_CAP_MPSMIN_DEFAULT;
+<b><a name="line320">320    </a></b>	    param->cap_css = NVME_CAP_CSS_DEFAULT;
+<b><a name="line321">321    </a></b>	    param->cap_dstrd = 0U;
+<b><a name="line322">322    </a></b>	    param->cap_to = NVME_TO;
+<b><a name="line323">323    </a></b>	    param->cap_ams = 0U;
+<b><a name="line324">324    </a></b>	    param->cap_mqes = NVME_CAP_MQES_DEFAULT;
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	    param->version = NVME_VER_1_4;
+</pre></body>
+</html>

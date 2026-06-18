@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3682">3682    </a></b>	    if (reset_reason & LOAD_CODE_RESET_FLASH_RESET) {
+<b><a name="line3683">3683    </a></b>	        p_load_code_status->flash_reset = 1;
+<b><a name="line3684">3684    </a></b>	    }
+<b><a name="line3685">3685    </a></b>	
+<b><a name="line3686">3686    </a></b>	    //Restart the scanning process
+<b><a name="line3687">3687    </a></b>	    p_load_code_status->code_pointer_block_scan_nand_retry_next = 0;
+<b><a name="line3688">3688    </a></b>	    p_load_code_status->code_pointer_block_scan_block_next = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line3689">3689    </a></b>	    p_load_code_status->code_pointer_block_scan_plane_next = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+<b><a name="line3690">3690    </a></b>	
+<b><a name="line3691">3691    </a></b>	    if (gpFwSimCtrl1Reg->activate_other_loader)
+<b><a name="line3692">3692    </a></b>	    {
+<b><a name="line3693">3693    </a></b>	        p_load_code_status->boot_code_scan_skip_plane_index = (gpLoaderErrMessage->boot_code_scan_start_index % EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count));
+<b><a name="line3694">3694    </a></b>	        p_load_code_status->boot_code_scan_skip_block_index = (gpLoaderErrMessage->boot_code_scan_start_index / EFUSE_PARSE_PLANE_COUNT(p_efuse_nand_setting->plane_count));
+<b><a name="line3695">3695    </a></b>	        Dump_ScanID(tprintf("activate other loader, skip revision %x, start scan block %x", gpLoaderErrMessage->boot_code_scan_skip_revision, gpLoaderErrMessage->boot_code_scan_start_index));
+<b><a name="line3696">3696    </a></b>	    }
+<b><a name="line3697">3697    </a></b>	    else
+<b><a name="line3698">3698    </a></b>	    {
+<b><a name="line3699">3699    </a></b>	        p_load_code_status->boot_code_scan_skip_plane_index = 0;
+<b><a name="line3700">3700    </a></b>	        p_load_code_status->boot_code_scan_skip_block_index = 0;
+<b><a name="line3701">3701    </a></b>	    }
+<b><a name="line3702">3702    </a></b>	
+<b><a name="line3703">3703    </a></b>	    p_load_code_status->code_pointer_block_set_in_use = 0xFF;
+<b><a name="line3704">3704    </a></b>	    p_load_code_status->code_pointer_block_set_found_count = 0;
+<b><a name="line3705">3705    </a></b>	    p_load_code_status->code_pointer_block_set_exceed_count = 0;
+<b><a name="line3706">3706    </a></b>	    p_load_code_status->code_pointer_block_set_use_count = 0;
+<b><a name="line3707">3707    </a></b>	
+<b><a name="line3708">3708    </a></b>	    p_load_code_status->key_manifest_size = 0;
+<b><a name="line3709">3709    </a></b>	
+<b><a name="line3710">3710    </a></b>	    //Reset Code Pointer Block set status
+<b><a name="line3711">3711    </a></b>	    for (set = 0; set < CODE_POINTER_BLOCK_SET_COUNT_MAX; set++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "set" (unsigned) is not the same as that of the right operand "2"(signed).</font>
+<b><a name="line3712">3712    </a></b>	        p_load_code_status->a_code_pointer_block_set_used[set] = 0xFF;
+<b><a name="line3713">3713    </a></b>	        create_code_pointer_block_status(&(p_load_code_status->a_code_pointer_block_status[set]));
+<b><a name="line3714">3714    </a></b>	    }
+<b><a name="line3715">3715    </a></b>	
+<b><a name="line3716">3716    </a></b>	    return;
+<b><a name="line3717">3717    </a></b>	}
+<b><a name="line3718">3718    </a></b>	
+<b><a name="line3719">3719    </a></b>	U8 load_code_process(LOAD_CODE_STATUS *p_load_code_status)
+<b><a name="line3720">3720    </a></b>	{
+<b><a name="line3721">3721    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line3722">3722    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line3723">3723    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line3724">3724    </a></b>	
+<b><a name="line3725">3725    </a></b>	    ID_TABLE *a_id_table;
+<b><a name="line3726">3726    </a></b>	
+<b><a name="line3727">3727    </a></b>	    CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status;
+<b><a name="line3728">3728    </a></b>	
+<b><a name="line3729">3729    </a></b>	    U8 code_pointer_block_set_count;
+<b><a name="line3730">3730    </a></b>	    U8 code_pointer_block_set;
+<b><a name="line3731">3731    </a></b>	
+<b><a name="line3732">3732    </a></b>	    CODE_POINTER *p_code_pointer;
+<b><a name="line3733">3733    </a></b>	
+<b><a name="line3734">3734    </a></b>	    U8 load_status;
+<b><a name="line3735">3735    </a></b>	
+<b><a name="line3736">3736    </a></b>	    U32 project_binary_address;
+<b><a name="line3737">3737    </a></b>	
+<b><a name="line3738">3738    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line3739">3739    </a></b>	    //The location of where the possible maximum 2 scanned ID Tables will be stored
+<b><a name="line3740">3740    </a></b>	    a_id_table = p_load_code_status->a_id_table;
+<b><a name="line3741">3741    </a></b>	    //The location of where the Code Pointer used will be stored
+<b><a name="line3742">3742    </a></b>	    p_code_pointer = p_load_code_status->p_code_pointer;
+</pre></body>
+</html>

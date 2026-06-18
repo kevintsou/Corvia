@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  fpl_api.h                                                             */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_conf.h"
+<b><a name="line19">19    </a></b>	#include "fpl/fpl_def.h"
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#ifndef _FPL_API_H_
+<b><a name="line22">22    </a></b>	#define _FPL_API_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FPL_API_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#define FPL_SYNC_EFUSE_PARAM                    (0U)
+<b><a name="line25">25    </a></b>	#define FPL_PARSING_EFUSE_PARAM                 (1U)
+<b><a name="line26">26    </a></b>	#define FPL_INIT_SYS_FPHYA                      (2U)
+<b><a name="line27">27    </a></b>	#define FPL_FIP_CONFIG                          (3U)
+<b><a name="line28">28    </a></b>	#define FPL_AC_TIMING_INIT                      (4U)
+<b><a name="line29">29    </a></b>	#define FPL_INIT_CMD_REMAP_TABLE                (5U)
+<b><a name="line30">30    </a></b>	#define FPL_FPU_INIT                            (6U)
+<b><a name="line31">31    </a></b>	#define FPL_INIT_PCA_RULE                       (7U)
+<b><a name="line32">32    </a></b>	#define FPL_SETUP_CTRL_DQ_REVERT                (8U)
+<b><a name="line33">33    </a></b>	#define FPL_FIP_CLK_INIT                        (9U)
+<b><a name="line34">34    </a></b>	#define FPL_CTRL_ZQ_CALIBRATION                 (10U)
+<b><a name="line35">35    </a></b>	#define FPL_RESET_CE                            (11U)
+<b><a name="line36">36    </a></b>	#define FPL_MDLL_TRACKING                       (12U)
+<b><a name="line37">37    </a></b>	#define FPL_SET_FEAT_IF_SEQ_PARSING             (13U)
+<b><a name="line38">38    </a></b>	#define FPL_SYNC_POLL_PARAM                     (14U)
+<b><a name="line39">39    </a></b>	#define FPL_INIT_ECC_PARAM                      (15U)
+<b><a name="line40">40    </a></b>	#define FPL_MDLL_TRIGGER_WAIT_IDLE              (16U)
+<b><a name="line41">41    </a></b>	#define FPL_CHK_ALL_CE_IDLE                     (17U)
+<b><a name="line42">42    </a></b>	#define FPL_PIO_CMD_READ_MODE                   (18U)
+<b><a name="line43">43    </a></b>	#define FPL_POR_RETRY                           (19U)
+<b><a name="line44">44    </a></b>	#define FPL_SET_FEAT_IF                         (20U)
+<b><a name="line45">45    </a></b>	#define FPL_NAND_ZQ_CALIBRATION                 (21U)
+<b><a name="line46">46    </a></b>	#define FPL_INIT_DONE                           (22U)
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	#define FPL_INIT_STATUS_NORMAL_LOAD_CODE        (0U)
+<b><a name="line50">50    </a></b>	#define FPL_INIT_STATUS_POWER_RESET_LOAD_CODE   (1U)
+<b><a name="line51">51    </a></b>	#define FPL_INIT_STATUS_HARD_RESET_LOAD_CODE    (2U)
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	#define DAL_FIP_FRAME_MODE_0                    (0U) // DATA
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line338">338    </a></b>	void dal_fip_set_nontarget(U8 ch, U8 ce, U8 non_tag_idx, BOOL wp_of_ce_n);
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	//cer
+<b><a name="line343">343    </a></b>	void dal_fip_set_pio_cer(U8 ch, U8 cer_val, U8 is_cer_last);
+<b><a name="line344">344    </a></b>	void dal_fip_set_fpu_cer(U8 ch, U8 cer_sel, BOOL cer_val);
+<b><a name="line345">345    </a></b>	void dal_fip_set_fpu_cer_trig(U8 ch);
+<b><a name="line346">346    </a></b>	U32 dal_fip_get_cer_val_ro(U8 ch);
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	// die
+<b><a name="line349">349    </a></b>	U32 dal_fip_get_die_num_for_each_ce(U8 ch);
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	// divider
+<b><a name="line352">352    </a></b>	void dal_fip_set_pio_interface_div_enable(U8 ch, U8 value);
+<b><a name="line353">353    </a></b>	void dal_fip_set_pio_interface_div_disable(U8 ch);
+<b><a name="line354">354    </a></b>	void dal_fip_set_fpu_interface_div_enable(U8 ch, U8 value);
+<b><a name="line355">355    </a></b>	U32 dal_fip_get_fpu_div_enable(U8 ch);
+<b><a name="line356">356    </a></b>	U32 dal_fip_get_fpu_div_value(U8 ch);
+<b><a name="line357">357    </a></b>	void dal_fip_set_fpu_interface_div_disable(U8 ch);
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	// fpu
+<b><a name="line360">360    </a></b>	void dal_fip_set_fpu_warmup_en(U8 ch, U8 enable);
+<b><a name="line361">361    </a></b>	U8 dal_fip_get_fpu_busy(U8 ch);
+<b><a name="line362">362    </a></b>	void dal_fip_set_fpu_if_type(U8 ch, U8 flh_typ);
+<b><a name="line363">363    </a></b>	void dal_fip_set_flh_edo_mode(U8 ch, U8 edo_mpde);
+<b><a name="line364">364    </a></b>	void dal_fip_set_fpu_rx_mode(U8 ch, U8 rx_mode);
+<b><a name="line365">365    </a></b>	void dal_fip_set_fpu_eq_mode(U8 ch, U8 eq_mode);
+<b><a name="line366">366    </a></b>	void dal_fip_set_fpu_tx_mode(U8 ch, U8 tx_mode);
+<b><a name="line367">367    </a></b>	BOOL dal_fip_chk_fpu_idle(U8 ch);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_fip_chk_fpu_idle" is declared but never defined.</font>
+<b><a name="line368">368    </a></b>	void dal_fip_set_fpu_jmp_sr_mask(U8 ch, U32 mask);
+<b><a name="line369">369    </a></b>	void dal_fip_set_fpu_jmp_sr_data(U8 ch, U32 value);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	// mt
+<b><a name="line372">372    </a></b>	void dal_fip_set_fitf_type_table(U8 ch, U8 table_idx, U8 table_val);
+<b><a name="line373">373    </a></b>	U8 dal_fip_get_fitf_type_table(U8 ch, U8 table_idx);
+<b><a name="line374">374    </a></b>	void dal_fip_set_mt_auto_poll_compare_mode(U8 ch, U8 equal_rule);
+<b><a name="line375">375    </a></b>	U8   dal_fip_get_mt_que_idx(U8 ch, U8 ce);
+<b><a name="line376">376    </a></b>	BOOL dal_fip_chk_fctl_fag_idle(U8 ch);
+<b><a name="line377">377    </a></b>	BOOL dal_fip_chk_fctl_fag_sca_idle(U8 ch);
+<b><a name="line378">378    </a></b>	BOOL dal_fip_chk_mt_sq_empty(U8 ch);
+<b><a name="line379">379    </a></b>	BOOL dal_fip_chk_irq_int_req_empty(U8 ch);
+<b><a name="line380">380    </a></b>	BOOL dal_fip_chk_mt_cfg_empty(U8 ch);
+<b><a name="line381">381    </a></b>	BOOL dal_fip_chk_irq_fifo_empty(U8 ch);
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	// interrupt
+<b><a name="line384">384    </a></b>	void dal_fip_clr_int_busy(U8 ch);
+<b><a name="line385">385    </a></b>	void dal_fip_clr_fctl_int_busy(U8 ch);
+<b><a name="line386">386    </a></b>	U32 dal_fip_get_int_inf(U8 ch);
+<b><a name="line387">387    </a></b>	void dal_fip_get_int_map_info(U8 ch, U8 fifo_sel, DAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR err_map);
+<b><a name="line388">388    </a></b>	void dal_fip_get_irq_int_map_info(U8 ch, DAL_FIP_IRQ_ERR_MAP_INF_STRUCT_PTR err_map);
+<b><a name="line389">389    </a></b>	U8   dal_fip_get_int_fifo_num(U8 ch);
+<b><a name="line390">390    </a></b>	void dal_fip_set_int_fifo_switch(U8 ch);
+<b><a name="line391">391    </a></b>	void dal_fip_set_irq_map_rd(U8 ch);
+<b><a name="line392">392    </a></b>	U8   dal_fip_get_int_msg_match_ch(DAL_FIP_INT_MSG_STRUCT_PTR int_msg);
+<b><a name="line393">393    </a></b>	BOOL dal_fip_get_fctl_int_busy(U8 ch);
+<b><a name="line394">394    </a></b>	void dal_fip_set_fip_dmar_dqs_timeout_int_en(U8 ch, U8 is_en, U8 is_cpu_en);
+<b><a name="line395">395    </a></b>	U8   dal_fip_get_pior_dqs_timeout_flag(U8 ch);
+<b><a name="line396">396    </a></b>	void dal_fip_clr_pior_dqs_timeout_flag(U8 ch);
+<b><a name="line397">397    </a></b>	U8   dal_fip_get_fip_pol_sts_timeout_flag(U8 ch);
+<b><a name="line398">398    </a></b>	void dal_fip_clr_fip_pol_sts_timeout_flag(U8 ch);
+</pre></body>
+</html>

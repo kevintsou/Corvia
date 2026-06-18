@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1361">1361    </a></b>	        Dump_OCP(tprintf("    Overflow CMS wrapped\n"));
+<b><a name="line1362">1362    </a></b>	        pACRotData->sIndirectStatus.uStatus.sBit.btOverflowCMSWrapped = 0x1U;
+<b><a name="line1363">1363    </a></b>	        ulIndirectAddress = pCmsInfo->ulBase;
+<b><a name="line1364">1364    </a></b>	    }
+<b><a name="line1365">1365    </a></b>	
+<b><a name="line1366">1366    </a></b>	    /*
+<b><a name="line1367">1367    </a></b>	     *  Error condition 2 (spec p.16)
+<b><a name="line1368">1368    </a></b>	     *  Writing to a read only CMS:
+<b><a name="line1369">1369    </a></b>	     *  This MUST not write to the internal address space and report an access error in the INDIRECT_STATUS.
+<b><a name="line1370">1370    </a></b>	     */
+<b><a name="line1371">1371    </a></b>	    if (RP_CMD_TYPE_WRITE == ubCmdType)
+<b><a name="line1372">1372    </a></b>	    {
+<b><a name="line1373">1373    </a></b>	        if (!((pCmsInfo->ubTypeOfRegion & BIT_MASK(3, 0)) ^ TOR_LOG_DEFINED_DEBUG_FORMAT) ||
+<b><a name="line1374">1374    </a></b>	            !((pCmsInfo->ubTypeOfRegion & BIT_MASK(3, 0)) ^ TOR_VENDOR_DEFINED_RO))
+<b><a name="line1375">1375    </a></b>	        {
+<b><a name="line1376">1376    </a></b>	            Dump_OCP(tprintf(" Read only error"));
+<b><a name="line1377">1377    </a></b>	            pACRotData->sIndirectStatus.uStatus.sBit.btReadOnlyError = 0x1U;
+<b><a name="line1378">1378    </a></b>	            ulIndirectAddress = NULL;
+<b><a name="line1379">1379    </a></b>	        }
+<b><a name="line1380">1380    </a></b>	    }
+<b><a name="line1381">1381    </a></b>	
+<b><a name="line1382">1382    </a></b>	    /*
+<b><a name="line1383">1383    </a></b>	     *  Error condition 3 (spec p.17)
+<b><a name="line1384">1384    </a></b>	     *  Writing or Reading to a polling enabled region when not ready:
+<b><a name="line1385">1385    </a></b>	     *  This transaction MUST be ignored and MUST NOT increment the IMO. A polling error in the
+<b><a name="line1386">1386    </a></b>	     *  INDIRECT_STATUS must be reported.
+<b><a name="line1387">1387    </a></b>	     */
+<b><a name="line1388">1388    </a></b>	    if (pCmsInfo->ubTypeOfRegion & TOR_POLLING_MASK)
+<b><a name="line1389">1389    </a></b>	    {
+<b><a name="line1390">1390    </a></b>	        if (!pACRotData->sIndirectStatus.uStatus.sBit.btAckFromDevice)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "pACRotData->sIndirectStatus.uStatus.sBit.btAckFromDevice" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line1391">1391    </a></b>	        {
+<b><a name="line1392">1392    </a></b>	            Dump_OCP(tprintf(" Ack from device error"));
+<b><a name="line1393">1393    </a></b>	            ulIndirectAddress = NULL;
+<b><a name="line1394">1394    </a></b>	        }
+<b><a name="line1395">1395    </a></b>	    }
+<b><a name="line1396">1396    </a></b>	
+<b><a name="line1397">1397    </a></b>	    /*
+<b><a name="line1398">1398    </a></b>	     *  Error condition 4 (spec p.17)
+<b><a name="line1399">1399    </a></b>	     *  Unaligned access to CMS:
+<b><a name="line1400">1400    </a></b>	     *  IMO address will be truncated (e.g. lower bit set to zero)
+<b><a name="line1401">1401    </a></b>	     */
+<b><a name="line1402">1402    </a></b>	    // Will not go here, as IMO has 4B-aligned while calculating indirect address
+<b><a name="line1403">1403    </a></b>	
+<b><a name="line1404">1404    </a></b>	    if (NULL == ulIndirectAddress)
+<b><a name="line1405">1405    </a></b>	    {
+<b><a name="line1406">1406    </a></b>	        Dump_OCP(tprintf(" invalid indirect address"));
+<b><a name="line1407">1407    </a></b>	        RpDeviceStatusManagement(pACRotData, E_RP_STATE_ENCOUNTER_INVALID_CMS);
+<b><a name="line1408">1408    </a></b>	    }
+<b><a name="line1409">1409    </a></b>	
+<b><a name="line1410">1410    </a></b>	    return ulIndirectAddress;
+<b><a name="line1411">1411    </a></b>	}
+<b><a name="line1412">1412    </a></b>	
+<b><a name="line1413">1413    </a></b>	/*!
+<b><a name="line1414">1414    </a></b>	   @brief      Set ACK for polling-required CMS region while device is ready
+<b><a name="line1415">1415    </a></b>	
+<b><a name="line1416">1416    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1417">1417    </a></b>	   @param      pCmsInfo          pointer to CMS info
+<b><a name="line1418">1418    </a></b>	 */
+<b><a name="line1419">1419    </a></b>	static void DeviceAckForPollingRegion(ACROT_DATA *pACRotData, CMS_INFO *pCmsInfo)
+<b><a name="line1420">1420    </a></b>	{
+<b><a name="line1421">1421    </a></b>	    if (pCmsInfo->ubTypeOfRegion & TOR_POLLING_MASK)
+</pre></body>
+</html>

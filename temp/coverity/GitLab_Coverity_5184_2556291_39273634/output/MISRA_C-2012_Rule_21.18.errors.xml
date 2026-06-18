@@ -1,0 +1,38 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.18</checker>
+<type>MISRA_C_2012_Rule_21.18</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm_mlkem.c</file>
+<function>hal_sec_pqc_hash_finalize_new</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_18_violation</tag>
+<description>{CovLStrv2{{t{The size_t argument with possible value {0}, which is passed to function {1} in &lt;string.h&gt;, shall have a positive value that is no greater than the size of the smallest object passed to the function through a pointer parameter.}{0}{{code{memcpy(void *, void const *, unsigned int)}}}}}}</description>
+<line>89</line>
+<column>98</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.18</checker>
+<type>MISRA_C_2012_Rule_21.18</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_comm_mlkem.c</file>
+<function>hal_sec_pqc_hash_finalize_new</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_18_violation</tag>
+<description>{CovLStrv2{{t{The size_t argument with possible value {0}, which is passed to function {1} in &lt;string.h&gt;, shall have a positive value that is no greater than the size of the smallest object passed to the function through a pointer parameter.}{0}{{code{memcpy(void *, void const *, unsigned int)}}}}}}</description>
+<line>89</line>
+<column>107</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>

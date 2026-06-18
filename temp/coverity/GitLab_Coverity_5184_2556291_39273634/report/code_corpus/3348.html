@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3914">3914    </a></b>	     *  Initialize host IP for further reaction.
+<b><a name="line3915">3915    </a></b>	     */
+<b><a name="line3916">3916    </a></b>	
+<b><a name="line3917">3917    </a></b>	    Dump_LoadCode(tprintf("[State] Load boot loader Fail"));
+<b><a name="line3918">3918    </a></b>	
+<b><a name="line3919">3919    </a></b>	    //Exiting this function means that load code has failed
+<b><a name="line3920">3920    </a></b>	    return 1;
+<b><a name="line3921">3921    </a></b>	}
+<b><a name="line3922">3922    </a></b>	
+<b><a name="line3923">3923    </a></b>	U64 get_proj_bin_size(PROJECT_BINARY_HEADER *project_binary_header_ptr)
+<b><a name="line3924">3924    </a></b>	{
+<b><a name="line3925">3925    </a></b>	    U64 proj_bin_size_before_sign;
+<b><a name="line3926">3926    </a></b>	    U64 proj_bin_size_after_sign;
+<b><a name="line3927">3927    </a></b>	
+<b><a name="line3928">3928    </a></b>	    U64 public_key_size;
+<b><a name="line3929">3929    </a></b>	    U64 signature_size;
+<b><a name="line3930">3930    </a></b>	
+<b><a name="line3931">3931    </a></b>	    U32 algorithm_type;
+<b><a name="line3932">3932    </a></b>	
+<b><a name="line3933">3933    </a></b>	    public_key_size = 0U;
+<b><a name="line3934">3934    </a></b>	    signature_size  = 0U;
+<b><a name="line3935">3935    </a></b>	    //size of header + section0 + section1
+<b><a name="line3936">3936    </a></b>	    proj_bin_size_before_sign = (U64)project_binary_header_ptr->project_binary_sector_size << SECTOR_SIZE_SHIFT;
+<b><a name="line3937">3937    </a></b>	    Dump_LoadCode(tprintf("proj_bin_size_before_sign = %L", proj_bin_size_before_sign));
+<b><a name="line3938">3938    </a></b>	
+<b><a name="line3939">3939    </a></b>	    if (project_binary_header_ptr->code_sign_finish) {
+<b><a name="line3940">3940    </a></b>	        algorithm_type = project_binary_header_ptr->algorithm_type;
+<b><a name="line3941">3941    </a></b>	
+<b><a name="line3942">3942    </a></b>	        public_key_size = get_key_size(algorithm_type);
+<b><a name="line3943">3943    </a></b>	        public_key_size = (public_key_size + (SECTOR_SIZE - 1)) & (~(SECTOR_SIZE - 1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "511" to the operator "~" does not have an essentially unsigned type.</font>
+<b><a name="line3944">3944    </a></b>	        signature_size  = get_sig_size(algorithm_type);
+<b><a name="line3945">3945    </a></b>	    }
+<b><a name="line3946">3946    </a></b>	    else {
+<b><a name="line3947">3947    </a></b>	        public_key_size = 0U;
+<b><a name="line3948">3948    </a></b>	        signature_size  = 0U;
+<b><a name="line3949">3949    </a></b>	    }
+<b><a name="line3950">3950    </a></b>	
+<b><a name="line3951">3951    </a></b>	    Dump_LoadCode(tprintf("public_key_size = %L", public_key_size));
+<b><a name="line3952">3952    </a></b>	    Dump_LoadCode(tprintf("signature_size = %L", signature_size));
+<b><a name="line3953">3953    </a></b>	
+<b><a name="line3954">3954    </a></b>	    proj_bin_size_after_sign    = proj_bin_size_before_sign;
+<b><a name="line3955">3955    </a></b>	    proj_bin_size_after_sign  += public_key_size;
+<b><a name="line3956">3956    </a></b>	    proj_bin_size_after_sign  += signature_size;
+<b><a name="line3957">3957    </a></b>	
+<b><a name="line3958">3958    </a></b>	    return proj_bin_size_after_sign;
+<b><a name="line3959">3959    </a></b>	}
+<b><a name="line3960">3960    </a></b>	
+</pre></body>
+</html>

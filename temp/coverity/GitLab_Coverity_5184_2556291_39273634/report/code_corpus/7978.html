@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/landmark.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    Dump_LM(tprintf("Handling %d landmarks", landmark_len));
+<b><a name="line50">50    </a></b>	    for (landmark_entry = 0; landmark_entry < landmark_len; landmark_entry++) {
+<b><a name="line51">51    </a></b>	        Dump_LM(tprintf("BD %d: %x %x", landmark_entry, id_table_landmark_ptr[landmark_entry].reg.long_address, id_table_landmark_ptr[landmark_entry].data));
+<b><a name="line52">52    </a></b>	    }
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    fail_cnt = 0;
+<b><a name="line55">55    </a></b>	    for (landmark_entry = 0; landmark_entry < landmark_len; landmark_entry++) {
+<b><a name="line56">56    </a></b>	        Dump_LM(tprintf("BD %d: %x %x ", landmark_entry, id_table_landmark_ptr[landmark_entry].reg.long_address, id_table_landmark_ptr[landmark_entry].data));
+<b><a name="line57">57    </a></b>	        Dump_LM(tprintf("(Op %x Rsv %x Poll Status %x Address %x)", id_table_landmark_ptr[landmark_entry].reg.op, id_table_landmark_ptr[landmark_entry].reg.rsv, id_table_landmark_ptr[landmark_entry].reg.poll_status, id_table_landmark_ptr[landmark_entry].reg.address));
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	        //Polling: The Landmark Entry is for Polling a bit
+<b><a name="line60">60    </a></b>	        if (0xFFF == (id_table_landmark_ptr[landmark_entry].reg.op)) {
+<b><a name="line61">61    </a></b>	            Dump_LM(tprintf("Polling - "));
+<b><a name="line62">62    </a></b>	            address_base = (U32 *)((id_table_landmark_ptr[landmark_entry].data & 0xFFFF0000) | (id_table_landmark_ptr[landmark_entry].reg.address));
+<b><a name="line63">63    </a></b>	            reg_data = id_table_landmark_ptr[landmark_entry].data & 0xFF;
+<b><a name="line64">64    </a></b>	            Dump_LM(tprintf(" Addr %x Bit %d ", (U32)address_base, reg_data));
+<b><a name="line65">65    </a></b>	            Dump_LM(tprintf("(Value %x)", *address_base));
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	            poll_time_us = ((id_table_landmark_ptr[landmark_entry].data >> 8) & 0xFF) * 50; //update the spec
+<b><a name="line68">68    </a></b>	            if (0 == poll_time_us) {
+<b><a name="line69">69    </a></b>	                poll_time_us = 0x0100 * 50;
+<b><a name="line70">70    </a></b>	            }
+<b><a name="line71">71    </a></b>	            poll_status = (id_table_landmark_ptr[landmark_entry].reg.poll_status);
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	            Dump_LM(tprintf(" for %db, time %dus", poll_status, poll_time_us));
+<b><a name="line74">74    </a></b>	            poll_time_us_tmp = poll_time_us;
+<b><a name="line75">75    </a></b>	            U32 mabiao_addr = MABIAO_SET_US(MABIAO_DB_LANDMARK, poll_time_us_tmp);
+<b><a name="line76">76    </a></b>	            while ((((*address_base) >> reg_data) & 0x01) != poll_status) {
+<b><a name="line77">77    </a></b>	                if ((TRUE == MABIAO_CHK(mabiao_addr)) && (poll_time_us != 0)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "poll_time_us" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line78">78    </a></b>	                    Dump_LM(tprintf(" Timeout"));
+<b><a name="line79">79    </a></b>	                    fail_cnt++;
+<b><a name="line80">80    </a></b>	                    break;
+<b><a name="line81">81    </a></b>	                }
+<b><a name="line82">82    </a></b>	            }
+<b><a name="line83">83    </a></b>	            Dump_LM(tprintf(" Done"));
+<b><a name="line84">84    </a></b>	        }
+<b><a name="line85">85    </a></b>	        //Idling: The Landmark Fill Entry is for idling for an amount of time
+<b><a name="line86">86    </a></b>	        else if (0xFFE == (id_table_landmark_ptr[landmark_entry].reg.op)) {
+<b><a name="line87">87    </a></b>	            Dump_LM(tprintf("Idling - "));
+<b><a name="line88">88    </a></b>	            idle_unit_cnt = id_table_landmark_ptr[landmark_entry].data;
+<b><a name="line89">89    </a></b>	            Dump_LM(tprintf("%d", idle_unit_cnt));
+<b><a name="line90">90    </a></b>	            switch (id_table_landmark_ptr[landmark_entry].reg.address) {
+<b><a name="line91">91    </a></b>	            case 0x0000:
+<b><a name="line92">92    </a></b>	                Dump_LM(tprintf("PC"));
+<b><a name="line93">93    </a></b>	                idle_pc(idle_unit_cnt);
+<b><a name="line94">94    </a></b>	                break;
+<b><a name="line95">95    </a></b>	            case 0x0001:
+<b><a name="line96">96    </a></b>	                Dump_LM(tprintf("uS"));
+<b><a name="line97">97    </a></b>	                MABIAO_IDLE_US(idle_unit_cnt);
+<b><a name="line98">98    </a></b>	                break;
+<b><a name="line99">99    </a></b>	            case 0x0002:
+<b><a name="line100">100    </a></b>	                Dump_LM(tprintf("mS"));
+<b><a name="line101">101    </a></b>	                MABIAO_IDLE_MS(idle_unit_cnt);
+<b><a name="line102">102    </a></b>	                break;
+<b><a name="line103">103    </a></b>	            default:
+<b><a name="line104">104    </a></b>	                Dump_LM(tprintf("S"));
+<b><a name="line105">105    </a></b>	                MABIAO_IDLE_S(idle_unit_cnt);
+<b><a name="line106">106    </a></b>	                break;
+<b><a name="line107">107    </a></b>	            }
+<b><a name="line108">108    </a></b>	        }
+</pre></body>
+</html>

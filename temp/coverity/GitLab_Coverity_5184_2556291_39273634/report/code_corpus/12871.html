@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line928">928    </a></b>	    U64 u64_val[HAL_FIP_INST_U64_ARRAY_SIZE];
+<b><a name="line929">929    </a></b>	    U32 u32_val[HAL_FIP_INST_U32_ARRAY_SIZE];
+<b><a name="line930">930    </a></b>	    U16 u16_val[HAL_FIP_INST_U16_ARRAY_SIZE];
+<b><a name="line931">931    </a></b>	    U8  u8_val[HAL_FIP_INST_U8_ARRAY_SIZE];
+<b><a name="line932">932    </a></b>	
+<b><a name="line933">933    </a></b>	    HAL_FIP_OP_DLY_STRUCT           dly;
+<b><a name="line934">934    </a></b>	    HAL_FIP_OP_CE_STRUCT            ce;
+<b><a name="line935">935    </a></b>	    HAL_FIP_OP_CMD_STRUCT           cmd;
+<b><a name="line936">936    </a></b>	    HAL_FIP_OP_ADDR_STRUCT          addr;
+<b><a name="line937">937    </a></b>	    HAL_FIP_OP_DATW_STRUCT          datw;
+<b><a name="line938">938    </a></b>	    HAL_FIP_OP_DATR_STRUCT          datr;
+<b><a name="line939">939    </a></b>	    HAL_FIP_OP_POLL_STRUCT          poll;
+<b><a name="line940">940    </a></b>	    HAL_FIP_OP_PREW_STRUCT          prew;
+<b><a name="line941">941    </a></b>	    HAL_FIP_OP_DMAW_STRUCT          dmaw;
+<b><a name="line942">942    </a></b>	    HAL_FIP_OP_DMAR_STRUCT          dmar;
+<b><a name="line943">943    </a></b>	    HAL_FIP_OP_SPREW_STRUCT         sprew;
+<b><a name="line944">944    </a></b>	    HAL_FIP_OP_SDMAW_STRUCT         sdmaw;
+<b><a name="line945">945    </a></b>	    HAL_FIP_OP_SDMAR_STRUCT         sdmar;
+<b><a name="line946">946    </a></b>	    HAL_FIP_OP_BR_STRUCT            br;
+<b><a name="line947">947    </a></b>	    HAL_FIP_OP_GPO_STRUCT           gpo;
+<b><a name="line948">948    </a></b>	    HAL_FIP_OP_SETIF_STRUCT         setif;
+<b><a name="line949">949    </a></b>	    HAL_FIP_OP_TIMER_STRUCT         timer;
+<b><a name="line950">950    </a></b>	    HAL_FIP_OP_HD_STRUCT            hd;
+<b><a name="line951">951    </a></b>	    HAL_FIP_OP_END_STRUCT           end;
+<b><a name="line952">952    </a></b>	    HAL_FIP_OP_NOITL_SWITCH_STRUCT  noitl_switch;
+<b><a name="line953">953    </a></b>	    HAL_FIP_OP_HPITL_SWITCH_STRUCT  hpitl_switch;
+<b><a name="line954">954    </a></b>	    HAL_FIP_OP_CA_IN_STRUCT         ca_in;
+<b><a name="line955">955    </a></b>	    HAL_FIP_OP_DATR_SCA_STRUCT      datr_sca;
+<b><a name="line956">956    </a></b>	    HAL_FIP_OP_DMA_SET_STRUCT       dma_set;
+<b><a name="line957">957    </a></b>	    HAL_FIP_OP_LOG_STRUCT           log;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"log", a reserved identifier or macro name described in Section 7, "Library", of the C standard, shall not be declared.</font>
+<b><a name="line958">958    </a></b>	};
+<b><a name="line959">959    </a></b>	
+<b><a name="line960">960    </a></b>	
+<b><a name="line961">961    </a></b>	struct block_info {
+<b><a name="line962">962    </a></b>	    union {
+<b><a name="line963">963    </a></b>	        U32 all;
+<b><a name="line964">964    </a></b>	
+<b><a name="line965">965    </a></b>	        struct {
+<b><a name="line966">966    </a></b>	            U32 block           : 13;   //12
+<b><a name="line967">967    </a></b>	            U32 ce              : 3;    //3
+<b><a name="line968">968    </a></b>	            U32 page            : 15;   //10
+<b><a name="line969">969    </a></b>	            U32 plane           : 1;    //2
+<b><a name="line970">970    </a></b>	        } info;
+<b><a name="line971">971    </a></b>	    };
+<b><a name="line972">972    </a></b>	};
+<b><a name="line973">973    </a></b>	
+<b><a name="line974">974    </a></b>	
+<b><a name="line975">975    </a></b>	struct hal_fip_op_datr_cq_struct {
+<b><a name="line976">976    </a></b>	    U32 op_code                     : 5;
+<b><a name="line977">977    </a></b>	    U32 rsv_0                       : 3;
+<b><a name="line978">978    </a></b>	    U32 tag                         : 4;
+<b><a name="line979">979    </a></b>	    U32 rsv_1                       : 2;
+<b><a name="line980">980    </a></b>	    U32 program_fail                : 1;
+<b><a name="line981">981    </a></b>	    U32 timeout                     : 1;
+<b><a name="line982">982    </a></b>	    U32 dat_l                       : 8;
+<b><a name="line983">983    </a></b>	    U32 dat_h                       : 8;
+<b><a name="line984">984    </a></b>	};
+<b><a name="line985">985    </a></b>	
+<b><a name="line986">986    </a></b>	struct hal_fip_op_prew_cq_struct {
+<b><a name="line987">987    </a></b>	    U32 op_code                     : 5;
+<b><a name="line988">988    </a></b>	    U32 tag                         : 10;
+</pre></body>
+</html>

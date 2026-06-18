@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_nvm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line87">87    </a></b>	    read_buf_ready.ctag                 = hcmd->payload.info.user.ctag;
+<b><a name="line88">88    </a></b>	    read_buf_ready.ud                   = 1U; // 1: user data
+<b><a name="line89">89    </a></b>	    read_buf_ready.dir                  = 0U; // 1: write
+<b><a name="line90">90    </a></b>	    read_buf_ready.fst                  = (nlc == hcmd->payload.info.user.tnlc) ? TRUE : FALSE;
+<b><a name="line91">91    </a></b>	    read_buf_ready.lst                  = (nlc == 1U) ? TRUE : FALSE;
+<b><a name="line92">92    </a></b>	    read_buf_ready.node_tag             = 0U;
+<b><a name="line93">93    </a></b>	    //read_buf_ready.pb                   = (U32)((host->buffer_base - phal_dbuf_get_base()) >> 5);
+<b><a name="line94">94    </a></b>	    read_buf_ready.buf_addr_l           = (U32)host->buffer_base;
+<b><a name="line95">95    </a></b>	    read_buf_ready.buf_addr_h           = 0;
+<b><a name="line96">96    </a></b>	    read_buf_ready.spr_addr_l           = (U32)host->spr_base;
+<b><a name="line97">97    </a></b>	    read_buf_ready.spr_addr_h           = 0;
+<b><a name="line98">98    </a></b>	    read_buf_ready.pb_type              = 0U; // 0: dbuf, 1: dram
+<b><a name="line99">99    </a></b>	    read_buf_ready.rd_buf_rdy.ior       = hcmd->payload.info.user.ior;
+<b><a name="line100">100    </a></b>	    read_buf_ready.rd_buf_rdy.rd_zero   = 0U;
+<b><a name="line101">101    </a></b>	    read_buf_ready.rd_buf_rdy.lcap      = lca;
+<b><a name="line102">102    </a></b>	    read_buf_ready.rd_buf_rdy.lca       = lca;
+<b><a name="line103">103    </a></b>	    read_buf_ready.rd_buf_rdy.rnt_idx   = 0U;
+<b><a name="line104">104    </a></b>	    read_buf_ready.rd_buf_rdy.dma_done  = 1U;
+<b><a name="line105">105    </a></b>	    read_buf_ready.rd_buf_rdy.err_info  = 0U;
+<b><a name="line106">106    </a></b>	    read_buf_ready.rd_buf_rdy.e3dp      = 0U;
+<b><a name="line107">107    </a></b>	    read_buf_ready.rd_buf_rdy.e3d       = 0U;
+<b><a name="line108">108    </a></b>	    read_buf_ready.rd_buf_rdy.aes       = 0U;
+<b><a name="line109">109    </a></b>	    read_buf_ready.rd_buf_rdy.ver       = 0U;
+<b><a name="line110">110    </a></b>	    read_buf_ready.rd_buf_rdy.prd       = 0U;
+<b><a name="line111">111    </a></b>	    read_buf_ready.rd_buf_rdy.free_flag = 0U;
+<b><a name="line112">112    </a></b>	    read_buf_ready.rd_buf_rdy.am        = 1U;
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	    hal_apu_fill_rd_buf_rdy_sq(&apu_sq, &read_buf_ready);
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == TRUE), GERNAL_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-12449984" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line117">117    </a></b>	    WAIT_UNTIL_TIMEOUT((hal_db_push(&apu_sq, sizeof(HAL_APU_FW_BCMD_SQ_HW), HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == FAIL), GERNAL_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	}
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	static void nvme_io_write(HOST_API_STRUCT_PTR host)
+<b><a name="line122">122    </a></b>	{
+<b><a name="line123">123    </a></b>	    Dump_NVME(tprintf("start nvme_io_write\n\r"));
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    HAL_HCMD_STRUCT_PTR hcmd = &host->hcmd;
+<b><a name="line126">126    </a></b>	    U64 lca = (U64)hcmd->payload.info.user.slca_l | ((U64)hcmd->payload.info.user.slca_h << 32U); // starting lca(33bits)
+<b><a name="line127">127    </a></b>	    U16 nlc = hcmd->payload.info.user.tnlc; // number of lc
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_NVME_WRITE, 100);
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    while ( nlc ) {
+<b><a name="line132">132    </a></b>	        write_buffer_ready( host, lca, nlc );
+<b><a name="line133">133    </a></b>	        ++lca;
+<b><a name="line134">134    </a></b>	        --nlc;
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line137">137    </a></b>	            break;
+<b><a name="line138">138    </a></b>	        }
+<b><a name="line139">139    </a></b>	        Dump_NVME(tprintf("get fw dma done\n\r"));
+<b><a name="line140">140    </a></b>	        nvme_htd_handle(host, NUD_DMA_WRITE); // get FW dma done
+<b><a name="line141">141    </a></b>	    }
+<b><a name="line142">142    </a></b>	    Dump_NVME(tprintf("get td\n\r"));
+<b><a name="line143">143    </a></b>	    nvme_htd_handle(host, NUD_DMA_WRITE); // get TD
+<b><a name="line144">144    </a></b>	    Dump_NVME(tprintf("end nvme_io_write\n\r"));
+<b><a name="line145">145    </a></b>	}
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	static void nvme_io_read(HOST_API_STRUCT_PTR host)
+</pre></body>
+</html>

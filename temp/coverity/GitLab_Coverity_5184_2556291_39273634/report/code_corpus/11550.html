@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line690">690    </a></b>	    Dump_OCP(tprintf("        (%s) push c image",         ((pACRotData->sProtCap.sCapabilities.sAgent.btPushCImageSupport)    ? "O" : "X")));
+<b><a name="line691">691    </a></b>	    Dump_OCP(tprintf("        (%s) interface isolation",  ((pACRotData->sProtCap.sCapabilities.sAgent.btInterfaceIsolation)   ? "O" : "X")));
+<b><a name="line692">692    </a></b>	    Dump_OCP(tprintf("        (%s) hw status",            ((pACRotData->sProtCap.sCapabilities.sAgent.btHwStatus)             ? "O" : "X")));
+<b><a name="line693">693    </a></b>	    Dump_OCP(tprintf("        (%s) vendor command",       ((pACRotData->sProtCap.sCapabilities.sAgent.btVendorsCommand)       ? "O" : "X")));
+<b><a name="line694">694    </a></b>	    Dump_OCP(tprintf("    (2) total cms = %d", pACRotData->sProtCap.sCapabilities.ubTotalCMS));
+<b><a name="line695">695    </a></b>	    Dump_OCP(tprintf("    (3) max response time = %d (us)", (1U << pACRotData->sProtCap.sCapabilities.ubMaximumResponsesTime)));
+<b><a name="line696">696    </a></b>	}
+<b><a name="line697">697    </a></b>	
+<b><a name="line698">698    </a></b>	/*!
+<b><a name="line699">699    </a></b>	   @brief      Fill DEVICE_ID register data into SMBus slave TX buffer
+<b><a name="line700">700    </a></b>	
+<b><a name="line701">701    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line702">702    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line703">703    </a></b>	 */
+<b><a name="line704">704    </a></b>	static void RpReadDeviceID(ACROT_DATA *pACRotData, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line705">705    </a></b>	{
+<b><a name="line706">706    </a></b>	    // Fill smbs TX buffer
+<b><a name="line707">707    </a></b>	    memcpy((void *)&pSmbsTx->pdata.pu8[SMBS_TX_DATA_OFST], (void *)&pACRotData->sDeviceID, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]);
+<b><a name="line708">708    </a></b>	}
+<b><a name="line709">709    </a></b>	
+<b><a name="line710">710    </a></b>	/*!
+<b><a name="line711">711    </a></b>	   @brief      Fill DEVICE_STATUS register data into SMBus slave TX buffer
+<b><a name="line712">712    </a></b>	
+<b><a name="line713">713    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line714">714    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line715">715    </a></b>	 */
+<b><a name="line716">716    </a></b>	static void RpReadDeviceStatus(ACROT_DATA *pACRotData, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line717">717    </a></b>	{
+<b><a name="line718">718    </a></b>	    // Fill smbs TX buffer
+<b><a name="line719">719    </a></b>	    memcpy((void *)&pSmbsTx->pdata.pu8[SMBS_TX_DATA_OFST], (void *)&pACRotData->sDeviceStatus, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line720">720    </a></b>	
+<b><a name="line721">721    </a></b>	    Dump_OCP(tprintf("    (1) device status        = %x", pACRotData->sDeviceStatus.ubDeviceStatus));
+<b><a name="line722">722    </a></b>	    Dump_OCP(tprintf("    (2) protocol error       = %x", pACRotData->sDeviceStatus.ubProtocolError));
+<b><a name="line723">723    </a></b>	    Dump_OCP(tprintf("    (3) recovery reason code = %x", pACRotData->sDeviceStatus.uwRecoveryReasonCode));
+<b><a name="line724">724    </a></b>	
+<b><a name="line725">725    </a></b>	    ReturnStatusToDefaultValueAfterSuccessfullyRecovery(pACRotData);
+<b><a name="line726">726    </a></b>	
+<b><a name="line727">727    </a></b>	    ClearOnReadProtocolError(pACRotData);
+<b><a name="line728">728    </a></b>	}
+<b><a name="line729">729    </a></b>	
+<b><a name="line730">730    </a></b>	/*!
+<b><a name="line731">731    </a></b>	   @brief      Fill DEVICE_RESET register data into SMBus slave TX buffer
+<b><a name="line732">732    </a></b>	
+<b><a name="line733">733    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line734">734    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line735">735    </a></b>	 */
+<b><a name="line736">736    </a></b>	static void RpReadDeviceReset(ACROT_DATA *pACRotData, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line737">737    </a></b>	{
+<b><a name="line738">738    </a></b>	    // Fill smbs TX buffer
+<b><a name="line739">739    </a></b>	    memcpy((void *)&pSmbsTx->pdata.pu8[SMBS_TX_DATA_OFST], (void *)&pACRotData->sDeviceReset, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]);
+<b><a name="line740">740    </a></b>	}
+<b><a name="line741">741    </a></b>	
+<b><a name="line742">742    </a></b>	/*!
+<b><a name="line743">743    </a></b>	   @brief      Fill RECOVERY_CTRL register data into SMBus slave TX buffer
+<b><a name="line744">744    </a></b>	
+<b><a name="line745">745    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line746">746    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line747">747    </a></b>	 */
+<b><a name="line748">748    </a></b>	static void RpReadRecoveryCtrl(ACROT_DATA *pACRotData, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line749">749    </a></b>	{
+<b><a name="line750">750    </a></b>	    // Fill smbs TX buffer
+</pre></body>
+</html>

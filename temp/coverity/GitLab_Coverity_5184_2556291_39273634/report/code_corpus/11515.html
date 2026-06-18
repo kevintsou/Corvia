@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line713">713    </a></b>	        case HAL_FPU_CACHE_READ:
+<b><a name="line714">714    </a></b>	            fpu_base = hal_fip_fpu_fill_adr_gen(fpu_base);
+<b><a name="line715">715    </a></b>	            fpu_base = hal_fip_fpu_fill_ce(fpu_base, 0U, 0U);
+<b><a name="line716">716    </a></b>	            fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCS]); // tCS
+<b><a name="line717">717    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == TRUE) {
+<b><a name="line718">718    </a></b>	                fpu_base = hal_fip_fpu_fill_cer(fpu_base, 0U, 1U, HAL_NAND_CMD_CER_E1);
+<b><a name="line719">719    </a></b>	                fpu_base = hal_fip_fpu_fill_cer(fpu_base, 1U, 0U, 0U);
+<b><a name="line720">720    </a></b>	                fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCEVDLY]); // tCEVDLY
+<b><a name="line721">721    </a></b>	            }
+<b><a name="line722">722    </a></b>	            fpu_base = fpu_inst_parsing(&fip_inst_ptr->inst[INST_ID_DMA_CMD], fpu_base);
+<b><a name="line723">723    </a></b>	            fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCCS]); // tCCs
+<b><a name="line724">724    </a></b>	            fpu_base = hal_fip_fpu_fill_dmar(fpu_base);
+<b><a name="line725">725    </a></b>	            fpu_base = hal_fip_fpu_fill_end(fpu_base);
+<b><a name="line726">726    </a></b>	            break;
+<b><a name="line727">727    </a></b>	
+<b><a name="line728">728    </a></b>	        case HAL_FPU_PREFIX_FOR_RETRY:
+<b><a name="line729">729    </a></b>	            fpu_base = hal_fip_fpu_fill_adr_gen(fpu_base);
+<b><a name="line730">730    </a></b>	            fpu_base = hal_fip_fpu_fill_ce(fpu_base, 0U, 0U);
+<b><a name="line731">731    </a></b>	            fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCS]); // tCS
+<b><a name="line732">732    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == TRUE) {
+<b><a name="line733">733    </a></b>	                fpu_base = hal_fip_fpu_fill_cer(fpu_base, 0U, 1U, HAL_NAND_CMD_CER_E1);
+<b><a name="line734">734    </a></b>	                fpu_base = hal_fip_fpu_fill_cer(fpu_base, 1U, 0U, 0U);
+<b><a name="line735">735    </a></b>	                fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCEVDLY]); // tCEVDLY
+<b><a name="line736">736    </a></b>	            }
+<b><a name="line737">737    </a></b>	            fpu_base = fpu_inst_parsing(&fip_inst_ptr->inst[INST_ID_PREFIX_FOR_RETRY], fpu_base);
+<b><a name="line738">738    </a></b>	            fpu_base = hal_fip_fpu_fill_dly(fpu_base, fip_inst_ptr->ac_timing[FLH_DLY_TCCS]); // tCCs
+<b><a name="line739">739    </a></b>	            fpu_base = hal_fip_fpu_fill_end(fpu_base);
+<b><a name="line740">740    </a></b>	            break;
+<b><a name="line741">741    </a></b>	        default:
+<b><a name="line742">742    </a></b>	            break;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_16_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement does not have a non-empty default clause.</font>
+<b><a name="line743">743    </a></b>	        }
+<b><a name="line744">744    </a></b>	    }
+<b><a name="line745">745    </a></b>	}
+<b><a name="line746">746    </a></b>	#endif
+<b><a name="line747">747    </a></b>	
+<b><a name="line748">748    </a></b>	void fpl_set_addr_rule(PACK_ADDR_RULE_STRUCT_PTR rule, PACK_ADDR_RULE_STRUCT_PTR lsb_rule, U32 value)
+<b><a name="line749">749    </a></b>	{
+<b><a name="line750">750    </a></b>	    // shift
+<b><a name="line751">751    </a></b>	    if (lsb_rule) {
+<b><a name="line752">752    </a></b>	        rule->shift = lsb_rule->shift + lsb_rule->bit_no;
+<b><a name="line753">753    </a></b>	    }
+<b><a name="line754">754    </a></b>	    else {
+<b><a name="line755">755    </a></b>	        rule->shift = 0;
+<b><a name="line756">756    </a></b>	    }
+<b><a name="line757">757    </a></b>	
+<b><a name="line758">758    </a></b>	    // bit_no
+<b><a name="line759">759    </a></b>	    rule->bit_no = my_log2(value);
+<b><a name="line760">760    </a></b>	    if (((U32)1 << rule->bit_no) < value) {
+<b><a name="line761">761    </a></b>	        rule->bit_no++;
+<b><a name="line762">762    </a></b>	    }
+<b><a name="line763">763    </a></b>	
+<b><a name="line764">764    </a></b>	    // mask
+<b><a name="line765">765    </a></b>	    rule->mask = (1 << rule->bit_no) - 1;
+<b><a name="line766">766    </a></b>	}
+<b><a name="line767">767    </a></b>	
+<b><a name="line768">768    </a></b>	void fpl_rule_init(FPL_API_STRUCT_PTR fpl_ptr, ADDR_RULE_STRUCT_PTR addr_rule)
+<b><a name="line769">769    </a></b>	{
+<b><a name="line770">770    </a></b>	    U8 frm_start;
+<b><a name="line771">771    </a></b>	    U8 frm_mask;
+<b><a name="line772">772    </a></b>	    U8 alu_vld_bmp;
+<b><a name="line773">773    </a></b>	    U8 alu_src[HAL_FIP_ALU_RULE_NUM];
+</pre></body>
+</html>

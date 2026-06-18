@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line552">552    </a></b>	    U32 spr_addr_l;                     // dw5
+<b><a name="line553">553    </a></b>	
+<b><a name="line554">554    </a></b>	    U32 crc_seed_h              : 8;    // dw6
+<b><a name="line555">555    </a></b>	    U32 buf_addr_h              : 8;
+<b><a name="line556">556    </a></b>	    U32 spr_addr_h              : 8;
+<b><a name="line557">557    </a></b>	    U32 e2e_p_seed_h            : 7;
+<b><a name="line558">558    </a></b>	    U32 rsv_0                   : 1;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	    U32 md_mode                 : 3;    // dw7
+<b><a name="line561">561    </a></b>	    U32 spr_mode                : 4;
+<b><a name="line562">562    </a></b>	    U32 data_mode               : 1;
+<b><a name="line563">563    </a></b>	    U32 ldpc_mode               : 5;
+<b><a name="line564">564    </a></b>	    U32 ldpc_2_mode             : 3;
+<b><a name="line565">565    </a></b>	    U32 p1_enable               : 1;
+<b><a name="line566">566    </a></b>	    U32 p1_index                : 5;
+<b><a name="line567">567    </a></b>	    U32 p1_buffer_flag          : 1;
+<b><a name="line568">568    </a></b>	    U32 rsv_1                   : 9;
+<b><a name="line569">569    </a></b>	};
+<b><a name="line570">570    </a></b>	
+<b><a name="line571">571    </a></b>	struct hal_fip_op_dmaw_struct {
+<b><a name="line572">572    </a></b>	    U32 op_code                 : 5;    // dw0
+<b><a name="line573">573    </a></b>	    U32 cond_en                 : 1;
+<b><a name="line574">574    </a></b>	    U32 cond                    : 1;
+<b><a name="line575">575    </a></b>	    U32 out_q                   : 1;
+<b><a name="line576">576    </a></b>	    U32 ins_mode                : 1;
+<b><a name="line577">577    </a></b>	    U32 frm_mode                : 2;
+<b><a name="line578">578    </a></b>	    U32 cdqsh_bypass            : 1;
+<b><a name="line579">579    </a></b>	    U32 resume_cmd_en_bmp       : 2;
+<b><a name="line580">580    </a></b>	    U32 rsv_0                   : 1;
+<b><a name="line581">581    </a></b>	    U32 abort                   : 1;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"abort", a reserved identifier or macro name described in Section 7, "Library", of the C standard, shall not be declared.</font>
+<b><a name="line582">582    </a></b>	    U32 tag                     : 10;
+<b><a name="line583">583    </a></b>	    U32 frm_idx_l               : 2;
+<b><a name="line584">584    </a></b>	    U32 out_en                  : 1;
+<b><a name="line585">585    </a></b>	    U32 frm_idx_h               : 1;
+<b><a name="line586">586    </a></b>	    U32 first                   : 1;
+<b><a name="line587">587    </a></b>	    U32 last                    : 1;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    U32 md_mode                 : 3;    // dw1
+<b><a name="line590">590    </a></b>	    U32 spr_mode                : 4;
+<b><a name="line591">591    </a></b>	    U32 data_mode               : 1;
+<b><a name="line592">592    </a></b>	    U32 ldpc_mode               : 5;
+<b><a name="line593">593    </a></b>	    U32 ldpc_2_mode             : 3;
+<b><a name="line594">594    </a></b>	    U32 rsv_1                   : 16;
+<b><a name="line595">595    </a></b>	};
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	
+<b><a name="line598">598    </a></b>	struct hal_fip_op_dmar_struct {
+<b><a name="line599">599    </a></b>	    U32 op_code                 : 5;    // dm0
+<b><a name="line600">600    </a></b>	    U32 cond_en                 : 1;
+<b><a name="line601">601    </a></b>	    U32 cond                    : 1;
+<b><a name="line602">602    </a></b>	    U32 out_q                   : 1;
+<b><a name="line603">603    </a></b>	    U32 ins_mode                : 1;
+<b><a name="line604">604    </a></b>	    U32 lca_cmp_en              : 1;
+<b><a name="line605">605    </a></b>	    U32 e2e_p_en                : 1;
+<b><a name="line606">606    </a></b>	    U32 crc_en                  : 1;
+<b><a name="line607">607    </a></b>	    U32 scr_en                  : 1;
+<b><a name="line608">608    </a></b>	    U32 ecc_en                  : 1;
+<b><a name="line609">609    </a></b>	    U32 first                   : 1;
+<b><a name="line610">610    </a></b>	    U32 last                    : 1;
+<b><a name="line611">611    </a></b>	    U32 tag                     : 10;
+<b><a name="line612">612    </a></b>	    U32 frm_idx_l               : 2;
+</pre></body>
+</html>

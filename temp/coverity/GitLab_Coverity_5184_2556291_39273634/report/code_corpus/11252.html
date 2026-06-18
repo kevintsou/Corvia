@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line251">251    </a></b>	    //The enable state must be larger than the disable state
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	    if (key_offset == 0) { // key_offset is 0 or 1
+<b><a name="line254">254    </a></b>	        fw_encryption_key_enable_state = p_efuse_api->efuse_security_setting.symetric_fw_encryption_key_state.fw_encryption_key0_enable_state;
+<b><a name="line255">255    </a></b>	        fw_encryption_key_disable_state = p_efuse_api->efuse_security_setting.symetric_fw_encryption_key_state.fw_encryption_key0_disable_state;
+<b><a name="line256">256    </a></b>	    }
+<b><a name="line257">257    </a></b>	    else {
+<b><a name="line258">258    </a></b>	        fw_encryption_key_enable_state = p_efuse_api->efuse_security_setting.symetric_fw_encryption_key_state.fw_encryption_key1_enable_state;
+<b><a name="line259">259    </a></b>	        fw_encryption_key_disable_state = p_efuse_api->efuse_security_setting.symetric_fw_encryption_key_state.fw_encryption_key1_disable_state;
+<b><a name="line260">260    </a></b>	    }
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	    ecc_cor_en = (U8)p_efuse_api->efuse_security_setting.fw_encryption_key_ecc_en;
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	    if (check_field_valid(fw_encryption_key_enable_state, fw_encryption_key_disable_state)) {
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	        if (0U == p_efuse_api->a_efuse_fw_encryption_key_read[key_offset]) {
+<b><a name="line267">267    </a></b>	            //Read out the eFuse into the eFuse API if it is not valid
+<b><a name="line268">268    </a></b>	            bank = EFUSE_BANK_FW_ENCRYPTION_KEY_OFFSET + ((key_offset) * EFUSE_BANK_FW_ENCRYPTION_KEY_SIZE);
+<b><a name="line269">269    </a></b>	            if (0U == efuse_api_read_bank(
+<b><a name="line270">270    </a></b>	                    &(p_efuse_api->a_efuse_fw_encryption_key[key_offset].dword[0]),
+<b><a name="line271">271    </a></b>	                    ecc_cor_en,
+<b><a name="line272">272    </a></b>	                    bank,
+<b><a name="line273">273    </a></b>	                    EFUSE_BANK_FW_ENCRYPTION_KEY_SIZE,
+<b><a name="line274">274    </a></b>	                    &(p_efuse_api->a_efuse_bank_read_state[bank]))) {
+<b><a name="line275">275    </a></b>	                //Record that the eFuse value has been read correctly
+<b><a name="line276">276    </a></b>	                p_efuse_api->a_efuse_fw_encryption_key_read[key_offset] = 1U;
+<b><a name="line277">277    </a></b>	            }
+<b><a name="line278">278    </a></b>	        }
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	        if (p_efuse_api->a_efuse_fw_encryption_key_read[key_offset]) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "p_efuse_api->a_efuse_fw_encryption_key_read[key_offset]" does not have an essentially boolean type.</font>
+<b><a name="line281">281    </a></b>	            //A valid key with matching Key Index is found
+<b><a name="line282">282    </a></b>	            return &(p_efuse_api->a_efuse_fw_encryption_key[key_offset]);
+<b><a name="line283">283    </a></b>	        }
+<b><a name="line284">284    </a></b>	    }
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	    return NULL;
+<b><a name="line287">287    </a></b>	}
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	EFUSE_UDS_KDK *get_uds_kdk(EFUSE_API *p_efuse_api)
+<b><a name="line291">291    </a></b>	{
+<b><a name="line292">292    </a></b>	    U32 uds_kdk_offset;
+<b><a name="line293">293    </a></b>	    U32 bank;
+<b><a name="line294">294    </a></b>	    U32 bank_offset;
+<b><a name="line295">295    </a></b>	    U8  ecc_cor_en;
+<b><a name="line296">296    </a></b>	
+<b><a name="line297">297    </a></b>	    ecc_cor_en = p_efuse_api->efuse_security_setting.uds_kdk_ecc_cor_en;
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    //Set the offset to the count to indicate an attempt to read UDS KDK has been occurred
+<b><a name="line300">300    </a></b>	    p_efuse_api->efuse_uds_kdk_offset = EFUSE_UDS_KDK_COUNT;
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    for (uds_kdk_offset = 0U; uds_kdk_offset < EFUSE_UDS_KDK_COUNT; uds_kdk_offset++) {
+<b><a name="line303">303    </a></b>	        if (1U == p_efuse_api->efuse_security_setting.u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_valid) {
+<b><a name="line304">304    </a></b>	            if (0U == p_efuse_api->efuse_security_setting.u16_union.uds_kdk_state[uds_kdk_offset].uds_kdk_invalid) {
+<b><a name="line305">305    </a></b>	                if (0U == p_efuse_api->efuse_uds_kdk_read) {
+<b><a name="line306">306    </a></b>	                    bank = EFUSE_BANK_UDS_KDK_OFFSET + (uds_kdk_offset * EFUSE_BANK_UDS_KDK_SIZE);
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	                    if (0U == efuse_api_read_bank(
+<b><a name="line309">309    </a></b>	                            &(p_efuse_api->efuse_uds_kdk.dword[0U]),
+<b><a name="line310">310    </a></b>	                            ecc_cor_en,
+<b><a name="line311">311    </a></b>	                            bank,
+</pre></body>
+</html>

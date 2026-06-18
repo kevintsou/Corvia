@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1147">1147    </a></b>	    }
+<b><a name="line1148">1148    </a></b>	
+<b><a name="line1149">1149    </a></b>	    while ((BITS_GET(gFIPReadInfoStruct.ch_map, ch, 1U) == FALSE) && (status == 0U)) {
+<b><a name="line1150">1150    </a></b>	        fip_api_get_error_map(&gFIPReadInfoStruct, frame_num);
+<b><a name="line1151">1151    </a></b>	
+<b><a name="line1152">1152    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1153">1153    </a></b>	            status = FIP_READ_TIMEOUT;
+<b><a name="line1154">1154    </a></b>	        }
+<b><a name="line1155">1155    </a></b>	    }
+<b><a name="line1156">1156    </a></b>	
+<b><a name="line1157">1157    </a></b>	    if (status == 0U) {
+<b><a name="line1158">1158    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->dqs_timeout_map[ch]), (void *) & (gFIPReadInfoStruct.dqs_timeout_map[ch]),   sizeof(gFIPReadInfoStruct.dqs_timeout_map[ch]));
+<b><a name="line1159">1159    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->error_map),           (void *) & (gFIPReadInfoStruct.error_map[ch][0U]),     sizeof(gFIPReadInfoStruct.error_map[ch]));
+<b><a name="line1160">1160    </a></b>	        (void)memcpy((void *) & (fip_read_param_struct_ptr->bit_correct),         (void *) & (gFIPReadInfoStruct.bit_correct[ch][0U]),   sizeof(gFIPReadInfoStruct.bit_correct[ch]));
+<b><a name="line1161">1161    </a></b>	    }
+<b><a name="line1162">1162    </a></b>	
+<b><a name="line1163">1163    </a></b>	    gFIPReadInfoStruct.ch_map       &= ~BIT(ch);
+<b><a name="line1164">1164    </a></b>	    gFIPReadInfoStruct.node_cnt[ch] = 0U;
+<b><a name="line1165">1165    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.error_map[ch][0U]),   0, sizeof(gFIPReadInfoStruct.error_map[ch]));
+<b><a name="line1166">1166    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.bit_correct[ch][0U]), 0, sizeof(gFIPReadInfoStruct.bit_correct[ch]));
+<b><a name="line1167">1167    </a></b>	    (void)memset((void *) & (gFIPReadInfoStruct.dqs_timeout_map[ch]), 0, sizeof(gFIPReadInfoStruct.dqs_timeout_map[ch]));
+<b><a name="line1168">1168    </a></b>	
+<b><a name="line1169">1169    </a></b>	    return status;
+<b><a name="line1170">1170    </a></b>	}
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	void buffer_init(U32 *prog_buf_addr, U32 *prog_spr_addr, U32 *read_buf_addr, U32 *read_spr_addr)
+<b><a name="line1173">1173    </a></b>	{
+<b><a name="line1174">1174    </a></b>	    U8 i;
+<b><a name="line1175">1175    </a></b>	
+<b><a name="line1176">1176    </a></b>	    for (i = 0; i < 4; i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "i" (unsigned) is not the same as that of the right operand "4"(signed).</font>
+<b><a name="line1177">1177    </a></b>	        prog_buf_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + (LC_BYTE_SIZE * i);
+<b><a name="line1178">1178    </a></b>	        prog_spr_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + (0x4000 + 64 * i);
+<b><a name="line1179">1179    </a></b>	
+<b><a name="line1180">1180    </a></b>	        memset((void *)prog_buf_addr[i], 0x00, LC_BYTE_SIZE);
+<b><a name="line1181">1181    </a></b>	        memset((void *)prog_spr_addr[i], 0x00, LC_SPARE_SIZE);
+<b><a name="line1182">1182    </a></b>	
+<b><a name="line1183">1183    </a></b>	        read_buf_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 0x5000 + (LC_BYTE_SIZE * i);
+<b><a name="line1184">1184    </a></b>	        read_spr_addr[i] = DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 0x5000 + (0x5000 + 64 * i);
+<b><a name="line1185">1185    </a></b>	
+<b><a name="line1186">1186    </a></b>	        memset((void *)read_buf_addr[i], 0x00, LC_BYTE_SIZE);
+<b><a name="line1187">1187    </a></b>	        memset((void *)read_spr_addr[i], 0x00, LC_SPARE_SIZE);
+<b><a name="line1188">1188    </a></b>	    }
+<b><a name="line1189">1189    </a></b>	}
+<b><a name="line1190">1190    </a></b>	
+<b><a name="line1191">1191    </a></b>	void hal_api_set_get_feature(U8 ubAddr, U8 get_fea_en)
+<b><a name="line1192">1192    </a></b>	{
+<b><a name="line1193">1193    </a></b>	    U8 ubFeaData[4];
+<b><a name="line1194">1194    </a></b>	
+<b><a name="line1195">1195    </a></b>	    memset((void *)ubFeaData, 0x00, sizeof(ubFeaData));
+<b><a name="line1196">1196    </a></b>	    if (ubAddr == 0x01) {
+<b><a name="line1197">1197    </a></b>	        hal_get_feature(0xEE, ubAddr, ubFeaData);
+<b><a name="line1198">1198    </a></b>	        ubFeaData[0] = ubFeaData[0] | BIT1;
+<b><a name="line1199">1199    </a></b>	    }
+<b><a name="line1200">1200    </a></b>	
+<b><a name="line1201">1201    </a></b>	    hal_set_feature(0xEF, ubAddr, ubFeaData);
+<b><a name="line1202">1202    </a></b>	
+<b><a name="line1203">1203    </a></b>	    if (get_fea_en == TRUE) {
+<b><a name="line1204">1204    </a></b>	        hal_get_feature(0xEE, ubAddr, ubFeaData);
+<b><a name="line1205">1205    </a></b>	    }
+<b><a name="line1206">1206    </a></b>	}
+<b><a name="line1207">1207    </a></b>	
+</pre></body>
+</html>

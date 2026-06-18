@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/nvme/hal_nvme_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line143">143    </a></b>	    hal_cmgr_set_gpqw_log_idx((U8)idx);
+<b><a name="line144">144    </a></b>	    hal_cmgr_set_gpqw_log_rw(rw);
+<b><a name="line145">145    </a></b>	    hal_cmgr_set_gpqw_log_sel(sel);
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	U64 hal_nvme_get_rw_log_from_qw_ctrl(U8 type)
+<b><a name="line149">149    </a></b>	{
+<b><a name="line150">150    </a></b>	#if defined(PS5031)
+<b><a name="line151">151    </a></b>	    hal_cmgr_set_gpqw_log_type(type);
+<b><a name="line152">152    </a></b>	#endif
+<b><a name="line153">153    </a></b>	    return hal_cmgr_get_gpqw_log_data(type);
+<b><a name="line154">154    </a></b>	}
+<b><a name="line155">155    </a></b>	
+<b><a name="line156">156    </a></b>	U64 hal_nvme_get_busytime_from_qw_ctrl(U16 f_ofst)
+<b><a name="line157">157    </a></b>	{
+<b><a name="line158">158    </a></b>	    hal_nl_set_bt_qw_f_ofst(f_ofst);
+<b><a name="line159">159    </a></b>	    return hal_nl_get_bt_qw_data();
+<b><a name="line160">160    </a></b>	}
+<b><a name="line161">161    </a></b>	
+<b><a name="line162">162    </a></b>	BOOL hal_nvme_nl_del_req(U8 pid, U8 pfid, U8 fid, U8 qid, U8 type, U64 time_out)
+<b><a name="line163">163    </a></b>	{
+<b><a name="line164">164    </a></b>	    hal_nl_clr_del_data();
+<b><a name="line165">165    </a></b>	    hal_nl_set_del_pid(pid);
+<b><a name="line166">166    </a></b>	    hal_nl_set_del_pfid(pfid);
+<b><a name="line167">167    </a></b>	    hal_nl_set_del_fid(fid);
+<b><a name="line168">168    </a></b>	    hal_nl_set_del_sqid(qid);
+<b><a name="line169">169    </a></b>	    hal_nl_set_del_type(type);
+<b><a name="line170">170    </a></b>	
+<b><a name="line171">171    </a></b>	    hal_nl_set_del_req();
+<b><a name="line172">172    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FE, time_out);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (unsigned) is not the same as that of the right operand "15"(signed).</font>
+<b><a name="line173">173    </a></b>	
+<b><a name="line174">174    </a></b>	    while (hal_nl_get_del_req() != 0U) {
+<b><a name="line175">175    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line176">176    </a></b>	            sal_uart_printf("nl_del_req timout\r\n");
+<b><a name="line177">177    </a></b>	            return FALSE;
+<b><a name="line178">178    </a></b>	        }
+<b><a name="line179">179    </a></b>	    }
+<b><a name="line180">180    </a></b>	    return TRUE;
+<b><a name="line181">181    </a></b>	}
+<b><a name="line182">182    </a></b>	
+</pre></body>
+</html>

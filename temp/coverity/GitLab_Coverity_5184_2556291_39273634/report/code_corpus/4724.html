@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line164">164    </a></b>	            //The follow conditions must all be true to be considered as a timeout:
+<b><a name="line165">165    </a></b>	            //1. Transmit Handler is not paused
+<b><a name="line166">166    </a></b>	            //2. There is a timeout condition
+<b><a name="line167">167    </a></b>	            //3. Time interval exceeds the timeout condition
+<b><a name="line168">168    </a></b>	            //uart_printf("!!!Time Interval %dus > Timeout Interval %dus\r\n", interval_ms, timeout_interval_ms);
+<b><a name="line169">169    </a></b>	            //uart_printf("\tCurrent Time %d\r\n", current_time);
+<b><a name="line170">170    </a></b>	            //uart_printf("\tPrevious Time %d\r\n", p_transmit_handler->previous_packet_time);
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	            return (interval_ms - timeout_interval_ms);
+<b><a name="line173">173    </a></b>	        }
+<b><a name="line174">174    </a></b>	    }
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	    return 0UL;
+<b><a name="line177">177    </a></b>	}
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	U32 mctp_message_transmit_handler_check_timeup(const MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line180">180    </a></b>	{
+<b><a name="line181">181    </a></b>	    U32 current_time;
+<b><a name="line182">182    </a></b>	    U32 interval_ms;
+<b><a name="line183">183    </a></b>	    U32 expect_interval_ms;
+<b><a name="line184">184    </a></b>	
+<b><a name="line185">185    </a></b>	    expect_interval_ms = p_transmit_handler->message_info.p_transport->packet_interval_ms;
+<b><a name="line186">186    </a></b>	
+<b><a name="line187">187    </a></b>	    if (MCTP_SMBM_PRTOCOL_INTERVAL_NO_LIMIT == expect_interval_ms) {
+<b><a name="line188">188    </a></b>	        return 1UL;
+<b><a name="line189">189    </a></b>	    }
+<b><a name="line190">190    </a></b>	
+<b><a name="line191">191    </a></b>	    current_time = phal_sys_rtt_get_ms();
+<b><a name="line192">192    </a></b>	
+<b><a name="line193">193    </a></b>	    interval_ms = (current_time - p_transmit_handler->previous_packet_time);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "current_time - p_transmit_handler->previous_packet_time" from essential type "unsigned 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	    if ((0U == p_transmit_handler->pause_flag_status) && (interval_ms > expect_interval_ms)) {
+<b><a name="line196">196    </a></b>	        Dump_SMBUS(tprintf(" [MCTP Transmit] Packet Transmit Time Up"));
+<b><a name="line197">197    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Time Interval : %d", interval_ms));
+<b><a name="line198">198    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Expect Time Interval : %d", expect_interval_ms));
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	        return (interval_ms - expect_interval_ms);
+<b><a name="line201">201    </a></b>	    }
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	    return 0UL;
+<b><a name="line204">204    </a></b>	}
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	MCTP_MESSAGE_TRANSMIT_HANDLER *mctp_message_transmit_handler_find_existing(MCTP_MANAGEMENT *p_mctp, const MCTP_TRANSPORT_HEADER *p_transport_header, const U8 transmit_direction)
+<b><a name="line207">207    </a></b>	{
+<b><a name="line208">208    </a></b>	    const MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Transmit Handler Find Existing"));
+<b><a name="line211">211    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Message Tag : %x", p_transport_header->msg_tag));
+<b><a name="line212">212    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Source EID  : %x", p_transport_header->source_endpoint_id));
+<b><a name="line213">213    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Tag Owner   : %x", p_transport_header->to));
+<b><a name="line214">214    </a></b>	
+<b><a name="line215">215    </a></b>	    p_transmit_handler = &p_mctp->transmit_handler;
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	    if ((transmit_direction == p_transmit_handler->direction) && (MCTP_MESSAGE_TRANSMIT_STATE_TRANSMITTING == p_transmit_handler->state)) {
+<b><a name="line218">218    </a></b>	        if ((p_transport_header->msg_tag == p_transmit_handler->message_info.message_terminus.message_tag) &&
+<b><a name="line219">219    </a></b>	            (p_transport_header->source_endpoint_id == p_transmit_handler->message_info.message_terminus.source_eid) &&
+<b><a name="line220">220    </a></b>	            (p_transport_header->to == p_transmit_handler->message_info.message_terminus.tag_owner)) {
+<b><a name="line221">221    </a></b>	            return (MCTP_MESSAGE_TRANSMIT_HANDLER *)p_transmit_handler;
+<b><a name="line222">222    </a></b>	        }
+<b><a name="line223">223    </a></b>	    }
+<b><a name="line224">224    </a></b>	
+</pre></body>
+</html>

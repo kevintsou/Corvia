@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line544">544    </a></b>	            // datr
+<b><a name="line545">545    </a></b>	            data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line546">546    </a></b>	        }
+<b><a name="line547">547    </a></b>	    }
+<b><a name="line548">548    </a></b>	    else { // ddr
+<b><a name="line549">549    </a></b>	        if ((U8)r_SCA_PROT(ch) == 0U) {
+<b><a name="line550">550    </a></b>	            for (i = 0U; i < size; i++) {
+<b><a name="line551">551    </a></b>	                // set dqs feature
+<b><a name="line552">552    </a></b>	                if (i == 0U) {
+<b><a name="line553">553    </a></b>	                    //dal_fip_set_pio_dat_first(ch);
+<b><a name="line554">554    </a></b>	                    w_PIO_DAT_FIRST(ch, 1);
+<b><a name="line555">555    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line556">556    </a></b>	                }
+<b><a name="line557">557    </a></b>	                else if (i == (size - 1U)) {
+<b><a name="line558">558    </a></b>	                    //dal_fip_set_pio_dat_last(ch);
+<b><a name="line559">559    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line560">560    </a></b>	                    w_PIO_DAT_LAST(ch, 1);
+<b><a name="line561">561    </a></b>	                }
+<b><a name="line562">562    </a></b>	                else {
+<b><a name="line563">563    </a></b>	                    //dal_fip_set_pio_dat_midden(ch);
+<b><a name="line564">564    </a></b>	                    w_PIO_DAT_FIRST(ch, 0);
+<b><a name="line565">565    </a></b>	                    w_PIO_DAT_LAST(ch, 0);
+<b><a name="line566">566    </a></b>	                }
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	                // datr (trim high byte)
+<b><a name="line569">569    </a></b>	                data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line570">570    </a></b>	            }
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line573">573    </a></b>	            if ((((U8)r_PIOR_DQS_TIMEOUT_FLAG(ch)) == TRUE) || (((U8)r_PIO_DQS_VALID(ch)) == FALSE)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand of a logical operator "||" has persistent side effects because of accessing to volatile object "(U8 volatile *)gFlhRegTxChBase[ch][192U]".</font>
+<b><a name="line574">574    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x, dqs vld = 0x%x\r\n", ch, (U8)r_PIOR_DQS_TIMEOUT_FLAG(ch), (U8)r_PIO_DQS_VALID(ch));
+<b><a name="line575">575    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line576">576    </a></b>	                //Clear time out flag
+<b><a name="line577">577    </a></b>	                w_PIOR_DQS_TIMEOUT_FLAG(ch, 0);
+<b><a name="line578">578    </a></b>	            }
+<b><a name="line579">579    </a></b>	        }
+<b><a name="line580">580    </a></b>	        else { // sca mode (single byte output)
+<b><a name="line581">581    </a></b>	            for (i = 0U; i < size; i++) {
+<b><a name="line582">582    </a></b>	                // datr (trim high byte)
+<b><a name="line583">583    </a></b>	                data[i] = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line584">584    </a></b>	
+<b><a name="line585">585    </a></b>	                // signle byte output terminate
+<b><a name="line586">586    </a></b>	                //dal_fip_pio_ce_disable(ch, 0U);
+<b><a name="line587">587    </a></b>	                r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(0)));
+<b><a name="line588">588    </a></b>	                dal_fip_delay(ac_timing[HAL_DLY_TCEH2]);
+<b><a name="line589">589    </a></b>	                //dal_fip_pio_ce_enable(ch, 0U);
+<b><a name="line590">590    </a></b>	                r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(0));
+<b><a name="line591">591    </a></b>	                w_DQ_BIT_REV_IDX(ch, 0);
+<b><a name="line592">592    </a></b>	            }
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	            //Check dqs time out & dqs vaild
+<b><a name="line595">595    </a></b>	            if (((U8)r_PIOR_ALE_TIMEOUT_FLAG(ch)) == TRUE) {
+<b><a name="line596">596    </a></b>	                FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x\r\n", ch, (U8)r_PIOR_ALE_TIMEOUT_FLAG(ch));
+<b><a name="line597">597    </a></b>	                status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line598">598    </a></b>	                //Clear time out flag
+<b><a name="line599">599    </a></b>	                w_PIOR_ALE_TIMEOUT_FLAG(ch, 0);
+<b><a name="line600">600    </a></b>	            }
+<b><a name="line601">601    </a></b>	        }
+<b><a name="line602">602    </a></b>	
+<b><a name="line603">603    </a></b>	        // restore dqs feature
+<b><a name="line604">604    </a></b>	        //dal_fip_set_pio_dat_default(ch);
+</pre></body>
+</html>

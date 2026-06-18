@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line271">271    </a></b>	    sal_log_info_char('N'); //Start of Load Code flow
+<b><a name="line272">272    </a></b>	    //TODO change how efuse is used, parse it first into load code status and use that
+<b><a name="line273">273    </a></b>	    //TODO check the efuse structure pointers, all must be valid to load code
+<b><a name="line274">274    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line275">275    </a></b>	    create_load_code_status(p_load_code_status, (ID_TABLE *)(DBUF_API_BOOTCODE_ID_TABLE_BASE), (CODE_POINTER *)(DBUF_API_BOOTCODE_CODE_POINTER_BASE), (PROJECT_BINARY_HEADER *)(DBUF_API_BOOTCODE_DATA_BUFFER_BASE), bc_ptr->p_efuse_nand_setting);
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    //TODO refine this, add recording status for all states
+<b><a name="line278">278    </a></b>	    if ((TRUE == bc_ptr->parameter_config.force_boot_flag) &&
+<b><a name="line279">279    </a></b>	        (0 == gpFwSimCtrl0Reg->disable_hw_force_boot) &&
+<b><a name="line280">280    </a></b>	        ((0 == bc_ptr->p_efuse_security_setting->debug_prohibit_enable) || (0 == gBCodeGlobalStruct.production_mode))) {
+<b><a name="line281">281    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line282">282    </a></b>	        //Hardware Force Boot Code and is not prohibited by Debug Prohibit Enable in eFuse
+<b><a name="line283">283    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE); //Part of 'N', Hardware Force Boot Code, '2'
+<b><a name="line284">284    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE;
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	        return LOAD_CODE_STATE_HARDWARE_FORCE_BOOT_CODE;
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	    else if (gpFwSimCtrl0Reg->no_load_code) {
+<b><a name="line289">289    </a></b>	        sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><a name="line290">290    </a></b>	        //Software Force Boot Code
+<b><a name="line291">291    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE); //Part of 'N', Software Force Boot Code, '3'
+<b><a name="line292">292    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE;
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	        return LOAD_CODE_STATE_SOFTWARE_FORCE_BOOT_CODE;
+<b><a name="line295">295    </a></b>	    }
+<b><a name="line296">296    </a></b>	    else {
+<b><a name="line297">297    </a></b>	        sal_log_tracker_set(sal_locate(0x03, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line298">298    </a></b>	        //Normal Load Code
+<b><a name="line299">299    </a></b>	        sal_log_info_num(LOAD_CODE_STATE_NORMAL_LOAD_CODE); //Part of 'N', Normal Load Code, '4'
+<b><a name="line300">300    </a></b>	        p_load_code_status->load_code_state = LOAD_CODE_STATE_NORMAL_LOAD_CODE;
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	        //Exiting the function means that no code can be loaded
+<b><a name="line303">303    </a></b>	#if (NAND_RESET_DEBUG == 0)
+<b><a name="line304">304    </a></b>	        load_code_process(p_load_code_status);
+<b><a name="line305">305    </a></b>	#endif
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (bc_ptr->p_efuse_nand_setting->power_reset_select != EFUSE_POWER_RESET_DISABLE) {
+<b><a name="line308">308    </a></b>	            //Perform flash power reset and load code again
+<b><a name="line309">309    </a></b>	            reset_load_code_status(p_load_code_status, LOAD_CODE_RESET_FLASH_RESET, bc_ptr->p_efuse_nand_setting);
+<b><a name="line310">310    </a></b>	            p_load_code_status->load_code_state = LOAD_CODE_STATE_POWER_RESET_LOAD_CODE;
+<b><a name="line311">311    </a></b>	            efuse_bootcode_landmark_index_api(&gEFuseAPI, 2);
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	            sal_log_info_char('Z');
+<b><a name="line314">314    </a></b>	            reset_status = flh_power_reset_flow(BOOT_DIS_SSC, BOOT_DIS_FTRACK);
+<b><a name="line315">315    </a></b>	            sal_log_info_num(reset_status);
+<b><a name="line316">316    </a></b>	            if (0 == reset_status) {
+<b><a name="line317">317    </a></b>	                sal_log_tracker_set(sal_locate(0x04, TYPE_RSV6));
+<b><a name="line318">318    </a></b>	                sal_log_info_char('F');
+<b><a name="line319">319    </a></b>	                fpl_status = fpl_fip_init(&gFplApiStruct, &gFipInstStruct, &gAddrRulePCAStruct, bc_ptr->p_efuse_nand_setting);
+<b><a name="line320">320    </a></b>	                sal_log_info_num(fpl_status);
+<b><a name="line321">321    </a></b>	                ((U32 *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_FPL_INIT_STATUS))[FPL_INIT_STATUS_POWER_RESET_LOAD_CODE] = gFplApiStruct.fip_init_status;
+<b><a name="line322">322    </a></b>	                if (0 == fpl_status) {
+<b><a name="line323">323    </a></b>	                    sal_log_tracker_set(sal_locate(0x05, TYPE_RSV6));
+<b><a name="line324">324    </a></b>	                    efuse_bootcode_landmark_index_api(&gEFuseAPI, 3);
+<b><a name="line325">325    </a></b>	                    load_code_process(p_load_code_status);
+<b><a name="line326">326    </a></b>	                }
+<b><a name="line327">327    </a></b>	            }
+<b><a name="line328">328    </a></b>	        }
+</pre></body>
+</html>

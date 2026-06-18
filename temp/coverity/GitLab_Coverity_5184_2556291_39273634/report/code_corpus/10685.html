@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	void phal_smbm_api_set_pec_en(U8 ent, U8 value)
+<b><a name="line207">207    </a></b>	{
+<b><a name="line208">208    </a></b>	    dal_smbm_api_set_pec_en(ent, value);
+<b><a name="line209">209    </a></b>	}
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	void phal_smbm_api_set_data_loc(U8 ent, U8 value)
+<b><a name="line212">212    </a></b>	{
+<b><a name="line213">213    </a></b>	    dal_smbm_api_set_data_loc(ent, value);
+<b><a name="line214">214    </a></b>	}
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	void phal_smbs_api_set_sw_reset(U8 ent)
+<b><a name="line217">217    </a></b>	{
+<b><a name="line218">218    </a></b>	    dal_smbs_api_set_sw_reset(ent, 0x1U);
+<b><a name="line219">219    </a></b>	}
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	U8 phal_smbs_api_get_sw_reset(U8 ent)
+<b><a name="line222">222    </a></b>	{
+<b><a name="line223">223    </a></b>	    return dal_smbs_api_get_sw_reset(ent);
+<b><a name="line224">224    </a></b>	}
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	void phal_smbs_clr_int_en(U8 ent, U16 int_sts)
+<b><a name="line228">228    </a></b>	{
+<b><a name="line229">229    </a></b>	    dal_smbs_api_set_int_en(ent, dal_smbs_api_get_int_en(ent) & (~int_sts));
+<b><a name="line230">230    </a></b>	}
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	U16 phal_smbs_get_int_sts(U8 ent)
+<b><a name="line233">233    </a></b>	{
+<b><a name="line234">234    </a></b>	    return (dal_smbs_api_get_int_en(ent) & dal_smbs_api_get_status(ent));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Dependence on evaluation order of "dal_smbs_api_get_int_en(ent)" and "dal_smbs_api_get_status(ent)" may occur.</font>
+<b><a name="line235">235    </a></b>	}
+<b><a name="line236">236    </a></b>	
+<b><a name="line237">237    </a></b>	void phal_smbs_receive_data(U8 ent, SMBUS_BUFFER *p_smbs_rx)
+<b><a name="line238">238    </a></b>	{
+<b><a name="line239">239    </a></b>	    U8 ubDataCount = dal_smbs_api_get_rx_vld_cnt(ent);
+<b><a name="line240">240    </a></b>	
+<b><a name="line241">241    </a></b>	    if ((p_smbs_rx->uwSize) >= (p_smbs_rx->uwOffset + ubDataCount))
+<b><a name="line242">242    </a></b>	    {
+<b><a name="line243">243    </a></b>	        memcpy((void *)(&p_smbs_rx->base.pu8[p_smbs_rx->uwOffset]), (void *)dal_smbs_api_get_rx0_point(ent), ubDataCount);
+<b><a name="line244">244    </a></b>	        p_smbs_rx->uwOffset += ubDataCount;
+<b><a name="line245">245    </a></b>	        p_smbs_rx->uwCount  += ubDataCount;
+<b><a name="line246">246    </a></b>	    }
+<b><a name="line247">247    </a></b>	}
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	void phal_smbs_disable_addr(U8 ent, U16 addr_bitmap)
+<b><a name="line250">250    </a></b>	{
+<b><a name="line251">251    </a></b>	    dal_smbs_api_set_rcv_addr_en(ent, dal_smbs_api_get_rcv_addr_en(ent) & ~addr_bitmap);
+<b><a name="line252">252    </a></b>	}
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	void phal_smbs_hw_alert_disable(U8 ent)
+<b><a name="line255">255    </a></b>	{
+<b><a name="line256">256    </a></b>	    dal_smbs_api_set_alert_addr_disable(ent, 1);
+<b><a name="line257">257    </a></b>	}
+<b><a name="line258">258    </a></b>	
+<b><a name="line259">259    </a></b>	void phal_smbs_hw_alert_enable(U8 ent)
+<b><a name="line260">260    </a></b>	{
+<b><a name="line261">261    </a></b>	    dal_smbs_api_set_alert_addr_disable(ent, 0);
+<b><a name="line262">262    </a></b>	}
+<b><a name="line263">263    </a></b>	void phal_smbm_api_set_start(U8 n, U8 value)
+<b><a name="line264">264    </a></b>	{
+<b><a name="line265">265    </a></b>	    dal_smbm_api_set_start(n, value);
+</pre></body>
+</html>

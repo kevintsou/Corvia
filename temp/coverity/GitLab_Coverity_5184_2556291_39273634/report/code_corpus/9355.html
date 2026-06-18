@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line343">343    </a></b>	    }
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	    if ((1 <= i) && (i <= HAL_FIP_INST_U32_ARRAY_SIZE))
+<b><a name="line346">346    </a></b>	    {
+<b><a name="line347">347    </a></b>	        p->u32_val[i - 1U] |= HAL_FIP_OP_LAST_CLE_ALE;
+<b><a name="line348">348    </a></b>	    }
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    return (U32)&inst[i * sizeof(HAL_FIP_OP_ADDR_STRUCT)];
+<b><a name="line351">351    </a></b>	}
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	U32 fip_inst_gen_dmar(U8 *inst, U32 scr_seed, U64 crc_seed, U64 buf_addr, U64 spr_addr, U8 frm_idx, U16 tag, U32 opt)
+<b><a name="line354">354    </a></b>	{
+<b><a name="line355">355    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	    p->dmar.op_code         = HAL_FIP_OP_DMAR;
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    p->dmar.ins_mode        = FIP_DMAR_INST_MODE;
+<b><a name="line360">360    </a></b>	    p->dmar.addr_mode       = FIP_DMAR_ADDR_MODE;
+<b><a name="line361">361    </a></b>	    p->dmar.first           = HAL_FIP_OP_OPT_CHK_FIRST(opt);
+<b><a name="line362">362    </a></b>	    p->dmar.last            = HAL_FIP_OP_OPT_CHK_LAST(opt);
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	    p->dmar.eot_value       = FIP_DMAR_EOT_VAL;
+<b><a name="line365">365    </a></b>	    p->dmar.frm_mode        = FIP_DMAR_FRM_MODE;
+<b><a name="line366">366    </a></b>	    p->dmar.out_mode        = FIP_DMAR_OUT_MODE;
+<b><a name="line367">367    </a></b>	    p->dmar.buf_vld         = FIP_DMAR_BUF_VALID;
+<b><a name="line368">368    </a></b>	    p->dmar.crc_seed_l      = crc_seed;
+<b><a name="line369">369    </a></b>	    p->dmar.crc_seed_h      = (U8)(crc_seed >> 32U);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    p->dmar.frm_idx_l       = frm_idx;
+<b><a name="line372">372    </a></b>	    p->dmar.frm_idx_h       = (frm_idx >> 2U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "frm_idx >> 2U" of width 8 to a target of width 32.</font>
+<b><a name="line373">373    </a></b>	    p->dmar.tag             = tag;
+<b><a name="line374">374    </a></b>	    p->dmar.scr_seed        = scr_seed;
+<b><a name="line375">375    </a></b>	    p->dmar.addr1_l         = (U32)buf_addr;
+<b><a name="line376">376    </a></b>	    p->dmar.addr2_l         = (U32)spr_addr;
+<b><a name="line377">377    </a></b>	    p->dmar.addr1_h         = (U8)(buf_addr >> 32U);
+<b><a name="line378">378    </a></b>	    p->dmar.addr2_h         = (U8)(spr_addr >> 32U);
+<b><a name="line379">379    </a></b>	
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	    p->dmar.crc_en          = FIP_DMAR_CRC_EN;
+<b><a name="line382">382    </a></b>	    p->dmar.ecc_en          = FIP_DMAR_ECC_EN;
+<b><a name="line383">383    </a></b>	    p->dmar.scr_en          = FIP_DMAR_SCR_EN;
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	    return (U32)&inst[sizeof(HAL_FIP_OP_DMAR_STRUCT) - 8U];
+<b><a name="line386">386    </a></b>	}
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	U32 fip_inst_gen_dmaw(U8 *inst, U32 tag, U32 frm_idx, U32 scr_seed)
+<b><a name="line389">389    </a></b>	{
+<b><a name="line390">390    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	    p->u32_val[0]           = HAL_FIP_OP_DMAW;
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	    p->dmaw.tag             = tag;
+<b><a name="line395">395    </a></b>	    p->dmaw.out_en          = FIP_DMAR_OUT_MODE;
+<b><a name="line396">396    </a></b>	    p->dmaw.frm_idx_l       = (U8)(frm_idx);
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    if (frm_idx == 0U)
+<b><a name="line399">399    </a></b>	    {
+<b><a name="line400">400    </a></b>	        p->dmaw.first       = 1U;
+<b><a name="line401">401    </a></b>	    }
+<b><a name="line402">402    </a></b>	    if (frm_idx == 3U)
+<b><a name="line403">403    </a></b>	    {
+</pre></body>
+</html>

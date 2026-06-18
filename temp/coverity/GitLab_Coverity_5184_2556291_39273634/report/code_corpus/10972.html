@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_clkrst_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	static void wait_if_osc_dis_flag_equal_to(U8 val)
+<b><a name="line333">333    </a></b>	{
+<b><a name="line334">334    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FPHY_POWERON, HAL_TIMEOUT_LEN_MS);
+<b><a name="line335">335    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_0() == val) {
+<b><a name="line336">336    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line337">337    </a></b>	            break;
+<b><a name="line338">338    </a></b>	        }
+<b><a name="line339">339    </a></b>	    }
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_1() == val) {
+<b><a name="line342">342    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line343">343    </a></b>	            break;
+<b><a name="line344">344    </a></b>	        }
+<b><a name="line345">345    </a></b>	    }
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_2() == val) {
+<b><a name="line348">348    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line349">349    </a></b>	            break;
+<b><a name="line350">350    </a></b>	        }
+<b><a name="line351">351    </a></b>	    }
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_3() == val) {
+<b><a name="line354">354    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line355">355    </a></b>	            break;
+<b><a name="line356">356    </a></b>	        }
+<b><a name="line357">357    </a></b>	    }
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_4() == val) {
+<b><a name="line360">360    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line361">361    </a></b>	            break;
+<b><a name="line362">362    </a></b>	        }
+<b><a name="line363">363    </a></b>	    }
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_5() == val) {
+<b><a name="line366">366    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line367">367    </a></b>	            break;
+<b><a name="line368">368    </a></b>	        }
+<b><a name="line369">369    </a></b>	    }
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_6() == val) {
+<b><a name="line372">372    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line373">373    </a></b>	            break;
+<b><a name="line374">374    </a></b>	        }
+<b><a name="line375">375    </a></b>	    }
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_7() == val) {
+<b><a name="line378">378    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line379">379    </a></b>	            break;
+<b><a name="line380">380    </a></b>	        }
+<b><a name="line381">381    </a></b>	    }
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_0() == val) {
+<b><a name="line384">384    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line385">385    </a></b>	            break;
+<b><a name="line386">386    </a></b>	        }
+<b><a name="line387">387    </a></b>	    }
+<b><a name="line388">388    </a></b>	
+<b><a name="line389">389    </a></b>	    while ((U8)r_OSC_DIS_FLAG_RD_FPHY_1() == val) {
+<b><a name="line390">390    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line391">391    </a></b>	            break;
+</pre></body>
+</html>

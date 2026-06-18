@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line263">263    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line264">264    </a></b>	            {
+<b><a name="line265">265    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line266">266    </a></b>	                break;
+<b><a name="line267">267    </a></b>	            }
+<b><a name="line268">268    </a></b>	        }
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	        backup_ptr[idx] = dal_sec_sha_get_rd_val();
+<b><a name="line271">271    </a></b>	    }
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	/*!
+<b><a name="line275">275    </a></b>	 @brief restore SHA register status from backup_ptr
+<b><a name="line276">276    </a></b>	 @param[in]      backup_ptr     - backup address
+<b><a name="line277">277    </a></b>	 @param[in]      is_sha3        - is SHA3 mode or not
+<b><a name="line278">278    </a></b>	 @param[in]      timeout_val    - setting timeout value
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	 @note
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	 - restore SHA register status from backup_ptr
+<b><a name="line283">283    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line284">284    </a></b>	
+<b><a name="line285">285    </a></b>	 */
+<b><a name="line286">286    </a></b>	static void hal_sec_sha_restore_flow(U32 *backup_ptr, U8 is_sha3, U64 timeout_val)
+<b><a name="line287">287    </a></b>	{
+<b><a name="line288">288    </a></b>	    // sha2 idx: 32~47 + 50~53, sha3 idx: 0~49
+<b><a name="line289">289    </a></b>	    U8 item_num = ((is_sha3 == SEC_YES) ? (SEC_SHA3_BACKUP_RESTORE_ITEM_NUM) : (SEC_SHA_BACKUP_RESTORE_ITEM_NUM));
+<b><a name="line290">290    </a></b>	    U8 backup_idx = ((is_sha3 == SEC_YES) ? (SEC_SHA3_BACKUP_RESTORE_START_IDX) : (SEC_SHA_BACKUP_RESTORE_START_IDX));
+<b><a name="line291">291    </a></b>	
+<b><a name="line292">292    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4672" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    dal_sec_sha_set_restr_en(1U);
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    for (U8 idx = backup_idx; idx < (backup_idx + item_num); idx++)
+<b><a name="line297">297    </a></b>	    {
+<b><a name="line298">298    </a></b>	        dal_sec_sha_set_restr_idx(idx);
+<b><a name="line299">299    </a></b>	        dal_sec_sha_set_restr_val(backup_ptr[idx]);
+<b><a name="line300">300    </a></b>	        dal_sec_sha_set_restr_trig();
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	        while (dal_sec_sha_get_restr_trig() == 1U)
+<b><a name="line303">303    </a></b>	        {
+<b><a name="line304">304    </a></b>	            if (MABIAO_CHK(mabiao_addr))
+<b><a name="line305">305    </a></b>	            {
+<b><a name="line306">306    </a></b>	                gSecShaTimeout = SEC_YES;
+<b><a name="line307">307    </a></b>	                break;
+<b><a name="line308">308    </a></b>	            }
+<b><a name="line309">309    </a></b>	        }
+<b><a name="line310">310    </a></b>	    }
+<b><a name="line311">311    </a></b>	
+<b><a name="line312">312    </a></b>	    dal_sec_sha_set_restr_en(0U);
+<b><a name="line313">313    </a></b>	}
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	/*
+<b><a name="line317">317    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line318">318    </a></b>	 *   public function definition
+<b><a name="line319">319    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line320">320    </a></b>	 */
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	/*!
+<b><a name="line323">323    </a></b>	 @brief       sha trigger function of blocking mode, which would wait the result done
+</pre></body>
+</html>

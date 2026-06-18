@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#define BC_AES_OFL_DEBUG (0)
+<b><a name="line4">4    </a></b>	U32 bootcode_hal_sec_aes_ofl_blocking_with_random_clock(SEC_AESOFL_PARAMS_T_PTR params, U8 is_step_clock_en, U8 is_random_clock_enable)
+<b><a name="line5">5    </a></b>	{
+<b><a name="line6">6    </a></b>	    U8 rng[6] = {0}; // store random clocks
+<b><a name="line7">7    </a></b>	    U32 ret;
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	    if (1U == is_step_clock_en) {
+<b><a name="line10">10    </a></b>	        phal_sec_get_true_rand(6, rng);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "phal_sec_get_true_rand" is unused.</font>
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#if BC_AES_OFL_DEBUG
+<b><a name="line13">13    </a></b>	        {
+<b><a name="line14">14    </a></b>	            Dump_SEC(tprintf("AES OFL step : get RNG"));
+<b><a name="line15">15    </a></b>	            U32 i;
+<b><a name="line16">16    </a></b>	            for (i = 0U; i < sizeof(rng); i++) {
+<b><a name="line17">17    </a></b>	                Dump_SEC(tprintf("rng[%d] = 0x%2x, clock_div = 0x%x ", i, rng[i], GET_SEC_CLOCK_DIV_VALUE(rng[i])));
+<b><a name="line18">18    </a></b>	            }
+<b><a name="line19">19    </a></b>	        }
+<b><a name="line20">20    </a></b>	        Dump_SEC(tprintf("AES OFL step : set step clock"));
+<b><a name="line21">21    </a></b>	#endif
+<b><a name="line22">22    </a></b>	        w_CR_SEC_CLK_DIV0(GET_SEC_CLOCK_DIV_VALUE(rng[0]));
+<b><a name="line23">23    </a></b>	        w_CR_SEC_CLK_DIV1(GET_SEC_CLOCK_DIV_VALUE(rng[1]));
+<b><a name="line24">24    </a></b>	        w_CR_SEC_CLK_DIV2(GET_SEC_CLOCK_DIV_VALUE(rng[2]));
+<b><a name="line25">25    </a></b>	        w_CR_SEC_CLK_DIV3(GET_SEC_CLOCK_DIV_VALUE(rng[3]));
+<b><a name="line26">26    </a></b>	        w_CR_SEC_CLK_DIV4(GET_SEC_CLOCK_DIV_VALUE(rng[4]));
+<b><a name="line27">27    </a></b>	        w_CR_SEC_CLK_DIV5(GET_SEC_CLOCK_DIV_VALUE(rng[5]));
+<b><a name="line28">28    </a></b>	        w_CR_SEC_CLK_STEP_EN(1U);
+<b><a name="line29">29    </a></b>	    }
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    if (1U == is_random_clock_enable) {
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	#if BC_AES_OFL_DEBUG
+<b><a name="line34">34    </a></b>	        Dump_SEC(tprintf("AES OFL step : set random clock"));
+<b><a name="line35">35    </a></b>	#endif
+<b><a name="line36">36    </a></b>	        w_CR_SEC_CLK_RAND_EN(1U);
+<b><a name="line37">37    </a></b>	    }
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	#if BC_AES_OFL_DEBUG
+<b><a name="line40">40    </a></b>	    Dump_SEC(tprintf("AES OFL step : trigger AES func "));
+<b><a name="line41">41    </a></b>	#endif
+</pre></body>
+</html>

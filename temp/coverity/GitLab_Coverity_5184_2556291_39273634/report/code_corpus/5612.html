@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fphy_setting.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line22">22    </a></b>	void dal_fip_prereset(void)
+<b><a name="line23">23    </a></b>	{
+<b><a name="line24">24    </a></b>	    U8 ubCh;
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    // step 1:
+<b><a name="line27">27    </a></b>	    // wait FTOP_IDLE_MAP (FIP_IDLE_MAP)
+<b><a name="line28">28    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_TIMEOUT_LEN_MS);
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	    while (r_FIP_IDLE_MAP() != 0xFFFFU){
+<b><a name="line31">31    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line32">32    </a></b>	            break;
+<b><a name="line33">33    </a></b>	        }
+<b><a name="line34">34    </a></b>	    }
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	    // wait FTOP_IDLE_MAP (EPU_IDLE_MAP)
+<b><a name="line37">37    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_TIMEOUT_LEN_MS);
+<b><a name="line38">38    </a></b>	    while (r_EPU_IDLE_MAP() != 0xFU){
+<b><a name="line39">39    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line40">40    </a></b>	            break;
+<b><a name="line41">41    </a></b>	        }
+<b><a name="line42">42    </a></b>	    }
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    // step 2:
+<b><a name="line45">45    </a></b>	    // LOCK FIP
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    // step 3:
+<b><a name="line48">48    </a></b>	    // check ce high
+<b><a name="line49">49    </a></b>	    for (ubCh = 0; ubCh < DAL_FIP_REG_FALL; ubCh++)
+<b><a name="line50">50    </a></b>	    {
+<b><a name="line51">51    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, HAL_TIMEOUT_LEN_MS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "51" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line52">52    </a></b>	        while (r_FCTL_CE_BITMAP(ubCh) != 0xFFU){
+<b><a name="line53">53    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line54">54    </a></b>	                break;
+<b><a name="line55">55    </a></b>	            }
+<b><a name="line56">56    </a></b>	        }
+<b><a name="line57">57    </a></b>	    }
+<b><a name="line58">58    </a></b>	}
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	#if 0
+<b><a name="line61">61    </a></b>	void dal_fip_fphy_disable_fphy_part()
+<b><a name="line62">62    </a></b>	{
+<b><a name="line63">63    </a></b>	    U8 ubCh;
+<b><a name="line64">64    </a></b>	    // step1(flh)
+<b><a name="line65">65    </a></b>	    for (ubCh = 0; ubCh < DAL_FIP_REG_FALL; ubCh++) {
+<b><a name="line66">66    </a></b>	        r32_FLH_FPHI_REG_TX_OE_ALE_CLR(ubCh);
+<b><a name="line67">67    </a></b>	        r32_w_FLH_FPHI_REG_RX_OE_CEB(ubCh, 0);
+<b><a name="line68">68    </a></b>	        r32_FLH_FPHI_REG_TX_OE_CLE_CLR(ubCh);
+<b><a name="line69">69    </a></b>	        r32_w_FLH_FPHI_REG_TX_OE_SCA_CA(ubCh, 0);
+<b><a name="line70">70    </a></b>	        r32_FLH_FPHI_REG_TX_OE_ALE_MUX_SEL_SET(ubCh);
+<b><a name="line71">71    </a></b>	        r32_FLH_FPHI_REG_TX_OE_CLE_MUX_SEL_SET(ubCh);
+<b><a name="line72">72    </a></b>	        r32_FLH_FPHI_REG_TX_OE_SCA_CA_MUX_SEL_SET(ubCh);
+<b><a name="line73">73    </a></b>	        r32_FLH_FPHI_REG_TX_OE_DBI_CLR(ubCh);
+<b><a name="line74">74    </a></b>	        r32_FLH_FPHI_REG_RX_OE_REB_CLR(ubCh);
+<b><a name="line75">75    </a></b>	        r32_FLH_FPHI_REG_RX_OE_WEB_CLR(ubCh);
+<b><a name="line76">76    </a></b>	        r32_w_FLH_FPHI_REG_RX_OE_WPB(ubCh, 0);
+<b><a name="line77">77    </a></b>	        r32_FLH_FPHI_REG_TX_RX_GB_ALE_MUX_SEL_SET(ubCh);
+<b><a name="line78">78    </a></b>	        r32_FLH_FPHI_REG_TX_RX_GB_CLE_MUX_SEL_SET(ubCh);
+<b><a name="line79">79    </a></b>	        r32_w_FLH_FPHI_REG_TX_OE_DQ(ubCh, 0);
+<b><a name="line80">80    </a></b>	        r32_FLH_FPHI_REG_RX_OE_DQS_CLR(ubCh);
+<b><a name="line81">81    </a></b>	        r32_FLH_FPHI_REG_RX_OE_DQS_MUX_SEL_SET(ubCh);
+<b><a name="line82">82    </a></b>	        r32_FLH_FPHI_REG_TX_OE_DQ_MUX_SEL_SET(ubCh);
+</pre></body>
+</html>

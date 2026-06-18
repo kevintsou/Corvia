@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line486">486    </a></b>	    /*Update read pointer*/
+<b><a name="line487">487    </a></b>	    dal_db_api_set_rpiu(db_id, (U16)(cq_size / (U16)8U));
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    return PASS;
+<b><a name="line490">490    </a></b>	}
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	/*!
+<b><a name="line493">493    </a></b>	 @brief hal_db_push_with_header
+<b><a name="line494">494    </a></b>	 @param p_data data poniter
+<b><a name="line495">495    </a></b>	 @param size data size without header
+<b><a name="line496">496    </a></b>	 @param db_id DoorBell ID
+<b><a name="line497">497    </a></b>	 @param mr_header MR header TRUE or FALSE
+<b><a name="line498">498    </a></b>	 @param mr_tid MR target id
+<b><a name="line499">499    </a></b>	 @param mr_rsp_en MR response enable
+<b><a name="line500">500    </a></b>	 @note Push command to specified queue
+<b><a name="line501">501    </a></b>	 */
+<b><a name="line502">502    </a></b>	U8 hal_db_push_with_header(void *p_data, U8 size, U8 db_id, U8 mr_header, U8 mr_tid, U8 mr_rsp_en)
+<b><a name="line503">503    </a></b>	{
+<b><a name="line504">504    </a></b>	    U32 ul_base;
+<b><a name="line505">505    </a></b>	    U32 ul_tail;
+<b><a name="line506">506    </a></b>	    U32 i;
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	    // ul_base = hal_db_get_local_addr_from_global(0U, db_id, dal_db_api_get_base_adr(db_id));
+<b><a name="line509">509    </a></b>	    // ul_tail = hal_db_get_local_addr_from_global(0U, db_id, dal_db_api_get_wptr(db_id));
+<b><a name="line510">510    </a></b>	    // SVN 4354 [WA]
+<b><a name="line511">511    </a></b>	    ul_base = dal_db_api_get_base_adr(db_id);
+<b><a name="line512">512    </a></b>	    ul_tail = dal_db_api_get_wptr(db_id);
+<b><a name="line513">513    </a></b>	
+<b><a name="line514">514    </a></b>	    /*Return FAIL if writeable count not enough*/
+<b><a name="line515">515    </a></b>	    if (dal_db_api_get_wr_cnt(db_id))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "dal_db_api_get_wr_cnt(db_id)" does not have an essentially boolean type.</font>
+<b><a name="line516">516    </a></b>	    {
+<b><a name="line517">517    </a></b>	        if (mr_header == (U8)TRUE)
+<b><a name="line518">518    </a></b>	        {
+<b><a name="line519">519    </a></b>	            *(volatile U32 *)ul_tail = (U32)mr_tid | ((((U32)size / 8U) & 0x1FU) << 8U) | ((U32)mr_rsp_en << 13U);
+<b><a name="line520">520    </a></b>	
+<b><a name="line521">521    </a></b>	            /*Copy SQ content from data to SQ start address*/
+<b><a name="line522">522    </a></b>	            for (i = 0U; i < (U32)((U32)size / (U32)4U); i++)
+<b><a name="line523">523    </a></b>	            {
+<b><a name="line524">524    </a></b>	                ul_tail += 4U;
+<b><a name="line525">525    </a></b>	
+<b><a name="line526">526    </a></b>	                if (ul_tail == (ul_base + (U32)(dal_db_api_get_buf_len(db_id) * (U32)BIT(dal_db_api_get_data_size(db_id)))))
+<b><a name="line527">527    </a></b>	                {
+<b><a name="line528">528    </a></b>	                    ul_tail = ul_base;       //ring to head
+<b><a name="line529">529    </a></b>	                }
+<b><a name="line530">530    </a></b>	                (void)memcpy((void *)(U32 *)ul_tail, (void *)(U32 *)((U32)(U32 *)p_data + (U32)(i * 4UL)), 4U);
+<b><a name="line531">531    </a></b>	            }
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	            ASM_DSB();
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	            /*Update write pointer to trigger SQ*/
+<b><a name="line536">536    </a></b>	            dal_db_api_set_wpiu(db_id, (U16)(((U16)size / (U16)4U) + 1U));
+<b><a name="line537">537    </a></b>	        }
+<b><a name="line538">538    </a></b>	        else
+<b><a name="line539">539    </a></b>	        {
+<b><a name="line540">540    </a></b>	            /*Copy SQ content from data to SQ start address*/
+<b><a name="line541">541    </a></b>	            for (i = 0; i < (U32)((U32)size / (U32)4U); i++)
+<b><a name="line542">542    </a></b>	            {
+<b><a name="line543">543    </a></b>	                if (i != 0U)
+<b><a name="line544">544    </a></b>	                {
+<b><a name="line545">545    </a></b>	                    ul_tail += 4U;
+<b><a name="line546">546    </a></b>	                }
+</pre></body>
+</html>

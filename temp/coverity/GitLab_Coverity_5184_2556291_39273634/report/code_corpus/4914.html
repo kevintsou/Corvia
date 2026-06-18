@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	    (void)memcpy((void *)&drbg_api_struct_ptr->drbg_material.seed_material_ptr[drbg_api_struct_ptr->drbg_material.seed_material_len], (void *)drbg_api_struct_ptr->drbg_material.additional_input_ptr, drbg_api_struct_ptr->drbg_material.additional_input_len);
+<b><a name="line317">317    </a></b>	    drbg_api_struct_ptr->drbg_material.seed_material_len += drbg_api_struct_ptr->drbg_material.additional_input_len;
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	    //2.  (Key, V) = HMAC_DRBG_Update (seed_material, Key, V).
+<b><a name="line320">320    </a></b>	    drbg_update(drbg_api_struct_ptr, (U8 *)drbg_api_struct_ptr->drbg_material.seed_material_ptr, drbg_api_struct_ptr->drbg_material.seed_material_len);
+<b><a name="line321">321    </a></b>	    //3.  reseed_counter = 1.
+<b><a name="line322">322    </a></b>	    drbg_api_struct_ptr->drbg_state.reseed_cout = 1U;
+<b><a name="line323">323    </a></b>	    //4.  Return V, Key and reseed_counter as the new_working_state.
+<b><a name="line324">324    </a></b>	}
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	/*
+<b><a name="line327">327    </a></b>	 @brief DRBG generate
+<b><a name="line328">328    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line329">329    </a></b>	 @param[in] req_num_of_bits      request number of bits
+<b><a name="line330">330    </a></b>	 @param[in] add_input_ptr        additional_input pointer
+<b><a name="line331">331    </a></b>	 @param[in] add_input_len        additional_input length
+<b><a name="line332">332    </a></b>	 @param[in] output_ptr           output_ptr
+<b><a name="line333">333    </a></b>	 @return NONE
+<b><a name="line334">334    </a></b>	 @note
+<b><a name="line335">335    </a></b>	 - SHA HW IP
+<b><a name="line336">336    </a></b>	 */
+<b><a name="line337">337    </a></b>	U8 drbg_generate(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U32 req_num_of_bits, U16 req_ss, U8 *pr_entropy_input_ptr, U32 pr_entropy_input_len, U8 *add_input_ptr, U32 add_input_len, U8 prediction_resistance_req, U8 *output_ptr, RNG_HEALTH_TEST_DATA_STRUCT_PTR rng_health_ptr)
+<b><a name="line338">338    </a></b>	{
+<b><a name="line339">339    </a></b>	    U8 if_fail = FALSE;
+<b><a name="line340">340    </a></b>	    U8 fail_status = FALSE;
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	    if (req_num_of_bits > drbg_api_struct_ptr->drbg_info.max_num_bit_per_req) {
+<b><a name="line343">343    </a></b>	        drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_TOO_MANY_BITS_REQ;
+<b><a name="line344">344    </a></b>	        if_fail = TRUE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line345">345    </a></b>	    }
+<b><a name="line346">346    </a></b>	    else if (req_ss >  drbg_api_struct_ptr->drbg_material.security_strength_val) {
+<b><a name="line347">347    </a></b>	        drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_INVALID_REQ_SS;
+<b><a name="line348">348    </a></b>	        if_fail = TRUE;
+<b><a name="line349">349    </a></b>	    }
+<b><a name="line350">350    </a></b>	    else if ((prediction_resistance_req == TRUE) && (drbg_api_struct_ptr->drbg_info.sup_prediction_resistance == FALSE)) {
+<b><a name="line351">351    </a></b>	        drbg_api_struct_ptr->drbg_state.error_state = DRBG_STATE_PREDICTION_RES_NOT_SUP;
+<b><a name="line352">352    </a></b>	        if_fail = TRUE;
+<b><a name="line353">353    </a></b>	    }
+<b><a name="line354">354    </a></b>	    else {
+<b><a name="line355">355    </a></b>	        /* Non-compliant - default must also have a break */
+<b><a name="line356">356    </a></b>	    }
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    if (if_fail == FALSE) {
+<b><a name="line359">359    </a></b>	        //1.  If reseed_counter > reseed_interval, then return an indication that a reseed is required.
+<b><a name="line360">360    </a></b>	        if ((drbg_api_struct_ptr->drbg_state.reseed_cout > drbg_api_struct_ptr->drbg_info.reseed_interval) || (prediction_resistance_req == TRUE)) {
+<b><a name="line361">361    </a></b>	            fail_status = drbg_get_entropy_input(drbg_api_struct_ptr, pr_entropy_input_ptr, pr_entropy_input_len, rng_health_ptr);
+<b><a name="line362">362    </a></b>	            drbg_reseed(drbg_api_struct_ptr, add_input_ptr, add_input_len);
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	            (void)memset((void *)drbg_api_struct_ptr->drbg_material.additional_input_ptr, 0x00, DRBG_ADDITIONAL_INPUT_BUF_LEN);
+<b><a name="line365">365    </a></b>	            drbg_api_struct_ptr->drbg_material.additional_input_len = 0U;
+<b><a name="line366">366    </a></b>	        }
+<b><a name="line367">367    </a></b>	        else // PR = FALSE
+<b><a name="line368">368    </a></b>	        {
+<b><a name="line369">369    </a></b>	            drbg_get_add_input(drbg_api_struct_ptr, add_input_ptr, add_input_len);
+<b><a name="line370">370    </a></b>	        }
+<b><a name="line371">371    </a></b>	
+<b><a name="line372">372    </a></b>	        //2.  If additional_input != Null, then (Key, V) = HMAC_DRBG_Update (additional_input, Key, V).
+<b><a name="line373">373    </a></b>	        if (drbg_api_struct_ptr->drbg_material.additional_input_len > 0U) {
+<b><a name="line374">374    </a></b>	            drbg_update(drbg_api_struct_ptr, (U8 *)drbg_api_struct_ptr->drbg_material.additional_input_ptr, drbg_api_struct_ptr->drbg_material.additional_input_len);
+<b><a name="line375">375    </a></b>	        }
+</pre></body>
+</html>

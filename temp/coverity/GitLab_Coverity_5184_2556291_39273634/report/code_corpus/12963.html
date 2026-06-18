@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_mr.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1274">1274    </a></b>	U8 dal_mr_api_get_db_cpu0_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1275">1275    </a></b>	U8 dal_mr_api_get_db_cpu0_2_mrs_rsp_dat_cnt(void);
+<b><a name="line1276">1276    </a></b>	U8 dal_mr_api_get_db_nvme_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1277">1277    </a></b>	U8 dal_mr_api_get_db_nvme_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1278">1278    </a></b>	
+<b><a name="line1279">1279    </a></b>	// Addr:0x28c
+<b><a name="line1280">1280    </a></b>	U8 dal_mr_api_get_db_cop2_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1281">1281    </a></b>	U8 dal_mr_api_get_db_cop0_0_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1282">1282    </a></b>	U8 dal_mr_api_get_db_cop0_1_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1283">1283    </a></b>	U8 dal_mr_api_get_db_cop0_2_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1284">1284    </a></b>	
+<b><a name="line1285">1285    </a></b>	// Addr:0x290
+<b><a name="line1286">1286    </a></b>	U8 dal_mr_api_get_db_cop0_3_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1287">1287    </a></b>	U8 dal_mr_api_get_db_cop0_0_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1288">1288    </a></b>	U8 dal_mr_api_get_db_cop0_1_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1289">1289    </a></b>	U8 dal_mr_api_get_db_cop0_2_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	// Addr:0x294
+<b><a name="line1292">1292    </a></b>	U8 dal_mr_api_get_db_cop0_3_1_mrs_rsp_dat_cnt(void);
+<b><a name="line1293">1293    </a></b>	U8 dal_mr_api_get_db_sqz_n25_mrs_rsp_dat_cnt(void);
+<b><a name="line1294">1294    </a></b>	U8 dal_mr_api_get_db_hdma_0_mrs_rsp_dat_cnt(void);
+<b><a name="line1295">1295    </a></b>	
+<b><a name="line1296">1296    </a></b>	// Addr:0x298
+<b><a name="line1297">1297    </a></b>	U8 dal_mr_api_get_qinfo01_sq_cq_pty_insr(void);
+<b><a name="line1298">1298    </a></b>	void dal_mr_api_set_qinfo01_sq_cq_pty_insr(void);
+<b><a name="line1299">1299    </a></b>	void dal_mr_api_clr_qinfo01_sq_cq_pty_insr(void);
+<b><a name="line1300">1300    </a></b>	U8 dal_mr_api_get_qinfo01_sq_cq_pty_clr(void);
+<b><a name="line1301">1301    </a></b>	void dal_mr_api_set_qinfo01_sq_cq_pty_clr(void);
+<b><a name="line1302">1302    </a></b>	U8 dal_mr_api_get_qinfo2_sq_cq_pty_insr(void);
+<b><a name="line1303">1303    </a></b>	void dal_mr_api_set_qinfo2_sq_cq_pty_insr(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "dal_mr_api_set_qinfo2_sq_cq_pty_insr", which is ambiguous.</font>
+<b><a name="line1304">1304    </a></b>	void dal_mr_api_clr_qinfo2_sq_cq_pty_insr(void);
+<b><a name="line1305">1305    </a></b>	U8 dal_mr_api_get_qinfo2_sq_cq_pty_clr(void);
+<b><a name="line1306">1306    </a></b>	void dal_mr_api_set_qinfo2_sq_cq_pty_clr(void);
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "dal_mr_api_set_qinfo2_sq_cq_pty_clr" and "dal_mr_api_set_qinfo2_sq_cq_pty_insr" are identical.</font>
+<b><a name="line1307">1307    </a></b>	
+<b><a name="line1308">1308    </a></b>	// Addr:0x29c
+<b><a name="line1309">1309    </a></b>	U8 dal_mr_api_get_sq0_pty_err(void);
+<b><a name="line1310">1310    </a></b>	void dal_mr_api_set_sq0_pty_err(void);
+<b><a name="line1311">1311    </a></b>	void dal_mr_api_clr_sq0_pty_err(void);
+<b><a name="line1312">1312    </a></b>	U8 dal_mr_api_get_sq1_pty_err(void);
+<b><a name="line1313">1313    </a></b>	void dal_mr_api_set_sq1_pty_err(void);
+<b><a name="line1314">1314    </a></b>	void dal_mr_api_clr_sq1_pty_err(void);
+<b><a name="line1315">1315    </a></b>	U8 dal_mr_api_get_sq2_pty_err(void);
+<b><a name="line1316">1316    </a></b>	void dal_mr_api_set_sq2_pty_err(void);
+<b><a name="line1317">1317    </a></b>	void dal_mr_api_clr_sq2_pty_err(void);
+<b><a name="line1318">1318    </a></b>	U8 dal_mr_api_get_sq3_pty_err(void);
+<b><a name="line1319">1319    </a></b>	void dal_mr_api_set_sq3_pty_err(void);
+<b><a name="line1320">1320    </a></b>	void dal_mr_api_clr_sq3_pty_err(void);
+<b><a name="line1321">1321    </a></b>	U8 dal_mr_api_get_sq4_pty_err(void);
+<b><a name="line1322">1322    </a></b>	void dal_mr_api_set_sq4_pty_err(void);
+<b><a name="line1323">1323    </a></b>	void dal_mr_api_clr_sq4_pty_err(void);
+<b><a name="line1324">1324    </a></b>	U8 dal_mr_api_get_sq5_pty_err(void);
+<b><a name="line1325">1325    </a></b>	void dal_mr_api_set_sq5_pty_err(void);
+<b><a name="line1326">1326    </a></b>	void dal_mr_api_clr_sq5_pty_err(void);
+<b><a name="line1327">1327    </a></b>	U8 dal_mr_api_get_sq6_pty_err(void);
+<b><a name="line1328">1328    </a></b>	void dal_mr_api_set_sq6_pty_err(void);
+<b><a name="line1329">1329    </a></b>	void dal_mr_api_clr_sq6_pty_err(void);
+<b><a name="line1330">1330    </a></b>	U8 dal_mr_api_get_sq7_pty_err(void);
+<b><a name="line1331">1331    </a></b>	void dal_mr_api_set_sq7_pty_err(void);
+<b><a name="line1332">1332    </a></b>	void dal_mr_api_clr_sq7_pty_err(void);
+<b><a name="line1333">1333    </a></b>	U8 dal_mr_api_get_sq8_pty_err(void);
+<b><a name="line1334">1334    </a></b>	void dal_mr_api_set_sq8_pty_err(void);
+<b><a name="line1335">1335    </a></b>	void dal_mr_api_clr_sq8_pty_err(void);
+<b><a name="line1336">1336    </a></b>	U8 dal_mr_api_get_sq9_pty_err(void);
+<b><a name="line1337">1337    </a></b>	void dal_mr_api_set_sq9_pty_err(void);
+</pre></body>
+</html>

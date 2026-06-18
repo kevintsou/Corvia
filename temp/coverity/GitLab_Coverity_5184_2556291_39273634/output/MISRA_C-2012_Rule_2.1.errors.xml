@@ -1,0 +1,25 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.1</checker>
+<type>MISRA_C_2012_Rule_2.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_1_violation</tag>
+<description>statement is unreachable</description>
+<line>109</line>
+<column>12</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>           ^</description>
+<line>109</line>
+<column>12</column>
+</event>
+<extra>    return 0;</extra>
+<subcategory>none</subcategory>
+</error>

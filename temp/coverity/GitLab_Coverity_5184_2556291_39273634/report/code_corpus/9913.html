@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "user_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#undef LOGID
+<b><a name="line4">4    </a></b>	#define LOGID LOGID_USER_TP
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	static U32 efuse_api_read_bank(U32 *a_data, U8 ecc_enable, const U32 bank_start, const U32 bank_count, EFUSE_BANK_READ_STATE *a_efuse_bank_read_state)
+<b><a name="line7">7    </a></b>	{
+<b><a name="line8">8    </a></b>	    if(1 == gpFwSimCtrl1Reg->get_efuse_from_dbuf)
+<b><a name="line9">9    </a></b>	    {
+<b><a name="line10">10    </a></b>	        memcpy((void*)a_data, (void*)(DBUF_EFUSE_TABLE_FROM_PYBOOT_BASE + (bank_start * BOOTCODE_HAL_EFUSE_DWORD_PER_BANK * BOOTCODE_HAL_EFUSE_BYTE_PER_DWORD)), bank_count * BOOTCODE_HAL_EFUSE_DWORD_PER_BANK * BOOTCODE_HAL_EFUSE_BYTE_PER_DWORD);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "144703808UL + bank_start * 8UL * 4UL" of type "unsigned long" is cast to type "void *".</font>
+<b><a name="line11">11    </a></b>	    }
+<b><a name="line12">12    </a></b>	    else
+<b><a name="line13">13    </a></b>	    {
+<b><a name="line14">14    </a></b>	        for (U32 bank = bank_start; bank < (bank_start + bank_count); bank++)
+<b><a name="line15">15    </a></b>	        {
+<b><a name="line16">16    </a></b>	            EFUSE_BANK_READ_STATE *p_efuse_bank_read_state = &(a_efuse_bank_read_state[bank - bank_start]);
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	            p_efuse_bank_read_state->u32 = 0;
+<b><a name="line19">19    </a></b>	            p_efuse_bank_read_state->bank = bank;
+<b><a name="line20">20    </a></b>	            p_efuse_bank_read_state->read = 1U;
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	            U8 status = eFuseToRam((U32)&(a_data[(bank - bank_start) * EFUSE_DWORD_PER_BANK]), bank, ecc_enable);
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	            p_efuse_bank_read_state->read_bank_status = status;
+<b><a name="line25">25    </a></b>	            p_efuse_bank_read_state->valid = (status == READ_BANK_DATA_NO_ERROR);
+<b><a name="line26">26    </a></b>	            p_efuse_bank_read_state->timeout = (status == READ_BANK_TIMEOUT);
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	            if (p_efuse_bank_read_state->valid) {
+<b><a name="line29">29    </a></b>	                //Continue reading the next bank
+<b><a name="line30">30    </a></b>	            }
+<b><a name="line31">31    </a></b>	            else {
+<b><a name="line32">32    </a></b>	                //Stop reading these banks when there's an error
+<b><a name="line33">33    </a></b>	                return 1;
+<b><a name="line34">34    </a></b>	            }
+<b><a name="line35">35    </a></b>	        }
+<b><a name="line36">36    </a></b>	    }
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	    return 0;
+<b><a name="line39">39    </a></b>	}
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	U32 check_field_valid(U32 enable_bitmap, U32 disable_bitmap)
+</pre></body>
+</html>

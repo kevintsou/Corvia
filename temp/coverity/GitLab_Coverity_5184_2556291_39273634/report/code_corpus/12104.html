@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1239">1239    </a></b>	    U32 algorithm_settings;
+<b><a name="line1240">1240    </a></b>	    U32 bledn;
+<b><a name="line1241">1241    </a></b>	
+<b><a name="line1242">1242    </a></b>	    //Components of the Project Binary
+<b><a name="line1243">1243    </a></b>	    U32 data_address, data_size;
+<b><a name="line1244">1244    </a></b>	    U32 key_address, key_size;
+<b><a name="line1245">1245    </a></b>	    U32 signature_address, signature_size;
+<b><a name="line1246">1246    </a></b>	    U32 message_address, message_size;
+<b><a name="line1247">1247    </a></b>	
+<b><a name="line1248">1248    </a></b>	
+<b><a name="line1249">1249    </a></b>	    //Buffers used for calculations
+<b><a name="line1250">1250    </a></b>	    U32 hash_buffer;
+<b><a name="line1251">1251    </a></b>	    U32 decryption_buffer;
+<b><a name="line1252">1252    </a></b>	
+<b><a name="line1253">1253    </a></b>	    U32 mgf_buffer;
+<b><a name="line1254">1254    </a></b>	    U32 mask_buffer;
+<b><a name="line1255">1255    </a></b>	    U32 temp_buffer;
+<b><a name="line1256">1256    </a></b>	
+<b><a name="line1257">1257    </a></b>	    U32 signature_endian_buffer;
+<b><a name="line1258">1258    </a></b>	    U32 key_endian_buffer;
+<b><a name="line1259">1259    </a></b>	
+<b><a name="line1260">1260    </a></b>	    U32 verify_status;
+<b><a name="line1261">1261    </a></b>	    U64 result;
+<b><a name="line1262">1262    </a></b>	
+<b><a name="line1263">1263    </a></b>	    U8  dummy_en;
+<b><a name="line1264">1264    </a></b>	    U8  kat_mode;
+<b><a name="line1265">1265    </a></b>	
+<b><a name="line1266">1266    </a></b>	    verify_status = PASS;
+<b><a name="line1267">1267    </a></b>	    result        = PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line1268">1268    </a></b>	    memset((void *)&rsa_key, 0x00, sizeof(rsa_key));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line1269">1269    </a></b>	
+<b><a name="line1270">1270    </a></b>	    Dump_SEC(tprintf("Check Code Signature"));
+<b><a name="line1271">1271    </a></b>	
+<b><a name="line1272">1272    </a></b>	    //TODO this needs to be cleaned up a lot
+<b><a name="line1273">1273    </a></b>	    check_project_binary_error = 0;
+<b><a name="line1274">1274    </a></b>	
+<b><a name="line1275">1275    </a></b>	    //Combine all HW Status so that the HW can be checked together and waited together
+<b><a name="line1276">1276    </a></b>	    hw_status = 0;
+<b><a name="line1277">1277    </a></b>	
+<b><a name="line1278">1278    </a></b>	    //Record all the fields in the Project Binary Header that will be used
+<b><a name="line1279">1279    </a></b>	    //This is to prevent any unexpected changes to the Project Binary Header
+<b><a name="line1280">1280    </a></b>	    //affecting the rest of the calculations
+<b><a name="line1281">1281    </a></b>	    algorithm_type = p_project_binary_header->algorithm_type;
+<b><a name="line1282">1282    </a></b>	    file_format = p_project_binary_header->file_format;
+<b><a name="line1283">1283    </a></b>	    algorithm_settings = p_project_binary_header->algorithm_settings;
+<b><a name="line1284">1284    </a></b>	    bledn = p_project_binary_header->pubkey_bledn_sig_bledn;
+<b><a name="line1285">1285    </a></b>	
+<b><a name="line1286">1286    </a></b>	    //tprintf("algorithm_type = %x, file_format = %x, algorithm_settings = %x, bledn = %x", algorithm_type, file_format, algorithm_settings, bledn);
+<b><a name="line1287">1287    </a></b>	
+<b><a name="line1288">1288    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line1289">1289    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	    sal_log_tracker_set(sal_locate((U8)(algorithm_type & 0xFF), TYPE_DATA));
+<b><a name="line1292">1292    </a></b>	    //Check the accepted file format(0x16), settings(0x2A) for a given algorithm
+<b><a name="line1293">1293    </a></b>	    //As well as locate the different parts required for signature verification
+<b><a name="line1294">1294    </a></b>	    switch (algorithm_type) {
+<b><a name="line1295">1295    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1296">1296    </a></b>	        key_size = sizeof(RSA4096_PUBLIC_KEY); //0x610
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	        //File Format 5 for RSA4096_SHA512_PKCS1_V1_5 and RSA4096_SHA512_PKCS1_V2_1
+<b><a name="line1299">1299    </a></b>	        //includes the attached key and relevant paddings as part of the signed data
+</pre></body>
+</html>

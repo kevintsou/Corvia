@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_rng.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_RNG_H_
+<b><a name="line2">2    </a></b>	#define _SAL_RNG_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SAL_RNG_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define HAL_SYS_RNG_PROCESS_IDLE_TIME			(3)	// us base
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	/* Refer to the amount of bytes for the startup test = 128 (at least 1024 bits (NIST SP 800-90B 4.3.4))
+<b><a name="line9">9    </a></b>	   (multiple of the window size 1024 bits) */
+<b><a name="line10">10    </a></b>	#define CONFIG_TRNG90B_AMOUNT_OF_BYTES                       (128)
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	/*** NIST SP 800-90B 4.4.1 ***/
+<b><a name="line13">13    </a></b>	/* C = (1+(-log(W)/H)), W = 2^(-20), H=(min-entropy per bit) */
+<b><a name="line14">14    </a></b>	//E19 // need get from efuse //#define CONFIG_TRNG90B_REPETITION_COUNTER_CUTOFF            57  /* C= (1+(40/1)) = 41 */
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	/*** NIST SP 800-90B 4.4.2 ***/
+<b><a name="line17">17    </a></b>	/* C =CRITBINOM(W, power(2,(-H)),1-a), W = 1024, a = 2^(-20), H=(min-entropy per bit) */
+<b><a name="line18">18    </a></b>	//E19 // need get from efuse //#define CONFIG_TRNG90B_ADAPTIVE_PROPORTION_CUTOFF           730      /* = 1 + CRITBINOM(1024, power(2,(-1)),1-2^(-40)) */
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	/*** NIST SP 800-90B 4.4.2 ***/
+<b><a name="line21">21    </a></b>	/* The window size W is selected based on the alphabet size, and shall be assigned to 1024 if the noise source is binary */
+<b><a name="line22">22    </a></b>	#define CONFIG_TRNG90B_ADAPTIVE_PROPORTION_WINDOW_SIZE      1024 /* binary noise source */
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#define RNG_DATA_SIZE    (CEILING_DIV(CONFIG_TRNG90B_AMOUNT_OF_BYTES, sizeof(U32))) // 32, Unit: U32 (4 Byte), 128 Byte -> 32 * 4 Byte
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	SECResult_e sal_rng_adaptive_proportion_test(U32 *pulRNGData, U32 ulComparebit, U32 uladpc);
+<b><a name="line27">27    </a></b>	SECResult_e sal_rng_repetition_count_test(U32 *pulRNGData, U32 ulComparebit, U32 ulrepc);
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	#endif /* SRC_FW_BOOT_BOOT_SECURITY_RNG_API_H_ */
+<b><a name="line30">30    </a></b>	
+</pre></body>
+</html>

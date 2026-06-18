@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line47">47    </a></b>	    current_buffer_size += rx_buffer_size;
+<b><a name="line48">48    </a></b>	    current_buffer_base += rx_buffer_size;
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    tx_buffer_size = SECTOR_SIZE;
+<b><a name="line51">51    </a></b>	    tx_buffer = (U8 *)current_buffer_base;
+<b><a name="line52">52    </a></b>	    current_buffer_size += tx_buffer_size;
+<b><a name="line53">53    </a></b>	    current_buffer_base += tx_buffer_size;
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	    //The buffer provided must be large enough for the required purpose
+<b><a name="line56">56    </a></b>	    if (current_buffer_size > *p_buffer_size) {
+<b><a name="line57">57    </a></b>	        return (current_buffer_size - *p_buffer_size);
+<b><a name="line58">58    </a></b>	    }
+<b><a name="line59">59    </a></b>	    else {
+<b><a name="line60">60    </a></b>	        *p_buffer_size -= current_buffer_size;
+<b><a name="line61">61    </a></b>	        *p_buffer_base = current_buffer_base;
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    //Use smbs_register_device() to add an implementation of SMBUS Slave device
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    memset((void *) & (p_smbs->a_slave[0U]), 0x00, sizeof(p_smbs->a_slave));
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    for (slave = 0U; slave < SMBS_SLAVE_DEVICE_COUNT;  slave++) {
+<b><a name="line69">69    </a></b>	        p_smbs->a_slave[slave].arp_ext.smbs_arp.slave_address = SMBUS_RESERVED_ADDRESS_INVALID;
+<b><a name="line70">70    </a></b>	    }
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    p_smbs->debug_address = 0x7FU;
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    //The buffers needs to be able to receive a maximum sized protocol
+<b><a name="line75">75    </a></b>	    sys_api_smbus_buffer_init(&(p_smbs->rx), rx_buffer, rx_buffer_size);
+<b><a name="line76">76    </a></b>	    sys_api_smbus_buffer_init(&(p_smbs->tx), tx_buffer, tx_buffer_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "tx_buffer_size" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 16-bit int".</font>
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	    hal_smbs_open(SMBUS0, p_smbs);
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    if (TRUE == edsff_enable_flag)
+<b><a name="line81">81    </a></b>	    {
+<b><a name="line82">82    </a></b>	        phal_smbs_int_en(SMBUS0, SMBS_OPT_SIGNAL_INT_BITMAP);
+<b><a name="line83">83    </a></b>	        phal_smbs_api_set_en_smbrst_n_det(SMBUS0, TRUE);
+<b><a name="line84">84    </a></b>	        phal_smbs_api_set_hw_auto_smbrst_en(SMBUS0, TRUE);
+<b><a name="line85">85    </a></b>	    }
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	#if SMBUS_ARA_EN
+<b><a name="line88">88    </a></b>	    sys_smbs_ara_init();
+<b><a name="line89">89    </a></b>	#endif /* SMBUS_ARA_EN */
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    return 0UL;
+<b><a name="line92">92    </a></b>	}
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	void sys_api_smbs_arp_init(SMBS_ARP_EXT *p_arp_ext, U16 slave_address, U8 device_category, U8 device_type)
+<b><a name="line95">95    </a></b>	{
+<b><a name="line96">96    </a></b>	    Dump_SMBUS(tprintf(" [SMBS] Slave ARP Init"));
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    p_arp_ext->smbs_arp.slave_address = slave_address;
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	    p_arp_ext->smbs_arp.default_slave_address = slave_address;
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    p_arp_ext->smbs_arp.device_category = device_category;
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    p_arp_ext->smbs_arp.por_internal_state_device_type = device_type;
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	    //TODO@Aaron check if the ar and av flag needs to be passed in as an argument
+<b><a name="line107">107    </a></b>	
+</pre></body>
+</html>

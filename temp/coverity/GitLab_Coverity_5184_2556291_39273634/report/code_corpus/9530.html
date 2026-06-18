@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line330">330    </a></b>	}
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	void dal_sec_pke_set_tb_sel(U8 bitnum)
+<b><a name="line333">333    </a></b>	{
+<b><a name="line334">334    </a></b>	    DAL_SEC_PKE_SET_TB_SEL(bitnum);
+<b><a name="line335">335    </a></b>	}
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	void dal_sec_pke_set_tb_wr(void)
+<b><a name="line338">338    </a></b>	{
+<b><a name="line339">339    </a></b>	    DAL_SEC_PKE_SET_TB_WR();
+<b><a name="line340">340    </a></b>	}
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	U32 dal_sec_pke_get_tb_wr(void)
+<b><a name="line343">343    </a></b>	{
+<b><a name="line344">344    </a></b>	    return (U32)(DAL_SEC_PKE_GET_TB_WR());
+<b><a name="line345">345    </a></b>	}
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	void dal_sec_pke_set_tb_in(void)
+<b><a name="line348">348    </a></b>	{
+<b><a name="line349">349    </a></b>	    DAL_SEC_PKE_SET_TB_IN();
+<b><a name="line350">350    </a></b>	}
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	void dal_sec_pke_clr_tb_in(void)
+<b><a name="line353">353    </a></b>	{
+<b><a name="line354">354    </a></b>	    DAL_SEC_PKE_CLR_TB_IN();
+<b><a name="line355">355    </a></b>	}
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	U32 dal_sec_pke_get_op_bsy(void)
+<b><a name="line358">358    </a></b>	{
+<b><a name="line359">359    </a></b>	    return (U32)DAL_SEC_PKE_GET_OP_BSY();
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 8 bit width expression "((U8 volatile *)0x360a800[16U] >> 0U) & 1U" to a wider 32 bit type.</font>
+<b><a name="line360">360    </a></b>	}
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	U32 dal_sec_pke_get_que_empty(void)
+<b><a name="line363">363    </a></b>	{
+<b><a name="line364">364    </a></b>	    return (U32)DAL_SEC_PKE_GET_QUE_EMPTY();
+<b><a name="line365">365    </a></b>	}
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	U32 dal_sec_pke_get_que_ful(void)
+<b><a name="line368">368    </a></b>	{
+<b><a name="line369">369    </a></b>	    return (U32)DAL_SEC_PKE_GET_QUE_FUL();
+<b><a name="line370">370    </a></b>	}
+<b><a name="line371">371    </a></b>	
+<b><a name="line372">372    </a></b>	void dal_sec_pke_set_wr_ptr_set(void)
+<b><a name="line373">373    </a></b>	{
+<b><a name="line374">374    </a></b>	    DAL_SEC_PKE_SET_WR_PTR_SET();
+<b><a name="line375">375    </a></b>	}
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	U32 dal_sec_pke_get_sta(void)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    return DAL_SEC_PKE_GET_STA();
+<b><a name="line380">380    </a></b>	}
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	U32 dal_sec_pke_get_que_dif(void)
+<b><a name="line383">383    </a></b>	{
+<b><a name="line384">384    </a></b>	    return (U32)(DAL_SEC_PKE_GET_QUE_DIF());
+<b><a name="line385">385    </a></b>	}
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	void dal_sec_pke_set_cmdq_wr_ptr(U32 cmd_size)
+<b><a name="line388">388    </a></b>	{
+<b><a name="line389">389    </a></b>	    DAL_SEC_PKE_SET_CMDQ_WR_PTR(cmd_size);
+<b><a name="line390">390    </a></b>	}
+</pre></body>
+</html>

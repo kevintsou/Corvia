@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1151">1151    </a></b>	                    if(ssc_en)
+<b><a name="line1152">1152    </a></b>	                    {
+<b><a name="line1153">1153    </a></b>	
+<b><a name="line1154">1154    </a></b>	                        sal_log_tracker_set(sal_locate(0xcf, TYPE_STEP));
+<b><a name="line1155">1155    </a></b>	                        dal_set_xtal_sris_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1156">1156    </a></b>	                    }
+<b><a name="line1157">1157    </a></b>	                    else
+<b><a name="line1158">1158    </a></b>	                    {
+<b><a name="line1159">1159    </a></b>	                        sal_log_tracker_set(sal_locate(0x8f, TYPE_STEP));
+<b><a name="line1160">1160    </a></b>	                        dal_set_xtal_srns_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1161">1161    </a></b>	                    }
+<b><a name="line1162">1162    </a></b>	                }
+<b><a name="line1163">1163    </a></b>	                else
+<b><a name="line1164">1164    </a></b>	                {
+<b><a name="line1165">1165    </a></b>	                    Dump_FastLink(tprintf("xtal default mode"));
+<b><a name="line1166">1166    </a></b>	                    sal_log_tracker_set(sal_locate(0xEf, TYPE_STEP));
+<b><a name="line1167">1167    </a></b>	                    dal_set_xtal_default_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1168">1168    </a></b>	                }
+<b><a name="line1169">1169    </a></b>	            }
+<b><a name="line1170">1170    </a></b>	        }
+<b><a name="line1171">1171    </a></b>	
+<b><a name="line1172">1172    </a></b>	    }
+<b><a name="line1173">1173    </a></b>	    return xperst;
+<b><a name="line1174">1174    </a></b>	}
+<b><a name="line1175">1175    </a></b>	
+<b><a name="line1176">1176    </a></b>	void host_api_pcie_loader_update_phy_rom_without_isr(HOST_API_STRUCT_PTR host)
+<b><a name="line1177">1177    </a></b>	{
+<b><a name="line1178">1178    </a></b>	
+<b><a name="line1179">1179    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR   host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line1180">1180    </a></b>	    ID_TABLE *p_id_table = (ID_TABLE *)DBUF_API_BOOTCODE_ID_TABLE_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134217728UL" (unsigned) is not the same as that of the right operand "524288"(signed).</font>
+<b><a name="line1181">1181    </a></b>	    Dump_FastLink(tprintf("host_api_pcie_loader_update_phy_rom_without_isr"));
+<b><a name="line1182">1182    </a></b>	
+<b><a name="line1183">1183    </a></b>	
+<b><a name="line1184">1184    </a></b>	    host->host_id_tbl_base = DBUF_API_BOOTCODE_ID_TABLE_BASE + p_id_table->pcie_landmark_pre.offset;
+<b><a name="line1185">1185    </a></b>	    host->host_id_tbl_size = p_id_table->pcie_landmark_pre.count * sizeof(ID_TABLE_LANDMARK);
+<b><a name="line1186">1186    </a></b>	    memcpy((void *)&host->host_id_tbl, (void *)&p_id_table->host_flow, sizeof(HOST_API_HOST_ID_TBL_STRUCT));
+<b><a name="line1187">1187    </a></b>	
+<b><a name="line1188">1188    </a></b>	    Dump_FastLink(tprintf("xtal_mode_ssc_off_p0:%d xtal_mode_ssc_off_p1:%d port_mode:%x", host_flow->attr.xtal_mode_ssc_off_p0, host_flow->attr.xtal_mode_ssc_off_p1, host_flow->attr.port_mode));
+<b><a name="line1189">1189    </a></b>	
+<b><a name="line1190">1190    </a></b>	    // foolproof for wrong port_mode, to avoid unable to build the link
+<b><a name="line1191">1191    </a></b>	    if ((host_flow->attr.port_mode < PCIE_PORT_MODE_SINGLE) ||
+<b><a name="line1192">1192    </a></b>	        (host_flow->attr.port_mode > PCIE_PORT_MODE_DUAL)) {
+<b><a name="line1193">1193    </a></b>	        host_flow->attr.port_mode = PCIE_PORT_MODE_SINGLE;
+<b><a name="line1194">1194    </a></b>	    }
+<b><a name="line1195">1195    </a></b>	    host_pcie_init(host);
+<b><a name="line1196">1196    </a></b>	    //update iccm
+<b><a name="line1197">1197    </a></b>	    host_api_set_pcie_iccm_dccm_landmark();
+<b><a name="line1198">1198    </a></b>	    host_api_pcie_check_perst_int_sts_and_link(host);
+<b><a name="line1199">1199    </a></b>	    Dump_FastLink(tprintf("finish loader fast link"));
+<b><a name="line1200">1200    </a></b>	    //while(1);
+<b><a name="line1201">1201    </a></b>	}
+<b><a name="line1202">1202    </a></b>	
+<b><a name="line1203">1203    </a></b>	#if HOST_ID_TABLE
+<b><a name="line1204">1204    </a></b>	void host_api_set_id_table_config(HOST_API_STRUCT_PTR host)
+<b><a name="line1205">1205    </a></b>	{
+<b><a name="line1206">1206    </a></b>	    ID_TABLE_LANDMARK_PTR   id_table_landmark_ptr;
+<b><a name="line1207">1207    </a></b>	    U32 last = host->host_id_tbl_base + host->host_id_tbl_size; // unit is byte
+<b><a name="line1208">1208    </a></b>	    U32 offset;                                                 // unit is byte
+<b><a name="line1209">1209    </a></b>	    U32 i, j, k;
+<b><a name="line1210">1210    </a></b>	    U32 port_idx;
+<b><a name="line1211">1211    </a></b>	
+</pre></body>
+</html>

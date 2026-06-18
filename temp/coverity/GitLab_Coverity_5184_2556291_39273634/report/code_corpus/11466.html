@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line405">405    </a></b>	/*!
+<b><a name="line406">406    </a></b>	   @brief      Update device status prior to ocp recovery process
+<b><a name="line407">407    </a></b>	 */
+<b><a name="line408">408    </a></b>	void OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess(void)
+<b><a name="line409">409    </a></b>	{
+<b><a name="line410">410    </a></b>	    /*
+<b><a name="line411">411    </a></b>	     *  We call this function while device is !healthy and could not be recovered internally in each stage (e.g. bootcode, loader, fw)
+<b><a name="line412">412    </a></b>	     *  The device will then stay in bootcode and update device status by cases prior to OCP recovery process
+<b><a name="line413">413    </a></b>	     */
+<b><a name="line414">414    </a></b>	
+<b><a name="line415">415    </a></b>	    ACROT_DATA *pACRotData = GetACRotDataPtr();
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	    Dump_OCP(tprintf("[OCP] Update Device Status (Current: %x)", pACRotData->sDeviceStatus.ubDeviceStatus));
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	    /*
+<b><a name="line420">420    </a></b>	     *  There are several cases by device status
+<b><a name="line421">421    </a></b>	     *
+<b><a name="line422">422    </a></b>	     *  1. DS_BOOT_FAILURE
+<b><a name="line423">423    </a></b>	     *     This is the only status that can populate a recovery reason code
+<b><a name="line424">424    </a></b>	     *     and the RCV value indicates if the device can be recovered based on error code
+<b><a name="line425">425    </a></b>	     *     (1) RCV = Y
+<b><a name="line426">426    </a></b>	     *          - Switch device status to recovery mode (0x3)
+<b><a name="line427">427    </a></b>	     *     (2) RCV = N/M
+<b><a name="line428">428    </a></b>	     *          - Let host to determine if need to forced recovery
+<b><a name="line429">429    </a></b>	     *
+<b><a name="line430">430    </a></b>	     *  2. DS_DEVICE_ERROR/DS_FATAL_ERROR
+<b><a name="line431">431    </a></b>	     *     These two status don't populate recovery reason code
+<b><a name="line432">432    </a></b>	     *     - Let host to determine if need to forced recovery
+<b><a name="line433">433    </a></b>	     */
+<b><a name="line434">434    </a></b>	    switch (pACRotData->sDeviceStatus.ubDeviceStatus)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event missing_default:</font></b> <font face="Arial"; size="3"; color="#FF5959">No default case found for the switch statement "switch (pACRotData->sDeviceStatus.ubDeviceStatus)".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_16_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement is not well formed.</font>
+<b><a name="line435">435    </a></b>	    {
+<b><a name="line436">436    </a></b>	        case DS_BOOT_FAILURE:
+<b><a name="line437">437    </a></b>	        case DS_DEVICE_ERROR:
+<b><a name="line438">438    </a></b>	        case DS_FATAL_ERROR:
+<b><a name="line439">439    </a></b>	            if (DS_BOOT_FAILURE == pACRotData->sDeviceStatus.ubDeviceStatus)
+<b><a name="line440">440    </a></b>	            {
+<b><a name="line441">441    </a></b>	                if (M_IS_RRC_RCV_Y(pACRotData->sDeviceStatus.uwRecoveryReasonCode))
+<b><a name="line442">442    </a></b>	                {
+<b><a name="line443">443    </a></b>	                    RpDeviceStatusManagement(pACRotData, E_RP_STATE_UPDATE_STATUS_BOOT_FAILURE_WITH_RCV_Y);
+<b><a name="line444">444    </a></b>	                }
+<b><a name="line445">445    </a></b>	                /* coverity[unsigned_compare] */
+<b><a name="line446">446    </a></b>	                else if (M_IS_RRC_RCV_N_M(pACRotData->sDeviceStatus.uwRecoveryReasonCode))
+<b><a name="line447">447    </a></b>	                {
+<b><a name="line448">448    </a></b>	                    RpDeviceStatusManagement(pACRotData, E_RP_STATE_UPDATE_STATUS_BOOT_FAILURE_WITH_RCV_N_M);
+<b><a name="line449">449    </a></b>	                }
+<b><a name="line450">450    </a></b>	            }
+<b><a name="line451">451    </a></b>	            else if ((DS_DEVICE_ERROR == pACRotData->sDeviceStatus.ubDeviceStatus) ||
+<b><a name="line452">452    </a></b>	                        (DS_FATAL_ERROR  == pACRotData->sDeviceStatus.ubDeviceStatus))
+<b><a name="line453">453    </a></b>	            {
+<b><a name="line454">454    </a></b>	                // device error & fatal error
+<b><a name="line455">455    </a></b>	                RpDeviceStatusManagement(pACRotData, E_RP_STATE_UPDATE_STATUS_DEVICE_ERROR_FATAL_ERROR);
+<b><a name="line456">456    </a></b>	            }
+<b><a name="line457">457    </a></b>	            OcpRecoveryUpdateSubsystemManagementData(pACRotData);
+<b><a name="line458">458    </a></b>	            break;
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	        case DS_RUNNING_RECOVERY_IMAGE:
+<b><a name="line461">461    </a></b>	            RpDeviceStatusManagement(pACRotData, E_RP_STATE_UPDATE_STATUS_RUNNING_RECOVERY_IMAGE);
+<b><a name="line462">462    </a></b>	            break;
+<b><a name="line463">463    </a></b>	    }
+<b><a name="line464">464    </a></b>	}
+<b><a name="line465">465    </a></b>	
+</pre></body>
+</html>

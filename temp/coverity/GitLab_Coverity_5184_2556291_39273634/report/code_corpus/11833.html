@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line381">381    </a></b>	        hal_fw_pcie_set_pl_bist_end(PCIE_PORT_0);
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line384">384    </a></b>	        event->rst_flag &= ~(RST_PCIE_START_BIST);
+<b><a name="line385">385    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line386">386    </a></b>	    }
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	    if (event->rst_flag & RST_NVME_CC_EN) {
+<b><a name="line389">389    </a></b>	        Dump_PCIE(tprintf(">> cc.en = 1 \n\r"));
+<b><a name="line390">390    </a></b>	        hal_nvme_ccen_0to1(PCIE_PORT_0, PCIE_PF_0, PCIE_PF_0, FIDX_0);
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line393">393    </a></b>	        event->rst_flag &= ~(RST_NVME_CC_EN);
+<b><a name="line394">394    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line395">395    </a></b>	    }
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	    Dump_PCIE(tprintf("reset done \n\r"));
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	    host_api_enable_host_int();
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	/*
+<b><a name="line403">403    </a></b>	 *  public function
+<b><a name="line404">404    </a></b>	 */
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	void host_var_reset(HOST_API_STRUCT_PTR host)
+<b><a name="line407">407    </a></b>	{
+<b><a name="line408">408    </a></b>	    NVME_API_FEATURE_STRUCT_PTR nvme_feature = &(host->nvme_feature);
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	    memset(nvme_feature, 0, sizeof(NVME_API_FEATURE_STRUCT));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	    nvme_feature->temp_thres = NVME_WCTEMP;         // 70C
+<b><a name="line413">413    </a></b>	    nvme_feature->tler       = NVME_TLER;           // 300 sec
+<b><a name="line414">414    </a></b>	    nvme_feature->cq_num     = NVME_MAX_QPB_ID - 1; // 0's based
+<b><a name="line415">415    </a></b>	    nvme_feature->sq_num     = NVME_MAX_QPB_ID - 1; // 0's based
+<b><a name="line416">416    </a></b>	    nvme_feature->aerl       = NVME_AERL;           // 0's based
+<b><a name="line417">417    </a></b>	    nvme_feature->dn         = 0x00000001U;
+<b><a name="line418">418    </a></b>	    nvme_feature->pwr        = 0x00000000U;
+<b><a name="line419">419    </a></b>	    nvme_feature->int_clsc   = 0x00000000U;
+<b><a name="line420">420    </a></b>	    nvme_feature->iv_conf    = 0x00010000U;
+<b><a name="line421">421    </a></b>	    nvme_feature->aec        = 0x00000000U;
+<b><a name="line422">422    </a></b>	}
+<b><a name="line423">423    </a></b>	
+<b><a name="line424">424    </a></b>	
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	static BOOL dal_detect_refclk_valid(U32 port_id)
+<b><a name="line427">427    </a></b>	{
+<b><a name="line428">428    </a></b>	    U32 pcie_refclk_valid;
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	    // phy_dbg_psel_local
+<b><a name="line431">431    </a></b>	    (*((volatile U32 *)(0x314E078U))) |= (U32)BIT28;
+<b><a name="line432">432    </a></b>	    // pciephy_dbg_sel
+<b><a name="line433">433    </a></b>	    (*((volatile U32 *)(0x314E080U))) &= (0xFFF003FFU);
+<b><a name="line434">434    </a></b>	    (*((volatile U32 *)(0x314E080U))) |= (1UL << 10);
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	    pcie_refclk_valid = (*((volatile U32 *)(0x314E0ACU)));
+<b><a name="line437">437    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line438">438    </a></b>	    {
+<b><a name="line439">439    </a></b>	        // pcie_p0_refclk_valid
+<b><a name="line440">440    </a></b>	        if ((pcie_refclk_valid & (U32)BIT23) != 0UL)
+<b><a name="line441">441    </a></b>	        {
+</pre></body>
+</html>

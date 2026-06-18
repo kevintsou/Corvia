@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	static U8 phal_cop2_dmac_pop_cq(COP2_DMAC_CQ_PTR cp_ptr)
+<b><a name="line5">5    </a></b>	{
+<b><a name="line6">6    </a></b>	    U8 timeout = 0;
+<b><a name="line7">7    </a></b>	    U8 db_id = MR_QID_CPU0_CQ_COP2_DMAC_L;
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	    (void)memset((void *)cp_ptr, 0, sizeof(COP2_DMAC_CQ));
+<b><a name="line10">10    </a></b>	
+<b><a name="line11">11    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_DB_WAIT_CQ, GERNAL_TIMEOUT_THRESHOLD);
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	    while((hal_db_api_get_empty(db_id) == TRUE)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "hal_db_api_get_empty(db_id)" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line14">14    </a></b>	        if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line15">15    </a></b>	            timeout = (U8)HAL_COP2_CHECK_QUE_EMPTY_TIMEOUT;
+<b><a name="line16">16    </a></b>	            break;
+<b><a name="line17">17    </a></b>	        }
+<b><a name="line18">18    </a></b>	    }
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	    if(0 == timeout)
+<b><a name="line21">21    </a></b>	    {
+<b><a name="line22">22    </a></b>	        hal_db_pop_ext((void *)cp_ptr, db_id, (U32)TRUE);
+<b><a name="line23">23    </a></b>	    }
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	    return timeout;
+<b><a name="line26">26    </a></b>	}
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	static void phal_cop2_dmac_push_cmd(void *dmac_cmd, U16 tag, U8 db_id)
+<b><a name="line29">29    </a></b>	{
+<b><a name="line30">30    </a></b>	    ((COP2_DMAC_SQ_PTR)dmac_cmd)->common.tag = tag;
+<b><a name="line31">31    </a></b>	    hal_db_push_cmd_ext((void *)dmac_cmd,db_id);
+<b><a name="line32">32    </a></b>	}
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	static void phal_cop2_set_mr_hdr(void *mr_hdr, U16 mr_tid, U8 len)
+<b><a name="line35">35    </a></b>	{
+<b><a name="line36">36    </a></b>	    MR_HDR_STRUCT_PTR  tmp_mr_hdr = (MR_HDR_STRUCT_PTR)mr_hdr;
+<b><a name="line37">37    </a></b>	    tmp_mr_hdr->target_id = mr_tid;
+<b><a name="line38">38    </a></b>	    tmp_mr_hdr->cq_target_id = HAL_COP2_MR_CPU0_CQ_TID_DMAC_L;
+<b><a name="line39">39    </a></b>	    tmp_mr_hdr->len = len;
+<b><a name="line40">40    </a></b>	}
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	static void phal_cop2_dmac_private_fill_crc_cmd(void *dmac_cmd, U8 width, U8 ref_in, U8 ref_out, U8 xor_out, U8 check_en, U8 cq_en, U8 dependence, U32 data_size, U64 src_addr, U32 poly, U32 init, U32 crc_check_pattern)
+<b><a name="line44">44    </a></b>	{
+</pre></body>
+</html>

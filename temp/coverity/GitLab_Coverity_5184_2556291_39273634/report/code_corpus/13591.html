@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/key_manifest_api.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line51">51    </a></b>	typedef PROJECT_BINARY_HEADER         KEY_MANIFEST_PROJECT_BINARY_HEADER, *KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR;
+<b><a name="line52">52    </a></b>	typedef EFUSE_CODE_SIGN_KEY_HASH      KEY_MANIFEST_HASH,                  *KEY_MANIFEST_HASH_PTR;
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	typedef struct key_manifest_api       KEY_MANIFEST_API,                   *KEY_MANIFEST_API_PTR;
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	// 24B
+<b><a name="line57">57    </a></b>	struct key_manifest_api {
+<b><a name="line58">58    </a></b>	    KEY_MANIFEST_HEADER_PTR                    key_header_ptr;
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR     key_manifest_proj_bin_header_ptr;
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    KEY_MANIFEST_HASH_PTR                      key_hash_ptr;
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    U32 *code_sign_key_index_ptr;
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	    U32 total_key_num;
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    U32 err_bit_map;
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	    U8  sha2_mode;
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    U8  key_skip;
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    U8  rsv[2];
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	};
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	extern KEY_MANIFEST_API g_key_manifest_api;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	extern EFUSE_API        gEFuseAPI;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "gEFuseAPI" is declared more than once.</font>
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	void  key_manifest_api_init(KEY_MANIFEST_API_PTR key_manifest_api_ptr, void *project_bin_header, U8 key_manifest_exist);
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	void  set_key_header_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR key_manifest_proj_bin_header_ptr);
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	void  set_key_manifest_proj_bin_header_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, PROJECT_BINARY_HEADER_PTR project_binary_header_ptr);
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	void  set_key_hash_ptr(KEY_MANIFEST_API_PTR key_manifest_api_ptr, KEY_MANIFEST_PROJECT_BINARY_HEADER_PTR key_manifest_proj_bin_header_ptr);
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	void  sync_key_header_info(KEY_MANIFEST_API_PTR key_manifest_api_ptr);
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	const KEY_MANIFEST_HASH_PTR get_correct_key_hash(KEY_MANIFEST_API_PTR key_manifest_api_ptr, U32 public_key_id);
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	U8    get_sha2_mode(KEY_MANIFEST_API_PTR key_manifest_api_ptr);
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	U16 get_key_size(U8 algorithm_type);
+<b><a name="line97">97    </a></b>	U16 get_sig_size(U8 algorithm_type);
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	#endif
+<b><a name="line100">100    </a></b>	
+</pre></body>
+</html>

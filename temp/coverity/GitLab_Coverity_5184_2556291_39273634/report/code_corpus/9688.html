@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_send.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	    MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *p_medium_specific_header;
+<b><a name="line33">33    </a></b>	    DATA_DESCRIPTOR packet_descriptor;
+<b><a name="line34">34    </a></b>	    //If SMBus Master is still busy, exit and come back later
+<b><a name="line35">35    </a></b>	    //This only works if there are no other SMBus protocols (especially Read)
+<b><a name="line36">36    </a></b>	    if (phal_smbm_busy_sts(SMBUS0)) {
+<b><a name="line37">37    </a></b>	        return 0xFFFFFFFFUL;
+<b><a name="line38">38    </a></b>	    }
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    p_transmit_handler = mctp_message_transmit_handler_find_send(p_mctp);
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    if (NULL == p_transmit_handler) {
+<b><a name="line43">43    </a></b>	        //There are no handlers that have data to send
+<b><a name="line44">44    </a></b>	        return 0xFFFFFFFFUL;
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    if (NULL == mctp_message_transmit_handler_find_timeup(p_mctp)) {
+<b><a name="line48">48    </a></b>	        // Insert time interval between protocol and protocol for platform compatibility
+<b><a name="line49">49    </a></b>	        // When packet count > 1, MD71-HB0 platform need delay >15ms
+<b><a name="line50">50    </a></b>	        return 0xFFFFFFFFUL;
+<b><a name="line51">51    </a></b>	    }
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Handlers That Have Data To Send"));
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	    p_source_transport_info = (MCTP_TRANSPORT_INFO_SMBUS *) & (p_transport->transport_info);
+<b><a name="line56">56    </a></b>	    p_destination_transport_info = ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_transmit_handler->message_info.source_transport_info));
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	    //Prepare the SMBus data to be spent
+<b><a name="line59">59    </a></b>	    //Medium Specific Header
+<b><a name="line60">60    </a></b>	    p_medium_specific_header = (MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *) & (p_smbm->tx.base.pu8[0U]);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "&p_smbm->tx.base.pu8[0U]" of type "U8 *" is cast to type "MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *".</font>
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    p_medium_specific_header->command_code = MCTP_SMBUS_COMMAND_CODE;
+<b><a name="line63">63    </a></b>	    p_medium_specific_header->byte_count = 1U;
+<b><a name="line64">64    </a></b>	    p_medium_specific_header->ipmi = 1U;
+<b><a name="line65">65    </a></b>	    p_medium_specific_header->source_slave_address = (p_source_transport_info->slave_address >> 1U);
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    //Transport Header + Packet Payload
+<b><a name="line68">68    </a></b>	    packet_descriptor.p_base = &(p_smbm->tx.base.pu8[sizeof(*p_medium_specific_header)]);
+<b><a name="line69">69    </a></b>	    packet_descriptor.size = (p_smbm->tx.uwSize - sizeof(*p_medium_specific_header));
+<b><a name="line70">70    </a></b>	    status = mctp_message_transmit_handler_disassemble_message(p_transmit_handler, &packet_descriptor);
+<b><a name="line71">71    </a></b>	    if (status & MESSAGE_ASSEMBLY_DROP_MESSAGE) {
+<b><a name="line72">72    </a></b>	        mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	        return 0xFFFFFFFFUL;
+<b><a name="line75">75    </a></b>	    }
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	    //Update the Byte Count in the Block Write command
+<b><a name="line78">78    </a></b>	    p_medium_specific_header->byte_count += packet_descriptor.size;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    //Update the data count in the SMBus buffer
+<b><a name="line81">81    </a></b>	    //-2 is smbus block write api will plus command code and byte count
+<b><a name="line82">82    </a></b>	    p_smbm->tx.uwCount = (sizeof(*p_medium_specific_header) + packet_descriptor.size - 2U);
+<b><a name="line83">83    </a></b>	    p_smbm->tx.uwOffset = 0U;
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    phal_smbm_block_write(SMBUS0, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    p_transmit_handler->delay_flag = 0U;
+<b><a name="line88">88    </a></b>	    return 0UL;
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	U32 mctp_get_inter_packet_delay_ms(void)
+</pre></body>
+</html>

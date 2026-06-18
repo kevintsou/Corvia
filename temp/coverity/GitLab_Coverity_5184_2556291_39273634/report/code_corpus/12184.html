@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/landmark.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line226">226    </a></b>	        case 0x0002:
+<b><a name="line227">227    </a></b>	            Dump_LM(tprintf("mS"));
+<b><a name="line228">228    </a></b>	            MABIAO_IDLE_MS(idle_unit_cnt);
+<b><a name="line229">229    </a></b>	            break;
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	        default:
+<b><a name="line232">232    </a></b>	            Dump_LM(tprintf("S"));
+<b><a name="line233">233    </a></b>	            MABIAO_IDLE_S(idle_unit_cnt);
+<b><a name="line234">234    </a></b>	            break;
+<b><a name="line235">235    </a></b>	        }
+<b><a name="line236">236    </a></b>	    }
+<b><a name="line237">237    </a></b>	    else {      //polling
+<b><a name="line238">238    </a></b>	        if ((landmark->ctrl & 0x8) > 0) { // polling bit = 1
+<b><a name="line239">239    </a></b>	            poll_status = 1;
+<b><a name="line240">240    </a></b>	        }
+<b><a name="line241">241    </a></b>	        else {
+<b><a name="line242">242    </a></b>	            poll_status = 0;
+<b><a name="line243">243    </a></b>	        }
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	        Dump_LM(tprintf("Polling:"));
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	        address_base = (U8 *)(landmark->addr + 0x2000000);
+<b><a name="line248">248    </a></b>	        reg_data = landmark->data;
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	        Dump_LM(tprintf("Addr %x Bit %x ", (U32)address_base, reg_data));
+<b><a name="line251">251    </a></b>	        Dump_LM(tprintf("(Value %x)", *address_base));
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	        poll_time_us = landmark->data * 50; //update the spec
+<b><a name="line254">254    </a></b>	        if (0 == poll_time_us) {
+<b><a name="line255">255    </a></b>	            poll_time_us = 0x0100 * 50;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_2_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning value "12800UL" to "poll_time_us" here, but that stored value is not used.</font>
+<b><a name="line256">256    </a></b>	        }
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	        Dump_LM(tprintf("for %db, time %dus", poll_status, poll_time_us));
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_DB_LANDMARK, 50);
+<b><a name="line261">261    </a></b>	        while ((((*address_base) >> reg_data) & 0x01) != poll_status) {
+<b><a name="line262">262    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line263">263    </a></b>	                Dump_LM(tprintf("Timeout"));
+<b><a name="line264">264    </a></b>	                fail_cnt++;
+<b><a name="line265">265    </a></b>	                break;
+<b><a name="line266">266    </a></b>	            }
+<b><a name="line267">267    </a></b>	        }
+<b><a name="line268">268    </a></b>	        Dump_LM(tprintf("Done"));
+<b><a name="line269">269    </a></b>	    }
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	    Dump_LM(tprintf("fail_cnt is %d", fail_cnt));
+<b><a name="line272">272    </a></b>	}
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	void efuse_bootcode_landmark_index_api(EFUSE_API *p_efuse_api,U16 landmark_state)
+<b><a name="line275">275    </a></b>	{
+<b><a name="line276">276    </a></b>	    U16 landmark_idx;
+<b><a name="line277">277    </a></b>	    EFUSE_BOOTCODE_LANDMARK efuse_bootcode_landmark;
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	    for (landmark_idx = 0U; landmark_idx < EFUSE_BOOT_LANDMARK_INDEX_COUNT; landmark_idx++) {
+<b><a name="line280">280    </a></b>	        memset((void *)&efuse_bootcode_landmark, 0x00, sizeof(EFUSE_BOOTCODE_LANDMARK));
+<b><a name="line281">281    </a></b>	        (void)memcpy((void *)&efuse_bootcode_landmark.qw, (void *)((U8 *)(&p_efuse_api->efuse_boot_landmark.dword) + (EFUSE_BYTE_BOOT_LANDMARK_INDEX_SIZE * landmark_idx) + ((landmark_idx / EFUSE_BOOT_LANDMARK_BANK_SIZE) * 2)), EFUSE_BYTE_BOOT_LANDMARK_INDEX_SIZE);
+<b><a name="line282">282    </a></b>	        if (((U16)efuse_bootcode_landmark.state == landmark_state) && (efuse_bootcode_landmark.state != 0)) {
+<b><a name="line283">283    </a></b>	            efuse_bootcode_landmark_handle(&efuse_bootcode_landmark);
+<b><a name="line284">284    </a></b>	        }
+<b><a name="line285">285    </a></b>	    }
+<b><a name="line286">286    </a></b>	    return;
+</pre></body>
+</html>

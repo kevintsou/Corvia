@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10010">10010    </a></b>	        if (gSecKatRecord.exec_kat_kaz == 0)
+<b><a name="line10011">10011    </a></b>	        {
+<b><a name="line10012">10012    </a></b>	#if KAT_KAZ_EN
+<b><a name="line10013">10013    </a></b>	            if (phal_sqz_is_en()) {
+<b><a name="line10014">10014    </a></b>	                kat_status = sec_sqz_kat_KAZ();
+<b><a name="line10015">10015    </a></b>	            }
+<b><a name="line10016">10016    </a></b>	            else {
+<b><a name="line10017">10017    </a></b>	                kat_status = host_sec_kaz_verify_kat(kat_buffer);
+<b><a name="line10018">10018    </a></b>	            }
+<b><a name="line10019">10019    </a></b>	            if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10020">10020    </a></b>	                sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line10021">10021    </a></b>	                gSecKatRecord.rslt_kat_kaz = FAIL;
+<b><a name="line10022">10022    </a></b>	            }
+<b><a name="line10023">10023    </a></b>	            else {
+<b><a name="line10024">10024    </a></b>	                gSecKatRecord.rslt_kat_kaz = PASS;
+<b><a name="line10025">10025    </a></b>	            }
+<b><a name="line10026">10026    </a></b>	#endif
+<b><a name="line10027">10027    </a></b>	            gSecKatRecord.exec_kat_kaz = 1;
+<b><a name="line10028">10028    </a></b>	        }
+<b><a name="line10029">10029    </a></b>	    }
+<b><a name="line10030">10030    </a></b>	
+<b><a name="line10031">10031    </a></b>	    return kat_status;
+<b><a name="line10032">10032    </a></b>	}
+<b><a name="line10033">10033    </a></b>	
+<b><a name="line10034">10034    </a></b>	static U32 kat_aes256_cbc(U32 kat_buffer)
+<b><a name="line10035">10035    </a></b>	{
+<b><a name="line10036">10036    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10037">10037    </a></b>	
+<b><a name="line10038">10038    </a></b>	    sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line10039">10039    </a></b>	    if (gSecKatRecord.exec_kat_aes_cbc == 0)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gSecKatRecord.exec_kat_aes_cbc == 0", taking true branch.</font>
+<b><a name="line10040">10040    </a></b>	    {
+<b><a name="line10041">10041    </a></b>	#if KAT_AES_EN
+<b><a name="line10042">10042    </a></b>	        if (phal_sqz_is_en()) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "phal_sqz_is_en()", taking true branch.</font>
+<b><a name="line10043">10043    </a></b>	            kat_status = sec_sqz_kat_AES_CBC();
+<b><a name="line10044">10044    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line10045">10045    </a></b>	        else {
+<b><a name="line10046">10046    </a></b>	            kat_status = host_sec_aes_cbc_256_kat(kat_buffer);
+<b><a name="line10047">10047    </a></b>	        }
+<b><a name="line10048">10048    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != kat_status", taking true branch.</font>
+<b><a name="line10049">10049    </a></b>	            sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "(U8)(U32)(0xfULL & kat_status) << 16", shifting more than 7 bits, the number of bits in the essential type of the left expression, "0xfULL & kat_status", is not allowed.  The shift amount is 16.</font>
+<b><a name="line10050">10050    </a></b>	            gSecKatRecord.rslt_kat_aes_cbc = FAIL;
+<b><a name="line10051">10051    </a></b>	        }
+<b><a name="line10052">10052    </a></b>	        else {
+<b><a name="line10053">10053    </a></b>	            gSecKatRecord.rslt_kat_aes_cbc = PASS;
+<b><a name="line10054">10054    </a></b>	        }
+<b><a name="line10055">10055    </a></b>	#endif
+<b><a name="line10056">10056    </a></b>	        gSecKatRecord.exec_kat_aes_cbc = 1;
+<b><a name="line10057">10057    </a></b>	    }
+<b><a name="line10058">10058    </a></b>	
+<b><a name="line10059">10059    </a></b>	    return kat_status;
+<b><a name="line10060">10060    </a></b>	}
+<b><a name="line10061">10061    </a></b>	
+<b><a name="line10062">10062    </a></b>	static U32 kat_drbg(U32 kat_buffer)
+<b><a name="line10063">10063    </a></b>	{
+<b><a name="line10064">10064    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10065">10065    </a></b>	
+<b><a name="line10066">10066    </a></b>	    sal_log_tracker_set(sal_locate(0x0C, TYPE_STEP));
+<b><a name="line10067">10067    </a></b>	    if (gSecKatRecord.exec_kat_drbg == 0)
+<b><a name="line10068">10068    </a></b>	    {
+<b><a name="line10069">10069    </a></b>	#if KAT_DRBG_EN
+<b><a name="line10070">10070    </a></b>	        if (phal_sqz_is_en()) {
+<b><a name="line10071">10071    </a></b>	            kat_status = sec_sqz_kat_DRBG();
+<b><a name="line10072">10072    </a></b>	        }
+<b><a name="line10073">10073    </a></b>	        else {
+<b><a name="line10074">10074    </a></b>	            kat_status = host_sec_drbg_kat(kat_buffer);
+<b><a name="line10075">10075    </a></b>	        }
+<b><a name="line10076">10076    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10077">10077    </a></b>	            sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line10078">10078    </a></b>	            gSecKatRecord.rslt_kat_drbg = FAIL;
+<b><a name="line10079">10079    </a></b>	        }
+<b><a name="line10080">10080    </a></b>	        else {
+</pre></body>
+</html>

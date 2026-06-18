@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    return dal_smbs_get_rx_full_int_all(ent);
+<b><a name="line59">59    </a></b>	}
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	U32 phal_smbs_get_hw_crc_value(U8 ent)
+<b><a name="line62">62    </a></b>	{
+<b><a name="line63">63    </a></b>	    return dal_smbs_api_get_crc_out(ent);
+<b><a name="line64">64    </a></b>	}
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	void phal_smbs_api_set_udid_en(U8 ent, U8 index)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	    dal_smbs_api_set_udid_en(ent, dal_smbs_api_get_udid_en(ent) | (1U << index));
+<b><a name="line69">69    </a></b>	}
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	void phal_smbs_api_set_arp_direct_en(U8 ent, U8 index)
+<b><a name="line72">72    </a></b>	{
+<b><a name="line73">73    </a></b>	    dal_smbs_api_set_arp_directed_en(ent, dal_smbs_api_get_arp_directed_en(ent) | (1U << index));
+<b><a name="line74">74    </a></b>	}
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	U8 phal_smbs_get_first_udid_match_index(U8 ent)
+<b><a name="line77">77    </a></b>	{
+<b><a name="line78">78    </a></b>	    // U32 udid_bitmap = r32_SMB_ARP_CTRL(ent);
+<b><a name="line79">79    </a></b>	    U32 udid_bitmap = dal_smbs_api_get_un_match_udid(ent);
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    U32 i = 0U;
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    // UN_MATCH_UDID 0 ~ 9 => bit 12 ~ 21
+<b><a name="line84">84    </a></b>	    // for(i = 12 ; i < 22 ; i++)
+<b><a name="line85">85    </a></b>	    for (i = 0U ; i < 10U ; i++) {
+<b><a name="line86">86    </a></b>	        if (!(udid_bitmap & (0x1U << i))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "udid_bitmap & (1U << i)" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line87">87    </a></b>	            // return (i - 12); //return the index in base 0
+<b><a name="line88">88    </a></b>	            return i; //return the index in base 0
+<b><a name="line89">89    </a></b>	        }
+<b><a name="line90">90    </a></b>	    }
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    return SMBS_ERROR_CODE_UDID_UNMATCH;
+<b><a name="line93">93    </a></b>	}
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	void phal_smbs_api_set_en_smbrst_n_det(U8 ent, U8 value)
+<b><a name="line97">97    </a></b>	{
+<b><a name="line98">98    </a></b>	    dal_smbs_api_set_en_smbrst_n_det(ent, value);
+<b><a name="line99">99    </a></b>	}
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	U32 phal_smbs_api_get_smbrst_sts(U8 ent)
+<b><a name="line103">103    </a></b>	{
+<b><a name="line104">104    </a></b>	    return dal_smbs_api_get_smbrst_sts(ent);
+<b><a name="line105">105    </a></b>	}
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	void phal_smbs_api_set_hw_auto_smbrst_en(U8 ent, U8 value)
+<b><a name="line108">108    </a></b>	{
+<b><a name="line109">109    </a></b>	    dal_smbs_api_set_hw_auto_smbrst_en(ent, value);
+<b><a name="line110">110    </a></b>	}
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	void phal_set_smbm_block_write_register(U8 ent, U8 transmit_immediately, U16 u16_slave_address, SMBUS_BUFFER *p_smbm_tx, U16 u16_tx_data_count)
+<b><a name="line113">113    </a></b>	{
+<b><a name="line114">114    </a></b>	    U8 ubPec = SMBMCalCRC8Addr(u16_slave_address, p_smbm_tx->base.pu8, u16_tx_data_count);
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	    dal_smbm_api_set_tx_crc_value(ent, ubPec);
+<b><a name="line117">117    </a></b>	
+</pre></body>
+</html>

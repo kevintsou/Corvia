@@ -1,0 +1,345 @@
+{
+  "version" : 1,
+  "standard" : "c2012",
+  "title" : "MISRA C-2012 Mandatory and Required",
+  "deviations" : [
+    {
+      "deviation" : "Directive 4.13",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Directive 4.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Directive 4.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Directive 4.6",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Directive 4.8",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Directive 4.9",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 1.2",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 10.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 11.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 11.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 12.1",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 12.3",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 12.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 13.3",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 13.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 15.1",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 15.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 15.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 17.12",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 17.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 17.8",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 18.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 18.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 19.2",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.3",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.4",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.6",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.7",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 2.8",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 20.1",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 20.10",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 20.5",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 21.11",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 23.1",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 23.3",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 23.7",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 4.2",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 5.9",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.11",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.13",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.16",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.17",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.7",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    },
+    {
+      "deviation" : "Rule 8.9",
+      "reason" : "This rule is currently disabled in the analysis configuration."
+    }
+  ],
+  "enabled" : [
+    "Directive 4.10",
+    "Directive 4.11",
+    "Directive 4.12",
+    "Directive 4.14",
+    "Directive 4.3",
+    "Directive 4.7",
+    "Directive 5.1",
+    "Directive 5.2",
+    "Rule 1.1",
+    "Rule 1.4",
+    "Rule 10.1",
+    "Rule 10.2",
+    "Rule 10.3",
+    "Rule 10.4",
+    "Rule 10.6",
+    "Rule 10.7",
+    "Rule 10.8",
+    "Rule 11.1",
+    "Rule 11.10",
+    "Rule 11.2",
+    "Rule 11.3",
+    "Rule 11.6",
+    "Rule 11.7",
+    "Rule 11.8",
+    "Rule 11.9",
+    "Rule 12.2",
+    "Rule 12.5",
+    "Rule 12.6",
+    "Rule 13.1",
+    "Rule 13.2",
+    "Rule 13.5",
+    "Rule 13.6",
+    "Rule 14.1",
+    "Rule 14.2",
+    "Rule 14.3",
+    "Rule 14.4",
+    "Rule 15.2",
+    "Rule 15.3",
+    "Rule 15.6",
+    "Rule 15.7",
+    "Rule 16.1",
+    "Rule 16.2",
+    "Rule 16.3",
+    "Rule 16.4",
+    "Rule 16.5",
+    "Rule 16.6",
+    "Rule 16.7",
+    "Rule 17.1",
+    "Rule 17.10",
+    "Rule 17.13",
+    "Rule 17.2",
+    "Rule 17.3",
+    "Rule 17.4",
+    "Rule 17.6",
+    "Rule 17.7",
+    "Rule 17.9",
+    "Rule 18.1",
+    "Rule 18.10",
+    "Rule 18.2",
+    "Rule 18.3",
+    "Rule 18.6",
+    "Rule 18.7",
+    "Rule 18.8",
+    "Rule 18.9",
+    "Rule 19.1",
+    "Rule 2.1",
+    "Rule 2.2",
+    "Rule 20.11",
+    "Rule 20.12",
+    "Rule 20.13",
+    "Rule 20.14",
+    "Rule 20.2",
+    "Rule 20.3",
+    "Rule 20.4",
+    "Rule 20.6",
+    "Rule 20.7",
+    "Rule 20.8",
+    "Rule 20.9",
+    "Rule 21.1",
+    "Rule 21.10",
+    "Rule 21.12",
+    "Rule 21.13",
+    "Rule 21.14",
+    "Rule 21.15",
+    "Rule 21.16",
+    "Rule 21.17",
+    "Rule 21.18",
+    "Rule 21.19",
+    "Rule 21.2",
+    "Rule 21.20",
+    "Rule 21.21",
+    "Rule 21.24",
+    "Rule 21.25",
+    "Rule 21.26",
+    "Rule 21.3",
+    "Rule 21.4",
+    "Rule 21.5",
+    "Rule 21.6",
+    "Rule 21.7",
+    "Rule 21.8",
+    "Rule 21.9",
+    "Rule 22.1",
+    "Rule 22.10",
+    "Rule 22.11",
+    "Rule 22.12",
+    "Rule 22.13",
+    "Rule 22.16",
+    "Rule 22.2",
+    "Rule 22.3",
+    "Rule 22.4",
+    "Rule 22.5",
+    "Rule 22.6",
+    "Rule 22.7",
+    "Rule 22.8",
+    "Rule 22.9",
+    "Rule 23.2",
+    "Rule 23.4",
+    "Rule 23.6",
+    "Rule 23.8",
+    "Rule 3.1",
+    "Rule 3.2",
+    "Rule 4.1",
+    "Rule 5.1",
+    "Rule 5.2",
+    "Rule 5.3",
+    "Rule 5.4",
+    "Rule 5.5",
+    "Rule 5.6",
+    "Rule 5.7",
+    "Rule 5.8",
+    "Rule 6.1",
+    "Rule 6.2",
+    "Rule 6.3",
+    "Rule 7.1",
+    "Rule 7.2",
+    "Rule 7.3",
+    "Rule 7.4",
+    "Rule 7.5",
+    "Rule 8.1",
+    "Rule 8.10",
+    "Rule 8.12",
+    "Rule 8.14",
+    "Rule 8.15",
+    "Rule 8.2",
+    "Rule 8.3",
+    "Rule 8.4",
+    "Rule 8.5",
+    "Rule 8.6",
+    "Rule 8.8",
+    "Rule 9.1",
+    "Rule 9.2",
+    "Rule 9.3",
+    "Rule 9.4",
+    "Rule 9.5",
+    "Rule 9.6",
+    "Rule 9.7"
+  ]
+}

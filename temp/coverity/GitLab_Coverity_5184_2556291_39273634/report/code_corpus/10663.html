@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2724">2724    </a></b>	
+<b><a name="line2725">2725    </a></b>	    //Indicates which Channels are to be scanned
+<b><a name="line2726">2726    </a></b>	    U32 scanning_channel_bitmap;
+<b><a name="line2727">2727    </a></b>	    //Indicates which Channels are being used in this scan setting
+<b><a name="line2728">2728    </a></b>	    U32 reading_channel_bitmap;
+<b><a name="line2729">2729    </a></b>	
+<b><a name="line2730">2730    </a></b>	    U8 backup, backup_max;
+<b><a name="line2731">2731    </a></b>	
+<b><a name="line2732">2732    </a></b>	    U32 data_address, spare_address;
+<b><a name="line2733">2733    </a></b>	
+<b><a name="line2734">2734    </a></b>	    U64 a_fsa[FLH_MAX_CH_NUM];
+<b><a name="line2735">2735    </a></b>	    U8 channel;
+<b><a name="line2736">2736    </a></b>	    FIP_READ_PARAM_STRUCT a_fip_read_param[FLH_MAX_CH_NUM];
+<b><a name="line2737">2737    </a></b>	    U32 command_status;
+<b><a name="line2738">2738    </a></b>	
+<b><a name="line2739">2739    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line2740">2740    </a></b>	
+<b><a name="line2741">2741    </a></b>	    sal_log_info_char('S'); //Scan Code Pointer Block
+<b><a name="line2742">2742    </a></b>	
+<b><a name="line2743">2743    </a></b>	    nand_retry = 0U;
+<b><a name="line2744">2744    </a></b>	
+<b><a name="line2745">2745    </a></b>	    nand_retry_max = p_load_code_status->parameters.nand_retry_count;
+<b><a name="line2746">2746    </a></b>	
+<b><a name="line2747">2747    </a></b>	    complete_set = CODE_POINTER_BLOCK_SET_COUNT_MAX;
+<b><a name="line2748">2748    </a></b>	
+<b><a name="line2749">2749    </a></b>	    //Mark the channels that have yet to be scanned
+<b><a name="line2750">2750    </a></b>	    scanning_channel_bitmap = p_load_code_status->parameters.channel_exist_bitmap;
+<b><a name="line2751">2751    </a></b>	
+<b><a name="line2752">2752    </a></b>	    backup_max = p_load_code_status->parameters.id_table_per_page;
+<b><a name="line2753">2753    </a></b>	    if (FLH_MAX_LC_PER_PAGE < backup_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "4U < backup_max", taking true branch.</font>
+<b><a name="line2754">2754    </a></b>	        //Sanitize to prevent accessing out of bound array elements in FIP_READ_PARAM_STRUCT
+<b><a name="line2755">2755    </a></b>	        //This is because information coming from NAND could be anything
+<b><a name="line2756">2756    </a></b>	        //Even though this has already been validatede valid outside, sanitize to make sure
+<b><a name="line2757">2757    </a></b>	        backup_max = FLH_MAX_LC_PER_PAGE;
+<b><a name="line2758">2758    </a></b>	    }
+<b><a name="line2759">2759    </a></b>	
+<b><a name="line2760">2760    </a></b>	    //Obtain the range of blocks to scan
+<b><a name="line2761">2761    </a></b>	    start_nand_retry = 0;
+<b><a name="line2762">2762    </a></b>	    end_nand_retry = nand_retry_max; //TODO change to using parameters
+<b><a name="line2763">2763    </a></b>	
+<b><a name="line2764">2764    </a></b>	    start_block = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line2765">2765    </a></b>	    end_block = start_block + p_load_code_status->parameters.code_pointer_block_scan_block_count;
+<b><a name="line2766">2766    </a></b>	
+<b><a name="line2767">2767    </a></b>	    start_plane = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+<b><a name="line2768">2768    </a></b>	    end_plane = start_plane + p_load_code_status->parameters.code_pointer_block_scan_plane_count;
+<b><a name="line2769">2769    </a></b>	
+<b><a name="line2770">2770    </a></b>	    //The maximum number of times a scan should occur
+<b><a name="line2771">2771    </a></b>	    end_scan = (end_nand_retry - start_nand_retry) * (end_block - start_block) * (end_plane - start_plane);
+<b><a name="line2772">2772    </a></b>	
+<b><a name="line2773">2773    </a></b>	
+<b><a name="line2774">2774    </a></b>	    id_page_offset = p_load_code_status->parameters.id_page_offset;
+<b><a name="line2775">2775    </a></b>	
+<b><a name="line2776">2776    </a></b>	    //TODO what about plane?
+<b><a name="line2777">2777    </a></b>	    //TODO changed from block plane to id page location?
+<b><a name="line2778">2778    </a></b>	    sal_log_info_num(id_page_offset); //Part of 'S', The scan's ID Page Offset
+<b><a name="line2779">2779    </a></b>	    //sal_log_info_num((p_load_code_status->code_pointer_block_scan_block_next << gFplApiStruct.addr_rule->rule_plane.bit_no) | p_load_code_status->code_pointer_block_scan_plane_next); //Part of 'S', The scan's starting physical block
+<b><a name="line2780">2780    </a></b>	
+<b><a name="line2781">2781    </a></b>	    Dump_ScanID(tprintf("Scan Code Pointer Block in Channel Bitmap %x", scanning_channel_bitmap));
+<b><a name="line2782">2782    </a></b>	
+<b><a name="line2783">2783    </a></b>	    Dump_ScanID(tprintf("NAND Retry %d (%d~%d)", p_load_code_status->code_pointer_block_scan_nand_retry_next, 0U, (end_nand_retry - 1)));
+<b><a name="line2784">2784    </a></b>	    Dump_ScanID(tprintf("Block %x (%x~%x)", p_load_code_status->code_pointer_block_scan_block_next, start_block, (end_block - 1)));
+<b><a name="line2785">2785    </a></b>	    Dump_ScanID(tprintf("Plane %x (%x~%x)", p_load_code_status->code_pointer_block_scan_plane_next, 0UL, (end_plane - 1)));
+<b><a name="line2786">2786    </a></b>	
+<b><a name="line2787">2787    </a></b>	    Dump_ScanID(tprintf("ID Table at page %x * %d backups", id_page_offset, backup_max));
+<b><a name="line2788">2788    </a></b>	    Dump_ScanID(tprintf("ID Table scan times %d", end_scan));
+<b><a name="line2789">2789    </a></b>	
+<b><a name="line2790">2790    </a></b>	    //A for() instead of while(next_nand_retry < nand_retry_max) is used to
+<b><a name="line2791">2791    </a></b>	    //place a clear upper bound on the number of scans that could be performed
+<b><a name="line2792">2792    </a></b>	    //This is to prevent creating possible while(1) on unexpected conditions
+<b><a name="line2793">2793    </a></b>	    for (scan = 0; scan < end_scan; scan++) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "scan < end_scan", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "scan < end_scan", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "scan < end_scan", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(24) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "scan < end_scan", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(31) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "scan < end_scan", taking true branch.</font>
+<b><a name="line2794">2794    </a></b>	        //This exit condition is when all possible scanning parameters have
+<b><a name="line2795">2795    </a></b>	        //been iterated through without finding a Complete Code Pointer Block Set
+<b><a name="line2796">2796    </a></b>	        //This is checked first so that scan_code_pointer_block() will exit first
+<b><a name="line2797">2797    </a></b>	        //even if it is called again when the end condition is already reached
+<b><a name="line2798">2798    </a></b>	        if (p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max) {
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(25) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(32) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_nand_retry_next >= nand_retry_max", taking false branch.</font>
+<b><a name="line2799">2799    </a></b>	            Dump_ScanID(tprintf("Scan Code Pointer Block Ended without finding a Complete Set"));
+<b><a name="line2800">2800    </a></b>	            break;
+<b><a name="line2801">2801    </a></b>	        }
+<b><a name="line2802">2802    </a></b>	
+<b><a name="line2803">2803    </a></b>	        //Record the current scanning location before it is incremented
+<b><a name="line2804">2804    </a></b>	        nand_retry = p_load_code_status->code_pointer_block_scan_nand_retry_next;
+<b><a name="line2805">2805    </a></b>	        block = p_load_code_status->code_pointer_block_scan_block_next;
+<b><a name="line2806">2806    </a></b>	        plane = p_load_code_status->code_pointer_block_scan_plane_next;
+<b><a name="line2807">2807    </a></b>	
+<b><a name="line2808">2808    </a></b>	        fsa_row =
+<b><a name="line2809">2809    </a></b>	            ((U64)block << gFplApiStruct.addr_rule->rule_block.shift) |
+<b><a name="line2810">2810    </a></b>	            ((U64)plane << gFplApiStruct.addr_rule->rule_plane.shift) |
+<b><a name="line2811">2811    </a></b>	            ((U64)id_page_offset << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line2812">2812    </a></b>	
+<b><a name="line2813">2813    </a></b>	        //Increment the scanning location first minimizes the chance that the
+<b><a name="line2814">2814    </a></b>	        //code skips the increment and never breaks out of this loop
+<b><a name="line2815">2815    </a></b>	        p_load_code_status->code_pointer_block_scan_plane_next++;
+<b><a name="line2816">2816    </a></b>	        if (p_load_code_status->code_pointer_block_scan_plane_next >= end_plane) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_plane_next >= end_plane", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_plane_next >= end_plane", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_plane_next >= end_plane", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(26) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_plane_next >= end_plane", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(33) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_plane_next >= end_plane", taking true branch.</font>
+<b><a name="line2817">2817    </a></b>	            p_load_code_status->code_pointer_block_scan_plane_next = start_plane;
+<b><a name="line2818">2818    </a></b>	            p_load_code_status->code_pointer_block_scan_block_next++;
+<b><a name="line2819">2819    </a></b>	            if (p_load_code_status->code_pointer_block_scan_block_next >= end_block) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_block_next >= end_block", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_block_next >= end_block", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_block_next >= end_block", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(27) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_block_next >= end_block", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(34) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_load_code_status->code_pointer_block_scan_block_next >= end_block", taking false branch.</font>
+<b><a name="line2820">2820    </a></b>	                p_load_code_status->code_pointer_block_scan_block_next = start_block;
+<b><a name="line2821">2821    </a></b>	                p_load_code_status->code_pointer_block_scan_nand_retry_next++;
+<b><a name="line2822">2822    </a></b>	            }
+<b><a name="line2823">2823    </a></b>	        }
+<b><a name="line2824">2824    </a></b>	
+<b><a name="line2825">2825    </a></b>	        if(((plane < p_load_code_status->boot_code_scan_skip_plane_index) && (block == p_load_code_status->boot_code_scan_skip_block_index)) || (block < p_load_code_status->boot_code_scan_skip_block_index))
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "plane < p_load_code_status->boot_code_scan_skip_plane_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block == p_load_code_status->boot_code_scan_skip_block_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "plane < p_load_code_status->boot_code_scan_skip_plane_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block == p_load_code_status->boot_code_scan_skip_block_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(20) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "plane < p_load_code_status->boot_code_scan_skip_plane_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(21) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block == p_load_code_status->boot_code_scan_skip_block_index", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(22) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block < p_load_code_status->boot_code_scan_skip_block_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(28) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "plane < p_load_code_status->boot_code_scan_skip_plane_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(29) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block == p_load_code_status->boot_code_scan_skip_block_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(35) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "plane < p_load_code_status->boot_code_scan_skip_plane_index", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(36) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block == p_load_code_status->boot_code_scan_skip_block_index", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(37) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "block < p_load_code_status->boot_code_scan_skip_block_index", taking false branch.</font>
+<b><a name="line2826">2826    </a></b>	        {
+<b><a name="line2827">2827    </a></b>	            continue;
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(23) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(30) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2828">2828    </a></b>	        }
+<b><a name="line2829">2829    </a></b>	
+<b><a name="line2830">2830    </a></b>	        Dump_ScanID(tprintf("NAND Retry %d Block %x Plane %x Page %x == FSA Row %L", (U16)nand_retry, block, plane, id_page_offset, fsa_row));
+<b><a name="line2831">2831    </a></b>	
+<b><a name="line2832">2832    </a></b>	        reading_channel_bitmap = 0;
+<b><a name="line2833">2833    </a></b>	
+<b><a name="line2834">2834    </a></b>	        //Start the Read Trigger
+<b><a name="line2835">2835    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(38) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(41) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(44) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(56) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking false branch.</font>
+<b><a name="line2836">2836    </a></b>	            //Skip channels that are not being scanned
+<b><a name="line2837">2837    </a></b>	            if (0U == (scanning_channel_bitmap & (1U << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(39) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (scanning_channel_bitmap & (1U << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(42) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (scanning_channel_bitmap & (1U << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(45) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (scanning_channel_bitmap & (1U << channel))", taking false branch.</font>
+<b><a name="line2838">2838    </a></b>	                continue;
+<b><font face="Arial"; size="3"; color="#F00000">(40) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(43) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2839">2839    </a></b>	            }
+<b><a name="line2840">2840    </a></b>	
+<b><a name="line2841">2841    </a></b>	            a_fsa[channel] =
+<b><a name="line2842">2842    </a></b>	                fsa_row |
+<b><a name="line2843">2843    </a></b>	                ((U64)(channel) << gFplApiStruct.addr_rule->rule_ch.shift);
+<b><a name="line2844">2844    </a></b>	
+<b><a name="line2845">2845    </a></b>	            //Data and Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2846">2846    </a></b>	            data_address = data_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_BYTE_SIZE_SHIFT));
+<b><a name="line2847">2847    </a></b>	            spare_address = spare_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT));
+<b><a name="line2848">2848    </a></b>	
+<b><a name="line2849">2849    </a></b>	            Dump_ScanID(tprintf("Read Trigger Channel %d, FSA %L, block %d, plane %d, page %d", channel, a_fsa[channel], (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2850">2850    </a></b>	
+<b><a name="line2851">2851    </a></b>	            a_fip_read_param[channel].nand_addr.all = a_fsa[channel];
+<b><a name="line2852">2852    </a></b>	            for (backup = 0; backup < backup_max; backup++) {
+<b><font face="Arial"; size="3"; color="#F00000">(46) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(49) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(52) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking false branch.</font>
+<b><a name="line2853">2853    </a></b>	                a_fip_read_param[channel].buf_addr[backup] = data_address + (backup << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2854">2854    </a></b>	                a_fip_read_param[channel].spr_addr[backup] = spare_address + (backup << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><font face="Arial"; size="3"; color="#F00000">(47) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(50) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "1 /* 6 > 4 */", taking true branch.</font>
+<b><a name="line2855">2855    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(48) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(51) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line2856">2856    </a></b>	            a_fip_read_param[channel].node_count = 1;
+<b><a name="line2857">2857    </a></b>	
+<b><a name="line2858">2858    </a></b>	#if NAND_RETRY_DEBUG
+<b><a name="line2859">2859    </a></b>	            if (gFplApiStruct.trigger_error == TRUE) {
+<b><a name="line2860">2860    </a></b>	                nand_retry = 1U;
+<b><a name="line2861">2861    </a></b>	            }
+<b><a name="line2862">2862    </a></b>	#endif
+<b><a name="line2863">2863    </a></b>	            command_status = fip_api_read_cmd(&a_fip_read_param[channel], ((gLRURetryLevel + nand_retry) % nand_retry_max));
+<b><a name="line2864">2864    </a></b>	#if NAND_RETRY_DEBUG
+<b><a name="line2865">2865    </a></b>	            if (gFplApiStruct.trigger_error == TRUE) {
+<b><a name="line2866">2866    </a></b>	                nand_retry = 0U;
+<b><a name="line2867">2867    </a></b>	                gFplApiStruct.trigger_error = FALSE;
+<b><a name="line2868">2868    </a></b>	            }
+<b><a name="line2869">2869    </a></b>	#endif
+<b><a name="line2870">2870    </a></b>	
+<b><a name="line2871">2871    </a></b>	            if (0 == command_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(53) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == command_status", taking true branch.</font>
+<b><a name="line2872">2872    </a></b>	                //Mark this channel as being read
+<b><a name="line2873">2873    </a></b>	                reading_channel_bitmap |= (1 << channel);
+<b><a name="line2874">2874    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(54) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line2875">2875    </a></b>	            else {
+<b><a name="line2876">2876    </a></b>	
+<b><a name="line2877">2877    </a></b>	                Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2878">2878    </a></b>	                Dump_ScanID(tprintf("Read Trigger Error %x", command_status));
+<b><a name="line2879">2879    </a></b>	                sal_log_info_char('T');
+<b><a name="line2880">2880    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line2881">2881    </a></b>	                sal_log_tracker_set(sal_locate(0xE0, TYPE_LOAD_CODE_ERR));
+<b><a name="line2882">2882    </a></b>	                //TODO go through all fip_status usages
+<b><a name="line2883">2883    </a></b>	                if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line2884">2884    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line2885">2885    </a></b>	                }
+<b><a name="line2886">2886    </a></b>	                if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line2887">2887    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << channel);
+<b><a name="line2888">2888    </a></b>	                }
+<b><a name="line2889">2889    </a></b>	            }
+<b><a name="line2890">2890    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(55) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line2891">2891    </a></b>	
+<b><a name="line2892">2892    </a></b>	        //Check the result of the Read Trigger
+<b><a name="line2893">2893    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(57) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(60) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(63) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking false branch.</font>
+<b><a name="line2894">2894    </a></b>	            //Skip channels that are not being read
+<b><a name="line2895">2895    </a></b>	            if (0U == (reading_channel_bitmap & (1U << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(58) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (reading_channel_bitmap & (1U << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(61) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (reading_channel_bitmap & (1U << channel))", taking true branch.</font>
+<b><a name="line2896">2896    </a></b>	                continue;
+<b><font face="Arial"; size="3"; color="#F00000">(59) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(62) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2897">2897    </a></b>	            }
+<b><a name="line2898">2898    </a></b>	
+<b><a name="line2899">2899    </a></b>	            command_status = fip_api_chk_status(channel, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line2900">2900    </a></b>	            //tprintf("  row address:%x, column address:%x", hal_fip_get_row_address(channel), hal_fip_get_column_address(channel));
+<b><a name="line2901">2901    </a></b>	            //receive the cq result of the read trigger
+<b><a name="line2902">2902    </a></b>	            //command_status |= fip_api_get_cq_result(&a_fip_read_param[channel], channel); Ken TODO : check is need or not
+<b><a name="line2903">2903    </a></b>	
+<b><a name="line2904">2904    </a></b>	            if (0 == (command_status & HAL_STATUS_TIMEOUT)) {
+<b><a name="line2905">2905    </a></b>	                //Do nothing, the Read Trigger command finished correctly
+<b><a name="line2906">2906    </a></b>	            }
+<b><a name="line2907">2907    </a></b>	            else {
+<b><a name="line2908">2908    </a></b>	                //The Read Trigger has timeout
+<b><a name="line2909">2909    </a></b>	                //No subsequent actions should be performed as it will most likely timeout as well
+<b><a name="line2910">2910    </a></b>	                reading_channel_bitmap &= ~(1 << channel);
+<b><a name="line2911">2911    </a></b>	
+<b><a name="line2912">2912    </a></b>	                Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2913">2913    </a></b>	                Dump_ScanID(tprintf("Read Trigger Timeout %x", command_status));
+<b><a name="line2914">2914    </a></b>	
+<b><a name="line2915">2915    </a></b>	                sal_log_info_char('T');
+<b><a name="line2916">2916    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line2917">2917    </a></b>	                sal_log_tracker_set(sal_locate(0xE1, TYPE_LOAD_CODE_ERR));
+<b><a name="line2918">2918    </a></b>	                a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line2919">2919    </a></b>	            }
+<b><a name="line2920">2920    </a></b>	        }
+<b><a name="line2921">2921    </a></b>	
+<b><a name="line2922">2922    </a></b>	        //Trigger the data out node by node and check for correctness
+<b><a name="line2923">2923    </a></b>	        for (backup = 0; backup < backup_max; backup++) {
+<b><font face="Arial"; size="3"; color="#F00000">(64) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "backup < backup_max", taking true branch.</font>
+<b><a name="line2924">2924    </a></b>	            for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(65) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(68) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(71) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking false branch.</font>
+<b><a name="line2925">2925    </a></b>	                //Skip channels that are not being read
+<b><a name="line2926">2926    </a></b>	                if (0 == (reading_channel_bitmap & (1 << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(66) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_channel_bitmap & (1 << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(69) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_channel_bitmap & (1 << channel))", taking true branch.</font>
+<b><a name="line2927">2927    </a></b>	                    continue;
+<b><font face="Arial"; size="3"; color="#F00000">(67) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(70) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2928">2928    </a></b>	                }
+<b><a name="line2929">2929    </a></b>	
+<b><a name="line2930">2930    </a></b>	                a_fip_read_param[channel].nand_addr.all =
+<b><a name="line2931">2931    </a></b>	                    a_fsa[channel] |
+<b><a name="line2932">2932    </a></b>	                    ((U64)backup << gFplApiStruct.addr_rule->rule_node.shift);
+<b><a name="line2933">2933    </a></b>	
+<b><a name="line2934">2934    </a></b>	                Dump_ScanID(tprintf("DMA Channel %d backup %d FSA %L, %x Nodes: ", channel, backup, a_fip_read_param[channel].nand_addr.all, a_fip_read_param[channel].node_count));
+<b><a name="line2935">2935    </a></b>	                Dump_ScanID(tprintf("Data @ %x ", a_fip_read_param[channel].buf_addr[backup]));
+<b><a name="line2936">2936    </a></b>	                Dump_ScanID(tprintf("Spare @ %x ", a_fip_read_param[channel].spr_addr[backup]));
+<b><a name="line2937">2937    </a></b>	
+<b><a name="line2938">2938    </a></b>	                fip_api_read_dma(&a_fip_read_param[channel]);
+<b><a name="line2939">2939    </a></b>	            }
+<b><a name="line2940">2940    </a></b>	
+<b><a name="line2941">2941    </a></b>	            for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><font face="Arial"; size="3"; color="#F00000">(72) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(75) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(78) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "channel < 16U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(79) Event cond_at_most:</font></b> <font face="Arial"; size="3"; color="#FF5959">Checking "channel < 16U" implies that "channel" may be up to 15 on the true branch.</font>
+<b><a name="line2942">2942    </a></b>	                //Skip channels that are not being read
+<b><a name="line2943">2943    </a></b>	                if (0 == (reading_channel_bitmap & (1 << channel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(73) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_channel_bitmap & (1 << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(76) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_channel_bitmap & (1 << channel))", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(80) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == (reading_channel_bitmap & (1 << channel))", taking false branch.</font>
+<b><a name="line2944">2944    </a></b>	                    continue;
+<b><font face="Arial"; size="3"; color="#F00000">(74) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(77) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Continuing loop.</font>
+<b><a name="line2945">2945    </a></b>	                }
+<b><a name="line2946">2946    </a></b>	
+<b><a name="line2947">2947    </a></b>	                // receive the cq result of the read dma
+<b><a name="line2948">2948    </a></b>	                command_status = fip_api_get_cq_result(&a_fip_read_param[channel], channel);
+<b><a name="line2949">2949    </a></b>	                if (0 == command_status) {
+<b><font face="Arial"; size="3"; color="#F00000">(81) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 == command_status", taking true branch.</font>
+<b><a name="line2950">2950    </a></b>	                    if (0U == (a_fip_read_param[channel].error_map[backup] & FIP_READ_ERROR_MASK)) {
+<b><font face="Arial"; size="3"; color="#F00000">(82) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0U == (a_fip_read_param[channel].error_map[backup] & (1441792UL /* ((1UL << 17) | (1UL << 18)) | (1UL << 20) */))", taking true branch.</font>
+<b><a name="line2951">2951    </a></b>	                        //The other backups do not need to be read since
+<b><a name="line2952">2952    </a></b>	                        //the type of data in this node will reflect the rest of the page
+<b><a name="line2953">2953    </a></b>	                        reading_channel_bitmap &= ~(1 << channel);
+<b><font face="Arial"; size="3"; color="#F00000">(83) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "1 << channel", shifting more than 7 bits, the number of bits in the essential type of the left expression, "1", is not allowed.  The shift amount, "channel", is as much as 15.</font>
+<b><a name="line2954">2954    </a></b>	
+<b><a name="line2955">2955    </a></b>	                        if (PAGE_MARK_ID_PAGE == (((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[channel].spr_addr[backup]))->page_mark & 0xFF)) {
+<b><a name="line2956">2956    </a></b>	                            if (TABLE_MARK_ID_TABLE == ((ID_TABLE *)(a_fip_read_param[channel].buf_addr[backup]))->id_table_mark) {
+<b><a name="line2957">2957    </a></b>	                                revision = (((FLH_SPARE_STRUCT_PTR)a_fip_read_param[channel].spr_addr[backup])->revision) & 0xFF;
+<b><a name="line2958">2958    </a></b>	                                if((p_load_code_status->boot_code_scan_skip_revision != revision) || (!gpFwSimCtrl1Reg->activate_other_loader))
+<b><a name="line2959">2959    </a></b>	                                {
+<b><a name="line2960">2960    </a></b>	                                    set = record_code_pointer_block(p_load_code_status, a_fip_read_param[channel].nand_addr.all, revision);
+<b><a name="line2961">2961    </a></b>	
+<b><a name="line2962">2962    </a></b>	                                    Dump_ScanID(tprintf("Channel %d is ID Table Revision %x, part of Set %d, set state = %x", channel, revision, set, p_load_code_status->a_code_pointer_block_status[set].state));
+<b><a name="line2963">2963    </a></b>	
+<b><a name="line2964">2964    </a></b>	                                    if (CODE_POINTER_BLOCK_SET_COUNT_MAX > set) {
+<b><a name="line2965">2965    </a></b>	                                        //Code Pointer Block is recorded within a set
+<b><a name="line2966">2966    </a></b>	                                        if (1 == p_load_code_status->a_code_pointer_block_status[set].code_pointer_block_copy_count) {
+<b><a name="line2967">2967    </a></b>	                                            //The first recording of the Code Pointer Block for this set
+<b><a name="line2968">2968    </a></b>	                                            phal_dmac_copy((U32)(& (a_id_table[set])), (U32)(a_fip_read_param[channel].buf_addr[backup]), sizeof(ID_TABLE), TRUE, TRUE);
+<b><a name="line2969">2969    </a></b>	                                        }
+<b><a name="line2970">2970    </a></b>	
+<b><a name="line2971">2971    </a></b>	                                        U32 state = p_load_code_status->a_code_pointer_block_status[set].state;
+<b><a name="line2972">2972    </a></b>	                                        if (0 == (state & CODE_POINTER_BLOCK_STATE_UNUSABLE))
+<b><a name="line2973">2973    </a></b>	                                        {
+<b><a name="line2974">2974    </a></b>	                                            if (0 == gFplApiStruct.p_efuse_nand_setting->fast_scan_idpg_disable || (0 != (state & CODE_POINTER_BLOCK_STATE_ID_TABLE_COMPLETE)))
+<b><a name="line2975">2975    </a></b>	                                            {
+<b><a name="line2976">2976    </a></b>	                                                complete_set = set;
+<b><a name="line2977">2977    </a></b>	                                            }
+<b><a name="line2978">2978    </a></b>	                                        }
+<b><a name="line2979">2979    </a></b>	                                    }
+<b><a name="line2980">2980    </a></b>	                                }
+<b><a name="line2981">2981    </a></b>	                            }
+<b><a name="line2982">2982    </a></b>	                            else {
+<b><a name="line2983">2983    </a></b>	                                sal_log_tracker_set(sal_locate(0xE2, TYPE_LOAD_CODE_ERR));
+<b><a name="line2984">2984    </a></b>	                                Dump_ScanID(tprintf("!!!Channel %d (FSA %L) ", channel, a_fip_read_param[channel].nand_addr.all));
+</pre></body>
+</html>

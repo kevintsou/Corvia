@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_sys_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line79">79    </a></b>	    }
+<b><a name="line80">80    </a></b>	    else
+<b><a name="line81">81    </a></b>	    {
+<b><a name="line82">82    </a></b>	        // MISRA C Rule 15.7: All if ... else if constructs shall be terminated with an else statement.
+<b><a name="line83">83    </a></b>	    }
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	void dal_set_pcie_ref_clk(U32 port_id, U32 enable)
+<b><a name="line87">87    </a></b>	{
+<b><a name="line88">88    </a></b>	    // TODO: use sys dal func
+<b><a name="line89">89    </a></b>	    if (enable == DAL_PCIE_ENABLE)
+<b><a name="line90">90    </a></b>	    {
+<b><a name="line91">91    </a></b>	        if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line92">92    </a></b>	        {
+<b><a name="line93">93    </a></b>	            w_CR_PCIE_REF_EN((r_CR_PCIE_REF_EN() | BIT0));
+<b><a name="line94">94    </a></b>	        }
+<b><a name="line95">95    </a></b>	        else
+<b><a name="line96">96    </a></b>	        {
+<b><a name="line97">97    </a></b>	            w_CR_PCIE_REF_EN((r_CR_PCIE_REF_EN() | BIT1));
+<b><a name="line98">98    </a></b>	        }
+<b><a name="line99">99    </a></b>	    }
+<b><a name="line100">100    </a></b>	    else if (enable == DAL_PCIE_DISABLE)
+<b><a name="line101">101    </a></b>	    {
+<b><a name="line102">102    </a></b>	        if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line103">103    </a></b>	        {
+<b><a name="line104">104    </a></b>	            w_CR_PCIE_REF_EN((r_CR_PCIE_REF_EN() & (~BIT0)));
+<b><a name="line105">105    </a></b>	        }
+<b><a name="line106">106    </a></b>	        else
+<b><a name="line107">107    </a></b>	        {
+<b><a name="line108">108    </a></b>	            w_CR_PCIE_REF_EN((r_CR_PCIE_REF_EN() & (~BIT1)));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "((U8 volatile *)0x3600300[39U] >> 0U) & 3U" (8 bits) is less that the right hand operand "4294967293UL" (32 bits).</font>
+<b><a name="line109">109    </a></b>	        }
+<b><a name="line110">110    </a></b>	    }
+<b><a name="line111">111    </a></b>	    else
+<b><a name="line112">112    </a></b>	    {
+<b><a name="line113">113    </a></b>	        // MISRA C Rule 15.7: All if ... else if constructs shall be terminated with an else statement.
+<b><a name="line114">114    </a></b>	    }
+<b><a name="line115">115    </a></b>	}
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	void dal_set_pcie_dual_port(U32 enable)
+<b><a name="line118">118    </a></b>	{
+<b><a name="line119">119    </a></b>	    if (enable == DAL_PCIE_ENABLE)
+<b><a name="line120">120    </a></b>	    {
+<b><a name="line121">121    </a></b>	        w_CR_PCIE_DUAL_PORT(1U);
+<b><a name="line122">122    </a></b>	        w_CR_PCIE_P1_SYS_CLK_EN(1U);
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    }
+<b><a name="line125">125    </a></b>	    else
+<b><a name="line126">126    </a></b>	    {
+<b><a name="line127">127    </a></b>	        w_CR_PCIE_DUAL_PORT(0U);
+<b><a name="line128">128    </a></b>	        w_CR_PCIE_P1_SYS_CLK_EN(0U);
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	}
+<b><a name="line131">131    </a></b>	
+</pre></body>
+</html>

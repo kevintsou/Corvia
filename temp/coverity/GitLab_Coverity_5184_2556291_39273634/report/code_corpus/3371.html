@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line215">215    </a></b>	    U8 slave_device;
+<b><a name="line216">216    </a></b>	    U16 slave_address;
+<b><a name="line217">217    </a></b>	    U16 interrupt_status;
+<b><a name="line218">218    </a></b>	    U16 error_interrupt;
+<b><a name="line219">219    </a></b>	    U16 protocol_interrupt;
+<b><a name="line220">220    </a></b>	    U32 mabiao_addr;
+<b><a name="line221">221    </a></b>	    SMBS_DEVICE *p_smbs_device;
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	    interrupt_status = p_smbs->interrupt_status;
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	    slave_address = p_smbs->slave_address;
+<b><a name="line227">227    </a></b>	
+<b><a name="line228">228    </a></b>	    p_smbs_device = 0U;
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	    if (edsff_enable_flag == TRUE) {
+<b><a name="line232">232    </a></b>	        if ((interrupt_status & SMBS_INT_SMBRST_N_DET_BIT) != FALSE) {
+<b><a name="line233">233    </a></b>	            Dump_SMBUS(tprintf(" [SMBS HW-RESET] Slave ISR Status : %x", interrupt_status));
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	            mabiao_addr = MABIAO_SET_MS(MABIAO_SMBUS_RESET, SMB_RESET_TIMEOUT_MS);
+<b><a name="line236">236    </a></b>	            while (phal_smbs_api_get_smbrst_sts(SMBUS0) == TRUE) { // wait SMBRST from high to low, to start do HW reset
+<b><a name="line237">237    </a></b>	                if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line238">238    </a></b>	                    BC_APP_ASSERT(BCODE_ERROR_SYS_SMB_RESET_TIMEOUT, FALSE);
+<b><a name="line239">239    </a></b>	                    Dump_SMBUS(tprintf(" [SMBS HW-RESET]Timeout "));
+<b><a name="line240">240    </a></b>	                    break;
+<b><a name="line241">241    </a></b>	                }
+<b><a name="line242">242    </a></b>	            }
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	            mabiao_addr = MABIAO_SET_S(MABIAO_SMBUS_POLL, SMB_SMBRST_HOST_HOLDTIME_TIMEOUT_S);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line245">245    </a></b>	
+<b><a name="line246">246    </a></b>	            // when host assert SMBRST#, SMBus Slave and Master will not monitor SCL and SDA
+<b><a name="line247">247    </a></b>	            // need wait SMBRST# from low to high for host release SMBRST#
+<b><a name="line248">248    </a></b>	            while (phal_smbs_api_get_smbrst_sts(SMBUS0) == FALSE) {
+<b><a name="line249">249    </a></b>	                if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line250">250    </a></b>	                    BC_APP_ASSERT(BCODE_ERROR_SYS_SMBRST_HOST_HOLDTIME_TIMEOUT, FALSE);
+<b><a name="line251">251    </a></b>	                    Dump_SMBUS(tprintf(" [SMBS HW-RESET] Host hold SMBRST# timeout "));
+<b><a name="line252">252    </a></b>	                    break;
+<b><a name="line253">253    </a></b>	                }
+<b><a name="line254">254    </a></b>	            }
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	            //Reset smbs tx/rx buffer
+<b><a name="line257">257    </a></b>	            phal_smbus_buffer_reset(&(p_smbs->tx));
+<b><a name="line258">258    </a></b>	            phal_smbus_buffer_reset(&(p_smbs->rx));
+<b><a name="line259">259    </a></b>	            //Cleare force nack bit map
+<b><a name="line260">260    </a></b>	            phal_smbs_clr_force_nack(SMBUS0);
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	            //Interrupts has been handled, clear and re-enable the interrupts
+<b><a name="line263">263    </a></b>	            //Disable IRQ while clearing and re-enabling
+<b><a name="line264">264    </a></b>	            p_smbs->interrupt_status &= ~interrupt_status;
+<b><a name="line265">265    </a></b>	            phal_smbs_rx_vld_clr(SMBUS0);
+<b><a name="line266">266    </a></b>	            phal_smbs_clr_ints(SMBUS0, SMBS_INT_SMBRST_N_DET_BIT);
+<b><a name="line267">267    </a></b>	            phal_smbs_int_en(SMBUS0, interrupt_status);
+<b><a name="line268">268    </a></b>	            return;
+<b><a name="line269">269    </a></b>	        }
+<b><a name="line270">270    </a></b>	    }
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    if (0U != interrupt_status) {
+<b><a name="line273">273    </a></b>	        Dump_SMBUS(tprintf(" [SMBS] Slave ISR Sts : %x", interrupt_status));
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	        //Handling of SMBus Slave is required
+</pre></body>
+</html>

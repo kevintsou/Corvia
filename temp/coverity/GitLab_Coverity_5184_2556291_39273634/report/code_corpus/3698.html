@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line213">213    </a></b>	    }
+<b><a name="line214">214    </a></b>	}
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	void xmodem_rcv_data(XMOD_STRUCT_PTR xmodem)
+<b><a name="line217">217    </a></b>	{
+<b><a name="line218">218    </a></b>	    U8 chk_result;
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    if (XMOD_RCV_WAIT == xmodem->rcv_state) {
+<b><a name="line221">221    </a></b>	        if (MABIAO_CHK((U32)&(xmodem->ping_timer))) {
+<b><a name="line222">222    </a></b>	            Dump_XModem(tprintf("XMOD_RCV_WAIT"));
+<b><a name="line223">223    </a></b>	            xmodem_rcv_ping(xmodem);
+<b><a name="line224">224    </a></b>	        }
+<b><a name="line225">225    </a></b>	    }
+<b><a name="line226">226    </a></b>	    else if (XMOD_RCV_CHK_PACKET == xmodem->rcv_state) {
+<b><a name="line227">227    </a></b>	        chk_result = xmodem_rcv_check_packet(xmodem);
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	        if ((XMODEM_PACKET_CHK_PASS == chk_result) || (XMODEM_PACKET_CHK_PACKET_RESEND == chk_result)) {
+<b><a name="line230">230    </a></b>	            Dump_XModem(tprintf("[buffer] 0x%x", xmodem->xmod_buf));
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	            if (XMODEM_PACKET_CHK_PASS == chk_result) {
+<b><a name="line233">233    </a></b>	                xmodem->trans_byte_cnt += xmodem->packet_size;
+<b><a name="line234">234    </a></b>	                xmodem_rcv_packet_refresh(xmodem, xmodem->packet_size);
+<b><a name="line235">235    </a></b>	                xmodem->packet_id++;
+<b><a name="line236">236    </a></b>	            }
+<b><a name="line237">237    </a></b>	            else {
+<b><a name="line238">238    </a></b>	                xmodem_rcv_packet_refresh(xmodem, 0U);
+<b><a name="line239">239    </a></b>	            }
+<b><a name="line240">240    </a></b>	            xmodem_send_byte(XMOD_ACK);
+<b><a name="line241">241    </a></b>	            xmodem_rcv_to_state(xmodem, XMOD_RCV_1ST_TOK);
+<b><a name="line242">242    </a></b>	            mabiao_set2(MABIAO_MS, XMOD_TRAN_TIMEOUT_MS, sal_locate(MABIAO_XMOD, TYPE_STEP), &(xmodem->transfer_timer));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line243">243    </a></b>	            Dump_XModem(tprintf("[packet %d received]", xmodem->packet_id));
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	        }
+<b><a name="line246">246    </a></b>	        else {
+<b><a name="line247">247    </a></b>	            xmodem_rcv_to_state(xmodem, XMOD_RCV_RETRY);
+<b><a name="line248">248    </a></b>	        }
+<b><a name="line249">249    </a></b>	    }
+<b><a name="line250">250    </a></b>	    else if (XMOD_RCV_RETRY == xmodem->rcv_state) {
+<b><a name="line251">251    </a></b>	        xmodem_rcv_retry(xmodem);
+<b><a name="line252">252    </a></b>	    }
+<b><a name="line253">253    </a></b>	    else {
+<b><a name="line254">254    </a></b>	        /*
+<b><a name="line255">255    </a></b>	         *  Data Receiving, wait data transmit done.
+<b><a name="line256">256    </a></b>	         */
+<b><a name="line257">257    </a></b>	    }
+<b><a name="line258">258    </a></b>	}
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	static void xmodem_send_packet_refresh(XMOD_STRUCT_PTR xmodem, U32 send_byte_cnt)
+<b><a name="line261">261    </a></b>	{
+<b><a name="line262">262    </a></b>	    xmodem->send_byte_cnt += (send_byte_cnt >> 1);
+<b><a name="line263">263    </a></b>	    xmodem->xmod_buf += (send_byte_cnt >> 1);
+<b><a name="line264">264    </a></b>	    xmodem->xmod_buf_idx = 0;
+<b><a name="line265">265    </a></b>	}
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	void xmodem_send_init(XMOD_STRUCT_PTR xmodem, U32 trans_byte_cnt)
+<b><a name="line268">268    </a></b>	{
+<b><a name="line269">269    </a></b>	    xmodem->packet_id = 1;
+<b><a name="line270">270    </a></b>	    xmodem->xmod_buf = (U8 *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE;
+<b><a name="line271">271    </a></b>	    xmodem_send_packet_refresh(xmodem, 0);
+<b><a name="line272">272    </a></b>	    xmodem->send_byte_cnt = 0;
+<b><a name="line273">273    </a></b>	    xmodem->trans_byte_cnt = trans_byte_cnt;
+</pre></body>
+</html>

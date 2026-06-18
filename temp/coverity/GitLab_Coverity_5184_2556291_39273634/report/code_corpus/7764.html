@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	const U32 gaulVUCLockAesCBCIV[4] = {
+<b><a name="line6">6    </a></b>	    0x8215C782,
+<b><a name="line7">7    </a></b>	    0x08E2AF38,
+<b><a name="line8">8    </a></b>	    0xEF5726E1,
+<b><a name="line9">9    </a></b>	    0x99731A09
+<b><a name="line10">10    </a></b>	};
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	U8 SecKey_KeyIDtoIdx (U32 ulAsciiID)
+<b><a name="line13">13    </a></b>	{
+<b><a name="line14">14    </a></b>	    return 0;
+<b><a name="line15">15    </a></b>	}
+<b><a name="line16">16    </a></b>	void Sec_FaultDelay(U32 ulMask)
+<b><a name="line17">17    </a></b>	{
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	}
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	void VUA_init(void)
+<b><a name="line22">22    </a></b>	{
+<b><a name="line23">23    </a></b>	    U8 result = KAT_ERROR_NONE;
+<b><a name="line24">24    </a></b>	    memset((void *)&gVUALock, 0, sizeof(VUALock_t));
+<b><a name="line25">25    </a></b>	    gVUALock.ubEn = gVucDispatch.lock_en && gVucDispatch.lock_by_sp800_227;
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    if (!gVUALock.ubEn) {
+<b><a name="line28">28    </a></b>	        return;
+<b><a name="line29">29    </a></b>	    }
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    if(gBCodeGlobalStruct.p_efuse_security_setting->kat_enable){
+<b><a name="line32">32    </a></b>	        result = host_sec_kat_vua(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134742016UL" (unsigned) is not the same as that of the right operand "8192"(signed).</font>
+<b><a name="line33">33    </a></b>	        if (KAT_ERROR_NONE != result){
+<b><a name="line34">34    </a></b>	            gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line35">35    </a></b>	            gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line36">36    </a></b>	            return;
+<b><a name="line37">37    </a></b>	        }
+<b><a name="line38">38    </a></b>	    }
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    Dump_SEC(tprintf("VUCLock_en"));
+<b><a name="line41">41    </a></b>	    gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_PROTECT;
+<b><a name="line42">42    </a></b>	    gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	    // Set receive date buf & calculate buf
+<b><a name="line45">45    </a></b>	    gVUALock.ulVendorBufBase = DBUF_API_BOOTCODE_HOST_BUFFER_BASE;          // Receive/Sent Data
+<b><a name="line46">46    </a></b>	    gVUALock.ulHashCalBufBase = DBUF_API_BOOTCODE_TEMP_BUFFER_BASE + BC_8KB;
+<b><a name="line47">47    </a></b>	    gVUALock.ulVendorTmpBase = DBUF_API_BOOTCODE_VUC_PROTECT_BUFFER_BASE;
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    gVUALock.ubVerifyFailCount = 0;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    memcpy((void *)(gVUALock.ulAESCipherBlockChainingInitializayionVector), (void *)(gaulVUCLockAesCBCIV), sizeof(gVUALock.ulAESCipherBlockChainingInitializayionVector));
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    U8 ControllerName[PARTY_U_INFO_LEN] = {0x50, 0x53, 0x35, 0x33, 0x30, 0x33, 0x00, 0x00};   // PS530300
+<b><a name="line54">54    </a></b>	    memcpy((void *)gVUALock.ubControllerName, (void *)ControllerName, PARTY_U_INFO_LEN);
+<b><a name="line55">55    </a></b>	}
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	void VUA_sha_blocking(U32 KeyAdr, U32 ulDesAdr, U32 KeyLen)
+<b><a name="line58">58    </a></b>	{
+<b><a name="line59">59    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line60">60    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line61">61    </a></b>	    sec_sha_param.src_addr.all     = KeyAdr;
+<b><a name="line62">62    </a></b>	    sec_sha_param.src_len          = KeyLen;
+<b><a name="line63">63    </a></b>	    sec_sha_param.targ_addr.all    = (U64)ulDesAdr;
+</pre></body>
+</html>

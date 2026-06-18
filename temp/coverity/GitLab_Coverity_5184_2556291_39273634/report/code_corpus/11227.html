@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10212">10212    </a></b>	            kat_status = sec_sqz_kat_KDF();
+<b><a name="line10213">10213    </a></b>	        }
+<b><a name="line10214">10214    </a></b>	        else {
+<b><a name="line10215">10215    </a></b>	            kat_status = host_sec_kdf_512_pattern_1_kat(kat_buffer);
+<b><a name="line10216">10216    </a></b>	        }
+<b><a name="line10217">10217    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10218">10218    </a></b>	            sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line10219">10219    </a></b>	            gSecKatRecord.rslt_kat_kdf = FAIL;
+<b><a name="line10220">10220    </a></b>	        }
+<b><a name="line10221">10221    </a></b>	        else {
+<b><a name="line10222">10222    </a></b>	            gSecKatRecord.rslt_kat_kdf = PASS;
+<b><a name="line10223">10223    </a></b>	        }
+<b><a name="line10224">10224    </a></b>	#endif
+<b><a name="line10225">10225    </a></b>	        gSecKatRecord.exec_kat_kdf = 1;
+<b><a name="line10226">10226    </a></b>	    }
+<b><a name="line10227">10227    </a></b>	
+<b><a name="line10228">10228    </a></b>	    return kat_status;
+<b><a name="line10229">10229    </a></b>	}
+<b><a name="line10230">10230    </a></b>	
+<b><a name="line10231">10231    </a></b>	static U32 kat_sm3(U32 kat_buffer)
+<b><a name="line10232">10232    </a></b>	{
+<b><a name="line10233">10233    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10234">10234    </a></b>	
+<b><a name="line10235">10235    </a></b>	    if (SEC_YES == phal_get_dt_attribution_define())
+<b><a name="line10236">10236    </a></b>	    {
+<b><a name="line10237">10237    </a></b>	        sal_log_tracker_set(sal_locate(0x11, TYPE_STEP));
+<b><a name="line10238">10238    </a></b>	        if (gSecKatRecord.exec_kat_sm3 == 0)
+<b><a name="line10239">10239    </a></b>	        {
+<b><a name="line10240">10240    </a></b>	#if KAT_SHA_HMAC_EN
+<b><a name="line10241">10241    </a></b>	            if (phal_sqz_is_en()) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "phal_sqz_is_en()" does not have an essentially boolean type.</font>
+<b><a name="line10242">10242    </a></b>	                kat_status = sec_sqz_kat_SM3();
+<b><a name="line10243">10243    </a></b>	            }
+<b><a name="line10244">10244    </a></b>	            else {
+<b><a name="line10245">10245    </a></b>	                kat_status = host_sec_sm3_kat(kat_buffer);
+<b><a name="line10246">10246    </a></b>	            }
+<b><a name="line10247">10247    </a></b>	            if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10248">10248    </a></b>	                sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line10249">10249    </a></b>	                gSecKatRecord.rslt_kat_sm3 = FAIL;
+<b><a name="line10250">10250    </a></b>	            }
+<b><a name="line10251">10251    </a></b>	            else {
+<b><a name="line10252">10252    </a></b>	                gSecKatRecord.rslt_kat_sm3 = PASS;
+<b><a name="line10253">10253    </a></b>	            }
+<b><a name="line10254">10254    </a></b>	#endif
+<b><a name="line10255">10255    </a></b>	            gSecKatRecord.exec_kat_sm3 = 1;
+<b><a name="line10256">10256    </a></b>	        }
+<b><a name="line10257">10257    </a></b>	    }
+<b><a name="line10258">10258    </a></b>	
+<b><a name="line10259">10259    </a></b>	    return kat_status;
+<b><a name="line10260">10260    </a></b>	}
+<b><a name="line10261">10261    </a></b>	
+<b><a name="line10262">10262    </a></b>	typedef U32 (*FP_KAT)(U32);
+<b><a name="line10263">10263    </a></b>	
+<b><a name="line10264">10264    </a></b>	const FP_KAT gKatLCP[] =
+<b><a name="line10265">10265    </a></b>	{
+<b><a name="line10266">10266    </a></b>	    kat_aes256_xts,
+<b><a name="line10267">10267    </a></b>	    kat_sha512,
+<b><a name="line10268">10268    </a></b>	    kat_rsa,
+<b><a name="line10269">10269    </a></b>	    kat_lms,
+<b><a name="line10270">10270    </a></b>	    kat_mldsa,
+<b><a name="line10271">10271    </a></b>	    kat_kaz,
+<b><a name="line10272">10272    </a></b>	    kat_sm4,
+</pre></body>
+</html>

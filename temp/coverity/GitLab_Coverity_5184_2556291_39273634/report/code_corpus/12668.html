@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/config/conf.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _CONF_H_
+<b><a name="line2">2    </a></b>	#define _CONF_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_CONF_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#define BUILD_MODE_ICE                  (0)
+<b><a name="line5">5    </a></b>	#define BUILD_MODE_MASK_ROM             (1)
+<b><a name="line6">6    </a></b>	#define BUILD_MODE_SPI_ROM              (2)
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#define HW_SIM_DEBUG                    (0)     // 1: enable sim regs related function for debug; 0: disable
+<b><a name="line9">9    </a></b>	#define NAND_RESET_DEBUG                (0)     // 1: enable NAND reset test function for debug; 0: disable
+<b><a name="line10">10    </a></b>	#define NAND_RETRY_DEBUG                (0)     // 1: enable NAND retry test function for debug; 0: disable
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define DEBUG_EXTROM                    (0)
+<b><a name="line13">13    </a></b>	#define DEBUG_KAT                       (0)
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define BOOTCODE_MAIN_VERSION           (0) //Increment this for every release 0~9
+<b><a name="line17">17    </a></b>	#define BOOTCODE_MINOR_VERSION          (0)
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	#define BOOTCODE_SUB_VERSION0           ('0')
+<b><a name="line20">20    </a></b>	#define BOOTCODE_SUB_VERSION1           ('0')
+<b><a name="line21">21    </a></b>	#define BOOTCODE_SUB_VERSION2           ('0')
+<b><a name="line22">22    </a></b>	#define BOOTCODE_SUB_VERSION3           ('0')
+<b><a name="line23">23    </a></b>	#define BOOTCODE_SUB_VERSION4           ('0')
+<b><a name="line24">24    </a></b>	#define BOOTCODE_SUB_VERSION5           ('0')
+<b><a name="line25">25    </a></b>	#define BOOTCODE_SUB_VERSION6           ('0')
+<b><a name="line26">26    </a></b>	#define BOOTCODE_SUB_VERSION7           ('0')
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	// Bootcode Debug version, only for debug
+<b><a name="line29">29    </a></b>	#define BOOTCODE_DEBUG_VERSION_BYTE     (8U)
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	#define BOOTCODE_DEBUG_VERSION0         ('0') // the first 2 bytes were increated for each project 00~99
+<b><a name="line32">32    </a></b>	#define BOOTCODE_DEBUG_VERSION1         ('0')
+<b><a name="line33">33    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+</pre></body>
+</html>

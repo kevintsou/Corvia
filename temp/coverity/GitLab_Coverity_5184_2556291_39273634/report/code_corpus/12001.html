@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line324">324    </a></b>	                }
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	            }
+<b><a name="line327">327    </a></b>	            for (bank_offset = 0U; bank_offset < EFUSE_BANK_UDS_KDK_SIZE; bank_offset++) {
+<b><a name="line328">328    </a></b>	                //Disable Read Access to any UDS KDK that is marked as valid
+<b><a name="line329">329    </a></b>	                bank = (EFUSE_BANK_UDS_KDK_OFFSET + (uds_kdk_offset * EFUSE_BANK_UDS_KDK_SIZE)) + bank_offset;
+<b><a name="line330">330    </a></b>	                hal_efuse_disable_read_access(bank);
+<b><a name="line331">331    </a></b>	            }
+<b><a name="line332">332    </a></b>	        }
+<b><a name="line333">333    </a></b>	    }
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    if (p_efuse_api->efuse_uds_kdk_read) {
+<b><a name="line336">336    </a></b>	        return &(p_efuse_api->efuse_uds_kdk);
+<b><a name="line337">337    </a></b>	    }
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	    return NULL;
+<b><a name="line340">340    </a></b>	}
+<b><a name="line341">341    </a></b>	
+<b><a name="line342">342    </a></b>	void clear_uds_kdk(EFUSE_API *p_efuse_api)
+<b><a name="line343">343    </a></b>	{
+<b><a name="line344">344    </a></b>	    memset((void *) & (p_efuse_api->efuse_uds_kdk), 0x00, sizeof(p_efuse_api->efuse_uds_kdk));
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    return;
+<b><a name="line347">347    </a></b>	}
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	void clear_sec_key_hash_and_data(EFUSE_API *p_efuse_api)
+<b><a name="line350">350    </a></b>	{
+<b><a name="line351">351    </a></b>	    // Clear the sec key hash from buffer
+<b><a name="line352">352    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_code_sign_key_hash_read), 0x00, sizeof(p_efuse_api->a_efuse_code_sign_key_hash_read));
+<b><a name="line353">353    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_code_sign_key_hash),      0x00, sizeof(p_efuse_api->a_efuse_code_sign_key_hash));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line354">354    </a></b>	
+<b><a name="line355">355    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_fw_encryption_key_read),  0x00, sizeof(p_efuse_api->a_efuse_fw_encryption_key_read));
+<b><a name="line356">356    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_fw_encryption_key),       0x00, sizeof(p_efuse_api->a_efuse_fw_encryption_key));
+<b><a name="line357">357    </a></b>	}
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	void clear_vuc_key_hash(EFUSE_API *p_efuse_api)
+<b><a name="line360">360    </a></b>	{
+<b><a name="line361">361    </a></b>	    // Clear the sec key hash from buffer
+<b><a name="line362">362    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_vuc_protect_key_hash_read), 0x00, sizeof(p_efuse_api->a_efuse_vuc_protect_key_hash_read));
+<b><a name="line363">363    </a></b>	    memset((void *) & (p_efuse_api->a_efuse_vuc_protect_key_hash),      0x00, sizeof(p_efuse_api->a_efuse_vuc_protect_key_hash));
+<b><a name="line364">364    </a></b>	}
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	void efuse_api_init(EFUSE_API *p_efuse_api)
+<b><a name="line367">367    </a></b>	{
+<b><a name="line368">368    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP));
+<b><a name="line369">369    </a></b>	    memset((void *)p_efuse_api, 0x00, sizeof(*p_efuse_api)); //TODO check if
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    p_efuse_api->efuse_nand_setting_offset = 0xFFU;
+<b><a name="line372">372    </a></b>	    p_efuse_api->efuse_uds_kdk_offset = 0xFFU;
+<b><a name="line373">373    </a></b>	
+<b><a name="line374">374    </a></b>	    return;
+<b><a name="line375">375    </a></b>	}
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	U8 check_uds_kdk_supported(const EFUSE_SECURITY_SETTING *efuse_security_setting_ptr)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    U32 uds_kdk_offset;
+<b><a name="line380">380    </a></b>	    U8 result;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	    result = FALSE;
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    if (efuse_security_setting_ptr != NULL) {
+</pre></body>
+</html>

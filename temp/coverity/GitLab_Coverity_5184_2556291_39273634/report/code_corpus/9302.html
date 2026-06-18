@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1542">1542    </a></b>	 *
+<b><a name="line1543">1543    </a></b>	 * @param[in] ch     Index of the channel.
+<b><a name="line1544">1544    </a></b>	 * @param[in] value  Divider value.
+<b><a name="line1545">1545    </a></b>	 * @return    None.
+<b><a name="line1546">1546    </a></b>	 * @note
+<b><a name="line1547">1547    </a></b>	 *
+<b><a name="line1548">1548    </a></b>	 * - 000b: div 2
+<b><a name="line1549">1549    </a></b>	 * - 001b: div 4
+<b><a name="line1550">1550    </a></b>	 * - 010b: div 8
+<b><a name="line1551">1551    </a></b>	 * - 011b: div 16
+<b><a name="line1552">1552    </a></b>	 * - 100b: div 32
+<b><a name="line1553">1553    </a></b>	 * - 101b: div 64
+<b><a name="line1554">1554    </a></b>	 * - 110b: div 128
+<b><a name="line1555">1555    </a></b>	 * - 111b: div 128
+<b><a name="line1556">1556    </a></b>	 *
+<b><a name="line1557">1557    </a></b>	 */
+<b><a name="line1558">1558    </a></b>	void dal_fip_set_fpu_interface_div_enable(U8 ch, U8 value)
+<b><a name="line1559">1559    </a></b>	{
+<b><a name="line1560">1560    </a></b>	    w_FPU_DIV_VALUE(ch, value);
+<b><a name="line1561">1561    </a></b>	    w_FPU_DIV_EN(ch, 1);
+<b><a name="line1562">1562    </a></b>	}
+<b><a name="line1563">1563    </a></b>	
+<b><a name="line1564">1564    </a></b>	U32 dal_fip_get_fpu_div_enable(U8 ch)
+<b><a name="line1565">1565    </a></b>	{
+<b><a name="line1566">1566    </a></b>	    return r_FPU_DIV_EN(ch);
+<b><a name="line1567">1567    </a></b>	}
+<b><a name="line1568">1568    </a></b>	
+<b><a name="line1569">1569    </a></b>	U32 dal_fip_get_fpu_div_value(U8 ch)
+<b><a name="line1570">1570    </a></b>	{
+<b><a name="line1571">1571    </a></b>	    return r_FPU_DIV_VALUE(ch);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "((U8 volatile *)gFlhRegRxChBase[ch][124U] >> 3U) & 7U" of width 8 to a target of width 32.</font>
+<b><a name="line1572">1572    </a></b>	}
+<b><a name="line1573">1573    </a></b>	
+<b><a name="line1574">1574    </a></b>	/*!
+<b><a name="line1575">1575    </a></b>	 * @brief     Disable the fpu interface divider.
+<b><a name="line1576">1576    </a></b>	 *
+<b><a name="line1577">1577    </a></b>	 * - This function will disable fpu interface divider.
+<b><a name="line1578">1578    </a></b>	 *
+<b><a name="line1579">1579    </a></b>	 * @param[in] ch     Index of the channel.
+<b><a name="line1580">1580    </a></b>	 * @return    None.
+<b><a name="line1581">1581    </a></b>	 * @note
+<b><a name="line1582">1582    </a></b>	 *
+<b><a name="line1583">1583    </a></b>	 * - only for FLH_IF_TYP = 1b: Toggle.
+<b><a name="line1584">1584    </a></b>	 *
+<b><a name="line1585">1585    </a></b>	 */
+<b><a name="line1586">1586    </a></b>	void dal_fip_set_fpu_interface_div_disable(U8 ch)
+<b><a name="line1587">1587    </a></b>	{
+<b><a name="line1588">1588    </a></b>	    w_FPU_DIV_EN(ch, 0);
+<b><a name="line1589">1589    </a></b>	    w_FPU_DIV_VALUE(ch, DAL_FIP_DIV_2);
+<b><a name="line1590">1590    </a></b>	}
+<b><a name="line1591">1591    </a></b>	
+<b><a name="line1592">1592    </a></b>	/*!
+<b><a name="line1593">1593    </a></b>	 * @brief    Set inversion function.
+<b><a name="line1594">1594    </a></b>	 *
+<b><a name="line1595">1595    </a></b>	 * - This function is used to enable or disable inversion function.
+<b><a name="line1596">1596    </a></b>	 *
+<b><a name="line1597">1597    </a></b>	
+<b><a name="line1598">1598    </a></b>	 * @param[in] ch    channel index.
+<b><a name="line1599">1599    </a></b>	 * @param[in] is_enable    Boolean indicating whether the inversion function is enabled or disabled.
+<b><a name="line1600">1600    </a></b>	 * @return    None.
+<b><a name="line1601">1601    </a></b>	 * @note
+<b><a name="line1602">1602    </a></b>	 *
+</pre></body>
+</html>

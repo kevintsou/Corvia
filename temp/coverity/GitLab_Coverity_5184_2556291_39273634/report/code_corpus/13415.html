@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    //4. enable cop0_grp clock:
+<b><a name="line70">70    </a></b>	    r32_w_CLK_CKEN_2(r32_r_CLK_CKEN_2() | (0xFU << 28U));
+<b><a name="line71">71    </a></b>	    r32_w_CLK_CKEN_3(0xFFFFFFFFU);
+<b><a name="line72">72    </a></b>	    w_CR_COP0_COMM_SYS_CKEN(1U);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    //5. set (optional)
+<b><a name="line75">75    </a></b>	    for (U8 ch = 0U; ch < DAL_COP0_CH_NUM; ch++)
+<b><a name="line76">76    </a></b>	    {
+<b><a name="line77">77    </a></b>	        w_PU_FIP_INS_AHBM0_ERROR_CLR(ch, 0U);
+<b><a name="line78">78    </a></b>	        w_PU_FIP_INS_AHBM1_ERROR_CLR(ch, 0U);
+<b><a name="line79">79    </a></b>	    }
+<b><a name="line80">80    </a></b>	}
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	void hal_cop0_setup_basic(void)
+<b><a name="line83">83    </a></b>	{
+<b><a name="line84">84    </a></b>	    // mr setting
+<b><a name="line85">85    </a></b>	    w_MRS_SQ_START_ID(1536U);
+<b><a name="line86">86    </a></b>	    w_MRM_CQ_START_ID(1536U);
+<b><a name="line87">87    </a></b>	    w_MRS_PU_START_ID(1600U);
+<b><a name="line88">88    </a></b>	    w_MRM_PU_START_ID(1600U);
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    for (U8 ch = 0U; ch < DAL_COP0_CH_NUM; ch++)
+<b><a name="line91">91    </a></b>	    {
+<b><a name="line92">92    </a></b>	        // bypass mode
+<b><a name="line93">93    </a></b>	        w_BYPASS_COP0(ch, 1U);
+<b><a name="line94">94    </a></b>	    }
+<b><a name="line95">95    </a></b>	}
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	void hal_cop0_init()
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Explicit void keyword for empty parameter list has been omitted.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                   ^</font>
+<b><a name="line98">98    </a></b>	{
+<b><a name="line99">99    </a></b>	    // pmu reset
+<b><a name="line100">100    </a></b>	    hal_cop0_pmu_reset_cop0(1); //hw reset
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    // cop0 setting (bypass mode)
+<b><a name="line103">103    </a></b>	    hal_cop0_setup_basic();
+<b><a name="line104">104    </a></b>	    //*(volatile U32 *)0x03600040 = (0xBBBBBBBBU);
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	}
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	void hal_fip_basic_init()
+<b><a name="line109">109    </a></b>	{
+<b><a name="line110">110    </a></b>	    // init cop0, set bypass mode
+<b><a name="line111">111    </a></b>	    hal_cop0_init();
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    // init top reg
+<b><a name="line114">114    </a></b>	    dal_fip_init_top_reg();
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	    // init ch reg
+<b><a name="line117">117    </a></b>	    hal_boot_init_ch_reg();
+<b><a name="line118">118    </a></b>	}
+<b><a name="line119">119    </a></b>	
+<b><a name="line120">120    </a></b>	void hal_sca_mode_init(U8 delay_mode, U8 sce_dir_bit_en, U8 ioe_en, U8 lun_sel_en, U8 dq_wkup_en)
+<b><a name="line121">121    </a></b>	{
+<b><a name="line122">122    </a></b>	    U8 ch;
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    //init fip protocol
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	    hal_fip_set_sca_prot(DAL_COP0_REG_FALL_CH_00_15_ALL_IDX, 1U);
+<b><a name="line127">127    </a></b>	
+<b><a name="line128">128    </a></b>	    if (delay_mode == 0U) {
+</pre></body>
+</html>

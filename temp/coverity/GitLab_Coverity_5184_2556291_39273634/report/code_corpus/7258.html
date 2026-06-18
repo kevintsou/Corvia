@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line424">424    </a></b>	        //Prepare the buffer for response
+<b><a name="line425">425    </a></b>	        //TODO But is this actually necessary? dofst might not be 0 anyways?
+<b><a name="line426">426    </a></b>	        memset((void *)(host->buffer_base), 0x00U, NVME_MI_ADMIN_COMMAND_DLEN_MAX);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	}
+<b><a name="line429">429    </a></b>	
+<b><a name="line430">430    </a></b>	static void mctp_message_handle_get_admin_cq_param(HOST_API_STRUCT_PTR host, NVME_MI_NVME_ADMIN_CMD_REQ_PTR p_nvme_admin_cmd_req, NVME_MI_NVME_ADMIN_CMD_RESP_PTR p_nvme_admin_cmd_resp, U8 request_data_exists, DATA_DESCRIPTOR *p_response_data)
+<b><a name="line431">431    </a></b>	{
+<b><a name="line432">432    </a></b>	    // admin command response
+<b><a name="line433">433    </a></b>	    // (4  byte) : nvme-mi message header
+<b><a name="line434">434    </a></b>	    // (16 byte) : admin command response format
+<b><a name="line435">435    </a></b>	    // (N  byte) : admin command response data
+<b><a name="line436">436    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    // sync to oob nvme-mi admin response dw 0
+<b><a name="line439">439    </a></b>	    p_nvme_admin_cmd_resp->cqdw0 = host->hcpl.dw0;
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    // sync to oob nvme-mi admin response dw 1
+<b><a name="line442">442    </a></b>	    p_nvme_admin_cmd_resp->cqdw1 = host->hcpl.dw1;
+<b><a name="line443">443    </a></b>	
+<b><a name="line444">444    </a></b>	    // sync to oob nvme-mi admin response dw 3
+<b><a name="line445">445    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.cid = 0U; // The Command ID field shall be cleared to 0h.
+<b><a name="line446">446    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sc  = host->hcpl.sc;
+<b><a name="line447">447    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.sct = host->hcpl.sct;
+<b><a name="line448">448    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.mo  = host->hcpl.more;
+<b><a name="line449">449    </a></b>	    p_nvme_admin_cmd_resp->cqdw3.dnr = host->hcpl.dnr;
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	    //Host Admin Command handling uses the host buffer
+<b><a name="line452">452    </a></b>	    p_response_data->p_base = (U8 *)(host->buffer_base + p_nvme_admin_cmd_req->dofst);
+<b><a name="line453">453    </a></b>	    if (FALSE == request_data_exists) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (boolean) is not the same as that of the right operand "request_data_exists"(unsigned).</font>
+<b><a name="line454">454    </a></b>	        p_response_data->size = p_nvme_admin_cmd_req->dlen;
+<b><a name="line455">455    </a></b>	    }
+<b><a name="line456">456    </a></b>	    else {
+<b><a name="line457">457    </a></b>	        p_response_data->size = 0;
+<b><a name="line458">458    </a></b>	    }
+<b><a name="line459">459    </a></b>	}
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	static void mctp_message_handle_nvme_mi_command(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line462">462    </a></b>	{
+<b><a name="line463">463    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    NVME_MI_CMD_REQ_MSG *p_nvme_mi_cmd_req_msg;
+<b><a name="line466">466    </a></b>	    NVME_MI_CMD_RESP_MSG *p_nvme_mi_cmd_resp_msg;
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    DATA_DESCRIPTOR request_data;
+<b><a name="line469">469    </a></b>	    DATA_DESCRIPTOR response_data;
+<b><a name="line470">470    </a></b>	
+<b><a name="line471">471    </a></b>	    U32 message_response_status;
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    U8 opcode;
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    //TODO should actually set the p_nvme_mi_cmd_resp_msg and response_data_base into the response buffer
+<b><a name="line478">478    </a></b>	    //But that requires changing the underlying structure of constructing the response messages
+<b><a name="line479">479    </a></b>	    p_nvme_mi_cmd_req_msg = (NVME_MI_CMD_REQ_MSG *)(p_transmit_handler->request_message_handler.buffer.p_base);
+<b><a name="line480">480    </a></b>	    p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG *)(p_transmit_handler->reponse_packet_handler.buffer.p_base);
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	    memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    //This assumes that all NVME MI commands' response data are handled in host->buffer_base
+</pre></body>
+</html>

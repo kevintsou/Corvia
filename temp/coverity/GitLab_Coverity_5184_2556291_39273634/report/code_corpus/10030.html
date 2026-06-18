@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line462">462    </a></b>	    hal_sec_sm9_mem_xor(ptx, key, c2, c2_len);
+<b><a name="line463">463    </a></b>	
+<b><a name="line464">464    </a></b>	    return SEC_YES;
+<b><a name="line465">465    </a></b>	}
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	U8 hal_sec_sm9_kem_encrypt(SM9_ENC_MASTER_KEY *mpk, U8 *id, U32 id_len, U32 key_len, U8 *key, HAL_SEC_SM9_Z256_POINT_T *ctx, U8 *rand_val, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line468">468    </a></b>	{
+<b><a name="line469">469    </a></b>	    HAL_SEC_SM9_Z256_T r = {0ULL};
+<b><a name="line470">470    </a></b>	    HAL_SEC_SM9_Z256_FP12_T w;
+<b><a name="line471">471    </a></b>	
+<b><a name="line472">472    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sm9_kem_buf->kem_wbuf_addr);
+<b><a name="line473">473    </a></b>	    U8 cbuf[65];
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    // A1: Q = H1(ID||hid,N) * P1 + Ppube
+<b><a name="line476">476    </a></b>	    HAL_SEC_SM9_Z256_POINT_T sm9_z256_mont_p1;
+<b><a name="line477">477    </a></b>	    memcpy((void *)&sm9_z256_mont_p1, (void *)&SM9_Z256_MONT_P1, sizeof(SM9_Z256_MONT_P1));
+<b><a name="line478">478    </a></b>	
+<b><a name="line479">479    </a></b>	    hal_sec_sm9_z256_hash1(r, id, id_len, HAL_SEC_SM9_ENC_HID, &sm9_kem_buf->comm_buf);
+<b><a name="line480">480    </a></b>	    hal_sec_sm9_z256_point_mul(ctx, r, &sm9_z256_mont_p1, &sm9_kem_buf->comm_buf);
+<b><a name="line481">481    </a></b>	    hal_sec_sm9_z256_point_add(ctx, ctx, &mpk->Ppube);
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	    hal_sec_sm9_z256_from_bytes(r, rand_val);
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	    // A3: C1 = r * Q
+<b><a name="line486">486    </a></b>	    hal_sec_sm9_z256_point_mul(ctx, r, ctx, &sm9_kem_buf->comm_buf);
+<b><a name="line487">487    </a></b>	    hal_sec_sm9_z256_point_to_uncompressed_octets(ctx, cbuf);
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    // A4: g = e(Ppube, P2)
+<b><a name="line490">490    </a></b>	    HAL_SEC_SM9_Z256_TWIST_POINT_T sm9_z256_mont_p2;
+<b><a name="line491">491    </a></b>	    memcpy((void *)&sm9_z256_mont_p2, (void *)&SM9_Z256_MONT_P2, sizeof(SM9_Z256_MONT_P2));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&SM9_Z256_MONT_P2" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line492">492    </a></b>	    hal_sec_sm9_z256_pairing(w, &sm9_z256_mont_p2, &mpk->Ppube, &sm9_kem_buf->comm_buf);
+<b><a name="line493">493    </a></b>	
+<b><a name="line494">494    </a></b>	    // A5: w = g^r
+<b><a name="line495">495    </a></b>	    hal_sec_sm9_z256_fp12_pow(w, w, r, &sm9_kem_buf->comm_buf);
+<b><a name="line496">496    </a></b>	    hal_sec_sm9_z256_fp12_to_bytes(w, wbuf);
+<b><a name="line497">497    </a></b>	
+<b><a name="line498">498    </a></b>	    // A6: K = KDF(C || w || ID_B, klen), if K == 0, goto A2
+<b><a name="line499">499    </a></b>	    hal_sec_sm9_sm3_init(&sm9_kem_buf->comm_buf);
+<b><a name="line500">500    </a></b>	    hal_sec_sm9_sm3_update(cbuf + 1, 64, &sm9_kem_buf->comm_buf);
+<b><a name="line501">501    </a></b>	    hal_sec_sm9_sm3_update(wbuf, HAL_SEC_SM9_Z256_WBUF_LEN, &sm9_kem_buf->comm_buf);
+<b><a name="line502">502    </a></b>	    hal_sec_sm9_sm3_update((U8 *)id, id_len, &sm9_kem_buf->comm_buf);
+<b><a name="line503">503    </a></b>	    hal_sec_sm9_sm3_kdf_finish(key, key_len, &sm9_kem_buf->comm_buf);
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    if (hal_sec_sm9_mem_is_zero(key, key_len) == 1U)
+<b><a name="line506">506    </a></b>	    {
+<b><a name="line507">507    </a></b>	        return SEC_NO;
+<b><a name="line508">508    </a></b>	    }
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	    (void)memset(&r, 0, sizeof(r));
+<b><a name="line511">511    </a></b>	    (void)memset(&w, 0, sizeof(w));
+<b><a name="line512">512    </a></b>	    (void)memset(wbuf, 0, HAL_SEC_SM9_Z256_WBUF_LEN);
+<b><a name="line513">513    </a></b>	
+<b><a name="line514">514    </a></b>	    // A7: output (K, C)
+<b><a name="line515">515    </a></b>	    return SEC_YES;
+<b><a name="line516">516    </a></b>	}
+<b><a name="line517">517    </a></b>	
+<b><a name="line518">518    </a></b>	U8 hal_sec_sm9_kem_decrypt(HAL_SEC_SM9_ENC_KEY_T_PTR key_t, U8 *id, U32 id_len, HAL_SEC_SM9_Z256_POINT_T *c, U32 key_len, U8 *key, HAL_SEC_SM9_KEM_BUF_T_PTR sm9_kem_buf)
+<b><a name="line519">519    </a></b>	{
+<b><a name="line520">520    </a></b>	    HAL_SEC_SM9_Z256_FP12_T w;
+<b><a name="line521">521    </a></b>	
+<b><a name="line522">522    </a></b>	    U8 *wbuf = (U8 *)(U32 *)(sm9_kem_buf->kem_wbuf_addr);
+</pre></body>
+</html>

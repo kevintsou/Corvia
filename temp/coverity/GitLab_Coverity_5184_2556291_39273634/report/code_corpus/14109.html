@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line505">505    </a></b>	U32 dal_db_get_cpu1_size_cq42_apu_cmd_info(void);
+<b><a name="line506">506    </a></b>	U32 dal_db_get_cpu1_size_cq43_apu_ask_pb(void);
+<b><a name="line507">507    </a></b>	U32 dal_db_get_cpu1_size_cq44_apu_free_pb(void);
+<b><a name="line508">508    </a></b>	U32 dal_db_get_cpu1_size_cq45_apu_fw_cache(void);
+<b><a name="line509">509    </a></b>	U32 dal_db_get_cpu1_size_cq46_dmac_urgent(void);
+<b><a name="line510">510    </a></b>	U32 dal_db_get_cpu1_size_cq47_dmac_high(void);
+<b><a name="line511">511    </a></b>	U32 dal_db_get_cpu1_size_cq48_dmac_norm(void);
+<b><a name="line512">512    </a></b>	U32 dal_db_get_cpu1_size_cq49_bmu_noblk(void);
+<b><a name="line513">513    </a></b>	U32 dal_db_get_cpu1_size_cq50_bmu_blk(void);
+<b><a name="line514">514    </a></b>	U32 dal_db_get_cpu1_size_cq51_cop0(void);
+<b><a name="line515">515    </a></b>	U32 dal_db_get_cpu1_size_cq52_cop1(void);
+<b><a name="line516">516    </a></b>	U32 dal_db_get_cpu1_size_cq53_err_msg(void);
+<b><a name="line517">517    </a></b>	U32 dal_db_get_cpu1_size_cq54_rs(void);
+<b><a name="line518">518    </a></b>	U32 dal_db_get_cpu1_size_cq55_zflh(void);
+<b><a name="line519">519    </a></b>	U32 dal_db_get_cpu1_size_cq56_apu_la_rd(void);
+<b><a name="line520">520    </a></b>	U32 dal_db_get_cpu1_size_cq57_apu_wcq(void);
+<b><a name="line521">521    </a></b>	U32 dal_db_get_cpu1_size_cq58_autoform_wr(void);
+<b><a name="line522">522    </a></b>	U32 dal_db_get_cpu1_size_cq59_wr_agent(void);
+<b><a name="line523">523    </a></b>	U32 dal_db_get_cpu1_size_cq60_decode(void);
+<b><a name="line524">524    </a></b>	U32 dal_db_get_cpu1_size_cq61_cpu_sq(void);
+<b><a name="line525">525    </a></b>	U32 dal_db_get_cpu1_size_cq62_cpu_cq(void);
+<b><a name="line526">526    </a></b>	U32 dal_db_get_cpu2_size_cq63_dmac_high(void);
+<b><a name="line527">527    </a></b>	U32 dal_db_get_cpu2_size_cq64_dmac_norm(void);
+<b><a name="line528">528    </a></b>	U32 dal_db_get_cpu2_size_cq65_bmu_noblk(void);
+<b><a name="line529">529    </a></b>	U32 dal_db_get_cpu2_size_cq66_bmu_blk(void);
+<b><a name="line530">530    </a></b>	U32 dal_db_get_cpu2_size_cq67_cop0(void);
+<b><a name="line531">531    </a></b>	U32 dal_db_get_cpu2_size_cq68_cop1(void);
+<b><a name="line532">532    </a></b>	U32 dal_db_get_cpu2_size_cq69_err_msg(void);
+<b><a name="line533">533    </a></b>	U32 dal_db_get_cpu2_size_cq70_rs(void);
+<b><a name="line534">534    </a></b>	U32 dal_db_get_cpu2_size_cq71_zflh(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_db_get_cpu2_size_cq71_zflh" is declared but never defined.</font>
+<b><a name="line535">535    </a></b>	U32 dal_db_get_cpu2_size_cq72_dmac_urgent(void);
+<b><a name="line536">536    </a></b>	U32 dal_db_get_cpu2_size_cq73_cpu_sq(void);
+<b><a name="line537">537    </a></b>	U32 dal_db_get_cpu2_size_cq74_cpu_cq(void);
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	// dal api get write agent doorbell queue space size
+<b><a name="line540">540    </a></b>	U32 dal_db_get_w_ag_cop1_str0_size(void);
+<b><a name="line541">541    </a></b>	U32 dal_db_get_w_ag_cop1_str1_size(void);
+<b><a name="line542">542    </a></b>	U32 dal_db_get_w_ag_cop1_str2_size(void);
+<b><a name="line543">543    </a></b>	U32 dal_db_get_w_ag_cop0_str0_size(void);
+<b><a name="line544">544    </a></b>	U32 dal_db_get_w_ag_cop0_str1_size(void);
+<b><a name="line545">545    </a></b>	U32 dal_db_get_w_ag_cop0_str2_size(void);
+<b><a name="line546">546    </a></b>	U32 dal_db_get_w_ag_bypass_waf_size(void);
+<b><a name="line547">547    </a></b>	
+<b><a name="line548">548    </a></b>	
+<b><a name="line549">549    </a></b>	//CPU3
+<b><a name="line550">550    </a></b>	// dal api get cpu3 doorbell queue space size
+<b><a name="line551">551    </a></b>	U32 dal_db_get_cpu3_size_sq0_dmac_high(void);
+<b><a name="line552">552    </a></b>	U32 dal_db_get_cpu3_size_sq1_dmac_norm(void);
+<b><a name="line553">553    </a></b>	U32 dal_db_get_cpu3_size_sq2_dmac_urgent(void);
+<b><a name="line554">554    </a></b>	U32 dal_db_get_cpu3_size_sq3_bmu_noblk(void);
+<b><a name="line555">555    </a></b>	U32 dal_db_get_cpu3_size_sq4_bmu_blk(void);
+<b><a name="line556">556    </a></b>	U32 dal_db_get_cpu3_size_sq5_cop0_wr(void);
+<b><a name="line557">557    </a></b>	U32 dal_db_get_cpu3_size_sq6_cop0_rd(void);
+<b><a name="line558">558    </a></b>	U32 dal_db_get_cpu3_size_sq7_cop1(void);
+<b><a name="line559">559    </a></b>	U32 dal_db_get_cpu3_size_sq8_axi_drive_log(void);
+<b><a name="line560">560    </a></b>	U32 dal_db_get_cpu3_size_sq9_cpu_sq(void);
+<b><a name="line561">561    </a></b>	U32 dal_db_get_cpu3_size_sq10_cpu_cq(void);
+<b><a name="line562">562    </a></b>	
+<b><a name="line563">563    </a></b>	U32 dal_db_get_cpu3_size_cq0_dmac_high(void);
+<b><a name="line564">564    </a></b>	U32 dal_db_get_cpu3_size_cq1_dmac_norm(void);
+<b><a name="line565">565    </a></b>	U32 dal_db_get_cpu3_size_cq2_bmu_blk(void);
+</pre></body>
+</html>

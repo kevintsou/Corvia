@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1098">1098    </a></b>	    {
+<b><a name="line1099">1099    </a></b>	        switch (p_ofst)
+<b><a name="line1100">1100    </a></b>	        {
+<b><a name="line1101">1101    </a></b>	            case PCIE_PORT_OFST_0:
+<b><a name="line1102">1102    </a></b>	                // build link if PERST = H
+<b><a name="line1103">1103    </a></b>	                if (r_CR_P0_PERSTN_DBC()) // detect debounce result of P0
+<b><a name="line1104">1104    </a></b>	                {
+<b><a name="line1105">1105    </a></b>	                    Dump_FastLink(tprintf("P0 PERST DBC = H\n\r"));
+<b><a name="line1106">1106    </a></b>	                    sal_log_tracker_set(sal_locate(0x0c, TYPE_STEP));
+<b><a name="line1107">1107    </a></b>	                    xperst = 1U;
+<b><a name="line1108">1108    </a></b>	                }
+<b><a name="line1109">1109    </a></b>	                break;
+<b><a name="line1110">1110    </a></b>	            case PCIE_PORT_OFST_1:
+<b><a name="line1111">1111    </a></b>	                if(r_CR_P1_PERSTN_DBC()) // detect debounce result of P1
+<b><a name="line1112">1112    </a></b>	                {
+<b><a name="line1113">1113    </a></b>	                    Dump_FastLink(tprintf("P1 PERST DBC = H\n\r"));
+<b><a name="line1114">1114    </a></b>	                    sal_log_tracker_set(sal_locate(0x0d, TYPE_STEP));
+<b><a name="line1115">1115    </a></b>	                    xperst = 1U;
+<b><a name="line1116">1116    </a></b>	                }
+<b><a name="line1117">1117    </a></b>	                break;
+<b><a name="line1118">1118    </a></b>	            default:
+<b><a name="line1119">1119    </a></b>	                sal_log_tracker_set(sal_locate(0x8d, TYPE_STEP));
+<b><a name="line1120">1120    </a></b>	                Dump_FastLink(tprintf("Wrong port offset\n\r"));
+<b><a name="line1121">1121    </a></b>	                break;
+<b><a name="line1122">1122    </a></b>	        }
+<b><a name="line1123">1123    </a></b>	
+<b><a name="line1124">1124    </a></b>	        if (xperst == 1U)
+<b><a name="line1125">1125    </a></b>	        {
+<b><a name="line1126">1126    </a></b>	            //wait 10us from PERSTN# rising
+<b><a name="line1127">1127    </a></b>	            mabiao_addr = MABIAO_SET_US(MABIOA_PCIE_DETECT_REF_CLK, 10);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xfffffffff0264670 | 0" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line1128">1128    </a></b>	            while(1)
+<b><a name="line1129">1129    </a></b>	            {
+<b><a name="line1130">1130    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><a name="line1131">1131    </a></b>	                {
+<b><a name="line1132">1132    </a></b>	                    break;
+<b><a name="line1133">1133    </a></b>	                }
+<b><a name="line1134">1134    </a></b>	            }
+<b><a name="line1135">1135    </a></b>	
+<b><a name="line1136">1136    </a></b>	
+<b><a name="line1137">1137    </a></b>	            if(dal_detect_refclk_valid(p_ofst))
+<b><a name="line1138">1138    </a></b>	            {
+<b><a name="line1139">1139    </a></b>	                Dump_FastLink(tprintf("port:%d refclk valid set common clock \n\r", p_ofst));
+<b><a name="line1140">1140    </a></b>	                sal_log_tracker_set(sal_locate(0x0e, TYPE_STEP));
+<b><a name="line1141">1141    </a></b>	                dal_set_common_clock_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1142">1142    </a></b>	            }
+<b><a name="line1143">1143    </a></b>	            else
+<b><a name="line1144">1144    </a></b>	            {
+<b><a name="line1145">1145    </a></b>	                detect_xtal_mode = 1;
+<b><a name="line1146">1146    </a></b>	                *is_xtal_mode = 1;
+<b><a name="line1147">1147    </a></b>	                Dump_FastLink(tprintf("port:%d refclk not valid set xtal clock ssc_en:%d\n\r", p_ofst, ssc_en));
+<b><a name="line1148">1148    </a></b>	                sal_log_tracker_set(sal_locate(0x0f, TYPE_STEP));
+<b><a name="line1149">1149    </a></b>	                if(xtal_is_force_mode)
+<b><a name="line1150">1150    </a></b>	                {
+<b><a name="line1151">1151    </a></b>	                    if(ssc_en)
+<b><a name="line1152">1152    </a></b>	                    {
+<b><a name="line1153">1153    </a></b>	
+<b><a name="line1154">1154    </a></b>	                        sal_log_tracker_set(sal_locate(0xcf, TYPE_STEP));
+<b><a name="line1155">1155    </a></b>	                        dal_set_xtal_sris_mode(p_ofst, port_mode_from_pad);
+<b><a name="line1156">1156    </a></b>	                    }
+<b><a name="line1157">1157    </a></b>	                    else
+<b><a name="line1158">1158    </a></b>	                    {
+</pre></body>
+</html>

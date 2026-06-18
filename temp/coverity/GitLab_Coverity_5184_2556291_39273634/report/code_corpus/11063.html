@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/front/vuc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line23">23    </a></b>	    Dump_Vendor(tprintf("		>> vuc sub feature: %x", param->sq->sub_feature));
+<b><a name="line24">24    </a></b>	    //Dump_Vendor(tprintf("		>> vuc ap key enable: %x", param->ap_key_enable));
+<b><a name="line25">25    </a></b>	    //Dump_Vendor(tprintf("		>> vuc ap key valid: %x", vuc_ptr->ap_key_valid));
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    /*
+<b><a name="line28">28    </a></b>	     *  Check AP key enable or not
+<b><a name="line29">29    </a></b>	     */
+<b><a name="line30">30    </a></b>	    /*
+<b><a name="line31">31    </a></b>	     *  Backup Last CQ info
+<b><a name="line32">32    </a></b>	     */
+<b><a name="line33">33    </a></b>	    memcpy((void *)(&(param->last_cq)), (void *)cq, sizeof(VUC_CQ_STRUCT));
+<b><a name="line34">34    </a></b>	    /*
+<b><a name="line35">35    </a></b>	     *  Initial CQ struct
+<b><a name="line36">36    </a></b>	     */
+<b><a name="line37">37    </a></b>	    memset((void *)cq, 0x00, sizeof(VUC_CQ_STRUCT));
+<b><a name="line38">38    </a></b>	    if (VUC_NVME_OPC_DATA_OUT == sq->opc) {
+<b><a name="line39">39    </a></b>	        /*
+<b><a name="line40">40    </a></b>	         *  If vendor command is data out command, initial host buffer.
+<b><a name="line41">41    </a></b>	         */
+<b><a name="line42">42    </a></b>	        memset((void *)host_buf, 0x00, (sq->ndt * NDT_SIZE));
+<b><a name="line43">43    </a></b>	    }
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    if (VUC_NVME_OPC_AP_KEY_ENABLE == sq->feature) {
+<b><a name="line46">46    </a></b>	        Dump_Vendor(tprintf("\n\r [ VUC_NVME_OPC_AP_KEY_ENABLE ]"));
+<b><a name="line47">47    </a></b>	        vuc_ap_key_enable(param);
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	        memcpy((void *)(&(param->last_sq)), (void *)sq, sizeof(VUC_SQ_STRUCT));
+<b><a name="line50">50    </a></b>	    }
+<b><a name="line51">51    </a></b>	    else {
+<b><a name="line52">52    </a></b>	        if (gVucDispatch.lock_en) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "gVucDispatch.lock_en" does not have an essentially boolean type.</font>
+<b><a name="line53">53    </a></b>	            if ((VUC_PROTECT_VERIFY_STATE_PASS != p_vuc_protect->protect_state) || VUA_IsLocked()) {
+<b><a name="line54">54    </a></b>	                switch (sq->feature) {
+<b><a name="line55">55    </a></b>	                case VUC_NVME_OPC_READ_SYSTEM_INFO:    // 0x80
+<b><a name="line56">56    </a></b>	                case VUC_NVME_OPC_GET_STATUS:
+<b><a name="line57">57    </a></b>	                case VUC_SEND_HANDSHAKE_REQUEST:       // 0xC4
+<b><a name="line58">58    </a></b>	                case VUC_RECEIEVE_ENCRYPTION_DATA:     // 0xC5
+<b><a name="line59">59    </a></b>	                case VUC_SEND_ENCRYPTION_DATA:         // 0xC6
+<b><a name="line60">60    </a></b>	                case VUC_DISABLE_VUC:                  // 0xC7
+<b><a name="line61">61    </a></b>	                case VUC_SEND_SECURE_INFO:             // 0xC9
+<b><a name="line62">62    </a></b>	                case VUC_NVME_OPC_PASS_THROUGH:
+<b><a name="line63">63    </a></b>	                    handle_command = TRUE;
+<b><a name="line64">64    </a></b>	                    break;
+<b><a name="line65">65    </a></b>	                default:
+<b><a name="line66">66    </a></b>	                    handle_command = FALSE;
+<b><a name="line67">67    </a></b>	                    vuc_cq_report_status(param->cq, INVALID_STATUS_TYPE, INVALID_STATUS_COMMAND_FEATURE_CODE);
+<b><a name="line68">68    </a></b>	                    break;
+<b><a name="line69">69    </a></b>	                }
+<b><a name="line70">70    </a></b>	            }
+<b><a name="line71">71    </a></b>	            else {
+<b><a name="line72">72    </a></b>	                if ((ADM_OPC_VUC_NO_DATA == (sq->opc)) ||
+<b><a name="line73">73    </a></b>	                    (ADM_OPC_VUC_DATA_IN == (sq->opc)) ||
+<b><a name="line74">74    </a></b>	                    (ADM_OPC_VUC_DATA_OUT == (sq->opc))) {
+<b><a name="line75">75    </a></b>	                    // decrpyted command
+<b><a name="line76">76    </a></b>	                    // vuc protect only support encrpyted command, except read system info and get card status
+<b><a name="line77">77    </a></b>	                    if ((VUC_NVME_OPC_READ_SYSTEM_INFO == (sq->feature))
+<b><a name="line78">78    </a></b>	                        || (VUC_NVME_OPC_GET_STATUS == (sq->feature))
+<b><a name="line79">79    </a></b>	                        || (VUC_SEND_SECURE_INFO == (sq->feature))
+<b><a name="line80">80    </a></b>	                        || (VUC_SEND_HANDSHAKE_REQUEST == (sq->feature))
+<b><a name="line81">81    </a></b>	                        || (VUC_RECEIEVE_ENCRYPTION_DATA == (sq->feature))
+<b><a name="line82">82    </a></b>	                        || (VUC_SEND_ENCRYPTION_DATA == (sq->feature))
+<b><a name="line83">83    </a></b>	                        || (VUC_DISABLE_VUC == (sq->feature))
+</pre></body>
+</html>

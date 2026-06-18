@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1672">1672    </a></b>	void dal_set_msi_cap(U32 port_id, U32 enable)
+<b><a name="line1673">1673    </a></b>	{
+<b><a name="line1674">1674    </a></b>	    // X3 does not have this reg
+<b><a name="line1675">1675    </a></b>	    // if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1676">1676    </a></b>	    // {
+<b><a name="line1677">1677    </a></b>	    //     w_PCIE_PL_R_BYPASS_MSI_PENDING_HS(port_id, ~enable);
+<b><a name="line1678">1678    </a></b>	    //     w_PCIE_PL_R_BYPASS_MSI_MASK_HS(port_id, ~enable);
+<b><a name="line1679">1679    </a></b>	    // }
+<b><a name="line1680">1680    </a></b>	    // else
+<b><a name="line1681">1681    </a></b>	    // {
+<b><a name="line1682">1682    </a></b>	    //     w_PCIE_PL_P1_R_BYPASS_MSI_PENDING_HS(port_id, ~enable);
+<b><a name="line1683">1683    </a></b>	    //     w_PCIE_PL_P1_R_BYPASS_MSI_MASK_HS(port_id, ~enable);
+<b><a name="line1684">1684    </a></b>	    // }
+<b><a name="line1685">1685    </a></b>	}
+<b><a name="line1686">1686    </a></b>	
+<b><a name="line1687">1687    </a></b>	void dal_set_number_of_msi_msg(U32 port_id, U32 pf_id, U32 value)
+<b><a name="line1688">1688    </a></b>	{
+<b><a name="line1689">1689    </a></b>	    // Todo : wait Cfg reg header
+<b><a name="line1690">1690    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1691">1691    </a></b>	    {
+<b><a name="line1692">1692    </a></b>	        w_PF0_MSI_CAP_PCI_MSI_MULTIPLE_MSG_CAP(port_id, pf_id, value);
+<b><a name="line1693">1693    </a></b>	    }
+<b><a name="line1694">1694    </a></b>	}
+<b><a name="line1695">1695    </a></b>	
+<b><a name="line1696">1696    </a></b>	void dal_set_vf_number_of_msi_msg(U32 port_id, U32 vf_id, U32 value)
+<b><a name="line1697">1697    </a></b>	{
+<b><a name="line1698">1698    </a></b>	    // Todo : wait Cfg reg header
+<b><a name="line1699">1699    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1700">1700    </a></b>	    {
+<b><a name="line1701">1701    </a></b>	        *(volatile U32 *) (0x03136050U + (vf_id * 0x200U)) = (((*(volatile U32 *) (0x03136050U + (vf_id * 0x200U))) & 0xFFF1FFFF) | value << 17); // set MSI_MULTIPLE_MSG_CAP
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "4294049791U" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line1702">1702    </a></b>	    }
+<b><a name="line1703">1703    </a></b>	}
+<b><a name="line1704">1704    </a></b>	
+<b><a name="line1705">1705    </a></b>	void dal_set_msix_cap(U32 port_id, U32 enable)
+<b><a name="line1706">1706    </a></b>	{
+<b><a name="line1707">1707    </a></b>	    // X3 does not have this reg
+<b><a name="line1708">1708    </a></b>	}
+<b><a name="line1709">1709    </a></b>	
+<b><a name="line1710">1710    </a></b>	void dal_set_msix_table_size(U32 port_id, U32 pf_id, U32 size)
+<b><a name="line1711">1711    </a></b>	{
+<b><a name="line1712">1712    </a></b>	    // Todo : wait Cfg reg header
+<b><a name="line1713">1713    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1714">1714    </a></b>	    {
+<b><a name="line1715">1715    </a></b>	        w_PF0_MSIX_CAP_PCI_MSIX_TABLE_SIZE(port_id, pf_id, size);
+<b><a name="line1716">1716    </a></b>	    }
+<b><a name="line1717">1717    </a></b>	}
+<b><a name="line1718">1718    </a></b>	
+<b><a name="line1719">1719    </a></b>	void dal_set_vf_msix_table_size(U32 port_id, U32 vf_id, U32 size)
+<b><a name="line1720">1720    </a></b>	{
+<b><a name="line1721">1721    </a></b>	    // Todo : wait Cfg reg header
+<b><a name="line1722">1722    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1723">1723    </a></b>	    {
+<b><a name="line1724">1724    </a></b>	        *((volatile U32 *)(0x031060B0U)) = (((*(volatile U32 *) (0x031060B0U)) & 0xF800FFFF) | size << 16); // set shadow msix table size
+<b><a name="line1725">1725    </a></b>	    }
+<b><a name="line1726">1726    </a></b>	}
+<b><a name="line1727">1727    </a></b>	
+<b><a name="line1728">1728    </a></b>	void dal_en_err_maxpload_blk(U32 port_id, U32 enable)
+<b><a name="line1729">1729    </a></b>	{
+<b><a name="line1730">1730    </a></b>	
+<b><a name="line1731">1731    </a></b>	}
+<b><a name="line1732">1732    </a></b>	
+</pre></body>
+</html>

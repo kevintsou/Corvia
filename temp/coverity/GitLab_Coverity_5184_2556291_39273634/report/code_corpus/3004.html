@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2394">2394    </a></b>	
+<b><a name="line2395">2395    </a></b>	
+<b><a name="line2396">2396    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[parallel]);
+<b><a name="line2397">2397    </a></b>	                        }
+<b><a name="line2398">2398    </a></b>	                    }
+<b><a name="line2399">2399    </a></b>	
+<b><a name="line2400">2400    </a></b>	
+<b><a name="line2401">2401    </a></b>	                    //Check the result of the Read DMA
+<b><a name="line2402">2402    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2403">2403    </a></b>	                        if (0 == (reading_parallel_bitmap & (1 << parallel))) {
+<b><a name="line2404">2404    </a></b>	                            continue;
+<b><a name="line2405">2405    </a></b>	                        }
+<b><a name="line2406">2406    </a></b>	                        // receive the cq result of the read dma
+<b><a name="line2407">2407    </a></b>	                        command_status = fip_api_get_cq_result(&a_fip_read_param[parallel], a_channel[parallel]);
+<b><a name="line2408">2408    </a></b>	                        if (0 == command_status) {
+<b><a name="line2409">2409    </a></b>	                            //No timeout has occurred
+<b><a name="line2410">2410    </a></b>	                            //Check each node to see if it is properly read
+<b><a name="line2411">2411    </a></b>	                            for (node = 0; node < node_max; node++) {
+<b><a name="line2412">2412    </a></b>	                                if (0 == (a_node_to_load_bitmap[parallel] & (1 << node))) {
+<b><a name="line2413">2413    </a></b>	                                    continue;
+<b><a name="line2414">2414    </a></b>	                                }
+<b><a name="line2415">2415    </a></b>	
+<b><a name="line2416">2416    </a></b>	                                if (0U == (a_fip_read_param[parallel].error_map[node] & FIP_READ_ERROR_MASK)) {
+<b><a name="line2417">2417    </a></b>	                                    if (PAGE_MARK_CODE_BLOCK == (((FLH_SPARE_STRUCT_PTR)(a_fip_read_param[parallel].spr_addr[node]))->page_mark & 0xFF)) {
+<b><a name="line2418">2418    </a></b>	                                        Dump_LoadCode(tprintf("Parallel %d Node %d, OK", parallel, node));
+<b><a name="line2419">2419    </a></b>	                                        a_node_to_load_bitmap[parallel] &= ~(1 << node);
+<b><a name="line2420">2420    </a></b>	
+<b><a name="line2421">2421    </a></b>	                                        if (0 == a_node_to_load_bitmap[parallel]) {
+<b><a name="line2422">2422    </a></b>	                                            //Entire page has been Loaded
+<b><a name="line2423">2423    </a></b>	                                            not_loaded_parallel_bitmap &= ~(1 << parallel);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1 << parallel" to the operator "~" does not have an essentially unsigned type.</font>
+<b><a name="line2424">2424    </a></b>	
+<b><a name="line2425">2425    </a></b>	                                            //Log the status of this read
+<b><a name="line2426">2426    </a></b>	                                            if (0x100 > (p_fw_slot_status->copy_retry_count + copy_retry)) {
+<b><a name="line2427">2427    </a></b>	                                                p_fw_slot_status->copy_retry_count += copy_retry;
+<b><a name="line2428">2428    </a></b>	                                            }
+<b><a name="line2429">2429    </a></b>	                                            if (0x100 > (p_fw_slot_status->nand_retry_count + nand_retry)) {
+<b><a name="line2430">2430    </a></b>	                                                p_fw_slot_status->nand_retry_count += nand_retry;
+<b><a name="line2431">2431    </a></b>	                                            }
+<b><a name="line2432">2432    </a></b>	                                            if (p_fw_slot_status->bit_flip_count_max < a_fip_read_param[parallel].bit_correct[node]) {
+<b><a name="line2433">2433    </a></b>	                                                p_fw_slot_status->bit_flip_count_max = a_fip_read_param[parallel].bit_correct[node];
+<b><a name="line2434">2434    </a></b>	                                            }
+<b><a name="line2435">2435    </a></b>	
+<b><a name="line2436">2436    </a></b>	                                            Dump_LoadCode(tprintf("Parallel %d LOADED, ", parallel));
+<b><a name="line2437">2437    </a></b>	                                            Dump_LoadCode(tprintf("Copy Retry %d, ", copy_retry));
+<b><a name="line2438">2438    </a></b>	                                            Dump_LoadCode(tprintf("NAND Retry %d, ", nand_retry));
+<b><a name="line2439">2439    </a></b>	                                            Dump_LoadCode(tprintf("Bit Flip %d", a_fip_read_param[parallel].bit_correct[node]));
+<b><a name="line2440">2440    </a></b>	                                        }
+<b><a name="line2441">2441    </a></b>	                                    }
+<b><a name="line2442">2442    </a></b>	                                    else {
+<b><a name="line2443">2443    </a></b>	                                        sal_log_tracker_set(sal_locate(0xF2, TYPE_LOAD_CODE_ERR));
+<b><a name="line2444">2444    </a></b>	                                        Dump_LoadCode(tprintf("Parallel %d Node %d, ", parallel, node));
+<b><a name="line2445">2445    </a></b>	                                        Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2446">2446    </a></b>	                                        //Dump_LoadCode(tprintf("Incorrect Spare %x ", (((FLH_SPARE_STRUCT_PTR)a_fip_read_param[parallel].spr_addr[node])->read.fw_set & 0xFF)));
+<b><a name="line2447">2447    </a></b>	                                        Dump_LoadCode(tprintf("(!= 0x%x)", PAGE_MARK_CODE_BLOCK));
+<b><a name="line2448">2448    </a></b>	                                    }
+<b><a name="line2449">2449    </a></b>	                                }
+<b><a name="line2450">2450    </a></b>	                                else if (a_fip_read_param[parallel].error_map[node] & FIP_READ_CRC_ERROR){
+<b><a name="line2451">2451    </a></b>	                                    Dump_LoadCode(tprintf("Parallel %d Node %d, ", parallel, node));
+<b><a name="line2452">2452    </a></b>	                                    Dump_LoadCode(tprintf("(FSA %L) ", a_fip_read_param[parallel].nand_addr.all));
+<b><a name="line2453">2453    </a></b>	                                    Dump_LoadCode(tprintf("UECC 0x%x", a_fip_read_param[parallel].error_map[node]));
+<b><a name="line2454">2454    </a></b>	                                    sal_log_tracker_set(sal_locate(0xF3, TYPE_LOAD_CODE_ERR));
+</pre></body>
+</html>

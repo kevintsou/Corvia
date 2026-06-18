@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line555">555    </a></b>	    Dump_NVME(tprintf("end nvme_security_receive\n\r"));
+<b><a name="line556">556    </a></b>	}
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	
+<b><a name="line559">559    </a></b>	static void nvme_get_log_page(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line560">560    </a></b>	{
+<b><a name="line561">561    </a></b>	    Dump_NVME(tprintf("  >> get log\n\r"));
+<b><a name="line562">562    </a></b>	
+<b><a name="line563">563    </a></b>	    volatile ADM_GET_LOG_PTR        log_ptr  = &host->sq_cmd.payload_opt.adm.get_log;
+<b><a name="line564">564    </a></b>	    U32                             buf_addr = host->buffer_base;
+<b><a name="line565">565    </a></b>	    U32                             numd     = ((U32)log_ptr->numdl & 0x0FFF) + 1; // #dw: 0's base
+<b><a name="line566">566    </a></b>	    U16                             byte_cnt = 4 * numd; // 1DW = 4 bytes
+<b><a name="line567">567    </a></b>	    NVME_SMART_DATA_PTR             smart_data_ptr;
+<b><a name="line568">568    </a></b>	    NVME_FW_SLOT_INFO_PTR           fw_slot_ptr;
+<b><a name="line569">569    </a></b>	
+<b><a name="line570">570    </a></b>	    // for NVME_GMGR_GP_LOG_DATA
+<b><a name="line571">571    </a></b>	    U64 rcmd_cnt;
+<b><a name="line572">572    </a></b>	    U64 wcmd_cnt;
+<b><a name="line573">573    </a></b>	    U64 rdata_cnt;
+<b><a name="line574">574    </a></b>	    U64 wdata_cnt;
+<b><a name="line575">575    </a></b>	    U64 busy_time;
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	    U8 action;
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    if (byte_cnt > LC_BYTE_SIZE) {
+<b><a name="line580">580    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line581">581    </a></b>	        return;
+<b><a name="line582">582    </a></b>	    }
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    memset((void *)buf_addr, 0, byte_cnt); // init buffer space
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line585">585    </a></b>	
+<b><a name="line586">586    </a></b>	    switch ( log_ptr->lid ) {
+<b><a name="line587">587    </a></b>	    case LID_ERR_INFO:      // (M)
+<b><a name="line588">588    </a></b>	        Dump_NVME(tprintf("      >> Err Info Log\n\r"));
+<b><a name="line589">589    </a></b>	        break;
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	    case LID_SMART_INFO:    // (M)
+<b><a name="line592">592    </a></b>	        Dump_NVME(tprintf("      >> SMART Info Log\n\r"));
+<b><a name="line593">593    </a></b>	        smart_data_ptr                       = ( NVME_SMART_DATA_PTR )buf_addr;
+<b><a name="line594">594    </a></b>	        smart_data_ptr->comp_temp            = 273 + 30;
+<b><a name="line595">595    </a></b>	        smart_data_ptr->available_spare      = 100;
+<b><a name="line596">596    </a></b>	        smart_data_ptr->available_spare_thes = 5;
+<b><a name="line597">597    </a></b>	
+<b><a name="line598">598    </a></b>	        // set log data index for SLOG_RCMD_CNT
+<b><a name="line599">599    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_READ, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line600">600    </a></b>	        rcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line601">601    </a></b>	
+<b><a name="line602">602    </a></b>	        // set log data index for SLOG_RDATA_CNT
+<b><a name="line603">603    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_READ, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line604">604    </a></b>	        rdata_cnt = hal_nvme_get_rw_log_from_qw_ctrl(1U);
+<b><a name="line605">605    </a></b>	
+<b><a name="line606">606    </a></b>	        // set log data index for SLOG_WCMD_CNT
+<b><a name="line607">607    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_WRITE, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line608">608    </a></b>	        wcmd_cnt  = hal_nvme_get_rw_log_from_qw_ctrl(0U);
+<b><a name="line609">609    </a></b>	
+<b><a name="line610">610    </a></b>	        // set log data index for SLOG_WDATA_CNT
+<b><a name="line611">611    </a></b>	        hal_nvme_set_rw_log_setting_from_qw_ctrl(PCIE_PF_0, HAL_NVME_GP_LOG_RW_WRITE, HAL_NVME_GP_LOG_SEL_FUNC);
+<b><a name="line612">612    </a></b>	        wdata_cnt = hal_nvme_get_rw_log_from_qw_ctrl(1U);
+<b><a name="line613">613    </a></b>	
+<b><a name="line614">614    </a></b>	        // set log data index for busy timer
+<b><a name="line615">615    </a></b>	        busy_time = hal_nvme_get_busytime_from_qw_ctrl(PCIE_PF_0);
+</pre></body>
+</html>

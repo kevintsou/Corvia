@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/mctp/mctp_ids_and_codes.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _MCTP_IDS_AND_CODES_H_
+<b><a name="line2">2    </a></b>	#define _MCTP_IDS_AND_CODES_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_MCTP_IDS_AND_CODES_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// DSP0239 (MCTP IDs and Codes) v1.3.0
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line11">11    </a></b>	/*************************************************************************************************
+<b><a name="line12">12    </a></b>	 * 6. MCTP Message Type Codes
+<b><a name="line13">13    </a></b>	 *************************************************************************************************/
+<b><a name="line14">14    </a></b>	#define MCTP_MSG_TYPE_NUM_MCTP_CTRL                                     (0x00U) // DSP0236
+<b><a name="line15">15    </a></b>	#define MCTP_MSG_TYPE_NUM_PLDM                                          (0x01U) // DSP0241
+<b><a name="line16">16    </a></b>	#define MCTP_MSG_TYPE_NUM_NCSI                                          (0x02U) // DSP0261
+<b><a name="line17">17    </a></b>	#define MCTP_MSG_TYPE_NUM_ETHERNET                                      (0x03U) // DSP0261
+<b><a name="line18">18    </a></b>	#define MCTP_MSG_TYPE_NUM_NVME_MGMT_MSG                                 (0x04U) // DSP0235
+<b><a name="line19">19    </a></b>	#define MCTP_MSG_TYPE_NUM_VENDOR_PCI                                    (0x7EU) // DSP0236
+<b><a name="line20">20    </a></b>	#define MCTP_MSG_TYPE_NUM_VENDOR_IANA                                   (0x7FU) // DSP0236
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	/*************************************************************************************************
+<b><a name="line24">24    </a></b>	 * 7. MCTP Physical Medium Identifiers
+<b><a name="line25">25    </a></b>	 *************************************************************************************************/
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	/*************************************************************************************************
+<b><a name="line29">29    </a></b>	 * 8. MCTP Physical Transport Binding Identifiers
+<b><a name="line30">30    </a></b>	 *************************************************************************************************/
+<b><a name="line31">31    </a></b>	#define MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_MCTP_OVER_SMBUS      (0x01U) // DSP0237
+<b><a name="line32">32    </a></b>	#define MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_MCTP_OVER_PCIE_VDM   (0x02U) // DSP0238
+<b><a name="line33">33    </a></b>	#define MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_MCTP_OVER_USB        (0x03U) // Reserved
+</pre></body>
+</html>

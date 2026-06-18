@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_dice_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line96">96    </a></b>	    memset((void *)&hmac_sha_param, 0, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line97">97    </a></b>	    memset((void *)&kdf_param,      0, sizeof(SEC_KDF_PARAMS_T));
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    if (is_dt_attribution == SEC_YES)
+<b><a name="line100">100    </a></b>	    {
+<b><a name="line101">101    </a></b>	        sha_mode    = HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line102">102    </a></b>	        digest_size = HAL_SEC_SHA2_SM3_DIGEST_LEN;
+<b><a name="line103">103    </a></b>	    }
+<b><a name="line104">104    </a></b>	    else
+<b><a name="line105">105    </a></b>	    {
+<b><a name="line106">106    </a></b>	        sha_mode    = HAL_SEC_SHA2_512_MODE;
+<b><a name="line107">107    </a></b>	        digest_size = HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line108">108    </a></b>	    }
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	    if (dice_kat_test(cal_buf_addr) == PASS) {
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	        (void)memset((void *)input_addr, 0x00, SECTOR_SIZE);
+<b><a name="line113">113    </a></b>	        (void)memcpy((void *)uds_buf_addr, (void *)dice_param->uds_kdk_addr, digest_size);
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	        if (dice_param->cdi_input_type == TRUE)
+<b><a name="line116">116    </a></b>	        {
+<b><a name="line117">117    </a></b>	            Dump_SEC(tprintf("M Dice"));
+<b><a name="line118">118    </a></b>	            sal_log_tracker_set(sal_locate(0x14, TYPE_STEP));
+<b><a name="line119">119    </a></b>	            // UDS = KDF(UDS KDK, "Micron DICE", "HMAC")
+<b><a name="line120">120    </a></b>	            (void)memset((void *)input_addr, 0x00, SECTOR_SIZE);
+<b><a name="line121">121    </a></b>	            tmp_len = 0;
+<b><a name="line122">122    </a></b>	            (void)memcpy((void *)(input_addr), (void *)label, sizeof(label));
+<b><a name="line123">123    </a></b>	            tmp_len += sizeof(label);
+<b><a name="line124">124    </a></b>	            tmp_len += 1; //fill 0
+<b><a name="line125">125    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)context1, sizeof(context1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "context1" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line126">126    </a></b>	            tmp_len += sizeof(context1);
+<b><a name="line127">127    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&l, sizeof(l));
+<b><a name="line128">128    </a></b>	            tmp_len += sizeof(l);
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	            memset((void *)&kdf_param, 0U, sizeof(SEC_KDF_PARAMS_T));
+<b><a name="line131">131    </a></b>	            kdf_param.key_addr      = uds_buf_addr;
+<b><a name="line132">132    </a></b>	            kdf_param.key_len       = digest_size;
+<b><a name="line133">133    </a></b>	            kdf_param.src_addr      = (U32)input_addr;
+<b><a name="line134">134    </a></b>	            kdf_param.src_len       = tmp_len;
+<b><a name="line135">135    </a></b>	            kdf_param.targ_addr     = uds_buf_addr + HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line136">136    </a></b>	            kdf_param.l_len_bit     = digest_size * 8;
+<b><a name="line137">137    </a></b>	            kdf_param.sha_mode      = sha_mode;
+<b><a name="line138">138    </a></b>	            kdf_param.r_len_bit     = 8;
+<b><a name="line139">139    </a></b>	            kdf_param.timeout_val   = SEC_TIMEOUT_KDF;
+<b><a name="line140">140    </a></b>	            phal_sec_hmac_sha2_kdf_counter_mode_blocking(&kdf_param);
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	            // CDI = HMAC(UDS, Level 0 firmware measurement || Device_Security_Profile)
+<b><a name="line143">143    </a></b>	            (void)memset((void *)input_addr, 0x00, SECTOR_SIZE);
+<b><a name="line144">144    </a></b>	            tmp_len = 0;
+<b><a name="line145">145    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)dice_param->loader_measure_addr, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line146">146    </a></b>	            tmp_len += HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line147">147    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->dice_boot_confg_efuse_setting), sizeof(dice_param->dice_boot_confg_efuse_setting));
+<b><a name="line148">148    </a></b>	            tmp_len += sizeof(dice_param->dice_boot_confg_efuse_setting);
+<b><a name="line149">149    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->sec_mode_confg_efuse_setting),  sizeof(dice_param->sec_mode_confg_efuse_setting));
+<b><a name="line150">150    </a></b>	            tmp_len += sizeof(dice_param->sec_mode_confg_efuse_setting);
+<b><a name="line151">151    </a></b>	            (void)memcpy((void *)(input_addr + tmp_len), (void *)&(dice_param->device_product_id_setting),     sizeof(dice_param->device_product_id_setting));
+<b><a name="line152">152    </a></b>	            tmp_len += sizeof(dice_param->device_product_id_setting);
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	            hmac_sha_param.key_addr.low         = uds_buf_addr + HAL_SEC_SHA2_512_DIGEST_LEN;
+<b><a name="line155">155    </a></b>	            hmac_sha_param.key_len              = digest_size;
+<b><a name="line156">156    </a></b>	            hmac_sha_param.sha.sha_mode         = sha_mode;
+</pre></body>
+</html>

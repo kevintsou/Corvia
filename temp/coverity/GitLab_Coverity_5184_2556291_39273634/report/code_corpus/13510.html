@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line351">351    </a></b>	    (U16)sizeof(gulKatKey4L_0),
+<b><a name="line352">352    </a></b>	    (U32 *)gulKatKey4L_0,
+<b><a name="line353">353    </a></b>	    (U32 *)gulKatIV_0,
+<b><a name="line354">354    </a></b>	    (U8 *)gubKatPlain64B_0,
+<b><a name="line355">355    </a></b>	    (U8 *)gubKatOfb128b_64B
+<b><a name="line356">356    </a></b>	};
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	//--------------------------------------------------------------------------------------------------------------------
+<b><a name="line359">359    </a></b>	const U8 gubKatOfb256b_64B[64] =
+<b><a name="line360">360    </a></b>	{
+<b><a name="line361">361    </a></b>	    0xDCU, 0x7EU, 0x84U, 0xBFU, 0xDAU, 0x79U, 0x16U, 0x4BU, 0x7EU, 0xCDU, 0x84U, 0x86U, 0x98U, 0x5DU, 0x38U, 0x60U,
+<b><a name="line362">362    </a></b>	    0x4FU, 0xEBU, 0xDCU, 0x67U, 0x40U, 0xD2U, 0x0BU, 0x3AU, 0xC8U, 0x8FU, 0x6AU, 0xD8U, 0x2AU, 0x4FU, 0xB0U, 0x8DU,
+<b><a name="line363">363    </a></b>	    0x71U, 0xABU, 0x47U, 0xA0U, 0x86U, 0xE8U, 0x6EU, 0xEDU, 0xF3U, 0x9DU, 0x1CU, 0x5BU, 0xBAU, 0x97U, 0xC4U, 0x08U,
+<b><a name="line364">364    </a></b>	    0x01U, 0x26U, 0x14U, 0x1DU, 0x67U, 0xF3U, 0x7BU, 0xE8U, 0x53U, 0x8FU, 0x5AU, 0x8BU, 0xE7U, 0x40U, 0xE4U, 0x84U
+<b><a name="line365">365    </a></b>	};
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	const SEC_AES_KAT_PATTERN gsKatOFB256b_64B =
+<b><a name="line368">368    </a></b>	{
+<b><a name="line369">369    </a></b>	    64UL,
+<b><a name="line370">370    </a></b>	    HAL_SEC_AES_OFB_MODE,
+<b><a name="line371">371    </a></b>	    HAL_SEC_AES_KEY256_MODE,
+<b><a name="line372">372    </a></b>	    (U16)sizeof(gulKatKey8L_0),
+<b><a name="line373">373    </a></b>	    (U32 *)gulKatKey8L_0,
+<b><a name="line374">374    </a></b>	    (U32 *)gulKatIV_0,
+<b><a name="line375">375    </a></b>	    (U8 *)gubKatPlain64B_0,
+<b><a name="line376">376    </a></b>	    (U8 *)gubKatOfb256b_64B
+<b><a name="line377">377    </a></b>	};*/
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	
+<b><a name="line380">380    </a></b>	const SEC_AES_KAT_PATTERN *const sec_aes_kat_patterns[] = {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'sec_aes_kat_patterns', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                                 ^</font>
+<b><a name="line381">381    </a></b>	    &gsKatCbc256b_64B,
+<b><a name="line382">382    </a></b>	    &gsKatXts256b_512B,
+<b><a name="line383">383    </a></b>	};
+<b><a name="line384">384    </a></b>	#endif
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	#if KAT_SM4_EN
+<b><a name="line387">387    </a></b>	#if BC_USE_EXTRA_KAT
+<b><a name="line388">388    </a></b>	const U32 sec_sm4_kat_key_0[4] = {0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
+<b><a name="line389">389    </a></b>	
+<b><a name="line390">390    </a></b>	const U32 sec_sm4_kat_key_1[4] = {0x98BADCFE, 0x10325476, 0x67452301, 0xEFCDAB89};
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	const U8 sec_sm4_kat_ptx_1[32] = {0xAA, 0xAA, 0xAA, 0xAA, 0xBB, 0xBB, 0xBB, 0xBB, 0xCC, 0xCC, 0xCC, 0xCC, 0xDD, 0xDD, 0xDD, 0xDD,
+<b><a name="line395">395    </a></b>	        0xEE, 0xEE, 0xEE, 0xEE, 0xFF, 0xFF, 0xFF, 0xFF, 0xAA, 0xAA, 0xAA, 0xAA, 0xBB, 0xBB, 0xBB, 0xBB
+<b><a name="line396">396    </a></b>	    };
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	const U8 sec_sm4_kat_ctr_ptx_0[64] = {0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB,
+<b><a name="line401">401    </a></b>	        0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD,
+<b><a name="line402">402    </a></b>	        0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+<b><a name="line403">403    </a></b>	        0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB
+<b><a name="line404">404    </a></b>	    };
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	const U32 sec_sm4_kat_iv[4] = {0x03020100UL, 0x07060504UL, 0x0B0A0908UL, 0x0F0E0D0CUL};
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	const U8 sec_sm4_kat_ecb_ctx_1[32] = {0x5E, 0xC8, 0x14, 0x3D, 0xE5, 0x09, 0xCF, 0xF7, 0xB5, 0x17, 0x9F, 0x8F, 0x47, 0x4B, 0x86, 0x19,
+<b><a name="line409">409    </a></b>	        0x2F, 0x1D, 0x30, 0x5A, 0x7F, 0xB1, 0x7D, 0xF9, 0x85, 0xF8, 0x1C, 0x84, 0x82, 0x19, 0x23, 0x04
+<b><a name="line410">410    </a></b>	    };
+<b><a name="line411">411    </a></b>	
+</pre></body>
+</html>

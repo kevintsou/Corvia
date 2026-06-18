@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line533">533    </a></b>	            break;
+<b><a name="line534">534    </a></b>	        }
+<b><a name="line535">535    </a></b>	    }
+<b><a name="line536">536    </a></b>	
+<b><a name="line537">537    </a></b>	    if (is_timeout == 0U)
+<b><a name="line538">538    </a></b>	    {
+<b><a name="line539">539    </a></b>	        trigger_done = 1U;
+<b><a name="line540">540    </a></b>	    }
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	    return trigger_done;
+<b><a name="line543">543    </a></b>	}
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	U8 dal_sec_aes_ofl_gcm_set_aad(U64 aad_addr, U32 aad_len, U64 timeout_val)
+<b><a name="line546">546    </a></b>	{
+<b><a name="line547">547    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line548">548    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line549">549    </a></b>	
+<b><a name="line550">550    </a></b>	    DAL_SEC_AESOFL_SET_GCM_EN();
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	    // gcm set aad
+<b><a name="line553">553    </a></b>	    DAL_SEC_AESOFL_SET_SOC_ADR((U32)aad_addr);
+<b><a name="line554">554    </a></b>	    DAL_SEC_AESOFL_SET_SOC_BUF_BASE((U8)(aad_addr >> 32UL));
+<b><a name="line555">555    </a></b>	    DAL_SEC_AESOFL_SET_GCM_AAD_LEN((U8)aad_len);
+<b><a name="line556">556    </a></b>	    DAL_SEC_AESOFL_SET_GCM_AAD_START();
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	    while ((DAL_SEC_AESOFL_GET_GCM_AAD_START() == 1U))
+<b><a name="line561">561    </a></b>	    {
+<b><a name="line562">562    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line563">563    </a></b>	        {
+<b><a name="line564">564    </a></b>	            is_timeout = 1U;
+<b><a name="line565">565    </a></b>	            break;
+<b><a name="line566">566    </a></b>	        }
+<b><a name="line567">567    </a></b>	    }
+<b><a name="line568">568    </a></b>	
+<b><a name="line569">569    </a></b>	    if (is_timeout == 0U)
+<b><a name="line570">570    </a></b>	    {
+<b><a name="line571">571    </a></b>	        trigger_done = 1U;
+<b><a name="line572">572    </a></b>	    }
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    return trigger_done;
+<b><a name="line575">575    </a></b>	}
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	U32 dal_sec_aes_ofl_gcm_get_tag_addr(void)
+<b><a name="line578">578    </a></b>	{
+<b><a name="line579">579    </a></b>	    return (DAL_SEC_AESOFL_GCM_TAG0_ADR);
+<b><a name="line580">580    </a></b>	}
+<b><a name="line581">581    </a></b>	
+<b><a name="line582">582    </a></b>	void dal_sec_aes_ofl_gcm_clr(void)
+<b><a name="line583">583    </a></b>	{
+<b><a name="line584">584    </a></b>	    DAL_SEC_AESOFL_CLR_GCM_EN();
+<b><a name="line585">585    </a></b>	    DAL_SEC_AESOFL_SET_GCM_FIRSTR(0U);
+<b><a name="line586">586    </a></b>	    DAL_SEC_AESOFL_SET_GCM_FINALR(0U);
+<b><a name="line587">587    </a></b>	}
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	void dal_sec_aes_ofl_set_keywrap_data(U64 src_addr, U32 src_len, U64 targ_addr, U32 dummy_len, U32 *iv, U32 write_kram, U32 kidx, U32 enc_or_lba, U32 r1_enable)
+<b><a name="line590">590    </a></b>	{
+<b><a name="line591">591    </a></b>	    U32 aes_ctrl = 0UL;
+<b><a name="line592">592    </a></b>	    U32 reg_aes_kwrap_len = 0UL;
+<b><a name="line593">593    </a></b>	    U32 kwrap_func = SEC_AESOFL_KWRAP_FUNC_DV; // set to SEC_AESOFL_KWRAP_FUNC default value
+</pre></body>
+</html>

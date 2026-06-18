@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line246">246    </a></b>	    // set VQ = 1
+<b><a name="line247">247    </a></b>	    dal_db_api_set_vq(db_id);
+<b><a name="line248">248    </a></b>	}
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	/*!
+<b><a name="line251">251    </a></b>	 @brief hal_db_push
+<b><a name="line252">252    </a></b>	 @param p_data data poniter
+<b><a name="line253">253    </a></b>	 @param size whole data size (with header) * n cmds
+<b><a name="line254">254    </a></b>	 @param db_id DoorBell ID
+<b><a name="line255">255    </a></b>	 @note Push command to specified queue
+<b><a name="line256">256    </a></b>	 */
+<b><a name="line257">257    </a></b>	U8 hal_db_push(void *p_data, U16 size, U8 db_id)
+<b><a name="line258">258    </a></b>	{
+<b><a name="line259">259    </a></b>	    U32 ul_base;
+<b><a name="line260">260    </a></b>	    U32 ul_tail;
+<b><a name="line261">261    </a></b>	    U16 sq_size;
+<b><a name="line262">262    </a></b>	    U16 db_remain_size;
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	    if (size == 0)  //size = 0, push 1 cmd, get data size from qinfo or header
+<b><a name="line265">265    </a></b>	    {
+<b><a name="line266">266    </a></b>	        sq_size = ((MR_HDR_STRUCT_PTR)p_data)->len * 8U + 8U;
+<b><a name="line267">267    </a></b>	    }
+<b><a name="line268">268    </a></b>	    else
+<b><a name="line269">269    </a></b>	    {
+<b><a name="line270">270    </a></b>	        sq_size = size;
+<b><a name="line271">271    </a></b>	    }
+<b><a name="line272">272    </a></b>	    ul_base = hal_db_api_get_base_adr(db_id);
+<b><a name="line273">273    </a></b>	    ul_tail = hal_db_api_get_wptr(db_id);
+<b><a name="line274">274    </a></b>	    /*Return FAIL if writeable count not enough*/
+<b><a name="line275">275    </a></b>	    if (dal_db_api_get_wr_cnt(db_id) < (sq_size / 8))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "dal_db_api_get_wr_cnt(db_id)" (unsigned) is not the same as that of the right operand "sq_size / 8"(signed).</font>
+<b><a name="line276">276    </a></b>	    {
+<b><a name="line277">277    </a></b>	        Dump_Debug(tprintf("db no wr cnt"));
+<b><a name="line278">278    </a></b>	        return FAIL;
+<b><a name="line279">279    </a></b>	    }
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	    db_remain_size = dal_db_api_get_tail_w_rst(db_id) * HAL_DB_DATA_SIZE_8B;
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	    if (db_remain_size >= sq_size)
+<b><a name="line285">285    </a></b>	    {
+<b><a name="line286">286    </a></b>	        (void)memcpy((void *)ul_tail, (void *)p_data, sq_size);
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	    else
+<b><a name="line289">289    </a></b>	    {
+<b><a name="line290">290    </a></b>	        (void)memcpy((void *)ul_tail, (void *)p_data, db_remain_size);
+<b><a name="line291">291    </a></b>	        (void)memcpy((void *)(U32 *)ul_base, (void *)(U32 *)((U32)(U32 *)p_data + db_remain_size), sq_size - db_remain_size);
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    ASM_DSB();
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    /*Update write pointer to trigger SQ*/
+<b><a name="line297">297    </a></b>	    dal_db_api_set_wpiu(db_id, (U16)(sq_size / (U16)8U));
+<b><a name="line298">298    </a></b>	    return PASS;
+<b><a name="line299">299    </a></b>	}
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	/*!
+<b><a name="line302">302    </a></b>	 @brief   check rd_cnt is enough
+<b><a name="line303">303    </a></b>	 @param[in] q_id The queue id
+<b><a name="line304">304    </a></b>	 @param[in] pop_size The pop size
+<b><a name="line305">305    </a></b>	 @return TURE : rd_cnt is not enough
+<b><a name="line306">306    </a></b>	 @return FALSE : rd_cnt is enough
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line560">560    </a></b>	
+<b><a name="line561">561    </a></b>	    ptRet->ubTag[0]		= 'S';
+<b><a name="line562">562    </a></b>	    ptRet->ubTag[1]		= 'V';
+<b><a name="line563">563    </a></b>	
+<b><a name="line564">564    </a></b>	    ptRet->ubEn 		= gVUALock.ubEn;
+<b><a name="line565">565    </a></b>	    ptRet->ubHwRng		= 1;
+<b><a name="line566">566    </a></b>	    ptRet->ubFaultDly	= gVUALock.ubFaultDelayEn;
+<b><a name="line567">567    </a></b>	    ptRet->ubEFUSEKey	= 1;
+<b><a name="line568">568    </a></b>	    ptRet->ubStateDef 	= gVUALock.ubVUCLockStateDefault;
+<b><a name="line569">569    </a></b>	
+<b><a name="line570">570    </a></b>	    ptRet->ubState		= gVUALock.ubVUCLockState;
+<b><a name="line571">571    </a></b>	
+<b><a name="line572">572    </a></b>	    ptRet->ubFailCnt	= gVUALock.ubVerifyFailCount;
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    ptRet->ulAsciiErrorLine = dump_4ByteAsciiErrorLine(gVUALock.uwErrorLine);
+<b><a name="line575">575    </a></b>	
+<b><a name="line576">576    </a></b>	    return DEF_16B;
+<b><a name="line577">577    </a></b>	}
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	void VUA_dump(void)
+<b><a name="line580">580    </a></b>	{
+<b><a name="line581">581    </a></b>	    if (!gVUALock.ubEn) {
+<b><a name="line582">582    </a></b>	        return;
+<b><a name="line583">583    </a></b>	    }
+<b><a name="line584">584    </a></b>	    tprintf("- VUCLOCK -");
+<b><a name="line585">585    </a></b>	    tprintf("enable: %b", gVUALock.ubEn);
+<b><a name="line586">586    </a></b>	    //tprintf(" HwRng: %b", gVUALock.ubIsHwRng);            //default
+<b><a name="line587">587    </a></b>	    tprintf("  FDLY: %b", gVUALock.ubFaultDelayEn);
+<b><a name="line588">588    </a></b>	    //tprintf("EfsKey: %b", gVUALock.ubIsKeyHashInEFUSE);   //default
+<b><a name="line589">589    </a></b>	    tprintf("StsDft: %b", gVUALock.ubVUCLockStateDefault);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">String literal ""StsDft: %b"" is passed as an argument which is required to have type "char *".</font>
+<b><a name="line590">590    </a></b>	    tprintf("   Sts: %b", gVUALock.ubVUCLockState);
+<b><a name="line591">591    </a></b>	    tprintf(" F!Cnt: %d", gVUALock.ubVerifyFailCount);
+<b><a name="line592">592    </a></b>	    tprintf("erLine: %d", gVUALock.uwErrorLine);
+<b><a name="line593">593    </a></b>	    tprintf("");
+<b><a name="line594">594    </a></b>	
+<b><a name="line595">595    </a></b>	    if (gVUALock.ubVUCLockState >= VUA_VERIFY_STATE_ENGINEERING) {
+<b><a name="line596">596    </a></b>	        tprintf("RK:");
+<b><a name="line597">597    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.RsaPublicKey.ubN,	sizeof(gVUALock.VUAPublicKey.RsaPublicKey.ubN));
+<b><a name="line598">598    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.RsaPublicKey.ubE,	sizeof(gVUALock.VUAPublicKey.RsaPublicKey.ubE));
+<b><a name="line599">599    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.RsaPublicKey.ubN0,	sizeof(gVUALock.VUAPublicKey.RsaPublicKey.ubN0));
+<b><a name="line600">600    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.RsaPublicKey.ubR,	sizeof(gVUALock.VUAPublicKey.RsaPublicKey.ubR));
+<b><a name="line601">601    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.RsaPublicKey.ubRR, 	sizeof(gVUALock.VUAPublicKey.RsaPublicKey.ubRR));
+<b><a name="line602">602    </a></b>	        tprintm((U32)gVUALock.VUAPublicKey.ubMlkemPubKey, 	    sizeof(gVUALock.VUAPublicKey.ubMlkemPubKey));
+<b><a name="line603">603    </a></b>	        tprintf("SK:");
+<b><a name="line604">604    </a></b>	        tprintm((U32)gVUALock.aubASessionKey,	sizeof(gVUALock.aubASessionKey));
+<b><a name="line605">605    </a></b>	    }
+<b><a name="line606">606    </a></b>	    tprint_splitter('-');
+<b><a name="line607">607    </a></b>	}
+<b><a name="line608">608    </a></b>	
+<b><a name="line609">609    </a></b>	U8 VUA_IsLocked(void)
+<b><a name="line610">610    </a></b>	{
+<b><a name="line611">611    </a></b>	    if (!gVUALock.ubEn) {
+<b><a name="line612">612    </a></b>	        return FALSE;
+<b><a name="line613">613    </a></b>	    }
+<b><a name="line614">614    </a></b>	
+<b><a name="line615">615    </a></b>	    if (VUA_VERIFY_STATE_PASS == gVUALock.ubVUCLockState) {
+<b><a name="line616">616    </a></b>	        return FALSE;
+<b><a name="line617">617    </a></b>	    }
+<b><a name="line618">618    </a></b>	
+<b><a name="line619">619    </a></b>	    return TRUE;
+<b><a name="line620">620    </a></b>	}
+</pre></body>
+</html>

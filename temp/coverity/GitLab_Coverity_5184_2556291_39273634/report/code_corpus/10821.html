@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2520">2520    </a></b>	
+<b><a name="line2521">2521    </a></b>	void dal_nl_set_wrr_fetch_re_mcnt(U16 f_ofst, U8 cnt)
+<b><a name="line2522">2522    </a></b>	{
+<b><a name="line2523">2523    </a></b>	    w_all_NL_MED_FETCH_RCNT(f_ofst, cnt);
+<b><a name="line2524">2524    </a></b>	}
+<b><a name="line2525">2525    </a></b>	
+<b><a name="line2526">2526    </a></b>	void dal_nl_set_wrr_fetch_re_hcnt(U16 f_ofst, U8 cnt)
+<b><a name="line2527">2527    </a></b>	{
+<b><a name="line2528">2528    </a></b>	    w_all_NL_HIGH_FETCH_RCNT(f_ofst, cnt);
+<b><a name="line2529">2529    </a></b>	}
+<b><a name="line2530">2530    </a></b>	
+<b><a name="line2531">2531    </a></b>	void dal_nl_set_wrr_brcnt(U16 f_ofst, U32 val)
+<b><a name="line2532">2532    </a></b>	{
+<b><a name="line2533">2533    </a></b>	    (void)f_ofst;
+<b><a name="line2534">2534    </a></b>	    (void)val;
+<b><a name="line2535">2535    </a></b>	    // X3 need refine
+<b><a name="line2536">2536    </a></b>	    ALWAYS_ASSERT(0U);
+<b><a name="line2537">2537    </a></b>	    // r32_w_NL_WRR_BRCNT(f_ofst, val);
+<b><a name="line2538">2538    </a></b>	}
+<b><a name="line2539">2539    </a></b>	
+<b><a name="line2540">2540    </a></b>	void dal_nl_set_wrr_bur_lcnt(U16 f_ofst, U8 cnt)
+<b><a name="line2541">2541    </a></b>	{
+<b><a name="line2542">2542    </a></b>	    w_all_NL_LOW_BUR_RCNT(f_ofst, cnt);
+<b><a name="line2543">2543    </a></b>	}
+<b><a name="line2544">2544    </a></b>	
+<b><a name="line2545">2545    </a></b>	U32 dal_nl_get_wrr_bur_cnt(U16 f_ofst)
+<b><a name="line2546">2546    </a></b>	{
+<b><a name="line2547">2547    </a></b>	    (void)f_ofst;
+<b><a name="line2548">2548    </a></b>	    // X3 need refine
+<b><a name="line2549">2549    </a></b>	    ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "!0U" is invariant.</font>
+<b><a name="line2550">2550    </a></b>	    return 0UL;
+<b><a name="line2551">2551    </a></b>	    // return r32_r_NL_WRR_BRCNT(f_ofst);
+<b><a name="line2552">2552    </a></b>	}
+<b><a name="line2553">2553    </a></b>	
+<b><a name="line2554">2554    </a></b>	U8 dal_nl_get_wrr_bur_lcnt(U16 f_ofst)
+<b><a name="line2555">2555    </a></b>	{
+<b><a name="line2556">2556    </a></b>	    return (U8)r_all_NL_LOW_BUR_RCNT(f_ofst);
+<b><a name="line2557">2557    </a></b>	}
+<b><a name="line2558">2558    </a></b>	
+<b><a name="line2559">2559    </a></b>	U8 dal_nl_get_wrr_bur_mcnt(U16 f_ofst)
+<b><a name="line2560">2560    </a></b>	{
+<b><a name="line2561">2561    </a></b>	    return (U8)r_all_NL_MED_BUR_RCNT(f_ofst);
+<b><a name="line2562">2562    </a></b>	}
+<b><a name="line2563">2563    </a></b>	
+<b><a name="line2564">2564    </a></b>	U8 dal_nl_get_wrr_bur_hcnt(U16 f_ofst)
+<b><a name="line2565">2565    </a></b>	{
+<b><a name="line2566">2566    </a></b>	    return (U8)r_all_NL_HIGH_BUR_RCNT(f_ofst);
+<b><a name="line2567">2567    </a></b>	}
+<b><a name="line2568">2568    </a></b>	
+<b><a name="line2569">2569    </a></b>	void dal_nl_set_wrr_bur_mcnt(U16 f_ofst, U8 cnt)
+<b><a name="line2570">2570    </a></b>	{
+<b><a name="line2571">2571    </a></b>	    w_all_NL_MED_BUR_RCNT(f_ofst, cnt);
+<b><a name="line2572">2572    </a></b>	}
+<b><a name="line2573">2573    </a></b>	
+<b><a name="line2574">2574    </a></b>	void dal_nl_set_wrr_bur_hcnt(U16 f_ofst, U8 cnt)
+<b><a name="line2575">2575    </a></b>	{
+<b><a name="line2576">2576    </a></b>	    w_all_NL_HIGH_BUR_RCNT(f_ofst, cnt);
+<b><a name="line2577">2577    </a></b>	}
+<b><a name="line2578">2578    </a></b>	
+<b><a name="line2579">2579    </a></b>	void dal_nl_set_busy_tmr(U16 f_ofst, U64 val)
+<b><a name="line2580">2580    </a></b>	{
+</pre></body>
+</html>

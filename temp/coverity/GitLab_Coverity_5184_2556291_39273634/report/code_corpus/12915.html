@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line466">466    </a></b>	            {
+<b><a name="line467">467    </a></b>	                r32_w_INTERRUPT_ENABLE2(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE2(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line468">468    </a></b>	            }
+<b><a name="line469">469    </a></b>	            r32_w_INTERRUPT_ENABLE2(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE2(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line470">470    </a></b>	            break;
+<b><a name="line471">471    </a></b>	        case PCIE_INT_STS3:
+<b><a name="line472">472    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line473">473    </a></b>	            {
+<b><a name="line474">474    </a></b>	                r32_w_INTERRUPT_ENABLE3(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE3(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line475">475    </a></b>	            }
+<b><a name="line476">476    </a></b>	            break;
+<b><a name="line477">477    </a></b>	        case PCIE_INT_STS4:
+<b><a name="line478">478    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line479">479    </a></b>	            {
+<b><a name="line480">480    </a></b>	                r32_w_INTERRUPT_ENABLE4(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE4(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line481">481    </a></b>	            }
+<b><a name="line482">482    </a></b>	            break;
+<b><a name="line483">483    </a></b>	        case PCIE_INT_STS5:
+<b><a name="line484">484    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line485">485    </a></b>	            {
+<b><a name="line486">486    </a></b>	                r32_w_INTERRUPT_ENABLE5(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE5(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line487">487    </a></b>	            }
+<b><a name="line488">488    </a></b>	            break;
+<b><a name="line489">489    </a></b>	        case PCIE_INT_STS6:
+<b><a name="line490">490    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line491">491    </a></b>	            {
+<b><a name="line492">492    </a></b>	                r32_w_INTERRUPT_ENABLE6(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE6(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line493">493    </a></b>	            }
+<b><a name="line494">494    </a></b>	            break;
+<b><a name="line495">495    </a></b>	        /*case PCIE_INT_STS7:
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line496">496    </a></b>	            //reserve
+<b><a name="line497">497    </a></b>	            break;
+<b><a name="line498">498    </a></b>	        case PCIE_INT_STS8:
+<b><a name="line499">499    </a></b>	            //reserve
+<b><a name="line500">500    </a></b>	            break;*/
+<b><a name="line501">501    </a></b>	        case PCIE_INT_STS9:
+<b><a name="line502">502    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line503">503    </a></b>	            {
+<b><a name="line504">504    </a></b>	                r32_w_INTERRUPT_ENABLE9(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE9(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line505">505    </a></b>	            }
+<b><a name="line506">506    </a></b>	            break;
+<b><a name="line507">507    </a></b>	        case PCIE_INT_STS10:
+<b><a name="line508">508    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line509">509    </a></b>	            {
+<b><a name="line510">510    </a></b>	                r32_w_INTERRUPT_ENABLE10(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE10(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line511">511    </a></b>	            }
+<b><a name="line512">512    </a></b>	            break;
+<b><a name="line513">513    </a></b>	        case PCIE_INT_STS11:
+<b><a name="line514">514    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line515">515    </a></b>	            {
+<b><a name="line516">516    </a></b>	                r32_w_INTERRUPT_ENABLE11(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE11(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line517">517    </a></b>	            }
+<b><a name="line518">518    </a></b>	            break;
+<b><a name="line519">519    </a></b>	        case PCIE_INT_STS12:
+<b><a name="line520">520    </a></b>	            if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line521">521    </a></b>	            {
+<b><a name="line522">522    </a></b>	                r32_w_INTERRUPT_ENABLE12(port_id, (dal_set_bit(r32_r_INTERRUPT_ENABLE12(port_id), (int_en % PCIE_DW_SIZE_IN_BIT), enable))); // int_en % PCIE_DW_SIZE_IN_BIT => Bit
+<b><a name="line523">523    </a></b>	            }
+<b><a name="line524">524    </a></b>	            break;
+<b><a name="line525">525    </a></b>	        case PCIE_INT_STS13:
+<b><a name="line526">526    </a></b>	            // PCIE TODO: use #define & add port1
+</pre></body>
+</html>

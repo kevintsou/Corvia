@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1188">1188    </a></b>	    Dump_FastLink(tprintf("xtal_mode_ssc_off_p0:%d xtal_mode_ssc_off_p1:%d port_mode:%x", host_flow->attr.xtal_mode_ssc_off_p0, host_flow->attr.xtal_mode_ssc_off_p1, host_flow->attr.port_mode));
+<b><a name="line1189">1189    </a></b>	
+<b><a name="line1190">1190    </a></b>	    // foolproof for wrong port_mode, to avoid unable to build the link
+<b><a name="line1191">1191    </a></b>	    if ((host_flow->attr.port_mode < PCIE_PORT_MODE_SINGLE) ||
+<b><a name="line1192">1192    </a></b>	        (host_flow->attr.port_mode > PCIE_PORT_MODE_DUAL)) {
+<b><a name="line1193">1193    </a></b>	        host_flow->attr.port_mode = PCIE_PORT_MODE_SINGLE;
+<b><a name="line1194">1194    </a></b>	    }
+<b><a name="line1195">1195    </a></b>	    host_pcie_init(host);
+<b><a name="line1196">1196    </a></b>	    //update iccm
+<b><a name="line1197">1197    </a></b>	    host_api_set_pcie_iccm_dccm_landmark();
+<b><a name="line1198">1198    </a></b>	    host_api_pcie_check_perst_int_sts_and_link(host);
+<b><a name="line1199">1199    </a></b>	    Dump_FastLink(tprintf("finish loader fast link"));
+<b><a name="line1200">1200    </a></b>	    //while(1);
+<b><a name="line1201">1201    </a></b>	}
+<b><a name="line1202">1202    </a></b>	
+<b><a name="line1203">1203    </a></b>	#if HOST_ID_TABLE
+<b><a name="line1204">1204    </a></b>	void host_api_set_id_table_config(HOST_API_STRUCT_PTR host)
+<b><a name="line1205">1205    </a></b>	{
+<b><a name="line1206">1206    </a></b>	    ID_TABLE_LANDMARK_PTR   id_table_landmark_ptr;
+<b><a name="line1207">1207    </a></b>	    U32 last = host->host_id_tbl_base + host->host_id_tbl_size; // unit is byte
+<b><a name="line1208">1208    </a></b>	    U32 offset;                                                 // unit is byte
+<b><a name="line1209">1209    </a></b>	    U32 i, j, k;
+<b><a name="line1210">1210    </a></b>	    U32 port_idx;
+<b><a name="line1211">1211    </a></b>	
+<b><a name="line1212">1212    </a></b>	    Dump_IDPG_FE(tprintf("set_id_tbl_cfg : compact = %x", host->host_id_tbl.flow.attr.pcie_reg_compact));
+<b><a name="line1213">1213    </a></b>	    sal_log_tracker_set(sal_locate(0x1c, TYPE_STEP));
+<b><a name="line1214">1214    </a></b>	    /*
+<b><a name="line1215">1215    </a></b>	     * PCIe PHY
+<b><a name="line1216">1216    </a></b>	     */
+<b><a name="line1217">1217    </a></b>	    for (j = 0; j < HOST_ID_TBL_NUM; j++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(26) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking false branch.</font>
+<b><a name="line1218">1218    </a></b>	    {
+<b><a name="line1219">1219    </a></b>	        offset = host->host_id_tbl_base + ((U32)host->host_id_tbl.phy[j].ofst << 3);    // unit of ofst is QW
+<b><a name="line1220">1220    </a></b>	        for (i = 0; i < (U32)host->host_id_tbl.phy[j].size; i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(24) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.phy[j].size", taking false branch.</font>
+<b><a name="line1221">1221    </a></b>	            id_table_landmark_ptr = (ID_TABLE_LANDMARK_PTR)offset;
+<b><a name="line1222">1222    </a></b>	            Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1223">1223    </a></b>	            Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1224">1224    </a></b>	            Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1225">1225    </a></b>	            // check address
+<b><a name="line1226">1226    </a></b>	            if ((id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_phy_reg_base()) &&
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_phy_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_phy_reg_base() + 4096UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_phy_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_phy_reg_base() + 4096UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_phy_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_phy_reg_base() + 4096UL", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(20) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_phy_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(21) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_phy_reg_base() + 4096UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(22) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><a name="line1227">1227    </a></b>	                (id_table_landmark_ptr->reg.long_address <  hal_fw_pcie_get_phy_reg_base() + PCIE_PHY_REG_REG_SIZE) &&
+<b><a name="line1228">1228    </a></b>	                (offset < last)) {
+<b><a name="line1229">1229    </a></b>	                // set value
+<b><a name="line1230">1230    </a></b>	                hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1231">1231    </a></b>	            }
+<b><a name="line1232">1232    </a></b>	            DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line1233">1233    </a></b>	            offset += 8;    // addr + value
+<b><a name="line1234">1234    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(23) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1235">1235    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(25) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1236">1236    </a></b>	
+<b><a name="line1237">1237    </a></b>	    /*
+<b><a name="line1238">1238    </a></b>	     * Port 0 ~ Port 1
+<b><a name="line1239">1239    </a></b>	     */
+<b><a name="line1240">1240    </a></b>	    for (k = PCIE_PORT_0; k < PCIE_PORT_MAX_NUM; k++) {
+<b><font face="Arial"; size="3"; color="#F00000">(27) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "k < 2U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(65) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "k < 2U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(92) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "k < 2U", taking false branch.</font>
+<b><a name="line1241">1241    </a></b>	        for (j = 0; j < HOST_ID_TBL_NUM; j++) {
+<b><font face="Arial"; size="3"; color="#F00000">(28) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(51) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(63) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(66) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(78) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(90) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking false branch.</font>
+<b><a name="line1242">1242    </a></b>	            if (host->host_id_tbl.flow.attr.pcie_reg_compact == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(29) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(52) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(67) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(79) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><a name="line1243">1243    </a></b>	                port_idx = PCIE_PORT_0;     // use Port 0 value for each port
+<b><a name="line1244">1244    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(30) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(53) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(68) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(80) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line1245">1245    </a></b>	            else {
+<b><a name="line1246">1246    </a></b>	                port_idx = k;               // use Port N value for each port
+<b><a name="line1247">1247    </a></b>	            }
+<b><a name="line1248">1248    </a></b>	
+<b><a name="line1249">1249    </a></b>	            offset = host->host_id_tbl_base + ((U32)host->host_id_tbl.port[port_idx][j].ofst << 3);     // unit of ofst is QW
+<b><a name="line1250">1250    </a></b>	
+<b><a name="line1251">1251    </a></b>	            for (i = 0; i < (U32)host->host_id_tbl.port[port_idx][j].size; i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(31) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(38) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(45) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(49) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(54) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(61) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(69) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(76) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(81) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(88) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.port[port_idx][j].size", taking false branch.</font>
+<b><a name="line1252">1252    </a></b>	                id_table_landmark_ptr = (ID_TABLE_LANDMARK_PTR)offset;
+<b><a name="line1253">1253    </a></b>	
+<b><a name="line1254">1254    </a></b>	                Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1255">1255    </a></b>	                Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1256">1256    </a></b>	                Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1257">1257    </a></b>	
+<b><a name="line1258">1258    </a></b>	                // check address
+<b><a name="line1259">1259    </a></b>	                if ((id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()) &&
+<b><font face="Arial"; size="3"; color="#F00000">(32) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(33) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(34) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(39) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(40) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(41) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(46) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(47) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(55) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(56) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(57) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(70) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(71) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(72) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(82) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(83) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "id_table_landmark_ptr->reg.long_address < hal_fw_pcie_get_misc_reg_base() + 843776UL", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(84) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><a name="line1260">1260    </a></b>	                    (id_table_landmark_ptr->reg.long_address < (hal_fw_pcie_get_misc_reg_base() + PCIE_TL_MISC_REG_REG_SIZE)) &&
+<b><a name="line1261">1261    </a></b>	                    (offset < last)) {
+<b><a name="line1262">1262    </a></b>	                    if (host->host_id_tbl.flow.attr.pcie_reg_compact == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(35) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(42) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(58) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(73) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(85) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "host->host_id_tbl.flow.attr.pcie_reg_compact == 1", taking true branch.</font>
+<b><a name="line1263">1263    </a></b>	                        // set value
+<b><a name="line1264">1264    </a></b>	                        hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address + PCIE_ENTRY_SIZE * k, id_table_landmark_ptr->data);
+<b><a name="line1265">1265    </a></b>	                    }
+<b><font face="Arial"; size="3"; color="#F00000">(36) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(43) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(59) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(74) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(86) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line1266">1266    </a></b>	                    else {
+<b><a name="line1267">1267    </a></b>	                        // set value
+<b><a name="line1268">1268    </a></b>	                        hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1269">1269    </a></b>	                    }
+<b><a name="line1270">1270    </a></b>	                }
+<b><a name="line1271">1271    </a></b>	
+<b><a name="line1272">1272    </a></b>	                DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line1273">1273    </a></b>	
+<b><a name="line1274">1274    </a></b>	                offset += 8;    // addr + value
+<b><a name="line1275">1275    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(37) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(44) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(48) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(60) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(75) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(87) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1276">1276    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(50) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(62) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(77) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(89) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1277">1277    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(64) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(91) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1278">1278    </a></b>	
+<b><a name="line1279">1279    </a></b>	    /*
+<b><a name="line1280">1280    </a></b>	     * other
+<b><a name="line1281">1281    </a></b>	     */
+<b><a name="line1282">1282    </a></b>	    for (j = 0; j < HOST_ID_TBL_NUM; j++) {
+<b><font face="Arial"; size="3"; color="#F00000">(93) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(102) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(108) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "j < 2", taking false branch.</font>
+<b><a name="line1283">1283    </a></b>	        offset = host->host_id_tbl_base + ((U32)host->host_id_tbl.other[j].ofst << 3);      // unit of ofst is QW
+<b><a name="line1284">1284    </a></b>	
+<b><a name="line1285">1285    </a></b>	        for (i = 0; i < (U32)host->host_id_tbl.other[j].size; i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(94) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.other[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(97) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.other[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(100) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.other[j].size", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(103) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.other[j].size", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(106) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < (U32)host->host_id_tbl.other[j].size", taking false branch.</font>
+<b><a name="line1286">1286    </a></b>	            id_table_landmark_ptr = (ID_TABLE_LANDMARK_PTR)offset;
+<b><a name="line1287">1287    </a></b>	
+<b><a name="line1288">1288    </a></b>	            Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1289">1289    </a></b>	            Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1290">1290    </a></b>	            Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1291">1291    </a></b>	
+<b><a name="line1292">1292    </a></b>	            // check address
+<b><a name="line1293">1293    </a></b>	            if (offset < last) {
+<b><font face="Arial"; size="3"; color="#F00000">(95) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(98) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(104) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "offset < last", taking true branch.</font>
+<b><a name="line1294">1294    </a></b>	                // set value
+<b><a name="line1295">1295    </a></b>	                hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1296">1296    </a></b>	            }
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	            DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line1299">1299    </a></b>	
+<b><a name="line1300">1300    </a></b>	            offset += 8;    // addr + value
+<b><a name="line1301">1301    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(96) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(99) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(105) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1302">1302    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(101) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(107) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line1303">1303    </a></b>	    sal_log_tracker_set(sal_locate(0x1d, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(109) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xf0 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "240", is not allowed.  The shift amount is 24.</font>
+<b><a name="line1304">1304    </a></b>	}
+<b><a name="line1305">1305    </a></b>	#endif
+<b><a name="line1306">1306    </a></b>	
+<b><a name="line1307">1307    </a></b>	void host_api_set_fastlink_landmark(HOST_API_STRUCT_PTR host, U8 mode)
+<b><a name="line1308">1308    </a></b>	{
+<b><a name="line1309">1309    </a></b>	    ID_TABLE *p_id_table = (ID_TABLE *)DBUF_API_BOOTCODE_ID_TABLE_BASE;
+<b><a name="line1310">1310    </a></b>	    U16 counter          = 0U;
+<b><a name="line1311">1311    </a></b>	    U32 last;
+<b><a name="line1312">1312    </a></b>	    U32 offset;
+<b><a name="line1313">1313    </a></b>	    U32 ofst = 0U;
+<b><a name="line1314">1314    </a></b>	    U16 size = 0U;
+<b><a name="line1315">1315    </a></b>	    ID_TABLE_LANDMARK_PTR id_table_landmark_ptr;
+<b><a name="line1316">1316    </a></b>	    sal_log_tracker_set(sal_locate(0x1e, TYPE_STEP));
+<b><a name="line1317">1317    </a></b>	    switch (mode) {
+<b><a name="line1318">1318    </a></b>	    case HOST_FASTLINK_SINGLE_P0:
+<b><a name="line1319">1319    </a></b>	    case HOST_FASTLINK_DUAL_P0:
+<b><a name="line1320">1320    </a></b>	        ofst = ((U32)p_id_table->fastlink_backdoor_dual_p0.ofst << 3);//unit of ofst is QW
+<b><a name="line1321">1321    </a></b>	        size = ((U16)p_id_table->fastlink_backdoor_dual_p0.size);
+<b><a name="line1322">1322    </a></b>	        break;
+<b><a name="line1323">1323    </a></b>	    case HOST_FASTLINK_DUAL_P1:
+<b><a name="line1324">1324    </a></b>	        ofst = ((U32)p_id_table->fastlink_backdoor_dual_p1.ofst << 3);//unit of ofst is QW
+<b><a name="line1325">1325    </a></b>	        size = ((U16)p_id_table->fastlink_backdoor_dual_p1.size);
+<b><a name="line1326">1326    </a></b>	        break;
+<b><a name="line1327">1327    </a></b>	    default:
+<b><a name="line1328">1328    </a></b>	        break;
+<b><a name="line1329">1329    </a></b>	    }
+<b><a name="line1330">1330    </a></b>	    last = ((U32)p_id_table) + ofst + (size << 3);
+<b><a name="line1331">1331    </a></b>	    offset = ((U32)p_id_table) + ofst;
+<b><a name="line1332">1332    </a></b>	    for (counter = 0U; counter < size; counter++) {
+<b><a name="line1333">1333    </a></b>	        id_table_landmark_ptr = (ID_TABLE_LANDMARK_PTR)offset;
+<b><a name="line1334">1334    </a></b>	        Dump_IDPG_FE(tprintf("ofst = %x", offset));
+</pre></body>
+</html>

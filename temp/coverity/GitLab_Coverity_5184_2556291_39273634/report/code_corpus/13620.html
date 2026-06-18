@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line481">481    </a></b>	void dal_fip_set_tgl_rx_time_cfg_0(U8 ch, U32 val);
+<b><a name="line482">482    </a></b>	void dal_fip_set_tgl_rx_time_cfg_1(U8 ch, U32 val);
+<b><a name="line483">483    </a></b>	void dal_fip_set_tgl_rx_time_cfg_2(U8 ch, U32 val);
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	// driving
+<b><a name="line486">486    </a></b>	void dal_fip_set_io_driving_odt(U8 ch, U8 dq_val, U8 dqs_val);
+<b><a name="line487">487    </a></b>	void dal_fip_set_io_driving_dynamic_odt(U8 ch, U8 dynamic_odt_en, U8 odt_set_h_cond);
+<b><a name="line488">488    </a></b>	void dal_fip_set_io_driving_iolh_ca(U8 ch, U8 iolh_ca);
+<b><a name="line489">489    </a></b>	void dal_fip_set_io_driving_iolh_ctt(U8 ch, U8 dq, U8 dqs, U8 reb);
+<b><a name="line490">490    </a></b>	void dal_fip_set_io_driving_iolh_ltt_up(U8 ch, U8 dq, U8 dqs, U8 reb);
+<b><a name="line491">491    </a></b>	void dal_fip_set_io_driving_iolh_ltt_dn(U8 ch, U8 dq, U8 dqs, U8 reb);
+<b><a name="line492">492    </a></b>	
+<b><a name="line493">493    </a></b>	// asic flow
+<b><a name="line494">494    </a></b>	void dal_fip_mdll_tracking_trig(void);
+<b><a name="line495">495    </a></b>	U8 dal_fip_mdll_tracking_chk_done(void);
+<b><a name="line496">496    </a></b>	U8 dal_fip_mdll_tracking_end(void);
+<b><a name="line497">497    </a></b>	void dal_fip_set_mdll_tracking(void);
+<b><a name="line498">498    </a></b>	void dal_fip_set_zqcal_tmr_cnt(U16 cnt);
+<b><a name="line499">499    </a></b>	void dal_fip_set_load_zq_phs_cnt(U8 ch, U8 cnt);
+<b><a name="line500">500    </a></b>	void dal_fip_set_def_all_ce_high(U8 ch, U8 val);
+<b><a name="line501">501    </a></b>	void dal_fip_set_zqcal_rstb_cal(U8 en);
+<b><a name="line502">502    </a></b>	void dal_fip_set_zqcal_fw_trig(U8 en);
+<b><a name="line503">503    </a></b>	U8 dal_fip_get_zqcal_bsy(void);
+<b><a name="line504">504    </a></b>	U8 dal_fip_get_zqcal_val_upd(U8 ch);
+<b><a name="line505">505    </a></b>	void dal_fip_set_zqcal_load_trig(U8 ch, U8 en);
+<b><a name="line506">506    </a></b>	void dal_fip_set_zqcal_en(U8 en);
+<b><a name="line507">507    </a></b>	void dal_fip_set_load_zq_auto(U8 ch, U8 en);
+<b><a name="line508">508    </a></b>	
+<b><a name="line509">509    </a></b>	// ldpc
+<b><a name="line510">510    </a></b>	void dal_fip_set_ldpc_sel_mode(U8 ldpc_sel_mode);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_fip_set_ldpc_sel_mode" is declared but never defined.</font>
+<b><a name="line511">511    </a></b>	U32  dal_fip_get_ldpc_frame_size(U8 ldpc_mode, U8 spare_mode);
+<b><a name="line512">512    </a></b>	void dal_fip_ldpc_dbg_trig(void);
+<b><a name="line513">513    </a></b>	void dal_fip_ldpc_dbg_write(U8 cmd, U8 rdata_sel, U8 mem_sel, U16 addr, U32 data);
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	// fphy
+<b><a name="line516">516    </a></b>	void dal_fip_delay(U32 tick_num);
+<b><a name="line517">517    </a></b>	void dal_fip_fphy_enable(void);
+<b><a name="line518">518    </a></b>	void dal_fip_set_fphy_rstb_clk(U8 ch, U8 reset);
+<b><a name="line519">519    </a></b>	void dal_fip_set_fphy_en_clk(U8 ch, U8 enable);
+<b><a name="line520">520    </a></b>	void dal_fip_set_fphy_rstb(U8 ch, U8 reset);
+<b><a name="line521">521    </a></b>	void dal_fip_set_fphy_oe(U8 ch, U8 enable);
+<b><a name="line522">522    </a></b>	void dal_fip_set_fphy_rx_ref_en(U8 ch, U8 enable);
+<b><a name="line523">523    </a></b>	void dal_fip_set_fphya_rstb(U8 ch, U8 reset);
+<b><a name="line524">524    </a></b>	void dal_fip_set_fphy_rx(U8 ch, U8 enable);
+<b><a name="line525">525    </a></b>	void dal_fip_fphy_disable(void);
+<b><a name="line526">526    </a></b>	
+<b><a name="line527">527    </a></b>	void dal_fip_init_sys_reg(void);
+<b><a name="line528">528    </a></b>	void dal_fip_fphy_osc_enable(void);
+<b><a name="line529">529    </a></b>	
+<b><a name="line530">530    </a></b>	// parity flag
+<b><a name="line531">531    </a></b>	void dal_fip_set_rty_insert_err(BOOL is_enable);
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	//GPO
+<b><a name="line534">534    </a></b>	void dal_fip_set_gpo_we(U8 ch, BOOL is_we_en);
+<b><a name="line535">535    </a></b>	void dal_fip_set_gpo_re(U8 ch, BOOL is_re_en);
+<b><a name="line536">536    </a></b>	void dal_fip_set_gpo_cle(U8 ch, BOOL is_cle_en);
+<b><a name="line537">537    </a></b>	void dal_fip_set_gpo_ale(U8 ch, BOOL is_ale_en);
+<b><a name="line538">538    </a></b>	void dal_fip_set_gpo_dqs(U8 ch, BOOL is_dqs_en);
+<b><a name="line539">539    </a></b>	void dal_fip_set_gpo_dqs_oe(U8 ch, BOOL is_dqs_oe_en);
+<b><a name="line540">540    </a></b>	void dal_fip_set_gpo_io(U8 ch, U8 io_value);
+<b><a name="line541">541    </a></b>	void dal_fip_set_gpo_io_oe(U8 ch, BOOL is_io_oe_en);
+</pre></body>
+</html>

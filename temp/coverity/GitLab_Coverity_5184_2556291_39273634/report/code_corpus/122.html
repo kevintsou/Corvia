@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1644">1644    </a></b>	 * @param[in] grp_sel           select group
+<b><a name="line1645">1645    </a></b>	 * @param[in] spd_fail_msk      spd status mask
+<b><a name="line1646">1646    </a></b>	 * @param[in] spd_fail_sts      spd fail status
+<b><a name="line1647">1647    </a></b>	 * @return    None
+<b><a name="line1648">1648    </a></b>	 * @note
+<b><a name="line1649">1649    </a></b>	 *
+<b><a name="line1650">1650    </a></b>	 * -
+<b><a name="line1651">1651    </a></b>	 *
+<b><a name="line1652">1652    </a></b>	 */
+<b><a name="line1653">1653    </a></b>	void dal_fip_set_spd_success(U8 ch, U8 grp_sel, U8 spd_success_msk, U8 spd_success_sts)
+<b><a name="line1654">1654    </a></b>	{
+<b><a name="line1655">1655    </a></b>	    switch (grp_sel) {
+<b><a name="line1656">1656    </a></b>	    case DAL_FIP_ERASE_SPD_RSM_SLC:
+<b><a name="line1657">1657    </a></b>	    case DAL_FIP_ERASE_SPD_RSM_TLC:
+<b><a name="line1658">1658    </a></b>	        w_SPD_ERASE_SUCCESS_MSK(ch, spd_success_msk);
+<b><a name="line1659">1659    </a></b>	        w_SPD_ERASE_SUCCESS_STS(ch, spd_success_sts);
+<b><a name="line1660">1660    </a></b>	        break;
+<b><a name="line1661">1661    </a></b>	
+<b><a name="line1662">1662    </a></b>	    case DAL_FIP_PROG_SPD_RSM:
+<b><a name="line1663">1663    </a></b>	        w_SPD_PROG_SUCCESS_MSK(ch, spd_success_msk);
+<b><a name="line1664">1664    </a></b>	        w_SPD_PROG_SUCCESS_STS(ch, spd_success_sts);
+<b><a name="line1665">1665    </a></b>	        break;
+<b><a name="line1666">1666    </a></b>	
+<b><a name="line1667">1667    </a></b>	    case DAL_FIP_READ_SPD_RSM:
+<b><a name="line1668">1668    </a></b>	        w_SPD_READ_SUCCESS_MSK(ch, spd_success_msk);
+<b><a name="line1669">1669    </a></b>	        w_SPD_READ_SUCCESS_STS(ch, spd_success_sts);
+<b><a name="line1670">1670    </a></b>	        break;
+<b><a name="line1671">1671    </a></b>	
+<b><a name="line1672">1672    </a></b>	    default:
+<b><a name="line1673">1673    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line1674">1674    </a></b>	        break;
+<b><a name="line1675">1675    </a></b>	    }
+<b><a name="line1676">1676    </a></b>	}
+<b><a name="line1677">1677    </a></b>	
+<b><a name="line1678">1678    </a></b>	
+<b><a name="line1679">1679    </a></b>	void dal_fip_set_timing_lgc_cls_0(U8 ch, U8 lgc_cmd_pre_len)
+<b><a name="line1680">1680    </a></b>	{
+<b><a name="line1681">1681    </a></b>	    w_LGC_CMD_PRE_PHS_CNT(ch, lgc_cmd_pre_len);
+<b><a name="line1682">1682    </a></b>	}
+<b><a name="line1683">1683    </a></b>	
+<b><a name="line1684">1684    </a></b>	void dal_fip_set_timing_lgc_als_0(U8 ch, U8 lgc_adr_pre_len)
+<b><a name="line1685">1685    </a></b>	{
+<b><a name="line1686">1686    </a></b>	    w_LGC_ADR_PRE_PHS_CNT(ch, lgc_adr_pre_len);
+<b><a name="line1687">1687    </a></b>	}
+<b><a name="line1688">1688    </a></b>	
+<b><a name="line1689">1689    </a></b>	void dal_fip_set_timing_lgc_wp_0(U8 ch, U8 lgc_cmd_wen_len, U8 lgc_adr_wen_len)
+<b><a name="line1690">1690    </a></b>	{
+<b><a name="line1691">1691    </a></b>	    w_LGC_CMD_WEN_PHS_CNT(ch, lgc_cmd_wen_len);
+<b><a name="line1692">1692    </a></b>	    w_LGC_ADR_WEN_PHS_CNT(ch, lgc_adr_wen_len);
+<b><a name="line1693">1693    </a></b>	}
+<b><a name="line1694">1694    </a></b>	
+<b><a name="line1695">1695    </a></b>	void dal_fip_set_timing_lgc_clh_0(U8 ch, U8 lgc_cmd_pst_len)
+<b><a name="line1696">1696    </a></b>	{
+<b><a name="line1697">1697    </a></b>	    w_LGC_CMD_PST_PHS_CNT(ch, lgc_cmd_pst_len);
+<b><a name="line1698">1698    </a></b>	}
+<b><a name="line1699">1699    </a></b>	
+<b><a name="line1700">1700    </a></b>	void dal_fip_set_timing_lgc_alh_0(U8 ch, U8 lgc_adr_pst_len)
+<b><a name="line1701">1701    </a></b>	{
+<b><a name="line1702">1702    </a></b>	    w_LGC_ADR_PST_PHS_CNT(ch, lgc_adr_pst_len);
+<b><a name="line1703">1703    </a></b>	}
+<b><a name="line1704">1704    </a></b>	
+</pre></body>
+</html>

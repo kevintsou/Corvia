@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line369">369    </a></b>	    for (i = 0U; i < addr_cnt; i++) {
+<b><a name="line370">370    </a></b>	        w_PIO_ADR(ch, (U8)(addr[i]));
+<b><a name="line371">371    </a></b>	    }
+<b><a name="line372">372    </a></b>	    //tWHR
+<b><a name="line373">373    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWHR]);
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	    //Read data
+<b><a name="line376">376    </a></b>	    *data_buf = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line377">377    </a></b>	
+<b><a name="line378">378    </a></b>	    if (is_sca == 1U) {
+<b><a name="line379">379    </a></b>	        //fip does not support multi byte, pull up after DATR
+<b><a name="line380">380    </a></b>	        //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line381">381    </a></b>	        r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line382">382    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCEH2]);
+<b><a name="line383">383    </a></b>	        //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line384">384    </a></b>	        r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line385">385    </a></b>	        w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line386">386    </a></b>	    }
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	    //Check dqs time out & dqs vaild
+<b><a name="line389">389    </a></b>	    if (is_sca == 0U) {
+<b><a name="line390">390    </a></b>	        if ((((U8)r_PIOR_DQS_TIMEOUT_FLAG(ch)) == TRUE) || (((U8)r_PIO_DQS_VALID(ch)) == FALSE)) {
+<b><a name="line391">391    </a></b>	            FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x, dqs vld = 0x%x\r\n", ch, (U8)r_PIOR_DQS_TIMEOUT_FLAG(ch), (U8)r_PIO_DQS_VALID(ch));
+<b><a name="line392">392    </a></b>	            status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line393">393    </a></b>	            //Clear time out flag
+<b><a name="line394">394    </a></b>	            w_PIOR_DQS_TIMEOUT_FLAG(ch, 0);
+<b><a name="line395">395    </a></b>	        }
+<b><a name="line396">396    </a></b>	    }
+<b><a name="line397">397    </a></b>	    else {
+<b><a name="line398">398    </a></b>	        if ((U8)r_PIOR_ALE_TIMEOUT_FLAG(ch) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "(U8)(((U8 volatile *)gFlhRegTxChBase[ch][192U] >> 1U) & 1U)" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line399">399    </a></b>	            FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x\r\n", ch, (U8)r_PIOR_ALE_TIMEOUT_FLAG(ch));
+<b><a name="line400">400    </a></b>	            status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line401">401    </a></b>	            //Clear time out flag
+<b><a name="line402">402    </a></b>	            w_PIOR_ALE_TIMEOUT_FLAG(ch, 0);
+<b><a name="line403">403    </a></b>	        }
+<b><a name="line404">404    </a></b>	    }
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line407">407    </a></b>	        // restore nand odt
+<b><a name="line408">408    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line409">409    </a></b>	        //tODT on/off
+<b><a name="line410">410    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	        // restore controller odt
+<b><a name="line413">413    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line414">414    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line415">415    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line416">416    </a></b>	    }
+<b><a name="line417">417    </a></b>	
+<b><a name="line418">418    </a></b>	    //tCH
+<b><a name="line419">419    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line420">420    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line421">421    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	    FIP_DBG_INFO_PRINTF("[read_status_by_lun]ch = %d, ce = %d, read status - %x\r\n", ch, ce, *data_buf);
+<b><a name="line424">424    </a></b>	
+<b><a name="line425">425    </a></b>	    return status;
+<b><a name="line426">426    </a></b>	}
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	void hal_fip_api_reset(U8 ch, U8 ce, U32 *ac_timing)
+<b><a name="line429">429    </a></b>	{
+</pre></body>
+</html>

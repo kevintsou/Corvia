@@ -1,0 +1,468 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>85</line>
+<column>13</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>78</line>
+<column>13</column>
+</event>
+<extra>pFormat</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_set_sup_link_width</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (width)}}}}}}</description>
+<line>1611</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1611</line>
+<column>5</column>
+</event>
+<extra>width</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_pqc.c</file>
+<function>sec_get_lms_info</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>19</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>12</line>
+<column>5</column>
+</event>
+<extra>lms_mode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message_response</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>876</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>870</line>
+<column>5</column>
+</event>
+<extra>binding,destination_mctp_message_info,p_transport</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1320</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1323</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1326</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1329</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1332</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1335</line>
+<column>5</column>
+</event>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1338</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1294</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1367</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1344</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1402</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1374</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1440</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1431</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_ac_timing_init</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>1782</line>
+<column>9</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1768</line>
+<column>5</column>
+</event>
+<extra>fpl_ptr,p_efuse_nand_setting,redriver_tsc_delay</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fip_set_data_size_mode</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ch_idx_sub)}}}}}}</description>
+<line>1907</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1907</line>
+<column>5</column>
+</event>
+<extra>ch_idx_sub</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fip_set_data_size_mode</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ch_idx_sub)}}}}}}</description>
+<line>1950</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1950</line>
+<column>5</column>
+</event>
+<extra>ch_idx_sub</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fip_set_data_size_mode</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ch_idx_sub)}}}}}}</description>
+<line>1995</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1995</line>
+<column>5</column>
+</event>
+<extra>ch_idx_sub</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</file>
+<function>phal_i2cm_set_hs_frequency_violate</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ulHsFreq)}}}}}}</description>
+<line>63</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>63</line>
+<column>5</column>
+</event>
+<extra>ulHsFreq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</file>
+<function>phal_i2cm_set_nm_frequency_violate</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ulNmFreq)}}}}}}</description>
+<line>10</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>10</line>
+<column>5</column>
+</event>
+<extra>ulNmFreq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>IsRpWriteDataOccurProtocolError</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (ubCmdCode)}}}}}}</description>
+<line>1216</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>1216</line>
+<column>5</column>
+</event>
+<extra>ubCmdCode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_response</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>360</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>354</line>
+<column>5</column>
+</event>
+<extra>binding,destination_mctp_message_info,p_transport</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_packet_check_header_version</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_break</tag>
+<description>{CovLStrv2{{t{This switch clause does not end with an unconditional break statement.}}}}</description>
+<line>35</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>27</line>
+<column>5</column>
+</event>
+<extra>binding,p_transport</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.1</checker>
+<type>MISRA_C_2012_Rule_16.1</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>OcpRecoveryUpdateDeviceStatusPriorToRecoveryProcess</function>
+<ordered>true</ordered>
+<event>
+<tag>missing_default</tag>
+<description>{CovLStrv2{{t{No default case found for the switch statement {0}.}{{code{switch (pACRotData-&gt;sDeviceStatus.ubDeviceStatus)}}}}}}</description>
+<line>434</line>
+<column>5</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_1_violation</tag>
+<description>{CovLStrv2{{t{The switch statement is not well formed.}}}}</description>
+<line>434</line>
+<column>5</column>
+</event>
+<extra>pACRotData,sDeviceStatus,ubDeviceStatus</extra>
+<subcategory>none</subcategory>
+</error>

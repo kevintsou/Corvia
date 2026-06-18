@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line448">448    </a></b>	    ulHMAC_input_size = 0;
+<b><a name="line449">449    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter),                   (void *)aubKC_1_D,       sizeof(aubKC_1_D));      //6
+<b><a name="line450">450    </a></b>	    ulHMAC_input_size += sizeof(aubKC_1_D);
+<b><a name="line451">451    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdu,          sizeof(aubIdu));         //8
+<b><a name="line452">452    </a></b>	    ulHMAC_input_size += sizeof(aubIdu);
+<b><a name="line453">453    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)aubIdv,          sizeof(aubIdv));         //8
+<b><a name="line454">454    </a></b>	    ulHMAC_input_size += sizeof(aubIdv);
+<b><a name="line455">455    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubN_v, sizeof(gVUALock.aubN_v)); //64
+<b><a name="line456">456    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubN_v);
+<b><a name="line457">457    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubRsaCT, sizeof(gVUALock.aubRsaCT)); //512
+<b><a name="line458">458    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubRsaCT);
+<b><a name="line459">459    </a></b>	    memcpy((void *)(pEncryptionData->aubHMACParameter + ulHMAC_input_size), (void *)gVUALock.aubMlkemCT, sizeof(gVUALock.aubMlkemCT)); //1568
+<b><a name="line460">460    </a></b>	    ulHMAC_input_size += sizeof(gVUALock.aubMlkemCT);
+<b><a name="line461">461    </a></b>	    //should be 2166 Bytes
+<b><a name="line462">462    </a></b>	
+<b><a name="line463">463    </a></b>	    // Check MacDataV (KC_1_D || IDu || IDv || RsaCT || MlkemCT || N_v)
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    VUA_DEBUG_UART("MacDataV",  (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line466">466    </a></b>	    //Dump_SEC(tprintm((U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size));
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    // Use HMAC API to calculate MacTagv (saved in aubHMACParameter buffer)
+<b><a name="line469">469    </a></b>	    memcpy((void *)aubDefault_salt, (void *)pEncryptionData->aubSessionKey + VUA_SESSION_KEY_SIZE, VUA_SESSION_KEY_SIZE);
+<b><a name="line470">470    </a></b>	    //HMAC(MODE_SEL_SHA_512, (U8 *)pEncryptionData->aubSessionKey, sizeof(pEncryptionData->aubSessionKey), (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size, ENABLE);
+<b><a name="line471">471    </a></b>	    //VUA_hmac_512((U8 *)(pEncryptionData->aubSessionKey + 32), 32, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line472">472    </a></b>	    VUA_hmac_512((U8 *)(aubDefault_salt), VUA_SESSION_KEY_SIZE, (U32)pEncryptionData->aubHMACParameter, (U32)pEncryptionData->aubHMACParameter, ulHMAC_input_size);
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    // Step 3: Compare MacTagv
+<b><a name="line476">476    </a></b>	    // Fault Delay
+<b><a name="line477">477    </a></b>	    if (gVUALock.ubFaultDelayEn) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "gVUALock.ubFaultDelayEn" does not have an essentially boolean type.</font>
+<b><a name="line478">478    </a></b>	        Sec_FaultDelay(0x3FFF);
+<b><a name="line479">479    </a></b>	    }
+<b><a name="line480">480    </a></b>	
+<b><a name="line481">481    </a></b>	    Dump_SEC(tprintf("MacTagv from dev"));
+<b><a name="line482">482    </a></b>	    Dump_SEC(tprintm((U32)pEncryptionData->aubHMACParameter, DEF_8B));
+<b><a name="line483">483    </a></b>	    Dump_SEC(tprintf("MacTagv from Host"));
+<b><a name="line484">484    </a></b>	    Dump_SEC(tprintm((U32)pEncryptionData->aubMacTagv_Rec, sizeof(pEncryptionData->aubMacTagv_Rec)));
+<b><a name="line485">485    </a></b>	    //VUA_DEBUG_UART("MacTagv from dev",  (U32)pEncryptionData->aubHMACParameter, DEF_8B);
+<b><a name="line486">486    </a></b>	    //VUA_DEBUG_UART("MacTagv from Host", (U32)pEncryptionData->aubMacTagv_Rec, sizeof(pEncryptionData->aubMacTagv_Rec));
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	    SECResult_e eRlt = SECResult_FAIL;
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    // Compare MacTagv
+<b><a name="line491">491    </a></b>	    if (SECResult_PASS == sec_memcmp((void *)(pEncryptionData->aubMacTagv_Rec), (void *)(pEncryptionData->aubHMACParameter), DEF_8B)) {
+<b><a name="line492">492    </a></b>	        eRlt = SECResult_PASS;
+<b><a name="line493">493    </a></b>	    }
+<b><a name="line494">494    </a></b>	    else {
+<b><a name="line495">495    </a></b>	        Dump_Vendor(tprintf("MacTagv Different"));
+<b><a name="line496">496    </a></b>	    }
+<b><a name="line497">497    </a></b>	
+<b><a name="line498">498    </a></b>	    // Step 4: Update VUCLOCK state
+<b><a name="line499">499    </a></b>	    if (!MyAssert(SECResult_PASS == eRlt)) {
+<b><a name="line500">500    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_VERIFY_FAIL);
+<b><a name="line501">501    </a></b>	        return result;
+<b><a name="line502">502    </a></b>	    }
+<b><a name="line503">503    </a></b>	    else {
+<b><a name="line504">504    </a></b>	        VUA_PassHandle();
+<b><a name="line505">505    </a></b>	    }
+<b><a name="line506">506    </a></b>	
+<b><a name="line507">507    </a></b>	    return result;
+<b><a name="line508">508    </a></b>	}
+</pre></body>
+</html>

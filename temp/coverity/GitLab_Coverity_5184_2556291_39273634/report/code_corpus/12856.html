@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/front/vuc.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _VUC_H_
+<b><a name="line2">2    </a></b>	#define _VUC_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_VUC_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#define IS_R_CMD(op) ((ADM_OPC_VUC_DATA_OUT == op) || (VUC_OPC_ENC_DATA_OUT == op))
+<b><a name="line5">5    </a></b>	#define IS_W_CMD(op) ((ADM_OPC_VUC_DATA_IN == op) || (VUC_OPC_ENC_DATA_IN == op))
+<b><a name="line6">6    </a></b>	#define IS_N_CMD(op) ((ADM_OPC_VUC_NO_DATA == op) || (VUC_OPC_ENC_NO_DATA == op))
+<b><a name="line7">7    </a></b>	#define IS_E_CMD(op) ((VUC_OPC_ENC_NO_DATA == op) || (VUC_OPC_ENC_DATA_IN == op) || (VUC_OPC_ENC_DATA_OUT == op))
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	#endif
+<b><a name="line10">10    </a></b>	
+</pre></body>
+</html>

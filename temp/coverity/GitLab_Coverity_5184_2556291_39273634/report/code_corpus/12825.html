@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sqz.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_SQZ_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_SQZ_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_SQZ_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	#include "lib/platform.h"
+<b><a name="line6">6    </a></b>	#include "bootcode_hal_efuse_api.h"
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#define SQZ_STATUS_CASE1       (0) // normal power-on
+<b><a name="line9">9    </a></b>	#define SQZ_STATUS_CASE2       (1) // isp jump
+<b><a name="line10">10    </a></b>	#define SQZ_STATUS_CASE3       (2) // error case
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define MEMORY_MAP_SQZ_ROM_ADDRESS                  (0x04F80000)
+<b><a name="line13">13    </a></b>	#define MEMORY_MAP_SQZ_ROM_SIZE                     (0x00032C00 - 0x4) // 203KB
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	#define SQZ_ILM_LOCAL_BASE                          (0x04FB2C00UL)
+<b><a name="line16">16    </a></b>	#define SQZ_ILM_GLOBAL_BASE                         (SQZ_ILM_LOCAL_BASE)
+<b><a name="line17">17    </a></b>	#define SQZ_ILM_SIZE                                (32UL * 1024UL)
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	#define SQZ_DLM_LOCAL_BASE                          (0x04FC0000UL)
+<b><a name="line20">20    </a></b>	#define SQZ_DLM_GLOBAL_BASE                         (SQZ_DLM_LOCAL_BASE)
+<b><a name="line21">21    </a></b>	#define SQZ_DLM_SIZE                                (16UL * 1024UL)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define SQZ_KRAM_ID                             (0x3F0UL)
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	/* SQZ return status define */
+<b><a name="line26">26    </a></b>	#define SQZ_CMD_PASS                            (0ULL)
+<b><a name="line27">27    </a></b>	#define SQZ_INVALID_PARAM                       (1ULL)
+<b><a name="line28">28    </a></b>	#define SQZ_INVALID_CMD                         (2ULL)
+<b><a name="line29">29    </a></b>	#define SQZ_INVALID_HDR                         (3ULL)
+<b><a name="line30">30    </a></b>	#define SQZ_FABRIC_ERROR                        (4ULL)
+<b><a name="line31">31    </a></b>	#define SQZ_DB_ERROR                            (5ULL)
+<b><a name="line32">32    </a></b>	#define SQZ_CDI_NOT_READY                       (6ULL)
+<b><a name="line33">33    </a></b>	#define SQZ_IDEVID_CSR_INVALID                  (7ULL)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line344">344    </a></b>	            host_pcie_init_interrupt_resource();
+<b><a name="line345">345    </a></b>	            dal_set_all_func_cfg_not_rdy(0,PCIE_ENABLE);
+<b><a name="line346">346    </a></b>	            //  clear link_req_rst_not_contd_flsh
+<b><a name="line347">347    </a></b>	            dal_set_link_req_rst_not_contd_flsh(0, PCIE_DISABLE);
+<b><a name="line348">348    </a></b>	            dal_pcie_set_hold_phy_rst(0, PCIE_DISABLE);
+<b><a name="line349">349    </a></b>	            dal_pcie_set_ltssm_en(0, PCIE_ENABLE);
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	            DISABLE_ALL_IRQ();
+<b><a name="line352">352    </a></b>	            event->rst_flag &= ~(RST_PCIE_PERST_R | RST_PCIE_PERST_R_POLL);
+<b><a name="line353">353    </a></b>	            ENABLE_ALL_IRQ();
+<b><a name="line354">354    </a></b>	        }
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    }
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    if (event->rst_flag & RST_PCIE_LINK_R) {
+<b><a name="line359">359    </a></b>	        Dump_PCIE(tprintf(">> link_r "));
+<b><a name="line360">360    </a></b>	        sal_log_tracker_set(sal_locate(0x04, TYPE_STEP));
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	        // RRS = 0
+<b><a name="line363">363    </a></b>	        dal_set_all_func_cfg_not_rdy(0,PCIE_DISABLE);
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line367">367    </a></b>	        event->rst_flag &= ~(RST_PCIE_LINK_R);
+<b><a name="line368">368    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line369">369    </a></b>	    }
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    if (event->rst_flag & RST_PCIE_START_BIST) {
+<b><a name="line372">372    </a></b>	        Dump_PCIE(tprintf(">> start_bist"));
+<b><a name="line373">373    </a></b>	        sal_log_tracker_set(sal_locate(0x05, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line376">376    </a></b>	        hal_fw_pcie_set_pl_completion_code(PCIE_PORT_0, OcpRecoveryGetMappingFwEventCode());
+<b><a name="line377">377    </a></b>	#else
+<b><a name="line378">378    </a></b>	        hal_fw_pcie_set_pl_completion_code(PCIE_PORT_0, 0U);
+<b><a name="line379">379    </a></b>	#endif
+<b><a name="line380">380    </a></b>	
+<b><a name="line381">381    </a></b>	        hal_fw_pcie_set_pl_bist_end(PCIE_PORT_0);
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line384">384    </a></b>	        event->rst_flag &= ~(RST_PCIE_START_BIST);
+<b><a name="line385">385    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line386">386    </a></b>	    }
+<b><a name="line387">387    </a></b>	
+<b><a name="line388">388    </a></b>	    if (event->rst_flag & RST_NVME_CC_EN) {
+<b><a name="line389">389    </a></b>	        Dump_PCIE(tprintf(">> cc.en = 1 \n\r"));
+<b><a name="line390">390    </a></b>	        hal_nvme_ccen_0to1(PCIE_PORT_0, PCIE_PF_0, PCIE_PF_0, FIDX_0);
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line393">393    </a></b>	        event->rst_flag &= ~(RST_NVME_CC_EN);
+<b><a name="line394">394    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line395">395    </a></b>	    }
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	    Dump_PCIE(tprintf("reset done \n\r"));
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	    host_api_enable_host_int();
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	/*
+<b><a name="line403">403    </a></b>	 *  public function
+<b><a name="line404">404    </a></b>	 */
+</pre></body>
+</html>

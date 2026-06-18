@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line952">952    </a></b>	    dal_set_link_req_rst_not_contd_flsh(p_ofst, PCIE_DISABLE);
+<b><a name="line953">953    </a></b>	    dal_pcie_set_hold_phy_rst(p_ofst, PCIE_DISABLE);
+<b><a name="line954">954    </a></b>	    dal_pcie_set_ltssm_en(p_ofst, PCIE_ENABLE);
+<b><a name="line955">955    </a></b>	    sal_log_tracker_set(sal_locate(0x17, TYPE_STEP));
+<b><a name="line956">956    </a></b>	}
+<b><a name="line957">957    </a></b>	
+<b><a name="line958">958    </a></b>	void host_api_pcie_check_perst_int_sts_and_link(HOST_API_STRUCT_PTR host)
+<b><a name="line959">959    </a></b>	{
+<b><a name="line960">960    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line961">961    </a></b>	    U8 chk_rslt[2] = {0};
+<b><a name="line962">962    </a></b>	    U8 ssc_en[2] = {0};
+<b><a name="line963">963    </a></b>	    U8 p_idx = 0;
+<b><a name="line964">964    </a></b>	    U8 conti_run[2] = {0};
+<b><a name="line965">965    </a></b>	    U8 is_xtal_mode[2] = {0};
+<b><a name="line966">966    </a></b>	
+<b><a name="line967">967    </a></b>	    sal_log_info_char('G');
+<b><a name="line968">968    </a></b>	    sal_log_info_char('1');
+<b><a name="line969">969    </a></b>	
+<b><a name="line970">970    </a></b>	    if (host_flow->attr.port_mode <= PCIE_PORT_MODE_SINGLE)
+<b><a name="line971">971    </a></b>	    {
+<b><a name="line972">972    </a></b>	        if(r_PCIE_SYS_XPERSTB_RP(0) == 1)
+<b><a name="line973">973    </a></b>	        {
+<b><a name="line974">974    </a></b>	            Dump_FastLink(tprintf("single P0 PERST_R isr occur"));
+<b><a name="line975">975    </a></b>	            sal_log_tracker_set(sal_locate(0x07, TYPE_STEP));
+<b><a name="line976">976    </a></b>	            clear_perst_and_set_param(0, &chk_rslt[0], &ssc_en[0], host_flow->attr.xtal_mode_ssc_off_p0);
+<b><a name="line977">977    </a></b>	        }
+<b><a name="line978">978    </a></b>	        else
+<b><a name="line979">979    </a></b>	        {
+<b><a name="line980">980    </a></b>	            Dump_FastLink(tprintf("single P0 PERST_R isr no detect"));
+<b><a name="line981">981    </a></b>	            sal_log_tracker_set(sal_locate(0xF7, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-252232368" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line982">982    </a></b>	            return;
+<b><a name="line983">983    </a></b>	        }
+<b><a name="line984">984    </a></b>	
+<b><a name="line985">985    </a></b>	    }
+<b><a name="line986">986    </a></b>	    else if (host_flow->attr.port_mode == PCIE_PORT_MODE_DUAL)
+<b><a name="line987">987    </a></b>	    {
+<b><a name="line988">988    </a></b>	        if(r_CR_DUALPORT_DBC() == 0)
+<b><a name="line989">989    </a></b>	        {
+<b><a name="line990">990    </a></b>	            //host regarded as dual port mode since dualport# low
+<b><a name="line991">991    </a></b>	            if(r_PCIE_SYS_XPERSTB_RP(0) == 1)
+<b><a name="line992">992    </a></b>	            {
+<b><a name="line993">993    </a></b>	                Dump_FastLink(tprintf("dual P0 PERST_R isr occur"));
+<b><a name="line994">994    </a></b>	                sal_log_tracker_set(sal_locate(0x08, TYPE_STEP));
+<b><a name="line995">995    </a></b>	                clear_perst_and_set_param(0, &chk_rslt[0], &ssc_en[0], host_flow->attr.xtal_mode_ssc_off_p0);
+<b><a name="line996">996    </a></b>	            }
+<b><a name="line997">997    </a></b>	
+<b><a name="line998">998    </a></b>	            if(r_PCIE_SYS_XPERSTB_RP(1) == 1)
+<b><a name="line999">999    </a></b>	            {
+<b><a name="line1000">1000    </a></b>	                Dump_FastLink(tprintf("dual P1 PERST_R isr occur"));
+<b><a name="line1001">1001    </a></b>	                sal_log_tracker_set(sal_locate(0x09, TYPE_STEP));
+<b><a name="line1002">1002    </a></b>	                clear_perst_and_set_param(1, &chk_rslt[1], &ssc_en[1], host_flow->attr.xtal_mode_ssc_off_p1);
+<b><a name="line1003">1003    </a></b>	            }
+<b><a name="line1004">1004    </a></b>	
+<b><a name="line1005">1005    </a></b>	            if((chk_rslt[0] == 0) && (chk_rslt[1] == 0))
+<b><a name="line1006">1006    </a></b>	            {
+<b><a name="line1007">1007    </a></b>	                Dump_FastLink(tprintf("dual P0 P1 PERST_R isr no detect"));
+<b><a name="line1008">1008    </a></b>	                sal_log_tracker_set(sal_locate(0xF9, TYPE_STEP));
+<b><a name="line1009">1009    </a></b>	                return;
+<b><a name="line1010">1010    </a></b>	            }
+<b><a name="line1011">1011    </a></b>	        }
+<b><a name="line1012">1012    </a></b>	        else
+</pre></body>
+</html>

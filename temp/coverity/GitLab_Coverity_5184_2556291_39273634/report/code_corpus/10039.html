@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line207">207    </a></b>	    for (U32 i = 0UL; i < length; i++)
+<b><a name="line208">208    </a></b>	    {
+<b><a name="line209">209    </a></b>	        hal_sec_sm9_z256_copy(get_pke_mem(&x_addr), get_pke_mem(&z_addr));
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	        hal_sec_pke_lib_zero(&pke_cmd, 15U, x_addr.sel, 5U + 9U * (U8)i, 4U);
+<b><a name="line212">212    </a></b>	        hal_sec_pke_set_en();
+<b><a name="line213">213    </a></b>	        while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line214">214    </a></b>	        hal_sec_pke_clr_en();
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	        z_addr.adr += ((U8)Z256_SIZE64 * 2U) + 1U;
+<b><a name="line217">217    </a></b>	        x_addr.adr += ((U8)Z256_SIZE64 * 2U) + 1U;
+<b><a name="line218">218    </a></b>	    }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    ///  step 6: if r overflow, add MODP_MONT_ONE, r'' = r' + MODP
+<b><a name="line221">221    </a></b>	    /// A : [0] [r'<9*length>]
+<b><a name="line222">222    </a></b>	    /// B : [0] [b , b, b, b] [pr,pr,pr,pr] [p, p, p, p ] [z<9*length>] [r''<9*length>]
+<b><a name="line223">223    </a></b>	    /// C : [0] [r<9*length>] [MODP<9*length>]
+<b><a name="line224">224    </a></b>	    z_addr.adr = 1U;
+<b><a name="line225">225    </a></b>	    U64 *overflow = get_pke_mem(&z_addr);
+<b><a name="line226">226    </a></b>	    y_addr.adr = 1U + (4U * 3U) + (9U * (U8)length);
+<b><a name="line227">227    </a></b>	    z_addr.adr = 1U + (9U * (U8)length);
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	    for (U32 i = 0UL; i < length; i++)
+<b><a name="line230">230    </a></b>	    {
+<b><a name="line231">231    </a></b>	        p_addr = get_pke_mem(&z_addr);
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	        if (*(overflow + 8) == 1U)
+<b><a name="line234">234    </a></b>	        {
+<b><a name="line235">235    </a></b>	            // p_addr = get_pke_mem(&z_addr);
+<b><a name="line236">236    </a></b>	            (void)memcpy(p_addr, (U64 *)SM9_Z256_MODP_MONT_ONE, Z256_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "SM9_Z256_MODP_MONT_ONE" to type "U64 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line237">237    </a></b>	        }
+<b><a name="line238">238    </a></b>	        else
+<b><a name="line239">239    </a></b>	        {
+<b><a name="line240">240    </a></b>	            // p_addr = get_pke_mem(&z_addr);
+<b><a name="line241">241    </a></b>	            (void)memcpy(p_addr, (U64 *)SM9_ZERO, Z256_SIZE);
+<b><a name="line242">242    </a></b>	        }
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	        z_addr.adr += ((U8)Z256_SIZE64 * 2U) + 1U;
+<b><a name="line245">245    </a></b>	        y_addr.adr += ((U8)Z256_SIZE64 * 2U) + 1U;
+<b><a name="line246">246    </a></b>	        overflow += ((2UL * Z256_SIZE64) + 1UL);
+<b><a name="line247">247    </a></b>	    }
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	    for (U32 i = 0; i < block_len; i++)
+<b><a name="line250">250    </a></b>	    {
+<b><a name="line251">251    </a></b>	        hal_sec_pke_lib_add(&pke_cmd, 15U, 0U, 0U, 0U, (U8)max_block_size, x_addr.sel, (U8)(1U + ((U8)max_block_size * (U8)i)), z_addr.sel, 1U + (9U * (U8)length) + ((U8)max_block_size * (U8)i), y_addr.sel, (U8)(1U + (4U * 3U) + (9U * (U8)length) + (U8)(63U * i)));
+<b><a name="line252">252    </a></b>	        hal_sec_pke_set_en();
+<b><a name="line253">253    </a></b>	        while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line254">254    </a></b>	        hal_sec_pke_clr_en();
+<b><a name="line255">255    </a></b>	    }
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    if (remain > 0UL)
+<b><a name="line258">258    </a></b>	    {
+<b><a name="line259">259    </a></b>	        hal_sec_pke_lib_add(&pke_cmd, 15U, 0U, 0U, 0U, (U8)remain, x_addr.sel, 1U + ((U8)max_block_size * (U8)block_len), z_addr.sel, 1U + (9U * (U8)length) + ((U8)max_block_size * (U8)block_len), y_addr.sel, 1U + (4U * 3U) + (9U * (U8)length) + (63U * (U8)block_len));
+<b><a name="line260">260    </a></b>	        hal_sec_pke_set_en();
+<b><a name="line261">261    </a></b>	        while (hal_sec_pke_get_op_bsy() == 1U) {}
+<b><a name="line262">262    </a></b>	        hal_sec_pke_clr_en();
+<b><a name="line263">263    </a></b>	    }
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	    // step 7: if r'' > P r''' = r'' - P
+<b><a name="line266">266    </a></b>	    /// A : [0] [r'<9*length>] [r'''<9*length>]
+<b><a name="line267">267    </a></b>	    /// B : [0] [b , b, b, b] [pr,pr,pr,pr] [p, p, p, p ] [z<9*length>] [r''<9*length>]
+</pre></body>
+</html>

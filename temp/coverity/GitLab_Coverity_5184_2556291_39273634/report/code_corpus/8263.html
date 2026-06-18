@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1863">1863    </a></b>	
+<b><a name="line1864">1864    </a></b>	    //Check that the FW Slot Size does not exceed the available buffer size
+<b><a name="line1865">1865    </a></b>	    if (DBUF_API_BOOTCODE_DATA_BUFFER_SIZE < ((p_fw_slot_info->total_wordline_count * p_fw_slot_info->node_per_wordline) << LC_BYTE_SIZE_SHIFT)) {
+<b><a name="line1866">1866    </a></b>	        Dump_LoadCode(tprintf("Invalid FW Slot size %x, ", ((p_fw_slot_info->total_wordline_count * p_fw_slot_info->node_per_wordline) << LC_BYTE_SIZE_SHIFT)));
+<b><a name="line1867">1867    </a></b>	        Dump_LoadCode(tprintf("exceed %x", DBUF_API_BOOTCODE_DATA_BUFFER_SIZE));
+<b><a name="line1868">1868    </a></b>	        fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_FW_SLOT_SIZE;
+<b><a name="line1869">1869    </a></b>	    }
+<b><a name="line1870">1870    </a></b>	
+<b><a name="line1871">1871    </a></b>	    //Check the Copy Count
+<b><a name="line1872">1872    </a></b>	    if ((FW_SLOT_COPY_COUNT < p_fw_slot_info->copy_count) || (0 == p_fw_slot_info->copy_count)) {
+<b><a name="line1873">1873    </a></b>	        Dump_LoadCode(tprintf("Invalid Copy Count %d, ", p_fw_slot_info->copy_count));
+<b><a name="line1874">1874    </a></b>	        fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_COPY_COUNT;
+<b><a name="line1875">1875    </a></b>	    }
+<b><a name="line1876">1876    </a></b>	
+<b><a name="line1877">1877    </a></b>	    for (copy = 0; copy < p_fw_slot_info->copy_count; copy++) {
+<b><a name="line1878">1878    </a></b>	        // check copy cnt
+<b><a name="line1879">1879    </a></b>	        if (copy >= FW_SLOT_COPY_COUNT) {
+<b><a name="line1880">1880    </a></b>	            // invalid copy cnt, not do anything
+<b><a name="line1881">1881    </a></b>	        }
+<b><a name="line1882">1882    </a></b>	        //Check the Chunk Offset
+<b><a name="line1883">1883    </a></b>	        else if ((copy < FW_SLOT_COPY_COUNT) && (FW_SLOT_CHUNK_COUNT < p_fw_slot_info->a_chunk_offset[copy])) {
+<b><a name="line1884">1884    </a></b>	            Dump_LoadCode(tprintf("Invalid Chunk Offset for %d ", p_fw_slot_info->a_chunk_offset[copy]));
+<b><a name="line1885">1885    </a></b>	            Dump_LoadCode(tprintf("Copy %d, ", (U16)copy));
+<b><a name="line1886">1886    </a></b>	            Dump_LoadCode(tprintf("exceed %d", FW_SLOT_CHUNK_COUNT));
+<b><a name="line1887">1887    </a></b>	            fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_CHUNK_OFFSET;
+<b><a name="line1888">1888    </a></b>	        }
+<b><a name="line1889">1889    </a></b>	        else {
+<b><a name="line1890">1890    </a></b>	            //Check that the last Wordline of each Copy can be found within the Chunk Infos
+<b><a name="line1891">1891    </a></b>	            chunk = p_fw_slot_info->a_chunk_offset[copy];
+<b><a name="line1892">1892    </a></b>	            wordline = p_fw_slot_info->total_wordline_count - 1;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "p_fw_slot_info->total_wordline_count" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line1893">1893    </a></b>	            relative_chunk = get_fw_chunk_info_from_slot_wordline(p_fw_slot_info->a_chunk_info, &chunk, &wordline);
+<b><a name="line1894">1894    </a></b>	            if (FW_SLOT_CHUNK_COUNT <= relative_chunk) {
+<b><a name="line1895">1895    </a></b>	                Dump_LoadCode(tprintf("Invalid Starting Chunk Info %d ", (U16)chunk));
+<b><a name="line1896">1896    </a></b>	                Dump_LoadCode(tprintf("for Copy %d, ", (U16)copy));
+<b><a name="line1897">1897    </a></b>	                Dump_LoadCode(tprintf("can not find last wordline %d", (U16)wordline));
+<b><a name="line1898">1898    </a></b>	                fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_CHUNK_INFO;
+<b><a name="line1899">1899    </a></b>	            }
+<b><a name="line1900">1900    </a></b>	        }
+<b><a name="line1901">1901    </a></b>	    }
+<b><a name="line1902">1902    </a></b>	
+<b><a name="line1903">1903    </a></b>	    return fw_slot_info_error;
+<b><a name="line1904">1904    </a></b>	}
+<b><a name="line1905">1905    </a></b>	
+<b><a name="line1906">1906    </a></b>	static U32 get_key_manifest_size_from_fw_slot_info(const FW_SLOT_INFO *p_fw_slot_info)
+<b><a name="line1907">1907    </a></b>	{
+<b><a name="line1908">1908    </a></b>	    U32 result;
+<b><a name="line1909">1909    </a></b>	
+<b><a name="line1910">1910    </a></b>	    result = ((U32)p_fw_slot_info->key_manifest_sector_size) << SECTOR_SIZE_SHIFT;
+<b><a name="line1911">1911    </a></b>	
+<b><a name="line1912">1912    </a></b>	    return result;
+<b><a name="line1913">1913    </a></b>	}
+<b><a name="line1914">1914    </a></b>	
+<b><a name="line1915">1915    </a></b>	static U8 use_fw_slot(const FW_SLOT_INFO *p_fw_slot_info, FW_SLOT_STATUS *p_fw_slot_status, U32 project_binary_address, LOAD_CODE_STATUS *p_load_code_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line1916">1916    </a></b>	{
+<b><a name="line1917">1917    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line1918">1918    </a></b>	    gSecShaTimeout = 0;
+<b><a name="line1919">1919    </a></b>	    gSecPkeTimeout = 0;
+<b><a name="line1920">1920    </a></b>	
+<b><a name="line1921">1921    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line1922">1922    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting;
+<b><a name="line1923">1923    </a></b>	    // cppcheck-suppress variableScope
+</pre></body>
+</html>

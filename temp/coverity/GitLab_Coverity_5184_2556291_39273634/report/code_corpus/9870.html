@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10372">10372    </a></b>	#endif
+<b><a name="line10373">10373    </a></b>	    sal_log_tracker_set(sal_locate(0x10, TYPE_STEP));
+<b><a name="line10374">10374    </a></b>	
+<b><a name="line10375">10375    </a></b>	    return kat_status;
+<b><a name="line10376">10376    </a></b>	
+<b><a name="line10377">10377    </a></b>	}
+<b><a name="line10378">10378    </a></b>	
+<b><a name="line10379">10379    </a></b>	/**
+<b><a name="line10380">10380    </a></b>	 * Perform host KAT tests
+<b><a name="line10381">10381    </a></b>	 *
+<b><a name="line10382">10382    </a></b>	 * @param test_buffer
+<b><a name="line10383">10383    </a></b>	 *      A buffer used during KAT
+<b><a name="line10384">10384    </a></b>	 * @return
+<b><a name="line10385">10385    </a></b>	 *      0 - All KAT passed
+<b><a name="line10386">10386    </a></b>	 */
+<b><a name="line10387">10387    </a></b>	U32 host_sec_kat_vuc(U32 kat_buffer)
+<b><a name="line10388">10388    </a></b>	{
+<b><a name="line10389">10389    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10390">10390    </a></b>	    U32 kat_count  = sizeof(gKatVUC) / sizeof(gKatVUC[0]);
+<b><a name="line10391">10391    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10392">10392    </a></b>	    {
+<b><a name="line10393">10393    </a></b>	        kat_status = gKatVUC[i](kat_buffer);
+<b><a name="line10394">10394    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10395">10395    </a></b>	            break;
+<b><a name="line10396">10396    </a></b>	        }
+<b><a name="line10397">10397    </a></b>	    }
+<b><a name="line10398">10398    </a></b>	
+<b><a name="line10399">10399    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10400">10400    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10401">10401    </a></b>	    memset((void *)kat_buffer, 0U, 0x1380U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "kat_buffer" of type "U32" is cast to type "void *".</font>
+<b><a name="line10402">10402    </a></b>	#endif
+<b><a name="line10403">10403    </a></b>	    return kat_status;
+<b><a name="line10404">10404    </a></b>	}
+<b><a name="line10405">10405    </a></b>	
+<b><a name="line10406">10406    </a></b>	/**
+<b><a name="line10407">10407    </a></b>	 * Perform host KAT tests
+<b><a name="line10408">10408    </a></b>	 *
+<b><a name="line10409">10409    </a></b>	 * @param test_buffer
+<b><a name="line10410">10410    </a></b>	 *      A buffer used during KAT
+<b><a name="line10411">10411    </a></b>	 * @return
+<b><a name="line10412">10412    </a></b>	 *      0 - All KAT passed
+<b><a name="line10413">10413    </a></b>	 */
+<b><a name="line10414">10414    </a></b>	U32 host_sec_kat_vua(U32 kat_buffer)
+<b><a name="line10415">10415    </a></b>	{
+<b><a name="line10416">10416    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10417">10417    </a></b>	    U32 kat_count  = sizeof(gKatVUA) / sizeof(gKatVUA[0]);
+<b><a name="line10418">10418    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10419">10419    </a></b>	    {
+<b><a name="line10420">10420    </a></b>	        kat_status = gKatVUA[i](kat_buffer);
+<b><a name="line10421">10421    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10422">10422    </a></b>	            break;
+<b><a name="line10423">10423    </a></b>	        }
+<b><a name="line10424">10424    </a></b>	    }
+<b><a name="line10425">10425    </a></b>	
+<b><a name="line10426">10426    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10427">10427    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10428">10428    </a></b>	    memset((void *)kat_buffer, 0U, 0x110E0U);
+<b><a name="line10429">10429    </a></b>	#endif
+<b><a name="line10430">10430    </a></b>	    return kat_status;
+<b><a name="line10431">10431    </a></b>	}
+<b><a name="line10432">10432    </a></b>	
+</pre></body>
+</html>

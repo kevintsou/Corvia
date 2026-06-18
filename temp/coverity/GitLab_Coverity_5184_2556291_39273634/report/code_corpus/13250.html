@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line83">83    </a></b>	    return NL_SQ_DESP_DW0_ENTRY_SIZE;
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	//========= public
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	void dal_nl_set_en_int_info_bitmap(DAL_NL_INT_INFO_PTR dal_nl_int_info)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_INFO_EN();
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    cur_bitmap |= dal_nl_int_info->bitmap;
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    r32_w_NL_INT_INFO_EN(cur_bitmap);
+<b><a name="line99">99    </a></b>	}
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	U32 dal_nl_get_en_int_info_dw(void)
+<b><a name="line102">102    </a></b>	{
+<b><a name="line103">103    </a></b>	    return r32_r_NL_INT_INFO_EN();
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	U32 dal_nl_get_en_int_info_bitmap(void)
+<b><a name="line107">107    </a></b>	{
+<b><a name="line108">108    </a></b>	    return r32_r_NL_INT_INFO_EN();
+<b><a name="line109">109    </a></b>	}
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	void dal_nl_clr_en_int_info_bitmap(DAL_NL_INT_INFO_PTR dal_nl_int_info)
+<b><a name="line112">112    </a></b>	{
+<b><a name="line113">113    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_INFO_EN();
+<b><a name="line114">114    </a></b>	    cur_bitmap &= (~dal_nl_int_info->bitmap);
+<b><a name="line115">115    </a></b>	    r32_w_NL_INT_INFO_EN(cur_bitmap);
+<b><a name="line116">116    </a></b>	}
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	void dal_nl_set_en_int_fw_bitmap(DAL_NL_FW_INT_PTR dal_nl_fw_int)
+<b><a name="line119">119    </a></b>	{
+<b><a name="line120">120    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_FW_EN();
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	    cur_bitmap |= dal_nl_fw_int->bitmap;
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    r32_w_NL_INT_FW_EN(cur_bitmap);
+<b><a name="line125">125    </a></b>	}
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	U32 dal_nl_get_en_int_fw_bitmap(void)
+<b><a name="line128">128    </a></b>	{
+<b><a name="line129">129    </a></b>	    return r32_r_NL_INT_FW_EN();
+<b><a name="line130">130    </a></b>	}
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	void dal_nl_clr_en_int_fw_bitmap(DAL_NL_FW_INT_PTR dal_nl_fw_int)
+<b><a name="line133">133    </a></b>	{
+<b><a name="line134">134    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_FW_EN();
+<b><a name="line135">135    </a></b>	    cur_bitmap &= (~dal_nl_fw_int->bitmap);
+<b><a name="line136">136    </a></b>	    r32_w_NL_INT_FW_EN(cur_bitmap);
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	void dal_nl_set_en_int_p_axi_bitmap(U8 p_ofst, DAL_NL_P_INT_INFO_PTR dal_nl_p_int)
+<b><a name="line140">140    </a></b>	{
+<b><a name="line141">141    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	    cur_bitmap |= dal_nl_p_int->bitmap;
+<b><a name="line144">144    </a></b>	    r32_w_NL_INT_PORT_EN(p_ofst, cur_bitmap);
+<b><a name="line145">145    </a></b>	}
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	U32 dal_nl_get_en_int_p_axi_bitmap(U8 p_ofst)
+<b><a name="line148">148    </a></b>	{
+<b><a name="line149">149    </a></b>	    return r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line150">150    </a></b>	}
+<b><a name="line151">151    </a></b>	
+<b><a name="line152">152    </a></b>	void dal_nl_clr_en_int_p_axi_bitmap(U8 p_ofst, DAL_NL_P_INT_INFO_PTR dal_nl_p_int)
+<b><a name="line153">153    </a></b>	{
+<b><a name="line154">154    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line155">155    </a></b>	    cur_bitmap &= (~dal_nl_p_int->bitmap);
+<b><a name="line156">156    </a></b>	    r32_w_NL_INT_PORT_EN(p_ofst, cur_bitmap);
+<b><a name="line157">157    </a></b>	}
+<b><a name="line158">158    </a></b>	
+<b><a name="line159">159    </a></b>	U8 dal_nl_get_int_info_event(void)
+<b><a name="line160">160    </a></b>	{
+<b><a name="line161">161    </a></b>	    return (U8)r_all_NL_INT_EVENT();
+<b><a name="line162">162    </a></b>	}
+<b><a name="line163">163    </a></b>	
+<b><a name="line164">164    </a></b>	U8 dal_nl_get_int_info_fifo_full(void)
+<b><a name="line165">165    </a></b>	{
+<b><a name="line166">166    </a></b>	    return (U8)r_all_NL_INT_FIFO_FULL();
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	U8 dal_nl_get_int_info_pid(void)
+<b><a name="line170">170    </a></b>	{
+<b><a name="line171">171    </a></b>	    return (U8)r_all_NL_INFO_PID();
+<b><a name="line172">172    </a></b>	}
+<b><a name="line173">173    </a></b>	
+<b><a name="line174">174    </a></b>	U16 dal_nl_get_int_info_qid(void)
+<b><a name="line175">175    </a></b>	{
+<b><a name="line176">176    </a></b>	    return (U16)r_all_NL_INFO_QID();
+<b><a name="line177">177    </a></b>	}
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	U8 dal_nl_get_int_info_cc_en(void)
+<b><a name="line180">180    </a></b>	{
+<b><a name="line181">181    </a></b>	    return (U8)get_int_info_ptr()->cc_chg.en;
+<b><a name="line182">182    </a></b>	}
+<b><a name="line183">183    </a></b>	
+<b><a name="line184">184    </a></b>	U8 dal_nl_get_int_info_cc_shn(void)
+<b><a name="line185">185    </a></b>	{
+<b><a name="line186">186    </a></b>	    return (U8)get_int_info_ptr()->cc_chg.shn;
+<b><a name="line187">187    </a></b>	}
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	U8 dal_nl_get_int_info_cc_crime(void)
+<b><a name="line190">190    </a></b>	{
+<b><a name="line191">191    </a></b>	    return (U8)get_int_info_ptr()->cc_chg.crime;
+<b><a name="line192">192    </a></b>	}
+<b><a name="line193">193    </a></b>	
+<b><a name="line194">194    </a></b>	U8 dal_nl_get_int_info_nssd_nml(void)
+<b><a name="line195">195    </a></b>	{
+<b><a name="line196">196    </a></b>	    return (U8)get_int_info_ptr()->nssd.normal;
+<b><a name="line197">197    </a></b>	}
+<b><a name="line198">198    </a></b>	
+<b><a name="line199">199    </a></b>	U8 dal_nl_get_int_info_nssd_abp(void)
+<b><a name="line200">200    </a></b>	{
+<b><a name="line201">201    </a></b>	    return (U8)get_int_info_ptr()->nssd.abrupt;
+<b><a name="line202">202    </a></b>	}
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	U16 dal_nl_get_int_info_fid(void)
+<b><a name="line205">205    </a></b>	{
+<b><a name="line206">206    </a></b>	    return (U16)r_all_NL_INFO_FID();
+<b><a name="line207">207    </a></b>	}
+<b><a name="line208">208    </a></b>	
+<b><a name="line209">209    </a></b>	U8 dal_nl_get_int_info_etype(void)
+<b><a name="line210">210    </a></b>	{
+<b><a name="line211">211    </a></b>	    return (U8)r_all_NL_INT_ETYPE();
+<b><a name="line212">212    </a></b>	}
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	U8 dal_nl_get_int_info_rst_fifo_full(void)
+<b><a name="line215">215    </a></b>	{
+<b><a name="line216">216    </a></b>	    return (U8)r_all_NL_RST_FIFO_FULL();
+<b><a name="line217">217    </a></b>	}
+<b><a name="line218">218    </a></b>	
+<b><a name="line219">219    </a></b>	U8 dal_nl_get_int_info_type(void)
+<b><a name="line220">220    </a></b>	{
+<b><a name="line221">221    </a></b>	    return (U8)r_all_NL_INT_TYPE();
+<b><a name="line222">222    </a></b>	}
+<b><a name="line223">223    </a></b>	
+<b><a name="line224">224    </a></b>	U16 dal_nl_get_int_info_qcnt(void)
+<b><a name="line225">225    </a></b>	{
+<b><a name="line226">226    </a></b>	    return (U16)get_int_info_ptr()->qcnt;
+<b><a name="line227">227    </a></b>	}
+<b><a name="line228">228    </a></b>	
+<b><a name="line229">229    </a></b>	U32 dal_nl_get_int_info(void)
+<b><a name="line230">230    </a></b>	{
+<b><a name="line231">231    </a></b>	    return (U32)get_int_info_ptr()->all[0];
+<b><a name="line232">232    </a></b>	}
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	void dal_nl_w1c_int_info_event(void)
+<b><a name="line235">235    </a></b>	{
+<b><a name="line236">236    </a></b>	    r32_w_NL_INT((0x1UL) << all_NL_INT_EVENT_SHIFT);  //W1C
+<b><a name="line237">237    </a></b>	}
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	U32 dal_nl_get_int_fw_bitmap(void)
+<b><a name="line240">240    </a></b>	{
+<b><a name="line241">241    </a></b>	    return r32_r_NL_INT_FW();
+<b><a name="line242">242    </a></b>	}
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	U8 dal_nl_get_int_p_axi_flag(U8 p_ofst)
+<b><a name="line245">245    </a></b>	{
+<b><a name="line246">246    </a></b>	    if (p_ofst == 0U)
+<b><a name="line247">247    </a></b>	    {
+<b><a name="line248">248    </a></b>	        return r_all_NL_INT_P0_FLG();
+<b><a name="line249">249    </a></b>	    }
+<b><a name="line250">250    </a></b>	    else
+<b><a name="line251">251    </a></b>	    {
+<b><a name="line252">252    </a></b>	        return r_all_NL_INT_P1_FLG();
+<b><a name="line253">253    </a></b>	    }
+<b><a name="line254">254    </a></b>	}
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	void dal_nl_w1c_int_fw_bitmap(U32 bitmap)
+<b><a name="line257">257    </a></b>	{
+<b><a name="line258">258    </a></b>	    r32_w_NL_INT_FW(bitmap);  //W1C
+<b><a name="line259">259    </a></b>	}
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	U32 dal_nl_get_int_p_axi_bitmap(U8 p_ofst)
+<b><a name="line262">262    </a></b>	{
+<b><a name="line263">263    </a></b>	    return r32_r_NL_INT_PORT(p_ofst);
+<b><a name="line264">264    </a></b>	}
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	void dal_nl_w1c_int_p_axi_bitmap(U8 p_ofst, DAL_NL_P_INT_INFO_PTR dal_nl_p_int)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "dal_nl_p_int" is already used to represent a type.</font>
+<b><a name="line267">267    </a></b>	{
+<b><a name="line268">268    </a></b>	    r32_w_NL_INT_PORT(p_ofst, dal_nl_p_int->bitmap);  //W1C
+<b><a name="line269">269    </a></b>	}
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	U16 dal_nl_get_ivd_sq_ofst(void)
+<b><a name="line272">272    </a></b>	{
+<b><a name="line273">273    </a></b>	    return (U16)r32_r_NL_INVLD_SQ_OFST();
+<b><a name="line274">274    </a></b>	}
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	U16 dal_nl_get_ivd_cq_ofst(void)
+<b><a name="line277">277    </a></b>	{
+<b><a name="line278">278    </a></b>	    return (U16)r32_r_NL_INVLD_CQ_OFST();
+<b><a name="line279">279    </a></b>	}
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	U8 dal_nl_get_nfe_idle(void)
+<b><a name="line282">282    </a></b>	{
+<b><a name="line283">283    </a></b>	    return (U8)r_all_NL_NFE_IDLE();
+<b><a name="line284">284    </a></b>	}
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	U8 dal_nl_get_nfe_no_outstd(void)
+<b><a name="line287">287    </a></b>	{
+<b><a name="line288">288    </a></b>	    return (U8)r_all_NL_NFE_NO_OUTSTD();
+<b><a name="line289">289    </a></b>	}
+<b><a name="line290">290    </a></b>	
+<b><a name="line291">291    </a></b>	U8 dal_nl_get_nfe_no_cmd(U8 p_ofst)
+<b><a name="line292">292    </a></b>	{
+<b><a name="line293">293    </a></b>	    return (U8)r_all_NL_NFE_NO_CMD(p_ofst);
+<b><a name="line294">294    </a></b>	}
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	U8 dal_nl_get_nfe_no_nvm_cmd(U8 p_ofst)
+<b><a name="line297">297    </a></b>	{
+</pre></body>
+</html>

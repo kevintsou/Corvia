@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line369">369    </a></b>	                    vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line370">370    </a></b>	                }
+<b><a name="line371">371    </a></b>	            }
+<b><a name="line372">372    </a></b>	            else {
+<b><a name="line373">373    </a></b>	                vuc_dispatch->cq_cmd.status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line374">374    </a></b>	                vuc_dispatch->cq_cmd.status_code = INVALID_STATUS_DATA_TRANSFER_ERROR;
+<b><a name="line375">375    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_SEND_CQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line376">376    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line377">377    </a></b>	            }
+<b><a name="line378">378    </a></b>	        }
+<b><a name="line379">379    </a></b>	        else if (VUC_HANDLER_RCV_DATA == vuc_dispatch->state) {
+<b><a name="line380">380    </a></b>	            if (vuc_dispatch->xmod.rcv_state < XMOD_RCV_INVALID_STATE) {
+<b><a name="line381">381    </a></b>	                xmodem_rcv_data(&vuc_dispatch->xmod);
+<b><a name="line382">382    </a></b>	            }
+<b><a name="line383">383    </a></b>	            else if (XMOD_RCV_VALID_STATE == vuc_dispatch->xmod.rcv_state) {
+<b><a name="line384">384    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_DISPATCH_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line385">385    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line386">386    </a></b>	            }
+<b><a name="line387">387    </a></b>	            else if (XMOD_RCV_INVALID_STATE == vuc_dispatch->xmod.rcv_state) {
+<b><a name="line388">388    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_SEND_CQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line389">389    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line390">390    </a></b>	            }
+<b><a name="line391">391    </a></b>	            else {
+<b><a name="line392">392    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_RCV_DATA_UNKNOWN_STATE, 0);
+<b><a name="line393">393    </a></b>	            }
+<b><a name="line394">394    </a></b>	        }
+<b><a name="line395">395    </a></b>	        else if (VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state) {
+<b><a name="line396">396    </a></b>	            vendor_cmd_dispatch((VUC_SQ_STRUCT_PTR)(&(vuc_dispatch->sq_cmd)), (VUC_CQ_STRUCT_PTR)(&(vuc_dispatch->cq_cmd)), (U8 *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, HOST_SERVICE_UART_TYPE);
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	            if (VUC_HANDLER_DATA_OUT == vuc_dispatch->io_type) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "VUC_HANDLER_DATA_OUT" (enum) is not the same as that of the right operand "vuc_dispatch->io_type"(unsigned).</font>
+<b><a name="line399">399    </a></b>	                xmodem_send_init(&(vuc_dispatch->xmod), (vuc_dispatch->sq_cmd.ndt * NDT_SIZE));
+<b><a name="line400">400    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_SEND_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line401">401    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_SEND_DATA);
+<b><a name="line402">402    </a></b>	            }
+<b><a name="line403">403    </a></b>	            else {
+<b><a name="line404">404    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_SEND_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line405">405    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line406">406    </a></b>	            }
+<b><a name="line407">407    </a></b>	        }
+<b><a name="line408">408    </a></b>	        else if (VUC_HANDLER_SEND_DATA == vuc_dispatch->state) {
+<b><a name="line409">409    </a></b>	            if (vuc_dispatch->xmod.send_state < XMOD_SEND_INVALID_STATE) {
+<b><a name="line410">410    </a></b>	                xmodem_send_data(&vuc_dispatch->xmod);
+<b><a name="line411">411    </a></b>	            }
+<b><a name="line412">412    </a></b>	            else {
+<b><a name="line413">413    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_UART_SEND_CQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line414">414    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line415">415    </a></b>	            }
+<b><a name="line416">416    </a></b>	        }
+<b><a name="line417">417    </a></b>	        else if (VUC_HANDLER_SEND_CQ == vuc_dispatch->state) {
+<b><a name="line418">418    </a></b>	            Dump_Vendor(tprintf("VUC_HANDLER_SEND_CQ\n\r "));
+<b><a name="line419">419    </a></b>	            vuc_uart_send_cq(&(vuc_dispatch->cq_cmd));
+<b><a name="line420">420    </a></b>	            vuc_dispatch_reset(vuc_dispatch);
+<b><a name="line421">421    </a></b>	        }
+<b><a name="line422">422    </a></b>	        else {
+<b><a name="line423">423    </a></b>	        }
+<b><a name="line424">424    </a></b>	    }
+<b><a name="line425">425    </a></b>	}
+<b><a name="line426">426    </a></b>	
+</pre></body>
+</html>

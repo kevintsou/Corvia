@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_transmit_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line227">227    </a></b>	    return NULL;
+<b><a name="line228">228    </a></b>	}
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	MCTP_MESSAGE_TRANSMIT_HANDLER *mctp_message_transmit_handler_find_send(MCTP_MANAGEMENT *p_mctp)
+<b><a name="line231">231    </a></b>	{
+<b><a name="line232">232    </a></b>	    const MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	    p_transmit_handler = &p_mctp->transmit_handler;
+<b><a name="line235">235    </a></b>	
+<b><a name="line236">236    </a></b>	    if ((MCTP_MESSAGE_TRANSMIT_DIRECTION_SEND == p_transmit_handler->direction) && (MCTP_MESSAGE_TRANSMIT_STATE_TRANSMITTING == p_transmit_handler->state) && (0U == p_transmit_handler->pause_flag_status)) {
+<b><a name="line237">237    </a></b>	        if (0U == p_mctp->transmit_handler.delay_flag) {
+<b><a name="line238">238    </a></b>	            p_mctp->transmit_handler.previous_packet_time =  phal_sys_rtt_get_ms();
+<b><a name="line239">239    </a></b>	            p_mctp->transmit_handler.delay_flag = 1U;
+<b><a name="line240">240    </a></b>	        }
+<b><a name="line241">241    </a></b>	        //Only print when found because this function is used to poll for anything to send
+<b><a name="line242">242    </a></b>	        return (MCTP_MESSAGE_TRANSMIT_HANDLER *)p_transmit_handler;
+<b><a name="line243">243    </a></b>	    }
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	    return NULL;
+<b><a name="line246">246    </a></b>	}
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	MCTP_MESSAGE_TRANSMIT_HANDLER *mctp_message_transmit_handler_find_idle(MCTP_MANAGEMENT *p_mctp)
+<b><a name="line249">249    </a></b>	{
+<b><a name="line250">250    </a></b>	    const MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Transmit Handler Find Idle"));
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	    p_transmit_handler = &p_mctp->transmit_handler;
+<b><a name="line255">255    </a></b>	
+<b><a name="line256">256    </a></b>	    if ((MCTP_MESSAGE_TRANSMIT_STATE_IDLE == p_transmit_handler->state) || (MCTP_MESSAGE_TRANSMIT_STATE_END == p_transmit_handler->state)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "MCTP_MESSAGE_TRANSMIT_STATE_IDLE" (signed) is not the same as that of the right operand "p_transmit_handler->state"(unsigned).</font>
+<b><a name="line257">257    </a></b>	        return (MCTP_MESSAGE_TRANSMIT_HANDLER *)p_transmit_handler;
+<b><a name="line258">258    </a></b>	    }
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Does not exist"));
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	    return NULL;
+<b><a name="line263">263    </a></b>	}
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	MCTP_MESSAGE_TRANSMIT_HANDLER *mctp_message_transmit_handler_find_timeout(MCTP_MANAGEMENT *p_mctp, U16 transport_binding)
+<b><a name="line266">266    </a></b>	{
+<b><a name="line267">267    </a></b>	    U32 timeout_us;
+<b><a name="line268">268    </a></b>	    const MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    p_transmit_handler = &(p_mctp->transmit_handler);
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    if ((MCTP_MESSAGE_TRANSMIT_STATE_TRANSMITTING == p_transmit_handler->state) &&
+<b><a name="line273">273    </a></b>	        (MCTP_MESSAGE_TRANSMIT_DIRECTION_RECEIVE == p_transmit_handler->direction)) {
+<b><a name="line274">274    </a></b>	        timeout_us = mctp_message_transmit_handler_check_timeout(p_transmit_handler);
+<b><a name="line275">275    </a></b>	        if (0U != timeout_us) {
+<b><a name="line276">276    </a></b>	            //8.8 Terminating message assembly/dropped messages
+<b><a name="line277">277    </a></b>	            //  Timeout waiting for a packet
+<b><a name="line278">278    </a></b>	            //Error Condition, drop message
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	            //message_assembly_status |=
+<b><a name="line281">281    </a></b>	            //    MESSAGE_ASSEMBLY_INVALID_PACKET_INTERVAL_TIMEOUT |
+<b><a name="line282">282    </a></b>	            //    MESSAGE_ASSEMBLY_DROP_MESSAGE;
+<b><a name="line283">283    </a></b>	            //TODO@Aaron handle this crap
+<b><a name="line284">284    </a></b>	            //nvme_mi, record error timeout WPTT
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	            return (MCTP_MESSAGE_TRANSMIT_HANDLER *)p_transmit_handler;
+<b><a name="line287">287    </a></b>	        }
+</pre></body>
+</html>

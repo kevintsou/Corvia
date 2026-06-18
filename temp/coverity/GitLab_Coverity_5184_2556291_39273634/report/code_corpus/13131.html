@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vua/framework_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line50">50    </a></b>	}
+<b><a name="line51">51    </a></b>	#endif
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	static void VUA_FailHandle(VUAStatus_t *result, U16 status, U16 ulErrCode)
+<b><a name="line54">54    </a></b>	{
+<b><a name="line55">55    </a></b>	    //gsVucVar.ubVucCmdErrStatus = ERR_HANDSHAKING;
+<b><a name="line56">56    </a></b>	    result->ubStatus = status;
+<b><a name="line57">57    </a></b>	    result->ubErrNum = ulErrCode;
+<b><a name="line58">58    </a></b>	    if (gVUALock.ubEn) {
+<b><a name="line59">59    </a></b>	        if (VUA_VERIFY_STATE_LOCK_DOWN != gVUALock.ubVUCLockState) {
+<b><a name="line60">60    </a></b>	            gVUALock.ubVerifyFailCount++;
+<b><a name="line61">61    </a></b>	            if (gVUALock.ubVerifyFailCount >= VUCLOCK_MAX_VERIFY_FAIL_COUNT) {
+<b><a name="line62">62    </a></b>	                gVUALock.ubVUCLockState = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line63">63    </a></b>	            }
+<b><a name="line64">64    </a></b>	            else {
+<b><a name="line65">65    </a></b>	                gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line66">66    </a></b>	            }
+<b><a name="line67">67    </a></b>	        }
+<b><a name="line68">68    </a></b>	        memset((void *)(gVUALock.aubASessionKey), 0x00, sizeof(gVUALock.aubASessionKey));
+<b><a name="line69">69    </a></b>	        Dump_SEC(tprintf("VUCL F!: %d", gVUALock.ubVUCLockState));
+<b><a name="line70">70    </a></b>	    }
+<b><a name="line71">71    </a></b>	}
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	void VUA_InitResult(VUAStatus_t *result){
+<b><a name="line74">74    </a></b>	    result->ubStatus = VALID_STATUS;
+<b><a name="line75">75    </a></b>	    result->ubErrNum = 0;
+<b><a name="line76">76    </a></b>	    result->ubErrType = 0;
+<b><a name="line77">77    </a></b>	}
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	#define UCHAR U8
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "UCHAR", which is has already been used.</font>
+<b><a name="line80">80    </a></b>	// for sending key of VUC protection
+<b><a name="line81">81    </a></b>	VUAStatus_t VUA_sendSecureInfo(void)
+<b><a name="line82">82    </a></b>	{
+<b><a name="line83">83    </a></b>	    Dump_SEC(tprintf("VUA_sendSecureInfo\n"));
+<b><a name="line84">84    </a></b>	    VUAStatus_t result;
+<b><a name="line85">85    </a></b>	    VUA_InitResult(&result);
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    if (!MyAssert(gVUALock.ubEn)) {
+<b><a name="line88">88    </a></b>	        VUA_FailHandle(&result, INVALID_STATUS_VERIFICATION_ERROR, STATUS_REQUEST_DENY);
+<b><a name="line89">89    </a></b>	        return result;
+<b><a name="line90">90    </a></b>	    }
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    SECURE_KEY_INFO *pInput = (SECURE_KEY_INFO *)gVUALock.ulVendorBufBase;
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    typedef struct {
+<b><a name="line95">95    </a></b>	        U8 ubIsLittle;
+<b><a name="line96">96    </a></b>	        U8 ubIdx;
+<b><a name="line97">97    </a></b>	        U8 *pubKeyN;
+<b><a name="line98">98    </a></b>	        U8 *pubKeyE;
+<b><a name="line99">99    </a></b>	        U8 *pubKeyN0;
+<b><a name="line100">100    </a></b>	        U8 *pubKeyR;
+<b><a name="line101">101    </a></b>	        U8 *pubKeyRR;
+<b><a name="line102">102    </a></b>	        U8 *pubKeyMlkem;
+<b><a name="line103">103    </a></b>	    } inner_info_t;
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	    inner_info_t info;
+<b><a name="line106">106    </a></b>	    info.ubIsLittle 		    = pInput->ucEndian;
+<b><a name="line107">107    </a></b>	    info.ubIdx 				    = SecKey_KeyIDtoIdx(*(U32 *)pInput->ucHMS_KeyIndex);
+<b><a name="line108">108    </a></b>	    info.pubKeyN 			    = pInput->ucPublicKey_N;
+<b><a name="line109">109    </a></b>	    info.pubKeyE			    = pInput->ucPublicKey_E;
+<b><a name="line110">110    </a></b>	    info.pubKeyN0 			    = pInput->ucPublicKey_N0;
+<b><a name="line111">111    </a></b>	    info.pubKeyR 			    = pInput->ucPublicKey_R;
+<b><a name="line112">112    </a></b>	    info.pubKeyRR 			    = pInput->ucPublicKey_RR;
+<b><a name="line113">113    </a></b>	    info.pubKeyMlkem 	        = pInput->ucPublicKey_Mlkem;
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    Dump_SEC(tprintf("KID:%b(%d)", info.ubIdx + 1, info.ubIdx));
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    if (IS_DEBUG_SWITCH_ON(gSalDbg.log_vendor)) {
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	        Dump_Vendor(tprintf("info isL: %s", info.ubIsLittle ? "L" : "B"));
+<b><a name="line120">120    </a></b>	        Dump_Vendor(tprintf("KID:%b(%d)", info.ubIdx + 1, info.ubIdx));
+<b><a name="line121">121    </a></b>	        //Dump_Vendor(tprintf("VUCLOCK info id0: %d", info->ubIndex[0]));
+<b><a name="line122">122    </a></b>	        //Dump_Vendor(tprintf("VUCLOCK info id1: %d", info->ubIndex[1]));
+<b><a name="line123">123    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyN,	    VUA_RSA_BYTE_CNT));
+<b><a name="line124">124    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyE,	    VUA_RSA_BYTE_CNT_E));
+<b><a name="line125">125    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyN0,	    VUA_RSA_BYTE_CNT_N0));
+<b><a name="line126">126    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyR,	    VUA_RSA_BYTE_CNT));
+<b><a name="line127">127    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyRR,	    VUA_RSA_BYTE_CNT));
+<b><a name="line128">128    </a></b>	        Dump_Vendor(tprintm((U32)info.pubKeyMlkem,	VUA_MLKEM_PUB_KEY_LEN));
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	
+<b><a name="line131">131    </a></b>	    U32 ulFailCode = STATUS_PARAMETER_FAIL;
+<b><a name="line132">132    </a></b>	    U32 ulStatus = VALID_STATUS;
+<b><a name="line133">133    </a></b>	
+<b><a name="line134">134    </a></b>	    do {
+<b><a name="line135">135    </a></b>	        if (!MyAssert(VUA_VERIFY_STATE_PROTECT <= gVUALock.ubVUCLockState)) {
+<b><a name="line136">136    </a></b>	            ulFailCode = STATUS_REQUEST_DENY;
+<b><a name="line137">137    </a></b>	            ulStatus = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line138">138    </a></b>	            break;
+<b><a name="line139">139    </a></b>	        }
+<b><a name="line140">140    </a></b>	
+<b><a name="line141">141    </a></b>	        U32 ulKeySize = sizeof(PublicKey_t);
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	        PublicKey_t *pInputKey = (PublicKey_t *)gVUALock.ulVendorTmpBase; // all little
+<b><a name="line144">144    </a></b>	        //Dump_SEC(tprintm((U32)info, ulKeySize));
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	        if (info.ubIsLittle) {
+<b><a name="line147">147    </a></b>	            /* coverity[overrun-buffer-arg] */
+<b><a name="line148">148    </a></b>	            memcpy((void *)&pInputKey->RsaPublicKey, (void *)info.pubKeyN, sizeof(RSAPublicKey_t));
+<b><a name="line149">149    </a></b>	        }
+<b><a name="line150">150    </a></b>	        else {
+<b><a name="line151">151    </a></b>	            //PublicKey_t *pBigKey = (PublicKey_t *)info.pubKeyN;
+<b><a name="line152">152    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubN,		    (void *)info.pubKeyN, 	VUA_RSA_BYTE_CNT);
+<b><a name="line153">153    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubE,		    (void *)info.pubKeyE,	VUA_RSA_BYTE_CNT_E);
+<b><a name="line154">154    </a></b>	            memcpy(		 		(void *)pInputKey->RsaPublicKey.ubN0,	        (void *)info.pubKeyN0,	VUA_RSA_BYTE_CNT_N0);	// alex: special case
+<b><a name="line155">155    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubR,		    (void *)info.pubKeyR, 	VUA_RSA_BYTE_CNT);
+<b><a name="line156">156    </a></b>	            sal_reverse_copy(	(void *)pInputKey->RsaPublicKey.ubRR,	        (void *)info.pubKeyRR,	VUA_RSA_BYTE_CNT);
+<b><a name="line157">157    </a></b>	        }
+<b><a name="line158">158    </a></b>	        memcpy((void *)pInputKey->ubMlkemPubKey, (void *)info.pubKeyMlkem, VUA_MLKEM_PUB_KEY_LEN);
+<b><a name="line159">159    </a></b>	
+</pre></body>
+</html>

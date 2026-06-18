@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line678">678    </a></b>	    //     output[i] = (U8)(p_addr[j / sizeof_u32] >> (U8)((j % sizeof_u32) << 3U));
+<b><a name="line679">679    </a></b>	    //     j++;
+<b><a name="line680">680    </a></b>	    // }
+<b><a name="line681">681    </a></b>	    (void)memcpy((void *)output, (void * )p_addr, size_n);
+<b><a name="line682">682    </a></b>	
+<b><a name="line683">683    </a></b>	    return SEC_YES;
+<b><a name="line684">684    </a></b>	}
+<b><a name="line685">685    </a></b>	
+<b><a name="line686">686    </a></b>	U8 hal_sec_pqc_kaz_powm_blocking(HAL_SEC_PQC_KAZ_PARAM_PTR kaz_param)
+<b><a name="line687">687    </a></b>	{
+<b><a name="line688">688    </a></b>	    if (hal_kaz_powm_no_polling_status(kaz_param) != SEC_YES)
+<b><a name="line689">689    </a></b>	    {
+<b><a name="line690">690    </a></b>	        return SEC_NO;
+<b><a name="line691">691    </a></b>	    }
+<b><a name="line692">692    </a></b>	
+<b><a name="line693">693    </a></b>	    if (hal_kaz_powm_polling_status_and_get_data(kaz_param->size_n, kaz_param->output) != SEC_YES)
+<b><a name="line694">694    </a></b>	    {
+<b><a name="line695">695    </a></b>	        return SEC_NO;
+<b><a name="line696">696    </a></b>	    }
+<b><a name="line697">697    </a></b>	
+<b><a name="line698">698    </a></b>	    return SEC_YES;
+<b><a name="line699">699    </a></b>	}
+<b><a name="line700">700    </a></b>	
+<b><a name="line701">701    </a></b>	U32 hal_sec_kaz_cal_buf_size(U32 a_char_sz, U32 n_char_sz)
+<b><a name="line702">702    </a></b>	{
+<b><a name="line703">703    </a></b>	    U32 max_size = HAL_SEC_PQC_KAZ_MAX(a_char_sz, n_char_sz);
+<b><a name="line704">704    </a></b>	
+<b><a name="line705">705    </a></b>	    U32 return_sz = max_size;
+<b><a name="line706">706    </a></b>	
+<b><a name="line707">707    </a></b>	    return_sz = HAL_SEC_PQC_KAZ_SIZE_ALIGN_8BYTE(max_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "8UL" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line708">708    </a></b>	
+<b><a name="line709">709    </a></b>	    return return_sz;
+<b><a name="line710">710    </a></b>	}
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	U32 hal_sec_pqc_kaz_gen_r(U8 *n_char, U32 n_sz, U32 a_sz, U32 max_buffer_sz, U8 *n_n0_ptr, U8 *R_ptr, U8 *RR_ptr, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_powm_buf_ptr)
+<b><a name="line713">713    </a></b>	{
+<b><a name="line714">714    </a></b>	    U32 return_sz = max_buffer_sz;
+<b><a name="line715">715    </a></b>	
+<b><a name="line716">716    </a></b>	    // test code
+<b><a name="line717">717    </a></b>	    if (memcmp(n_char, G1Q_odd, n_sz) == 0)
+<b><a name="line718">718    </a></b>	    {
+<b><a name="line719">719    </a></b>	        if (a_sz <= 12UL) // V1
+<b><a name="line720">720    </a></b>	        {
+<b><a name="line721">721    </a></b>	            (void)memcpy((void *)n_n0_ptr,  (void *)G1Q_odd_n0,     8);
+<b><a name="line722">722    </a></b>	            (void)memcpy((void *)R_ptr,     (void *)G1Q_odd_R_40,   sizeof(G1Q_odd_R_40));
+<b><a name="line723">723    </a></b>	            (void)memcpy((void *)RR_ptr,    (void *)G1Q_odd_RR_40,  sizeof(G1Q_odd_RR_40));
+<b><a name="line724">724    </a></b>	            return_sz = 40UL;
+<b><a name="line725">725    </a></b>	        }
+<b><a name="line726">726    </a></b>	        else
+<b><a name="line727">727    </a></b>	        {
+<b><a name="line728">728    </a></b>	            (void)memcpy((void *)n_n0_ptr,  (void *)G1Q_odd_n0, 8);
+<b><a name="line729">729    </a></b>	            (void)memcpy((void *)R_ptr,     (void *)G1Q_odd_R,  sizeof(G1Q_odd_R));
+<b><a name="line730">730    </a></b>	            (void)memcpy((void *)RR_ptr,    (void *)G1Q_odd_RR, sizeof(G1Q_odd_RR));
+<b><a name="line731">731    </a></b>	            return_sz = 64UL;
+<b><a name="line732">732    </a></b>	        }
+<b><a name="line733">733    </a></b>	    }
+<b><a name="line734">734    </a></b>	    else
+<b><a name="line735">735    </a></b>	    {
+<b><a name="line736">736    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_n0(n_char, (U16)max_buffer_sz, (U64 *)(void *)n_n0_ptr);
+<b><a name="line737">737    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_r_rr(n_char, (U16)max_buffer_sz, (U64 *)(void *)n_n0_ptr, R_ptr, RR_ptr, 0U, kaz_powm_buf_ptr);
+<b><a name="line738">738    </a></b>	    }
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line207">207    </a></b>	        for(U8 ubCh = 0; ubCh < FLH_MAX_CH_NUM; ubCh++)
+<b><a name="line208">208    </a></b>	        {
+<b><a name="line209">209    </a></b>	            r32_FLH_REG_TX(ubCh)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCE));
+<b><a name="line210">210    </a></b>	            w_DQ_BIT_REV_IDX(ubCh, ubCE);
+<b><a name="line211">211    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCS]);
+<b><a name="line212">212    </a></b>	
+<b><a name="line213">213    </a></b>	            w_PIO_CER_LAST(ubCh, 1U);
+<b><a name="line214">214    </a></b>	            w_PIO_CER(ubCh, 0x03);
+<b><a name="line215">215    </a></b>	            w_PIO_ADR(ubCh, 0xF1);
+<b><a name="line216">216    </a></b>	            M_FIP_CH_SET_PIO_DAT(ubCh, ubData[fpl_ptr->p_efuse_nand_setting->redriver_reg_wr_option]);
+<b><a name="line217">217    </a></b>	
+<b><a name="line218">218    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCH]);
+<b><a name="line219">219    </a></b>	            r32_FLH_REG_TX(ubCh)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ubCE)));
+<b><a name="line220">220    </a></b>	        }
+<b><a name="line221">221    </a></b>	    }
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	    if(0 != fpl_ptr->p_efuse_nand_setting->redriver_reg_rd_option)
+<b><a name="line224">224    </a></b>	    {
+<b><a name="line225">225    </a></b>	        Dump_Debug(tprintf("redriver read reg"));
+<b><a name="line226">226    </a></b>	        U8 ubCE = 0, ubReadData = 0xFF, ubReadCnt = 0;
+<b><a name="line227">227    </a></b>	        U8 ubData[4] = {0, 0x1, 0x2, 0x3};
+<b><a name="line228">228    </a></b>	        for(U8 ubCh = 0; ubCh < FLH_MAX_CH_NUM; ubCh++)
+<b><a name="line229">229    </a></b>	        {
+<b><a name="line230">230    </a></b>	            r32_FLH_REG_TX(ubCh)[r32_FCH_FCE_ENB] |= (U32)(BIT(ubCE));
+<b><a name="line231">231    </a></b>	            w_DQ_BIT_REV_IDX(ubCh, ubCE);
+<b><a name="line232">232    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCS]);
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	            while(ubData[fpl_ptr->p_efuse_nand_setting->redriver_reg_rd_option] != ubReadData)
+<b><a name="line235">235    </a></b>	            {
+<b><a name="line236">236    </a></b>	                if (100 == ubReadCnt)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "100" (signed) is not the same as that of the right operand "ubReadCnt"(unsigned).</font>
+<b><a name="line237">237    </a></b>	                {
+<b><a name="line238">238    </a></b>	                    break;
+<b><a name="line239">239    </a></b>	                }
+<b><a name="line240">240    </a></b>	                w_PIO_CER_LAST(ubCh, 1U);
+<b><a name="line241">241    </a></b>	                w_PIO_CER(ubCh, 0x03);
+<b><a name="line242">242    </a></b>	                w_PIO_ADR(ubCh, 0xF1);
+<b><a name="line243">243    </a></b>	                ubReadData = ((U8)r32_r_FCH_PIO_DAT(ubCh));
+<b><a name="line244">244    </a></b>	                ubReadCnt++;
+<b><a name="line245">245    </a></b>	            }
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	            dal_fip_delay(fpl_ptr->ac_timing[HAL_DLY_TCH]);
+<b><a name="line248">248    </a></b>	            r32_FLH_REG_TX(ubCh)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ubCE)));
+<b><a name="line249">249    </a></b>	        }
+<b><a name="line250">250    </a></b>	    }
+<b><a name="line251">251    </a></b>	}
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	void fpl_set_dq_revert(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line254">254    </a></b>	{
+<b><a name="line255">255    </a></b>	    U8 ch;
+<b><a name="line256">256    </a></b>	    U8 bank;
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	    bank = 0U;
+<b><a name="line259">259    </a></b>	    for (ch = 0U; ch < FLH_MAX_PHYS_CH; ch++) {
+<b><a name="line260">260    </a></b>	        if (BITS_GET(fpl_ptr->dq_revert_bitmap, ch, 1U) == TRUE) {
+<b><a name="line261">261    </a></b>	            hal_fip_set_dq_reverse(ch, bank, (BOOL)TRUE);
+<b><a name="line262">262    </a></b>	        }
+<b><a name="line263">263    </a></b>	        FIP_DBG_INFO_PRINTF("[dq_revert]DQ_REV_BMP[%d] = 0x%02X\r\n", \
+<b><a name="line264">264    </a></b>	            ch, \
+<b><a name="line265">265    </a></b>	            fpl_ptr->dq_revert_bitmap);
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	}
+</pre></body>
+</html>

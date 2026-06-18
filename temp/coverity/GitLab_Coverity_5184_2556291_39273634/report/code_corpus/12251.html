@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1429">1429    </a></b>	
+<b><a name="line1430">1430    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1431">1431    </a></b>	 */
+<b><a name="line1432">1432    </a></b>	static void ReturnStatusToDefaultValueAfterSuccessfullyRecovery(ACROT_DATA *pACRotData)
+<b><a name="line1433">1433    </a></b>	{
+<b><a name="line1434">1434    </a></b>	    if ((DS_DEVICE_HEALTHY == pACRotData->sDeviceStatus.ubDeviceStatus) && (DRS_RECOVERY_SUCCESSFULL == pACRotData->sRecoveryStatus.ubDeviceRecoveryStatus))
+<b><a name="line1435">1435    </a></b>	    {
+<b><a name="line1436">1436    </a></b>	        RpDeviceStatusManagement(pACRotData, E_RP_STATE_RETURN_TO_DEFAULT_VALUE);
+<b><a name="line1437">1437    </a></b>	    }
+<b><a name="line1438">1438    </a></b>	}
+<b><a name="line1439">1439    </a></b>	
+<b><a name="line1440">1440    </a></b>	
+<b><a name="line1441">1441    </a></b>	
+<b><a name="line1442">1442    </a></b>	
+<b><a name="line1443">1443    </a></b>	
+<b><a name="line1444">1444    </a></b>	/*******************************************************************************************************
+<b><a name="line1445">1445    </a></b>	 * Clear on read and W1C functions
+<b><a name="line1446">1446    </a></b>	 *******************************************************************************************************/
+<b><a name="line1447">1447    </a></b>	
+<b><a name="line1448">1448    </a></b>	/*!
+<b><a name="line1449">1449    </a></b>	   @brief      Clear on read function - protocol error
+<b><a name="line1450">1450    </a></b>	
+<b><a name="line1451">1451    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1452">1452    </a></b>	 */
+<b><a name="line1453">1453    </a></b>	static void ClearOnReadProtocolError(ACROT_DATA *pACRotData)
+<b><a name="line1454">1454    </a></b>	{
+<b><a name="line1455">1455    </a></b>	    // The protocol error is a clear on read field
+<b><a name="line1456">1456    </a></b>	    if (PE_NO_PROTOCOL_ERROR != pACRotData->sDeviceStatus.ubProtocolError)
+<b><a name="line1457">1457    </a></b>	    {
+<b><a name="line1458">1458    </a></b>	        M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_NO_PROTOCOL_ERROR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">        ^</font>
+<b><a name="line1459">1459    </a></b>	    }
+<b><a name="line1460">1460    </a></b>	}
+<b><a name="line1461">1461    </a></b>	
+<b><a name="line1462">1462    </a></b>	/*!
+<b><a name="line1463">1463    </a></b>	   @brief      Clear on read function - indirect status
+<b><a name="line1464">1464    </a></b>	
+<b><a name="line1465">1465    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1466">1466    </a></b>	 */
+<b><a name="line1467">1467    </a></b>	static void ClearOnReadIndirectStatus(ACROT_DATA *pACRotData)
+<b><a name="line1468">1468    </a></b>	{
+<b><a name="line1469">1469    </a></b>	    // The status (byte 0) is clear on read field
+<b><a name="line1470">1470    </a></b>	    if (pACRotData->sIndirectStatus.uStatus.ubAll)
+<b><a name="line1471">1471    </a></b>	    {
+<b><a name="line1472">1472    </a></b>	        pACRotData->sIndirectStatus.uStatus.ubAll = 0x0U;
+<b><a name="line1473">1473    </a></b>	    }
+<b><a name="line1474">1474    </a></b>	}
+<b><a name="line1475">1475    </a></b>	
+<b><a name="line1476">1476    </a></b>	/*!
+<b><a name="line1477">1477    </a></b>	   @brief      Write 1 clear function - device reset control
+<b><a name="line1478">1478    </a></b>	
+<b><a name="line1479">1479    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line1480">1480    </a></b>	 */
+<b><a name="line1481">1481    </a></b>	static void Write1ClearDeviceResetControl(ACROT_DATA *pACRotData)
+<b><a name="line1482">1482    </a></b>	{
+<b><a name="line1483">1483    </a></b>	    // 1. Write 1 clear
+<b><a name="line1484">1484    </a></b>	    if (DRC_NO_RESET != pACRotData->sDeviceReset.ubDeviceResetControl)
+<b><a name="line1485">1485    </a></b>	    {
+<b><a name="line1486">1486    </a></b>	        // After action device starts 0x0
+<b><a name="line1487">1487    </a></b>	        pACRotData->sDeviceReset.ubDeviceResetControl = DRC_NO_RESET;
+<b><a name="line1488">1488    </a></b>	    }
+<b><a name="line1489">1489    </a></b>	
+</pre></body>
+</html>

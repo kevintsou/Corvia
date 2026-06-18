@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line306">306    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-PKCS_2V1] Fail\n"));
+<b><a name="line307">307    </a></b>	        return (KAT_TYPE_RSA | KAT_ERROR_VERIFY);
+<b><a name="line308">308    </a></b>	    }
+<b><a name="line309">309    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-PKCS_2V1] P\n"));
+<b><a name="line310">310    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line311">311    </a></b>	}
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	U32 sec_sqz_kat_SM3(void)
+<b><a name="line314">314    </a></b>	{
+<b><a name="line315">315    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line316">316    </a></b>	    MR_SQ_PARAM sq = form_sq(NULL, MR_KAT, KAT_SM3, KAT_SM3_TAG);
+<b><a name="line317">317    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line318">318    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line319">319    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line320">320    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SM3] Fail\n"));
+<b><a name="line321">321    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_VERIFY);
+<b><a name="line322">322    </a></b>	    }
+<b><a name="line323">323    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SM3] P\n"));
+<b><a name="line324">324    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line325">325    </a></b>	}
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	U32 sec_sqz_kat_SM2(void)
+<b><a name="line328">328    </a></b>	{
+<b><a name="line329">329    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line330">330    </a></b>	    MR_SQ_PARAM sq = form_sq(NULL, MR_KAT, KAT_SM2, KAT_SM2_TAG);
+<b><a name="line331">331    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line332">332    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line333">333    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line334">334    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SM2] Fail\n"));
+<b><a name="line335">335    </a></b>	        return (KAT_TYPE_SM2 | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "176" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line336">336    </a></b>	    }
+<b><a name="line337">337    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SM2] P\n"));
+<b><a name="line338">338    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line339">339    </a></b>	}
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	U32 sec_sqz_kat_SM4(void)
+<b><a name="line342">342    </a></b>	{
+<b><a name="line343">343    </a></b>	    SQZ_KAT_SM4_PARAM_PTR param_ptr = (SQZ_KAT_SM4_PARAM_PTR)phal_sqz_get_param_buf_base();
+<b><a name="line344">344    </a></b>	    param_ptr->mode = HAL_SEC_AES_XTS_MODE;
+<b><a name="line345">345    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line346">346    </a></b>	    MR_SQ_PARAM sq = form_sq(param_ptr, MR_KAT, KAT_SM4, KAT_SM4_TAG);
+<b><a name="line347">347    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line348">348    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line349">349    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line350">350    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SM4] Fail\n"));
+<b><a name="line351">351    </a></b>	        return (KAT_ERROR_VERIFY);
+<b><a name="line352">352    </a></b>	    }
+<b><a name="line353">353    </a></b>	    Dump_SEC(tprintf("[SQZ][KAT-SM4] P\n"));
+<b><a name="line354">354    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line355">355    </a></b>	}
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	U32 sec_sqz_kat_SM9(void)
+<b><a name="line358">358    </a></b>	{
+<b><a name="line359">359    </a></b>	    SQZ_KAT_SM9_VERIFY_PARAM_PTR param = (SQZ_KAT_SM9_VERIFY_PARAM_PTR)DBUF_API_BOOTCODE_SQZ_PARAM_BUFFER_BASE;
+<b><a name="line360">360    </a></b>	    param->base_addr = DBUF_API_BOOTCODE_TEMP_BUFFER_BASE;
+<b><a name="line361">361    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line362">362    </a></b>	    MR_SQ_PARAM sq = form_sq(param, MR_KAT, KAT_SM9, KAT_SM9_TAG);
+<b><a name="line363">363    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line364">364    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line365">365    </a></b>	    if (cq.cmd_result != 0 || cq.sqz_result != 0){
+<b><a name="line366">366    </a></b>	        Dump_SEC(tprintf("[SQZ][KAT-SM9] Fail\n"));
+</pre></body>
+</html>

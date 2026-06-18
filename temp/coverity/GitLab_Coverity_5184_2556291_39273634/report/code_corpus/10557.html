@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line27">27    </a></b>	 */
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	static void host_vuc_init(VUC_CMD_STRUCT_PTR vuc);
+<b><a name="line30">30    </a></b>	static void host_struct_init(HOST_API_STRUCT_PTR host);
+<b><a name="line31">31    </a></b>	static void c0_init_hardware(HOST_API_STRUCT_PTR host);
+<b><a name="line32">32    </a></b>	static void host_gic_init(void);
+<b><a name="line33">33    </a></b>	static void c0_isr_init(HOST_API_STRUCT_PTR host);
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	/*
+<b><a name="line37">37    </a></b>	 *  private function
+<b><a name="line38">38    </a></b>	 */
+<b><a name="line39">39    </a></b>	static void host_vuc_init(VUC_CMD_STRUCT_PTR vuc)
+<b><a name="line40">40    </a></b>	{
+<b><a name="line41">41    </a></b>	    memset((void *)vuc, 0x00, sizeof(VUC_CMD_STRUCT));
+<b><a name="line42">42    </a></b>	}
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	static void host_struct_init(HOST_API_STRUCT_PTR host)
+<b><a name="line45">45    </a></b>	{
+<b><a name="line46">46    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    U16 i;
+<b><a name="line49">49    </a></b>	    U16 q_cnt;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    memset((void *)&host->host_event, 0, sizeof(HOST_API_EVENT_STRUCT));
+<b><a name="line52">52    </a></b>	    memset((void *)&host->hcmd, 0, sizeof(HAL_HCMD_STRUCT));
+<b><a name="line53">53    </a></b>	    memset((void *)&host->hcpl, 0, sizeof(HAL_APU_CPL_SQ_PARAM));
+<b><a name="line54">54    </a></b>	    memset((void *)&host->host_info, 0, sizeof(HOST_API_INFO_STRUCT));
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    if (gpFwSimCtrl0Reg->not_init_host_hw) { // True: HOST HW already init done
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gpFwSimCtrl0Reg->not_init_host_hw", taking true branch.</font>
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line59">59    </a></b>	        // if #queue of FW is less than MAX_Q_CNT, then we use #queue of FW
+<b><a name="line60">60    </a></b>	        // if #queue of FW is more than MAX_Q_CNT, then we use MAX_Q_CNT
+<b><a name="line61">61    </a></b>	        q_cnt = MIN(NVME_MAX_Q_CNT, hal_nl_get_fqc(0U));
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "9U < hal_nl_get_fqc(0U)", taking true branch.</font>
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	        for (i = 0; i < q_cnt; i++) {
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < q_cnt", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < q_cnt", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "i < q_cnt", taking false branch.</font>
+<b><a name="line64">64    </a></b>	            // CQ first
+<b><a name="line65">65    </a></b>	            if (hal_nl_get_cq_en(i)) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_nl_get_cq_en(i)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_nl_get_cq_en(i)", taking true branch.</font>
+<b><a name="line66">66    </a></b>	                host->host_info.ioq.iocq[i].en      = TRUE;
+<b><a name="line67">67    </a></b>	                host->host_info.ioq.iocq[i].intr_en = TRUE;
+<b><a name="line68">68    </a></b>	                host->host_info.ioq.iocq[i].qsize   = dal_nl_get_cq_size(i);
+<b><a name="line69">69    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line70">70    </a></b>	            else {
+<b><a name="line71">71    </a></b>	                host->host_info.ioq.iocq[i].en      = FALSE;
+<b><a name="line72">72    </a></b>	                host->host_info.ioq.iocq[i].intr_en = FALSE;
+<b><a name="line73">73    </a></b>	                host->host_info.ioq.iocq[i].qsize   = 0;
+<b><a name="line74">74    </a></b>	            }
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	            // SQ
+<b><a name="line77">77    </a></b>	            if (hal_nl_get_sq_en(i)) {
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_nl_get_sq_en(i)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "hal_nl_get_sq_en(i)", taking true branch.</font>
+<b><a name="line78">78    </a></b>	                host->host_info.ioq.iosq[i].en      = TRUE;
+<b><a name="line79">79    </a></b>	                host->host_info.ioq.iosq[i].cqid    = dal_nl_get_sq_cqid(i);
+<b><a name="line80">80    </a></b>	                host->host_info.ioq.iosq[i].qsize   = dal_nl_get_sq_size(i);
+<b><a name="line81">81    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line82">82    </a></b>	            else {
+<b><a name="line83">83    </a></b>	                host->host_info.ioq.iosq[i].en      = FALSE;
+<b><a name="line84">84    </a></b>	                host->host_info.ioq.iosq[i].cqid    = 0;
+<b><a name="line85">85    </a></b>	                host->host_info.ioq.iosq[i].qsize   = 0;
+<b><a name="line86">86    </a></b>	            }
+<b><a name="line87">87    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    host->host_info.total_lba = (DBUF_API_BOOTCODE_DATA_BUFFER_SIZE >> SECTOR_SIZE_SHIFT);
+<b><a name="line91">91    </a></b>	    host->vuc_ptr      = &gVucApiCmdStruct;
+<b><a name="line92">92    </a></b>	    host->buffer_base  = DBUF_API_BOOTCODE_HOST_BUFFER_BASE;                 // Data buffer  must align 4K
+<b><a name="line93">93    </a></b>	    host->buffer_size  = DBUF_API_BOOTCODE_HOST_BUFFER_SIZE;                 // TBD 128K     must align 4K
+<b><a name="line94">94    </a></b>	    host->spr_base     = DBUF_API_BOOTCODE_HOST_SPARE_BASE;                  // start from buf base + buffer size 128k
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    // Set spare valid prevent 1st read cmd unc
+<b><a name="line97">97    </a></b>	    memset((void *)host->spr_base, 0xFF, sizeof(U8));
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    host_var_reset(host);
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	    host_vuc_init(host->vuc_ptr);
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xf0 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "240", is not allowed.  The shift amount is 24.</font>
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	static void c0_init_hardware(HOST_API_STRUCT_PTR host)
+<b><a name="line107">107    </a></b>	{
+<b><a name="line108">108    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line109">109    </a></b>	    U8 i;
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    memset((void *)host_flow, 0U, sizeof(HOST_API_HOST_FLOW_STRUCT));
+<b><a name="line114">114    </a></b>	    host_flow->attr.use_sys_reg_setting   = TRUE;
+<b><a name="line115">115    </a></b>	    host_flow->attr.fastlink_landmark_en  = FALSE;
+<b><a name="line116">116    </a></b>	    host_flow->attr.auto_dtc_wait_time    = 0U;
+<b><a name="line117">117    </a></b>	    host_flow->attr.port_mode  = PCIE_PORT_MODE_SINGLE;
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    if (gpFwSimCtrl0Reg->not_init_host_hw) { // if jump from FW, blk all ports at first
+<b><a name="line120">120    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line121">121    </a></b>	        PCIE_STRUCT_PTR pcie = &host->pcie;
+<b><a name="line122">122    </a></b>	        for (i = 0; i < PCIE_PORT_MODE_SINGLE; i++) {
+<b><a name="line123">123    </a></b>	            dal_nl_set_port_mask(i);
+<b><a name="line124">124    </a></b>	        }
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	        hal_set_port_cnt(pcie, PCIE_DEFAULT_PORT_CNT);
+<b><a name="line127">127    </a></b>	    }
+<b><a name="line128">128    </a></b>	    else {                                                      // only init HW if not jump from FW
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	        sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><a name="line131">131    </a></b>	        /*
+<b><a name="line132">132    </a></b>	        * for hot-plug case
+<b><a name="line133">133    </a></b>	        */
+<b><a name="line134">134    </a></b>	        if(hal_fw_pcie_get_p0_perstn_dbc())                                // polling perst debounce rising case before init pcie ip
+</pre></body>
+</html>

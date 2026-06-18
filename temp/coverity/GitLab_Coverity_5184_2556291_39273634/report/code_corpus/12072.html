@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line867">867    </a></b>	    code_sign_sw_sm2_init_param(sm2_param_ptr,              // sm2_param_pointer
+<b><a name="line868">868    </a></b>	        key_endian_buffer,       // key_address
+<b><a name="line869">869    </a></b>	        signature_endian_buffer, // sig_address
+<b><a name="line870">870    </a></b>	        hash_buffer,             // hash_buffer
+<b><a name="line871">871    </a></b>	        data_address,            // sm2_msg_addr
+<b><a name="line872">872    </a></b>	        sm2_calculate_buffer);   // sm2_calculate_buffer
+<b><a name="line873">873    </a></b>	
+<b><a name="line874">874    </a></b>	    // step 1. Calculate Z by ID
+<b><a name="line875">875    </a></b>	    code_sign_sw_sm2_calculate_z(sm2_param_ptr, id_address, z_input_address, z_output_address, sha_mode);
+<b><a name="line876">876    </a></b>	
+<b><a name="line877">877    </a></b>	    // step 2. Pad Z with 32 bytes 0
+<b><a name="line878">878    </a></b>	    (void)memset((void *)(z_output_address + 32), 0x00, 32);
+<b><a name="line879">879    </a></b>	
+<b><a name="line880">880    </a></b>	    // step 3. Calculate sm3 value of (z || 0 || code heaer || code body || public key)
+<b><a name="line881">881    </a></b>	    code_sign_sw_sm2_calculate_code_hash(sm2_param_ptr, z_output_address, data_size, key_address, public_key_total_size, sha_mode);
+<b><a name="line882">882    </a></b>	    (void)memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line883">883    </a></b>	    (void)memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line884">884    </a></b>	
+<b><a name="line885">885    </a></b>	    sm2_param_ptr->kat_mode = get_efuse_dmsca_compare_disable(&gEFuseAPI); // If kat_mode is set to 1, use memcmp. Otherwise, use dmsca cmp
+<b><a name="line886">886    </a></b>	    // step 4. Verify signature
+<b><a name="line887">887    </a></b>	    if (phal_sec_sm2_verify_algo(sm2_param_ptr) != HAL_SEC_SM2_ERROR(SEC_YES)) {
+<b><a name="line888">888    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line889">889    </a></b>	        Dump_SEC(tprintf("DSAV F!"));
+<b><a name="line890">890    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line891">891    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line892">892    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line893">893    </a></b>	    }
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line896">896    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line897">897    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line898">898    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line899">899    </a></b>	    }
+<b><a name="line900">900    </a></b>	
+<b><a name="line901">901    </a></b>	    Dump_SEC(tprintf("DSAV PA"));
+<b><a name="line902">902    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SM2_BYTE_NUM);
+<b><a name="line903">903    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line904">904    </a></b>	}
+<b><a name="line905">905    </a></b>	
+<b><a name="line906">906    </a></b>	static void sec_mldsa_pure_batch_sha_calculate(U32 src_addr, U32 tar_addr, U32 pad_size, U32 msg_addr, U32 msg_size)
+<b><a name="line907">907    </a></b>	{
+<b><a name="line908">908    </a></b>	    U32 remain_data_len   = 0U;
+<b><a name="line909">909    </a></b>	    U32 max_msg_addr_size = HAL_SEC_SHA3_SHAKE_256_BLOCK_LEN * 0x787; //0x3FFB8
+<b><a name="line910">910    </a></b>	    U32 sha_copy_addr     = 0U;
+<b><a name="line911">911    </a></b>	    U32 sha_copy_size     = 0U;
+<b><a name="line912">912    </a></b>	
+<b><a name="line913">913    </a></b>	    SEC_SHA_PARAMS_T  sec_sha_param;
+<b><a name="line914">914    </a></b>	
+<b><a name="line915">915    </a></b>	    // CRH(64B) + 2B + CTX length(max 255B) --> align block len (136B)
+<b><a name="line916">916    </a></b>	    sha_copy_addr = msg_addr;
+<b><a name="line917">917    </a></b>	    sha_copy_size = max_msg_addr_size - pad_size;
+<b><a name="line918">918    </a></b>	    remain_data_len = msg_size - sha_copy_size;
+<b><a name="line919">919    </a></b>	
+<b><a name="line920">920    </a></b>	    (void)memcpy((void *)(U32 *)(src_addr + pad_size), (void *)sha_copy_addr, sha_copy_size);
+<b><a name="line921">921    </a></b>	    sha_copy_addr += sha_copy_size;
+<b><a name="line922">922    </a></b>	
+<b><a name="line923">923    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line924">924    </a></b>	    sec_sha_param.src_addr.low   = (U32)src_addr;
+<b><a name="line925">925    </a></b>	    sec_sha_param.src_len        = pad_size + sha_copy_size;
+<b><a name="line926">926    </a></b>	    sec_sha_param.targ_addr.low  = (U32)tar_addr;
+<b><a name="line927">927    </a></b>	    sec_sha_param.sha_mode       =  HAL_SEC_SHA3_SHAKE_256_MODE;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line574">574    </a></b>	    return 0;
+<b><a name="line575">575    </a></b>	}
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	static U32 check_dice_pre_process(U32 calculation_buffer, U8 metadata_input_type)
+<b><a name="line578">578    </a></b>	{
+<b><a name="line579">579    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line580">580    </a></b>	
+<b><a name="line581">581    </a></b>	    U32 data_address, data_size;
+<b><a name="line582">582    </a></b>	    U32 key_address, key_size;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    U32 load_code_address = (U32)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line585">585    </a></b>	    U32 project_binary_address = (U32)DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line590">590    </a></b>	    const PROJECT_BINARY_HEADER *p_project_binary_header;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(load_code_address);
+<b><a name="line593">593    </a></b>	    project_binary_address += (p_load_code_status->key_manifest_size);
+<b><a name="line594">594    </a></b>	    p_project_binary_header = (const PROJECT_BINARY_HEADER *)(project_binary_address);
+<b><a name="line595">595    </a></b>	    sal_log_tracker_set(sal_locate(0x40, TYPE_STEP));
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    // Set caliptra svn
+<b><a name="line598">598    </a></b>	    phal_sqz_set_svn(p_project_binary_header->security_version);
+<b><a name="line599">599    </a></b>	
+<b><a name="line600">600    </a></b>	    // Check if need get metadata form code header
+<b><a name="line601">601    </a></b>	    if (metadata_input_type == 1)
+<b><a name="line602">602    </a></b>	    {
+<b><a name="line603">603    </a></b>	        sal_log_tracker_set(sal_locate(0x41, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "0" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line604">604    </a></b>	        phal_sqz_set_metadata(p_project_binary_header->custom_data_4B);
+<b><a name="line605">605    </a></b>	    }
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    if (phal_sqz_get_pk_done() == TRUE)
+<b><a name="line608">608    </a></b>	    {
+<b><a name="line609">609    </a></b>	        sal_log_tracker_set(sal_locate(0x42, TYPE_STEP));
+<b><a name="line610">610    </a></b>	        return PASS;
+<b><a name="line611">611    </a></b>	    }
+<b><a name="line612">612    </a></b>	
+<b><a name="line613">613    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line614">614    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line615">615    </a></b>	
+<b><a name="line616">616    </a></b>	    key_size = get_key_size(p_project_binary_header->algorithm_type);
+<b><a name="line617">617    </a></b>	    if(key_size == 0) {
+<b><a name="line618">618    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line619">619    </a></b>	    }
+<b><a name="line620">620    </a></b>	
+<b><a name="line621">621    </a></b>	    key_address = data_address + data_size;
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	    sal_log_tracker_set(sal_locate(0x43, TYPE_STEP));
+<b><a name="line624">624    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line625">625    </a></b>	    sec_sha_param.src_addr.all     = (U64)key_address;
+<b><a name="line626">626    </a></b>	    sec_sha_param.src_len          = key_size;
+<b><a name="line627">627    </a></b>	    sec_sha_param.targ_addr.all    = (U64)calculation_buffer;
+<b><a name="line628">628    </a></b>	    sec_sha_param.sha_mode         = HAL_SEC_SHA2_384_MODE;
+<b><a name="line629">629    </a></b>	    sec_sha_param.dummy_en         = FALSE;
+<b><a name="line630">630    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line631">631    </a></b>	
+<b><a name="line632">632    </a></b>	    if (gSecShaTimeout) {
+<b><a name="line633">633    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line634">634    </a></b>	    }
+</pre></body>
+</html>

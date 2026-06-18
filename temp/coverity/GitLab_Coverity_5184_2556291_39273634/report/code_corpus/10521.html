@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line386">386    </a></b>	  - 1. HAL_SEC_SHA_FIRST_MODE: the src_addr only contains the "first" block and the middle blocks of message.
+<b><a name="line387">387    </a></b>	  - 2. HAL_SEC_SHA_MIDDLE_MODE: the src_addr only contains the middle blocks of message.
+<b><a name="line388">388    </a></b>	  - 3. HAL_SEC_SHA_FINAL_MODE: the src_addr only contains the middle blocks and the "final" block of message.
+<b><a name="line389">389    </a></b>	 - global variable gSecShaTimeout change to 1U if timeout occurs
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	 */
+<b><a name="line392">392    </a></b>	void hal_sec_sha_trigger(SEC_SHA_PARAMS_T_PTR params)
+<b><a name="line393">393    </a></b>	{
+<b><a name="line394">394    </a></b>	    ASSERT(0U, (((((params->src_addr.all >> 32U) | (params->targ_addr.all >> 32U)) & (~HAL_SEC_HIGH_BYTE_MASK)) | (params->targ_addr.all & HAL_SEC_ALIGN_BYTE_MASK)) == 0UL));
+<b><a name="line395">395    </a></b>	    ASSERT(0U, (params->sha_mode < HAL_SEC_SHAKE_UND_MODE));
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	    U8 is_first = 0U;
+<b><a name="line398">398    </a></b>	    U8 is_final = 0U;
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	    U8  nbits     = 0U;  // used for sha2 nbits shift (1 << nbits equal to block_len)
+<b><a name="line401">401    </a></b>	    U8  block_len = 0U;  // according to different sha mode
+<b><a name="line402">402    </a></b>	    U32 sha_func  = 0UL;
+<b><a name="line403">403    </a></b>	    U32 round_per_multi_trigger_bit = 15UL;
+<b><a name="line404">404    </a></b>	    U32 multi_trigger_count      = 0UL;
+<b><a name="line405">405    </a></b>	    U32 last_round_bit_num       = 0UL;
+<b><a name="line406">406    </a></b>	    U32 trig_cnt = 0UL;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    U64 src_addr = 0ULL;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	#if 0
+<b><a name="line411">411    </a></b>	    // For verify usage, force SHA triggered with multiple commands.
+<b><a name="line412">412    </a></b>	    round_per_multi_trigger_bit = 8U;
+<b><a name="line413">413    </a></b>	#endif
+<b><a name="line414">414    </a></b>	
+<b><a name="line415">415    </a></b>	    if (params->offset != 0UL)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "params->offset != 0UL", taking true branch.</font>
+<b><a name="line416">416    </a></b>	    {
+<b><a name="line417">417    </a></b>	        dal_sec_sha_set_start_adr(params->offset);
+<b><a name="line418">418    </a></b>	    }
+<b><a name="line419">419    </a></b>	
+<b><a name="line420">420    </a></b>	    sha_func = hal_sec_sha_init(params->src_addr.all, params->targ_addr.all, params->sha_mode, &nbits, &block_len);
+<b><a name="line421">421    </a></b>	    src_addr = params->src_addr.all;
+<b><a name="line422">422    </a></b>	
+<b><a name="line423">423    </a></b>	    // if segment computing FIRSR_MODE and MIDDLE_MODE need to align block_len
+<b><a name="line424">424    </a></b>	    if ((params->phase == HAL_SEC_SHA_FIRST_MODE) || (params->phase == HAL_SEC_SHA_MIDDLE_MODE))
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "params->phase == 1U", taking true branch.</font>
+<b><a name="line425">425    </a></b>	    {
+<b><a name="line426">426    </a></b>	        ASSERT(0U, (((params->src_len % block_len) == 0UL) && (params->src_len > 0U)));
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    trig_cnt = (1UL << round_per_multi_trigger_bit);
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	    if (params->sha_mode < HAL_SEC_SHA3_224_MODE)
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "params->sha_mode < 16U", taking true branch.</font>
+<b><a name="line432">432    </a></b>	    {
+<b><a name="line433">433    </a></b>	        // speed up for sha2 mode
+<b><a name="line434">434    </a></b>	        multi_trigger_count = (params->src_len >> nbits) >> round_per_multi_trigger_bit;
+<b><a name="line435">435    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line436">436    </a></b>	    else
+<b><a name="line437">437    </a></b>	    {
+<b><a name="line438">438    </a></b>	        multi_trigger_count = (params->src_len / block_len) >> round_per_multi_trigger_bit;
+<b><a name="line439">439    </a></b>	    }
+<b><a name="line440">440    </a></b>	
+<b><a name="line441">441    </a></b>	    if ((params->phase == HAL_SEC_SHA_FIRST_MODE) || (params->phase == HAL_SEC_SHA_ALL_RANGE_MODE))
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "params->phase == 1U", taking true branch.</font>
+<b><a name="line442">442    </a></b>	    {
+<b><a name="line443">443    </a></b>	        is_first = 1U;
+<b><a name="line444">444    </a></b>	    }
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    for (U32 multi_trigger = 0U ; multi_trigger < multi_trigger_count; multi_trigger++)
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "multi_trigger < multi_trigger_count", taking true branch.</font>
+<b><a name="line447">447    </a></b>	    {
+<b><a name="line448">448    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xff << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "255", is not allowed.  The shift amount is 24.</font>
+<b><a name="line449">449    </a></b>	        dal_sec_sha_process(src_addr, trig_cnt, 0UL, sha_func, params->is_by_queue, is_first, 0U /*is_final*/, 0U /*dummy_en*/);
+<b><a name="line450">450    </a></b>	
+<b><a name="line451">451    </a></b>	        // force to wait SHA done, no need to wait SHA_QUE_BUSY
+<b><a name="line452">452    </a></b>	        if (params->is_by_queue == 1U)
+<b><a name="line453">453    </a></b>	        {
+<b><a name="line454">454    </a></b>	            while (1U == dal_sec_sha_get_que_start())
+<b><a name="line455">455    </a></b>	            {
+<b><a name="line456">456    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><a name="line457">457    </a></b>	                {
+<b><a name="line458">458    </a></b>	                    gSecShaTimeout = SEC_YES;
+<b><a name="line459">459    </a></b>	                    break;
+<b><a name="line460">460    </a></b>	                }
+<b><a name="line461">461    </a></b>	            }
+<b><a name="line462">462    </a></b>	        }
+<b><a name="line463">463    </a></b>	        else
+<b><a name="line464">464    </a></b>	        {
+<b><a name="line465">465    </a></b>	            while (1U == dal_sec_sha_get_start())
+<b><a name="line466">466    </a></b>	            {
+<b><a name="line467">467    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><a name="line468">468    </a></b>	                {
+<b><a name="line469">469    </a></b>	                    gSecShaTimeout = SEC_YES;
+<b><a name="line470">470    </a></b>	                    break;
+<b><a name="line471">471    </a></b>	                }
+<b><a name="line472">472    </a></b>	            }
+<b><a name="line473">473    </a></b>	        }
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	        if (gSecShaTimeout == SEC_YES)
+<b><a name="line476">476    </a></b>	        {
+<b><a name="line477">477    </a></b>	            break;
+<b><a name="line478">478    </a></b>	        }
+<b><a name="line479">479    </a></b>	
+</pre></body>
+</html>

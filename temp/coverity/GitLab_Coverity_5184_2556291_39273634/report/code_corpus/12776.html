@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/flibhal/flibhal_smbus.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _FLIBHAL_SMBUS_H_
+<b><a name="line2">2    </a></b>	#define _FLIBHAL_SMBUS_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FLIBHAL_SMBUS_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	#include "flibhal_nvme.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	// The data offset in RX/TX buffer
+<b><a name="line10">10    </a></b>	#define SMBS_RX_CMD_OFST                                (0U)
+<b><a name="line11">11    </a></b>	#define SMBS_RX_BYTE_CNT_OFST                           (1U)
+<b><a name="line12">12    </a></b>	#define SMBS_RX_DATA_OFST                               (2U)
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	#define SMBS_TX_BYTE_CNT_OFST                           (0U)
+<b><a name="line15">15    </a></b>	#define SMBS_TX_DATA_OFST                               (1U)
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	#define SMBUS_BYTE_CNT_LEN                              (1U)
+<b><a name="line18">18    </a></b>	#define SMBUS_CMD_LEN                                   (1U)
+<b><a name="line19">19    </a></b>	#define SMBUS_PEC_LEN                                   (1U)
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#define SMBUS0                                          (0U)
+<b><a name="line22">22    </a></b>	#define SMBUS1                                          (1U)
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	#define SMBM_FREQ_100_KHZ                               (100U)
+<b><a name="line25">25    </a></b>	#define SMBM_FREQ_400_KHZ                               (400U)
+<b><a name="line26">26    </a></b>	#define SMBM_FREQ_1_MHZ                                 (1000U)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define SMBUS_400K_NS                                   (150U)
+<b><a name="line29">29    </a></b>	#define SMBUS_1M_NS                                     (100U)
+<b><a name="line30">30    </a></b>	#define SMBUS_HL_HW                                     (1U)
+<b><a name="line31">31    </a></b>	#define SMBUS_TURN_FW                                   (1U)
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	typedef struct {
+</pre></body>
+</html>

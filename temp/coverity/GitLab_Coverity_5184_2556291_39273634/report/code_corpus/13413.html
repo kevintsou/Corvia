@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/flibhal/flibhal_smbus.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line182">182    </a></b>	    U8 ubSlaveAddress;
+<b><a name="line183">183    </a></b>	    U8 ubDefaultSlaveAddress;
+<b><a name="line184">184    </a></b>	
+<b><a name="line185">185    </a></b>	    struct {
+<b><a name="line186">186    </a></b>	        U8 ubDeviceCategory;
+<b><a name="line187">187    </a></b>	        U8 ubDeviceType;
+<b><a name="line188">188    </a></b>	        U8 ubARFlag;    // Address Resolved Flag
+<b><a name="line189">189    </a></b>	        U8 ubAVFlag;    // Address Valid Flag
+<b><a name="line190">190    </a></b>	    } sInternalState;
+<b><a name="line191">191    </a></b>	
+<b><a name="line192">192    </a></b>	    SMBUS_UDID_U uUDID;
+<b><a name="line193">193    </a></b>	} SMBUS_ARP_T;
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	
+<b><a name="line196">196    </a></b>	/*************************************************************************************************
+<b><a name="line197">197    </a></b>	 * SMBus Slave
+<b><a name="line198">198    </a></b>	 *************************************************************************************************/
+<b><a name="line199">199    </a></b>	#define SMBUS_BUFFER_ALLOC_SIZE     (512U)
+<b><a name="line200">200    </a></b>	#define SMBS_RX_TYPE_RCV            (0U)
+<b><a name="line201">201    </a></b>	#define SMBS_RX_TYPE_HDL            (1U)
+<b><a name="line202">202    </a></b>	typedef enum {
+<b><a name="line203">203    </a></b>	    E_SMBS_RX_IDX_START = 0,
+<b><a name="line204">204    </a></b>	
+<b><a name="line205">205    </a></b>	    E_SMBS_RX_IDX_0 = E_SMBS_RX_IDX_START,
+<b><a name="line206">206    </a></b>	    E_SMBS_RX_IDX_1,
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	    E_SMBS_RX_IDX_TOTAL
+<b><a name="line209">209    </a></b>	} SMBS_RX_IDX_E;
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	typedef U32 (* SMBS_PROTOCOL_HDL_FPTR)(SMBUS_BUFFER_T *, SMBUS_BUFFER_T *);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Parameter name for function prototype has been omitted.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                                                         ^</font>
+<b><a name="line212">212    </a></b>	typedef U32 (* SMBS_ERROR_HDL_FPTR)(SMBUS_BUFFER_T *);
+<b><a name="line213">213    </a></b>	typedef struct {
+<b><a name="line214">214    </a></b>	    void *pHandlerObject;
+<b><a name="line215">215    </a></b>	    SMBUS_ARP_T             sArp;
+<b><a name="line216">216    </a></b>	    SMBS_PROTOCOL_HDL_FPTR  pProtocolHandler;
+<b><a name="line217">217    </a></b>	    SMBS_ERROR_HDL_FPTR     pErrorHandler;
+<b><a name="line218">218    </a></b>	} SMBS_DEVICE_T;
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	typedef struct {
+<b><a name="line221">221    </a></b>	    SMBS_DEVICE_T aSmbsDevice[E_SMBS_DEVICE_IDX_TOTAL];
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	    U16 uwDebugAddress;
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	    volatile U16 uwInterruptStatus[E_SMBS_RX_IDX_TOTAL];
+<b><a name="line226">226    </a></b>	    volatile U16 uwSlaveAddress[E_SMBS_RX_IDX_TOTAL];
+<b><a name="line227">227    </a></b>	    volatile U8 aubCurrRxType[E_SMBS_RX_IDX_TOTAL];
+<b><a name="line228">228    </a></b>	    SMBUS_BUFFER_T sRx[E_SMBS_RX_IDX_TOTAL];
+<b><a name="line229">229    </a></b>	    SMBUS_BUFFER_T sTx;
+<b><a name="line230">230    </a></b>	} SMBS_MGR_T;
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	/*************************************************************************************************
+<b><a name="line234">234    </a></b>	 * SMBus Master
+<b><a name="line235">235    </a></b>	 *************************************************************************************************/
+<b><a name="line236">236    </a></b>	typedef struct {
+<b><a name="line237">237    </a></b>	    U16 uwFreqkHz;
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    union {
+<b><a name="line240">240    </a></b>	        U16 uwAll;
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	        struct {
+</pre></body>
+</html>

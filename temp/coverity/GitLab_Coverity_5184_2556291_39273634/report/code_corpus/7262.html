@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line657">657    </a></b>	    //--Byte 31:28
+<b><a name="line658">658    </a></b>	    //Check Command Flags Bit 1 and the DOFST fields
+<b><a name="line659">659    </a></b>	    //if (0U == (p_nvme_admin_cmd_req->sqdw0.cmdflag & BIT1))   //X2 follow MI version 1.2 don't check cmdflag bit 0 & bit 1
+<b><a name="line660">660    </a></b>	    //{
+<b><a name="line661">661    </a></b>	    //    // Bit 1, if cleared to ���0���, then the DOFST field shall be cleared to 0h.
+<b><a name="line662">662    </a></b>	    //    if (0U != p_nvme_admin_cmd_req->dofst)
+<b><a name="line663">663    </a></b>	    //    {
+<b><a name="line664">664    </a></b>	    //        // need return an Invalid Parameter Error Response
+<b><a name="line665">665    </a></b>	    //        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line666">666    </a></b>	    //        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST != 0"));
+<b><a name="line667">667    </a></b>	    //        Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line668">668    </a></b>	    //    }
+<b><a name="line669">669    </a></b>	    //}
+<b><a name="line670">670    </a></b>	    //else
+<b><a name="line671">671    </a></b>	    // Bits 0 and 1 of this field shall be cleared to ���0���
+<b><a name="line672">672    </a></b>	    else if ((p_nvme_admin_cmd_req->dofst & (BIT1 | BIT0)) != 0U) {
+<b><a name="line673">673    </a></b>	        // need return an Invalid Parameter Error Response
+<b><a name="line674">674    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line675">675    </a></b>	        p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DOFST;
+<b><a name="line676">676    </a></b>	        Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST BIT1, BIT0 != 0"));
+<b><a name="line677">677    </a></b>	        Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line678">678    </a></b>	    }
+<b><a name="line679">679    </a></b>	
+<b><a name="line680">680    </a></b>	    //else if (p_nvme_admin_cmd_req->sqdw0.ctrlrid == 0U)
+<b><a name="line681">681    </a></b>	    //{
+<b><a name="line682">682    </a></b>	    //   // TODO
+<b><a name="line683">683    </a></b>	    //   // This field specifies the Controller ID of the Controller that this command targets.
+<b><a name="line684">684    </a></b>	    //}
+<b><a name="line685">685    </a></b>	
+<b><a name="line686">686    </a></b>	    else if (p_nvme_admin_cmd_req->sqdw0.opcode == ADM_OPC_GET_LOG_PAGE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "p_nvme_admin_cmd_req->sqdw0.opcode" (unsigned) is not the same as that of the right operand "2"(signed).</font>
+<b><a name="line687">687    </a></b>	        U32 numd = ((p_nvme_admin_cmd_req->sqdw11 << 16U) | (U32)(p_nvme_admin_cmd_req->sqdw10 >> 16U));
+<b><a name="line688">688    </a></b>	        U16 byte_cnt = 4U * (numd + 1U); // dw: 0's base, 1DW = 4 bytes
+<b><a name="line689">689    </a></b>	        // check if dlen is greater than number of dword
+<b><a name="line690">690    </a></b>	        if (p_nvme_admin_cmd_req->dlen > byte_cnt) {
+<b><a name="line691">691    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line692">692    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line693">693    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line694">694    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN is greater than number of dword!"));
+<b><a name="line695">695    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line696">696    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line697">697    </a></b>	        }
+<b><a name="line698">698    </a></b>	        // check if dofst is greater than number of dword
+<b><a name="line699">699    </a></b>	        else if (p_nvme_admin_cmd_req->dofst > byte_cnt) {
+<b><a name="line700">700    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line701">701    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line702">702    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DOFST;
+<b><a name="line703">703    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DOFST is greater than number of dword!"));
+<b><a name="line704">704    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line705">705    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line706">706    </a></b>	        }
+<b><a name="line707">707    </a></b>	        // check if dlen+dofst is greater than number of dword
+<b><a name="line708">708    </a></b>	        else if ((p_nvme_admin_cmd_req->dlen + p_nvme_admin_cmd_req->dofst) > byte_cnt) {
+<b><a name="line709">709    </a></b>	            // need return an Invalid Parameter Error Response
+<b><a name="line710">710    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_PARAM;
+<b><a name="line711">711    </a></b>	            p_nvme_admin_cmd_resp->dw1.invld_param_err_resp.all = PEL_DLEN;
+<b><a name="line712">712    </a></b>	            Dump_SMBUS(tprintf(" [MCTP NVME-MI] DLEN+DOFST is greater than number of dword!"));
+<b><a name="line713">713    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DLEN : %d", p_nvme_admin_cmd_req->dlen));
+<b><a name="line714">714    </a></b>	            Dump_SMBUS(tprintf("    >>>>> DOFST : %d", p_nvme_admin_cmd_req->dofst));
+<b><a name="line715">715    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Number of Dword : %d", numd));
+<b><a name="line716">716    </a></b>	        }
+<b><a name="line717">717    </a></b>	        else {
+</pre></body>
+</html>

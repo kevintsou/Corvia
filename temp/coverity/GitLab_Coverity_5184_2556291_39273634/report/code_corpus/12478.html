@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line10313">10313    </a></b>	 * @param test_buffer
+<b><a name="line10314">10314    </a></b>	 *      A buffer used during KAT
+<b><a name="line10315">10315    </a></b>	 * @return
+<b><a name="line10316">10316    </a></b>	 *      0 - All KAT passed
+<b><a name="line10317">10317    </a></b>	 */
+<b><a name="line10318">10318    </a></b>	U32 host_sec_kat_load_code(U32 kat_buffer)
+<b><a name="line10319">10319    </a></b>	{
+<b><a name="line10320">10320    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP)); // load code kat start
+<b><a name="line10321">10321    </a></b>	
+<b><a name="line10322">10322    </a></b>	    // kat make error case
+<b><a name="line10323">10323    </a></b>	    if (gpFwSimCtrl1Reg->kat_make_error_test)
+<b><a name="line10324">10324    </a></b>	    {
+<b><a name="line10325">10325    </a></b>	        return KAT_ERROR_VERIFY;
+<b><a name="line10326">10326    </a></b>	    }
+<b><a name="line10327">10327    </a></b>	
+<b><a name="line10328">10328    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10329">10329    </a></b>	    U32 kat_count  = sizeof(gKatLCP) / sizeof(gKatLCP[0]);
+<b><a name="line10330">10330    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10331">10331    </a></b>	    {
+<b><a name="line10332">10332    </a></b>	        kat_status = gKatLCP[i](kat_buffer);
+<b><a name="line10333">10333    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10334">10334    </a></b>	            break;
+<b><a name="line10335">10335    </a></b>	        }
+<b><a name="line10336">10336    </a></b>	    }
+<b><a name="line10337">10337    </a></b>	
+<b><a name="line10338">10338    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10339">10339    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10340">10340    </a></b>	    memset((void *)kat_buffer, 0U, 0x1B610U);
+<b><a name="line10341">10341    </a></b>	#endif
+<b><a name="line10342">10342    </a></b>	    sal_log_tracker_set(sal_locate(0xF, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                        ^</font>
+<b><a name="line10343">10343    </a></b>	
+<b><a name="line10344">10344    </a></b>	    return kat_status;
+<b><a name="line10345">10345    </a></b>	}
+<b><a name="line10346">10346    </a></b>	
+<b><a name="line10347">10347    </a></b>	/**
+<b><a name="line10348">10348    </a></b>	 * Perform host KAT tests
+<b><a name="line10349">10349    </a></b>	 *
+<b><a name="line10350">10350    </a></b>	 * @param test_buffer
+<b><a name="line10351">10351    </a></b>	 *      A buffer used during KAT
+<b><a name="line10352">10352    </a></b>	 * @return
+<b><a name="line10353">10353    </a></b>	 *      0 - All KAT passed
+<b><a name="line10354">10354    </a></b>	 */
+<b><a name="line10355">10355    </a></b>	U32 host_sec_kat_host(U32 kat_buffer)
+<b><a name="line10356">10356    </a></b>	{
+<b><a name="line10357">10357    </a></b>	    sal_log_tracker_set(sal_locate(0x0D, TYPE_STEP)); // host kat start
+<b><a name="line10358">10358    </a></b>	
+<b><a name="line10359">10359    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line10360">10360    </a></b>	    U32 kat_count  = sizeof(gKatSIB) / sizeof(gKatSIB[0]);
+<b><a name="line10361">10361    </a></b>	    for (U32 i = 0; i < kat_count; i++)
+<b><a name="line10362">10362    </a></b>	    {
+<b><a name="line10363">10363    </a></b>	        kat_status = gKatSIB[i](kat_buffer);
+<b><a name="line10364">10364    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line10365">10365    </a></b>	            break;
+<b><a name="line10366">10366    </a></b>	        }
+<b><a name="line10367">10367    </a></b>	    }
+<b><a name="line10368">10368    </a></b>	
+<b><a name="line10369">10369    </a></b>	#if KAT_CLR_BUFFER
+<b><a name="line10370">10370    </a></b>	    // Clear KAT tmp Buffer
+<b><a name="line10371">10371    </a></b>	    memset((void *)kat_buffer, 0U, 0x1380U);
+<b><a name="line10372">10372    </a></b>	#endif
+<b><a name="line10373">10373    </a></b>	    sal_log_tracker_set(sal_locate(0x10, TYPE_STEP));
+</pre></body>
+</html>

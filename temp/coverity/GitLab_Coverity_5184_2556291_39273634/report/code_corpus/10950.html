@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line574">574    </a></b>	
+<b><a name="line575">575    </a></b>	        U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	        if (is_by_queue == 1U)
+<b><a name="line578">578    </a></b>	        {
+<b><a name="line579">579    </a></b>	            while (1U == dal_sec_sha_get_que_start())
+<b><a name="line580">580    </a></b>	            {
+<b><a name="line581">581    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><a name="line582">582    </a></b>	                {
+<b><a name="line583">583    </a></b>	                    gSecShaTimeout = SEC_YES;
+<b><a name="line584">584    </a></b>	                    is_timeout = SEC_YES;
+<b><a name="line585">585    </a></b>	                    break;
+<b><a name="line586">586    </a></b>	                }
+<b><a name="line587">587    </a></b>	            }
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	            while (1U == dal_sec_sha_get_que_busy())
+<b><a name="line590">590    </a></b>	            {
+<b><a name="line591">591    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><a name="line592">592    </a></b>	                {
+<b><a name="line593">593    </a></b>	                    gSecShaTimeout = SEC_YES;
+<b><a name="line594">594    </a></b>	                    is_timeout = SEC_YES;
+<b><a name="line595">595    </a></b>	                    break;
+<b><a name="line596">596    </a></b>	                }
+<b><a name="line597">597    </a></b>	            }
+<b><a name="line598">598    </a></b>	        }
+<b><a name="line599">599    </a></b>	        else
+<b><a name="line600">600    </a></b>	        {
+<b><a name="line601">601    </a></b>	            while (1U == dal_sec_sha_get_start())
+<b><a name="line602">602    </a></b>	            {
+<b><a name="line603">603    </a></b>	                if (MABIAO_CHK(mabiao_addr))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line604">604    </a></b>	                {
+<b><a name="line605">605    </a></b>	                    gSecShaTimeout = SEC_YES;
+<b><a name="line606">606    </a></b>	                    is_timeout = SEC_YES;
+<b><a name="line607">607    </a></b>	                    break;
+<b><a name="line608">608    </a></b>	                }
+<b><a name="line609">609    </a></b>	            };
+<b><a name="line610">610    </a></b>	        }
+<b><a name="line611">611    </a></b>	
+<b><a name="line612">612    </a></b>	        if (is_timeout == SEC_NO)
+<b><a name="line613">613    </a></b>	        {
+<b><a name="line614">614    </a></b>	            trigger_done = SEC_YES;
+<b><a name="line615">615    </a></b>	        }
+<b><a name="line616">616    </a></b>	    }
+<b><a name="line617">617    </a></b>	    else
+<b><a name="line618">618    </a></b>	    {
+<b><a name="line619">619    </a></b>	        if (is_by_queue == 1U)
+<b><a name="line620">620    </a></b>	        {
+<b><a name="line621">621    </a></b>	            while (1U == dal_sec_sha_get_que_start()) {};
+<b><a name="line622">622    </a></b>	            while (1U == dal_sec_sha_get_que_busy()) {};
+<b><a name="line623">623    </a></b>	        }
+<b><a name="line624">624    </a></b>	        else
+<b><a name="line625">625    </a></b>	        {
+<b><a name="line626">626    </a></b>	            while (1U == dal_sec_sha_get_start()) {};
+<b><a name="line627">627    </a></b>	        }
+<b><a name="line628">628    </a></b>	
+<b><a name="line629">629    </a></b>	        trigger_done = SEC_YES;
+<b><a name="line630">630    </a></b>	    }
+<b><a name="line631">631    </a></b>	
+<b><a name="line632">632    </a></b>	    return trigger_done;
+<b><a name="line633">633    </a></b>	}
+<b><a name="line634">634    </a></b>	
+</pre></body>
+</html>

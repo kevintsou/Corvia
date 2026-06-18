@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_cmgr_func.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef DAL_FLOW_NVME_CMGR_FUNC_H
+<b><a name="line2">2    </a></b>	#define DAL_FLOW_NVME_CMGR_FUNC_H
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	////////////////////////////////====== private:
+<b><a name="line7">7    </a></b>	//=== CMGR_INT0 ===
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	//=== CMGR_PORT_INT ===
+<b><a name="line10">10    </a></b>	
+<b><a name="line11">11    </a></b>	//=== CMGR_NLOG_EN ===
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	//=== CMGR_ERR_INFO ===
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	//CMGR_RERR_TYPE
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	//CMGR_WERR_TYPE
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	//CMGR_SRAM_TYPE
+<b><a name="line21">21    </a></b>	U32 dal_cmgr_get_cs_sram_err_bitmap(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_cmgr_get_cs_sram_err_bitmap" is declared but never defined.</font>
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	//CMGR_P_SRAM_TYPE
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	///////////////////////////////////////////////////public
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	//=== CMGR_REG DW0-29 ===
+<b><a name="line28">28    </a></b>	//--- set func ---
+<b><a name="line29">29    </a></b>	void dal_cmgr_set_en_int_bitmap(DAL_CMGR_INT_PTR dal_cmgr_int);
+<b><a name="line30">30    </a></b>	void dal_cmgr_set_en_int_p_bitmap(U8 p_ofst, DAL_CMGR_PORT_ERR_INT_PTR dal_cmgr_port_err_int);
+<b><a name="line31">31    </a></b>	//--- get func ---
+<b><a name="line32">32    </a></b>	U32 dal_cmgr_get_int_bitmap(void);
+<b><a name="line33">33    </a></b>	U32 dal_cmgr_get_en_int_bitmap(void);
+<b><a name="line34">34    </a></b>	U32 dal_cmgr_get_int_p_bitmap(U8 p_ofst);
+<b><a name="line35">35    </a></b>	U32 dal_cmgr_get_en_int_p_bitmap(U8 p_ofst);
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	U8 dal_cmgr_get_int_p_cmgr_lock(U8 p_ofst);
+<b><a name="line38">38    </a></b>	U8 dal_cmgr_get_int_p_wdma_err(U8 p_ofst);
+<b><a name="line39">39    </a></b>	U8 dal_cmgr_get_int_p_rdma_err(U8 p_ofst);
+<b><a name="line40">40    </a></b>	U8 dal_cmgr_get_int_p_r_unc_err(U8 p_ofst);
+<b><a name="line41">41    </a></b>	U8 dal_cmgr_get_int_p_clr_cvld_err(U8 p_ofst);
+<b><a name="line42">42    </a></b>	U8 dal_cmgr_get_int_p_cmgr_ptr_ofst(U8 p_ofst);
+<b><a name="line43">43    </a></b>	U8 dal_cmgr_get_int_p_rpf_hptr_ofst_err(U8 p_ofst);
+<b><a name="line44">44    </a></b>	U8 dal_cmgr_get_int_p_wch_hptr_ofst_err(U8 p_ofst);
+<b><a name="line45">45    </a></b>	U8 dal_cmgr_get_int_p_iorch_hptr_ofst_err(U8 p_ofst);
+<b><a name="line46">46    </a></b>	U8 dal_cmgr_get_int_p_rch_lca_err(U8 p_ofst);
+<b><a name="line47">47    </a></b>	U8 dal_cmgr_get_int_p_rlbn_unflow_err(U8 p_ofst);
+<b><a name="line48">48    </a></b>	U8 dal_cmgr_get_int_p_wch_lca_err(U8 p_ofst);
+<b><a name="line49">49    </a></b>	U8 dal_cmgr_get_int_p_ppaf_werr(U8 p_ofst);
+<b><a name="line50">50    </a></b>	U8 dal_cmgr_get_int_p_sram_err_flag(U8 p_ofst);
+<b><a name="line51">51    </a></b>	U8 dal_cmgr_get_int_en_p_cmgr_lock(U8 p_ofst);
+<b><a name="line52">52    </a></b>	U8 dal_cmgr_get_int_en_p_wdma_err(U8 p_ofst);
+</pre></body>
+</html>

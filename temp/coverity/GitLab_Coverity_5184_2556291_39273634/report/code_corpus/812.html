@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_itc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line67">67    </a></b>	    /*
+<b><a name="line68">68    </a></b>	     *  Setup interrupt group (trigger IRQ(group1) or FIQ(group0))
+<b><a name="line69">69    </a></b>	     */
+<b><a name="line70">70    </a></b>	    dal_gic_set_group(itc_id, GIC_INT_GROUP0);
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    /*
+<b><a name="line73">73    </a></b>	     *  Enable default interrupt
+<b><a name="line74">74    </a></b>	     */
+<b><a name="line75">75    </a></b>	    dal_gic_enable_interrupt(itc_id);
+<b><a name="line76">76    </a></b>	}
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	static void hal_gic_set_configuration(U16 itc_id, U8 itc_config)
+<b><a name="line79">79    </a></b>	{
+<b><a name="line80">80    </a></b>	    U8 temp1;
+<b><a name="line81">81    </a></b>	    temp1 = 0U;
+<b><a name="line82">82    </a></b>	    if (itc_config == GIC_CONFIG_DEFAULT_SETTING_SEL)
+<b><a name="line83">83    </a></b>	    {
+<b><a name="line84">84    </a></b>	        temp1 = GIC_CONFIG_DEFAULT_SETTING;
+<b><a name="line85">85    </a></b>	    }
+<b><a name="line86">86    </a></b>	    else if (itc_config == GIC_CONFIG_LEVEL_SENSITIVE_SEL)
+<b><a name="line87">87    </a></b>	    {
+<b><a name="line88">88    </a></b>	        temp1 = GIC_CONFIG_LEVEL_SENSITIVE;
+<b><a name="line89">89    </a></b>	    }
+<b><a name="line90">90    </a></b>	    else if (itc_config == GIC_CONFIG_PULSE_TRIGGERED_SEL)
+<b><a name="line91">91    </a></b>	    {
+<b><a name="line92">92    </a></b>	        temp1 = GIC_CONFIG_PULSE_TRIGGERED;
+<b><a name="line93">93    </a></b>	    }
+<b><a name="line94">94    </a></b>	    else
+<b><a name="line95">95    </a></b>	    {
+<b><a name="line96">96    </a></b>	        ALWAYS_ASSERT(0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "0U" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line97">97    </a></b>	    }
+<b><a name="line98">98    </a></b>	    dal_gic_set_configuration(itc_id, temp1);
+<b><a name="line99">99    </a></b>	}
+<b><a name="line100">100    </a></b>	
+</pre></body>
+</html>

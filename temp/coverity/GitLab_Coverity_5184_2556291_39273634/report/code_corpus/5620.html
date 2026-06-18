@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3211">3211    </a></b>	
+<b><a name="line3212">3212    </a></b>	    w_all_CMGR_FW_GP_BLK(0U);
+<b><a name="line3213">3213    </a></b>	
+<b><a name="line3214">3214    </a></b>	    cnt = r_all_TOTAL_META_WDATA_CNT_DW0();
+<b><a name="line3215">3215    </a></b>	    cnt1 = r_all_TOTAL_META_WDATA_CNT_DW1();
+<b><a name="line3216">3216    </a></b>	    value = (cnt | ((U64)cnt1 << 32U));
+<b><a name="line3217">3217    </a></b>	
+<b><a name="line3218">3218    </a></b>	    w_all_CMGR_FW_GP_BLK(0U);
+<b><a name="line3219">3219    </a></b>	
+<b><a name="line3220">3220    </a></b>	    return value;
+<b><a name="line3221">3221    </a></b>	}
+<b><a name="line3222">3222    </a></b>	
+<b><a name="line3223">3223    </a></b>	void dal_cmgr_set_cs_info(U16 ctag, U32 val)
+<b><a name="line3224">3224    </a></b>	{
+<b><a name="line3225">3225    </a></b>	    r32_w_NVME_CMGR_CS_INFO_DW0(ctag, val);
+<b><a name="line3226">3226    </a></b>	}
+<b><a name="line3227">3227    </a></b>	
+<b><a name="line3228">3228    </a></b>	void dal_cmgr_set_cs_cid(U16 ctag, U16 cid)
+<b><a name="line3229">3229    </a></b>	{
+<b><a name="line3230">3230    </a></b>	    w_all_CS_CID(ctag, cid);
+<b><a name="line3231">3231    </a></b>	}
+<b><a name="line3232">3232    </a></b>	
+<b><a name="line3233">3233    </a></b>	void dal_cmgr_set_cs_vfid(U16 ctag, U8 vfid)
+<b><a name="line3234">3234    </a></b>	{
+<b><a name="line3235">3235    </a></b>	    w_all_CS_VFID(ctag, vfid);
+<b><a name="line3236">3236    </a></b>	}
+<b><a name="line3237">3237    </a></b>	
+<b><a name="line3238">3238    </a></b>	void dal_cmgr_set_cs_sqid(U16 ctag, U16 sqid)
+<b><a name="line3239">3239    </a></b>	{
+<b><a name="line3240">3240    </a></b>	    w_all_CS_SQID(ctag, (U8)(sqid & 0x00FF));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "sqid" (unsigned) is not the same as that of the right operand "255"(signed).</font>
+<b><a name="line3241">3241    </a></b>	    w_all_CS_SQID_H(ctag, (U8)(sqid >> 8U));
+<b><a name="line3242">3242    </a></b>	}
+<b><a name="line3243">3243    </a></b>	
+<b><a name="line3244">3244    </a></b>	void dal_cmgr_set_cs_vld(U16 ctag)
+<b><a name="line3245">3245    </a></b>	{
+<b><a name="line3246">3246    </a></b>	    w_all_CS_VLD(ctag, 1U);
+<b><a name="line3247">3247    </a></b>	}
+<b><a name="line3248">3248    </a></b>	
+<b><a name="line3249">3249    </a></b>	U32 dal_cmgr_get_cs_info(U16 ctag)
+<b><a name="line3250">3250    </a></b>	{
+<b><a name="line3251">3251    </a></b>	    return r32_r_NVME_CMGR_CS_INFO_DW0(ctag);
+<b><a name="line3252">3252    </a></b>	}
+<b><a name="line3253">3253    </a></b>	
+<b><a name="line3254">3254    </a></b>	U16 dal_cmgr_get_cs_cid(U16 ctag)
+<b><a name="line3255">3255    </a></b>	{
+<b><a name="line3256">3256    </a></b>	    return (U16)r_all_CS_CID(ctag);
+<b><a name="line3257">3257    </a></b>	}
+<b><a name="line3258">3258    </a></b>	
+<b><a name="line3259">3259    </a></b>	U8 dal_cmgr_get_cs_vfid(U16 ctag)
+<b><a name="line3260">3260    </a></b>	{
+<b><a name="line3261">3261    </a></b>	    return (U8)r_all_CS_VFID(ctag);
+<b><a name="line3262">3262    </a></b>	}
+<b><a name="line3263">3263    </a></b>	
+<b><a name="line3264">3264    </a></b>	U16 dal_cmgr_get_cs_sqid(U16 ctag)
+<b><a name="line3265">3265    </a></b>	{
+<b><a name="line3266">3266    </a></b>	    return (U16)(r_all_CS_SQID_H(ctag) << 8U | r_all_CS_SQID(ctag));
+<b><a name="line3267">3267    </a></b>	}
+<b><a name="line3268">3268    </a></b>	
+<b><a name="line3269">3269    </a></b>	U8 dal_cmgr_get_cs_vld(U16 ctag)
+<b><a name="line3270">3270    </a></b>	{
+<b><a name="line3271">3271    </a></b>	    return (U8)r_all_CS_VLD(ctag);
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3:
+<b><a name="line1321">1321    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sw_sm2_sm3(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1322">1322    </a></b>	        return check_project_binary_error;
+<b><a name="line1323">1323    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192:
+<b><a name="line1324">1324    </a></b>	        check_project_binary_error = check_project_binary_code_sign_lms_sha256_192(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1325">1325    </a></b>	        return check_project_binary_error;
+<b><a name="line1326">1326    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9:
+<b><a name="line1327">1327    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sm9(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1328">1328    </a></b>	        return check_project_binary_error;
+<b><a name="line1329">1329    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH:
+<b><a name="line1330">1330    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, FALSE);
+<b><a name="line1331">1331    </a></b>	        return check_project_binary_error;
+<b><a name="line1332">1332    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE:
+<b><a name="line1333">1333    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, TRUE);
+<b><a name="line1334">1334    </a></b>	        return check_project_binary_error;
+<b><a name="line1335">1335    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ:
+<b><a name="line1336">1336    </a></b>	        check_project_binary_error = check_project_binary_code_sign_kaz(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1337">1337    </a></b>	        return check_project_binary_error;
+<b><a name="line1338">1338    </a></b>	    default:
+<b><a name="line1339">1339    </a></b>	        // This should never occur as algorithm_type is checked earlier
+<b><a name="line1340">1340    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1341">1341    </a></b>	    }
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	    //Set the various buffers required for verification
+<b><a name="line1344">1344    </a></b>	    switch (algorithm_type) {
+<b><a name="line1345">1345    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1346">1346    </a></b>	
+<b><a name="line1347">1347    </a></b>	        hash_buffer       = calculation_buffer;
+<b><a name="line1348">1348    </a></b>	        decryption_buffer = hash_buffer + SECTOR_SIZE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "hash_buffer" (unsigned) is not the same as that of the right operand "512"(signed).</font>
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	        //TODO this should be done when copying into the PKE buffers, instead of
+<b><a name="line1351">1351    </a></b>	        //TODO Maybe split it up so that a function gives out the address of all the components
+<b><a name="line1352">1352    </a></b>	        //A buffer to store key in the correct endian for input to the PKE
+<b><a name="line1353">1353    </a></b>	        signature_endian_buffer = decryption_buffer       + SECTOR_SIZE;
+<b><a name="line1354">1354    </a></b>	        mgf_buffer              = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1355">1355    </a></b>	        mask_buffer             = mgf_buffer              + SECTOR_SIZE;
+<b><a name="line1356">1356    </a></b>	        temp_buffer             = mask_buffer             + SECTOR_SIZE;
+<b><a name="line1357">1357    </a></b>	        key_endian_buffer       = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1358">1358    </a></b>	
+<b><a name="line1359">1359    </a></b>	        memcpy((void *)signature_endian_buffer, (void *)signature_address, signature_size);
+<b><a name="line1360">1360    </a></b>	        memcpy((void *)key_endian_buffer, (void *)key_address, key_size);
+<b><a name="line1361">1361    </a></b>	
+<b><a name="line1362">1362    </a></b>	        //Convert the RSA key into a structure used by the PKE function
+<b><a name="line1363">1363    </a></b>	        sec_rsa4096_key_structure_convert2((RSA4096_PUBLIC_KEY_PTR)(key_endian_buffer), &rsa_key);
+<b><a name="line1364">1364    </a></b>	
+<b><a name="line1365">1365    </a></b>	        break;
+<b><a name="line1366">1366    </a></b>	
+<b><a name="line1367">1367    </a></b>	    default:
+<b><a name="line1368">1368    </a></b>	        //This should never occur as algorithm_type is checked earlier
+<b><a name="line1369">1369    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1370">1370    </a></b>	        //break;
+<b><a name="line1371">1371    </a></b>	    }
+<b><a name="line1372">1372    </a></b>	
+<b><a name="line1373">1373    </a></b>	    //Fix the endian of the key and signature
+<b><a name="line1374">1374    </a></b>	    switch (algorithm_type) {
+<b><a name="line1375">1375    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1376">1376    </a></b>	        //TODO could merge this into copying the data into the PKE buffer instead
+<b><a name="line1377">1377    </a></b>	        if (bledn & PROJECT_BINARY_HEADER_BLEDN_SIGNATURE_BIG_ENDIAN) {
+<b><a name="line1378">1378    </a></b>	            hal_sec_api_reverse_endian((void *)signature_endian_buffer, (void *)signature_endian_buffer, signature_size);
+<b><a name="line1379">1379    </a></b>	        }
+</pre></body>
+</html>

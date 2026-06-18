@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line215">215    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line216">216    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line217">217    </a></b>	    VUC_PROTECT *p_vuc_protect = &gVUCProtect;
+<b><a name="line218">218    </a></b>	
+<b><a name="line219">219    </a></b>	    Dump_Debug(tprintf("Send Handshake Request\r\n"));
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_HANDSHAKE_START <= p_vuc_protect->protect_state) {
+<b><a name="line222">222    </a></b>	        status_code = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line223">223    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line224">224    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line225">225    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line226">226    </a></b>	        Dump_Debug(tprintf("\nC4 state wrong"));
+<b><a name="line227">227    </a></b>	#endif
+<b><a name="line228">228    </a></b>	        return TRUE;
+<b><a name="line229">229    </a></b>	    }
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	    memset((void *) & (p_vuc_protect->a_encrypt_random[0]), 0x00, VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line232">232    </a></b>	    p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_HANDSHAKE_START;
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line235">235    </a></b>	    return FALSE;
+<b><a name="line236">236    </a></b>	}
+<b><a name="line237">237    </a></b>	
+<b><a name="line238">238    </a></b>	/**
+<b><a name="line239">239    </a></b>	 * Generate random number which is material of session key and send back to host in encrypted format.
+<b><a name="line240">240    </a></b>	 *
+<b><a name="line241">241    </a></b>	 * @param vuc_dispatch_param_struct_ptr, sq_ndt
+<b><a name="line242">242    </a></b>	 * @return
+<b><a name="line243">243    </a></b>	 */
+<b><a name="line244">244    </a></b>	BOOL vuc_receive_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param, volatile U32 sq_ndt)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration uses a different parameter type than "vuc_receive_encryption_data".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">     ^</font>
+<b><a name="line245">245    </a></b>	{
+<b><a name="line246">246    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line247">247    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line248">248    </a></b>	    U8 pke_status = PASS;
+<b><a name="line249">249    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line250">250    </a></b>	    Dump_Debug(tprintf("VUC Receive Encryption Data\r\n"));
+<b><a name="line251">251    </a></b>	#endif
+<b><a name="line252">252    </a></b>	    VUC_PROTECT *p_vuc_protect = &gVUCProtect;
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	    ENCRYPTION_DATA *p_encryption_data;
+<b><a name="line255">255    </a></b>	    RSA4096_PUBLIC_KEY_PTR p_vuc_protect_key_rsa4096 = (RSA4096_PUBLIC_KEY_PTR)DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_BASE;
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    //Check the VUC Protect state machine
+<b><a name="line258">258    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_HANDSHAKE_START != p_vuc_protect->protect_state) {
+<b><a name="line259">259    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line260">260    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line261">261    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line262">262    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line263">263    </a></b>	        Dump_Debug(tprintf("\nC5 state wrong"));
+<b><a name="line264">264    </a></b>	#endif
+<b><a name="line265">265    </a></b>	        return TRUE;
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	    phal_dmac_sv(DBUF_API_BOOTCODE_HOST_BUFFER_BASE, 0, SECTOR_SIZE * 2U, 0, 0);
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    //Create the random data
+<b><a name="line271">271    </a></b>	    p_encryption_data = (ENCRYPTION_DATA *)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE);
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	    U32 drbg_count;
+<b><a name="line274">274    </a></b>	    U32 drbg_result = 0;
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    U32 drbg_buffer = DBUF_API_BOOTCODE_DRBG_BUFFER_BASE;
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	    //Attempt 3 times
+<b><a name="line279">279    </a></b>	    for (drbg_count = 0; drbg_count < 3; drbg_count++) {
+<b><a name="line280">280    </a></b>	        drbg_result = drbg_hmac_rng(drbg_buffer, 32, DRBG_SS_256, NULL, 0, FALSE, (U8 *)p_encryption_data->a_encrypt_random);
+<b><a name="line281">281    </a></b>	        if (0 == drbg_result) {
+<b><a name="line282">282    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line283">283    </a></b>	            Dump_Debug(tprintf("DRBG completed in %d\r\n", (U16)drbg_count));
+<b><a name="line284">284    </a></b>	#endif
+<b><a name="line285">285    </a></b>	            break;
+<b><a name="line286">286    </a></b>	        }
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    if (0 != drbg_result) {
+<b><a name="line290">290    </a></b>	        status_code      = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line291">291    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line294">294    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line295">295    </a></b>	        Dump_Debug(tprintf("\nC5 rnd fail1"));
+<b><a name="line296">296    </a></b>	#endif
+<b><a name="line297">297    </a></b>	        return TRUE;
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	    memcpy((void *)p_vuc_protect->z, (void *)p_encryption_data->a_encrypt_random, 32);
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    (void)memset((U32 *)((U32)p_encryption_data->a_encrypt_random + 32U), 0x0, 480);
+<b><a name="line303">303    </a></b>	    (void)memset((void *)p_encryption_data->a_dummy_random, 0x00, 508);
+<b><a name="line304">304    </a></b>	
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line307">307    </a></b>	    Dump_Debug(tprintf("\nRandom Data:\n"));
+<b><a name="line308">308    </a></b>	    Dump_Debug(tprintm((U32)p_encryption_data->a_encrypt_random, sizeof(p_encryption_data->a_encrypt_random)));
+<b><a name="line309">309    </a></b>	#endif
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	    p_encryption_data->crc = 0;
+<b><a name="line312">312    </a></b>	    p_encryption_data->crc = vuc_protect_crc32((U32)p_encryption_data, sizeof(ENCRYPTION_DATA));
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line315">315    </a></b>	    Dump_Debug(tprintf("\nDevice crc:%x\n", p_encryption_data->crc));
+<b><a name="line316">316    </a></b>	#endif
+<b><a name="line317">317    </a></b>	
+<b><a name="line318">318    </a></b>	    pke_status = vuc_rsa4096_enc(p_vuc_protect_key_rsa4096, (U8 *)p_encryption_data->a_encrypt_random);
+<b><a name="line319">319    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line320">320    </a></b>	    // tprintf("\nRandom Data After RSA enc:\n");
+<b><a name="line321">321    </a></b>	    // tprintm((U32)p_encryption_data, sizeof(*p_encryption_data));
+<b><a name="line322">322    </a></b>	#endif
+<b><a name="line323">323    </a></b>	    if (pke_status) {
+<b><a name="line324">324    </a></b>	        status_code      = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line325">325    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line326">326    </a></b>	
+<b><a name="line327">327    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line328">328    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line329">329    </a></b>	        Dump_Debug(tprintf("\nC5 pke fail"));
+<b><a name="line330">330    </a></b>	#endif
+<b><a name="line331">331    </a></b>	        return TRUE;
+<b><a name="line332">332    </a></b>	    }
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	    // Stored as little endian
+<b><a name="line335">335    </a></b>	    memcpy((void *) & (p_vuc_protect->a_encrypt_random[0]), (void *)p_encryption_data, VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	    hal_sec_api_reverse_endian((void *)p_encryption_data, (void *)p_encryption_data, VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line338">338    </a></b>	    p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_ENCRYPTION_DATA_SENT;
+<b><a name="line339">339    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line340">340    </a></b>	    memset((void *)drbg_buffer, 0U, DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE);
+<b><a name="line341">341    </a></b>	    return FALSE;
+<b><a name="line342">342    </a></b>	}
+<b><a name="line343">343    </a></b>	STATIC_ASSERT(sizeof(RSA4096_PUBLIC_KEY) <= DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_SIZE, "DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_SIZE overflow");
+<b><a name="line344">344    </a></b>	STATIC_ASSERT(HAL_SEC_SHA2_512_DIGEST_LEN <= DBUF_API_BOOTCODE_HASH_BUFFER_SIZE, "DBUF_API_BOOTCODE_HASH_BUFFER_SIZE overflow"); // SHA 512
+<b><a name="line345">345    </a></b>	STATIC_ASSERT(DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE >= (DRBG_HMAC_INPUT_BUF_LEN + DRBG_SEED_MATERIAL_BUF_LEN + DRBG_ENTROPY_INPUT_BUF_LEN + DRBG_PERSIONAL_STR_BUF_LEN + DRBG_ADDITIONAL_INPUT_BUF_LEN + DRBG_NONCE_BUF_LEN + DRBG_HMAC_KEY_LEN + DRBG_OUTPUT_BLOCK_LEN),
+<b><a name="line346">346    </a></b>	    "DBUF_API_BOOTCODE_DRBG_BUFFER_SIZE overflow");
+<b><a name="line347">347    </a></b>	
+<b><a name="line348">348    </a></b>	/**
+<b><a name="line349">349    </a></b>	 * Host sends the encryption data back to device for verification
+<b><a name="line350">350    </a></b>	 *
+<b><a name="line351">351    </a></b>	 *
+<b><a name="line352">352    </a></b>	 *
+<b><a name="line353">353    </a></b>	 * @param vuc_dispatch_param_struct_ptr
+<b><a name="line354">354    </a></b>	 * @return fail or not
+<b><a name="line355">355    </a></b>	 */
+<b><a name="line356">356    </a></b>	BOOL vuc_send_encryption_data(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line357">357    </a></b>	{
+<b><a name="line358">358    </a></b>	    VUC_PROTECT *p_vuc_protect = &gVUCProtect;
+<b><a name="line359">359    </a></b>	    U8 status_code       = VALID_STATUS;
+<b><a name="line360">360    </a></b>	    U8 status_code_type  = VALID_STATUS_TYPE;
+<b><a name="line361">361    </a></b>	
+<b><a name="line362">362    </a></b>	    U32 host_buf, data_buf;
+<b><a name="line363">363    </a></b>	    //	U32 key_count, key_offset;
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	    // SEC_HMAC_PARAMS_T  sec_hmac_sha_param;
+<b><a name="line366">366    </a></b>	    U32  kdf_input_size   = 0U;
+<b><a name="line367">367    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line368">368    </a></b>	    // gen MacDatav
+<b><a name="line369">369    </a></b>	    U8  kc_1_v[6]        = {0x4B, 0x43, 0x5F, 0x31, 0x5F, 0x56}; // "KC_1_V"
+<b><a name="line370">370    </a></b>	    U8  mactagv[8]       = {0}; // MacTagV from host buffer
+<b><a name="line371">371    </a></b>	    // gen session key
+<b><a name="line372">372    </a></b>	    U8  i[4]             = {0x00, 0x00, 0x00, 0x01};
+<b><a name="line373">373    </a></b>	    U8  sk_l[4]          = {0xC0, 0x02, 0x00, 0x00}; // bit number of ("HMAC-256" || IDu || IDv || Nv) == (8 + 8 + 8 + 64) * 8 == 704(0x2C0)
+<b><a name="line374">374    </a></b>	    U8  sk_hmac_256[8]   = {0x48, 0x4D, 0x41, 0x43, 0x2D, 0x32, 0x35, 0x36}; // "HMAC-256"
+<b><a name="line375">375    </a></b>	    U8  sk_idu[8]        = {0x50, 0x53, 0x35, 0x33, 0x30, 0x33, 0x00, 0x00}; // "PS5303\0\0"
+<b><a name="line376">376    </a></b>	    U8  sk_idv[8]        = {0x50, 0x48, 0x49, 0x53, 0x4F, 0x4E, 0x30, 0x30}; // "PHISON00"
+<b><a name="line377">377    </a></b>	    U8  sk_nv[64]        = {0x00}; // Nonce from host buffer
+<b><a name="line378">378    </a></b>	    U8  z_tmp_input[32];
+<b><a name="line379">379    </a></b>	    U8  default_salt[64] = {
+<b><a name="line380">380    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line381">381    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line382">382    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line383">383    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line384">384    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line385">385    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line386">386    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+<b><a name="line387">387    </a></b>	        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+<b><a name="line388">388    </a></b>	    };
+<b><a name="line389">389    </a></b>	    U8 rng[6];
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	    //Check the VUC Protect state machine
+<b><a name="line392">392    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_ENCRYPTION_DATA_SENT != p_vuc_protect->protect_state) {
+<b><a name="line393">393    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line394">394    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line395">395    </a></b>	
+<b><a name="line396">396    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line397">397    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line398">398    </a></b>	        Dump_Debug(tprintf("\nC6 state wrong"));
+<b><a name="line399">399    </a></b>	#endif
+<b><a name="line400">400    </a></b>	        return TRUE;
+<b><a name="line401">401    </a></b>	    }
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    host_buf = (U32)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE); // data receive from host is same as param->host_buf
+<b><a name="line404">404    </a></b>	    data_buf = (U32)(DBUF_API_BOOTCODE_KEY_CAL_BUFFER_BASE);
+<b><a name="line405">405    </a></b>	    (void)memcpy((void *)sk_nv, (void *)(U32 *)host_buf, sizeof(sk_nv));
+<b><a name="line406">406    </a></b>	    (void)memcpy((void *)mactagv, (void *)(U32 *)(host_buf + 64U), sizeof(mactagv));
+<b><a name="line407">407    </a></b>	    (void)memcpy((void *)z_tmp_input, (void *)p_vuc_protect->z, 32);
+<b><a name="line408">408    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line409">409    </a></b>	    Dump_Debug(tprintf("send_encryption_data host_buf : "));
+<b><a name="line410">410    </a></b>	    Dump_Debug(tprintf("N_v : "));
+<b><a name="line411">411    </a></b>	    Dump_Debug(tprintm((U32)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, 64));
+<b><a name="line412">412    </a></b>	    Dump_Debug(tprintf("mac tag : "));
+<b><a name="line413">413    </a></b>	    Dump_Debug(tprintm((U32)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 64), 32));
+<b><a name="line414">414    </a></b>	#endif
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	    // Generate Session Key = HMAC-SHA256(default salt, i || Z || L || HMAC_256 || IDu || IDv || N_v)
+<b><a name="line417">417    </a></b>	    kdf_input_size = 0;
+<b><a name="line418">418    </a></b>	    (void)memset((void *)data_buf, 0x00, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line419">419    </a></b>	
+<b><a name="line420">420    </a></b>	    (void)memcpy((void *)data_buf, (void *)&i, sizeof(i));//4
+<b><a name="line421">421    </a></b>	    kdf_input_size += sizeof(i);
+<b><a name="line422">422    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)z_tmp_input, sizeof(z_tmp_input));//32
+<b><a name="line423">423    </a></b>	    kdf_input_size += sizeof(z_tmp_input);
+<b><a name="line424">424    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_l, sizeof(sk_l));//4
+<b><a name="line425">425    </a></b>	    kdf_input_size += sizeof(sk_l);
+<b><a name="line426">426    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_hmac_256, sizeof(sk_hmac_256));//8
+<b><a name="line427">427    </a></b>	    kdf_input_size += sizeof(sk_hmac_256);
+<b><a name="line428">428    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idu, sizeof(sk_idu));//8
+<b><a name="line429">429    </a></b>	    kdf_input_size += sizeof(sk_idu);
+<b><a name="line430">430    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idv, sizeof(sk_idv));//8
+<b><a name="line431">431    </a></b>	    kdf_input_size += sizeof(sk_idv);
+<b><a name="line432">432    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_nv, sizeof(sk_nv));//64
+<b><a name="line433">433    </a></b>	    kdf_input_size += sizeof(sk_nv); //should be 128 Bytes
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    memcpy((void *)(data_buf + 1024), &default_salt[0], 64);
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line438">438    </a></b>	    Dump_Debug(tprintf("Dump Z | OtherInput : "));
+<b><a name="line439">439    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line440">440    </a></b>	#endif
+<b><a name="line441">441    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 64U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	    memset((void *)(p_vuc_protect->a_session_key), 0x00, VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line444">444    </a></b>	    memcpy((void *)(p_vuc_protect->a_session_key), (void *)(data_buf + 2048), VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // destory secret value Z
+<b><a name="line447">447    </a></b>	    (void)memset((void *)p_vuc_protect->z, 0x00, 32);
+<b><a name="line448">448    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line449">449    </a></b>	    Dump_Debug(tprintf("Dump session key : "));
+<b><a name="line450">450    </a></b>	    Dump_Debug(tprintm((U32)p_vuc_protect->a_session_key, 32));
+<b><a name="line451">451    </a></b>	#endif
+<b><a name="line452">452    </a></b>	
+<b><a name="line453">453    </a></b>	    // Gen MACTagv
+<b><a name="line454">454    </a></b>	    kdf_input_size = 0;
+<b><a name="line455">455    </a></b>	    (void)memset((void *)data_buf, 0x00, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line456">456    </a></b>	    (void)memcpy((void *)data_buf, kc_1_v, sizeof(kc_1_v));
+<b><a name="line457">457    </a></b>	    kdf_input_size += sizeof(kc_1_v);
+<b><a name="line458">458    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idv, sizeof(sk_idv));
+<b><a name="line459">459    </a></b>	    kdf_input_size += sizeof(sk_idv);
+<b><a name="line460">460    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_idu, sizeof(sk_idu));
+<b><a name="line461">461    </a></b>	    kdf_input_size += sizeof(sk_idu);
+<b><a name="line462">462    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)sk_nv, sizeof(sk_nv));
+<b><a name="line463">463    </a></b>	    kdf_input_size += sizeof(sk_nv);
+<b><a name="line464">464    </a></b>	    // hal_sec_api_reverse_endian((void *)(p_vuc_protect->a_encrypt_random), (void *)(p_vuc_protect->a_encrypt_random), VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line465">465    </a></b>	    (void)memcpy((void *)(U32 *)((U32)data_buf + kdf_input_size), (void *)(U32 *)(void *)(p_vuc_protect->a_encrypt_random), VUC_PROTECT_ENCRYPT_RANDOM_SIZE);
+<b><a name="line466">466    </a></b>	    kdf_input_size += VUC_PROTECT_ENCRYPT_RANDOM_SIZE;//should be 598 Bytes
+<b><a name="line467">467    </a></b>	
+<b><a name="line468">468    </a></b>	    memcpy((void *)(data_buf + 1024), (void *)p_vuc_protect->a_session_key, VUC_PROTECT_SESSION_KEY_SIZE);
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line471">471    </a></b>	    Dump_Debug(tprintf("Dump MacTagv : "));
+<b><a name="line472">472    </a></b>	    Dump_Debug(tprintm((U32)data_buf, kdf_input_size));
+<b><a name="line473">473    </a></b>	#endif
+<b><a name="line474">474    </a></b>	    ret = vuc_protect_hmac(HAL_SEC_SHA2_256_MODE, data_buf + 1024, 32U, data_buf, kdf_input_size, data_buf + 2048);
+<b><a name="line475">475    </a></b>	
+<b><a name="line476">476    </a></b>	    // Dump mactag
+<b><a name="line477">477    </a></b>	    Dump_Debug(tprintf("Dump mactag : "));
+<b><a name="line478">478    </a></b>	    Dump_Debug(tprintm((U32)(data_buf + 2048), 8));
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    // Dump mactag
+<b><a name="line481">481    </a></b>	    Dump_Debug(tprintf("Dump mactag from host: "));
+<b><a name="line482">482    </a></b>	    Dump_Debug(tprintm((U32)mactagv, 8));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    drbg_get_try_limit_rng_data(&gRnghealth, sizeof(rng), rng);
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    if (HAL_SEC_DMSCA_PASS == hal_sec_dmsca_def_cmp((U8 *)mactagv, (U8 *)(data_buf + 2048), 8U, 8U, rng)) {
+<b><a name="line487">487    </a></b>	        p_vuc_protect->verify_fail_count = 0;
+<b><a name="line488">488    </a></b>	        p_vuc_protect->protect_state = VUC_PROTECT_VERIFY_STATE_PASS;
+<b><a name="line489">489    </a></b>	        vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line490">490    </a></b>	        Dump_Debug(tprintf("VUCL P"));
+<b><a name="line491">491    </a></b>	        // reset
+<b><a name="line492">492    </a></b>	        memset((void *)data_buf, 0U, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line493">493    </a></b>	        return FALSE;
+<b><a name="line494">494    </a></b>	    }
+<b><a name="line495">495    </a></b>	    else {
+<b><a name="line496">496    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line497">497    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line500">500    </a></b>	        // reset
+<b><a name="line501">501    </a></b>	        memset((void *)data_buf, 0U, DBUF_API_BOOTCODE_KEY_CAL_BUFFER_SIZE);
+<b><a name="line502">502    </a></b>	        return TRUE;
+<b><a name="line503">503    </a></b>	    }
+<b><a name="line504">504    </a></b>	}
+<b><a name="line505">505    </a></b>	
+<b><a name="line506">506    </a></b>	/**
+<b><a name="line507">507    </a></b>	 * @brief Reset VUC protection state
+<b><a name="line508">508    </a></b>	 *
+<b><a name="line509">509    </a></b>	 */
+<b><a name="line510">510    </a></b>	void vuc_disable_vuc(void)
+<b><a name="line511">511    </a></b>	{
+<b><a name="line512">512    </a></b>	    gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line513">513    </a></b>	}
+<b><a name="line514">514    </a></b>	
+<b><a name="line515">515    </a></b>	/**
+<b><a name="line516">516    </a></b>	 * @brief Init flow for vuc protection
+<b><a name="line517">517    </a></b>	 *
+<b><a name="line518">518    </a></b>	 * @param p_vuc_protect vuc protect structure pointer
+<b><a name="line519">519    </a></b>	 * @param protect_level_default default vuc protect state
+<b><a name="line520">520    </a></b>	 */
+<b><a name="line521">521    </a></b>	void vuc_protect_init(U32 protect_level_default)
+<b><a name="line522">522    </a></b>	{
+<b><a name="line523">523    </a></b>	    U8 result;
+<b><a name="line524">524    </a></b>	    if(gBCodeGlobalStruct.p_efuse_security_setting->kat_enable){
+<b><a name="line525">525    </a></b>	        result = host_sec_kat_vuc(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><a name="line526">526    </a></b>	        if (KAT_ERROR_NONE != result){
+<b><a name="line527">527    </a></b>	            gVUALock.ubVUCLockStateDefault = VUA_VERIFY_STATE_LOCK_DOWN;
+<b><a name="line528">528    </a></b>	            gVUALock.ubVUCLockState = gVUALock.ubVUCLockStateDefault;
+<b><a name="line529">529    </a></b>	            return;
+<b><a name="line530">530    </a></b>	        }
+<b><a name="line531">531    </a></b>	    }
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	    gVUCProtect.protect_state_default = protect_level_default;
+<b><a name="line534">534    </a></b>	    gVUCProtect.protect_state = gVUCProtect.protect_state_default;
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	    gVUCProtect.verify_fail_count = 0;
+<b><a name="line537">537    </a></b>	
+<b><a name="line538">538    </a></b>	    memcpy((void *)(gVUCProtect.a_aes_cbc256_iv), (void *)(ga_aes_cbc_iv), sizeof(gVUCProtect.a_aes_cbc256_iv));
+<b><a name="line539">539    </a></b>	
+<b><a name="line540">540    </a></b>	    return;
+<b><a name="line541">541    </a></b>	}
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	/**
+<b><a name="line544">544    </a></b>	 * @brief Decrypt the VUC command sent by host in encrypted format
+<b><a name="line545">545    </a></b>	 *
+<b><a name="line546">546    </a></b>	 * @param p_vuc_protect vuc protect structure pointer
+<b><a name="line547">547    </a></b>	 * @param sq_cmd sq pointer
+<b><a name="line548">548    </a></b>	 * @param calculation_buffer buffer address of host command payload
+<b><a name="line549">549    </a></b>	 */
+<b><a name="line550">550    </a></b>	void vuc_protect_decrypt_command(VUC_SQ_STRUCT_PTR sq_cmd, U32 calculation_buffer)
+<b><a name="line551">551    </a></b>	{
+<b><a name="line552">552    </a></b>	    //because the calculation_buffer just happen to be host_buf, so we need to backup original 32B in order not to dirty host_buf.
+<b><a name="line553">553    </a></b>	    //for example, in case of isp_program_pram.
+<b><a name="line554">554    </a></b>	    //the minimum src_size in sec_aes_ofl_blocking is 32B
+<b><a name="line555">555    </a></b>	    //and sec_aes_ofl_blocking temp_buf also takes up 32B
+<b><a name="line556">556    </a></b>	    U8 calculation_buffer_backup[32 + 32];
+<b><a name="line557">557    </a></b>	    U8 *p_aes_key;
+<b><a name="line558">558    </a></b>	
+<b><a name="line559">559    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line560">560    </a></b>	
+<b><a name="line561">561    </a></b>	    p_aes_key = (U8 *) gVUCProtect.a_session_key;
+<b><a name="line562">562    </a></b>	
+<b><a name="line563">563    </a></b>	    memcpy(calculation_buffer_backup, (void *)calculation_buffer, 32 + 32);
+<b><a name="line564">564    </a></b>	    memcpy((void *)calculation_buffer, (void *) ((U32)sq_cmd + (sizeof(*sq_cmd) - VUC_PROTECT_DECODE_COMMAND_SIZE)), VUC_PROTECT_DECODE_COMMAND_SIZE);
+<b><a name="line565">565    </a></b>	
+<b><a name="line566">566    </a></b>	    //TODO:
+<b><a name="line567">567    </a></b>	    memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line568">568    </a></b>	    aesofl_param.cbc.src_addr.all        = (U64)calculation_buffer;
+<b><a name="line569">569    </a></b>	    aesofl_param.cbc.src_len             = 32U;
+<b><a name="line570">570    </a></b>	    aesofl_param.cbc.targ_addr.all       = (U64)calculation_buffer;
+<b><a name="line571">571    </a></b>	    aesofl_param.cbc.iv_ptr              = gVUCProtect.a_aes_cbc256_iv;
+<b><a name="line572">572    </a></b>	    aesofl_param.cbc.encrypt             = FALSE;
+<b><a name="line573">573    </a></b>	    aesofl_param.cbc.aes_mode            = HAL_SEC_AES_CBC_MODE;
+<b><a name="line574">574    </a></b>	    aesofl_param.cbc.timeout_val         = SEC_TIMEOUT_TICKS;
+<b><a name="line575">575    </a></b>	    aesofl_param.cbc.set_key_en    = TRUE;
+<b><a name="line576">576    </a></b>	    aesofl_param.cbc.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line577">577    </a></b>	    aesofl_param.cbc.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line578">578    </a></b>	    aesofl_param.cbc.setkey.key_ptr      = (U32 *)p_aes_key;
+<b><a name="line579">579    </a></b>	    aesofl_param.cbc.setkey.key_type     = HAL_SEC_AES_KEY256_MODE;
+<b><a name="line580">580    </a></b>	    aesofl_param.cbc.setkey.is_otf_core  = HAL_SEC_AES_OFL_CORE;
+<b><a name="line581">581    </a></b>	    aesofl_param.cbc.setkey.is_otf_type  = HAL_SEC_AES_OFL;
+<b><a name="line582">582    </a></b>	    aesofl_param.cbc.setkey.tmp_addr.all = (U64)DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 32U;
+<b><a name="line583">583    </a></b>	    aesofl_param.cbc.setkey.tmp_size     = 32U;
+<b><a name="line584">584    </a></b>	    aesofl_param.cbc.setkey.gen_key_en   = TRUE;
+<b><a name="line585">585    </a></b>	
+<b><a name="line586">586    </a></b>	    U8 is_step_clock_enable;
+<b><a name="line587">587    </a></b>	    U8 is_random_clock_enable;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line592">592    </a></b>	
+<b><a name="line593">593    </a></b>	    memcpy((void *) ((U32)sq_cmd + (sizeof(*sq_cmd) - VUC_PROTECT_DECODE_COMMAND_SIZE)), (void *)calculation_buffer, VUC_PROTECT_DECODE_COMMAND_SIZE);
+<b><a name="line594">594    </a></b>	    memcpy((void *)calculation_buffer, calculation_buffer_backup, 32 + 32);
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	/**
+<b><a name="line598">598    </a></b>	 * @brief Check the crc of encrypted command is correct after decryption
+<b><a name="line599">599    </a></b>	 *
+<b><a name="line600">600    </a></b>	 * @param sq_cmd sq pointer
+<b><a name="line601">601    </a></b>	 * @return U32 fail or not
+<b><a name="line602">602    </a></b>	 */
+<b><a name="line603">603    </a></b>	U32 vuc_protect_check_command(VUC_SQ_STRUCT_PTR sq_cmd)
+<b><a name="line604">604    </a></b>	{
+<b><a name="line605">605    </a></b>	    VUC_SQ_STRUCT temp_sq_cmd;
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    U32 crc_cmd;
+<b><a name="line608">608    </a></b>	    U32 crc_calc_result[2];
+<b><a name="line609">609    </a></b>	
+<b><a name="line610">610    </a></b>	    //Set the CRC field to 0 before calculating the CRC
+<b><a name="line611">611    </a></b>	    //The CRC stored is in Big Endian
+<b><a name="line612">612    </a></b>	    //The CRC calculation uses the same one that the XModem uses
+<b><a name="line613">613    </a></b>	    memcpy((void *)&temp_sq_cmd, (void *)sq_cmd, sizeof(temp_sq_cmd));
+<b><a name="line614">614    </a></b>	    crc_cmd = temp_sq_cmd.crc_word;
+<b><a name="line615">615    </a></b>	    crc_cmd = (((crc_cmd & 0xFF00) >> 8) | ((crc_cmd & 0x00FF) << 8));
+<b><a name="line616">616    </a></b>	    temp_sq_cmd.crc_word = 0;
+<b><a name="line617">617    </a></b>	
+<b><a name="line618">618    </a></b>	    //1. Calculate the CRC of the entire SQ without clearing anything
+<b><a name="line619">619    </a></b>	    //This is the old way of calculating CRC. This is left over from the time
+<b><a name="line620">620    </a></b>	    //when the CRC is only used for VUC in UART. It is recommended to be
+<b><a name="line621">621    </a></b>	    //implemented to allow compatibility with older tools that may still fill
+<b><a name="line622">622    </a></b>	    //in B1 and B2
+<b><a name="line623">623    </a></b>	    crc_calc_result[0] = CRC_16_XMODEM((U32)&temp_sq_cmd, sizeof(temp_sq_cmd), CRC_16_XMODEM_INIT);
+<b><a name="line624">624    </a></b>	
+<b><a name="line625">625    </a></b>	    //2. Calculate the CRC of the entire SQ after clearing B1~3, DW1, DW2, DW3, DW4, DW5, DW6, DW7, DW8, DW9, DW11
+<b><a name="line626">626    </a></b>	    //This is the new and correct way of calculating CRC. This is required
+<b><a name="line627">627    </a></b>	    //after VUC Protect is implemented and the CRC is used to check for the
+<b><a name="line628">628    </a></b>	    //VUC's correctness for all interface. The fields that are cleared to 0 are
+<b><a name="line629">629    </a></b>	    //the fields in NVMe that the MP has no control over and may be filled
+<b><a name="line630">630    </a></b>	    //automatically by the driver. The CRC is calculated with these fields set
+<b><a name="line631">631    </a></b>	    //to 0.
+<b><a name="line632">632    </a></b>	    memset((void *)((U32)&temp_sq_cmd + 1), 0x00, (3 + (9 * 4))); //Up to and including DW9
+<b><a name="line633">633    </a></b>	    temp_sq_cmd.rsv_dw11 = 0;
+<b><a name="line634">634    </a></b>	    crc_calc_result[1] = CRC_16_XMODEM((U32)&temp_sq_cmd, sizeof(temp_sq_cmd), CRC_16_XMODEM_INIT);
+<b><a name="line635">635    </a></b>	
+<b><a name="line636">636    </a></b>	    if ((crc_calc_result[0] == crc_cmd) || (crc_calc_result[1] == crc_cmd)) {
+<b><a name="line637">637    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line638">638    </a></b>	        Dump_Debug(tprintf("\n\nAES de crc pass!"));
+<b><a name="line639">639    </a></b>	#endif
+<b><a name="line640">640    </a></b>	        return VUC_PROTECT_CHECK_COMMAND_STATUS_PASS;
+<b><a name="line641">641    </a></b>	    }
+<b><a name="line642">642    </a></b>	    else {
+<b><a name="line643">643    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line644">644    </a></b>	        Dump_Debug(tprintf("\n\nRcv CRC (0x%llx) != CRC[0] (0x%llx) or CRC[1] (0x%llx)\r\n", (U64)crc_cmd, (U64)crc_calc_result[0], (U64)crc_calc_result[1]));
+<b><a name="line645">645    </a></b>	#endif
+<b><a name="line646">646    </a></b>	        return VUC_PROTECT_CHECK_COMMAND_STATUS_CRC_FAIL;
+<b><a name="line647">647    </a></b>	    }
+<b><a name="line648">648    </a></b>	}
+<b><a name="line649">649    </a></b>	
+<b><a name="line650">650    </a></b>	
+</pre></body>
+</html>

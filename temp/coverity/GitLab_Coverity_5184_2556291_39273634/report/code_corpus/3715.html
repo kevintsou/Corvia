@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/i2c/framework_i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line44">44    </a></b>	    {
+<b><a name="line45">45    </a></b>	        phal_set_i2c_gpx_reg(pI2cParam);
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	        eI2cErr = phal_i2c_trigger_process(pI2cParam, bWaitFinish);
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	        if (E_I2C_NO_ERR == eI2cErr)
+<b><a name="line50">50    </a></b>	        {
+<b><a name="line51">51    </a></b>	            *pReturnValue = (U32 *)(&(M_I2CM_GET_BUF0_0()));
+<b><a name="line52">52    </a></b>	        }
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	    else
+<b><a name="line55">55    </a></b>	    {
+<b><a name="line56">56    </a></b>	        eI2cErr = E_I2C_ERR_BUSY;
+<b><a name="line57">57    </a></b>	    }
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    return eI2cErr;
+<b><a name="line60">60    </a></b>	}
+<b><a name="line61">61    </a></b>	#endif
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	/*!
+<b><a name="line64">64    </a></b>	   @brief      set i2c op
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	   @param      pI2cParam         pointer to i2c param
+<b><a name="line67">67    </a></b>	   @param      pOp               pointer to i2c op
+<b><a name="line68">68    </a></b>	 */
+<b><a name="line69">69    </a></b>	static void I2cSetOP(I2C_CTRL_PARAM_PTR pI2cParam, REG8 *pOp)
+<b><a name="line70">70    </a></b>	{
+<b><a name="line71">71    </a></b>	    U8 ubOpIdx;
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	    memset((void *)pI2cParam->aubOP, 0x00U, sizeof(pI2cParam->aubOP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0U" from essential type "unsigned 8-bit int" to different or narrower essential type "signed 32-bit int".</font>
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    for (ubOpIdx = 0U; ubOpIdx < (pI2cParam->ubOpCnt); ubOpIdx++)
+<b><a name="line76">76    </a></b>	    {
+<b><a name="line77">77    </a></b>	        // to avoid the op cnt on IDPG is incorrect
+<b><a name="line78">78    </a></b>	        if (ubOpIdx == sizeof(pI2cParam->aubOP))
+<b><a name="line79">79    </a></b>	        {
+<b><a name="line80">80    </a></b>	            break;
+<b><a name="line81">81    </a></b>	        }
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	        pI2cParam->aubOP[ubOpIdx] = pOp[ubOpIdx];
+<b><a name="line84">84    </a></b>	    }
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	/*!
+<b><a name="line88">88    </a></b>	   @brief      set i2c config (refer to icv - hal_api_i2c_config)
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	   @param      pI2cParam         pointer to i2c param
+<b><a name="line91">91    </a></b>	   @param      uwSlaveAddr       slave address
+<b><a name="line92">92    </a></b>	   @param      ulMode            mode (i2cm gpx ctrl)
+<b><a name="line93">93    </a></b>	   @param      ubDataCnt         data count
+<b><a name="line94">94    </a></b>	   @param      ubOpCnt           op count
+<b><a name="line95">95    </a></b>	 */
+<b><a name="line96">96    </a></b>	static void I2cSetConfig(I2C_CTRL_PARAM_PTR pI2cParam, U16 uwSlaveAddr, U32 ulMode, U8 ubDataCnt, U8 ubOpCnt)
+<b><a name="line97">97    </a></b>	{
+<b><a name="line98">98    </a></b>	    pI2cParam->ubPowerDomain = I2C_PD0;         // E37 I2C use PD0 only
+<b><a name="line99">99    </a></b>	    pI2cParam->ubGroup       = I2C_GROUP_1;     // Force group1 config setting
+<b><a name="line100">100    </a></b>	    pI2cParam->uwSlaveAddr   = uwSlaveAddr;
+<b><a name="line101">101    </a></b>	    pI2cParam->ubDataCnt     = ubDataCnt;
+<b><a name="line102">102    </a></b>	    pI2cParam->ubOpCnt       = ubOpCnt;
+<b><a name="line103">103    </a></b>	    pI2cParam->ulMode        = ulMode;
+<b><a name="line104">104    </a></b>	}
+</pre></body>
+</html>

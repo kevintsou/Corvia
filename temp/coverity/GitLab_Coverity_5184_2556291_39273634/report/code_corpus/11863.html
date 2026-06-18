@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line310">310    </a></b>	        if (NULL == p_transmit_handler) {
+<b><a name="line311">311    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Unexpected Message Tag or Source Endpoint ID or Tag Owner"));
+<b><a name="line312">312    </a></b>	            //8.6 Dropped packets
+<b><a name="line313">313    </a></b>	            //  Unexpected "middle" packet or "end" packet
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	            //No Message Handler is assigned to handle this Message Terminus because
+<b><a name="line316">316    </a></b>	            //1. The packet is an unexpected "middle" or "end" packet
+<b><a name="line317">317    </a></b>	            //2. or, The packet has been dropped (8.6 Dropped packets)
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	            message_assembly_status |= (
+<b><a name="line320">320    </a></b>	                    MESSAGE_ASSEMBLY_INVALID_UNEXPECTED_MIDDLE_OR_END |
+<b><a name="line321">321    </a></b>	                    MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line322">322    </a></b>	        }
+<b><a name="line323">323    </a></b>	    }
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    //===== Copy packet payload to packet buffer and assemble the message =====//
+<b><a name="line326">326    </a></b>	    //All packets will have a payload to be assembled
+<b><a name="line327">327    </a></b>	    if (MESSAGE_ASSEMBLY_VALID == message_assembly_status) {
+<b><a name="line328">328    </a></b>	        // packet payload max is 250B
+<b><a name="line329">329    </a></b>	        if (packet_payload.size > MCTP_PACKET_PAYLOAD_MAX_SIZE) {
+<b><a name="line330">330    </a></b>	            Dump_SMBUS(tprintf("    >>>>> [Packet Buffer Overflow] p_transmit_handler->request_packet_handler.buffer.size : %x", p_transmit_handler->request_packet_handler.buffer.size));
+<b><a name="line331">331    </a></b>	            Dump_SMBUS(tprintf("    >>>>> [Packet Buffer Overflow] packet_payload.size : %x", packet_payload.size));
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	            // dropped packet payload
+<b><a name="line334">334    </a></b>	            message_assembly_status |= (
+<b><a name="line335">335    </a></b>	                    MESSAGE_ASSEMBLY_INTERNAL_ERROR_BUFFER_OVERFLOW |
+<b><a name="line336">336    </a></b>	                    MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line337">337    </a></b>	        }
+<b><a name="line338">338    </a></b>	        else {
+<b><a name="line339">339    </a></b>	            memcpy((void *) & (p_transmit_handler->request_packet_handler.buffer.p_base[0U]), (void *) & (packet_payload.p_base[0U]), packet_payload.size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	            p_transmit_handler->request_packet_handler.byte_count = packet_payload.size;
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	            message_assembly_status |= mctp_message_transmit_handler_assemble_message(p_transmit_handler, p_packet_descriptor);
+<b><a name="line344">344    </a></b>	        }
+<b><a name="line345">345    </a></b>	    }
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    //===== End of Message Assembly =====//
+<b><a name="line348">348    </a></b>	    //The message is now ready to be handled
+<b><a name="line349">349    </a></b>	    if (MESSAGE_ASSEMBLY_VALID == message_assembly_status) {
+<b><a name="line350">350    </a></b>	        if (1U == p_transport_header->eom) {
+<b><a name="line351">351    </a></b>	            Dump_SMBUS(tprintf("    >>>>> EOM is TRUE"));
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	            //8.8 Terminating message assembly/dropped messages
+<b><a name="line354">354    </a></b>	            //  Receipt of the "end" packet for the given messages
+<b><a name="line355">355    </a></b>	            //Normal termination, the message is accepted at the MCTP base protocol level
+<b><a name="line356">356    </a></b>	            p_transmit_handler->state = MCTP_MESSAGE_TRANSMIT_STATE_END;
+<b><a name="line357">357    </a></b>	        }
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	        return p_transmit_handler;
+<b><a name="line360">360    </a></b>	    }
+<b><a name="line361">361    </a></b>	    else if (MESSAGE_ASSEMBLY_DROP_MESSAGE & message_assembly_status) {
+<b><a name="line362">362    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Dropping Message Error"));
+<b><a name="line363">363    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Message Assembly Status : %x", message_assembly_status));
+<b><a name="line364">364    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Transmit Handler : %x", (U32)p_transmit_handler));
+<b><a name="line365">365    </a></b>	        mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line366">366    </a></b>	    }
+<b><a name="line367">367    </a></b>	    else {
+<b><a name="line368">368    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Dropping Packet Error"));
+<b><a name="line369">369    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Message Assembly Status : %x", message_assembly_status));
+<b><a name="line370">370    </a></b>	    }
+</pre></body>
+</html>

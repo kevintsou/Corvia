@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbm_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  api_smbm.c                                                            */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	void hal_smbm_reset_2(void)
+<b><a name="line23">23    </a></b>	{
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	    phal_smbm_api_set_sw_reset(SMBUS0);
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_SMBUS_RESET, GLOBAL_SYSTEM_UNDEFINED_TIMEOUT_MS);
+<b><a name="line28">28    </a></b>	    while (phal_smbm_api_get_sw_reset(SMBUS0) == TRUE_8BIT) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "phal_smbm_api_get_sw_reset(0)" (unsigned) is not the same as that of the right operand "(U8)1"(boolean).</font>
+<b><a name="line29">29    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line30">30    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_SYS_SMBM_UNDEFINED_TIMEOUT, FALSE);
+<b><a name="line31">31    </a></b>	            Dump_SMBUS(tprintf(" [SMBM] Undefined Timeout "));
+<b><a name="line32">32    </a></b>	            break;
+<b><a name="line33">33    </a></b>	        }
+<b><a name="line34">34    </a></b>	    }
+<b><a name="line35">35    </a></b>	}
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	U32 sys_api_smbm_init(SMBM *p_smbm, U32 *p_buffer_base, U32 *p_buffer_size)
+<b><a name="line38">38    </a></b>	{
+<b><a name="line39">39    </a></b>	    U8 *rx_buffer;
+<b><a name="line40">40    </a></b>	    U8 *tx_buffer;
+<b><a name="line41">41    </a></b>	    U32 rx_buffer_size;
+<b><a name="line42">42    </a></b>	    U32 tx_buffer_size;
+<b><a name="line43">43    </a></b>	    U32 current_buffer_base;
+<b><a name="line44">44    </a></b>	    U32 current_buffer_size;
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    current_buffer_size = 0UL;
+<b><a name="line47">47    </a></b>	    current_buffer_base = *p_buffer_base;
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    //At least this much is required for each TX and RX buffer
+<b><a name="line50">50    </a></b>	    //1 for Command Code +
+<b><a name="line51">51    </a></b>	    //1 for Byte Count +
+<b><a name="line52">52    </a></b>	    //Data Payload (256B)+
+<b><a name="line53">53    </a></b>	    //1 for PEC
+<b><a name="line54">54    </a></b>	    rx_buffer_size = SECTOR_SIZE;
+<b><a name="line55">55    </a></b>	    rx_buffer = (U8 *)current_buffer_base;
+<b><a name="line56">56    </a></b>	    current_buffer_size += rx_buffer_size;
+<b><a name="line57">57    </a></b>	    current_buffer_base += rx_buffer_size;
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    tx_buffer_size = SECTOR_SIZE;
+</pre></body>
+</html>

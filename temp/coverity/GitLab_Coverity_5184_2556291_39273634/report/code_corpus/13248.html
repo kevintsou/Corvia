@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line83">83    </a></b>	    return NL_SQ_DESP_DW0_ENTRY_SIZE;
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	//========= public
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	void dal_nl_set_en_int_info_bitmap(DAL_NL_INT_INFO_PTR dal_nl_int_info)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_INFO_EN();
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    cur_bitmap |= dal_nl_int_info->bitmap;
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    r32_w_NL_INT_INFO_EN(cur_bitmap);
+<b><a name="line99">99    </a></b>	}
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	U32 dal_nl_get_en_int_info_dw(void)
+<b><a name="line102">102    </a></b>	{
+<b><a name="line103">103    </a></b>	    return r32_r_NL_INT_INFO_EN();
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	U32 dal_nl_get_en_int_info_bitmap(void)
+<b><a name="line107">107    </a></b>	{
+<b><a name="line108">108    </a></b>	    return r32_r_NL_INT_INFO_EN();
+<b><a name="line109">109    </a></b>	}
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	void dal_nl_clr_en_int_info_bitmap(DAL_NL_INT_INFO_PTR dal_nl_int_info)
+<b><a name="line112">112    </a></b>	{
+<b><a name="line113">113    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_INFO_EN();
+<b><a name="line114">114    </a></b>	    cur_bitmap &= (~dal_nl_int_info->bitmap);
+<b><a name="line115">115    </a></b>	    r32_w_NL_INT_INFO_EN(cur_bitmap);
+<b><a name="line116">116    </a></b>	}
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	void dal_nl_set_en_int_fw_bitmap(DAL_NL_FW_INT_PTR dal_nl_fw_int)
+<b><a name="line119">119    </a></b>	{
+<b><a name="line120">120    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_FW_EN();
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	    cur_bitmap |= dal_nl_fw_int->bitmap;
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    r32_w_NL_INT_FW_EN(cur_bitmap);
+<b><a name="line125">125    </a></b>	}
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	U32 dal_nl_get_en_int_fw_bitmap(void)
+<b><a name="line128">128    </a></b>	{
+<b><a name="line129">129    </a></b>	    return r32_r_NL_INT_FW_EN();
+<b><a name="line130">130    </a></b>	}
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	void dal_nl_clr_en_int_fw_bitmap(DAL_NL_FW_INT_PTR dal_nl_fw_int)
+<b><a name="line133">133    </a></b>	{
+<b><a name="line134">134    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_FW_EN();
+<b><a name="line135">135    </a></b>	    cur_bitmap &= (~dal_nl_fw_int->bitmap);
+<b><a name="line136">136    </a></b>	    r32_w_NL_INT_FW_EN(cur_bitmap);
+<b><a name="line137">137    </a></b>	}
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	void dal_nl_set_en_int_p_axi_bitmap(U8 p_ofst, DAL_NL_P_INT_INFO_PTR dal_nl_p_int)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "dal_nl_p_int" is already used to represent a type.</font>
+<b><a name="line140">140    </a></b>	{
+<b><a name="line141">141    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line142">142    </a></b>	
+<b><a name="line143">143    </a></b>	    cur_bitmap |= dal_nl_p_int->bitmap;
+<b><a name="line144">144    </a></b>	    r32_w_NL_INT_PORT_EN(p_ofst, cur_bitmap);
+<b><a name="line145">145    </a></b>	}
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	U32 dal_nl_get_en_int_p_axi_bitmap(U8 p_ofst)
+<b><a name="line148">148    </a></b>	{
+<b><a name="line149">149    </a></b>	    return r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line150">150    </a></b>	}
+<b><a name="line151">151    </a></b>	
+<b><a name="line152">152    </a></b>	void dal_nl_clr_en_int_p_axi_bitmap(U8 p_ofst, DAL_NL_P_INT_INFO_PTR dal_nl_p_int)
+<b><a name="line153">153    </a></b>	{
+<b><a name="line154">154    </a></b>	    U32 cur_bitmap = r32_r_NL_INT_PORT_EN(p_ofst);
+<b><a name="line155">155    </a></b>	    cur_bitmap &= (~dal_nl_p_int->bitmap);
+<b><a name="line156">156    </a></b>	    r32_w_NL_INT_PORT_EN(p_ofst, cur_bitmap);
+<b><a name="line157">157    </a></b>	}
+<b><a name="line158">158    </a></b>	
+<b><a name="line159">159    </a></b>	U8 dal_nl_get_int_info_event(void)
+<b><a name="line160">160    </a></b>	{
+<b><a name="line161">161    </a></b>	    return (U8)r_all_NL_INT_EVENT();
+<b><a name="line162">162    </a></b>	}
+<b><a name="line163">163    </a></b>	
+<b><a name="line164">164    </a></b>	U8 dal_nl_get_int_info_fifo_full(void)
+<b><a name="line165">165    </a></b>	{
+<b><a name="line166">166    </a></b>	    return (U8)r_all_NL_INT_FIFO_FULL();
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	U8 dal_nl_get_int_info_pid(void)
+<b><a name="line170">170    </a></b>	{
+</pre></body>
+</html>

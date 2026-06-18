@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	        //tCSVOL
+<b><a name="line265">265    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCSVOL]);
+<b><a name="line266">266    </a></b>	        // set nand odt disable
+<b><a name="line267">267    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_DISABLE);
+<b><a name="line268">268    </a></b>	        //tODT on/off
+<b><a name="line269">269    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line270">270    </a></b>	    }
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    w_PIO_CMD(ch, HAL_NAND_CMD_READ_STATUS);
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	    //tWHR
+<b><a name="line275">275    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWHR]);
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    //Read data
+<b><a name="line278">278    </a></b>	    *data_buf = (U8)r32_r_FCH_PIO_DAT(ch);
+<b><a name="line279">279    </a></b>	
+<b><a name="line280">280    </a></b>	    if (is_sca == 1U) {
+<b><a name="line281">281    </a></b>	        // signle byte output terminate
+<b><a name="line282">282    </a></b>	        //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line283">283    </a></b>	        r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line284">284    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TCEH2]);
+<b><a name="line285">285    </a></b>	        //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line286">286    </a></b>	        r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line287">287    </a></b>	        w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line288">288    </a></b>	    }
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    //Check dqs time out & dqs vaild
+<b><a name="line291">291    </a></b>	    if (is_sca == 0U) {
+<b><a name="line292">292    </a></b>	        if ((((U8)r_PIOR_DQS_TIMEOUT_FLAG(ch)) == TRUE) || (((U8)r_PIO_DQS_VALID(ch)) == FALSE)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand of a logical operator "||" has persistent side effects because of accessing to volatile object "(U8 volatile *)gFlhRegTxChBase[ch][192U]".</font>
+<b><a name="line293">293    </a></b>	            FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x, dqs vld = 0x%x\r\n", ch, (U8)r_PIOR_DQS_TIMEOUT_FLAG(ch), (U8)r_PIO_DQS_VALID(ch));
+<b><a name="line294">294    </a></b>	            status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line295">295    </a></b>	            //Clear time out flag
+<b><a name="line296">296    </a></b>	            w_PIOR_DQS_TIMEOUT_FLAG(ch, 0);
+<b><a name="line297">297    </a></b>	        }
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	    else {
+<b><a name="line300">300    </a></b>	        if (((U8)r_PIOR_ALE_TIMEOUT_FLAG(ch)) == TRUE) {
+<b><a name="line301">301    </a></b>	            FIP_DBG_INFO_PRINTF("[PIO]ch = %d, flh tmo = 0x%x\r\n", ch, (U8)r_PIOR_ALE_TIMEOUT_FLAG(ch));
+<b><a name="line302">302    </a></b>	            status |= HAL_STATUS_PIO_ABORT_HANDLER;
+<b><a name="line303">303    </a></b>	            //Clear time out flag
+<b><a name="line304">304    </a></b>	            w_PIOR_ALE_TIMEOUT_FLAG(ch, 0);
+<b><a name="line305">305    </a></b>	        }
+<b><a name="line306">306    </a></b>	    }
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	    if (odt_terminated == 1U) {
+<b><a name="line309">309    </a></b>	        // restore nand odt
+<b><a name="line310">310    </a></b>	        w_PIO_CMD(ch, HAL_NAND_CMD_ODT_ENABLE);
+<b><a name="line311">311    </a></b>	        //tODT on/off
+<b><a name="line312">312    </a></b>	        dal_fip_delay(ac_timing[HAL_DLY_TODT_ON_OFF]);
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	        // restore controller odt
+<b><a name="line315">315    </a></b>	        //dal_fip_set_odt_en(ch, 1U, 1U);
+<b><a name="line316">316    </a></b>	        w_FORCE_ODT_EN(ch, 1U);
+<b><a name="line317">317    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1U);
+<b><a name="line318">318    </a></b>	    }
+<b><a name="line319">319    </a></b>	
+<b><a name="line320">320    </a></b>	    //tCH
+<b><a name="line321">321    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line322">322    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line323">323    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+</pre></body>
+</html>

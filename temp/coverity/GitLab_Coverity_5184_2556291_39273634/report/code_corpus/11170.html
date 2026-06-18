@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1049">1049    </a></b>	    p_destination_transport_info = ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_transmit_handler->message_info.source_transport_info));
+<b><a name="line1050">1050    </a></b>	
+<b><a name="line1051">1051    </a></b>	    //Medium Specific Header
+<b><a name="line1052">1052    </a></b>	    p_medium_specific_header = (MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *) & (p_smbm->tx.base.pu8[0U]);
+<b><a name="line1053">1053    </a></b>	    p_medium_specific_header->command_code = MCTP_SMBUS_COMMAND_CODE;
+<b><a name="line1054">1054    </a></b>	    p_medium_specific_header->byte_count = 1U;
+<b><a name="line1055">1055    </a></b>	    p_medium_specific_header->ipmi = 1U;
+<b><a name="line1056">1056    </a></b>	    p_medium_specific_header->source_slave_address = (p_source_transport_info->slave_address >> 1U);
+<b><a name="line1057">1057    </a></b>	
+<b><a name="line1058">1058    </a></b>	    //Transport Header + Packet Payload
+<b><a name="line1059">1059    </a></b>	    packet_descriptor.p_base = &(p_smbm->tx.base.pu8[sizeof(*p_medium_specific_header)]);
+<b><a name="line1060">1060    </a></b>	    packet_descriptor.size = (p_smbm->tx.uwSize - sizeof(*p_medium_specific_header));
+<b><a name="line1061">1061    </a></b>	    mctp_message_transmit_handler_disassemble_message(p_transmit_handler, &packet_descriptor);
+<b><a name="line1062">1062    </a></b>	
+<b><a name="line1063">1063    </a></b>	    //Update the Byte Count in the Block Write command
+<b><a name="line1064">1064    </a></b>	    p_medium_specific_header->byte_count += packet_descriptor.size;
+<b><a name="line1065">1065    </a></b>	
+<b><a name="line1066">1066    </a></b>	    //Update the data count in the SMBus buffer
+<b><a name="line1067">1067    </a></b>	    //-2 is phal_smbm_block_write api will plus byte count
+<b><a name="line1068">1068    </a></b>	    p_smbm->tx.uwCount = (sizeof(*p_medium_specific_header) + packet_descriptor.size - 2U);
+<b><a name="line1069">1069    </a></b>	    p_smbm->tx.uwOffset = 0U;
+<b><a name="line1070">1070    </a></b>	
+<b><a name="line1071">1071    </a></b>	    // mctp_set_smbus_block_write_register(NVME_MI_RSP_MSG_STS_MORE_PROCESSING_REQUIRED, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line1072">1072    </a></b>	    // phal_smbm_set_txrx_sys_addr(SMBUS0, phal_smb_point_convert2_U64(p_smbm->tx.base.pu8), phal_smb_point_convert2_U64(p_smbm->rx.base.pu8));
+<b><a name="line1073">1073    </a></b>	    phal_smbm_block_write(SMBUS0, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line1074">1074    </a></b>	
+<b><a name="line1075">1075    </a></b>	    //SMBus Master is still busy
+<b><a name="line1076">1076    </a></b>	    U32 mabiao_addr = MABIAO_SET_US(MABIAO_SMBUS_POLL, MCTP_PACKET_TIMEOUT_INTERVAL_US_DEFAULT);
+<b><a name="line1077">1077    </a></b>	    while (phal_smbm_poll_protocol_end(SMBUS0)) {
+<b><a name="line1078">1078    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line1079">1079    </a></b>	            break;
+<b><a name="line1080">1080    </a></b>	        }
+<b><a name="line1081">1081    </a></b>	    }
+<b><a name="line1082">1082    </a></b>	}
+<b><a name="line1083">1083    </a></b>	
+<b><a name="line1084">1084    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line1085">1085    </a></b>	
+</pre></body>
+</html>

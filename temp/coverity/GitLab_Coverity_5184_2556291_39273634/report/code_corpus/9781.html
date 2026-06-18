@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line76">76    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = sizeof(MI_DTYP_PORT_INFO_STRUCT); //in bytes
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	        switch (port_info.ptyp)
+<b><a name="line79">79    </a></b>	        {
+<b><a name="line80">80    </a></b>	            case NVME_MI_PORT_TYPE_PCIE:
+<b><a name="line81">81    </a></b>	                port_info.port_specific.pcie_specific_data.pslsv = r_PF0_PCIE_CAP_PCIE_CAP_SUPPORT_LINK_SPEED_VECTOR(PCIE_PORT_0, 0U);
+<b><a name="line82">82    </a></b>	                port_info.port_specific.pcie_specific_data.pmps  = r_PF0_PCIE_CAP_PCIE_CAP_MAX_PAYLOAD_SIZE(PCIE_PORT_0, 0U);
+<b><a name="line83">83    </a></b>	                port_info.port_specific.pcie_specific_data.pcls  = (U8)dal_get_link_speed(PCIE_PORT_0);
+<b><a name="line84">84    </a></b>	                port_info.port_specific.pcie_specific_data.pmlw  = NVME_MI_PORT_PCIE_LINK_WIDTH_X1;
+<b><a name="line85">85    </a></b>	                port_info.port_specific.pcie_specific_data.pnlw  = (U8)dal_get_link_width(PCIE_PORT_0);
+<b><a name="line86">86    </a></b>	                port_info.port_specific.pcie_specific_data.ppn   = (U8)port_id;
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	                // G2, G3, G4 TBD
+<b><a name="line89">89    </a></b>	                // X4, X2 and else TBD
+<b><a name="line90">90    </a></b>	                // get link speed/width
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	                (void)memcpy((void *)response_data_base, (void *)&port_info, p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp);
+<b><a name="line93">93    </a></b>	                break;
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	            case NVME_MI_PORT_TYPE_SMBUS:
+<b><a name="line96">96    </a></b>	                port_info.port_specific.smbus_specific_data.cvsa  = 0U; // VPD : Not Support
+<b><a name="line97">97    </a></b>	                port_info.port_specific.smbus_specific_data.mvasf = 0U; // VPD : Not Support
+<b><a name="line98">98    </a></b>	                // TODO: Need to get slave address from transport info in gMCTP_SMBus
+<b><a name="line99">99    </a></b>	                // Because of the influence of the Initialization flow,
+<b><a name="line100">100    </a></b>	                // the offset cannot be obtained from SMBS_DEVICE,
+<b><a name="line101">101    </a></b>	                // so get the slave address from the HW register
+<b><a name="line102">102    </a></b>	                port_info.port_specific.smbus_specific_data.cmesa = phal_smbs_get_device_addr(SMBUS0, SMBUS_ADDRESS_INDEX_MCTP_MI);
+<b><a name="line103">103    </a></b>	                port_info.port_specific.smbus_specific_data.mmesf = NVME_MI_CFGID_SMBUS_FREQ_1M;
+<b><a name="line104">104    </a></b>	                port_info.port_specific.smbus_specific_data.nbm   = 0U; // It is strongly recommended that implementations clear this bit to '0'.
+<b><a name="line105">105    </a></b>	                (void)memcpy((void *)response_data_base, (void *)&port_info, p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "response_data_base" of type "U32" is cast to type "void *".</font>
+<b><a name="line106">106    </a></b>	                break;
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	            case NVME_MI_PORT_TYPE_INACTIVE:
+<b><a name="line109">109    </a></b>	                // Inactive fill zero data
+<b><a name="line110">110    </a></b>	                (void)memset((void *)response_data_base, 0, p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp);
+<b><a name="line111">111    </a></b>	                break;
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	            default:
+<b><a name="line114">114    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Invalid Port Type"));
+<b><a name="line115">115    </a></b>	                p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp = 0U; // in bytes
+<b><a name="line116">116    </a></b>	                p_nvme_mi_cmd_resp_msg->dw1.all = PEL_READ_MI_PORTID; //error byte 10, error bit 0, PORTID error
+<b><a name="line117">117    </a></b>	                break;
+<b><a name="line118">118    </a></b>	        }
+<b><a name="line119">119    </a></b>	    }
+<b><a name="line120">120    </a></b>	    else
+<b><a name="line121">121    </a></b>	    {
+<b><a name="line122">122    </a></b>	        Dump_SMBUS(tprintf("    >>>>> Invalid Port ID"));
+<b><a name="line123">123    </a></b>	        p_nvme_mi_cmd_resp_msg->dw1.all = PEL_READ_MI_PORTID; //error byte 10, error bit 0, PORTID error
+<b><a name="line124">124    </a></b>	    }
+<b><a name="line125">125    </a></b>	}
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	static void nvme_mi_message_read_mi_struct_controller_list(NVME_MI_CMD_RESP_MSG_PTR p_nvme_mi_cmd_resp_msg, U32 response_data_base, U16 ctrl_id)
+<b><a name="line128">128    </a></b>	{
+<b><a name="line129">129    </a></b>	    U16 *cid_list_ptr;
+<b><a name="line130">130    </a></b>	    U16 cid_cnt;
+<b><a name="line131">131    </a></b>	    U16 last_ctrlid;
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	    cid_cnt = 0U;
+<b><a name="line134">134    </a></b>	    last_ctrlid = (PCIE_SINGLE_PORT - 1U);
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	    if (ctrl_id <= last_ctrlid) {
+</pre></body>
+</html>

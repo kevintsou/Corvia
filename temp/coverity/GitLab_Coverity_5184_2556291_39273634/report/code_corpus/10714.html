@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/front/vuc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line50">50    </a></b>	    }
+<b><a name="line51">51    </a></b>	    else {
+<b><a name="line52">52    </a></b>	        if (gVucDispatch.lock_en) {
+<b><a name="line53">53    </a></b>	            if ((VUC_PROTECT_VERIFY_STATE_PASS != p_vuc_protect->protect_state) || VUA_IsLocked()) {
+<b><a name="line54">54    </a></b>	                switch (sq->feature) {
+<b><a name="line55">55    </a></b>	                case VUC_NVME_OPC_READ_SYSTEM_INFO:    // 0x80
+<b><a name="line56">56    </a></b>	                case VUC_NVME_OPC_GET_STATUS:
+<b><a name="line57">57    </a></b>	                case VUC_SEND_HANDSHAKE_REQUEST:       // 0xC4
+<b><a name="line58">58    </a></b>	                case VUC_RECEIEVE_ENCRYPTION_DATA:     // 0xC5
+<b><a name="line59">59    </a></b>	                case VUC_SEND_ENCRYPTION_DATA:         // 0xC6
+<b><a name="line60">60    </a></b>	                case VUC_DISABLE_VUC:                  // 0xC7
+<b><a name="line61">61    </a></b>	                case VUC_SEND_SECURE_INFO:             // 0xC9
+<b><a name="line62">62    </a></b>	                case VUC_NVME_OPC_PASS_THROUGH:
+<b><a name="line63">63    </a></b>	                    handle_command = TRUE;
+<b><a name="line64">64    </a></b>	                    break;
+<b><a name="line65">65    </a></b>	                default:
+<b><a name="line66">66    </a></b>	                    handle_command = FALSE;
+<b><a name="line67">67    </a></b>	                    vuc_cq_report_status(param->cq, INVALID_STATUS_TYPE, INVALID_STATUS_COMMAND_FEATURE_CODE);
+<b><a name="line68">68    </a></b>	                    break;
+<b><a name="line69">69    </a></b>	                }
+<b><a name="line70">70    </a></b>	            }
+<b><a name="line71">71    </a></b>	            else {
+<b><a name="line72">72    </a></b>	                if ((ADM_OPC_VUC_NO_DATA == (sq->opc)) ||
+<b><a name="line73">73    </a></b>	                    (ADM_OPC_VUC_DATA_IN == (sq->opc)) ||
+<b><a name="line74">74    </a></b>	                    (ADM_OPC_VUC_DATA_OUT == (sq->opc))) {
+<b><a name="line75">75    </a></b>	                    // decrpyted command
+<b><a name="line76">76    </a></b>	                    // vuc protect only support encrpyted command, except read system info and get card status
+<b><a name="line77">77    </a></b>	                    if ((VUC_NVME_OPC_READ_SYSTEM_INFO == (sq->feature))
+<b><a name="line78">78    </a></b>	                        || (VUC_NVME_OPC_GET_STATUS == (sq->feature))
+<b><a name="line79">79    </a></b>	                        || (VUC_SEND_SECURE_INFO == (sq->feature))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand of a logical operator "||" has persistent side effects because of accessing to volatile object "sq->feature".</font>
+<b><a name="line80">80    </a></b>	                        || (VUC_SEND_HANDSHAKE_REQUEST == (sq->feature))
+<b><a name="line81">81    </a></b>	                        || (VUC_RECEIEVE_ENCRYPTION_DATA == (sq->feature))
+<b><a name="line82">82    </a></b>	                        || (VUC_SEND_ENCRYPTION_DATA == (sq->feature))
+<b><a name="line83">83    </a></b>	                        || (VUC_DISABLE_VUC == (sq->feature))
+<b><a name="line84">84    </a></b>	                        || (VUC_NVME_OPC_PASS_THROUGH == (sq->feature))) {
+<b><a name="line85">85    </a></b>	                    }
+<b><a name="line86">86    </a></b>	                    else {
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	                        handle_command = FALSE;
+<b><a name="line89">89    </a></b>	                        vuc_cq_report_status(param->cq, INVALID_STATUS_TYPE, INVALID_STATUS_VERIFICATION_ERROR);
+<b><a name="line90">90    </a></b>	                    }
+<b><a name="line91">91    </a></b>	                }
+<b><a name="line92">92    </a></b>	                else if (IS_E_CMD(sq->opc)) {
+<b><a name="line93">93    </a></b>	                    // encrpyt command
+<b><a name="line94">94    </a></b>	                    // aes decrpyt
+<b><a name="line95">95    </a></b>	                    if(gVucDispatch.lock_by_sp800_227){
+<b><a name="line96">96    </a></b>	                        VUA_decryptCommand(((U32)sq + (sizeof(*sq) - VUC_PROTECT_DECODE_COMMAND_SIZE)));
+<b><a name="line97">97    </a></b>	                    }
+<b><a name="line98">98    </a></b>	                    else{
+<b><a name="line99">99    </a></b>	                        vuc_protect_decrypt_command(sq, DBUF_API_BOOTCODE_HOST_BUFFER_BASE);
+<b><a name="line100">100    </a></b>	                    }
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	                    if (VUC_PROTECT_CHECK_COMMAND_STATUS_PASS != vuc_protect_check_command(sq)) {
+<b><a name="line103">103    </a></b>	                        handle_command = FALSE;
+<b><a name="line104">104    </a></b>	                        Dump_Vendor(tprintf(" dispatch fail1.\n\r"));
+<b><a name="line105">105    </a></b>	                        vuc_cq_report_status(param->cq, INVALID_STATUS_TYPE, INVALID_STATUS_VERIFICATION_ERROR);
+<b><a name="line106">106    </a></b>	                    }
+<b><a name="line107">107    </a></b>	                    else {
+<b><a name="line108">108    </a></b>	                    }
+<b><a name="line109">109    </a></b>	                }
+<b><a name="line110">110    </a></b>	
+</pre></body>
+</html>

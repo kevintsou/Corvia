@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2519">2519    </a></b>	        if (0x00 != not_loaded_parallel_bitmap) {
+<b><a name="line2520">2520    </a></b>	            p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_UNLOADABLE;
+<b><a name="line2521">2521    </a></b>	            break;
+<b><a name="line2522">2522    </a></b>	        }
+<b><a name="line2523">2523    </a></b>	    }
+<b><a name="line2524">2524    </a></b>	
+<b><a name="line2525">2525    </a></b>	
+<b><a name="line2526">2526    </a></b>	    // get ready to service PERST event in Boot Code stage
+<b><a name="line2527">2527    </a></b>	    host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line2528">2528    </a></b>	
+<b><a name="line2529">2529    </a></b>	    if(0 == gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><a name="line2530">2530    </a></b>	    {
+<b><a name="line2531">2531    </a></b>	        // if enable LRU, reset read level at end of load code process
+<b><a name="line2532">2532    </a></b>	        scan_bitmap_restore_read_offset(((gLRURetryLevel + nand_retry) % total_rr_cnt), res_read_offset_ch_bitmap);
+<b><a name="line2533">2533    </a></b>	    }
+<b><a name="line2534">2534    </a></b>	
+<b><a name="line2535">2535    </a></b>	    if (p_fw_slot_status->copy_retry_count || p_fw_slot_status->nand_retry_count) {
+<b><a name="line2536">2536    </a></b>	        p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED;
+<b><a name="line2537">2537    </a></b>	    }
+<b><a name="line2538">2538    </a></b>	
+<b><a name="line2539">2539    </a></b>	    return (p_fw_slot_status->fw_slot_error);
+<b><a name="line2540">2540    </a></b>	}
+<b><a name="line2541">2541    </a></b>	
+<b><a name="line2542">2542    </a></b>	static U8 use_id_table_active_fw_slot(const ID_TABLE *p_id_table, CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status, U32 project_binary_address, LOAD_CODE_STATUS *p_load_code_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line2543">2543    </a></b>	{
+<b><a name="line2544">2544    </a></b>	    // cppcheck-suppress variableScope
+<b><a name="line2545">2545    </a></b>	    FW_SLOT_STATUS *p_fw_slot_status;
+<b><a name="line2546">2546    </a></b>	    U8 error_firmware;
+<b><a name="line2547">2547    </a></b>	
+<b><a name="line2548">2548    </a></b>	    sal_log_tracker_set(sal_locate(0x03, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xffffffff83039f40 | 6" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line2549">2549    </a></b>	
+<b><a name="line2550">2550    </a></b>	    if (p_id_table->active_fw_slot_info_valid) {
+<b><a name="line2551">2551    </a></b>	        sal_log_info_char('A'); //Using Active FW Slot Info
+<b><a name="line2552">2552    </a></b>	
+<b><a name="line2553">2553    </a></b>	        Dump_LoadCode(tprintf("Using the Active Slot Info in ID Table"));
+<b><a name="line2554">2554    </a></b>	
+<b><a name="line2555">2555    </a></b>	        p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ACTIVE_SLOT_LOAD_START;
+<b><a name="line2556">2556    </a></b>	
+<b><a name="line2557">2557    </a></b>	        p_code_pointer_block_status->firmware_priority_used = FW_SLOT_COUNT;
+<b><a name="line2558">2558    </a></b>	        p_fw_slot_status = p_code_pointer_block_status->a_slot_status + FW_SLOT_COUNT;
+<b><a name="line2559">2559    </a></b>	
+<b><a name="line2560">2560    </a></b>	        error_firmware = use_fw_slot(&(p_id_table->active_fw_slot_info), p_fw_slot_status, project_binary_address, p_load_code_status, a_flash_error_channel_bitmap);
+<b><a name="line2561">2561    </a></b>	
+<b><a name="line2562">2562    </a></b>	        p_code_pointer_block_status->error.firmware_all |= error_firmware;
+<b><a name="line2563">2563    </a></b>	
+<b><a name="line2564">2564    </a></b>	        p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ACTIVE_SLOT_LOAD_END;
+<b><a name="line2565">2565    </a></b>	
+<b><a name="line2566">2566    </a></b>	        if (FW_SLOT_STATE_USABLE == p_fw_slot_status->state) {
+<b><a name="line2567">2567    </a></b>	            return 0;
+<b><a name="line2568">2568    </a></b>	        }
+<b><a name="line2569">2569    </a></b>	        else {
+<b><a name="line2570">2570    </a></b>	            p_code_pointer_block_status->firmware_priority_used = FIRMWARE_PRIORITY_INVALID;
+<b><a name="line2571">2571    </a></b>	            return 1;
+<b><a name="line2572">2572    </a></b>	        }
+<b><a name="line2573">2573    </a></b>	    }
+<b><a name="line2574">2574    </a></b>	
+<b><a name="line2575">2575    </a></b>	    return 1;
+<b><a name="line2576">2576    </a></b>	}
+<b><a name="line2577">2577    </a></b>	
+<b><a name="line2578">2578    </a></b>	U8 determine_usable_code_pointer_block(LOAD_CODE_STATUS *p_load_code_status)
+<b><a name="line2579">2579    </a></b>	{
+</pre></body>
+</html>

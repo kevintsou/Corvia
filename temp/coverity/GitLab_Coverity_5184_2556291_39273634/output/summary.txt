@@ -1,0 +1,73 @@
+/opt/coverity/analysis/2024.3.1/bin/cov-analyze --dir /builds/d9/bootcode/duanyue/coverity/GitLab_Coverity_5184_2556291_39273634 -c /opt/coverity/analysis/2024.3.1/config/arm/coverity_config.xml -sf /opt/coverity/analysis/2024.3.1/bin/license.dat --enable-fb --strip-path /builds/d9/bootcode/duanyue/ --coding-standard-config /opt/coverity/analysis/2024.3.1/config/coding-standards/misrac2012/misrac2012-mandatory-required.config 
+Analysis summary report:
+------------------------
+Files analyzed                       : 538 Total
+    C                                : 538
+Total LoC input to cov-analyze       : 335754
+Functions analyzed                   : 5152
+Classes/structs analyzed             : 1030
+Paths analyzed                       : 182436
+Time taken by analysis               : 00:02:32
+Defects/Coding rule violations found : 14624 Total
+                                           2 ASSERT_SIDE_EFFECT
+                                           3 DEADCODE
+                                           5 MISRA C-2012 Directive 4.10
+                                           1 MISRA C-2012 Directive 4.3
+                                           3 MISRA C-2012 Directive 4.7
+                                           4 MISRA C-2012 Rule 1.1
+                                        3699 MISRA C-2012 Rule 10.1
+                                        1813 MISRA C-2012 Rule 10.3
+                                        3772 MISRA C-2012 Rule 10.4
+                                          72 MISRA C-2012 Rule 10.6
+                                         133 MISRA C-2012 Rule 10.7
+                                          81 MISRA C-2012 Rule 10.8
+                                           3 MISRA C-2012 Rule 11.1
+                                         145 MISRA C-2012 Rule 11.3
+                                         250 MISRA C-2012 Rule 11.6
+                                         142 MISRA C-2012 Rule 11.8
+                                          10 MISRA C-2012 Rule 11.9
+                                         549 MISRA C-2012 Rule 12.2
+                                          10 MISRA C-2012 Rule 13.2
+                                          70 MISRA C-2012 Rule 13.5
+                                           1 MISRA C-2012 Rule 13.6
+                                           5 MISRA C-2012 Rule 14.2
+                                         113 MISRA C-2012 Rule 14.3
+                                         475 MISRA C-2012 Rule 14.4
+                                          79 MISRA C-2012 Rule 15.6
+                                          28 MISRA C-2012 Rule 15.7
+                                          18 MISRA C-2012 Rule 16.1
+                                          16 MISRA C-2012 Rule 16.3
+                                          22 MISRA C-2012 Rule 16.4
+                                           7 MISRA C-2012 Rule 16.6
+                                          12 MISRA C-2012 Rule 17.1
+                                         622 MISRA C-2012 Rule 17.7
+                                           4 MISRA C-2012 Rule 18.2
+                                           1 MISRA C-2012 Rule 18.3
+                                           1 MISRA C-2012 Rule 2.1
+                                          40 MISRA C-2012 Rule 2.2
+                                         416 MISRA C-2012 Rule 20.7
+                                         120 MISRA C-2012 Rule 21.1
+                                          20 MISRA C-2012 Rule 21.15
+                                           2 MISRA C-2012 Rule 21.16
+                                           2 MISRA C-2012 Rule 21.18
+                                         137 MISRA C-2012 Rule 21.2
+                                           3 MISRA C-2012 Rule 21.24
+                                          33 MISRA C-2012 Rule 3.1
+                                         186 MISRA C-2012 Rule 5.1
+                                           3 MISRA C-2012 Rule 5.3
+                                         109 MISRA C-2012 Rule 5.4
+                                          26 MISRA C-2012 Rule 5.7
+                                          20 MISRA C-2012 Rule 5.8
+                                           2 MISRA C-2012 Rule 6.3
+                                          88 MISRA C-2012 Rule 7.2
+                                          34 MISRA C-2012 Rule 7.4
+                                           2 MISRA C-2012 Rule 8.10
+                                          20 MISRA C-2012 Rule 8.2
+                                          29 MISRA C-2012 Rule 8.3
+                                         110 MISRA C-2012 Rule 8.4
+                                          33 MISRA C-2012 Rule 8.5
+                                        1003 MISRA C-2012 Rule 8.6
+                                          10 MISRA C-2012 Rule 9.1
+                                           1 MISRA C-2012 Rule 9.3
+                                           3 NO_EFFECT
+                                           1 OVERRUN

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef HAL_DB_H
+<b><a name="line2">2    </a></b>	#define HAL_DB_H
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define HAL_DB_GET_LOG_SRC_ID(MSG)            (((U64)(MSG))>>56UL)
+<b><a name="line7">7    </a></b>	#define HAL_DB_LOG_SRC_ID_DZIP                (1UL)            //not supported
+<b><a name="line8">8    </a></b>	#define HAL_DB_LOG_SRC_ID_AES                 (2UL)
+<b><a name="line9">9    </a></b>	#define HAL_DB_LOG_SRC_ID_DBUF                (3UL)
+<b><a name="line10">10    </a></b>	#define HAL_DB_LOG_SRC_ID_E3D512              (4UL)
+<b><a name="line11">11    </a></b>	#define HAL_DB_LOG_SRC_ID_D2H                 (5UL)
+<b><a name="line12">12    </a></b>	#define MEM32(source, index)                  (*(((volatile U32*) (source)) + (index)))
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	// Doorbell Queue Space (unit:BYTE)
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	#define DB_EMPTY_MASK                       (0x7FFFFFFFFFFULL)
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	/*================== END: Doorbell Queue Arrangment ======================*/
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	/*
+<b><a name="line22">22    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line23">23    </a></b>	 *   doorbell register basic api
+<b><a name="line24">24    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line25">25    </a></b>	 */
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	U16 hal_db_api_get_rd_cnt(U8 db_id);
+<b><a name="line28">28    </a></b>	U16 hal_db_api_get_wr_cnt(U8 db_id);
+<b><a name="line29">29    </a></b>	U32 hal_db_api_get_base_adr(U8 db_id);
+<b><a name="line30">30    </a></b>	U32 hal_db_api_get_wptr(U8 db_id);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Symbol "hal_db_api_get_wptr" is declared more than once.</font>
+<b><a name="line31">31    </a></b>	U32 hal_db_api_get_rptr(U8 db_id);
+<b><a name="line32">32    </a></b>	U8 hal_db_api_get_data_size(U8 db_id);
+<b><a name="line33">33    </a></b>	U16 hal_db_api_get_buf_len(U8 db_id);
+<b><a name="line34">34    </a></b>	U8 hal_db_api_get_empty(U8 db_id);
+<b><a name="line35">35    </a></b>	U8 hal_db_api_get_full(U8 db_id);
+<b><a name="line36">36    </a></b>	void hal_db_api_set_wpiu(U8 db_id, U16 value);
+<b><a name="line37">37    </a></b>	void hal_db_api_set_rpiu(U8 db_id, U16 value);
+<b><a name="line38">38    </a></b>	void hal_db_api_clr_vq(U8 n);
+<b><a name="line39">39    </a></b>	void hal_db_api_set_rq(U8 n);
+<b><a name="line40">40    </a></b>	/*
+<b><a name="line41">41    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line42">42    </a></b>	 *   doorbell general function api
+<b><a name="line43">43    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line44">44    </a></b>	 */
+<b><a name="line45">45    </a></b>	void hal_db_q_info_reset(U8 db_id);
+<b><a name="line46">46    </a></b>	void hal_db_q_info_init(U8 db_id, U32 q_base, U16 buf_len);
+<b><a name="line47">47    </a></b>	U8 hal_db_push(void *p_data, U16 size, U8 db_id);
+<b><a name="line48">48    </a></b>	U8 hal_db_check_wr_cnt(U32 q_id, U32 push_size);
+<b><a name="line49">49    </a></b>	void hal_db_push_cmd_ext(void *data, U32 q_id);
+<b><a name="line50">50    </a></b>	U8 hal_db_pop(void *p_data, U16 size, U8 db_id);
+<b><a name="line51">51    </a></b>	void hal_db_pop_ext(void *data, U32 q_id, U32 pop);
+<b><a name="line52">52    </a></b>	U8 hal_db_push_with_header(void *p_data, U8 size, U8 db_id, U8 mr_header, U8 mr_tid, U8 mr_rsp_en);
+<b><a name="line53">53    </a></b>	void hal_db_push_block(void *p_data, U16 size, U8 db_id);
+<b><a name="line54">54    </a></b>	U16 hal_db_api_get_rd_packet_cnt(U8 db_id);
+<b><a name="line55">55    </a></b>	U8 hal_db_is_mst_full(U8 QID, U8 SIZE);
+<b><a name="line56">56    </a></b>	U32  hal_flh_scq_mr_header(U8 *buf, U32 tar_id, U32 src_id, U32 byte_len);
+<b><a name="line57">57    </a></b>	#endif  // HAL_DB_H
+<b><a name="line58">58    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,18 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 13.6</checker>
+<type>MISRA_C_2012_Rule_13.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<function>vendor_cmd_dispatch</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_13_6_violation</tag>
+<description>{CovLStrv2{{t{The operand of the sizeof operator contains potential side effect: accessing to volatile object {0}.}{{code{sq}}}}}}</description>
+<line>96</line>
+<column>64</column>
+</event>
+<extra>sq</extra>
+<subcategory>none</subcategory>
+</error>

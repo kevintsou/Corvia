@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_mabiao.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_MABIAO_H_
+<b><a name="line2">2    </a></b>	#define _SAL_MABIAO_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SAL_MABIAO_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "build/sal_build_types.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	//----------------------------------------------------------------timer--
+<b><a name="line7">7    </a></b>	#define idle(idle_time_clk)     mabiao_idle(MABIAO_US, idle_time_clk)
+<b><a name="line8">8    </a></b>	#define idle_us(idle_time_us)   mabiao_idle(MABIAO_US, idle_time_us)
+<b><a name="line9">9    </a></b>	#define idle_ms(idle_time_ms)   mabiao_idle(MABIAO_MS, idle_time_ms)
+<b><a name="line10">10    </a></b>	#define idle_s(idle_time_s)     mabiao_idle(MABIAO_MS, idle_time_s * 1000)
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define MABIAO_MAX_COUNT_MASK    (0xFFFFFFFFFFFFFFFFULL) //64 bit
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	#define MABIAO_US       (0)
+<b><a name="line15">15    </a></b>	#define MABIAO_MS       (1)
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	typedef struct mabiao MABIAO, *MABIAO_PTR;
+<b><a name="line18">18    </a></b>	struct mabiao
+<b><a name="line19">19    </a></b>	{
+<b><a name="line20">20    </a></b>	    U8 scale;
+<b><a name="line21">21    </a></b>	    U8 timeout;
+<b><a name="line22">22    </a></b>	    U8 rsv[2];
+<b><a name="line23">23    </a></b>	    U32 uoStartRTT;
+<b><a name="line24">24    </a></b>	    U32 count;
+<b><a name="line25">25    </a></b>	    U32 locate;
+<b><a name="line26">26    </a></b>	};
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	enum MabiaoCategory{
+<b><a name="line29">29    </a></b>	    //SYS
+<b><a name="line30">30    </a></b>	    MABIAO_INIT_PW,
+<b><a name="line31">31    </a></b>	    MABIAO_BACKDOOR_POLL,
+<b><a name="line32">32    </a></b>	    MABIAO_INIT_DBUF,
+<b><a name="line33">33    </a></b>	    MABIAO_SYS_IP_RESET,
+</pre></body>
+</html>

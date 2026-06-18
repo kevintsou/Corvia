@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line463">463    </a></b>	    }
+<b><a name="line464">464    </a></b>	#endif
+<b><a name="line465">465    </a></b>	}
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	#if SMBUS_ARP_EN
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	U32 sys_smbs_arp_hdl(SMBS *p_smbs, U16 slave_address, SMBUS_BUFFER *p_smbs_rx, SMBUS_BUFFER *p_smbs_tx)
+<b><a name="line470">470    </a></b>	{
+<b><a name="line471">471    </a></b>	    U8 arp_idx;
+<b><a name="line472">472    </a></b>	    U8 command_code;
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	    if ((NULL == p_smbs_tx) && (NULL != p_smbs_rx)) {
+<b><a name="line475">475    </a></b>	        // WR_STOP
+<b><a name="line476">476    </a></b>	        // Prepare to arp command
+<b><a name="line477">477    </a></b>	        // Reset device command
+<b><a name="line478">478    </a></b>	        // Assign address command
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	        command_code = p_smbs_rx->base.pu8[0U];
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	        if (command_code == SMBUS_ARP_CMD_PREPARE_TO_ARP) {
+<b><a name="line483">483    </a></b>	            sys_smbs_arp_prepare_to_arp_hdl(p_smbs);
+<b><a name="line484">484    </a></b>	        }
+<b><a name="line485">485    </a></b>	        else if (command_code == SMBUS_ARP_CMD_RESET_DEVICE_GENERAL) {
+<b><a name="line486">486    </a></b>	            sys_smbs_arp_reset_device_general_hdl(p_smbs);
+<b><a name="line487">487    </a></b>	        }
+<b><a name="line488">488    </a></b>	        else if (command_code == SMBUS_ARP_CMD_ASSIGN_ADDRESS) {
+<b><a name="line489">489    </a></b>	            sys_smbs_arp_assign_address_hdl(p_smbs, p_smbs_rx);
+<b><a name="line490">490    </a></b>	        }
+<b><a name="line491">491    </a></b>	        else {
+<b><a name="line492">492    </a></b>	            for (arp_idx = 0U; arp_idx < SMBUS_ADDRESS_INDEX_ARP; arp_idx++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "arp_idx" (unsigned) is not the same as that of the right operand "SMBUS_ADDRESS_INDEX_ARP"(enum).</font>
+<b><a name="line493">493    </a></b>	                if (command_code == (p_smbs->a_slave[arp_idx].arp_ext.smbs_arp.slave_address & (U8)0xFEU)) {
+<b><a name="line494">494    </a></b>	                    sys_smbs_arp_reset_device_direct_hdl(p_smbs, arp_idx);
+<b><a name="line495">495    </a></b>	                    break;
+<b><a name="line496">496    </a></b>	                }
+<b><a name="line497">497    </a></b>	            }
+<b><a name="line498">498    </a></b>	        }
+<b><a name="line499">499    </a></b>	    }
+<b><a name="line500">500    </a></b>	    else if ((NULL != p_smbs_tx) && (NULL != p_smbs_rx)) {
+<b><a name="line501">501    </a></b>	        // RX FULL or RS
+<b><a name="line502">502    </a></b>	        // Get UDID
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	        command_code = p_smbs_rx->base.pu8[0U];
+<b><a name="line505">505    </a></b>	
+<b><a name="line506">506    </a></b>	        if (command_code == SMBUS_ARP_CMD_GET_UDID_GENERAL) {
+<b><a name="line507">507    </a></b>	            sys_smbs_arp_get_udid_general_hdl(p_smbs, p_smbs_tx, command_code);
+<b><a name="line508">508    </a></b>	        }
+<b><a name="line509">509    </a></b>	        else {
+<b><a name="line510">510    </a></b>	            for (arp_idx = 0U; arp_idx < SMBUS_ADDRESS_INDEX_ARP; arp_idx++) {
+<b><a name="line511">511    </a></b>	                if (command_code == (p_smbs->a_slave[arp_idx].arp_ext.smbs_arp.slave_address | (U8)1U)) {
+<b><a name="line512">512    </a></b>	                    sys_smbs_arp_get_udid_direct_hdl(p_smbs, p_smbs_tx, arp_idx, command_code);
+<b><a name="line513">513    </a></b>	                    break;
+<b><a name="line514">514    </a></b>	                }
+<b><a name="line515">515    </a></b>	            }
+<b><a name="line516">516    </a></b>	        }
+<b><a name="line517">517    </a></b>	    }
+<b><a name="line518">518    </a></b>	    else {
+<b><a name="line519">519    </a></b>	        // do nothing
+<b><a name="line520">520    </a></b>	        Dump_SMBUS(tprintf(" [ARP] Not Support Protocol"));
+<b><a name="line521">521    </a></b>	    }
+<b><a name="line522">522    </a></b>	
+<b><a name="line523">523    </a></b>	    sys_smbs_clear_unmatch_udid();
+</pre></body>
+</html>

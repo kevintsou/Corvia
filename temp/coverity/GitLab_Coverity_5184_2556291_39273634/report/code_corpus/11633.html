@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line195">195    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line196">196    </a></b>	 * @return    Next FPU Base.
+<b><a name="line197">197    </a></b>	 * @note
+<b><a name="line198">198    </a></b>	 *
+<b><a name="line199">199    </a></b>	 */
+<b><a name="line200">200    </a></b>	U32 dal_fip_fpu_fill_dly_sca(U32 fpu_base, U8 cycle)
+<b><a name="line201">201    </a></b>	{
+<b><a name="line202">202    </a></b>	    DAL_FIP_FPU_DLY_STRUCT_PTR ptr = (DAL_FIP_FPU_DLY_STRUCT_PTR)fpu_base;
+<b><a name="line203">203    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_DLY;
+<b><a name="line204">204    </a></b>	    ptr->dq_bus = 1U;
+<b><a name="line205">205    </a></b>	    ptr->cycle  = cycle;
+<b><a name="line206">206    </a></b>	
+<b><a name="line207">207    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line208">208    </a></b>	}
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	
+<b><a name="line211">211    </a></b>	/*!
+<b><a name="line212">212    </a></b>	 * @brief
+<b><a name="line213">213    </a></b>	 *
+<b><a name="line214">214    </a></b>	 * - TODO:
+<b><a name="line215">215    </a></b>	 *
+<b><a name="line216">216    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line217">217    </a></b>	 * @return    Next FPU Base.
+<b><a name="line218">218    </a></b>	 * @note
+<b><a name="line219">219    </a></b>	 *
+<b><a name="line220">220    </a></b>	 */
+<b><a name="line221">221    </a></b>	U32 dal_fip_fpu_fill_ce(U32 fpu_base, U8 ce_op_code_index, U8 delay_cycle)
+<b><a name="line222">222    </a></b>	{
+<b><a name="line223">223    </a></b>	    DAL_FIP_FPU_CE_STRUCT_PTR ptr = (DAL_FIP_FPU_CE_STRUCT_PTR)fpu_base;
+<b><a name="line224">224    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line225">225    </a></b>	    ptr->opcode           = DAL_FIP_FPU_OPCODE_CE;
+<b><a name="line226">226    </a></b>	    ptr->ce               = 1;
+<b><a name="line227">227    </a></b>	    ptr->ce_op_code_index = ce_op_code_index;
+<b><a name="line228">228    </a></b>	    ptr->delay_cycle      = (delay_cycle > 0U) ? delay_cycle : 1U/* delay_cycle prevent zero */;
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line231">231    </a></b>	}
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	
+<b><a name="line234">234    </a></b>	/*!
+<b><a name="line235">235    </a></b>	 * @brief
+<b><a name="line236">236    </a></b>	 *
+<b><a name="line237">237    </a></b>	 * - TODO:
+<b><a name="line238">238    </a></b>	 *
+<b><a name="line239">239    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line240">240    </a></b>	 * @return    Next FPU Base.
+<b><a name="line241">241    </a></b>	 * @note
+<b><a name="line242">242    </a></b>	 *
+<b><a name="line243">243    </a></b>	 */
+<b><a name="line244">244    </a></b>	U32 dal_fip_fpu_fill_cmd(U32 fpu_base, U8 dat, U8 dqs_h)
+<b><a name="line245">245    </a></b>	{
+<b><a name="line246">246    </a></b>	    DAL_FIP_FPU_CMD_STRUCT_PTR ptr = (DAL_FIP_FPU_CMD_STRUCT_PTR)fpu_base;
+<b><a name="line247">247    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line248">248    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_CMD;
+<b><a name="line249">249    </a></b>	    ptr->dat    = dat;
+<b><a name="line250">250    </a></b>	    ptr->dqs_oe = 1;
+<b><a name="line251">251    </a></b>	    ptr->dqs_h  = dqs_h;
+<b><a name="line252">252    </a></b>	
+<b><a name="line253">253    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line254">254    </a></b>	}
+<b><a name="line255">255    </a></b>	
+</pre></body>
+</html>

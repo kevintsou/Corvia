@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2187">2187    </a></b>	    return r32_PCIE_SNPS_MISC_REG(pid)[r32_SNPS_APP_REG182 + dw];
+<b><a name="line2188">2188    </a></b>	}
+<b><a name="line2189">2189    </a></b>	
+<b><a name="line2190">2190    </a></b>	U32 dal_pcie_get_vf_flr_active (U8 pid, U32 dw)
+<b><a name="line2191">2191    </a></b>	{
+<b><a name="line2192">2192    </a></b>	    return r32_PCIE_SNPS_MISC_REG(pid)[r32_SNPS_APP_REG184 + dw];
+<b><a name="line2193">2193    </a></b>	}
+<b><a name="line2194">2194    </a></b>	
+<b><a name="line2195">2195    </a></b>	void dal_set_sriov_bypass_en (U32 port_id, U32 value)
+<b><a name="line2196">2196    </a></b>	{
+<b><a name="line2197">2197    </a></b>	    w_PCIE_PL_FW_BYPASS_SRIOV_CAP(port_id, value);
+<b><a name="line2198">2198    </a></b>	}
+<b><a name="line2199">2199    </a></b>	
+<b><a name="line2200">2200    </a></b>	void dal_set_bar_en(U32 port_id, U32 pf_id, U32 bar, U32 enable)
+<b><a name="line2201">2201    </a></b>	{
+<b><a name="line2202">2202    </a></b>	    U32 bar_ofst = (pf_id * 0x400U) + (bar * 4U);
+<b><a name="line2203">2203    </a></b>	
+<b><a name="line2204">2204    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line2205">2205    </a></b>	    {
+<b><a name="line2206">2206    </a></b>	        (*((volatile U32 *)(0x3106010U + bar_ofst))) = ((*((volatile U32 *)(0x3106010U + bar_ofst)) & (~0x1)) | (enable & 0x1));
+<b><a name="line2207">2207    </a></b>	    }
+<b><a name="line2208">2208    </a></b>	}
+<b><a name="line2209">2209    </a></b>	
+<b><a name="line2210">2210    </a></b>	void dal_set_bar_en_vf(U32 port_id, U32 pf_id, U32 bar, U32 enable)
+<b><a name="line2211">2211    </a></b>	{
+<b><a name="line2212">2212    </a></b>	    U32 bar_ofst = bar * 4U;
+<b><a name="line2213">2213    </a></b>	
+<b><a name="line2214">2214    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line2215">2215    </a></b>	    {
+<b><a name="line2216">2216    </a></b>	        (*((volatile U32 *)(0x3106230U + bar_ofst))) = ((*((volatile U32 *)(0x3106230U + bar_ofst)) & (~0x1)) | (enable & 0x1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "*((U32 volatile *)(51405360UL + bar_ofst))" (unsigned) is not the same as that of the right operand "~1"(signed).</font>
+<b><a name="line2217">2217    </a></b>	    }
+<b><a name="line2218">2218    </a></b>	}
+<b><a name="line2219">2219    </a></b>	
+<b><a name="line2220">2220    </a></b>	void dal_set_bar_type(U32 port_id, U32 pf_id, U32 bar, U32 type)
+<b><a name="line2221">2221    </a></b>	{
+<b><a name="line2222">2222    </a></b>	    U32 bar_ofst = (pf_id * 0x800U) + (bar * 4U);
+<b><a name="line2223">2223    </a></b>	
+<b><a name="line2224">2224    </a></b>	    // set memory space indicator and type
+<b><a name="line2225">2225    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line2226">2226    </a></b>	    {
+<b><a name="line2227">2227    </a></b>	        (*((volatile U32 *)(0x3116010U + bar_ofst))) = ((*((volatile U32 *)(0x3116010U + bar_ofst)) & (~0x7)) | ((type & 0x3) << 1U));
+<b><a name="line2228">2228    </a></b>	    }
+<b><a name="line2229">2229    </a></b>	}
+<b><a name="line2230">2230    </a></b>	
+<b><a name="line2231">2231    </a></b>	void dal_set_bar_type_vf(U32 port_id, U32 pf_id, U32 bar, U32 type)
+<b><a name="line2232">2232    </a></b>	{
+<b><a name="line2233">2233    </a></b>	    U32 bar_ofst = bar * 4U;
+<b><a name="line2234">2234    </a></b>	
+<b><a name="line2235">2235    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line2236">2236    </a></b>	    {
+<b><a name="line2237">2237    </a></b>	        (*((volatile U32 *)(0x3116230U + bar_ofst))) = ((*((volatile U32 *)(0x3116230U + bar_ofst)) & (~0x6)) | ((type & 0x3) << 1U));
+<b><a name="line2238">2238    </a></b>	    }
+<b><a name="line2239">2239    </a></b>	}
+<b><a name="line2240">2240    </a></b>	
+<b><a name="line2241">2241    </a></b>	void dal_set_bar_prefetch(U32 port_id, U32 pf_id, U32 bar, U32 prefetch)
+<b><a name="line2242">2242    </a></b>	{
+<b><a name="line2243">2243    </a></b>	    U32 bar_ofst = (pf_id * 0x800U) + (bar * 4U);
+<b><a name="line2244">2244    </a></b>	
+<b><a name="line2245">2245    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line2246">2246    </a></b>	    {
+<b><a name="line2247">2247    </a></b>	        (*((volatile U32 *)(0x3116010U + bar_ofst))) = ((*((volatile U32 *)(0x3116010U + bar_ofst)) & (~0x8)) | ((prefetch & 0x1) << 3U));
+</pre></body>
+</html>

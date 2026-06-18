@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line39">39    </a></b>	 */
+<b><a name="line40">40    </a></b>	void vuc_ap_key_enable(VUC_DISPATCH_PARAM_STRUCT_PTR param)
+<b><a name="line41">41    </a></b>	{
+<b><a name="line42">42    </a></b>	    U8 status_code = VALID_STATUS;
+<b><a name="line43">43    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    param->ap_key_enable = TRUE;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    vuc_cq_report_status(param->cq, status_code_type, status_code);
+<b><a name="line48">48    </a></b>	}
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	#define DB_VUC_ISP_JUMP                 ((1) && DB_FTL_VENDOR)
+<b><a name="line51">51    </a></b>	void vuc_isp_jump(VUC_DISPATCH_PARAM_STRUCT_PTR param, U8 host_service_type)
+<b><a name="line52">52    </a></b>	{
+<b><a name="line53">53    </a></b>	    U8  status_code = VALID_STATUS;
+<b><a name="line54">54    </a></b>	    U8  status_code_type = VALID_STATUS_TYPE;
+<b><a name="line55">55    </a></b>	    U8  param_chk = PASS;
+<b><a name="line56">56    </a></b>	    U32 check_error;
+<b><a name="line57">57    </a></b>	    U8  mode;
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	    volatile VUC_ISP_JUMP_PARAM_PTR sq = (VUC_ISP_JUMP_PARAM_PTR)param->sq;
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    if ((VUC_ISP_JUMP_ROM_MODE_LOAD_FW != sq->sub_feature) &&
+<b><a name="line64">64    </a></b>	        (VUC_ISP_JUMP_ROM_MODE != sq->sub_feature) &&
+<b><a name="line65">65    </a></b>	        (VUC_ISP_JUMP_PRAM_MODE != sq->sub_feature) &&
+<b><a name="line66">66    </a></b>	        (VUC_ISP_JUMP_SPI_MODE_LOAD_FW != sq->sub_feature) &&
+<b><a name="line67">67    </a></b>	        (VUC_ISP_JUMP_SPI_MODE != sq->sub_feature) &&
+<b><a name="line68">68    </a></b>	        (VUC_ISP_JUMP_AUTO_LOAD_FW != sq->sub_feature) &&
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand of a logical operator "&&" has persistent side effects because of accessing to volatile object "sq".</font>
+<b><a name="line69">69    </a></b>	        (VUC_ISP_JUMP_AUTO != sq->sub_feature)) {
+<b><a name="line70">70    </a></b>	        status_code = INVALID_STATUS_PARAMETER_ERROR;
+<b><a name="line71">71    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line72">72    </a></b>	        param_chk = FAIL;
+<b><a name="line73">73    </a></b>	        Dump_Vendor(tprintf("isp jmp check fea fail"));
+<b><a name="line74">74    </a></b>	    }
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    Dump_Vendor(tprintf("sub_feature :%x",sq->sub_feature));
+<b><a name="line77">77    </a></b>	    if (PASS == param_chk) {
+<b><a name="line78">78    </a></b>	        if ((VUC_ISP_JUMP_PRAM_MODE == sq->sub_feature) ||
+<b><a name="line79">79    </a></b>	            (VUC_ISP_JUMP_AUTO_LOAD_FW == sq->sub_feature) ||
+<b><a name="line80">80    </a></b>	            (VUC_ISP_JUMP_AUTO == sq->sub_feature)) {
+<b><a name="line81">81    </a></b>	#if DB_VUC_ISP_JUMP
+<b><a name="line82">82    </a></b>	            Dump_Vendor(tprintf("\n\r Jump to Burner"));
+<b><a name="line83">83    </a></b>	#endif  //  DB_VUC_ISP_JUMP
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line86">86    </a></b>	            if (TRUE == host->hcmd.mctp_fake_hcmd)
+<b><a name="line87">87    </a></b>	            {
+<b><a name="line88">88    </a></b>	                mctp_smbus_send_more_preocessing_required_response(&gMCTP, &gSMBM);
+<b><a name="line89">89    </a></b>	            }
+<b><a name="line90">90    </a></b>	#endif
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	            check_error = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE, PROJECT_BINARY_SOURCE_HOST);
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	            if (0 != check_error) {
+<b><a name="line95">95    </a></b>	                status_code = INVALID_STATUS_CODE_SIGN_ERROR;
+<b><a name="line96">96    </a></b>	                status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line99">99    </a></b>	
+</pre></body>
+</html>

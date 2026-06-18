@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd0_clkrst_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line305">305    </a></b>	    w_CR_OSC_SEL_RD_FPHY_1(ub_flh0_clk_sel);
+<b><a name="line306">306    </a></b>	    w_CR_OSC_SEL_RD_FPHY_2(ub_flh0_clk_sel);
+<b><a name="line307">307    </a></b>	    w_CR_OSC_SEL_RD_FPHY_3(ub_flh0_clk_sel);
+<b><a name="line308">308    </a></b>	    w_CR_OSC_SEL_RD_FPHY_4(ub_flh0_clk_sel);
+<b><a name="line309">309    </a></b>	    w_CR_OSC_SEL_RD_FPHY_5(ub_flh0_clk_sel);
+<b><a name="line310">310    </a></b>	    w_CR_OSC_SEL_RD_FPHY_6(ub_flh0_clk_sel);
+<b><a name="line311">311    </a></b>	    w_CR_OSC_SEL_RD_FPHY_7(ub_flh0_clk_sel);
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_0(flh0_div_sel);
+<b><a name="line314">314    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_1(flh0_div_sel);
+<b><a name="line315">315    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_2(flh0_div_sel);
+<b><a name="line316">316    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_3(flh0_div_sel);
+<b><a name="line317">317    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_4(flh0_div_sel);
+<b><a name="line318">318    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_5(flh0_div_sel);
+<b><a name="line319">319    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_6(flh0_div_sel);
+<b><a name="line320">320    </a></b>	    w_CR_OSC_DIV_SEL_WT_FPHY_7(flh0_div_sel);
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_0(flh0_div_sel);
+<b><a name="line323">323    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_1(flh0_div_sel);
+<b><a name="line324">324    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_2(flh0_div_sel);
+<b><a name="line325">325    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_3(flh0_div_sel);
+<b><a name="line326">326    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_4(flh0_div_sel);
+<b><a name="line327">327    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_5(flh0_div_sel);
+<b><a name="line328">328    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_6(flh0_div_sel);
+<b><a name="line329">329    </a></b>	    w_CR_OSC_DIV_SEL_RD_FPHY_7(flh0_div_sel);
+<b><a name="line330">330    </a></b>	}
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	static void wait_if_osc_dis_flag_equal_to(U8 val)
+<b><a name="line333">333    </a></b>	{
+<b><a name="line334">334    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FPHY_POWERON, HAL_TIMEOUT_LEN_MS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "334" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line335">335    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_0() == val) {
+<b><a name="line336">336    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line337">337    </a></b>	            break;
+<b><a name="line338">338    </a></b>	        }
+<b><a name="line339">339    </a></b>	    }
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_1() == val) {
+<b><a name="line342">342    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line343">343    </a></b>	            break;
+<b><a name="line344">344    </a></b>	        }
+<b><a name="line345">345    </a></b>	    }
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_2() == val) {
+<b><a name="line348">348    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line349">349    </a></b>	            break;
+<b><a name="line350">350    </a></b>	        }
+<b><a name="line351">351    </a></b>	    }
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_3() == val) {
+<b><a name="line354">354    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line355">355    </a></b>	            break;
+<b><a name="line356">356    </a></b>	        }
+<b><a name="line357">357    </a></b>	    }
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_4() == val) {
+<b><a name="line360">360    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line361">361    </a></b>	            break;
+<b><a name="line362">362    </a></b>	        }
+<b><a name="line363">363    </a></b>	    }
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	    while ((U8)r_OSC_DIS_FLAG_WT_FPHY_5() == val) {
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/mrdb/dal_flow_db.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line350">350    </a></b>	U16 dal_db_get_w_ag_cop1_str1_depth(void);
+<b><a name="line351">351    </a></b>	U16 dal_db_get_w_ag_cop1_str2_depth(void);
+<b><a name="line352">352    </a></b>	U16 dal_db_get_w_ag_cop0_str0_depth(void);
+<b><a name="line353">353    </a></b>	U16 dal_db_get_w_ag_cop0_str1_depth(void);
+<b><a name="line354">354    </a></b>	U16 dal_db_get_w_ag_cop0_str2_depth(void);
+<b><a name="line355">355    </a></b>	U16 dal_db_get_w_ag_bypass_waf_depth(void);
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	//CPU3
+<b><a name="line358">358    </a></b>	//dal api get cpu3 doorbell queue depth
+<b><a name="line359">359    </a></b>	U16 dal_db_get_cpu3_depth_sq0_dmac_high(void);
+<b><a name="line360">360    </a></b>	U16 dal_db_get_cpu3_depth_sq1_dmac_norm(void);
+<b><a name="line361">361    </a></b>	U16 dal_db_get_cpu3_depth_sq2_dmac_urgent(void);
+<b><a name="line362">362    </a></b>	U16 dal_db_get_cpu3_depth_sq3_bmu_noblk(void);
+<b><a name="line363">363    </a></b>	U16 dal_db_get_cpu3_depth_sq4_bmu_blk(void);
+<b><a name="line364">364    </a></b>	U16 dal_db_get_cpu3_depth_sq5_cop0_wr(void);
+<b><a name="line365">365    </a></b>	U16 dal_db_get_cpu3_depth_sq6_cop0_rd(void);
+<b><a name="line366">366    </a></b>	U16 dal_db_get_cpu3_depth_sq7_cop1(void);
+<b><a name="line367">367    </a></b>	U16 dal_db_get_cpu3_depth_sq8_axi_drive_log(void);
+<b><a name="line368">368    </a></b>	U16 dal_db_get_cpu3_depth_sq9_cpu_sq(void);
+<b><a name="line369">369    </a></b>	U16 dal_db_get_cpu3_depth_sq10_cpu_cq(void);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	U16 dal_db_get_cpu3_depth_cq0_dmac_high(void);
+<b><a name="line372">372    </a></b>	U16 dal_db_get_cpu3_depth_cq1_dmac_norm(void);
+<b><a name="line373">373    </a></b>	U16 dal_db_get_cpu3_depth_cq2_bmu_blk(void);
+<b><a name="line374">374    </a></b>	U16 dal_db_get_cpu3_depth_cq3_bmu_noblk(void);
+<b><a name="line375">375    </a></b>	U16 dal_db_get_cpu3_depth_cq4_cop0(void);
+<b><a name="line376">376    </a></b>	U16 dal_db_get_cpu3_depth_cq5_cop1(void);
+<b><a name="line377">377    </a></b>	U16 dal_db_get_cpu3_depth_cq6_err_msg(void);
+<b><a name="line378">378    </a></b>	U16 dal_db_get_cpu3_depth_cq7_rs(void);
+<b><a name="line379">379    </a></b>	U16 dal_db_get_cpu3_depth_cq8_zflh(void);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_db_get_cpu3_depth_cq8_zflh" is declared but never defined.</font>
+<b><a name="line380">380    </a></b>	U16 dal_db_get_cpu3_depth_cq9_dmac_urgent(void);
+<b><a name="line381">381    </a></b>	U16 dal_db_get_cpu3_depth_cq10_cpu_sq(void);
+<b><a name="line382">382    </a></b>	U16 dal_db_get_cpu3_depth_cq11_cpu_cq(void);
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	//CPU4
+<b><a name="line386">386    </a></b>	//dal api get cpu4 doorbell queue depth
+<b><a name="line387">387    </a></b>	U16 dal_db_get_cpu4_depth_sq0_dmac_high(void);
+<b><a name="line388">388    </a></b>	U16 dal_db_get_cpu4_depth_sq1_dmac_norm(void);
+<b><a name="line389">389    </a></b>	U16 dal_db_get_cpu4_depth_sq2_dmac_urgent(void);
+<b><a name="line390">390    </a></b>	U16 dal_db_get_cpu4_depth_sq3_axi_drive_log(void);
+<b><a name="line391">391    </a></b>	U16 dal_db_get_cpu4_depth_sq4_cpu_sq(void);
+<b><a name="line392">392    </a></b>	U16 dal_db_get_cpu4_depth_sq5_cpu_cq(void);
+<b><a name="line393">393    </a></b>	
+<b><a name="line394">394    </a></b>	U16 dal_db_get_cpu4_depth_cq0_dmac_high(void);
+<b><a name="line395">395    </a></b>	U16 dal_db_get_cpu4_depth_cq1_dmac_norm(void);
+<b><a name="line396">396    </a></b>	U16 dal_db_get_cpu4_depth_cq2_dmac_urgent(void);
+<b><a name="line397">397    </a></b>	U16 dal_db_get_cpu4_depth_cq3_log_msg(void);
+<b><a name="line398">398    </a></b>	U16 dal_db_get_cpu4_depth_cq4_cpu_sq(void);
+<b><a name="line399">399    </a></b>	U16 dal_db_get_cpu4_depth_cq5_cpu_cq(void);
+<b><a name="line400">400    </a></b>	
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	// dal api get cpu0 ~ cpu2 doorbell queue space size
+<b><a name="line403">403    </a></b>	U32 dal_db_get_cpu0_size_sq0_dmac_high(void);
+<b><a name="line404">404    </a></b>	U32 dal_db_get_cpu0_size_sq1_dmac_norm(void);
+<b><a name="line405">405    </a></b>	U32 dal_db_get_cpu0_size_sq2_dmac_urgent(void);
+<b><a name="line406">406    </a></b>	U32 dal_db_get_cpu0_size_sq3_bmu_noblk(void);
+<b><a name="line407">407    </a></b>	U32 dal_db_get_cpu0_size_sq4_bmu_blk(void);
+<b><a name="line408">408    </a></b>	U32 dal_db_get_cpu0_size_sq5_apu_inset_hcmd(void);
+<b><a name="line409">409    </a></b>	U32 dal_db_get_cpu0_size_sq6_apu_compl(void);
+<b><a name="line410">410    </a></b>	U32 dal_db_get_cpu0_size_sq7_apu_byte_cmd(void);
+</pre></body>
+</html>

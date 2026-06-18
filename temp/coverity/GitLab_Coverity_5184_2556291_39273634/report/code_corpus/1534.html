@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_common.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line124">124    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line125">125    </a></b>	                BC_APP_ASSERT( BCODE_ERROR_CLEAR_AER_CTAG_TIMEOUT, 0 );
+<b><a name="line126">126    </a></b>	                return;
+<b><a name="line127">127    </a></b>	            }
+<b><a name="line128">128    </a></b>	        }
+<b><a name="line129">129    </a></b>	    }
+<b><a name="line130">130    </a></b>	    else {
+<b><a name="line131">131    </a></b>	        Dump_NVME(tprintf("Send Completion Normal.\n\r"));
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	        nvme_send_cpl(host);
+<b><a name="line134">134    </a></b>	    }
+<b><a name="line135">135    </a></b>	
+<b><a name="line136">136    </a></b>	    // unlock CMGR for sync cmd
+<b><a name="line137">137    </a></b>	    nvme_clr_cmgr_hw_lock();
+<b><a name="line138">138    </a></b>	}
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	void nvme_htd_handle(HOST_API_STRUCT_PTR host, U8 dir)
+<b><a name="line141">141    </a></b>	{
+<b><a name="line142">142    </a></b>	    HAL_FW_APU_TD htd;
+<b><a name="line143">143    </a></b>	    U16 ctag ;
+<b><a name="line144">144    </a></b>	    htd.ctag = 0; //cpp check
+<b><a name="line145">145    </a></b>	    Dump_NVME(tprintf("htd handle\n\r"));
+<b><a name="line146">146    </a></b>	
+<b><a name="line147">147    </a></b>	    if (dir == NUD_DMA_WRITE) {
+<b><a name="line148">148    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_api_get_empty(HOST_MR_QID_CPU0_CQ_NVME_HTD_WRITE) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_EMPTY_TIMEOUT, MABIAO_DB_WAIT_CQ);
+<b><a name="line149">149    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_pop(&htd, sizeof(HAL_FW_APU_TD), HOST_MR_QID_CPU0_CQ_NVME_HTD_WRITE) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_POP_TIMEOUT, MABIAO_DB_WAIT_CQ);
+<b><a name="line150">150    </a></b>	    }
+<b><a name="line151">151    </a></b>	    else {
+<b><a name="line152">152    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_api_get_empty(HOST_MR_QID_CPU0_CQ_NVME_HTD_READ) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_EMPTY_TIMEOUT, MABIAO_DB_WAIT_CQ);
+<b><a name="line153">153    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_pop(&htd, sizeof(HAL_FW_APU_TD), HOST_MR_QID_CPU0_CQ_NVME_HTD_READ) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_POP_TIMEOUT, MABIAO_DB_WAIT_CQ);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-12383856" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line154">154    </a></b>	    }
+<b><a name="line155">155    </a></b>	    Dump_NVME(tprintf("htd"));
+<b><a name="line156">156    </a></b>	    Dump_NVME(tprintf("%x %x %x %x",htd.all[0],htd.all[1],htd.all[2],htd.all[3]));
+<b><a name="line157">157    </a></b>	    Dump_NVME(tprintf("%x %x %x %x",htd.all[4],htd.all[5],htd.all[6],htd.all[7]));
+<b><a name="line158">158    </a></b>	    ctag = htd.ctag;/* parasoft-suppress BD-PB-NOTINIT */
+<b><a name="line159">159    </a></b>	    Dump_NVME(tprintf("htd ctag:%x ",htd.ctag));
+<b><a name="line160">160    </a></b>	    if (dal_cmgr_get_ct_vld(ctag) == FALSE) {
+<b><a name="line161">161    </a></b>	        Dump_NVME(tprintf("ct vld abnormal"));
+<b><a name="line162">162    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_NVME_HTD_HANDLE_INVALID_FLAG, 0);
+<b><a name="line163">163    </a></b>	        return;
+<b><a name="line164">164    </a></b>	    }
+<b><a name="line165">165    </a></b>	
+<b><a name="line166">166    </a></b>	    if (htd.err) {
+<b><a name="line167">167    </a></b>	        Dump_NVME(tprintf("td err"));
+<b><a name="line168">168    </a></b>	        nvme_err_handle(host);
+<b><a name="line169">169    </a></b>	    }
+<b><a name="line170">170    </a></b>	}
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	void nvme_err_handle(HOST_API_STRUCT_PTR host)
+<b><a name="line173">173    </a></b>	{
+<b><a name="line174">174    </a></b>	
+<b><a name="line175">175    </a></b>	    HAL_HCMD_STRUCT_PTR     hcmd = &host->hcmd;
+<b><a name="line176">176    </a></b>	    U16                     ctag = hcmd->payload.info.nonuser.ctag;
+<b><a name="line177">177    </a></b>	    U32                     nsid = hcmd->payload.info.nonuser.nsid;
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	
+<b><a name="line180">180    </a></b>	    Dump_NVME(tprintf(">> Err Handle\n\r"));
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	    if (dal_cmgr_get_ct_vld(ctag) == FALSE) {
+<b><a name="line183">183    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_NVME_ERR_HANDLE_INVALID_FLAG, 0);
+<b><a name="line184">184    </a></b>	        return;
+</pre></body>
+</html>

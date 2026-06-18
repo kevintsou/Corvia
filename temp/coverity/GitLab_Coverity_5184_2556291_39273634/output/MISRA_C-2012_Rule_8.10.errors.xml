@@ -1,0 +1,36 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.10</checker>
+<type>MISRA_C_2012_Rule_8.10</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_cpu.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_10_violation</tag>
+<description>{CovLStrv2{{t{The inline function {0} is not declared with a static scope.}{{code{CPUEnterStandbyMode(void)}}}}}}</description>
+<line>115</line>
+<column>20</column>
+</event>
+<extra>CPUEnterStandbyMode</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.10</checker>
+<type>MISRA_C_2012_Rule_8.10</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/build/sal_build_cpu.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_10_violation</tag>
+<description>{CovLStrv2{{t{The inline function {0} is not declared with a static scope.}{{code{idlePCInline(U32)}}}}}}</description>
+<line>105</line>
+<column>20</column>
+</event>
+<extra>idlePCInline</extra>
+<subcategory>none</subcategory>
+</error>

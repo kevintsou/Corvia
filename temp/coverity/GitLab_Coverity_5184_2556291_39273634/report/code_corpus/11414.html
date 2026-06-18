@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/uart.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line25">25    </a></b>	{
+<b><a name="line26">26    </a></b>	    volatile U8 data;
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    VUC_DISPATCH_PTR vuc_dispatcher = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><a name="line29">29    </a></b>	
+<b><a name="line30">30    </a></b>	    /* Wait until Rx FIFO is not empty. */
+<b><a name="line31">31    </a></b>	    do {
+<b><a name="line32">32    </a></b>	        (void)hal_sub_uart_get((U8 *)&data);
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	        if (VUC_HANDLER_UART_MODE == vuc_dispatcher->mode) {
+<b><a name="line35">35    </a></b>	            if ((VUC_HANDLER_WAIT == vuc_dispatcher->state)) {
+<b><a name="line36">36    </a></b>	                vuc_uart_rcv_sq(vuc_dispatcher, data);
+<b><a name="line37">37    </a></b>	            }
+<b><a name="line38">38    </a></b>	            else if (VUC_HANDLER_RCV_SQ == vuc_dispatcher->state) {
+<b><a name="line39">39    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_RCV_SQ_ABNORMAL, 0);
+<b><a name="line40">40    </a></b>	            }
+<b><a name="line41">41    </a></b>	            else if (VUC_HANDLER_RCV_DATA == vuc_dispatcher->state) {
+<b><a name="line42">42    </a></b>	                if (XMOD_RCV_WAIT == vuc_dispatcher->xmod.rcv_state) {
+<b><a name="line43">43    </a></b>	                    xmodem_rcv_to_state((&(vuc_dispatcher->xmod)), XMOD_RCV_1ST_TOK);
+<b><a name="line44">44    </a></b>	                }
+<b><a name="line45">45    </a></b>	                xmodem_rcv_handler((&(vuc_dispatcher->xmod)), data);
+<b><a name="line46">46    </a></b>	            }
+<b><a name="line47">47    </a></b>	            else if (VUC_HANDLER_CMD_DISPATCH == vuc_dispatcher->state) {
+<b><a name="line48">48    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_CMD_DISPATCH_ABNORMAL, 0);
+<b><a name="line49">49    </a></b>	            }
+<b><a name="line50">50    </a></b>	            else if (VUC_HANDLER_SEND_DATA == vuc_dispatcher->state) {
+<b><a name="line51">51    </a></b>	                xmodem_send_handler((&(vuc_dispatcher->xmod)), data);
+<b><a name="line52">52    </a></b>	            }
+<b><a name="line53">53    </a></b>	            else if (VUC_HANDLER_SEND_CQ == vuc_dispatcher->state) {
+<b><a name="line54">54    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_HANDLER_SEND_CQ_ABNORMAL, 0);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_15_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The body of the "else" branch of the "if" statement is not a compound statement.</font>
+<b><a name="line55">55    </a></b>	            }
+<b><a name="line56">56    </a></b>	            else {
+<b><a name="line57">57    </a></b>	                BC_APP_ASSERT(BCODE_ERROR_VUC_UART_INTERRUPT_UNKNOWN_STATE, 0);
+<b><a name="line58">58    </a></b>	            }
+<b><a name="line59">59    </a></b>	        }
+<b><a name="line60">60    </a></b>	    } while (bootcode_hal_uart_api_get_rx_fifo_empty() == FALSE);
+<b><a name="line61">61    </a></b>	}
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	/*
+<b><a name="line64">64    </a></b>	 * public
+<b><a name="line65">65    </a></b>	 *
+<b><a name="line66">66    </a></b>	 */
+<b><a name="line67">67    </a></b>	void uart_isr(void)
+<b><a name="line68">68    </a></b>	{
+<b><a name="line69">69    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line70">70    </a></b>	    host->_uart_cmd_in = TRUE;
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    if ((bootcode_hal_uart_api_get_rx_over_flow_err_en() && bootcode_hal_uart_api_get_rx_over_flow_err_sts())) {
+<b><a name="line73">73    </a></b>	        bootcode_hal_uart_api_w_rx_over_flow_err_sts(((U8)1));
+<b><a name="line74">74    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line75">75    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_OVFLW_ERR_INTERRUPT, 0);
+<b><a name="line76">76    </a></b>	    }
+<b><a name="line77">77    </a></b>	    else if (bootcode_hal_uart_api_get_rx_parity_err_en() && bootcode_hal_uart_api_get_rx_parity_err_sts()) {
+<b><a name="line78">78    </a></b>	        bootcode_hal_uart_api_w_rx_parity_err_sts(((U8)1));
+<b><a name="line79">79    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line80">80    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_PARITY_ERR_INTERRUPT, 0);
+<b><a name="line81">81    </a></b>	    }
+<b><a name="line82">82    </a></b>	    else if (bootcode_hal_uart_api_get_rx_frame_err_en() && bootcode_hal_uart_api_get_rx_frame_err_sts()) {
+<b><a name="line83">83    </a></b>	        bootcode_hal_uart_api_w_rx_frame_err_sts(((U8)1));
+<b><a name="line84">84    </a></b>	        bootcode_hal_uart_api_w_rx_fifo_not_empty_sts(((U8)1));
+<b><a name="line85">85    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UART_FRAME_ERR_INTERRUPT, 0);
+</pre></body>
+</html>

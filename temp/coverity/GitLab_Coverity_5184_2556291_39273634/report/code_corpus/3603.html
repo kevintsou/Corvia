@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line229">229    </a></b>	            }
+<b><a name="line230">230    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_RCV_SQ);
+<b><a name="line231">231    </a></b>	        }
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	        if (VUC_HANDLER_RCV_SQ == vuc_dispatch->state) {
+<b><a name="line234">234    </a></b>	            vuc_cq_reset();
+<b><a name="line235">235    </a></b>	            vuc_sq_parsing(vuc_dispatch);
+<b><a name="line236">236    </a></b>	
+<b><a name="line237">237    </a></b>	            mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line238">238    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line239">239    </a></b>	        }
+<b><a name="line240">240    </a></b>	        else if (VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state) {
+<b><a name="line241">241    </a></b>	            vendor_cmd_dispatch((VUC_SQ_STRUCT_PTR)(&(vuc_dispatch->sq_cmd)), (VUC_CQ_STRUCT_PTR)(&(vuc_dispatch->cq_cmd)), (U8 *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, HOST_SERVICE_NVME_TYPE);
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	            mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_SEND_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line244">244    </a></b>	            vuc_dispatch_to_state(VUC_HANDLER_SEND_CQ);
+<b><a name="line245">245    </a></b>	        }
+<b><a name="line246">246    </a></b>	        else if (VUC_HANDLER_SEND_CQ == vuc_dispatch->state) {
+<b><a name="line247">247    </a></b>	            if (vuc_dispatch->cq_send_flag) {
+<b><a name="line248">248    </a></b>	                memcpy((void *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, (void *)(&(vuc_dispatch->cq_cmd)), VUC_CQ_CMD_LEN);
+<b><a name="line249">249    </a></b>	                vuc_dispatch_reset(vuc_dispatch);
+<b><a name="line250">250    </a></b>	            }
+<b><a name="line251">251    </a></b>	            else {
+<b><a name="line252">252    </a></b>	                memcpy((void *)(&(vuc_dispatch->sq_cmd)), (void *)DBUF_API_BOOTCODE_HOST_BUFFER_BASE, VUC_SQ_CMD_LEN);
+<b><a name="line253">253    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_SQ_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><a name="line254">254    </a></b>	
+<b><a name="line255">255    </a></b>	                vuc_cq_reset();
+<b><a name="line256">256    </a></b>	                vuc_sq_parsing(vuc_dispatch);
+<b><a name="line257">257    </a></b>	
+<b><a name="line258">258    </a></b>	                mabiao_set2(MABIAO_MS, VUC_CMD_PACKET_RCV_DATA_TIMEOUT_S*1000, sal_locate(MABIAO_VUC, TYPE_STEP), &(vuc_dispatch->cmd_timer));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-1604186080" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line259">259    </a></b>	                vuc_dispatch_to_state(VUC_HANDLER_CMD_DISPATCH);
+<b><a name="line260">260    </a></b>	            }
+<b><a name="line261">261    </a></b>	        }
+<b><a name="line262">262    </a></b>	        else {
+<b><a name="line263">263    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_VUC_PACKET_HANDLER_UNKNOWN_STATE, 0);
+<b><a name="line264">264    </a></b>	        }
+<b><a name="line265">265    </a></b>	    }
+<b><a name="line266">266    </a></b>	}
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	static void vuc_check_burner_byXmodem(VUC_DISPATCH_PTR vuc_dispatch)
+<b><a name="line269">269    </a></b>	{
+<b><a name="line270">270    </a></b>	    // If xmodem_sideband_enable = TRUE -> It means device use xmodem receive Burner.
+<b><a name="line271">271    </a></b>	    // -> Init xmodem receiving flow.
+<b><a name="line272">272    </a></b>	    // When receiving Burner done, check Burner file is valid or not.
+<b><a name="line273">273    </a></b>	    // Then execute ISP Jump.
+<b><a name="line274">274    </a></b>	    U32 check_error = 0;
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    if (gBCodeGlobalStruct.parameter_config.xmodem_sideband_enable) {
+<b><a name="line277">277    </a></b>	        //Receive Burner file end or not
+<b><a name="line278">278    </a></b>	        if (XMOD_RCV_VALID_STATE == vuc_dispatch->xmod.rcv_state) {
+<b><a name="line279">279    </a></b>	            //Check Burner Valid or not
+<b><a name="line280">280    </a></b>	            check_error = check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)DBUF_API_BOOTCODE_DATA_BUFFER_BASE, PROJECT_BINARY_SOURCE_HOST);
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	            if (0 == check_error) {
+<b><a name="line283">283    </a></b>	                Dump_Vendor(tprintf("\nCheck Burner PASS~"));
+<b><a name="line284">284    </a></b>	                //Disable interrupt
+<b><a name="line285">285    </a></b>	                DISABLE_ALL_IRQ();
+<b><a name="line286">286    </a></b>	                hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line287">287    </a></b>	                hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	                //Jump PRAM
+</pre></body>
+</html>

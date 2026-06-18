@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/pcie/host_pcie.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2020, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  host_pcie.h                                                           */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef HOST_PCIE_H
+<b><a name="line19">19    </a></b>	#define HOST_PCIE_H
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "sal_libs.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define PCIE_NORMAL_LINK                    (0)     // default, single port and Gen1, usually for burner
+<b><a name="line24">24    </a></b>	#define PCIE_FAST_LINK                      (1)     // optional, for fast link in Boot Code but work in FW
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	// PCIe Port Mode = max port number can be enabled
+<b><a name="line27">27    </a></b>	#define PCIE_PORT_MODE_DONT_CARE            (0U)
+<b><a name="line28">28    </a></b>	#define PCIE_PORT_MODE_SINGLE               (1U)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "PCIE_PORT_MODE_SINGLE", which is has already been used.</font>
+<b><a name="line29">29    </a></b>	#define PCIE_PORT_MODE_DUAL                 (2U)
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	// PCIe clock mode
+<b><a name="line32">32    </a></b>	#define PCIE_CLK_MODE_DEFAULT               (0U)
+<b><a name="line33">33    </a></b>	#define PCIE_CLK_MODE_REF                   (1U)
+<b><a name="line34">34    </a></b>	#define PCIE_CLK_MODE_XTAL                  (2U)
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	// XTAL clock mode ssc off
+<b><a name="line37">37    </a></b>	#define PCIE_XTAL_MODE_SSC_OFF_DONT_CARE    (0U)
+<b><a name="line38">38    </a></b>	#define PCIE_XTAL_MODE_SSC_OFF_DIS          (0U)    // PCIE_PX_SSC_OFF_FW = 0U, SSC is ON for SRIS mode.
+<b><a name="line39">39    </a></b>	#define PCIE_XTAL_MODE_SSC_OFF_EN           (1U)    // PCIE_PX_SSC_OFF_FW = 1U, SSC is OFF for SRNS mode.
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	// PCIe Port Offset
+<b><a name="line42">42    </a></b>	#define PCIE_PORT_OFST_1                    (1U)
+<b><a name="line43">43    </a></b>	
+<b><a name="line44">44    </a></b>	#define PCIE_MISC_PL_LTSSM_CFG_IDLE         (0x0AU)
+<b><a name="line45">45    </a></b>	#define PCIE_MISC_PL_LTSSM_L2_IDLE          (0x14U)
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	// PCIe BIST completion code
+<b><a name="line48">48    </a></b>	#define PCIE_BIST_CPL_PASS                  (0U)
+<b><a name="line49">49    </a></b>	#define PCIE_BIST_CPL_FAIL                  (1U)
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	/*
+<b><a name="line52">52    </a></b>	 *  public prototypes
+<b><a name="line53">53    </a></b>	 */
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	void hal_pcie_int_init(void);
+<b><a name="line56">56    </a></b>	U8   hal_pcie_get_port_ofst(U8 port_cnt, U8 pid);
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	
+</pre></body>
+</html>

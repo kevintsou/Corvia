@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2554">2554    </a></b>	
+<b><a name="line2555">2555    </a></b>	        p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ACTIVE_SLOT_LOAD_START;
+<b><a name="line2556">2556    </a></b>	
+<b><a name="line2557">2557    </a></b>	        p_code_pointer_block_status->firmware_priority_used = FW_SLOT_COUNT;
+<b><a name="line2558">2558    </a></b>	        p_fw_slot_status = p_code_pointer_block_status->a_slot_status + FW_SLOT_COUNT;
+<b><a name="line2559">2559    </a></b>	
+<b><a name="line2560">2560    </a></b>	        error_firmware = use_fw_slot(&(p_id_table->active_fw_slot_info), p_fw_slot_status, project_binary_address, p_load_code_status, a_flash_error_channel_bitmap);
+<b><a name="line2561">2561    </a></b>	
+<b><a name="line2562">2562    </a></b>	        p_code_pointer_block_status->error.firmware_all |= error_firmware;
+<b><a name="line2563">2563    </a></b>	
+<b><a name="line2564">2564    </a></b>	        p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ACTIVE_SLOT_LOAD_END;
+<b><a name="line2565">2565    </a></b>	
+<b><a name="line2566">2566    </a></b>	        if (FW_SLOT_STATE_USABLE == p_fw_slot_status->state) {
+<b><a name="line2567">2567    </a></b>	            return 0;
+<b><a name="line2568">2568    </a></b>	        }
+<b><a name="line2569">2569    </a></b>	        else {
+<b><a name="line2570">2570    </a></b>	            p_code_pointer_block_status->firmware_priority_used = FIRMWARE_PRIORITY_INVALID;
+<b><a name="line2571">2571    </a></b>	            return 1;
+<b><a name="line2572">2572    </a></b>	        }
+<b><a name="line2573">2573    </a></b>	    }
+<b><a name="line2574">2574    </a></b>	
+<b><a name="line2575">2575    </a></b>	    return 1;
+<b><a name="line2576">2576    </a></b>	}
+<b><a name="line2577">2577    </a></b>	
+<b><a name="line2578">2578    </a></b>	U8 determine_usable_code_pointer_block(LOAD_CODE_STATUS *p_load_code_status)
+<b><a name="line2579">2579    </a></b>	{
+<b><a name="line2580">2580    </a></b>	    U8 code_pointer_block_copy_count, usable_code_pointer_block_set;
+<b><a name="line2581">2581    </a></b>	    U8 code_pointer_block_set;
+<b><a name="line2582">2582    </a></b>	
+<b><a name="line2583">2583    </a></b>	    sal_log_tracker_set(sal_locate(0x22, TYPE_RSV7));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line2584">2584    </a></b>	    sal_log_info_char('D'); //Determine usable Code Pointer Block
+<b><a name="line2585">2585    </a></b>	
+<b><a name="line2586">2586    </a></b>	    code_pointer_block_copy_count = 0;
+<b><a name="line2587">2587    </a></b>	    usable_code_pointer_block_set = CODE_POINTER_BLOCK_SET_COUNT_MAX;
+<b><a name="line2588">2588    </a></b>	
+<b><a name="line2589">2589    </a></b>	    for (code_pointer_block_set = 0; code_pointer_block_set < CODE_POINTER_BLOCK_SET_COUNT_MAX; code_pointer_block_set++) {
+<b><a name="line2590">2590    </a></b>	        //Use criteria in order of priority:
+<b><a name="line2591">2591    </a></b>	        //1. Set must not already been used and determined to be unusable
+<b><a name="line2592">2592    </a></b>	        //2. The largest number of Code Pointer Block copies
+<b><a name="line2593">2593    </a></b>	        //3. The first Code Pointer Block Set found
+<b><a name="line2594">2594    </a></b>	        //This does not care about revision number
+<b><a name="line2595">2595    </a></b>	        if (CODE_POINTER_BLOCK_STATE_ID_TABLE_EXISTS ==
+<b><a name="line2596">2596    </a></b>	            (p_load_code_status->a_code_pointer_block_status[code_pointer_block_set].state & (CODE_POINTER_BLOCK_STATE_ID_TABLE_EXISTS | CODE_POINTER_BLOCK_STATE_UNUSABLE))) {
+<b><a name="line2597">2597    </a></b>	            if (code_pointer_block_copy_count < p_load_code_status->a_code_pointer_block_status[code_pointer_block_set].code_pointer_block_copy_count) {
+<b><a name="line2598">2598    </a></b>	                p_load_code_status->code_pointer_block_set_in_use = code_pointer_block_set;
+<b><a name="line2599">2599    </a></b>	
+<b><a name="line2600">2600    </a></b>	                code_pointer_block_copy_count = p_load_code_status->a_code_pointer_block_status[code_pointer_block_set].code_pointer_block_copy_count;
+<b><a name="line2601">2601    </a></b>	                usable_code_pointer_block_set = code_pointer_block_set;
+<b><a name="line2602">2602    </a></b>	            }
+<b><a name="line2603">2603    </a></b>	        }
+<b><a name="line2604">2604    </a></b>	    }
+<b><a name="line2605">2605    </a></b>	
+<b><a name="line2606">2606    </a></b>	    Dump_LoadCode(tprintf("Determined usable Code Pointer Block Set is %d with %d copies", usable_code_pointer_block_set, code_pointer_block_copy_count));
+<b><a name="line2607">2607    </a></b>	
+<b><a name="line2608">2608    </a></b>	    sal_log_info_num(usable_code_pointer_block_set); //Part of 'D', Code Pointer Block set used
+<b><a name="line2609">2609    </a></b>	    sal_log_info_num(code_pointer_block_copy_count); //Part of 'D', Number of copies of Code Pointer Block in Code Pointer Block Set
+<b><a name="line2610">2610    </a></b>	
+<b><a name="line2611">2611    </a></b>	    return usable_code_pointer_block_set;
+<b><a name="line2612">2612    </a></b>	}
+<b><a name="line2613">2613    </a></b>	
+<b><a name="line2614">2614    </a></b>	U8 record_code_pointer_block(LOAD_CODE_STATUS *p_load_code_status, U64 id_table_fsa, U8 revision)
+</pre></body>
+</html>

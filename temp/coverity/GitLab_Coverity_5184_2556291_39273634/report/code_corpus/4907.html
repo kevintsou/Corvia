@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line161">161    </a></b>	{
+<b><a name="line162">162    </a></b>	    SEC_HMAC_PARAMS_T sec_hmac_sha_param;
+<b><a name="line163">163    </a></b>	    (void)memset((void *)drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr, 0x00, DRBG_HMAC_INPUT_BUF_LEN);
+<b><a name="line164">164    </a></b>	    drbg_api_struct_ptr->drbg_material.hmac_input_len = 0U;
+<b><a name="line165">165    </a></b>	    // HMAC input
+<b><a name="line166">166    </a></b>	    if (provided_data != NULL) {
+<b><a name="line167">167    </a></b>	        (void)memcpy((void *)(U8 *)drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr, (void *)drbg_api_struct_ptr->drbg_state.value, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line168">168    </a></b>	        drbg_api_struct_ptr->drbg_material.hmac_input_len += (U32)drbg_api_struct_ptr->drbg_info.output_block_len;
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	        drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr[drbg_api_struct_ptr->drbg_material.hmac_input_len] = append_val;
+<b><a name="line171">171    </a></b>	        drbg_api_struct_ptr->drbg_material.hmac_input_len += 1U;
+<b><a name="line172">172    </a></b>	
+<b><a name="line173">173    </a></b>	        (void)memcpy((void *)(U8 *)&drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr[drbg_api_struct_ptr->drbg_material.hmac_input_len], (void *)provided_data, provided_data_len);
+<b><a name="line174">174    </a></b>	        drbg_api_struct_ptr->drbg_material.hmac_input_len += provided_data_len;
+<b><a name="line175">175    </a></b>	    }
+<b><a name="line176">176    </a></b>	    else {
+<b><a name="line177">177    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr, (void *)drbg_api_struct_ptr->drbg_state.value, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line178">178    </a></b>	        drbg_api_struct_ptr->drbg_material.hmac_input_len += drbg_api_struct_ptr->drbg_info.output_block_len;
+<b><a name="line179">179    </a></b>	    }
+<b><a name="line180">180    </a></b>	    // HMAC key
+<b><a name="line181">181    </a></b>	    (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.hmac_key_buf_ptr, (void *)drbg_api_struct_ptr->drbg_state.key, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line182">182    </a></b>	
+<b><a name="line183">183    </a></b>	    memset((void *)&sec_hmac_sha_param, 0, sizeof(SEC_HMAC_PARAMS_T));
+<b><a name="line184">184    </a></b>	    sec_hmac_sha_param.key_addr.low         = (U32)drbg_api_struct_ptr->drbg_material.hmac_key_buf_ptr;
+<b><a name="line185">185    </a></b>	    sec_hmac_sha_param.key_len              = (U32)drbg_api_struct_ptr->drbg_info.output_block_len;
+<b><a name="line186">186    </a></b>	    sec_hmac_sha_param.sha.src_addr.low     = (U32)drbg_api_struct_ptr->drbg_material.hmac_input_buf_ptr;
+<b><a name="line187">187    </a></b>	    sec_hmac_sha_param.sha.src_len          = drbg_api_struct_ptr->drbg_material.hmac_input_len;
+<b><a name="line188">188    </a></b>	    sec_hmac_sha_param.sha.targ_addr.low    = (U32)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr;
+<b><a name="line189">189    </a></b>	    sec_hmac_sha_param.sha.sha_mode         = HAL_SEC_SHA2_512_MODE;
+<b><a name="line190">190    </a></b>	    sec_hmac_sha_param.sha.r1_enable        = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line191">191    </a></b>	    sec_hmac_sha_param.sha.output_r1_enable = FALSE;
+<b><a name="line192">192    </a></b>	    phal_sec_hmac_sha_blocking(&sec_hmac_sha_param);
+<b><a name="line193">193    </a></b>	}
+<b><a name="line194">194    </a></b>	
+<b><a name="line195">195    </a></b>	/*!
+<b><a name="line196">196    </a></b>	 @brief DRBG update state
+<b><a name="line197">197    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line198">198    </a></b>	 @param[in] provided_data        provided data (byte)
+<b><a name="line199">199    </a></b>	 @param[in] provided_data_len    provided data length (byte)
+<b><a name="line200">200    </a></b>	 @return NONE
+<b><a name="line201">201    </a></b>	 @note
+<b><a name="line202">202    </a></b>	 - NONE
+<b><a name="line203">203    </a></b>	 */
+<b><a name="line204">204    </a></b>	void drbg_update(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U8 *provided_data, U32 provided_data_len)
+<b><a name="line205">205    </a></b>	{
+<b><a name="line206">206    </a></b>	    //1.  K = HMAC (K, V || 0x00 || provided_data).
+<b><a name="line207">207    </a></b>	    drbg_update_hmac(drbg_api_struct_ptr, provided_data, provided_data_len, 0x00U);
+<b><a name="line208">208    </a></b>	    (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.key, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    //2.  V = HMAC (K, V).
+<b><a name="line211">211    </a></b>	    drbg_update_hmac(drbg_api_struct_ptr, NULL, 0U, 0U);
+<b><a name="line212">212    </a></b>	    (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.value, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    //3.  If (provided_data = Null), then return K and V.
+<b><a name="line215">215    </a></b>	    if (provided_data_len > 0U) {
+<b><a name="line216">216    </a></b>	        //4.  K = HMAC (K, V || 0x01 || provided_data).
+<b><a name="line217">217    </a></b>	        drbg_update_hmac(drbg_api_struct_ptr, provided_data, provided_data_len, 0x01U);
+<b><a name="line218">218    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_state.key, (void *)drbg_api_struct_ptr->drbg_material.hmac_out_buf_ptr, drbg_api_struct_ptr->drbg_info.output_block_len);
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	        //5.  V = HMAC (K, V).
+<b><a name="line221">221    </a></b>	        drbg_update_hmac(drbg_api_struct_ptr, NULL, 0U, 0U);
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2825">2825    </a></b>	        if(((plane < p_load_code_status->boot_code_scan_skip_plane_index) && (block == p_load_code_status->boot_code_scan_skip_block_index)) || (block < p_load_code_status->boot_code_scan_skip_block_index))
+<b><a name="line2826">2826    </a></b>	        {
+<b><a name="line2827">2827    </a></b>	            continue;
+<b><a name="line2828">2828    </a></b>	        }
+<b><a name="line2829">2829    </a></b>	
+<b><a name="line2830">2830    </a></b>	        Dump_ScanID(tprintf("NAND Retry %d Block %x Plane %x Page %x == FSA Row %L", (U16)nand_retry, block, plane, id_page_offset, fsa_row));
+<b><a name="line2831">2831    </a></b>	
+<b><a name="line2832">2832    </a></b>	        reading_channel_bitmap = 0;
+<b><a name="line2833">2833    </a></b>	
+<b><a name="line2834">2834    </a></b>	        //Start the Read Trigger
+<b><a name="line2835">2835    </a></b>	        for (channel = 0; channel < FLH_MAX_CH_NUM; channel++) {
+<b><a name="line2836">2836    </a></b>	            //Skip channels that are not being scanned
+<b><a name="line2837">2837    </a></b>	            if (0U == (scanning_channel_bitmap & (1U << channel))) {
+<b><a name="line2838">2838    </a></b>	                continue;
+<b><a name="line2839">2839    </a></b>	            }
+<b><a name="line2840">2840    </a></b>	
+<b><a name="line2841">2841    </a></b>	            a_fsa[channel] =
+<b><a name="line2842">2842    </a></b>	                fsa_row |
+<b><a name="line2843">2843    </a></b>	                ((U64)(channel) << gFplApiStruct.addr_rule->rule_ch.shift);
+<b><a name="line2844">2844    </a></b>	
+<b><a name="line2845">2845    </a></b>	            //Data and Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line2846">2846    </a></b>	            data_address = data_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_BYTE_SIZE_SHIFT));
+<b><a name="line2847">2847    </a></b>	            spare_address = spare_buffer + (channel * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT));
+<b><a name="line2848">2848    </a></b>	
+<b><a name="line2849">2849    </a></b>	            Dump_ScanID(tprintf("Read Trigger Channel %d, FSA %L, block %d, plane %d, page %d", channel, a_fsa[channel], (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((a_fsa[channel] >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line2850">2850    </a></b>	
+<b><a name="line2851">2851    </a></b>	            a_fip_read_param[channel].nand_addr.all = a_fsa[channel];
+<b><a name="line2852">2852    </a></b>	            for (backup = 0; backup < backup_max; backup++) {
+<b><a name="line2853">2853    </a></b>	                a_fip_read_param[channel].buf_addr[backup] = data_address + (backup << LC_BYTE_SIZE_SHIFT);
+<b><a name="line2854">2854    </a></b>	                a_fip_read_param[channel].spr_addr[backup] = spare_address + (backup << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand "1 ? 6 : 4" to the shift operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line2855">2855    </a></b>	            }
+<b><a name="line2856">2856    </a></b>	            a_fip_read_param[channel].node_count = 1;
+<b><a name="line2857">2857    </a></b>	
+<b><a name="line2858">2858    </a></b>	#if NAND_RETRY_DEBUG
+<b><a name="line2859">2859    </a></b>	            if (gFplApiStruct.trigger_error == TRUE) {
+<b><a name="line2860">2860    </a></b>	                nand_retry = 1U;
+<b><a name="line2861">2861    </a></b>	            }
+<b><a name="line2862">2862    </a></b>	#endif
+<b><a name="line2863">2863    </a></b>	            command_status = fip_api_read_cmd(&a_fip_read_param[channel], ((gLRURetryLevel + nand_retry) % nand_retry_max));
+<b><a name="line2864">2864    </a></b>	#if NAND_RETRY_DEBUG
+<b><a name="line2865">2865    </a></b>	            if (gFplApiStruct.trigger_error == TRUE) {
+<b><a name="line2866">2866    </a></b>	                nand_retry = 0U;
+<b><a name="line2867">2867    </a></b>	                gFplApiStruct.trigger_error = FALSE;
+<b><a name="line2868">2868    </a></b>	            }
+<b><a name="line2869">2869    </a></b>	#endif
+<b><a name="line2870">2870    </a></b>	
+<b><a name="line2871">2871    </a></b>	            if (0 == command_status) {
+<b><a name="line2872">2872    </a></b>	                //Mark this channel as being read
+<b><a name="line2873">2873    </a></b>	                reading_channel_bitmap |= (1 << channel);
+<b><a name="line2874">2874    </a></b>	            }
+<b><a name="line2875">2875    </a></b>	            else {
+<b><a name="line2876">2876    </a></b>	
+<b><a name="line2877">2877    </a></b>	                Dump_ScanID(tprintf("!!!Channel %d (FSA %L)", channel, a_fip_read_param[channel].nand_addr.all));
+<b><a name="line2878">2878    </a></b>	                Dump_ScanID(tprintf("Read Trigger Error %x", command_status));
+<b><a name="line2879">2879    </a></b>	                sal_log_info_char('T');
+<b><a name="line2880">2880    </a></b>	                sal_log_info_num(a_fip_read_param[channel].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line2881">2881    </a></b>	                sal_log_tracker_set(sal_locate(0xE0, TYPE_LOAD_CODE_ERR));
+<b><a name="line2882">2882    </a></b>	                //TODO go through all fip_status usages
+<b><a name="line2883">2883    </a></b>	                if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><a name="line2884">2884    </a></b>	                    a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << channel);
+<b><a name="line2885">2885    </a></b>	                }
+</pre></body>
+</html>

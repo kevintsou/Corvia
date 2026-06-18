@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line451">451    </a></b>	    {
+<b><a name="line452">452    </a></b>	        //tprintf("no read count 1");
+<b><a name="line453">453    </a></b>	        return FAIL;
+<b><a name="line454">454    </a></b>	    }
+<b><a name="line455">455    </a></b>	    ul_base = hal_db_api_get_base_adr(db_id);
+<b><a name="line456">456    </a></b>	    ul_head = hal_db_api_get_rptr(db_id);
+<b><a name="line457">457    </a></b>	    if (size == 0)  //size = 0, pop 1 cmd, get data size from qinfo or header
+<b><a name="line458">458    </a></b>	    {
+<b><a name="line459">459    </a></b>	        cq_size = ((MR_HDR_STRUCT_PTR)ul_head)->len * 8U + 8U;
+<b><a name="line460">460    </a></b>	    }
+<b><a name="line461">461    </a></b>	    else
+<b><a name="line462">462    </a></b>	    {
+<b><a name="line463">463    </a></b>	        cq_size = size;
+<b><a name="line464">464    </a></b>	    }
+<b><a name="line465">465    </a></b>	
+<b><a name="line466">466    </a></b>	    /*Return FAIL if CQ is enpty (Readable count is 0)*/
+<b><a name="line467">467    </a></b>	    if (dal_db_api_get_rd_cnt(db_id) < (cq_size / 8U))
+<b><a name="line468">468    </a></b>	    {
+<b><a name="line469">469    </a></b>	        //tprintf("no read count 2");
+<b><a name="line470">470    </a></b>	        return FAIL;
+<b><a name="line471">471    </a></b>	    }
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    db_remain_size = dal_db_api_get_tail_r_rst(db_id) * HAL_DB_DATA_SIZE_8B;
+<b><a name="line474">474    </a></b>	    if (db_remain_size >= cq_size)
+<b><a name="line475">475    </a></b>	    {
+<b><a name="line476">476    </a></b>	        (void)memcpy((void *)p_data, (void *)ul_head, cq_size);
+<b><a name="line477">477    </a></b>	    }
+<b><a name="line478">478    </a></b>	    else
+<b><a name="line479">479    </a></b>	    {
+<b><a name="line480">480    </a></b>	        (void)memcpy((void *)p_data, (void *)ul_head, db_remain_size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "ul_head" of type "U32" is cast to type "void *".</font>
+<b><a name="line481">481    </a></b>	        (void)memcpy( (void *)(U32 *)((U32)(U32 *)p_data + db_remain_size), (void *)ul_base, (U32)cq_size - db_remain_size);
+<b><a name="line482">482    </a></b>	    }
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    ASM_DSB();
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    /*Update read pointer*/
+<b><a name="line487">487    </a></b>	    dal_db_api_set_rpiu(db_id, (U16)(cq_size / (U16)8U));
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    return PASS;
+<b><a name="line490">490    </a></b>	}
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	/*!
+<b><a name="line493">493    </a></b>	 @brief hal_db_push_with_header
+<b><a name="line494">494    </a></b>	 @param p_data data poniter
+<b><a name="line495">495    </a></b>	 @param size data size without header
+<b><a name="line496">496    </a></b>	 @param db_id DoorBell ID
+<b><a name="line497">497    </a></b>	 @param mr_header MR header TRUE or FALSE
+<b><a name="line498">498    </a></b>	 @param mr_tid MR target id
+<b><a name="line499">499    </a></b>	 @param mr_rsp_en MR response enable
+<b><a name="line500">500    </a></b>	 @note Push command to specified queue
+<b><a name="line501">501    </a></b>	 */
+<b><a name="line502">502    </a></b>	U8 hal_db_push_with_header(void *p_data, U8 size, U8 db_id, U8 mr_header, U8 mr_tid, U8 mr_rsp_en)
+<b><a name="line503">503    </a></b>	{
+<b><a name="line504">504    </a></b>	    U32 ul_base;
+<b><a name="line505">505    </a></b>	    U32 ul_tail;
+<b><a name="line506">506    </a></b>	    U32 i;
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	    // ul_base = hal_db_get_local_addr_from_global(0U, db_id, dal_db_api_get_base_adr(db_id));
+<b><a name="line509">509    </a></b>	    // ul_tail = hal_db_get_local_addr_from_global(0U, db_id, dal_db_api_get_wptr(db_id));
+<b><a name="line510">510    </a></b>	    // SVN 4354 [WA]
+<b><a name="line511">511    </a></b>	    ul_base = dal_db_api_get_base_adr(db_id);
+</pre></body>
+</html>

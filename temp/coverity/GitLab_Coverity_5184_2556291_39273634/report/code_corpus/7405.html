@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line247">247    </a></b>	    U8 status_code_type = VALID_STATUS_TYPE;
+<b><a name="line248">248    </a></b>	    U8 pke_status = PASS;
+<b><a name="line249">249    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line250">250    </a></b>	    Dump_Debug(tprintf("VUC Receive Encryption Data\r\n"));
+<b><a name="line251">251    </a></b>	#endif
+<b><a name="line252">252    </a></b>	    VUC_PROTECT *p_vuc_protect = &gVUCProtect;
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	    ENCRYPTION_DATA *p_encryption_data;
+<b><a name="line255">255    </a></b>	    RSA4096_PUBLIC_KEY_PTR p_vuc_protect_key_rsa4096 = (RSA4096_PUBLIC_KEY_PTR)DBUF_API_BOOTCODE_PUBLIC_KEY_BUFFER_BASE;
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    //Check the VUC Protect state machine
+<b><a name="line258">258    </a></b>	    if (VUC_PROTECT_VERIFY_STATE_HANDSHAKE_START != p_vuc_protect->protect_state) {
+<b><a name="line259">259    </a></b>	        status_code      = INVALID_STATUS_VERIFICATION_ERROR;
+<b><a name="line260">260    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line261">261    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line262">262    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line263">263    </a></b>	        Dump_Debug(tprintf("\nC5 state wrong"));
+<b><a name="line264">264    </a></b>	#endif
+<b><a name="line265">265    </a></b>	        return TRUE;
+<b><a name="line266">266    </a></b>	    }
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	    phal_dmac_sv(DBUF_API_BOOTCODE_HOST_BUFFER_BASE, 0, SECTOR_SIZE * 2U, 0, 0);
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	    //Create the random data
+<b><a name="line271">271    </a></b>	    p_encryption_data = (ENCRYPTION_DATA *)(DBUF_API_BOOTCODE_HOST_BUFFER_BASE);
+<b><a name="line272">272    </a></b>	
+<b><a name="line273">273    </a></b>	    U32 drbg_count;
+<b><a name="line274">274    </a></b>	    U32 drbg_result = 0;
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    U32 drbg_buffer = DBUF_API_BOOTCODE_DRBG_BUFFER_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "139105280UL" (unsigned) is not the same as that of the right operand "1024"(signed).</font>
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	    //Attempt 3 times
+<b><a name="line279">279    </a></b>	    for (drbg_count = 0; drbg_count < 3; drbg_count++) {
+<b><a name="line280">280    </a></b>	        drbg_result = drbg_hmac_rng(drbg_buffer, 32, DRBG_SS_256, NULL, 0, FALSE, (U8 *)p_encryption_data->a_encrypt_random);
+<b><a name="line281">281    </a></b>	        if (0 == drbg_result) {
+<b><a name="line282">282    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line283">283    </a></b>	            Dump_Debug(tprintf("DRBG completed in %d\r\n", (U16)drbg_count));
+<b><a name="line284">284    </a></b>	#endif
+<b><a name="line285">285    </a></b>	            break;
+<b><a name="line286">286    </a></b>	        }
+<b><a name="line287">287    </a></b>	    }
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    if (0 != drbg_result) {
+<b><a name="line290">290    </a></b>	        status_code      = INVALID_STATUS_INTERNAL_ERROR;
+<b><a name="line291">291    </a></b>	        status_code_type = INVALID_STATUS_TYPE;
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	        vuc_protect_fail_handle(param, status_code, status_code_type);
+<b><a name="line294">294    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line295">295    </a></b>	        Dump_Debug(tprintf("\nC5 rnd fail1"));
+<b><a name="line296">296    </a></b>	#endif
+<b><a name="line297">297    </a></b>	        return TRUE;
+<b><a name="line298">298    </a></b>	    }
+<b><a name="line299">299    </a></b>	
+<b><a name="line300">300    </a></b>	    memcpy((void *)p_vuc_protect->z, (void *)p_encryption_data->a_encrypt_random, 32);
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    (void)memset((U32 *)((U32)p_encryption_data->a_encrypt_random + 32U), 0x0, 480);
+<b><a name="line303">303    </a></b>	    (void)memset((void *)p_encryption_data->a_dummy_random, 0x00, 508);
+<b><a name="line304">304    </a></b>	
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	#if DEBUG_VUC_PROTECT
+<b><a name="line307">307    </a></b>	    Dump_Debug(tprintf("\nRandom Data:\n"));
+</pre></body>
+</html>

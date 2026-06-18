@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2204">2204    </a></b>	                        break;
+<b><a name="line2205">2205    </a></b>	                    }
+<b><a name="line2206">2206    </a></b>	
+<b><a name="line2207">2207    </a></b>	                }
+<b><a name="line2208">2208    </a></b>	                else if(BIT4 == (BIT4 & data_buf))
+<b><a name="line2209">2209    </a></b>	                {
+<b><a name="line2210">2210    </a></b>	                    if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == TRUE)
+<b><a name="line2211">2211    </a></b>	                    {
+<b><a name="line2212">2212    </a></b>	                        hal_fip_api_cer_pre_fix(ch, ce, 0U, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2213">2213    </a></b>	                    }
+<b><a name="line2214">2214    </a></b>	                    hal_fip_api_reset(ch, ce, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2215">2215    </a></b>	                }
+<b><a name="line2216">2216    </a></b>	                else // NAND ready and no error occur
+<b><a name="line2217">2217    </a></b>	                {
+<b><a name="line2218">2218    </a></b>	                    ch_bitmap &= ~BIT(ch);
+<b><a name="line2219">2219    </a></b>	                }
+<b><a name="line2220">2220    </a></b>	            }
+<b><a name="line2221">2221    </a></b>	        }
+<b><a name="line2222">2222    </a></b>	
+<b><a name="line2223">2223    </a></b>	        if(need_power_cycle)
+<b><a name="line2224">2224    </a></b>	        {
+<b><a name="line2225">2225    </a></b>	            reset_status = flh_power_reset_flow(BOOT_DIS_SSC, BOOT_DIS_FTRACK);
+<b><a name="line2226">2226    </a></b>	            mabiao_idle(MABIAO_US, 300);
+<b><a name="line2227">2227    </a></b>	
+<b><a name="line2228">2228    </a></b>	            if (reset_status == 0)
+<b><a name="line2229">2229    </a></b>	            {
+<b><a name="line2230">2230    </a></b>	                fpl_fip_sys_init(fpl_ptr);
+<b><a name="line2231">2231    </a></b>	                for (U8 ch = 0U; ch < FLH_MAX_PHYS_CH; ch ++)
+<b><a name="line2232">2232    </a></b>	                {
+<b><a name="line2233">2233    </a></b>	                    if ((BITS_GET(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) && ((status & HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT) == 0U))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "1U == 0U" is invariant.</font>
+<b><a name="line2234">2234    </a></b>	                    {
+<b><a name="line2235">2235    </a></b>	                        if (fpl_ptr->p_efuse_nand_setting->samsung_cer_mode == TRUE)
+<b><a name="line2236">2236    </a></b>	                        {
+<b><a name="line2237">2237    </a></b>	                            hal_fip_api_cer_pre_fix(ch, ce, 0U, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2238">2238    </a></b>	                        }
+<b><a name="line2239">2239    </a></b>	                        hal_fip_api_reset(ch, ce, (U32 *)&fpl_ptr->ac_timing);
+<b><a name="line2240">2240    </a></b>	                        hard_reset_issue &= (~BIT(ch));
+<b><a name="line2241">2241    </a></b>	                    }
+<b><a name="line2242">2242    </a></b>	                }
+<b><a name="line2243">2243    </a></b>	            }
+<b><a name="line2244">2244    </a></b>	            else
+<b><a name="line2245">2245    </a></b>	            {
+<b><a name="line2246">2246    </a></b>	                sal_log_info_char('P');
+<b><a name="line2247">2247    </a></b>	                sal_log_info_char('F');
+<b><a name="line2248">2248    </a></b>	                gpFwSimCtrl0Reg->no_load_code = 1; // power cycle fail, go to sib
+<b><a name="line2249">2249    </a></b>	                return status;
+<b><a name="line2250">2250    </a></b>	            }
+<b><a name="line2251">2251    </a></b>	            need_power_cycle = 0;
+<b><a name="line2252">2252    </a></b>	        }
+<b><a name="line2253">2253    </a></b>	
+<b><a name="line2254">2254    </a></b>	        if(0 == ch_bitmap) // all channel por retry done
+<b><a name="line2255">2255    </a></b>	        {
+<b><a name="line2256">2256    </a></b>	            break_retry = 1;
+<b><a name="line2257">2257    </a></b>	        }
+<b><a name="line2258">2258    </a></b>	    }
+<b><a name="line2259">2259    </a></b>	    return status;
+<b><a name="line2260">2260    </a></b>	}
+<b><a name="line2261">2261    </a></b>	
+<b><a name="line2262">2262    </a></b>	U32 fpl_fip_init(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr, ADDR_RULE_STRUCT_PTR addr_rule, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line2263">2263    </a></b>	{
+<b><a name="line2264">2264    </a></b>	    U32 loop;
+</pre></body>
+</html>

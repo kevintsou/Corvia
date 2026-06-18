@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/apu/hal_apu_cmd_proc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#define NUD_DMA_READ                (0)
+<b><a name="line4">4    </a></b>	#define NUD_DMA_WRITE               (1)
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	#define HAL_MR_HDR_LEN_OF(TYPE)                 (((U8)sizeof(TYPE) + (MR_HDR_LEN_UNIT - 1U)) / MR_HDR_LEN_UNIT - 1U)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "HAL_MR_HDR_LEN_OF", which is has already been used.</font>
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	static void hal_apu_fill_fw_bcmd_sq_init(void *sq_ptr, U8 dir)
+<b><a name="line9">9    </a></b>	{
+<b><a name="line10">10    </a></b>	    DAL_APU_FW_BCMD_PTR sq_cmd = (DAL_APU_FW_BCMD_PTR)sq_ptr;
+<b><a name="line11">11    </a></b>	    (void)memset((void *)sq_cmd, 0, sizeof(DAL_APU_FW_BCMD));
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	    sq_cmd->tid = HOST_MR_TID_CPU0_SQ_NVME_NUD_DMA_P0;
+<b><a name="line14">14    </a></b>	    sq_cmd->cq_tid = (dir == NUD_DMA_READ) ? HOST_MR_TID_CPU0_CQ_NVME_HTD_READ : HOST_MR_TID_CPU0_CQ_NVME_HTD_WRITE;
+<b><a name="line15">15    </a></b>	    sq_cmd->len = HAL_MR_HDR_LEN_OF(DAL_APU_FW_BCMD);
+<b><a name="line16">16    </a></b>	}
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	void hal_apu_fill_fw_bcmd_sq(void *sq_ptr, HAL_APU_TRIG_DMA_PARAM_PTR param)
+<b><a name="line19">19    </a></b>	{
+<b><a name="line20">20    </a></b>	    ASSERT(0, param->ud == HAL_APU_NUD_CMD);
+<b><a name="line21">21    </a></b>	    DAL_APU_FW_BCMD_PTR sq_cmd = (DAL_APU_FW_BCMD_PTR)sq_ptr;
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	    hal_apu_fill_fw_bcmd_sq_init(sq_cmd, param->dir);
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	    sq_cmd->info.ctag = param->ctag;
+<b><a name="line26">26    </a></b>	    sq_cmd->info.ud = param->ud;
+<b><a name="line27">27    </a></b>	    sq_cmd->info.dir = param->dir;
+<b><a name="line28">28    </a></b>	    sq_cmd->info.fst = param->fst;
+<b><a name="line29">29    </a></b>	    sq_cmd->info.lst = param->lst;
+<b><a name="line30">30    </a></b>	    sq_cmd->info.node_tag = param->node_tag;
+<b><a name="line31">31    </a></b>	    sq_cmd->info.tbc = param->fw_bcmd.tbc;
+<b><a name="line32">32    </a></b>	    sq_cmd->info.fw_ofst = param->fw_bcmd.offset;
+<b><a name="line33">33    </a></b>	    sq_cmd->info.dn = param->fw_bcmd.dma_done;
+<b><a name="line34">34    </a></b>	    sq_cmd->info.ei = param->fw_bcmd.err_info;
+<b><a name="line35">35    </a></b>	    sq_cmd->info.acpl = param->fw_bcmd.acpl;
+<b><a name="line36">36    </a></b>	    sq_cmd->info.buf_addr_l = (U32)param->buf_addr_l;
+<b><a name="line37">37    </a></b>	    sq_cmd->info.buf_addr_h = (U8)(param->buf_addr_h);
+<b><a name="line38">38    </a></b>	    sq_cmd->info.spare_addr_l = param->spr_addr_l;
+<b><a name="line39">39    </a></b>	    sq_cmd->info.spare_addr_h = 0;
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	}
+<b><a name="line42">42    </a></b>	
+<b><a name="line43">43    </a></b>	static void hal_apu_fill_wr_buf_rdy_init(void *sq_ptr)
+<b><a name="line44">44    </a></b>	{
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	    DAL_APU_FW_BCMD_PTR sq_cmd = (DAL_APU_FW_BCMD_PTR)sq_ptr;
+<b><a name="line47">47    </a></b>	    (void)memset((void *)sq_cmd, 0, sizeof(DAL_APU_FW_BCMD));
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	    sq_cmd->tid = HOST_MR_TID_CPU0_SQ_NVME_NUD_DMA_P0;
+<b><a name="line50">50    </a></b>	    sq_cmd->cq_tid = HOST_MR_TID_CPU0_CQ_NVME_HTD_WRITE;
+<b><a name="line51">51    </a></b>	    sq_cmd->len = HAL_MR_HDR_LEN_OF(DAL_APU_FW_BCMD);
+<b><a name="line52">52    </a></b>	}
+</pre></body>
+</html>

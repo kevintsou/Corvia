@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_sec.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line21">21    </a></b>	    {dal_sec_sha_get_sha512_st_over,        dal_sec_sha_get_sha512_st_pass,     phal_pmu_pub_get_sha2_512_fail_num},
+<b><a name="line22">22    </a></b>	    {dal_sec_sha_get_sha512t256_st_over,    dal_sec_sha_get_sha512t256_st_pass, phal_pmu_pub_get_sha2_512_256_fail_num},
+<b><a name="line23">23    </a></b>	    {dal_sec_sha_get_sm3_st_over,           dal_sec_sha_get_sm3_st_pass,        phal_pmu_pub_get_sm3_fail_num},
+<b><a name="line24">24    </a></b>	    {dal_sec_sha_get_sha3_224_st_over,      dal_sec_sha_get_sha3_224_st_pass,   phal_pmu_pub_get_sha3_224_fail_num},
+<b><a name="line25">25    </a></b>	    {dal_sec_sha_get_sha3_256_st_over,      dal_sec_sha_get_sha3_256_st_pass,   phal_pmu_pub_get_sha3_256_fail_num},
+<b><a name="line26">26    </a></b>	    {dal_sec_sha_get_sha3_384_st_over,      dal_sec_sha_get_sha3_384_st_pass,   phal_pmu_pub_get_sha3_384_fail_num},
+<b><a name="line27">27    </a></b>	    {dal_sec_sha_get_sha3_512_st_over,      dal_sec_sha_get_sha3_512_st_pass,   phal_pmu_pub_get_sha3_512_fail_num},
+<b><a name="line28">28    </a></b>	    {dal_sec_sha_get_shake128_st_over,      dal_sec_sha_get_shake128_st_pass,   phal_pmu_pub_get_shake128_fail_num},
+<b><a name="line29">29    </a></b>	    {dal_sec_sha_get_shake256_st_over,      dal_sec_sha_get_shake256_st_pass,   phal_pmu_pub_get_shake256_fail_num},
+<b><a name="line30">30    </a></b>	    {dal_sec_pke_get_st_over,               dal_sec_pke_get_st_pass,            phal_pmu_pub_get_pke_fail_num},
+<b><a name="line31">31    </a></b>	    {dal_sec_aes_otf_get_sm4otf_st_over,    dal_sec_aes_otf_get_sm4otf_st_pass, phal_pmu_pub_get_sm4otf_fail_num},
+<b><a name="line32">32    </a></b>	    {dal_sec_aes_ofl_get_sm4ofl_st_over,    dal_sec_aes_ofl_get_sm4ofl_st_pass, phal_pmu_pub_get_sm4ofl_fail_num}
+<b><a name="line33">33    </a></b>	};
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	U32 phal_query_self_check_status(U8 schk_bmp, U32 tmp_addr)
+<b><a name="line36">36    </a></b>	{
+<b><a name="line37">37    </a></b>	    U32 ret = 0x00000000UL;
+<b><a name="line38">38    </a></b>	    U32 schk_on_off = 0UL;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    U8 is_pass;
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    if (phal_get_dt_attribution_define() == SEC_NO)
+<b><a name="line43">43    </a></b>	    {
+<b><a name="line44">44    </a></b>	        return HAL_SEC_DT_ARRTIBUTE_CHECK_ERROR;
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    // get PMU register 0xAC reg43[0:18]
+<b><a name="line48">48    </a></b>	    schk_on_off = dal_pmu_get_reg_43();
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    if (0 == (schk_on_off & (1UL << schk_bmp)))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0UL" (signed) is not the same as that of the right operand "schk_on_off & (1UL << schk_bmp)"(unsigned).</font>
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        return HAL_SEC_AESOTF_SCHK_DIS + schk_bmp;
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	    if (schk_bmp <= HAL_SEC_SM4OFL_SCHK)
+<b><a name="line56">56    </a></b>	    {
+<b><a name="line57">57    </a></b>	        if (gSelfChkFunc[schk_bmp].fp_chk_over() == 1U)
+<b><a name="line58">58    </a></b>	        {
+<b><a name="line59">59    </a></b>	            is_pass = (U8)(gSelfChkFunc[schk_bmp].fp_chk_pass() == 1U);
+<b><a name="line60">60    </a></b>	            ret = (((gSelfChkFunc[schk_bmp].fp_chk_fail_num() == 0U) && (is_pass == SEC_YES)) ? (HAL_SEC_SCHK_PASS) : (HAL_SEC_AESOTF_SCHK_FAIL + schk_bmp));
+<b><a name="line61">61    </a></b>	        }
+<b><a name="line62">62    </a></b>	        else
+<b><a name="line63">63    </a></b>	        {
+<b><a name="line64">64    </a></b>	            ret = HAL_SEC_AESOTF_SCHK_NOT_OVER + schk_bmp;
+<b><a name="line65">65    </a></b>	        }
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	        return ret;
+<b><a name="line68">68    </a></b>	    }
+<b><a name="line69">69    </a></b>	    else {
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	        switch (schk_bmp)
+<b><a name="line72">72    </a></b>	        {
+<b><a name="line73">73    </a></b>	            case (U8)HAL_SEC_RNG_SCHK:
+<b><a name="line74">74    </a></b>	                //if (((schk_on_off & HAL_SEC_RNG_SCHK_ON) >> HAL_SEC_RNG_SCHK) == 1UL)
+<b><a name="line75">75    </a></b>	                {
+<b><a name="line76">76    </a></b>	                    if (hal_sec_get_sm_128b_true_rand((U8 *)tmp_addr, (U32)(tmp_addr + 16UL), (U32)(tmp_addr + 16UL + 16UL), (U32)(tmp_addr + 16UL + 16UL + 128UL), 3U) == SEC_YES)
+<b><a name="line77">77    </a></b>	                    {
+<b><a name="line78">78    </a></b>	                        ret =  HAL_SEC_SCHK_PASS;
+<b><a name="line79">79    </a></b>	                    }
+<b><a name="line80">80    </a></b>	                    else
+<b><a name="line81">81    </a></b>	                    {
+</pre></body>
+</html>

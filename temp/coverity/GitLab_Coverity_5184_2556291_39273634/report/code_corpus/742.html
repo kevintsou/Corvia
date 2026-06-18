@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1567">1567    </a></b>	    //step10  while (r32_r_ZQCAL_BSY() != 0U);
+<b><a name="line1568">1568    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><a name="line1569">1569    </a></b>	    do {
+<b><a name="line1570">1570    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1571">1571    </a></b>	            status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+<b><a name="line1572">1572    </a></b>	            break;
+<b><a name="line1573">1573    </a></b>	        }
+<b><a name="line1574">1574    </a></b>	    } while (r_ZQCAL_BSY() != 0U);
+<b><a name="line1575">1575    </a></b>	
+<b><a name="line1576">1576    </a></b>	    //step11. wait r32_FCH_PIO_CMD_CFG(zqcal_val_upd) =1
+<b><a name="line1577">1577    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1578">1578    </a></b>	        //while (r32_r_ZQCAL_VAL_UPD(ubCh) == 0U);
+<b><a name="line1579">1579    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><a name="line1580">1580    </a></b>	        do {
+<b><a name="line1581">1581    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1582">1582    </a></b>	                status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+<b><a name="line1583">1583    </a></b>	                break;
+<b><a name="line1584">1584    </a></b>	            }
+<b><a name="line1585">1585    </a></b>	        } while (r_ZQCAL_VAL_UPD(ch) == 0U);
+<b><a name="line1586">1586    </a></b>	    }
+<b><a name="line1587">1587    </a></b>	
+<b><a name="line1588">1588    </a></b>	    //step12
+<b><a name="line1589">1589    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1590">1590    </a></b>	        w_ZQCAL_LOAD_TRIG(ch, 1);
+<b><a name="line1591">1591    </a></b>	    }
+<b><a name="line1592">1592    </a></b>	
+<b><a name="line1593">1593    </a></b>	    //step13
+<b><a name="line1594">1594    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1595">1595    </a></b>	        //while (r32_r_ZQCAL_VAL_UPD(ubCh) == 1U);
+<b><a name="line1596">1596    </a></b>	        mabiao_addr = MABIAO_SET_MS(MABIAO_ZQCAL_BSY, HAL_TIMEOUT_LEN_MS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "25536" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1597">1597    </a></b>	        do {
+<b><a name="line1598">1598    </a></b>	            if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1599">1599    </a></b>	                status |= HAL_STATUS_CTRL_ZQ_CAL_TIMEOUT;
+<b><a name="line1600">1600    </a></b>	                break;
+<b><a name="line1601">1601    </a></b>	            }
+<b><a name="line1602">1602    </a></b>	        } while (r_ZQCAL_VAL_UPD(ch) == 1U);
+<b><a name="line1603">1603    </a></b>	    }
+<b><a name="line1604">1604    </a></b>	
+<b><a name="line1605">1605    </a></b>	    //step14
+<b><a name="line1606">1606    </a></b>	    dal_fip_delay(ulDelayForZqClk16t);
+<b><a name="line1607">1607    </a></b>	
+<b><a name="line1608">1608    </a></b>	    //step15
+<b><a name="line1609">1609    </a></b>	    w_ZQCAL_EN(1U);
+<b><a name="line1610">1610    </a></b>	
+<b><a name="line1611">1611    </a></b>	    //step16
+<b><a name="line1612">1612    </a></b>	    for (ch = 0; ch < HAL_FIP_CH_NUM; ch++) {
+<b><a name="line1613">1613    </a></b>	        w_LOAD_ZQ_AUTO(ch, 1U);
+<b><a name="line1614">1614    </a></b>	    }
+<b><a name="line1615">1615    </a></b>	
+<b><a name="line1616">1616    </a></b>	    return status;
+<b><a name="line1617">1617    </a></b>	}
+<b><a name="line1618">1618    </a></b>	
+<b><a name="line1619">1619    </a></b>	U32 hal_fip_mdll_tracking(U8 ch_bitmap)
+<b><a name="line1620">1620    </a></b>	{
+<b><a name="line1621">1621    </a></b>	    U32 status;
+<b><a name="line1622">1622    </a></b>	    status = 0U;
+<b><a name="line1623">1623    </a></b>	
+<b><a name="line1624">1624    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line1625">1625    </a></b>	    //dal_fip_mdll_tracking_trig
+<b><a name="line1626">1626    </a></b>	#define WAIT_CYCLE(x)    {for (i = 0U; i < (x); i++) {r_FLH_DLL_MDLL_TRK_DONE(0U);} }
+<b><a name="line1627">1627    </a></b>	
+</pre></body>
+</html>

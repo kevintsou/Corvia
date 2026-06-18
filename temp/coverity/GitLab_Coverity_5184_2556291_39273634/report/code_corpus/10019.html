@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line34">34    </a></b>	    0xff02e00002000000ULL
+<b><a name="line35">35    </a></b>	};
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	U8 hal_sec_pqc_kaz_pke_cal_n0(U8 *p, U16 size_p, U64 *N0)
+<b><a name="line38">38    </a></b>	{
+<b><a name="line39">39    </a></b>	    U64 *pbPrime = (U64 *)(void *)p;
+<b><a name="line40">40    </a></b>	    U8 x_sel;
+<b><a name="line41">41    </a></b>	    U64 *pAddrX;
+<b><a name="line42">42    </a></b>	    U64 *pAddrX_U64;
+<b><a name="line43">43    </a></b>	    SEC_PPKECMD_T p_pke_cmd;
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    // clear MEM_A & MEM_B in advance.
+<b><a name="line46">46    </a></b>	    // clear MEMA,MEMB,MEMC
+<b><a name="line47">47    </a></b>	    hal_sec_pke_ram_clr(HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line48">48    </a></b>	    hal_sec_pke_cmd_clr(HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    x_sel = HAL_SEC_PKE_MEM_R_ADDR_IDX;
+<b><a name="line51">51    </a></b>	    pAddrX = (U64 *)gSecPkeMemAddr[x_sel].mem_addr;
+<b><a name="line52">52    </a></b>	    pAddrX_U64 = (U64 *)&pAddrX[0];
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    // always adopt little endian input here...
+<b><a name="line55">55    </a></b>	    pAddrX[1] = (U64)pbPrime[0];
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    (void)hal_sec_pke_wait_to_ready(HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    hal_sec_pke_set_bledn(0/*little endian*/);
+<b><a name="line60">60    </a></b>	
+<b><a name="line61">61    </a></b>	    for (U8 uli = 0U; uli < HAL_SEC_PQC_KAZ_GEN_N0_8B_CMD_CNT; uli++)
+<b><a name="line62">62    </a></b>	    {
+<b><a name="line63">63    </a></b>	        p_pke_cmd = (SEC_PPKECMD_T)(void *)&gKAZ_N0_8B_PKE_CMD[uli];
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "&gKAZ_N0_8B_PKE_CMD[uli]" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line64">64    </a></b>	        hal_sec_pke_insert_cmd((U32 *)(void *)p_pke_cmd);
+<b><a name="line65">65    </a></b>	    }
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    hal_sec_pke_init_reg_tb_val(HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    hal_sec_pke_set_en();
+<b><a name="line70">70    </a></b>	    (void)hal_sec_pke_wait_to_ready(HAL_SEC_BLOCKING_TIME_VAL);
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    *N0 = pAddrX_U64[0];  // get N0
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    return SEC_YES;
+<b><a name="line75">75    </a></b>	}
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	U8 hal_sec_pqc_kaz_pke_cal_r_rr(U8 *N, U16 size_n, U64 *uN0, U8 *uR, U8 *uRR, U8 is_big_endian, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_powm_buf_ptr)
+<b><a name="line79">79    </a></b>	{
+<b><a name="line80">80    </a></b>	    SEC_PKECMD_T pke_cmd;
+<b><a name="line81">81    </a></b>	    SEC_PKE_MSA_T M1ADDR;
+<b><a name="line82">82    </a></b>	    SEC_PKE_MSA_T M2ADDR;
+<b><a name="line83">83    </a></b>	    SEC_PKE_MSA_T MTADDR;
+<b><a name="line84">84    </a></b>	    SEC_PKE_MSA_T MADDT0;
+<b><a name="line85">85    </a></b>	    SEC_PKE_MSA_T PADDR;
+<b><a name="line86">86    </a></b>	    U8  *pAddr8;
+<b><a name="line87">87    </a></b>	    U32 *pAddr;
+<b><a name="line88">88    </a></b>	    U64 *pAddr64;
+<b><a name="line89">89    </a></b>	    U16 i;
+<b><a name="line90">90    </a></b>	    // U16 sizeofU32 = 4U;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    ////////N///////N0 always big-endian////////
+<b><a name="line93">93    </a></b>	    if (is_big_endian == 0U)   //Little-Endian
+<b><a name="line94">94    </a></b>	    {
+</pre></body>
+</html>

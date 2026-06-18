@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_sha.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_SHA_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_SHA_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_PHAL_SHA_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "lib/platform.h"
+<b><a name="line5">5    </a></b>	#include "phal/phal_sqz.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	#define HMAC_NORMAL     (0)
+<b><a name="line8">8    </a></b>	#define HMAC_CDI_L0     (1)
+<b><a name="line9">9    </a></b>	#define HMAC_CDI_L1     (2)
+<b><a name="line10">10    </a></b>	
+<b><a name="line11">11    </a></b>	U8 phal_sec_sha_blocking(SEC_SHA_PARAMS_T_PTR params);
+<b><a name="line12">12    </a></b>	U8 phal_sec_hmac_sha_blocking(SEC_HMAC_PARAMS_T_PTR params);
+<b><a name="line13">13    </a></b>	U8 phal_sec_hmac_sha2_kdf_counter_mode_blocking(SEC_KDF_PARAMS_T_PTR params);
+<b><a name="line14">14    </a></b>	U8 phal_sec_sha3_shake_sqz_blocking(U64 tar_addr, U32 shake_out_type, U32 shake_sqz_cnt, U64 timeout_val);
+<b><a name="line15">15    </a></b>	U8 phal_sec_pqc_sha3_blocking(U8 *output, U32 outlen, U8 *input, U32 inlen, U32 mode, HAL_SEC_PQC_HASH_BUF_T_PTR pqc_hash_buf_ptr);
+<b><a name="line16">16    </a></b>	#endif
+<b><a name="line17">17    </a></b>	
+</pre></body>
+</html>

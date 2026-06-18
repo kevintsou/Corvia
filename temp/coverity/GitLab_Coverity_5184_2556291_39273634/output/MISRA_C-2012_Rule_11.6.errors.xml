@@ -1,0 +1,4500 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>form_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{params}}}{{code{void *}}}{{code{U32}}}}}}</description>
+<line>114</line>
+<column>20</column>
+</event>
+<extra>params</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_push</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ul_tail}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>286</line>
+<column>22</column>
+</event>
+<extra>ul_tail</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_push</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ul_tail}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>290</line>
+<column>22</column>
+</event>
+<extra>ul_tail</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_pop</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ul_head}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>476</line>
+<column>38</column>
+</event>
+<extra>ul_head</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_pop</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ul_head}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>480</line>
+<column>38</column>
+</event>
+<extra>ul_head</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_pop</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ul_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>481</line>
+<column>77</column>
+</event>
+<extra>ul_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_db.c</file>
+<function>hal_db_pop_block_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{phal_sqz_get_param_buf_base()}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>11</line>
+<column>12</column>
+</event>
+<extra>phal_sqz_get_param_buf_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_efuse_api.c</file>
+<function>eFuseToRam</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulAdr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>40</line>
+<column>16</column>
+</event>
+<extra>ulAdr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/efuse_api.c</file>
+<function>efuse_api_read_bank</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{144703808UL + bank_start * 8UL * 4UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>10</line>
+<column>31</column>
+</event>
+<extra>bank_start</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>sec_mldsa_pure_batch_sha_calculate</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sha_copy_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>920</line>
+<column>56</column>
+</event>
+<extra>sha_copy_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>sec_mldsa_pure_batch_sha_calculate</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sha_copy_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>936</line>
+<column>49</column>
+</event>
+<extra>sha_copy_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>sec_mldsa_pure_batch_sha_calculate</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sha_copy_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>953</line>
+<column>45</column>
+</event>
+<extra>sha_copy_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_set_pk_hash</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{pk_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>159</line>
+<column>45</column>
+</event>
+<extra>pk_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_rng.c</file>
+<function>drbg_destory_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{phal_sqz_get_param_buf_base()}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>122</line>
+<column>34</column>
+</event>
+<extra>phal_sqz_get_param_buf_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{message_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1034</line>
+<column>98</column>
+</event>
+<extra>message_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1048</line>
+<column>45</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_btcm_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1054</line>
+<column>22</column>
+</event>
+<extra>tmp_btcm_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_btcm_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1060</line>
+<column>80</column>
+</event>
+<extra>tmp_btcm_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1075</line>
+<column>45</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_btcm_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1093</line>
+<column>22</column>
+</event>
+<extra>tmp_btcm_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_btcm_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1099</line>
+<column>80</column>
+</event>
+<extra>tmp_btcm_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1129</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1135</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_mldsa</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1140</line>
+<column>12</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>768</line>
+<column>41</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{identity}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>774</line>
+<column>18</column>
+</event>
+<extra>identity</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{identity + 7UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>775</line>
+<column>18</column>
+</event>
+<extra>identity</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>785</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>791</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sm9</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>796</line>
+<column>12</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_kaz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1180</line>
+<column>41</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_kaz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1191</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_kaz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1197</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_kaz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1202</line>
+<column>12</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>691</line>
+<column>41</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>699</line>
+<column>55</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>704</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>710</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_lms_sha256_192</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>715</line>
+<column>12</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>860</line>
+<column>12</column>
+</event>
+<extra>signature_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>860</line>
+<column>45</column>
+</event>
+<extra>signature_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>861</line>
+<column>12</column>
+</event>
+<extra>key_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>861</line>
+<column>39</column>
+</event>
+<extra>key_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{z_output_address + 32UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>878</line>
+<column>18</column>
+</event>
+<extra>z_output_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>883</line>
+<column>47</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>891</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>897</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign_sw_sm2_sm3</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>902</line>
+<column>12</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_signature_key_validity</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>559</line>
+<column>24</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_signature_key_validity</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>568</line>
+<column>24</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1359</line>
+<column>16</column>
+</event>
+<extra>signature_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1359</line>
+<column>49</column>
+</event>
+<extra>signature_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1360</line>
+<column>16</column>
+</event>
+<extra>key_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1360</line>
+<column>43</column>
+</event>
+<extra>key_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1378</line>
+<column>40</column>
+</event>
+<extra>signature_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1378</line>
+<column>73</column>
+</event>
+<extra>signature_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1436</line>
+<column>45</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1437</line>
+<column>16</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 512UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>561</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(uintptr_t)&amp;gEFuseAPI}}}{{code{uintptr_t}}}{{code{void *}}}}}}</description>
+<line>561</line>
+<column>108</column>
+</event>
+<extra>gEFuseAPI</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 2048UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>563</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1384448 + 3328}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>563</line>
+<column>103</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 3616UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>564</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1387776 + 1024}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>564</line>
+<column>103</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 3712UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>565</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1388800 + 1024}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>565</line>
+<column>103</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>update_dbuf_for_fw</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 3392UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>567</line>
+<column>18</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_aes.c</file>
+<function>hal_sec_aes_ofl_blocking_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>28</line>
+<column>12</column>
+</event>
+<extra>key_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_aes.c</file>
+<function>hal_sec_aes_ofl_blocking_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>40</line>
+<column>12</column>
+</event>
+<extra>key_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_pqc.c</file>
+<function>phal_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{temp_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>165</line>
+<column>18</column>
+</event>
+<extra>temp_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/sec/phal_pqc.c</file>
+<function>phal_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{temp_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>166</line>
+<column>69</column>
+</event>
+<extra>temp_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_verify_key_hash</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{KeyHashAdr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>85</line>
+<column>20</column>
+</event>
+<extra>KeyHashAdr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_verify_key_hash</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{KeyHashAdr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>95</line>
+<column>20</column>
+</event>
+<extra>KeyHashAdr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_RSAEncode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecryptDesAdr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>110</line>
+<column>32</column>
+</event>
+<extra>ulDecryptDesAdr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_RSAEncode</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecryptDesAdr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>110</line>
+<column>57</column>
+</event>
+<extra>ulDecryptDesAdr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_gen_rng</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tar_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>130</line>
+<column>33</column>
+</event>
+<extra>tar_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_gen_rng</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{139110400UL + 256UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>133</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_gen_rng</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tar_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>134</line>
+<column>12</column>
+</event>
+<extra>tar_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_hmac_512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{gVUALock.ulHashCalBufBase}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>145</line>
+<column>12</column>
+</event>
+<extra>gVUALock,ulHashCalBufBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_hmac_512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>146</line>
+<column>12</column>
+</event>
+<extra>key_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_hmac_512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{src_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>147</line>
+<column>12</column>
+</event>
+<extra>src_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_hmac_512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulSrcAddr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>147</line>
+<column>30</column>
+</event>
+<extra>ulSrcAddr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_hmac_512</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>163</line>
+<column>12</column>
+</event>
+<extra>key_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ek_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>233</line>
+<column>12</column>
+</event>
+<extra>ek_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ct_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>240</line>
+<column>33</column>
+</event>
+<extra>ct_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ss_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>241</line>
+<column>35</column>
+</event>
+<extra>ss_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_mlkem_enc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{cal_buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>244</line>
+<column>12</column>
+</event>
+<extra>cal_buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>vuc_nvme_identify</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1259</line>
+<column>12</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>decrypt_partial_project_binary</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{139096064UL + 9216UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>1721</line>
+<column>16</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>vuc_nvme_get_log_page</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1307</line>
+<column>12</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_receive_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{drbg_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>340</line>
+<column>12</column>
+</event>
+<extra>drbg_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_read_system_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134750208UL + 4096UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>789</line>
+<column>43</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_read_system_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1387776 + 1024}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>790</line>
+<column>58</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_read_system_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134217728UL + 10485760UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>796</line>
+<column>64</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr + 512UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>114</line>
+<column>53</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{139110656UL + 2048UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>154</line>
+<column>22</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>182</line>
+<column>24</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>194</line>
+<column>24</column>
+</event>
+<extra>hash_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{139110656UL + 2048UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>203</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_aes_dec</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sk_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>174</line>
+<column>12</column>
+</event>
+<extra>sk_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_aes_dec</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{iv_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>175</line>
+<column>12</column>
+</event>
+<extra>iv_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_vua.c</file>
+<function>VUA_aes_dec</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sk_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>204</line>
+<column>12</column>
+</event>
+<extra>sk_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_decryptCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecTmpBuf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>531</line>
+<column>12</column>
+</event>
+<extra>ulDecTmpBuf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_decryptCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecryptedBuf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>531</line>
+<column>33</column>
+</event>
+<extra>ulDecryptedBuf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_decryptCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecryptedBuf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>537</line>
+<column>12</column>
+</event>
+<extra>ulDecryptedBuf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_decryptCommand</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulDecTmpBuf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>537</line>
+<column>36</column>
+</event>
+<extra>ulDecTmpBuf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_program_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{project_binary_offset_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>318</line>
+<column>24</column>
+</event>
+<extra>project_binary_offset_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>563</line>
+<column>39</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>564</line>
+<column>12</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)sq_cmd + 48UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>564</line>
+<column>40</column>
+</event>
+<extra>sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)sq_cmd + 48UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>593</line>
+<column>12</column>
+</event>
+<extra>sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>593</line>
+<column>90</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_check_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)&amp;temp_sq_cmd + 1UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>632</line>
+<column>12</column>
+</event>
+<extra>temp_sq_cmd</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_protect_decrypt_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>594</line>
+<column>12</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>418</line>
+<column>18</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>420</line>
+<column>18</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf + 1024UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>435</line>
+<column>12</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf + 2048UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>444</line>
+<column>52</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>455</line>
+<column>18</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>456</line>
+<column>18</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf + 1024UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>468</line>
+<column>12</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>492</line>
+<column>16</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_encryption_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{data_buf}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>501</line>
+<column>16</column>
+</event>
+<extra>data_buf</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>form_sq1</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{params}}}{{code{void *}}}{{code{U32}}}}}}</description>
+<line>131</line>
+<column>20</column>
+</event>
+<extra>params</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kat_dice</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10447</line>
+<column>12</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sqz.c</file>
+<function>phal_sqz_get_pk_hash</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tar_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>165</line>
+<column>12</column>
+</event>
+<extra>tar_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi_by_cptra</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{digest_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>291</line>
+<column>54</column>
+</event>
+<extra>digest_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi_by_cptra</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{context}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>292</line>
+<column>54</column>
+</event>
+<extra>context</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_dice_pre_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{calculation_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>638</line>
+<column>12</column>
+</event>
+<extra>calculation_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_calculate_l0_measurement</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>253</line>
+<column>41</column>
+</event>
+<extra>tmp_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>112</line>
+<column>22</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{uds_buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>113</line>
+<column>22</column>
+</event>
+<extra>uds_buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{dice_param-&gt;uds_kdk_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>113</line>
+<column>44</column>
+</event>
+<extra>dice_param,uds_kdk_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>120</line>
+<column>26</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>122</line>
+<column>26</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>125</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>127</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>143</line>
+<column>26</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>145</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{dice_param-&gt;loader_measure_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>145</line>
+<column>58</column>
+</event>
+<extra>dice_param,loader_measure_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>147</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>149</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr + tmp_len}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>151</line>
+<column>26</column>
+</event>
+<extra>input_addr,tmp_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>169</line>
+<column>26</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{dice_param-&gt;loader_measure_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>169</line>
+<column>46</column>
+</event>
+<extra>dice_param,loader_measure_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{uds_buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>183</line>
+<column>22</column>
+</event>
+<extra>uds_buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<function>dice_gen_cdi</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{input_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>184</line>
+<column>22</column>
+</event>
+<extra>input_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_self_check_api.c</file>
+<function>self_chk_all_sqz</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{phal_sqz_get_param_buf_base()}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>74</line>
+<column>34</column>
+</event>
+<extra>phal_sqz_get_param_buf_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kat_host</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10371</line>
+<column>12</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kat_load_code</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10340</line>
+<column>12</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_optional_command_support_list</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>188</line>
+<column>18</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_nvm_subsys_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>32</line>
+<column>12</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kat_vua</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10428</line>
+<column>12</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kat_vuc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10401</line>
+<column>12</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_controller_list</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>140</line>
+<column>27</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_set_fake_admin_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{host-&gt;buffer_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>421</line>
+<column>16</column>
+</event>
+<extra>buffer_base,host</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_set_fake_admin_param</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{host-&gt;buffer_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>426</line>
+<column>16</column>
+</event>
+<extra>buffer_base,host</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>btcm_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1048576 + 0}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>142</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>btcm_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1048576 + 188416}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>143</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_drbg_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr + 768UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9380</line>
+<column>18</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_mldsa_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tmp_btcm_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9622</line>
+<column>18</column>
+</event>
+<extra>tmp_btcm_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kdf_512_pattern_1_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)key_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9315</line>
+<column>12</column>
+</event>
+<extra>key_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kdf_512_pattern_1_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)src_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9316</line>
+<column>12</column>
+</event>
+<extra>src_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_kdf_512_pattern_1_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)ans_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9317</line>
+<column>12</column>
+</event>
+<extra>ans_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa4096_enc_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ctx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9292</line>
+<column>15</column>
+</event>
+<extra>ctx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_mlkem_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{message_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9729</line>
+<column>12</column>
+</event>
+<extra>message_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_mlkem_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ek_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9730</line>
+<column>12</column>
+</event>
+<extra>ek_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_mlkem_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ct_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9733</line>
+<column>16</column>
+</event>
+<extra>ct_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_mlkem_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ss_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9734</line>
+<column>16</column>
+</event>
+<extra>ss_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_copy_logdata_ToBuffer</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tar_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>48</line>
+<column>16</column>
+</event>
+<extra>tar_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>fpl_api_fw_gen_pat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf + 4096U * node + (index &lt;&lt; 2U)}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1340</line>
+<column>24</column>
+</event>
+<extra>buf,index,node</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9156</line>
+<column>36</column>
+</event>
+<extra>signature_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9156</line>
+<column>60</column>
+</event>
+<extra>signature_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rr_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9160</line>
+<column>36</column>
+</event>
+<extra>rr_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rr_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9163</line>
+<column>22</column>
+</event>
+<extra>rr_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{r_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9167</line>
+<column>36</column>
+</event>
+<extra>r_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{r_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9170</line>
+<column>22</column>
+</event>
+<extra>r_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{n0_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9175</line>
+<column>36</column>
+</event>
+<extra>n0_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{n0_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9178</line>
+<column>22</column>
+</event>
+<extra>n0_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{e_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9183</line>
+<column>36</column>
+</event>
+<extra>e_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{e_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9186</line>
+<column>22</column>
+</event>
+<extra>e_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{n_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9191</line>
+<column>36</column>
+</event>
+<extra>n_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_verify_param_reverse</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{n_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9194</line>
+<column>22</column>
+</event>
+<extra>n_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>buffer_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{prog_buf_addr[i]}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1180</line>
+<column>16</column>
+</event>
+<extra>i,prog_buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>buffer_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{prog_spr_addr[i]}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1181</line>
+<column>16</column>
+</event>
+<extra>i,prog_spr_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>buffer_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{read_buf_addr[i]}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1186</line>
+<column>16</column>
+</event>
+<extra>i,read_buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>buffer_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{read_spr_addr[i]}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1187</line>
+<column>16</column>
+</event>
+<extra>i,read_spr_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_identify</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>733</line>
+<column>12</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_packet_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{138952704UL + 8192UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>222</line>
+<column>63</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_packet_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{138952704UL + 8192UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>248</line>
+<column>24</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_packet_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{138952704UL + 8192UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>252</line>
+<column>59</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_send_data_2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{dal_smbs_api_get_tx0_point(ent)}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>187</line>
+<column>16</column>
+</event>
+<extra>dal_smbs_api_get_tx0_point</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_receive_data</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{dal_smbs_api_get_rx0_point(ent)}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>243</line>
+<column>69</column>
+</event>
+<extra>dal_smbs_api_get_rx0_point</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_controller_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>169</line>
+<column>22</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)msg_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9441</line>
+<column>12</column>
+</event>
+<extra>msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9446</line>
+<column>18</column>
+</event>
+<extra>key_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{key_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9447</line>
+<column>18</column>
+</event>
+<extra>key_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{sign_address}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9451</line>
+<column>18</column>
+</event>
+<extra>sign_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_endian_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9452</line>
+<column>18</column>
+</event>
+<extra>signature_endian_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_sw_sm2_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{z_result_addr + 32UL}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9463</line>
+<column>18</column>
+</event>
+<extra>z_result_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>use_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{138952704UL + 8192UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>2081</line>
+<column>20</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_lms_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)lms_msg_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9548</line>
+<column>12</column>
+</event>
+<extra>lms_msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_lms_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)(lms_msg_addr + 512UL)}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9550</line>
+<column>12</column>
+</event>
+<extra>lms_msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_lms_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{(U32)(lms_msg_addr + 1024UL)}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9551</line>
+<column>12</column>
+</event>
+<extra>lms_msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_lms_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{lms_hash_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9584</line>
+<column>50</column>
+</event>
+<extra>lms_hash_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_xts_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8795</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_xts_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ctx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8795</line>
+<column>62</column>
+</event>
+<extra>ctx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_xts_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8818</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_xts_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ptx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8818</line>
+<column>62</column>
+</event>
+<extra>ptx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_xts_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8672</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_xts_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ctx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8672</line>
+<column>62</column>
+</event>
+<extra>ctx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_xts_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8695</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_xts_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ptx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8695</line>
+<column>62</column>
+</event>
+<extra>ptx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_cbc_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8612</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_cbc_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ctx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8612</line>
+<column>62</column>
+</event>
+<extra>ctx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_cbc_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8634</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_cbc_256_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ptx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8634</line>
+<column>62</column>
+</event>
+<extra>ptx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{hash_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9216</line>
+<column>12</column>
+</event>
+<extra>hash_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rsa_e_little}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9218</line>
+<column>32</column>
+</event>
+<extra>rsa_e_little</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{msg_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9222</line>
+<column>14</column>
+</event>
+<extra>msg_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{signature_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9223</line>
+<column>14</column>
+</event>
+<extra>signature_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rsa_n_little}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9224</line>
+<column>14</column>
+</event>
+<extra>rsa_n_little</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rsa_n0}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9225</line>
+<column>14</column>
+</event>
+<extra>rsa_n0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rsa_r_little}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9226</line>
+<column>14</column>
+</event>
+<extra>rsa_r_little</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_rsa_pkcs2_1_4096_verify_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{rsa_rr_little}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>9227</line>
+<column>14</column>
+</event>
+<extra>rsa_rr_little</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>kat_mlkem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{kat_buffer}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>10130</line>
+<column>26</column>
+</event>
+<extra>kat_buffer</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_dump_logsize</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{tar_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>196</line>
+<column>12</column>
+</event>
+<extra>tar_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_cbc_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8734</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_cbc_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ctx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8734</line>
+<column>62</column>
+</event>
+<extra>ctx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_cbc_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{aesofl_param.comm.targ_addr.low}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8756</line>
+<column>21</column>
+</event>
+<extra>aesofl_param,comm,low,targ_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>host_sec_aes_sm4_cbc_128_kat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ptx_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>8756</line>
+<column>62</column>
+</event>
+<extra>ptx_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_get_log_page</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>584</line>
+<column>12</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_mabiao.c</file>
+<function>mabiao_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>30</line>
+<column>16</column>
+</event>
+<extra>buf_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_init.c</file>
+<function>host_struct_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{host-&gt;spr_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>97</line>
+<column>12</column>
+</event>
+<extra>host,spr_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>RpReadIndirectData</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulIndirectAddress}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>818</line>
+<column>64</column>
+</event>
+<extra>ulIndirectAddress</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_port_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>92</line>
+<column>30</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_port_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>105</line>
+<column>30</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_port_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{response_data_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>110</line>
+<column>30</column>
+</event>
+<extra>response_data_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</file>
+<function>RpWriteIndirectData</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{ulIndirectAddress}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>1190</line>
+<column>20</column>
+</event>
+<extra>ulIndirectAddress</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_security_receive</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>498</line>
+<column>30</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_security_receive</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{buf_addr}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>507</line>
+<column>20</column>
+</event>
+<extra>buf_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_code_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 3200UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>3852</line>
+<column>32</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{138952704UL + 8192UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>337</line>
+<column>16</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_nvm.c</file>
+<function>nvme_io_read</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{host-&gt;spr_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>156</line>
+<column>12</column>
+</event>
+<extra>host,spr_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp.c</file>
+<function>mctp_management_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{packet_buffer_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>29</line>
+<column>12</column>
+</event>
+<extra>packet_buffer_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp.c</file>
+<function>mctp_management_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{messsage_buffer_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>31</line>
+<column>12</column>
+</event>
+<extra>messsage_buffer_base</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>spi_write_log</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{1387776 + 1024}}}{{code{int}}}{{code{void *}}}}}}</description>
+<line>247</line>
+<column>52</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>spi_write_log</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134750208UL + 4096UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>253</line>
+<column>52</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_command</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{host-&gt;buffer_base}}}{{code{U32}}}{{code{void *}}}}}}</description>
+<line>501</line>
+<column>16</column>
+</event>
+<extra>buffer_base,host</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 11.6</checker>
+<type>MISRA_C_2012_Rule_11.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_11_6_violation</tag>
+<description>{CovLStrv2{{t{The expression {0} of type {1} is cast to type {2}.}{{code{134754304UL + 3072UL}}}{{code{unsigned long}}}{{code{void *}}}}}}</description>
+<line>550</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>

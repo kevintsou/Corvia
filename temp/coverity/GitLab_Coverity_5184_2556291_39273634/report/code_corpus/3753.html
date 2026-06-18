@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line821">821    </a></b>	        M_OCP_RECOVERY_IMO_AUTO_INCREMENT(pACRotData, pSmbsTx->uwCount);
+<b><a name="line822">822    </a></b>	    }
+<b><a name="line823">823    </a></b>	    else
+<b><a name="line824">824    </a></b>	    {
+<b><a name="line825">825    </a></b>	        RpReadErrorHandler(pSmbsTx, RECOVERY_CMD_INDIRECT_DATA, E_ERR_READ_INVALID_CMS);
+<b><a name="line826">826    </a></b>	    }
+<b><a name="line827">827    </a></b>	}
+<b><a name="line828">828    </a></b>	
+<b><a name="line829">829    </a></b>	/*!
+<b><a name="line830">830    </a></b>	   @brief      As the data count that RA requires is not included in smbus rx buffer, we manage in this function
+<b><a name="line831">831    </a></b>	
+<b><a name="line832">832    </a></b>	   @param      ubCmdCode         recovery command code
+<b><a name="line833">833    </a></b>	   @return     U16
+<b><a name="line834">834    </a></b>	 */
+<b><a name="line835">835    </a></b>	static U16 RpReadGetFollowingDataByteCount(U8 ubCmdCode)
+<b><a name="line836">836    </a></b>	{
+<b><a name="line837">837    </a></b>	    U16 uwByteCount;
+<b><a name="line838">838    </a></b>	
+<b><a name="line839">839    </a></b>	    switch (ubCmdCode)
+<b><a name="line840">840    </a></b>	    {
+<b><a name="line841">841    </a></b>	        case RECOVERY_CMD_PROT_CAP:
+<b><a name="line842">842    </a></b>	            uwByteCount = sizeof(RC_PROT_CAP);
+<b><a name="line843">843    </a></b>	            break;
+<b><a name="line844">844    </a></b>	
+<b><a name="line845">845    </a></b>	        case RECOVERY_CMD_DEVICE_ID:
+<b><a name="line846">846    </a></b>	            uwByteCount = sizeof(RC_DEVICE_ID);
+<b><a name="line847">847    </a></b>	            break;
+<b><a name="line848">848    </a></b>	
+<b><a name="line849">849    </a></b>	        case RECOVERY_CMD_DEVICE_STATUS:
+<b><a name="line850">850    </a></b>	            uwByteCount = sizeof(RC_DEVICE_STATUS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "sizeof (RC_DEVICE_STATUS)" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 16-bit int".</font>
+<b><a name="line851">851    </a></b>	            break;
+<b><a name="line852">852    </a></b>	
+<b><a name="line853">853    </a></b>	        case RECOVERY_CMD_DEVICE_RESET:
+<b><a name="line854">854    </a></b>	            uwByteCount = sizeof(RC_DEVICE_RESET);
+<b><a name="line855">855    </a></b>	            break;
+<b><a name="line856">856    </a></b>	
+<b><a name="line857">857    </a></b>	        case RECOVERY_CMD_RECOVERY_CTRL:
+<b><a name="line858">858    </a></b>	            uwByteCount = sizeof(RC_RECOVERY_CTRL);
+<b><a name="line859">859    </a></b>	            break;
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	        case RECOVERY_CMD_RECOVERY_STATUS:
+<b><a name="line862">862    </a></b>	            uwByteCount = sizeof(RC_RECOVERY_STATUS);
+<b><a name="line863">863    </a></b>	            break;
+<b><a name="line864">864    </a></b>	
+<b><a name="line865">865    </a></b>	        case RECOVERY_CMD_HW_STATUS:
+<b><a name="line866">866    </a></b>	            uwByteCount = sizeof(RC_HW_STATUS);
+<b><a name="line867">867    </a></b>	            break;
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	        case RECOVERY_CMD_INDIRECT_CTRL:
+<b><a name="line870">870    </a></b>	            uwByteCount = sizeof(RC_INDIRECT_CTRL);
+<b><a name="line871">871    </a></b>	            break;
+<b><a name="line872">872    </a></b>	
+<b><a name="line873">873    </a></b>	        case RECOVERY_CMD_INDIRECT_STATUS:
+<b><a name="line874">874    </a></b>	            uwByteCount = sizeof(RC_INDIRECT_STATUS);
+<b><a name="line875">875    </a></b>	            break;
+<b><a name="line876">876    </a></b>	
+<b><a name="line877">877    </a></b>	        case RECOVERY_CMD_INDIRECT_DATA:
+<b><a name="line878">878    </a></b>	            uwByteCount = sizeof(RC_INDIRECT_DATA);
+<b><a name="line879">879    </a></b>	            break;
+<b><a name="line880">880    </a></b>	
+<b><a name="line881">881    </a></b>	        case RECOVERY_CMD_VENDOR:
+</pre></body>
+</html>

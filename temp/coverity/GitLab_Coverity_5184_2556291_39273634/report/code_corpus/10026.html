@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_mlkem_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line845">845    </a></b>	
+<b><a name="line846">846    </a></b>	    ntt(p32->coeffs, 256, kyber_zetas, 1);
+<b><a name="line847">847    </a></b>	
+<b><a name="line848">848    </a></b>	    for (U32 i = 0UL; i < HAL_SEC_PQC_MLKEM_N; i++)
+<b><a name="line849">849    </a></b>	    {
+<b><a name="line850">850    </a></b>	        r->coeffs[i] = (S16)p32->coeffs[i];
+<b><a name="line851">851    </a></b>	    }
+<b><a name="line852">852    </a></b>	
+<b><a name="line853">853    </a></b>	    hal_sec_pqc_mlkem_poly_reduce(r);
+<b><a name="line854">854    </a></b>	}
+<b><a name="line855">855    </a></b>	
+<b><a name="line856">856    </a></b>	/*************************************************
+<b><a name="line857">857    </a></b>	* Name:        hal_sec_pqc_mlkem_poly_invntt_tomont
+<b><a name="line858">858    </a></b>	*
+<b><a name="line859">859    </a></b>	* Description: Computes inverse of negacyclic number-theoretic transform (NTT)
+<b><a name="line860">860    </a></b>	*              of a polynomial in place;
+<b><a name="line861">861    </a></b>	*              inputs assumed to be in bitreversed order, output in normal order
+<b><a name="line862">862    </a></b>	*
+<b><a name="line863">863    </a></b>	* Arguments:   - U16 *a: pointer to in/output polynomial
+<b><a name="line864">864    </a></b>	**************************************************/
+<b><a name="line865">865    </a></b>	void hal_sec_pqc_mlkem_poly_invntt_tomont(HAL_SEC_PQC_MLKEM_POLY_T_PTR r, HAL_SEC_PQC_MLKEM_TEMP_BUF_S_PTR temp_buf_ptr)
+<b><a name="line866">866    </a></b>	{
+<b><a name="line867">867    </a></b>	    HAL_SEC_PQC_MLKEM_POLY32_T_PTR p32 = (HAL_SEC_PQC_MLKEM_POLY32_T_PTR)(&temp_buf_ptr->cal_ntt.p32);
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	    for (U32 i = 0UL; i < HAL_SEC_PQC_MLKEM_N; i++)
+<b><a name="line870">870    </a></b>	    {
+<b><a name="line871">871    </a></b>	        p32->coeffs[i] = r->coeffs[i];
+<b><a name="line872">872    </a></b>	    }
+<b><a name="line873">873    </a></b>	
+<b><a name="line874">874    </a></b>	    intt_tomont(p32->coeffs, 256, (S32 *)kyber_zetas, 1441, 1);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "kyber_zetas" to type "S32 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line875">875    </a></b>	
+<b><a name="line876">876    </a></b>	    for (U32 i = 0UL; i < HAL_SEC_PQC_MLKEM_N; i++)
+<b><a name="line877">877    </a></b>	    {
+<b><a name="line878">878    </a></b>	        r->coeffs[i] = (S16)p32->coeffs[i];
+<b><a name="line879">879    </a></b>	    }
+<b><a name="line880">880    </a></b>	}
+<b><a name="line881">881    </a></b>	
+<b><a name="line882">882    </a></b>	/*************************************************
+<b><a name="line883">883    </a></b>	* Name:        hal_sec_pqc_mlkem_poly_basemul_montgomery
+<b><a name="line884">884    </a></b>	*
+<b><a name="line885">885    </a></b>	* Description: Multiplication of two polynomials in NTT domain
+<b><a name="line886">886    </a></b>	*
+<b><a name="line887">887    </a></b>	* Arguments:   - HAL_SEC_PQC_MLKEM_POLY_T_PTR r: pointer to output polynomial
+<b><a name="line888">888    </a></b>	*              - HAL_SEC_PQC_MLKEM_POLY_T_PTR a: pointer to first input polynomial
+<b><a name="line889">889    </a></b>	*              - HAL_SEC_PQC_MLKEM_POLY_T_PTR b: pointer to second input polynomial
+<b><a name="line890">890    </a></b>	**************************************************/
+<b><a name="line891">891    </a></b>	void hal_sec_pqc_mlkem_poly_basemul_montgomery(HAL_SEC_PQC_MLKEM_POLY_T_PTR r, HAL_SEC_PQC_MLKEM_POLY_T_PTR a, HAL_SEC_PQC_MLKEM_POLY_T_PTR b)
+<b><a name="line892">892    </a></b>	{
+<b><a name="line893">893    </a></b>	    for (U32 i = 0UL; i < (HAL_SEC_PQC_MLKEM_N / 4UL); i++)
+<b><a name="line894">894    </a></b>	    {
+<b><a name="line895">895    </a></b>	        hal_sec_pqc_mlkem_basemul(&r->coeffs[4U * i], &a->coeffs[4U * i], &b->coeffs[4U * i], (S16)(kyber_zetas[64U + i]));
+<b><a name="line896">896    </a></b>	        hal_sec_pqc_mlkem_basemul(&r->coeffs[4U * i + 2U], &a->coeffs[4U * i + 2U], &b->coeffs[4U * i + 2U], (S16)(-kyber_zetas[64U + i]));
+<b><a name="line897">897    </a></b>	    }
+<b><a name="line898">898    </a></b>	}
+<b><a name="line899">899    </a></b>	
+<b><a name="line900">900    </a></b>	/*************************************************
+<b><a name="line901">901    </a></b>	* Name:        hal_sec_pqc_mlkem_poly_tomont
+<b><a name="line902">902    </a></b>	*
+<b><a name="line903">903    </a></b>	* Description: Inplace conversion of all coefficients of a polynomial
+<b><a name="line904">904    </a></b>	*              from normal domain to Montgomery domain
+<b><a name="line905">905    </a></b>	*
+</pre></body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/version.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  version.c                                                             */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define _VERSION_C_
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#include "user_libs.h"
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	BOOT_ROM_FW_VERSION const U8 code_version[FW_VER_BYTES] = {
+<b><a name="line23">23    </a></b>	    'X',                            /* 1st: Product Category      (X: Enterprise)   */
+<b><a name="line24">24    </a></b>	    '3',                            /* 2nd: Phison Product        (3: PS5303)       */
+<b><a name="line25">25    </a></b>	    'R',                            /* 3rd: FW Mode               (R: Boot ROM)     */
+<b><a name="line26">26    </a></b>	    'M',                            /* 4th: Customer Code         (M: Main Stream)  */
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "77" from essential type "character" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line27">27    </a></b>	    '0',                            /* 5th: Flash Type            (0: Non-Flash)    */
+<b><a name="line28">28    </a></b>	    ('0' + BOOTCODE_MAIN_VERSION),  /* 6th: Official Code Version (Major: 0-9, A-Z) */
+<b><a name="line29">29    </a></b>	    '0',                            /* 7th: Official Code Version (Major: 0-9, A-Z) */
+<b><a name="line30">30    </a></b>	    ('0' + BOOTCODE_MINOR_VERSION), /* 8th: Test Code Version     (Minor: 0-9, A-Z) */
+<b><a name="line31">31    </a></b>	};
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	U8 fw_version[FW_VER_BYTES];
+<b><a name="line34">34    </a></b>	const U8 model_number[MN_BYTES] = {
+<b><a name="line35">35    </a></b>	    'N', 'V', 'M', 'e', ' ', 'S', 'S', 'D',
+<b><a name="line36">36    </a></b>	    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+<b><a name="line37">37    </a></b>	    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+<b><a name="line38">38    </a></b>	    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+<b><a name="line39">39    </a></b>	    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+<b><a name="line40">40    </a></b>	};
+<b><a name="line41">41    </a></b>	// TODO: check
+<b><a name="line42">42    </a></b>	U8 serial_number[SN_BYTES];/* = {
+<b><a name="line43">43    </a></b>		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+<b><a name="line44">44    </a></b>		' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+<b><a name="line45">45    </a></b>		' ', ' ', ' ', ' '
+<b><a name="line46">46    </a></b>	};*/
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	void version_init(void)
+<b><a name="line49">49    </a></b>	{
+<b><a name="line50">50    </a></b>	    U32 i;
+<b><a name="line51">51    </a></b>	    U32 character;
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	    // FW Version
+<b><a name="line54">54    </a></b>	    memcpy((void *)fw_version, (void *)code_version, FW_VER_BYTES);
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    // Model Number
+<b><a name="line57">57    </a></b>	    // Already Initialized
+</pre></body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	            M_I2CM_SET_DEBOUNCE_EN(1U);
+<b><a name="line36">36    </a></b>	            M_I2CM_SET_DEBOUNCE_HIGH_DEPTH(1U);
+<b><a name="line37">37    </a></b>	            M_I2CM_SET_DEBOUNCE_LOW_DEPTH(1U);
+<b><a name="line38">38    </a></b>	            break;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	        case I2C_NM_1M:
+<b><a name="line41">41    </a></b>	            // full speed mode 1MHz
+<b><a name="line42">42    </a></b>	            M_I2CM_SET_CLK_DIV_CNT(0x11U);
+<b><a name="line43">43    </a></b>	            M_I2CM_SET_NM_SCL_LT(0xCU);
+<b><a name="line44">44    </a></b>	            M_I2CM_SET_NM_SCL_HT(0xBU);
+<b><a name="line45">45    </a></b>	            M_I2CM_SET_THIGH_MIN_CNT(0x6U);
+<b><a name="line46">46    </a></b>	            M_I2CM_SET_NM_SDA_HOLD_CNT(0x1U);
+<b><a name="line47">47    </a></b>	            M_I2CM_SET_NM_SDA_ST_SETUP_CNT(0x9U);
+<b><a name="line48">48    </a></b>	
+<b><a name="line49">49    </a></b>	            M_I2CM_SET_DEBOUNCE_EN(1U);
+<b><a name="line50">50    </a></b>	            M_I2CM_SET_DEBOUNCE_HIGH_DEPTH(1U);
+<b><a name="line51">51    </a></b>	            M_I2CM_SET_DEBOUNCE_LOW_DEPTH(1U);
+<b><a name="line52">52    </a></b>	            break;
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	}
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	/*!
+<b><a name="line57">57    </a></b>	   @brief      set i2cm high speed mode frequency (refer to icv - hal_api_i2c_hs_set_frequency_violate)
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	   @param      ulHsFreq          high speed mode frequency
+<b><a name="line60">60    </a></b>	 */
+<b><a name="line61">61    </a></b>	void phal_i2cm_set_hs_frequency_violate(U32 ulHsFreq)
+<b><a name="line62">62    </a></b>	{
+<b><a name="line63">63    </a></b>	    switch (ulHsFreq)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event missing_default:</font></b> <font face="Arial"; size="3"; color="#FF5959">No default case found for the switch statement "switch (ulHsFreq)".</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_16_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The switch statement is not well formed.</font>
+<b><a name="line64">64    </a></b>	    {
+<b><a name="line65">65    </a></b>	        case I2C_HS_1M7:
+<b><a name="line66">66    </a></b>	            // high speed mode 1.7MHz
+<b><a name="line67">67    </a></b>	            M_I2CM_SET_HS_SCL_LT(0x7U);
+<b><a name="line68">68    </a></b>	            M_I2CM_SET_SCL_SEL(FALSE);
+<b><a name="line69">69    </a></b>	            M_I2CM_SET_HS_SCL_HT(0x6U);
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	            M_I2CM_SET_HS_SDA_HOLD_CNT(0x0U);
+<b><a name="line72">72    </a></b>	            M_I2CM_SET_HS_SDA_ST_SETUP_CNT(0x3U);
+<b><a name="line73">73    </a></b>	            M_I2CM_SET_HS_SCL_ST_HOLD_CNT(0x8U);
+<b><a name="line74">74    </a></b>	            M_I2CM_SET_THIGH_MIN_CNT(0x2U);
+<b><a name="line75">75    </a></b>	            break;
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	        case I2C_HS_3M4:
+<b><a name="line78">78    </a></b>	            // high speed mode 3.4MHz
+<b><a name="line79">79    </a></b>	            M_I2CM_SET_HS_SCL_LT(0x3U);
+<b><a name="line80">80    </a></b>	            M_I2CM_SET_SCL_SEL(FALSE);
+<b><a name="line81">81    </a></b>	            M_I2CM_SET_HS_SCL_HT(0x3U);
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	            M_I2CM_SET_HS_SDA_HOLD_CNT(0x0U);
+<b><a name="line84">84    </a></b>	            M_I2CM_SET_HS_SDA_ST_SETUP_CNT(0x3U);
+<b><a name="line85">85    </a></b>	            M_I2CM_SET_HS_SCL_ST_HOLD_CNT(0x8U);
+<b><a name="line86">86    </a></b>	            M_I2CM_SET_THIGH_MIN_CNT(0x1U);
+<b><a name="line87">87    </a></b>	            break;
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	/*!
+<b><a name="line92">92    </a></b>	   @brief      check i2c is idle (refer to icv - hal_api_i2c_check_trigger_done)
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	   @param      ubGroup           group
+</pre></body>
+</html>

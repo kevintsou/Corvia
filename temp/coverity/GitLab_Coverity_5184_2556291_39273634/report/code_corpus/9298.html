@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line452">452    </a></b>	    }
+<b><a name="line453">453    </a></b>	}
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	void xmodem_send_data(XMOD_STRUCT_PTR xmodem)
+<b><a name="line456">456    </a></b>	{
+<b><a name="line457">457    </a></b>	    U8 idx;
+<b><a name="line458">458    </a></b>	
+<b><a name="line459">459    </a></b>	    if (XMOD_SEND_WAIT == xmodem->send_state) {
+<b><a name="line460">460    </a></b>	        if (MABIAO_CHK((U32)&(xmodem->transfer_timer))) {
+<b><a name="line461">461    </a></b>	            for (idx = 0; idx < XMOD_CANCEL_CNT; idx++) {
+<b><a name="line462">462    </a></b>	                xmodem_send_byte(XMOD_CAN);
+<b><a name="line463">463    </a></b>	            }
+<b><a name="line464">464    </a></b>	            xmodem_send_to_state(xmodem, XMOD_SEND_INVALID_STATE);
+<b><a name="line465">465    </a></b>	        }
+<b><a name="line466">466    </a></b>	    }
+<b><a name="line467">467    </a></b>	    else if (XMOD_SEND_1ST_TOK == xmodem->send_state) {
+<b><a name="line468">468    </a></b>	        xmodem_send_byte(xmodem->token[FIRST_TOK]);
+<b><a name="line469">469    </a></b>	        if (XMOD_EOT != xmodem->token[FIRST_TOK]) {
+<b><a name="line470">470    </a></b>	            xmodem_send_byte(xmodem->token[PACKET_TOK]);
+<b><a name="line471">471    </a></b>	            xmodem_send_byte(xmodem->token[N_PACKET_TOK]);
+<b><a name="line472">472    </a></b>	            xmodem_send_packet_data(xmodem);
+<b><a name="line473">473    </a></b>	            xmodem_send_byte(xmodem->token[CRC_1_TOK]);
+<b><a name="line474">474    </a></b>	            if (XMOD_CRC16 == xmodem->protect_mode) {
+<b><a name="line475">475    </a></b>	                xmodem_send_byte(xmodem->token[CRC_2_TOK]);
+<b><a name="line476">476    </a></b>	            }
+<b><a name="line477">477    </a></b>	            xmodem_send_to_state(xmodem, XMOD_SEND_POLL_FEEDBACK);
+<b><a name="line478">478    </a></b>	        }
+<b><a name="line479">479    </a></b>	        xmodem_send_to_state(xmodem, XMOD_SEND_POLL_FEEDBACK);
+<b><a name="line480">480    </a></b>	    }
+<b><a name="line481">481    </a></b>	    else if (XMOD_SEND_RETRY == xmodem->send_state) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "28" (signed) is not the same as that of the right operand "xmodem->send_state"(unsigned).</font>
+<b><a name="line482">482    </a></b>	        if (xmodem->retry_cnt < 16) {
+<b><a name="line483">483    </a></b>	            xmodem->retry_cnt++;
+<b><a name="line484">484    </a></b>	            xmodem_send_packet_refresh(xmodem, 0);
+<b><a name="line485">485    </a></b>	            xmodem_send_to_state(xmodem, XMOD_SEND_1ST_TOK);
+<b><a name="line486">486    </a></b>	        }
+<b><a name="line487">487    </a></b>	        else {
+<b><a name="line488">488    </a></b>	            xmodem->abort_type = XMOD_RETRY_FAIL;
+<b><a name="line489">489    </a></b>	            xmodem_send_to_state(xmodem, XMOD_SEND_INVALID_STATE);
+<b><a name="line490">490    </a></b>	        }
+<b><a name="line491">491    </a></b>	    }
+<b><a name="line492">492    </a></b>	    else {
+<b><a name="line493">493    </a></b>	        //xmodem->abort_type = XMOD_INVALID_STATE;
+<b><a name="line494">494    </a></b>	        //xmodem_send_to_state(xmodem, XMOD_SEND_INVALID_STATE);
+<b><a name="line495">495    </a></b>	    }
+<b><a name="line496">496    </a></b>	}
+<b><a name="line497">497    </a></b>	
+</pre></body>
+</html>

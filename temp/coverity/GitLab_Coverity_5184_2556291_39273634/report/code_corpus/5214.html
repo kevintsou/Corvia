@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3512">3512    </a></b>	    for (code_pointer_count = p_code_pointer_info->max_count; code_pointer_count > 0 ; code_pointer_count--) {
+<b><a name="line3513">3513    </a></b>	        code_pointer_status = check_code_pointer_offset(p_code_pointer_info, (code_pointer_count - 1), p_code_pointer, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_code_pointer_block_status, a_flash_error_channel_bitmap);
+<b><a name="line3514">3514    </a></b>	        if (0 == code_pointer_status) {
+<b><a name="line3515">3515    </a></b>	            Dump_ScanID(tprintf("Code Pointer %d is it", (U8)(code_pointer_count - 1)));
+<b><a name="line3516">3516    </a></b>	            p_code_pointer_block_status->code_pointer_offset = (code_pointer_count - 1);
+<b><a name="line3517">3517    </a></b>	            p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_CODE_POINTER_FOUND;
+<b><a name="line3518">3518    </a></b>	
+<b><a name="line3519">3519    </a></b>	            sal_log_info_char('Q'); //Code Pointer Offset found
+<b><a name="line3520">3520    </a></b>	            sal_log_info_num(p_code_pointer_block_status->code_pointer_offset); //Part of 'Q', The offset of the Code Pointer Offset
+<b><a name="line3521">3521    </a></b>	
+<b><a name="line3522">3522    </a></b>	            return 0;
+<b><a name="line3523">3523    </a></b>	        }
+<b><a name="line3524">3524    </a></b>	    }
+<b><a name="line3525">3525    </a></b>	
+<b><a name="line3526">3526    </a></b>	    //No Code Pointer has been found
+<b><a name="line3527">3527    </a></b>	    p_code_pointer_block_status->code_pointer_offset = 0xFFFF;
+<b><a name="line3528">3528    </a></b>	    p_code_pointer_block_status->error.code_pointer |= CODE_POINTER_BLOCK_ERROR_CODE_POINTER_DOES_NOT_EXIST;
+<b><a name="line3529">3529    </a></b>	    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_UNUSABLE;
+<b><a name="line3530">3530    </a></b>	
+<b><a name="line3531">3531    </a></b>	    return 1;
+<b><a name="line3532">3532    </a></b>	}
+<b><a name="line3533">3533    </a></b>	
+<b><a name="line3534">3534    </a></b>	static U8 use_code_pointer(const CODE_POINTER *p_code_pointer, CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status, U32 project_binary_address, LOAD_CODE_STATUS *p_load_code_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line3535">3535    </a></b>	{
+<b><a name="line3536">3536    </a></b>	    FW_SLOT_STATUS *p_fw_slot_status;
+<b><a name="line3537">3537    </a></b>	    U8 slot_id;
+<b><a name="line3538">3538    </a></b>	    U8 error_firmware;
+<b><a name="line3539">3539    </a></b>	    U8 slot_priority;
+<b><a name="line3540">3540    </a></b>	
+<b><a name="line3541">3541    </a></b>	    sal_log_tracker_set(sal_locate(0x05, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0xffffffff8305dd50 | 6" from essential type "signed 64-bit int" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line3542">3542    </a></b>	
+<b><a name="line3543">3543    </a></b>	    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_FIRMWARE_LOAD_START;
+<b><a name="line3544">3544    </a></b>	
+<b><a name="line3545">3545    </a></b>	    for (slot_priority = 0; slot_priority < FW_SLOT_COUNT; slot_priority++) {
+<b><a name="line3546">3546    </a></b>	        p_code_pointer_block_status->firmware_priority_used = slot_priority;
+<b><a name="line3547">3547    </a></b>	        p_fw_slot_status = &(p_code_pointer_block_status->a_slot_status[slot_priority]);
+<b><a name="line3548">3548    </a></b>	        slot_id = p_code_pointer->header.a_slot_id[slot_priority];
+<b><a name="line3549">3549    </a></b>	
+<b><a name="line3550">3550    </a></b>	        Dump_ScanID(tprintf("Trying to use Slot Priority %d", slot_priority));
+<b><a name="line3551">3551    </a></b>	
+<b><a name="line3552">3552    </a></b>	        //Load the FW slot if it is a valid slot
+<b><a name="line3553">3553    </a></b>	        if ((FW_SLOT_COUNT > slot_id) && (0 != (p_code_pointer->header.valid_slot_bitmap & (1 << slot_id)))) {
+<b><a name="line3554">3554    </a></b>	
+<b><a name="line3555">3555    </a></b>	            Dump_ScanID(tprintf("Using Slot Priority %d (Slot ID %d)", slot_priority, slot_id));
+<b><a name="line3556">3556    </a></b>	            error_firmware = use_fw_slot(&(p_code_pointer->a_slot_info[slot_id]), p_fw_slot_status, project_binary_address, p_load_code_status, a_flash_error_channel_bitmap);
+<b><a name="line3557">3557    </a></b>	        }
+<b><a name="line3558">3558    </a></b>	        else {
+<b><a name="line3559">3559    </a></b>	
+<b><a name="line3560">3560    </a></b>	            Dump_ScanID(tprintf("Invalid Slot ID %d (> %d) or not valid slot bitmap %x (& %x)", slot_id, FW_SLOT_COUNT, p_code_pointer->header.valid_slot_bitmap, (1 << slot_id)));
+<b><a name="line3561">3561    </a></b>	
+<b><a name="line3562">3562    </a></b>	            error_firmware = CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_INVALID_SLOT;
+<b><a name="line3563">3563    </a></b>	
+<b><a name="line3564">3564    </a></b>	            //The FW Slot is unusable because of an invalid slot
+<b><a name="line3565">3565    </a></b>	            p_fw_slot_status->state = FW_SLOT_STATE_UNUSABLE;
+<b><a name="line3566">3566    </a></b>	            p_fw_slot_status->fw_slot_error = CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_INVALID_SLOT;
+<b><a name="line3567">3567    </a></b>	        }
+<b><a name="line3568">3568    </a></b>	
+<b><a name="line3569">3569    </a></b>	        p_code_pointer_block_status->error.firmware_all |= error_firmware;
+<b><a name="line3570">3570    </a></b>	
+<b><a name="line3571">3571    </a></b>	        Dump_ScanID(tprintf("FW Slot Priority %d, State %d", slot_priority, p_fw_slot_status->state));
+<b><a name="line3572">3572    </a></b>	        Dump_ScanID(tprintf("Error %x, Project Binary Error %x ", p_fw_slot_status->fw_slot_error, p_fw_slot_status->project_binary_error));
+</pre></body>
+</html>

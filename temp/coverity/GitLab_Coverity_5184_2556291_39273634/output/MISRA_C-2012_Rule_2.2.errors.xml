@@ -1,0 +1,932 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/boot_cpu.c</file>
+<function>unknown</function>
+<score>20</score>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>variable &quot;ultemp&quot; was declared but never referenced</description>
+<line>31</line>
+<column>18</column>
+</event>
+<event>
+<tag>caretline</tag>
+<description>                 ^</description>
+<line>31</line>
+<column>18</column>
+</event>
+<extra>    volatile U32 ultemp;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</file>
+<function>hal_sec_pke_insert_cmd</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{(U8)(dal_sec_pke_get_que_ful() == 0UL)}}}{{code{ret}}}}}}</description>
+<line>196</line>
+<column>11</column>
+</event>
+<extra>dal_sec_pke_get_que_ful</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_rst.c</file>
+<function>host_api_pcie_link_without_isr</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{1}}}{{code{detect_xtal_mode}}}}}}</description>
+<line>1145</line>
+<column>36</column>
+</event>
+<extra>1</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sha_api.c</file>
+<function>hal_sec_hmac_sha_set_key</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{ret &amp; hal_sec_sha_polling(sha.timeout_val, 0UL)}}}{{code{ret}}}}}}</description>
+<line>97</line>
+<column>9</column>
+</event>
+<extra>hal_sec_sha_polling,ret</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.c</file>
+<function>crc_calculate</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{data}}}{{code{(U8 *)data_base[data_offset]}}}}}}</description>
+<line>99</line>
+<column>16</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{data}}}}}}</description>
+<line>97</line>
+<column>12</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_crc</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{crc_calc}}}{{code{phal_dmac_crc32((U32)crc_address, crc_length, 1)}}}}}}</description>
+<line>382</line>
+<column>16</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{crc_calc}}}}}}</description>
+<line>378</line>
+<column>16</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_crc</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{crc_calc}}}{{code{phal_dmac_crc32((U32)crc_address, crc_length, 1)}}}}}}</description>
+<line>407</line>
+<column>17</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{crc_calc}}}}}}</description>
+<line>396</line>
+<column>16</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_crc</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0UL}}}{{code{crc_calc}}}}}}</description>
+<line>417</line>
+<column>16</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_pasring</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0ULL}}}{{code{dly}}}}}}</description>
+<line>185</line>
+<column>29</column>
+</event>
+<extra>0ULL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_pasring</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{row_addr_num}}}{{code{cmd_info_ptr-&gt;op[cmd_info_ptr-&gt;op_id + 1U] &amp; 0xfU}}}}}}</description>
+<line>211</line>
+<column>32</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0}}}{{code{row_addr_num}}}}}}</description>
+<line>189</line>
+<column>29</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_code_signature_key_validity</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{*((U32 *)key_address)}}}{{code{key_id}}}}}}</description>
+<line>455</line>
+<column>14</column>
+</event>
+<extra>key_address</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0UL}}}{{code{hw_status}}}}}}</description>
+<line>1276</line>
+<column>17</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{p_project_binary_header-&gt;file_format}}}{{code{file_format}}}}}}</description>
+<line>1282</line>
+<column>19</column>
+</event>
+<extra>file_format,p_project_binary_header</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_sw_sm2_sm3(p_project_binary_header, calculation_buffer, project_binary_hash)}}}}}}</description>
+<line>1321</line>
+<column>38</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_lms_sha256_192(p_project_binary_header, calculation_buffer, project_binary_hash)}}}}}}</description>
+<line>1324</line>
+<column>38</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_sm9(p_project_binary_header, calculation_buffer, project_binary_hash)}}}}}}</description>
+<line>1327</line>
+<column>38</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, 0)}}}}}}</description>
+<line>1330</line>
+<column>38</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, 1)}}}}}}</description>
+<line>1333</line>
+<column>38</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{check_project_binary_error}}}{{code{check_project_binary_code_sign_kaz(p_project_binary_header, calculation_buffer, project_binary_hash)}}}}}}</description>
+<line>1336</line>
+<column>38</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{check_project_binary_error}}}}}}</description>
+<line>1273</line>
+<column>34</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{verify_status}}}{{code{phal_rsa_pkcs1v21_verify(&amp;rsa_key)}}}}}}</description>
+<line>1435</line>
+<column>32</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{verify_status}}}}}}</description>
+<line>1266</line>
+<column>21</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_read_dma</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{i}}}{{code{fip_read_param_struct_ptr-&gt;nand_addr.node}}}}}}</description>
+<line>921</line>
+<column>14</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0}}}{{code{i}}}}}}</description>
+<line>883</line>
+<column>21</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_api_read_dma</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{sq_cmd_size}}}{{code{buf - inst_buf}}}}}}</description>
+<line>942</line>
+<column>19</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{sq_cmd_size}}}}}}</description>
+<line>884</line>
+<column>21</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0ULL}}}{{code{cycle}}}}}}</description>
+<line>452</line>
+<column>29</column>
+</event>
+<extra>0ULL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0}}}{{code{data_ref_num}}}}}}</description>
+<line>457</line>
+<column>29</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_set_feature_retry</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{feat_adr_id}}}{{code{(param.cmd_addr.addr_len &gt; 1U) ? 1U : 0U}}}}}}</description>
+<line>621</line>
+<column>19</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0}}}{{code{feat_adr_id}}}}}}</description>
+<line>609</line>
+<column>19</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_set_feature_retry</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{hal_fip_api_set_parameter(param.comm.ch, param.comm.bank, (U8 *)&amp;param.cmd_addr.cmd, (U8 *)&amp;param.cmd_addr.addr[feat_adr_id], param.cmd_addr.dat_buf, param.cmd_addr.dat_len, (*gFplApiStruct.p_efuse_nand_setting).cmd_dqs_h, (*gFplApiStruct.p_efuse_nand_setting).odt_prefix, (U32 *)&amp;gFplApiStruct.ac_timing, 30ULL + (U64)(*gFplApiStruct.p_efuse_nand_setting).delay_for_nbs_test * 30000ULL)}}}}}}</description>
+<line>624</line>
+<column>18</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{hal_fip_api_set_feature(param.comm.ch, param.comm.bank, param.cmd_addr.cmd[0U], param.cmd_addr.addr[feat_adr_id], param.cmd_addr.dat_buf, (*gFplApiStruct.p_efuse_nand_setting).cmd_dqs_h, (*gFplApiStruct.p_efuse_nand_setting).odt_prefix, (U32 *)&amp;gFplApiStruct.ac_timing, 30ULL + (U64)(*gFplApiStruct.p_efuse_nand_setting).delay_for_nbs_test * 30000ULL)}}}}}}</description>
+<line>636</line>
+<column>18</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{status}}}}}}</description>
+<line>608</line>
+<column>19</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_get_feature_retry</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{feat_adr_id}}}{{code{(param.cmd_addr.addr_len &gt; 1U) ? 1U : 0U}}}}}}</description>
+<line>668</line>
+<column>19</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0}}}{{code{feat_adr_id}}}}}}</description>
+<line>657</line>
+<column>19</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_get_feature_retry</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{hal_fip_api_get_parameter(param.comm.ch, param.comm.bank, (U8 *)&amp;param.cmd_addr.cmd[0U], (U8 *)&amp;param.cmd_addr.addr[feat_adr_id], param.cmd_addr.dat_buf, param.cmd_addr.dat_len, (*gFplApiStruct.p_efuse_nand_setting).cmd_dqs_l, (*gFplApiStruct.p_efuse_nand_setting).odt_prefix, (U32 *)&amp;gFplApiStruct.ac_timing, 30ULL + (U64)(*gFplApiStruct.p_efuse_nand_setting).delay_for_nbs_test * 30000ULL)}}}}}}</description>
+<line>671</line>
+<column>18</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{hal_fip_api_get_feature(param.comm.ch, param.comm.bank, param.cmd_addr.cmd[0U], param.cmd_addr.addr[feat_adr_id], param.cmd_addr.dat_buf, (*gFplApiStruct.p_efuse_nand_setting).cmd_dqs_l, (*gFplApiStruct.p_efuse_nand_setting).odt_prefix, (U32 *)&amp;gFplApiStruct.ac_timing, (*gFplApiStruct.p_efuse_nand_setting).channel_exist_bitmap, 30ULL + (U64)(*gFplApiStruct.p_efuse_nand_setting).delay_for_nbs_test * 30000ULL)}}}}}}</description>
+<line>683</line>
+<column>18</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{status}}}}}}</description>
+<line>656</line>
+<column>19</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.c</file>
+<function>crc_calc</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{data}}}{{code{(U8 *)data_base[data_offset]}}}}}}</description>
+<line>89</line>
+<column>16</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{data}}}}}}</description>
+<line>87</line>
+<column>12</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{ISP_PRAM_MODE}}}{{code{mode}}}}}}</description>
+<line>106</line>
+<column>24</column>
+</event>
+<extra>ISP_PRAM_MODE</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_sendSecureInfo</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0UL}}}{{code{ulStatus}}}}}}</description>
+<line>189</line>
+<column>20</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_sendSecureInfo</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0UL}}}{{code{ulFailCode}}}}}}</description>
+<line>190</line>
+<column>22</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_bitmap_restore_read_offset</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{a_fip_read_param[channel].nand_addr.all}}}{{code{(U64)channel &lt;&lt; gFplApiStruct.addr_rule-&gt;rule_ch.shift}}}}}}</description>
+<line>1765</line>
+<column>60</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0ULL}}}{{code{a_fip_read_param[channel].nand_addr.all}}}}}}</description>
+<line>1764</line>
+<column>59</column>
+</event>
+<extra>0ULL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>scan_bitmap_restore_read_offset</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{a_fip_read_param[channel].nand_addr.all}}}{{code{(U64)channel &lt;&lt; gFplApiStruct.addr_rule-&gt;rule_ch.shift}}}}}}</description>
+<line>1790</line>
+<column>60</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0ULL}}}{{code{a_fip_read_param[channel].nand_addr.all}}}}}}</description>
+<line>1789</line>
+<column>59</column>
+</event>
+<extra>0ULL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_por_retry</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0}}}{{code{poll_data}}}}}}</description>
+<line>844</line>
+<column>23</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/utility.c</file>
+<function>my_log2</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{x &gt;&gt; 1}}}{{code{x}}}}}}</description>
+<line>56</line>
+<column>9</column>
+</event>
+<extra>x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feature_if</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{fpl_set_feature_if_parallel(fip_inst_ptr, fpl_ptr, &amp;set_if_addr_idx)}}}}}}</description>
+<line>1245</line>
+<column>18</column>
+</event>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{status}}}{{code{fpl_set_feature_if_non_parallel(fip_inst_ptr, fpl_ptr, &amp;set_if_addr_idx)}}}}}}</description>
+<line>1252</line>
+<column>18</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0UL}}}{{code{status}}}}}}</description>
+<line>1242</line>
+<column>23</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_rule_init</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{addr_rule-&gt;rule_node.shift}}}{{code{frm_start}}}}}}</description>
+<line>794</line>
+<column>17</column>
+</event>
+<extra>addr_rule,rule_node,shift</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_bootcode_landmark_handle</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{12800UL}}}{{code{poll_time_us}}}}}}</description>
+<line>255</line>
+<column>28</column>
+</event>
+<extra>12800UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/landmark.c</file>
+<function>efuse_bootcode_landmark_handle</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value from {0} to {1} here, but that stored value is not used.}{{code{fail_cnt++}}}{{code{fail_cnt}}}}}}</description>
+<line>264</line>
+<column>17</column>
+</event>
+<extra>fail_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>nvme_mi_message_read_mi_struct_controller_list</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<tag>value_overwrite</tag>
+<description>{CovLStrv2{{t{Overwriting previous write to {0} with value from {1}.}{{code{cid_cnt}}}{{code{*((U16 *)(void *)response_data_base)}}}}}}</description>
+<line>140</line>
+<column>19</column>
+</event>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is overwritten before it can be used.}{{code{0}}}{{code{cid_cnt}}}}}}</description>
+<line>133</line>
+<column>15</column>
+</event>
+<extra>0</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_get_pass_value</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Function call {0} has no effect and can be removed.}{{code{hal_rng_polling_done(void)}}}}}}</description>
+<line>67</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_polling_done</function>
+<key>72701183f516a9e2a43018ac591d49e4</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_get_value</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Function call {0} has no effect and can be removed.}{{code{hal_rng_polling_done(void)}}}}}}</description>
+<line>61</line>
+<column>5</column>
+<model_ptr>
+<module>module</module>
+<property>prop</property>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd2_rng_api.c</file>
+<function>hal_rng_polling_done</function>
+<key>72701183f516a9e2a43018ac591d49e4</key>
+<id>0</id>
+</model_ptr>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_fip_init</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{1UL}}}{{code{loop}}}}}}</description>
+<line>2268</line>
+<column>15</column>
+</event>
+<extra>1UL</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 2.2</checker>
+<type>MISRA_C_2012_Rule_2.2</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_fip_init</function>
+<score>100</score>
+<ordered>false</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_2_2_violation</tag>
+<description>{CovLStrv2{{t{Assigning value {0} to {1} here, but that stored value is not used.}{{code{0UL}}}{{code{step}}}}}}</description>
+<line>2269</line>
+<column>15</column>
+</event>
+<extra>0UL</extra>
+<subcategory>none</subcategory>
+</error>

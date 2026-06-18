@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line587">587    </a></b>	    U32 salt = 0UL;
+<b><a name="line588">588    </a></b>	    U32 lenS = 0UL;
+<b><a name="line589">589    </a></b>	    U32 lenG1qQ = 0UL;
+<b><a name="line590">590    </a></b>	    U32 W1 = 0UL;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.V1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_v1),        HAL_SEC_PQC_KAZ_VERIFY_V1_LEN);
+<b><a name="line593">593    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.V2,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_v2),        HAL_SEC_PQC_KAZ_VERIFY_V2_LEN);
+<b><a name="line594">594    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.S1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_s1),        HAL_SEC_PQC_KAZ_VERIFY_S1_LEN);
+<b><a name="line595">595    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.hashValue,  (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_hash_val),  HAL_SEC_PQC_KAZ_VERIFY_HASH_VAL_LEN);
+<b><a name="line596">596    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.tmp,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_temp),      HAL_SEC_PQC_KAZ_VERIFY_TEMP_LEN);
+<b><a name="line597">597    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.tmp2,       (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_temp2),     HAL_SEC_PQC_KAZ_VERIFY_TEMP2_LEN);
+<b><a name="line598">598    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.SF1,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_sf1),       HAL_SEC_PQC_KAZ_VERIFY_SF1_LEN);
+<b><a name="line599">599    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.SF2,        (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_sf2),       HAL_SEC_PQC_KAZ_VERIFY_SF2_LEN);
+<b><a name="line600">600    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.W4,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_w4),        HAL_SEC_PQC_KAZ_VERIFY_W4_LEN);
+<b><a name="line601">601    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.W5,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_w5),        HAL_SEC_PQC_KAZ_VERIFY_W5_LEN);
+<b><a name="line602">602    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.Y1,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_y1),        HAL_SEC_PQC_KAZ_VERIFY_Y1_LEN);
+<b><a name="line603">603    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->verify.verify_local_var_s.Y2,         (U32 *)(void *)(kaz_buf_ptr->verify.verify_buf_s.verify_y2),        HAL_SEC_PQC_KAZ_VERIFY_Y2_LEN);
+<b><a name="line604">604    </a></b>	
+<b><a name="line605">605    </a></b>	    // Get all system parameters and precomputed parameters
+<b><a name="line606">606    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G0,          sizeof(G0_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G0_CHAR);
+<b><a name="line607">607    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.R,           sizeof(R_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)R_CHAR);
+<b><a name="line608">608    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1,          sizeof(G1_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line609">609    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.q,           sizeof(q_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><a name="line610">610    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.Q,           sizeof(Q_CHAR),          sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line611">611    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1Q,         sizeof(G1Q_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><a name="line612">612    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1qQ,        sizeof(G1qQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line613">613    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.phiQ,        sizeof(PHIQ_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line614">614    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.qQ,          sizeof(qQ_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line615">615    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.phiqQ,       sizeof(PHIqQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIqQ_CHAR);
+<b><a name="line616">616    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.qQ_div_e,    sizeof(qQ_div_e_CHAR),   sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_div_e_CHAR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "qQ_div_e_CHAR" to type "U8 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line617">617    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->verify.verify_local_var_s.G1qQ_div_e,  sizeof(G1qQ_div_e_CHAR), sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_div_e_CHAR);
+<b><a name="line618">618    </a></b>	
+<b><a name="line619">619    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.V1, HAL_SEC_PQC_KAZ_DS_V1_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &pk[0]);
+<b><a name="line620">620    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.V2, HAL_SEC_PQC_KAZ_DS_V2_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &pk[HAL_SEC_PQC_KAZ_DS_V1_LEN]);
+<b><a name="line621">621    </a></b>	
+<b><a name="line622">622    </a></b>	    //2) Get signature=(S, m)
+<b><a name="line623">623    </a></b>	    salt = (U32)(sm[HAL_SEC_PQC_KAZ_DS_SIG_LEN - 1]);
+<b><a name="line624">624    </a></b>	
+<b><a name="line625">625    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.S1, HAL_SEC_PQC_KAZ_DS_SIG_LEN - 1, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *) &sm[0]);
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	    //3) Compute the hash value of the message
+<b><a name="line628">628    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->verify.verify_local_var_s.hashValue, HAL_SEC_PQC_KAZ_SYS_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, digest);
+<b><a name="line629">629    </a></b>	
+<b><a name="line630">630    </a></b>	    (void)hal_sec_pqc_kaz_pke_add_ui(kaz_buf_ptr->verify.verify_local_var_s.hashValue, kaz_buf_ptr->verify.verify_local_var_s.hashValue, salt);
+<b><a name="line631">631    </a></b>	
+<b><a name="line632">632    </a></b>	    //4) Filtering Procedures
+<b><a name="line633">633    </a></b>	    if (salt > 255UL)
+<b><a name="line634">634    </a></b>	    {
+<b><a name="line635">635    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_0_ERR);
+<b><a name="line636">636    </a></b>	    }
+<b><a name="line637">637    </a></b>	
+<b><a name="line638">638    </a></b>	    //FILTER 1
+<b><a name="line639">639    </a></b>	    (void)hal_sec_pqc_kaz_pke_div(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1, kaz_buf_ptr->verify.verify_local_var_s.G1qQ, HAL_SEC_PQC_KAZ_PKE_MOD);
+<b><a name="line640">640    </a></b>	
+<b><a name="line641">641    </a></b>	    if (hal_sec_pqc_kaz_mp_cmp(kaz_buf_ptr->verify.verify_local_var_s.tmp, kaz_buf_ptr->verify.verify_local_var_s.S1) != 0)
+<b><a name="line642">642    </a></b>	    {
+<b><a name="line643">643    </a></b>	        return HAL_SEC_PQC_KAZ_ERROR(HAL_SEC_PQC_KAZ_FILITER_1_ERR);
+<b><a name="line644">644    </a></b>	    }
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	    //FILTER 2
+<b><a name="line647">647    </a></b>	    lenS = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->verify.verify_local_var_s.S1, 2U);
+</pre></body>
+</html>

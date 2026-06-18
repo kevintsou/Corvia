@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line381">381    </a></b>	        data = (void *)((U32 *)data_addr);
+<b><a name="line382">382    </a></b>	        (void)memcpy((void *)db_base_addr, (void *)data, (U32)sq_size - db_remain_size);
+<b><a name="line383">383    </a></b>	#endif
+<b><a name="line384">384    </a></b>	    }
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	    ASM_DSB();
+<b><a name="line387">387    </a></b>	    dal_db_api_set_wpiu(q_id, cnt);
+<b><a name="line388">388    </a></b>	    db_queue_addr = (U32 *)hal_db_api_get_wptr(q_id);
+<b><a name="line389">389    </a></b>	    ASM_DSB();
+<b><a name="line390">390    </a></b>	}
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	void hal_db_pop_ext(void *data, U32 q_id, U32 pop)
+<b><a name="line393">393    </a></b>	{
+<b><a name="line394">394    </a></b>	    U32 *db_base_addr, *db_queue_addr;
+<b><a name="line395">395    </a></b>	    U32 data_addr, cq_size;
+<b><a name="line396">396    </a></b>	    U16 db_tail_r_rest, db_remain_size;
+<b><a name="line397">397    </a></b>	    U8 cnt;
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	    //UART_OUT_HEX(db_queue_addr);
+<b><a name="line401">401    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_check_rd_cnt(q_id, HAL_DB_DATA_SIZE_8B) == TRUE), GERNAL_TIMEOUT_THRESHOLD, MABIAO_APU_WAIT_RDY);
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    //PTR adopt cpu view address
+<b><a name="line404">404    </a></b>	    db_queue_addr = (U32 *)hal_db_api_get_rptr(q_id);
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	    cnt = (U8)(((MR_HDR_STRUCT *)((void *)db_queue_addr))->len) + 1U;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    cq_size = (U32)cnt * HAL_DB_DATA_SIZE_8B;
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	    WAIT_UNTIL_TIMEOUT_NO_MSG((hal_db_check_rd_cnt(q_id, cq_size) == TRUE), GERNAL_TIMEOUT_THRESHOLD, MABIAO_APU_WAIT_RDY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	    db_tail_r_rest = dal_db_api_get_tail_r_rst(q_id);
+<b><a name="line413">413    </a></b>	
+<b><a name="line414">414    </a></b>	    db_remain_size = db_tail_r_rest * HAL_DB_DATA_SIZE_8B;
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	    if (db_remain_size >= cq_size)
+<b><a name="line417">417    </a></b>	    {
+<b><a name="line418">418    </a></b>	        (void)memcpy((void *)data, (void *)db_queue_addr, cq_size);
+<b><a name="line419">419    </a></b>	    }
+<b><a name="line420">420    </a></b>	    else
+<b><a name="line421">421    </a></b>	    {
+<b><a name="line422">422    </a></b>	        db_base_addr = (U32 *)hal_db_api_get_base_adr(q_id);
+<b><a name="line423">423    </a></b>	        (void)memcpy((void *)data, (void *)db_queue_addr, db_remain_size);
+<b><a name="line424">424    </a></b>	        data_addr = (U32)((U32 *)data) + db_remain_size;
+<b><a name="line425">425    </a></b>	        data = (void *)((U32 *)data_addr);
+<b><a name="line426">426    </a></b>	        (void)memcpy((void *)data, (void *)db_base_addr, (U32)cq_size - db_remain_size);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    if (pop == TRUE)
+<b><a name="line430">430    </a></b>	    {
+<b><a name="line431">431    </a></b>	        ASM_DSB();
+<b><a name="line432">432    </a></b>	        dal_db_api_set_rpiu(q_id, cnt);
+<b><a name="line433">433    </a></b>	    }
+<b><a name="line434">434    </a></b>	}
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	/*!
+<b><a name="line437">437    </a></b>	 @brief hal_db_pop
+<b><a name="line438">438    </a></b>	 @param p_data data poniter
+<b><a name="line439">439    </a></b>	 @param size data size
+<b><a name="line440">440    </a></b>	 @param db_id DoorBell ID
+<b><a name="line441">441    </a></b>	 @note Pop command from specified queue
+</pre></body>
+</html>

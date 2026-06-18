@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	            rst_bmp |= RST_PCIE_FLR;
+<b><a name="line277">277    </a></b>	        }
+<b><a name="line278">278    </a></b>	
+<b><a name="line279">279    </a></b>	        if (event->rst_flag & RST_NVME_CC_DIS) {
+<b><a name="line280">280    </a></b>	            Dump_PCIE(tprintf(">> cc.en = 0 \n\r"));
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	            rst_bmp |= RST_NVME_CC_DIS;
+<b><a name="line283">283    </a></b>	        }
+<b><a name="line284">284    </a></b>	
+<b><a name="line285">285    </a></b>	        if (event->rst_flag & RST_NVME_CC_SHN) {
+<b><a name="line286">286    </a></b>	            Dump_PCIE(tprintf(">> cc.shn \n\r"));
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	            rst_bmp |= RST_NVME_CC_SHN;
+<b><a name="line289">289    </a></b>	        }
+<b><a name="line290">290    </a></b>	
+<b><a name="line291">291    </a></b>	        sal_log_tracker_set(sal_locate(0x02, TYPE_STEP));
+<b><a name="line292">292    </a></b>	        host_reset_flow(host);
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	        if (event->rst_flag & RST_PCIE_FLR) {
+<b><a name="line295">295    </a></b>	            hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_ENABLE);
+<b><a name="line296">296    </a></b>	            hal_func_trig_pf_flr_ack(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0);
+<b><a name="line297">297    </a></b>	
+<b><a name="line298">298    </a></b>	           flr_status = dal_pcie_get_pf_flr_active(0, 0);
+<b><a name="line299">299    </a></b>	           while(flr_status & 0x01)
+<b><a name="line300">300    </a></b>	           {
+<b><a name="line301">301    </a></b>	                flr_status = dal_pcie_get_pf_flr_active(0, 0);
+<b><a name="line302">302    </a></b>	           }
+<b><a name="line303">303    </a></b>	           dal_clr_pf_flr_ack(0, 0);
+<b><a name="line304">304    </a></b>	           hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_DISABLE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "hal_func_set_pf_cfg_not_rdy" is unused.</font>
+<b><a name="line305">305    </a></b>	        }
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	        if (event->rst_flag & RST_NVME_CC_SHN) {
+<b><a name="line308">308    </a></b>	            dal_nl_set_csts_shst(FIDX_0, HAL_NL_SHUTDOWN_CPL);
+<b><a name="line309">309    </a></b>	        }
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	        if (event->rst_flag & RST_NVME_CC_DIS) {
+<b><a name="line312">312    </a></b>	            dal_nl_clr_csts_rdy(FIDX_0);
+<b><a name="line313">313    </a></b>	            dal_nl_set_csts_shst(FIDX_0, HAL_NL_NO_SHUTDOWN);
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line317">317    </a></b>	        event->rst_flag &= ~(rst_bmp);
+<b><a name="line318">318    </a></b>	        ENABLE_ALL_IRQ();
+<b><a name="line319">319    </a></b>	    }
+<b><a name="line320">320    </a></b>	
+<b><a name="line321">321    </a></b>	    /*
+<b><a name="line322">322    </a></b>	     * Activation Flow
+<b><a name="line323">323    </a></b>	     */
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    if (event->rst_flag & (RST_PCIE_PERST_R | RST_PCIE_PERST_R_POLL)) {
+<b><a name="line326">326    </a></b>	        if ((dal_pcie_get_sys_perstn_intr(0) || (event->rst_flag & RST_PCIE_PERST_R_POLL)) && (dal_pcie_get_pm_sel_aux_clk_ovrd(0) == 0))
+<b><a name="line327">327    </a></b>	        {
+<b><a name="line328">328    </a></b>	            Dump_PCIE(tprintf(">> perst_r"));
+<b><a name="line329">329    </a></b>	            sal_log_tracker_set(sal_locate(0x03, TYPE_STEP));
+<b><a name="line330">330    </a></b>	            // (icv: hevent_other_port_event_process)
+<b><a name="line331">331    </a></b>	            dal_set_pcie_reset(0, PCIE_DISABLE);
+<b><a name="line332">332    </a></b>	            dal_pcie_set_perst_trig(0, 0);
+<b><a name="line333">333    </a></b>	
+<b><a name="line334">334    </a></b>	            // warm-reset flow
+<b><a name="line335">335    </a></b>	            dal_clr_sp_pcie_int(0, hal_pcie_int_type(SYS_PERSTN_INTR));// clr sys_perstn_intr status
+</pre></body>
+</html>

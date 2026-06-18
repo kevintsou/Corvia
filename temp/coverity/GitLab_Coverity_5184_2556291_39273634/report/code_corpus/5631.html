@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1175">1175    </a></b>	        }
+<b><a name="line1176">1176    </a></b>	        else
+<b><a name="line1177">1177    </a></b>	        {
+<b><a name="line1178">1178    </a></b>	            w_PCIE_SNPS_APP_FLR_VF_DONE_127_96(port_id, r_PCIE_SNPS_APP_FLR_VF_DONE_127_96(port_id) & ~BIT(vf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1179">1179    </a></b>	        }
+<b><a name="line1180">1180    </a></b>	    }
+<b><a name="line1181">1181    </a></b>	}
+<b><a name="line1182">1182    </a></b>	
+<b><a name="line1183">1183    </a></b>	void dal_set_all_func_cfg_not_rdy(U32 port_id, U32 enable)
+<b><a name="line1184">1184    </a></b>	{
+<b><a name="line1185">1185    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1186">1186    </a></b>	    {
+<b><a name="line1187">1187    </a></b>	        w_PCIE_SNPS_APP_REQ_RETRY_EN(port_id, enable);
+<b><a name="line1188">1188    </a></b>	    }
+<b><a name="line1189">1189    </a></b>	}
+<b><a name="line1190">1190    </a></b>	
+<b><a name="line1191">1191    </a></b>	void dal_set_pf0_cfg_not_rdy(U32 port_id, U32 enable)
+<b><a name="line1192">1192    </a></b>	{
+<b><a name="line1193">1193    </a></b>	    dal_set_pf_cfg_not_rdy(port_id, 0, enable);
+<b><a name="line1194">1194    </a></b>	}
+<b><a name="line1195">1195    </a></b>	
+<b><a name="line1196">1196    </a></b>	void dal_set_pf_cfg_not_rdy(U32 port_id, U32 pf_id, U32 enable)
+<b><a name="line1197">1197    </a></b>	{
+<b><a name="line1198">1198    </a></b>	    U32 dw;
+<b><a name="line1199">1199    </a></b>	    dw = pf_id / PCIE_DW_SIZE_IN_BIT;
+<b><a name="line1200">1200    </a></b>	    if (port_id == DAL_PCIE_PORT_0)
+<b><a name="line1201">1201    </a></b>	    {
+<b><a name="line1202">1202    </a></b>	        if (enable == DAL_PCIE_ENABLE)
+<b><a name="line1203">1203    </a></b>	        {
+<b><a name="line1204">1204    </a></b>	            if (dw == 0)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "dw" (unsigned) is not the same as that of the right operand "0"(signed).</font>
+<b><a name="line1205">1205    </a></b>	            {
+<b><a name="line1206">1206    </a></b>	                w_PCIE_SNPS_APP_PF_REQ_RETRY_EN_31_0(port_id, r_PCIE_SNPS_APP_PF_REQ_RETRY_EN_31_0(port_id) | BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1207">1207    </a></b>	            }
+<b><a name="line1208">1208    </a></b>	            else
+<b><a name="line1209">1209    </a></b>	            {
+<b><a name="line1210">1210    </a></b>	                w_PCIE_SNPS_APP_PF_REQ_RETRY_EN_63_32(port_id, r_PCIE_SNPS_APP_PF_REQ_RETRY_EN_63_32(port_id) | BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1211">1211    </a></b>	            }
+<b><a name="line1212">1212    </a></b>	        }
+<b><a name="line1213">1213    </a></b>	        else
+<b><a name="line1214">1214    </a></b>	        {
+<b><a name="line1215">1215    </a></b>	            if (dw == 0)
+<b><a name="line1216">1216    </a></b>	            {
+<b><a name="line1217">1217    </a></b>	                w_PCIE_SNPS_APP_PF_REQ_RETRY_EN_31_0(port_id, r_PCIE_SNPS_APP_PF_REQ_RETRY_EN_31_0(port_id) & ~BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1218">1218    </a></b>	            }
+<b><a name="line1219">1219    </a></b>	            else
+<b><a name="line1220">1220    </a></b>	            {
+<b><a name="line1221">1221    </a></b>	                w_PCIE_SNPS_APP_PF_REQ_RETRY_EN_63_32(port_id, r_PCIE_SNPS_APP_PF_REQ_RETRY_EN_63_32(port_id) & BIT(pf_id % PCIE_DW_SIZE_IN_BIT));
+<b><a name="line1222">1222    </a></b>	            }
+<b><a name="line1223">1223    </a></b>	        }
+<b><a name="line1224">1224    </a></b>	    }
+<b><a name="line1225">1225    </a></b>	}
+<b><a name="line1226">1226    </a></b>	
+<b><a name="line1227">1227    </a></b>	void dal_set_pf0_all_vf_cfg_not_rdy(U32 port_id, U32 enable)
+<b><a name="line1228">1228    </a></b>	{
+<b><a name="line1229">1229    </a></b>	
+<b><a name="line1230">1230    </a></b>	}
+<b><a name="line1231">1231    </a></b>	
+<b><a name="line1232">1232    </a></b>	void dal_set_vf_cfg_not_rdy(U32 port_id, U32 vf_id, U32 enable)
+<b><a name="line1233">1233    </a></b>	{
+<b><a name="line1234">1234    </a></b>	    U32 dw;
+<b><a name="line1235">1235    </a></b>	    dw = vf_id / PCIE_DW_SIZE_IN_BIT;
+</pre></body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbus_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line124">124    </a></b>	    }
+<b><a name="line125">125    </a></b>	
+<b><a name="line126">126    </a></b>	    //Clear all interrupt status and setup interrupt
+<b><a name="line127">127    </a></b>	    phal_smbm_disable_all_interrupt(ent);
+<b><a name="line128">128    </a></b>	    phal_smbm_disable_ocp_all_interrupt(SMBUS0);
+<b><a name="line129">129    </a></b>	    phal_smbm_clear_ocp_all_interrupt_status(SMBUS0);
+<b><a name="line130">130    </a></b>	    phal_smbm_clear_all_interrupt_status(ent);
+<b><a name="line131">131    </a></b>	}
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	void OcpRecoveryActivateImage(U32 ulBinaryBase)
+<b><a name="line134">134    </a></b>	{
+<b><a name="line135">135    </a></b>	    ACROT_DATA *pACRotData = GetACRotDataPtr();
+<b><a name="line136">136    </a></b>	
+<b><a name="line137">137    </a></b>	    if (0U != decrypt_partial_project_binary((U32)ulBinaryBase, 0U, (pACRotData->sIndirectCtrl.sConfig.ulIMO >> SECTOR_SIZE_SHIFT)))
+<b><a name="line138">138    </a></b>	    {
+<b><a name="line139">139    </a></b>	        M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_RECOVERY_IMAGE_AUTHENTICATION_ERROR);
+<b><a name="line140">140    </a></b>	    }
+<b><a name="line141">141    </a></b>	
+<b><a name="line142">142    </a></b>	    if (0U == check_bootcode_load_all_project_binary((PROJECT_BINARY_HEADER *)ulBinaryBase, PROJECT_BINARY_SOURCE_HOST))
+<b><a name="line143">143    </a></b>	    {
+<b><a name="line144">144    </a></b>	        //Disable interrupt before moving project binary
+<b><a name="line145">145    </a></b>	        DISABLE_ALL_IRQ();
+<b><a name="line146">146    </a></b>	        gpFwSimCtrl0Reg->not_init_host_hw = 1;
+<b><a name="line147">147    </a></b>	        hal_sec_pke_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line148">148    </a></b>	        hal_sec_sha_stop_dummy(SEC_TIMEOUT_TICKS);
+<b><a name="line149">149    </a></b>	        jump_pram((PROJECT_BINARY_HEADER *)ulBinaryBase);
+<b><a name="line150">150    </a></b>	    }
+<b><a name="line151">151    </a></b>	    else
+<b><a name="line152">152    </a></b>	    {
+<b><a name="line153">153    </a></b>	        M_OCP_RECOVERY_SET_DEVICE_RECOVERY_STATUS(pACRotData, DRS_RECOVERY_IMAGE_AUTHENTICATION_ERROR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">        ^</font>
+<b><a name="line154">154    </a></b>	    }
+<b><a name="line155">155    </a></b>	}
+<b><a name="line156">156    </a></b>	
+<b><a name="line157">157    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line158">158    </a></b>	
+</pre></body>
+</html>

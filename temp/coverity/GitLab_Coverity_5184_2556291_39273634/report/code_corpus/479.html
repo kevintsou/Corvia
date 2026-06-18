@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line186">186    </a></b>	 @param[in]   pu32cmd     - pke command
+<b><a name="line187">187    </a></b>	 @param[in]   waitready   - wait ready or not
+<b><a name="line188">188    </a></b>	 @param[in]   lstena      - =0: push only, =1: before push command, enable pke for last time.
+<b><a name="line189">189    </a></b>	 @note
+<b><a name="line190">190    </a></b>	 - None
+<b><a name="line191">191    </a></b>	 */
+<b><a name="line192">192    </a></b>	void hal_sec_pke_insert_cmd(U32 *pu32cmd)
+<b><a name="line193">193    </a></b>	{
+<b><a name="line194">194    </a></b>	    U8 ret;
+<b><a name="line195">195    </a></b>	
+<b><a name="line196">196    </a></b>	    ret = (U8)(dal_sec_pke_get_que_ful() == 0UL);
+<b><a name="line197">197    </a></b>	
+<b><a name="line198">198    </a></b>	    ASSERT(0U, ret == SEC_YES);
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    dal_sec_pke_set_cmd(pu32cmd);
+<b><a name="line201">201    </a></b>	
+<b><a name="line202">202    </a></b>	}
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	/*!
+<b><a name="line205">205    </a></b>	 @brief       clear SRAM MEMA / MEMB / MEMC / MEMQ
+<b><a name="line206">206    </a></b>	 @param[in]   timeout_val   - setting timeout value
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	 @note
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line211">211    </a></b>	
+<b><a name="line212">212    </a></b>	 */
+<b><a name="line213">213    </a></b>	void hal_sec_pke_ram_clr(U64 timeout_val)
+<b><a name="line214">214    </a></b>	{
+<b><a name="line215">215    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "-10613392" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	    dal_sec_pke_set_ram_abc_clr();
+<b><a name="line218">218    </a></b>	    while (1U == dal_sec_pke_get_ram_abc_clr())
+<b><a name="line219">219    </a></b>	    {
+<b><a name="line220">220    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line221">221    </a></b>	        {
+<b><a name="line222">222    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line223">223    </a></b>	            break;
+<b><a name="line224">224    </a></b>	        }
+<b><a name="line225">225    </a></b>	    }
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    dal_sec_pke_set_ram_q_clr();
+<b><a name="line228">228    </a></b>	    while (1U == dal_sec_pke_get_ram_q_clr())
+<b><a name="line229">229    </a></b>	    {
+<b><a name="line230">230    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line231">231    </a></b>	        {
+<b><a name="line232">232    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line233">233    </a></b>	            break;
+<b><a name="line234">234    </a></b>	        }
+<b><a name="line235">235    </a></b>	    }
+<b><a name="line236">236    </a></b>	}
+<b><a name="line237">237    </a></b>	
+<b><a name="line238">238    </a></b>	/*!
+<b><a name="line239">239    </a></b>	 @brief       clear SRAM MEMA / MEMB / MEMC
+<b><a name="line240">240    </a></b>	 @param[in]   timeout_val   - setting timeout value
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	 @note
+<b><a name="line243">243    </a></b>	
+<b><a name="line244">244    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line245">245    </a></b>	
+<b><a name="line246">246    </a></b>	 */
+</pre></body>
+</html>

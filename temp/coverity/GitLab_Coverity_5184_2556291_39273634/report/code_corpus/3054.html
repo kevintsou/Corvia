@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2710">2710    </a></b>	    U8 set, complete_set;
+<b><a name="line2711">2711    </a></b>	
+<b><a name="line2712">2712    </a></b>	    U8 nand_retry_max;
+<b><a name="line2713">2713    </a></b>	
+<b><a name="line2714">2714    </a></b>	    U32 nand_retry, start_nand_retry, end_nand_retry;
+<b><a name="line2715">2715    </a></b>	    U32 block, start_block, end_block;
+<b><a name="line2716">2716    </a></b>	    U32 plane, start_plane, end_plane;
+<b><a name="line2717">2717    </a></b>	    U32 scan, end_scan;
+<b><a name="line2718">2718    </a></b>	
+<b><a name="line2719">2719    </a></b>	    U32 id_page_offset;
+<b><a name="line2720">2720    </a></b>	
+<b><a name="line2721">2721    </a></b>	    U64 fsa_row;
+<b><a name="line2722">2722    </a></b>	
+<b><a name="line2723">2723    </a></b>	    U16 revision;
+<b><a name="line2724">2724    </a></b>	
+<b><a name="line2725">2725    </a></b>	    //Indicates which Channels are to be scanned
+<b><a name="line2726">2726    </a></b>	    U32 scanning_channel_bitmap;
+<b><a name="line2727">2727    </a></b>	    //Indicates which Channels are being used in this scan setting
+<b><a name="line2728">2728    </a></b>	    U32 reading_channel_bitmap;
+<b><a name="line2729">2729    </a></b>	
+<b><a name="line2730">2730    </a></b>	    U8 backup, backup_max;
+<b><a name="line2731">2731    </a></b>	
+<b><a name="line2732">2732    </a></b>	    U32 data_address, spare_address;
+<b><a name="line2733">2733    </a></b>	
+<b><a name="line2734">2734    </a></b>	    U64 a_fsa[FLH_MAX_CH_NUM];
+<b><a name="line2735">2735    </a></b>	    U8 channel;
+<b><a name="line2736">2736    </a></b>	    FIP_READ_PARAM_STRUCT a_fip_read_param[FLH_MAX_CH_NUM];
+<b><a name="line2737">2737    </a></b>	    U32 command_status;
+<b><a name="line2738">2738    </a></b>	
+<b><a name="line2739">2739    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "43824" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line2740">2740    </a></b>	
+<b><a name="line2741">2741    </a></b>	    sal_log_info_char('S'); //Scan Code Pointer Block
+<b><a name="line2742">2742    </a></b>	
+<b><a name="line2743">2743    </a></b>	    nand_retry = 0U;
+<b><a name="line2744">2744    </a></b>	
+<b><a name="line2745">2745    </a></b>	    nand_retry_max = p_load_code_status->parameters.nand_retry_count;
+<b><a name="line2746">2746    </a></b>	
+<b><a name="line2747">2747    </a></b>	    complete_set = CODE_POINTER_BLOCK_SET_COUNT_MAX;
+<b><a name="line2748">2748    </a></b>	
+<b><a name="line2749">2749    </a></b>	    //Mark the channels that have yet to be scanned
+<b><a name="line2750">2750    </a></b>	    scanning_channel_bitmap = p_load_code_status->parameters.channel_exist_bitmap;
+<b><a name="line2751">2751    </a></b>	
+<b><a name="line2752">2752    </a></b>	    backup_max = p_load_code_status->parameters.id_table_per_page;
+<b><a name="line2753">2753    </a></b>	    if (FLH_MAX_LC_PER_PAGE < backup_max) {
+<b><a name="line2754">2754    </a></b>	        //Sanitize to prevent accessing out of bound array elements in FIP_READ_PARAM_STRUCT
+<b><a name="line2755">2755    </a></b>	        //This is because information coming from NAND could be anything
+<b><a name="line2756">2756    </a></b>	        //Even though this has already been validatede valid outside, sanitize to make sure
+<b><a name="line2757">2757    </a></b>	        backup_max = FLH_MAX_LC_PER_PAGE;
+<b><a name="line2758">2758    </a></b>	    }
+<b><a name="line2759">2759    </a></b>	
+<b><a name="line2760">2760    </a></b>	    //Obtain the range of blocks to scan
+<b><a name="line2761">2761    </a></b>	    start_nand_retry = 0;
+<b><a name="line2762">2762    </a></b>	    end_nand_retry = nand_retry_max; //TODO change to using parameters
+<b><a name="line2763">2763    </a></b>	
+<b><a name="line2764">2764    </a></b>	    start_block = p_load_code_status->parameters.code_pointer_block_scan_block_start;
+<b><a name="line2765">2765    </a></b>	    end_block = start_block + p_load_code_status->parameters.code_pointer_block_scan_block_count;
+<b><a name="line2766">2766    </a></b>	
+<b><a name="line2767">2767    </a></b>	    start_plane = p_load_code_status->parameters.code_pointer_block_scan_plane_start;
+<b><a name="line2768">2768    </a></b>	    end_plane = start_plane + p_load_code_status->parameters.code_pointer_block_scan_plane_count;
+<b><a name="line2769">2769    </a></b>	
+<b><a name="line2770">2770    </a></b>	    //The maximum number of times a scan should occur
+</pre></body>
+</html>

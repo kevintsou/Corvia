@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_cmgr_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line502">502    </a></b>	//--- W1C func ---
+<b><a name="line503">503    </a></b>	void dal_cmgr_w1c_int_cmgr_bitmap(U32 bitmap)
+<b><a name="line504">504    </a></b>	{
+<b><a name="line505">505    </a></b>	    r32_w_NVME_CMGR_INT_0(bitmap);
+<b><a name="line506">506    </a></b>	}
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	void dal_cmgr_w1c_int_cmgr_port_err_bitmap(U32 bitamp)
+<b><a name="line509">509    </a></b>	{
+<b><a name="line510">510    </a></b>	    r32_w_NVME_CMGR_PORT0_ERR_INT(bitamp);
+<b><a name="line511">511    </a></b>	}
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	//--- SET EN func ---
+<b><a name="line514">514    </a></b>	void dal_cmgr_set_en_int_bitmap(DAL_CMGR_INT_PTR dal_cmgr_int)
+<b><a name="line515">515    </a></b>	{
+<b><a name="line516">516    </a></b>	    r32_w_NVME_CMGR_INT_EN(dal_cmgr_int->bitmap);
+<b><a name="line517">517    </a></b>	}
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	void dal_cmgr_set_en_int_p_bitmap(U8 p_ofst, DAL_CMGR_PORT_ERR_INT_PTR dal_cmgr_port_err_int)
+<b><a name="line520">520    </a></b>	{
+<b><a name="line521">521    </a></b>	    if (p_ofst == 0U)
+<b><a name="line522">522    </a></b>	    {
+<b><a name="line523">523    </a></b>	        r32_w_NVME_CMGR_PORT0_ERR_INT_EN(dal_cmgr_port_err_int->bitmap);
+<b><a name="line524">524    </a></b>	    }
+<b><a name="line525">525    </a></b>	    else if (p_ofst == 1U)
+<b><a name="line526">526    </a></b>	    {
+<b><a name="line527">527    </a></b>	        r32_w_NVME_CMGR_PORT1_ERR_INT_EN(dal_cmgr_port_err_int->bitmap);
+<b><a name="line528">528    </a></b>	    }
+<b><a name="line529">529    </a></b>	    else
+<b><a name="line530">530    </a></b>	    {
+<b><a name="line531">531    </a></b>	        ALWAYS_ASSERT(p_ofst);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "p_ofst" of non-boolean essential type is being interpreted as a boolean value for the operator "!".</font>
+<b><a name="line532">532    </a></b>	    }
+<b><a name="line533">533    </a></b>	}
+<b><a name="line534">534    </a></b>	
+<b><a name="line535">535    </a></b>	//--- GET EN func ---
+<b><a name="line536">536    </a></b>	U32 dal_cmgr_get_en_int_bitmap(void)
+<b><a name="line537">537    </a></b>	{
+<b><a name="line538">538    </a></b>	    return r32_r_NVME_CMGR_INT_EN();
+<b><a name="line539">539    </a></b>	}
+<b><a name="line540">540    </a></b>	
+<b><a name="line541">541    </a></b>	U32 dal_cmgr_get_en_int_p_bitmap(U8 p_ofst)
+<b><a name="line542">542    </a></b>	{
+<b><a name="line543">543    </a></b>	    (void)p_ofst;
+<b><a name="line544">544    </a></b>	    return r32_r_NVME_CMGR_PORT0_ERR_INT_EN();
+<b><a name="line545">545    </a></b>	}
+<b><a name="line546">546    </a></b>	
+<b><a name="line547">547    </a></b>	//--- CLR EN func ---
+<b><a name="line548">548    </a></b>	void dal_cmgr_clr_en_int_bitmap(DAL_CMGR_INT_PTR dal_cmgr_int)
+<b><a name="line549">549    </a></b>	{
+<b><a name="line550">550    </a></b>	    U32 cur_bitmap = r32_r_NVME_CMGR_INT_EN();
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	    cur_bitmap &= (~dal_cmgr_int->bitmap);
+<b><a name="line553">553    </a></b>	    r32_w_NVME_CMGR_INT_EN(cur_bitmap);
+<b><a name="line554">554    </a></b>	}
+<b><a name="line555">555    </a></b>	
+<b><a name="line556">556    </a></b>	void dal_cmgr_clr_en_int_p_bitmap(U8 p_ofst, DAL_CMGR_PORT_ERR_INT_PTR dal_cmgr_port_err_int)
+<b><a name="line557">557    </a></b>	{
+<b><a name="line558">558    </a></b>	    U32 cur_bitmap;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	    if (p_ofst == 0U)
+<b><a name="line561">561    </a></b>	    {
+<b><a name="line562">562    </a></b>	        cur_bitmap = r32_r_NVME_CMGR_PORT0_ERR_INT_EN();
+</pre></body>
+</html>

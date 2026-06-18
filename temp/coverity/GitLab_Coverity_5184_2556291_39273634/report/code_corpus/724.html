@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1264">1264    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1265">1265    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1266">1266    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1267">1267    </a></b>	}
+<b><a name="line1268">1268    </a></b>	
+<b><a name="line1269">1269    </a></b>	U32 hal_fip_api_wp_reset_ymtc(U8 ch, U8 ce, U32 *ac_timing)
+<b><a name="line1270">1270    </a></b>	{
+<b><a name="line1271">1271    </a></b>	    U32 status;
+<b><a name="line1272">1272    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1273">1273    </a></b>	
+<b><a name="line1274">1274    </a></b>	    if (is_sca == 1U) {
+<b><a name="line1275">1275    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line1276">1276    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1277">1277    </a></b>	    }
+<b><a name="line1278">1278    </a></b>	
+<b><a name="line1279">1279    </a></b>	    status = 0U;
+<b><a name="line1280">1280    </a></b>	
+<b><a name="line1281">1281    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line1282">1282    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line1283">1283    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line1284">1284    </a></b>	
+<b><a name="line1285">1285    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_BUS_SWITCH]);
+<b><a name="line1286">1286    </a></b>	
+<b><a name="line1287">1287    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line1288">1288    </a></b>	
+<b><a name="line1289">1289    </a></b>	    w_HW_WP_PIN_VALUE(ch, 0x0U);
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWP]);
+<b><a name="line1292">1292    </a></b>	
+<b><a name="line1293">1293    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_RB_PIN_CHK, HAL_TIMEOUT_LEN_MS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "20688" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line1294">1294    </a></b>	    do {
+<b><a name="line1295">1295    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line1296">1296    </a></b>	            status |= HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT;
+<b><a name="line1297">1297    </a></b>	            break;
+<b><a name="line1298">1298    </a></b>	        }
+<b><a name="line1299">1299    </a></b>	    } while (hal_fip_chk_rby_sts(ch) == FALSE);
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1302">1302    </a></b>	
+<b><a name="line1303">1303    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1304">1304    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1305">1305    </a></b>	
+<b><a name="line1306">1306    </a></b>	    // for the case that IC support bus switch,  bit 0: WP , bit1: bus switch control
+<b><a name="line1307">1307    </a></b>	    w_HW_WP_PIN_VALUE(ch, 0x1U);
+<b><a name="line1308">1308    </a></b>	
+<b><a name="line1309">1309    </a></b>	    return status;
+<b><a name="line1310">1310    </a></b>	}
+<b><a name="line1311">1311    </a></b>	
+<b><a name="line1312">1312    </a></b>	void fpl_api_fw_gen_pat(U8 pat, U32 buf, U8 node_num, U8 value)
+<b><a name="line1313">1313    </a></b>	{
+<b><a name="line1314">1314    </a></b>	    volatile U8 *ptr;
+<b><a name="line1315">1315    </a></b>	    U8 node;
+<b><a name="line1316">1316    </a></b>	    U8 sector;
+<b><a name="line1317">1317    </a></b>	    U32 index;
+<b><a name="line1318">1318    </a></b>	    U32 data;
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    switch (pat) {
+<b><a name="line1321">1321    </a></b>	    case HAL_API_GEN_PAT_FIX:
+<b><a name="line1322">1322    </a></b>	        ptr = (volatile U8 *)buf;
+<b><a name="line1323">1323    </a></b>	        memset((void *)ptr, value, DAL_FIP_FRM_DATA_SIZE_4K * node_num);
+<b><a name="line1324">1324    </a></b>	        break;
+</pre></body>
+</html>

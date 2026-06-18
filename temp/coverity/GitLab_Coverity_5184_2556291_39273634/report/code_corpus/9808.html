@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line564">564    </a></b>	    memcpy((void *)calculation_buffer, (void *) ((U32)sq_cmd + (sizeof(*sq_cmd) - VUC_PROTECT_DECODE_COMMAND_SIZE)), VUC_PROTECT_DECODE_COMMAND_SIZE);
+<b><a name="line565">565    </a></b>	
+<b><a name="line566">566    </a></b>	    //TODO:
+<b><a name="line567">567    </a></b>	    memset((void *)&aesofl_param, 0x00, sizeof(aesofl_param));
+<b><a name="line568">568    </a></b>	    aesofl_param.cbc.src_addr.all        = (U64)calculation_buffer;
+<b><a name="line569">569    </a></b>	    aesofl_param.cbc.src_len             = 32U;
+<b><a name="line570">570    </a></b>	    aesofl_param.cbc.targ_addr.all       = (U64)calculation_buffer;
+<b><a name="line571">571    </a></b>	    aesofl_param.cbc.iv_ptr              = gVUCProtect.a_aes_cbc256_iv;
+<b><a name="line572">572    </a></b>	    aesofl_param.cbc.encrypt             = FALSE;
+<b><a name="line573">573    </a></b>	    aesofl_param.cbc.aes_mode            = HAL_SEC_AES_CBC_MODE;
+<b><a name="line574">574    </a></b>	    aesofl_param.cbc.timeout_val         = SEC_TIMEOUT_TICKS;
+<b><a name="line575">575    </a></b>	    aesofl_param.cbc.set_key_en    = TRUE;
+<b><a name="line576">576    </a></b>	    aesofl_param.cbc.setkey.kram_wid     = HAL_SEC_KRAM_WID_CPU0;
+<b><a name="line577">577    </a></b>	    aesofl_param.cbc.setkey.kidx         = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line578">578    </a></b>	    aesofl_param.cbc.setkey.key_ptr      = (U32 *)p_aes_key;
+<b><a name="line579">579    </a></b>	    aesofl_param.cbc.setkey.key_type     = HAL_SEC_AES_KEY256_MODE;
+<b><a name="line580">580    </a></b>	    aesofl_param.cbc.setkey.is_otf_core  = HAL_SEC_AES_OFL_CORE;
+<b><a name="line581">581    </a></b>	    aesofl_param.cbc.setkey.is_otf_type  = HAL_SEC_AES_OFL;
+<b><a name="line582">582    </a></b>	    aesofl_param.cbc.setkey.tmp_addr.all = (U64)DBUF_API_BOOTCODE_HOST_BUFFER_BASE + 32U;
+<b><a name="line583">583    </a></b>	    aesofl_param.cbc.setkey.tmp_size     = 32U;
+<b><a name="line584">584    </a></b>	    aesofl_param.cbc.setkey.gen_key_en   = TRUE;
+<b><a name="line585">585    </a></b>	
+<b><a name="line586">586    </a></b>	    U8 is_step_clock_enable;
+<b><a name="line587">587    </a></b>	    U8 is_random_clock_enable;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    get_efuse_sec_clock_setting(&gEFuseAPI, &is_step_clock_enable, &is_random_clock_enable);
+<b><a name="line590">590    </a></b>	
+<b><a name="line591">591    </a></b>	    bootcode_hal_sec_aes_ofl_blocking_with_random_clock(&aesofl_param, is_step_clock_enable, is_random_clock_enable);
+<b><a name="line592">592    </a></b>	
+<b><a name="line593">593    </a></b>	    memcpy((void *) ((U32)sq_cmd + (sizeof(*sq_cmd) - VUC_PROTECT_DECODE_COMMAND_SIZE)), (void *)calculation_buffer, VUC_PROTECT_DECODE_COMMAND_SIZE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "calculation_buffer" of type "U32" is cast to type "void *".</font>
+<b><a name="line594">594    </a></b>	    memcpy((void *)calculation_buffer, calculation_buffer_backup, 32 + 32);
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	/**
+<b><a name="line598">598    </a></b>	 * @brief Check the crc of encrypted command is correct after decryption
+<b><a name="line599">599    </a></b>	 *
+<b><a name="line600">600    </a></b>	 * @param sq_cmd sq pointer
+<b><a name="line601">601    </a></b>	 * @return U32 fail or not
+<b><a name="line602">602    </a></b>	 */
+<b><a name="line603">603    </a></b>	U32 vuc_protect_check_command(VUC_SQ_STRUCT_PTR sq_cmd)
+<b><a name="line604">604    </a></b>	{
+<b><a name="line605">605    </a></b>	    VUC_SQ_STRUCT temp_sq_cmd;
+<b><a name="line606">606    </a></b>	
+<b><a name="line607">607    </a></b>	    U32 crc_cmd;
+<b><a name="line608">608    </a></b>	    U32 crc_calc_result[2];
+<b><a name="line609">609    </a></b>	
+<b><a name="line610">610    </a></b>	    //Set the CRC field to 0 before calculating the CRC
+<b><a name="line611">611    </a></b>	    //The CRC stored is in Big Endian
+<b><a name="line612">612    </a></b>	    //The CRC calculation uses the same one that the XModem uses
+<b><a name="line613">613    </a></b>	    memcpy((void *)&temp_sq_cmd, (void *)sq_cmd, sizeof(temp_sq_cmd));
+<b><a name="line614">614    </a></b>	    crc_cmd = temp_sq_cmd.crc_word;
+<b><a name="line615">615    </a></b>	    crc_cmd = (((crc_cmd & 0xFF00) >> 8) | ((crc_cmd & 0x00FF) << 8));
+<b><a name="line616">616    </a></b>	    temp_sq_cmd.crc_word = 0;
+<b><a name="line617">617    </a></b>	
+<b><a name="line618">618    </a></b>	    //1. Calculate the CRC of the entire SQ without clearing anything
+<b><a name="line619">619    </a></b>	    //This is the old way of calculating CRC. This is left over from the time
+<b><a name="line620">620    </a></b>	    //when the CRC is only used for VUC in UART. It is recommended to be
+<b><a name="line621">621    </a></b>	    //implemented to allow compatibility with older tools that may still fill
+<b><a name="line622">622    </a></b>	    //in B1 and B2
+<b><a name="line623">623    </a></b>	    crc_calc_result[0] = CRC_16_XMODEM((U32)&temp_sq_cmd, sizeof(temp_sq_cmd), CRC_16_XMODEM_INIT);
+<b><a name="line624">624    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE coverity SYSTEM "config.dtd">
+<coverity>
+
+<metrics>
+    <metric>
+        <name>time</name>
+        <value>152</value>
+    </metric>
+    <metric>
+        <name>args</name>
+        <value>/opt/coverity/analysis/2024.3.1/bin/cov-analyze --dir /builds/d9/bootcode/duanyue/coverity/GitLab_Coverity_5184_2556291_39273634 -c /opt/coverity/analysis/2024.3.1/config/arm/coverity_config.xml -sf /opt/coverity/analysis/2024.3.1/bin/license.dat --enable-fb --strip-path /builds/d9/bootcode/duanyue/ --coding-standard-config /opt/coverity/analysis/2024.3.1/config/coding-standards/misrac2012/misrac2012-mandatory-required.config</value>
+    </metric>
+    <metric>
+        <name>host</name>
+        <value>runner-glrtr-3u-project-5184-concurrent-0j8s5h</value>
+    </metric>
+    <metric>
+        <name>short-platform</name>
+        <value>linux64</value>
+    </metric>
+    <metric>
+        <name>platform</name>
+        <value>Linux 5.15.0-125-generic x86_64</value>
+    </metric>
+    <metric>
+        <name>ident</name>
+        <value>2024.3.1 (build e6898994fd p-2024.3-push-33)</value>
+    </metric>
+    <metric>
+        <name>user</name>
+        <value>root</value>
+    </metric>
+    <metric>
+        <name>cwd</name>
+        <value>/builds/d9/bootcode/duanyue</value>
+    </metric>
+    <metric>
+        <name>config</name>
+        <value>/opt/coverity/analysis/2024.3.1/config/arm/coverity_config.xml</value>
+    </metric>
+    <metric>
+        <name>intermediatedir</name>
+        <value>/builds/d9/bootcode/duanyue/coverity/GitLab_Coverity_5184_2556291_39273634</value>
+    </metric>
+    <metric>
+        <name>outputdir</name>
+        <value>/builds/d9/bootcode/duanyue/coverity/GitLab_Coverity_5184_2556291_39273634/output</value>
+    </metric>
+    <metric>
+        <name>emitdir</name>
+        <value>/builds/d9/bootcode/duanyue/coverity/GitLab_Coverity_5184_2556291_39273634/emit</value>
+    </metric>
+    <metric>
+        <name>peak-mem-bytes</name>
+        <value>3906768896</value>
+    </metric>
+    <metric>
+        <name>aw-peak-mem-bytes</name>
+        <value>280518656</value>
+    </metric>
+    <metric>
+        <name>am+aw-peak-mem-bytes</name>
+        <value>3422408704</value>
+    </metric>
+    <metric>
+        <name>files-analyzed</name>
+        <value>538</value>
+    </metric>
+    <metric>
+        <name>cpp-code-lines</name>
+        <value>335754</value>
+    </metric>
+    <metric>
+        <name>cpp-comment-lines</name>
+        <value>51134</value>
+    </metric>
+    <metric>
+        <name>cpp-blank-lines</name>
+        <value>41961</value>
+    </metric>
+    <metric>
+        <name>cpp-code-lines-with-inline-comments</name>
+        <value>5939</value>
+    </metric>
+    <metric>
+        <name>code-lines</name>
+        <value>335754</value>
+    </metric>
+    <metric>
+        <name>comment-lines</name>
+        <value>51134</value>
+    </metric>
+    <metric>
+        <name>blank-lines</name>
+        <value>41961</value>
+    </metric>
+    <metric>
+        <name>code-lines-with-inline-comments</name>
+        <value>5939</value>
+    </metric>
+    <metric>
+        <name>functions-analyzed</name>
+        <value>5152</value>
+    </metric>
+    <metric>
+        <name>function-metrics-count</name>
+        <value>5152</value>
+    </metric>
+    <metric>
+        <name>classes-analyzed</name>
+        <value>1030</value>
+    </metric>
+    <metric>
+        <name>paths-analyzed</name>
+        <value>182436</value>
+    </metric>
+    <metric>
+        <name>memout-count</name>
+        <value>0</value>
+    </metric>
+    <metric>
+        <name>pathout-count</name>
+        <value>7</value>
+    </metric>
+    <metric>
+        <name>tus-count</name>
+        <value>169</value>
+    </metric>
+    <metric>
+        <name>failures</name>
+        <value>0</value>
+    </metric>
+    <metric>
+        <name>incremental-misses</name>
+        <value>21267</value>
+    </metric>
+    <metric>
+        <name>incremental-hits</name>
+        <value>0</value>
+    </metric>
+    <metric>
+        <name>dyncg-sites-resolved</name>
+        <value>0</value>
+    </metric>
+    <metric>
+        <name>dyncg-sites-total</name>
+        <value>0</value>
+    </metric>
+    <metric>
+        <name>ASSERT_SIDE_EFFECT-new-defect-count</name>
+        <value>2</value>
+    </metric>
+    <metric>
+        <name>DEADCODE-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Directive 4.10-new-defect-count</name>
+        <value>5</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Directive 4.3-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Directive 4.7-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 1.1-new-defect-count</name>
+        <value>4</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.1-new-defect-count</name>
+        <value>3699</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.3-new-defect-count</name>
+        <value>1813</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.4-new-defect-count</name>
+        <value>3772</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.6-new-defect-count</name>
+        <value>72</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.7-new-defect-count</name>
+        <value>133</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 10.8-new-defect-count</name>
+        <value>81</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 11.1-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 11.3-new-defect-count</name>
+        <value>145</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 11.6-new-defect-count</name>
+        <value>250</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 11.8-new-defect-count</name>
+        <value>142</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 11.9-new-defect-count</name>
+        <value>10</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 12.2-new-defect-count</name>
+        <value>549</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 13.2-new-defect-count</name>
+        <value>10</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 13.5-new-defect-count</name>
+        <value>70</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 13.6-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 14.2-new-defect-count</name>
+        <value>5</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 14.3-new-defect-count</name>
+        <value>113</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 14.4-new-defect-count</name>
+        <value>475</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 15.6-new-defect-count</name>
+        <value>79</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 15.7-new-defect-count</name>
+        <value>28</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 16.1-new-defect-count</name>
+        <value>18</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 16.3-new-defect-count</name>
+        <value>16</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 16.4-new-defect-count</name>
+        <value>22</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 16.6-new-defect-count</name>
+        <value>7</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 17.1-new-defect-count</name>
+        <value>12</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 17.7-new-defect-count</name>
+        <value>622</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 18.2-new-defect-count</name>
+        <value>4</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 18.3-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 2.1-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 2.2-new-defect-count</name>
+        <value>40</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 20.7-new-defect-count</name>
+        <value>416</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.1-new-defect-count</name>
+        <value>120</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.15-new-defect-count</name>
+        <value>20</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.16-new-defect-count</name>
+        <value>2</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.18-new-defect-count</name>
+        <value>2</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.2-new-defect-count</name>
+        <value>137</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 21.24-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 3.1-new-defect-count</name>
+        <value>33</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 5.1-new-defect-count</name>
+        <value>186</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 5.3-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 5.4-new-defect-count</name>
+        <value>109</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 5.7-new-defect-count</name>
+        <value>26</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 5.8-new-defect-count</name>
+        <value>20</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 6.3-new-defect-count</name>
+        <value>2</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 7.2-new-defect-count</name>
+        <value>88</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 7.4-new-defect-count</name>
+        <value>34</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.10-new-defect-count</name>
+        <value>2</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.2-new-defect-count</name>
+        <value>20</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.3-new-defect-count</name>
+        <value>29</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.4-new-defect-count</name>
+        <value>110</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.5-new-defect-count</name>
+        <value>33</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 8.6-new-defect-count</name>
+        <value>1003</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 9.1-new-defect-count</name>
+        <value>10</value>
+    </metric>
+    <metric>
+        <name>MISRA C-2012 Rule 9.3-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>NO_EFFECT-new-defect-count</name>
+        <value>3</value>
+    </metric>
+    <metric>
+        <name>OVERRUN-new-defect-count</name>
+        <value>1</value>
+    </metric>
+    <metric>
+        <name>total-new-defect-count</name>
+        <value>14624</value>
+    </metric>
+    <metric>
+        <name>extver</name>
+        <value>2024.3.1</value>
+    </metric>
+    <metric>
+        <name>intver</name>
+        <value>e6898994fd p-2024.3-push-33</value>
+    </metric>
+    <metric>
+        <name>enabled-checkers</name>
+        <value>ALLOC_FREE_MISMATCH,ANDROID_CAPABILITY_LEAK,ANONYMOUS_DB_CONNECTION,ARRAY_VS_SINGLETON,ASSERT_SIDE_EFFECT,AUTO_CAUSES_COPY,BAD_ALLOC_ARITHMETIC,BAD_ALLOC_STRLEN,BAD_CERT_VERIFICATION,BAD_CHECK_OF_WAIT_COND,BAD_COMPARE,BAD_EQ,BAD_EQ_TYPES,BAD_FREE,BAD_LOCK_OBJECT,BAD_OVERRIDE,BAD_SHIFT,BAD_SIZEOF,CALL_SUPER,CHAR_IO,CHECKED_RETURN,COM.BAD_FREE,COM.BSTR.CONV,CONFIG.ANDROID_GRADLE_OBFUSCATION_NOT_ENABLED,CONFIG.BEEGO_CSRF_PROTECTION_DISABLED,CONFIG.COOKIE_SIGNING_DISABLED,CONFIG.UNSAFE_SESSION_TIMEOUT,CONSTANT_EXPRESSION_RESULT,COOKIE_SERIALIZER_CONFIG,COPY_INSTEAD_OF_MOVE,COPY_PASTE_ERROR,CORS_MISCONFIGURATION,CORS_MISCONFIGURATION_AUDIT,CSRF,CTOR_DTOR_LEAK,CUDA.COLLECTIVE_WARP_SHUFFLE_WIDTH,CUDA.CUDEVICE_HANDLES,CUDA.DEVICE_DEPENDENT,CUDA.DEVICE_DEPENDENT_CALLBACKS,CUDA.DIVERGENCE_AT_COLLECTIVE_OPERATION,CUDA.ERROR_INTERFACE,CUDA.ERROR_KERNEL_LAUNCH,CUDA.FORK,CUDA.INACTIVE_THREAD_AT_COLLECTIVE_WARP,CUDA.INITIATION_OBJECT_DEVICE_THREAD_BLOCK,CUDA.INVALID_MEMORY_ACCESS,CUDA.SHARE_FUNCTION,CUDA.SHARE_OBJECT_STREAM_ASSOCIATED,CUDA.SPECIFIERS_INCONSISTENCY,CUDA.SYNCHRONIZE_CALLBACKS,CUDA.SYNCHRONIZE_TERMINATION,DC.DANGEROUS,DC.DEADLOCK,DEADCODE,DELETE_ARRAY,DELETE_VOID,DENY_LIST_FOR_AUTHN,DETEKT.*,DIVIDE_BY_ZERO,DYNAMIC_OBJECT_ATTRIBUTES,END_OF_LIFE_RAILS,END_OF_LIFE_RUBY,EVALUATION_ORDER,EXPOSED_DIRECTORY_LISTING,EXPOSED_PREFERENCES,FB.*,FORWARD_NULL,GLOBAL_INIT_ORDER,GUARDED_BY_VIOLATION,HARDCODED_CREDENTIALS,HEADER_INJECTION,HIBERNATE_BAD_HASHCODE,IDENTICAL_BRANCHES,IDENTIFIER_TYPO,IMPLICIT_INTENT,INCOMPATIBLE_CAST,INEFFICIENT_RESERVE,INFINITE_LOOP,INSECURE_COMMUNICATION,INSECURE_COOKIE,INSECURE_CSP,INSECURE_FILE_PERMISSIONS,INSECURE_NETWORK_BIND,INSECURE_RANDOM,INSUFFICIENT_LOGGING,INVALIDATE_ITERATOR,JSONWEBTOKEN_UNTRUSTED_DECODE,LOCK_EVASION,LOCK_INVERSION,MISMATCHED_ITERATOR,MISRA_C_2012_DIRECTIVE_4.10,MISRA_C_2012_DIRECTIVE_4.11,MISRA_C_2012_DIRECTIVE_4.12,MISRA_C_2012_DIRECTIVE_4.14,MISRA_C_2012_DIRECTIVE_4.3,MISRA_C_2012_DIRECTIVE_4.7,MISRA_C_2012_DIRECTIVE_5.1,MISRA_C_2012_DIRECTIVE_5.2,MISRA_C_2012_RULE_1.1,MISRA_C_2012_RULE_1.4,MISRA_C_2012_RULE_10.1,MISRA_C_2012_RULE_10.2,MISRA_C_2012_RULE_10.3,MISRA_C_2012_RULE_10.4,MISRA_C_2012_RULE_10.6,MISRA_C_2012_RULE_10.7,MISRA_C_2012_RULE_10.8,MISRA_C_2012_RULE_11.1,MISRA_C_2012_RULE_11.10,MISRA_C_2012_RULE_11.2,MISRA_C_2012_RULE_11.3,MISRA_C_2012_RULE_11.6,MISRA_C_2012_RULE_11.7,MISRA_C_2012_RULE_11.8,MISRA_C_2012_RULE_11.9,MISRA_C_2012_RULE_12.2,MISRA_C_2012_RULE_12.5,MISRA_C_2012_RULE_12.6,MISRA_C_2012_RULE_13.1,MISRA_C_2012_RULE_13.2,MISRA_C_2012_RULE_13.5,MISRA_C_2012_RULE_13.6,MISRA_C_2012_RULE_14.1,MISRA_C_2012_RULE_14.2,MISRA_C_2012_RULE_14.3,MISRA_C_2012_RULE_14.4,MISRA_C_2012_RULE_15.2,MISRA_C_2012_RULE_15.3,MISRA_C_2012_RULE_15.6,MISRA_C_2012_RULE_15.7,MISRA_C_2012_RULE_16.1,MISRA_C_2012_RULE_16.2,MISRA_C_2012_RULE_16.3,MISRA_C_2012_RULE_16.4,MISRA_C_2012_RULE_16.5,MISRA_C_2012_RULE_16.6,MISRA_C_2012_RULE_16.7,MISRA_C_2012_RULE_17.1,MISRA_C_2012_RULE_17.10,MISRA_C_2012_RULE_17.13,MISRA_C_2012_RULE_17.2,MISRA_C_2012_RULE_17.3,MISRA_C_2012_RULE_17.4,MISRA_C_2012_RULE_17.6,MISRA_C_2012_RULE_17.7,MISRA_C_2012_RULE_17.9,MISRA_C_2012_RULE_18.1,MISRA_C_2012_RULE_18.10,MISRA_C_2012_RULE_18.2,MISRA_C_2012_RULE_18.3,MISRA_C_2012_RULE_18.6,MISRA_C_2012_RULE_18.7,MISRA_C_2012_RULE_18.8,MISRA_C_2012_RULE_18.9,MISRA_C_2012_RULE_19.1,MISRA_C_2012_RULE_2.1,MISRA_C_2012_RULE_2.2,MISRA_C_2012_RULE_20.11,MISRA_C_2012_RULE_20.12,MISRA_C_2012_RULE_20.13,MISRA_C_2012_RULE_20.14,MISRA_C_2012_RULE_20.2,MISRA_C_2012_RULE_20.3,MISRA_C_2012_RULE_20.4,MISRA_C_2012_RULE_20.6,MISRA_C_2012_RULE_20.7,MISRA_C_2012_RULE_20.8,MISRA_C_2012_RULE_20.9,MISRA_C_2012_RULE_21.1,MISRA_C_2012_RULE_21.10,MISRA_C_2012_RULE_21.12,MISRA_C_2012_RULE_21.13,MISRA_C_2012_RULE_21.14,MISRA_C_2012_RULE_21.15,MISRA_C_2012_RULE_21.16,MISRA_C_2012_RULE_21.17,MISRA_C_2012_RULE_21.18,MISRA_C_2012_RULE_21.19,MISRA_C_2012_RULE_21.2,MISRA_C_2012_RULE_21.20,MISRA_C_2012_RULE_21.21,MISRA_C_2012_RULE_21.24,MISRA_C_2012_RULE_21.25,MISRA_C_2012_RULE_21.26,MISRA_C_2012_RULE_21.3,MISRA_C_2012_RULE_21.4,MISRA_C_2012_RULE_21.5,MISRA_C_2012_RULE_21.6,MISRA_C_2012_RULE_21.7,MISRA_C_2012_RULE_21.8,MISRA_C_2012_RULE_21.9,MISRA_C_2012_RULE_22.1,MISRA_C_2012_RULE_22.10,MISRA_C_2012_RULE_22.11,MISRA_C_2012_RULE_22.12,MISRA_C_2012_RULE_22.13,MISRA_C_2012_RULE_22.16,MISRA_C_2012_RULE_22.2,MISRA_C_2012_RULE_22.3,MISRA_C_2012_RULE_22.4,MISRA_C_2012_RULE_22.5,MISRA_C_2012_RULE_22.6,MISRA_C_2012_RULE_22.7,MISRA_C_2012_RULE_22.8,MISRA_C_2012_RULE_22.9,MISRA_C_2012_RULE_23.2,MISRA_C_2012_RULE_23.4,MISRA_C_2012_RULE_23.6,MISRA_C_2012_RULE_23.8,MISRA_C_2012_RULE_3.1,MISRA_C_2012_RULE_3.2,MISRA_C_2012_RULE_4.1,MISRA_C_2012_RULE_5.1,MISRA_C_2012_RULE_5.2,MISRA_C_2012_RULE_5.3,MISRA_C_2012_RULE_5.4,MISRA_C_2012_RULE_5.5,MISRA_C_2012_RULE_5.6,MISRA_C_2012_RULE_5.7,MISRA_C_2012_RULE_5.8,MISRA_C_2012_RULE_6.1,MISRA_C_2012_RULE_6.2,MISRA_C_2012_RULE_6.3,MISRA_C_2012_RULE_7.1,MISRA_C_2012_RULE_7.2,MISRA_C_2012_RULE_7.3,MISRA_C_2012_RULE_7.4,MISRA_C_2012_RULE_7.5,MISRA_C_2012_RULE_8.1,MISRA_C_2012_RULE_8.10,MISRA_C_2012_RULE_8.12,MISRA_C_2012_RULE_8.14,MISRA_C_2012_RULE_8.15,MISRA_C_2012_RULE_8.2,MISRA_C_2012_RULE_8.3,MISRA_C_2012_RULE_8.4,MISRA_C_2012_RULE_8.5,MISRA_C_2012_RULE_8.6,MISRA_C_2012_RULE_8.8,MISRA_C_2012_RULE_9.1,MISRA_C_2012_RULE_9.2,MISRA_C_2012_RULE_9.3,MISRA_C_2012_RULE_9.4,MISRA_C_2012_RULE_9.5,MISRA_C_2012_RULE_9.6,MISRA_C_2012_RULE_9.7,MISSING_BREAK,MISSING_COMMA,MISSING_MOVE_ASSIGNMENT,MISSING_PERMISSION_FOR_BROADCAST,MISSING_RESTORE,MISSING_RETURN,MISSING_THROW,MOBILE_ID_MISUSE,MULTIPLE_INIT_SMART_PTRS,NEGATIVE_RETURNS,NESTING_INDENT_MISMATCH,NON_STATIC_GUARDING_STATIC,NOSQL_QUERY_INJECTION,NO_EFFECT,NULL_RETURNS,OAUTH2_MISCONFIGURATION,OPEN_REDIRECT,ORM_LOAD_NULL_CHECK,ORM_UNNECESSARY_GET,OS_CMD_INJECTION,OVERFLOW_BEFORE_WIDEN,OVERLAPPING_COPY,OVERRUN,PASS_BY_VALUE,PATH_MANIPULATION,PMD.*,PRECEDENCE_ERROR,PREDICTABLE_RANDOM_SEED,PRINTF_ARGS,PROPERTY_MIXUP,RAILS_DEFAULT_ROUTES,RAILS_DEVISE_CONFIG,RAILS_MISSING_FILTER_ACTION,READLINK,REGEX_CONFUSION,REGEX_INJECTION,REGEX_MISSING_ANCHOR,RESOURCE_LEAK,RETURN_LOCAL,REVERSE_INULL,REVERSE_NEGATIVE,REVERSE_TABNABBING,RISKY_CRYPTO,RUBY_VULNERABLE_LIBRARY,SCRIPT_CODE_INJECTION,SENSITIVE_DATA_LEAK,SERVLET_ATOMICITY,SESSION_MANIPULATION,SIGMA.*,SIGN_EXTENSION,SIZEOF_MISMATCH,SOCKET_ACCEPT_ALL_ORIGINS,SQLI,STATIC_API_KEY,STRAY_SEMICOLON,STREAM_FORMAT_STATE,STRICT_TRANSPORT_SECURITY,SUPPRESSED_ERROR,SWAPPED_ARGUMENTS,TAINTED_ENVIRONMENT_WITH_EXECUTION,TEMPLATE_INJECTION,UNCAUGHT_EXCEPT,UNENCRYPTED_SENSITIVE_DATA,UNEXPECTED_CONTROL_FLOW,UNINIT,UNINIT_CTOR,UNINTENDED_GLOBAL,UNINTENDED_INTEGER_DIVISION,UNLOCKED_ACCESS,UNLOGGED_SECURITY_EXCEPTION,UNREACHABLE,UNRESTRICTED_ACCESS_TO_FILE,UNSAFE_BASIC_AUTH,UNSAFE_DESERIALIZATION,UNSAFE_FUNCTIONALITY,UNSAFE_JNI,UNSAFE_REFLECTION,UNSAFE_SESSION_SETTING,UNUSED_VALUE,URL_MANIPULATION,USELESS_CALL,USE_AFTER_FREE,USE_AFTER_MOVE,VARARGS,VIRTUAL_DTOR,VOLATILE_ATOMICITY,WEAK_PASSWORD_HASH,WRAPPER_ESCAPE,WRITE_CONST_FIELD,WRONG_METHOD,XML_EXTERNAL_ENTITY,XPATH_INJECTION,XSS,Y2K38_SAFETY</value>
+    </metric>
+    <metric>
+        <name>ta.code_age_thresholds</name>
+        <value>0, 0</value>
+    </metric>
+    <metric>
+        <name>code-version-date</name>
+        <value>1781663719</value>
+    </metric>
+    <metric>
+        <name>cxx</name>
+        <value>yes</value>
+    </metric>
+    <metric>
+        <name>concurrency</name>
+        <value>yes</value>
+    </metric>
+    <metric>
+        <name>security</name>
+        <value>yes</value>
+    </metric>
+    <metric>
+        <name>force</name>
+        <value>no</value>
+    </metric>
+    <metric>
+        <name>max-mem</name>
+        <value>512</value>
+    </metric>
+    <metric>
+        <name>emit-db-size-bytes</name>
+        <value>218841088</value>
+    </metric>
+    <metric>
+        <name>idir-size-bytes</name>
+        <value>293054472</value>
+    </metric>
+    <metric>
+        <name>output-dir-size-bytes</name>
+        <value>67180612</value>
+    </metric>
+    <metric>
+        <name>paths</name>
+        <value>5000</value>
+    </metric>
+    <metric>
+        <name>enable-parse-warnings</name>
+        <value>no</value>
+    </metric>
+    <metric>
+        <name>rule-cutoffs</name>
+        <value></value>
+    </metric>
+    <metric>
+        <name>total-input-files</name>
+        <value>-1</value>
+    </metric>
+    <metric>
+        <name>matching-input-files</name>
+        <value>-1</value>
+    </metric>
+    <metric>
+        <name>c-wu-time-milliseconds</name>
+        <value>110281848</value>
+    </metric>
+    <metric>
+        <name>all-wu-time-milliseconds</name>
+        <value>110281848</value>
+    </metric>
+    <metric>
+        <name>CONCURRENCY-phase-start-time</name>
+        <value>1781664157</value>
+    </metric>
+    <metric>
+        <name>CONCURRENCY-phase-end-time</name>
+        <value>1781664160</value>
+    </metric>
+    <metric>
+        <name>CONCURRENCY_TOPDOWN-phase-start-time</name>
+        <value>1781664160</value>
+    </metric>
+    <metric>
+        <name>CONCURRENCY_TOPDOWN-phase-end-time</name>
+        <value>1781664160</value>
+    </metric>
+    <metric>
+        <name>ENABLE_ONLY-phase-start-time</name>
+        <value>1781664156</value>
+    </metric>
+    <metric>
+        <name>ENABLE_ONLY-phase-end-time</name>
+        <value>1781664156</value>
+    </metric>
+    <metric>
+        <name>FUNCTIONS_AFTER_TUS-phase-start-time</name>
+        <value>1781664259</value>
+    </metric>
+    <metric>
+        <name>FUNCTIONS_AFTER_TUS-phase-end-time</name>
+        <value>1781664303</value>
+    </metric>
+    <metric>
+        <name>GENERIC-phase-start-time</name>
+        <value>1781664182</value>
+    </metric>
+    <metric>
+        <name>GENERIC-phase-end-time</name>
+        <value>1781664259</value>
+    </metric>
+    <metric>
+        <name>GENERIC_STATS-phase-start-time</name>
+        <value>1781664156</value>
+    </metric>
+    <metric>
+        <name>GENERIC_STATS-phase-end-time</name>
+        <value>1781664157</value>
+    </metric>
+    <metric>
+        <name>PER_TU-phase-start-time</name>
+        <value>1781664160</value>
+    </metric>
+    <metric>
+        <name>PER_TU-phase-end-time</name>
+        <value>1781664221</value>
+    </metric>
+    <metric>
+        <name>TUS_AFTER_TUS-phase-start-time</name>
+        <value>1781664221</value>
+    </metric>
+    <metric>
+        <name>TUS_AFTER_TUS-phase-end-time</name>
+        <value>1781664302</value>
+    </metric>
+</metrics>
+</coverity>

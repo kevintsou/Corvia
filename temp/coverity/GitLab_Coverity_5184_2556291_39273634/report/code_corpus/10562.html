@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	
+<b><a name="line249">249    </a></b>	    /********************************************************************************************
+<b><a name="line250">250    </a></b>	     * Byte Offset 96:153
+<b><a name="line251">251    </a></b>	     ********************************************************************************************/
+<b><a name="line252">252    </a></b>	    pDatacenter->sByteOffset_96_153.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_96;
+<b><a name="line253">253    </a></b>	
+<b><a name="line254">254    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line255">255    </a></b>	    memcpy((void *)pDatacenter->sByteOffset_96_153.aubFwVersionNumber, (void *)pHostVar->aubFwVersion, sizeof(pDatacenter->sByteOffset_96_153.aubFwVersionNumber));
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	    pDatacenter->sByteOffset_96_153.aubSecurityVersionNumber[0U] = pHostVar->aubSecurityVersionNumber[0U];
+<b><a name="line258">258    </a></b>	    pDatacenter->sByteOffset_96_153.aubSecurityVersionNumber[1U] = pHostVar->aubSecurityVersionNumber[1U];
+<b><a name="line259">259    </a></b>	
+<b><a name="line260">260    </a></b>	    memcpy((void *)pDatacenter->sByteOffset_96_153.aubModelNumber, (void *)pHostVar->aubNvmeModelNumber, sizeof(pDatacenter->sByteOffset_96_153.aubModelNumber));
+<b><a name="line261">261    </a></b>	#endif
+<b><a name="line262">262    </a></b>	
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	    /********************************************************************************************
+<b><a name="line265">265    </a></b>	     * Byte Offset 154:166
+<b><a name="line266">266    </a></b>	     ********************************************************************************************/
+<b><a name="line267">267    </a></b>	    pDatacenter->sByteOffset_154_166.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_154;
+<b><a name="line268">268    </a></b>	
+<b><a name="line269">269    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-2] no reset action is neeeded */
+<b><a name="line270">270    </a></b>	    pDatacenter->sByteOffset_154_166.ubPanicResetAction = 0x00U;
+<b><a name="line271">271    </a></b>	
+<b><a name="line272">272    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-3] no action required */
+<b><a name="line273">273    </a></b>	    pDatacenter->sByteOffset_154_166.ubDeviceRecoveryAction_1 = 0x00U;
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-4] no panic */
+<b><a name="line276">276    </a></b>	    for (ubIdx = 0U; ubIdx < 8U; ubIdx++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubIdx < 8U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubIdx < 8U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubIdx < 8U", taking false branch.</font>
+<b><a name="line277">277    </a></b>	    {
+<b><a name="line278">278    </a></b>	        pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx] = 0x00U;
+<b><a name="line279">279    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    /* [OCP datacenter v2.6, REQ ID: EREC-14] no reset action is neeeded */
+<b><a name="line282">282    </a></b>	    pDatacenter->sByteOffset_154_166.ubDeviceRecoveryAction_2 = 0x00U;
+<b><a name="line283">283    </a></b>	
+<b><a name="line284">284    </a></b>	    /* [OCP datacenter v2.6, REQ ID: SMBUS-8] */
+<b><a name="line285">285    </a></b>	    for (ubIdx = 0; ubIdx < sizeof(pDatacenter->sByteOffset_154_166.aubPanicID); ubIdx++)
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "ubIdx < 8U /* sizeof (pDatacenter->sByteOffset_154_166.aubPanicID) */", taking true branch.</font>
+<b><a name="line286">286    </a></b>	    {
+<b><a name="line287">287    </a></b>	        // A non-zero value in the Panic ID results in clearing drive functional bit to 0
+<b><a name="line288">288    </a></b>	        if (pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx])
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "pDatacenter->sByteOffset_154_166.aubPanicID[ubIdx]", taking true branch.</font>
+<b><a name="line289">289    </a></b>	        {
+<b><a name="line290">290    </a></b>	            pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btDriveFunctional = 0x0U;
+<b><a name="line291">291    </a></b>	            break;
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Breaking from loop.</font>
+<b><a name="line292">292    </a></b>	        }
+<b><a name="line293">293    </a></b>	    }
+<b><a name="line294">294    </a></b>	
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    /********************************************************************************************
+<b><a name="line297">297    </a></b>	     * Byte Offset 167:200
+<b><a name="line298">298    </a></b>	     ********************************************************************************************/
+<b><a name="line299">299    </a></b>	    pDatacenter->sByteOffset_167_200.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_167;
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    /********************************************************************************************
+<b><a name="line303">303    </a></b>	     * Byte Offset 201:241
+<b><a name="line304">304    </a></b>	     ********************************************************************************************/
+<b><a name="line305">305    </a></b>	    // all 0
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	
+<b><a name="line308">308    </a></b>	    /********************************************************************************************
+<b><a name="line309">309    </a></b>	     * Byte Offset 242:247
+<b><a name="line310">310    </a></b>	     ********************************************************************************************/
+<b><a name="line311">311    </a></b>	    pDatacenter->sByteOffset_242_247.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_242;
+<b><a name="line312">312    </a></b>	
+<b><a name="line313">313    </a></b>	    // When set to 1b the secure boot feature reporting is supported
+<b><a name="line314">314    </a></b>	    // Set further value while device status is !healthy and going to start ocp recovery
+<b><a name="line315">315    </a></b>	    // See OcpRecoveryUpdateSubsystemManagementData
+<b><a name="line316">316    </a></b>	    /* [OCP datacenter v2.6, REQ ID: SMBUS-5 */
+<b><a name="line317">317    </a></b>	    pDatacenter->sByteOffset_242_247.uSecurityBootFailureReporting.sBit.btSecureBootFailureReportingSupport = 0x1U;
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	
+<b><a name="line320">320    </a></b>	    /********************************************************************************************
+<b><a name="line321">321    </a></b>	     * Byte Offset 248:255
+<b><a name="line322">322    </a></b>	     ********************************************************************************************/
+<b><a name="line323">323    </a></b>	    pDatacenter->sByteOffset_248_255.ubLength = OCP_DATACENTER_DATA_LENGTH_CMD_CODE_248;
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    /* [OCP datacenter v2.6, REQ ID: SMBUS-11] */
+<b><a name="line326">326    </a></b>	    pDatacenter->sByteOffset_248_255.aubDataFormatVersionNumber[0] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_DATACENTER >> 8U) & 0xFFU;
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "4U >> 8U", shifting more than 7 bits, the number of bits in the essential type of the left expression, "4U", is not allowed.  The shift amount is 8.</font>
+<b><a name="line327">327    </a></b>	    pDatacenter->sByteOffset_248_255.aubDataFormatVersionNumber[1] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_DATACENTER) & 0xFFU;
+<b><a name="line328">328    </a></b>	}
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	/*!
+<b><a name="line331">331    </a></b>	   @brief      Init vendor specific in subsystem management data based on OCP hyperscale definition
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line334">334    </a></b>	   @param      pHostVar                     pointer to host variable
+<b><a name="line335">335    </a></b>	 */
+<b><a name="line336">336    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line337">337    </a></b>	static void VendorSpecificInitOcpHyperscale(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, HOST_VAR_T *pHostVar)
+<b><a name="line338">338    </a></b>	#else
+<b><a name="line339">339    </a></b>	static void VendorSpecificInitOcpHyperscale(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData)
+<b><a name="line340">340    </a></b>	#endif
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	    OCP_HYPERSCALE_T *pHyperscale = &pSubsystemManagementData->uVendorSpecific.sHyperscale;
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    /********************************************************************************************
+<b><a name="line345">345    </a></b>	     * Byte Offset 32_49
+<b><a name="line346">346    </a></b>	     ********************************************************************************************/
+<b><a name="line347">347    </a></b>	    pHyperscale->sByteOffset_32_49.ubLength = OCP_HYPERSCALE_DATA_LENGTH_CMD_CODE_32;
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[0U]  = OCP_HYPERSCALE_GUID_BYTE_0;
+<b><a name="line350">350    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[1U]  = OCP_HYPERSCALE_GUID_BYTE_1;
+<b><a name="line351">351    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[2U]  = OCP_HYPERSCALE_GUID_BYTE_2;
+<b><a name="line352">352    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[3U]  = OCP_HYPERSCALE_GUID_BYTE_3;
+<b><a name="line353">353    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[4U]  = OCP_HYPERSCALE_GUID_BYTE_4;
+<b><a name="line354">354    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[5U]  = OCP_HYPERSCALE_GUID_BYTE_5;
+<b><a name="line355">355    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[6U]  = OCP_HYPERSCALE_GUID_BYTE_6;
+<b><a name="line356">356    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[7U]  = OCP_HYPERSCALE_GUID_BYTE_7;
+<b><a name="line357">357    </a></b>	    pHyperscale->sByteOffset_32_49.aubGUID[8U]  = OCP_HYPERSCALE_GUID_BYTE_8;
+</pre></body>
+</html>

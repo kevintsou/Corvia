@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1799">1799    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCEVDLY        ] = (tcevdly      +  (tcevdly     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1800">1800    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TCEH2          ] = (tceh2        +  (tceh2       * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1801">1801    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_TPARAM         ] = (tparam       +  (tparam      * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1802">1802    </a></b>	    fpl_ptr->ac_timing[CPU_DLY_BUS_SWITCH     ] = (tbus_switch);
+<b><a name="line1803">1803    </a></b>	
+<b><a name="line1804">1804    </a></b>	    // Delay for read CMD/read DMA/read prefix retry sequence
+<b><a name="line1805">1805    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TWB       ] = (flh_twb      +  (flh_twb     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1806">1806    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TZQCL     ] = (flh_tzql     +  (flh_tzql    * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1807">1807    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TCS       ] = (flh_tcs      +  (flh_tcs     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier) + flh_redriver_tsc_delay_time);
+<b><a name="line1808">1808    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TCH       ] = (flh_tch      +  (flh_tch     * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1809">1809    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TCCS      ] = (flh_tccs     +  (flh_tccs    * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1810">1810    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_TCEVDLY   ] = (flh_tcevdly  +  (flh_tcevdly * fpl_ptr->p_efuse_nand_setting->fpu_ac_timing_multiplier));
+<b><a name="line1811">1811    </a></b>	    fip_inst_ptr->ac_timing[FLH_DLY_BUS_SWITCH] = (flh_tbus_switch);
+<b><a name="line1812">1812    </a></b>	}
+<b><a name="line1813">1813    </a></b>	
+<b><a name="line1814">1814    </a></b>	
+<b><a name="line1815">1815    </a></b>	
+<b><a name="line1816">1816    </a></b>	U32 fpl_hard_reset(FPL_API_STRUCT_PTR fpl_ptr, U8 reset_type)
+<b><a name="line1817">1817    </a></b>	{
+<b><a name="line1818">1818    </a></b>	    U32 status;
+<b><a name="line1819">1819    </a></b>	    U8  ch, bank, die, i;
+<b><a name="line1820">1820    </a></b>	    U8  addr[12];
+<b><a name="line1821">1821    </a></b>	    U8  data_buf;
+<b><a name="line1822">1822    </a></b>	    FIP_NAND_ADDR_STRUCT nand_addr;
+<b><a name="line1823">1823    </a></b>	
+<b><a name="line1824">1824    </a></b>	    status = 0U;
+<b><a name="line1825">1825    </a></b>	    bank   = 0U;
+<b><a name="line1826">1826    </a></b>	
+<b><a name="line1827">1827    </a></b>	    for (ch = 0U ; ch < FLH_MAX_CH_NUM; ch++) {
+<b><a name="line1828">1828    </a></b>	        if (BITS_GET(fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap, ch, 1U) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The width of the composite expression "(*fpl_ptr->p_efuse_nand_setting).channel_exist_bitmap >> ch" (32 bits) is less that the right hand operand "1ULL" (64 bits).</font>
+<b><a name="line1829">1829    </a></b>	            status |= fip_api_chk_status(ch, (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line1830">1830    </a></b>	        }
+<b><a name="line1831">1831    </a></b>	    }
+<b><a name="line1832">1832    </a></b>	
+<b><a name="line1833">1833    </a></b>	    ch = FLH_MAX_CH_NUM;
+<b><a name="line1834">1834    </a></b>	    if (status == 0U) {
+<b><a name="line1835">1835    </a></b>	        if (reset_type == EFUSE_FLH_HARD_RST_DIE_SEL) {
+<b><a name="line1836">1836    </a></b>	            FIP_DBG_INFO_PRINTF("EFUSE_FLH_HARD_RST_DIE_SEL\r\n");
+<b><a name="line1837">1837    </a></b>	            for (die = 0U; die < (1U << fpl_ptr->die_bit); die++) {
+<b><a name="line1838">1838    </a></b>	                hal_fip_api_die_sel(ch, bank, die, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1839">1839    </a></b>	                hal_fip_api_hard_reset(ch, bank, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1840">1840    </a></b>	                status |= fip_api_chk_status(0U, (HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line1841">1841    </a></b>	            }
+<b><a name="line1842">1842    </a></b>	            if (fpl_ptr->die_bit > 0U) {
+<b><a name="line1843">1843    </a></b>	                die = 0U;
+<b><a name="line1844">1844    </a></b>	                hal_fip_api_die_sel(ch, bank, die, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1845">1845    </a></b>	            }
+<b><a name="line1846">1846    </a></b>	        }
+<b><a name="line1847">1847    </a></b>	        else if (reset_type == EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED) {
+<b><a name="line1848">1848    </a></b>	            FIP_DBG_INFO_PRINTF("EFUSE_FLH_HARD_RST_READ_STATUS_ENHANCED\r\n");
+<b><a name="line1849">1849    </a></b>	            (void)memset((void *)&nand_addr,  0U, sizeof(FIP_NAND_ADDR_STRUCT));
+<b><a name="line1850">1850    </a></b>	            for (die = 0U; die < (1U << fpl_ptr->die_bit); die++) {
+<b><a name="line1851">1851    </a></b>	                nand_addr.all  = ((U64)(die & gFplApiStruct.addr_rule->rule_die.mask) << gFplApiStruct.addr_rule->rule_die.shift);
+<b><a name="line1852">1852    </a></b>	
+<b><a name="line1853">1853    </a></b>	                for (i = 0U; i < MAX_ROW_ADDRESS_BYTE_COUNT; i++) {
+<b><a name="line1854">1854    </a></b>	                    addr[i] = (U8)(nand_addr.row_adr >> (i << 3U));
+<b><a name="line1855">1855    </a></b>	                }
+<b><a name="line1856">1856    </a></b>	                (void)hal_fip_api_read_status_by_lun(ch, bank, fpl_ptr->row_adr_byte_cnt, (U8 *)&addr[0], (U8 *)&data_buf
+<b><a name="line1857">1857    </a></b>	                    , gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l, (U32 *)&gFplApiStruct.ac_timing, gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+<b><a name="line1858">1858    </a></b>	                (void)hal_fip_api_hard_reset(ch, bank, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line1859">1859    </a></b>	
+</pre></body>
+</html>

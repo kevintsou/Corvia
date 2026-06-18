@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line836">836    </a></b>	                if (cnt == FLH_SET_FEAT_CNT_MAX) {
+<b><a name="line837">837    </a></b>	                    status |= HAL_STATUS_SET_FEAT_DAT_CMP_FAIL;
+<b><a name="line838">838    </a></b>	                }
+<b><a name="line839">839    </a></b>	
+<b><a name="line840">840    </a></b>	                if (status == 0U) {
+<b><a name="line841">841    </a></b>	                    fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line842">842    </a></b>	                }
+<b><a name="line843">843    </a></b>	            }
+<b><a name="line844">844    </a></b>	        }
+<b><a name="line845">845    </a></b>	        else {
+<b><a name="line846">846    </a></b>	            //Normal Read
+<b><a name="line847">847    </a></b>	            if (gFplApiStruct.retry_by_prefix == TRUE) // TBD, need efuse ??
+<b><a name="line848">848    </a></b>	            {
+<b><a name="line849">849    </a></b>	                U8 default_read_level[EFUSE_PARAM_READ_RTY_DAT_SIZE] = {0, 0, 0, 0};
+<b><a name="line850">850    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_PREFIX_FOR_RETRY]), fip_read_param_struct_ptr, default_read_level);
+<b><a name="line851">851    </a></b>	            }
+<b><a name="line852">852    </a></b>	            else
+<b><a name="line853">853    </a></b>	            {
+<b><a name="line854">854    </a></b>	                fip_inst_gen_read_cmd(&(gFipInstStruct.inst[INST_ID_READ_CMD]), fip_read_param_struct_ptr, NULL);
+<b><a name="line855">855    </a></b>	            }
+<b><a name="line856">856    </a></b>	        }
+<b><a name="line857">857    </a></b>	    }
+<b><a name="line858">858    </a></b>	
+<b><a name="line859">859    </a></b>	    return status;
+<b><a name="line860">860    </a></b>	}
+<b><a name="line861">861    </a></b>	
+<b><a name="line862">862    </a></b>	
+<b><a name="line863">863    </a></b>	void fip_api_read_dma(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr)
+<b><a name="line864">864    </a></b>	{
+<b><a name="line865">865    </a></b>	    U8  *inst_buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134750208UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line866">866    </a></b>	    U8  *buf = (U8 *)DBUF_API_BOOTCODE_TEMP_INST_BUFFER_BASE;
+<b><a name="line867">867    </a></b>	    U32 sq_cmd_size;
+<b><a name="line868">868    </a></b>	    U8  tag;
+<b><a name="line869">869    </a></b>	    U8  i;
+<b><a name="line870">870    </a></b>	    U16 mr_target_id;
+<b><a name="line871">871    </a></b>	    U16 mr_source_id;
+<b><a name="line872">872    </a></b>	    U8  fta_addr[FLH_FTA_ADDR_MAX];
+<b><a name="line873">873    </a></b>	    U32 scr_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line874">874    </a></b>	    U64 crc_seed[FLH_MAX_LC_PER_PAGE];
+<b><a name="line875">875    </a></b>	    U32 page;
+<b><a name="line876">876    </a></b>	    U32 block;
+<b><a name="line877">877    </a></b>	    U8  pln;
+<b><a name="line878">878    </a></b>	    U32 opt;
+<b><a name="line879">879    </a></b>	    U8  ch;
+<b><a name="line880">880    </a></b>	
+<b><a name="line881">881    </a></b>	    //tprintf("fip_api_read_dma ch num = %x", fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line882">882    </a></b>	    opt           = 0U;
+<b><a name="line883">883    </a></b>	    i             = 0U;
+<b><a name="line884">884    </a></b>	    sq_cmd_size   = 0U;
+<b><a name="line885">885    </a></b>	    mr_target_id = MR_COP0_0_0_MVP(4U * fip_read_param_struct_ptr->nand_addr.ch);
+<b><a name="line886">886    </a></b>	    mr_source_id = BE_MR_TID_CPU0_CQ_FIP_CH0;
+<b><a name="line887">887    </a></b>	    block         = PCA_2_BLOCK(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line888">888    </a></b>	    page          = PCA_2_PAGE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line889">889    </a></b>	    pln           = PCA_2_PLANE(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line890">890    </a></b>	    ch            = PCA_2_CHANNEL(gFplApiStruct.addr_rule, fip_read_param_struct_ptr->nand_addr.all);
+<b><a name="line891">891    </a></b>	
+<b><a name="line892">892    </a></b>	    memset((void *)inst_buf, 0x00, DBUF_API_BOOTCODE_TEMP_INST_BUFFER_SIZE);
+<b><a name="line893">893    </a></b>	    memset((void *)fta_addr, 0x00, sizeof(fta_addr));
+<b><a name="line894">894    </a></b>	    memset((void *)scr_seed, 0x00, sizeof(scr_seed));
+<b><a name="line895">895    </a></b>	    memset((void *)crc_seed, 0x00, sizeof(crc_seed));
+<b><a name="line896">896    </a></b>	
+</pre></body>
+</html>

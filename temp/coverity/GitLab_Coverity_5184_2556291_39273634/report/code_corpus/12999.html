@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1939">1939    </a></b>	    if (dynamic_odt_en != 0U) {
+<b><a name="line1940">1940    </a></b>	        // dynamic ODT enable
+<b><a name="line1941">1941    </a></b>	        w_DYNAMIC_ODT_EN(ch, 1);
+<b><a name="line1942">1942    </a></b>	    }
+<b><a name="line1943">1943    </a></b>	    else {
+<b><a name="line1944">1944    </a></b>	        w_DYNAMIC_ODT_EN(ch, 0);
+<b><a name="line1945">1945    </a></b>	    }
+<b><a name="line1946">1946    </a></b>	
+<b><a name="line1947">1947    </a></b>	    // step 3
+<b><a name="line1948">1948    </a></b>	    w_FORCE_ODT_EN(ch, 0);
+<b><a name="line1949">1949    </a></b>	    w_FLH_FPHI_REG_RX_ODT_EN_DQ_MUX_SEL(ch, 0);
+<b><a name="line1950">1950    </a></b>	    w_FLH_FPHI_REG_RX_ODT_EN_DQS_MUX_SEL(ch, 0);
+<b><a name="line1951">1951    </a></b>	
+<b><a name="line1952">1952    </a></b>	    // step 4
+<b><a name="line1953">1953    </a></b>	    w_ODT_SET_H_COND(ch, odt_set_h_cond);
+<b><a name="line1954">1954    </a></b>	}
+<b><a name="line1955">1955    </a></b>	
+<b><a name="line1956">1956    </a></b>	void dal_fip_set_io_driving_iolh_ca(U8 ch, U8 iolh_ca)
+<b><a name="line1957">1957    </a></b>	{
+<b><a name="line1958">1958    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_CA(ch, iolh_ca);
+<b><a name="line1959">1959    </a></b>	}
+<b><a name="line1960">1960    </a></b>	
+<b><a name="line1961">1961    </a></b>	void dal_fip_set_io_driving_iolh_ctt(U8 ch, U8 dq, U8 dqs, U8 reb)
+<b><a name="line1962">1962    </a></b>	{
+<b><a name="line1963">1963    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_CTT_DQ(ch, dq);
+<b><a name="line1964">1964    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_CTT_DQS(ch, dqs);
+<b><a name="line1965">1965    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_CTT_REB(ch, reb);
+<b><a name="line1966">1966    </a></b>	}
+<b><a name="line1967">1967    </a></b>	
+<b><a name="line1968">1968    </a></b>	void dal_fip_set_io_driving_iolh_ltt_up(U8 ch, U8 dq, U8 dqs, U8 reb)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "dal_fip_set_io_driving_iolh_ltt_up", which is ambiguous.</font>
+<b><a name="line1969">1969    </a></b>	{
+<b><a name="line1970">1970    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQ(ch, dq);
+<b><a name="line1971">1971    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQS(ch, dqs);
+<b><a name="line1972">1972    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_REB(ch, reb);
+<b><a name="line1973">1973    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQ_1(ch, dq);
+<b><a name="line1974">1974    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_DQS_1(ch, dqs);
+<b><a name="line1975">1975    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_UP_REB_1(ch, reb);
+<b><a name="line1976">1976    </a></b>	}
+<b><a name="line1977">1977    </a></b>	
+<b><a name="line1978">1978    </a></b>	void dal_fip_set_io_driving_iolh_ltt_dn(U8 ch, U8 dq, U8 dqs, U8 reb)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "dal_fip_set_io_driving_iolh_ltt_dn" and "dal_fip_set_io_driving_iolh_ltt_up" are identical.</font>
+<b><a name="line1979">1979    </a></b>	{
+<b><a name="line1980">1980    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQ(ch, dq);
+<b><a name="line1981">1981    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQS(ch, dqs);
+<b><a name="line1982">1982    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_REB(ch, reb);
+<b><a name="line1983">1983    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQ_1(ch, dq);
+<b><a name="line1984">1984    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_DQS_1(ch, dqs);
+<b><a name="line1985">1985    </a></b>	    w_FLH_FPHI_REG_TX_IOLH_LTT_DN_REB_1(ch, reb);
+<b><a name="line1986">1986    </a></b>	}
+<b><a name="line1987">1987    </a></b>	
+<b><a name="line1988">1988    </a></b>	/*!
+<b><a name="line1989">1989    </a></b>	 * @brief trigger mdll tracking
+<b><a name="line1990">1990    </a></b>	 *
+<b><a name="line1991">1991    </a></b>	 * -
+<b><a name="line1992">1992    </a></b>	 *
+<b><a name="line1993">1993    </a></b>	 * @return    None
+<b><a name="line1994">1994    </a></b>	 * @note
+<b><a name="line1995">1995    </a></b>	 *
+<b><a name="line1996">1996    </a></b>	 * -
+<b><a name="line1997">1997    </a></b>	 *
+<b><a name="line1998">1998    </a></b>	 */
+<b><a name="line1999">1999    </a></b>	void dal_fip_mdll_tracking_trig(void)
+<b><a name="line2000">2000    </a></b>	{
+<b><a name="line2001">2001    </a></b>	#define WAIT_CYCLE(x)    {for (i = 0U; i < (x); i++) {r_FLH_DLL_MDLL_TRK_DONE(0U);} }
+<b><a name="line2002">2002    </a></b>	
+<b><a name="line2003">2003    </a></b>	    U8   dll, dll_num, ch;
+<b><a name="line2004">2004    </a></b>	    U32  i, tmp32;
+<b><a name="line2005">2005    </a></b>	    U16  ratio = 512U;
+<b><a name="line2006">2006    </a></b>	
+<b><a name="line2007">2007    </a></b>	    dll_num = DAL_FIP_CH_NUM >> 1U;
+<b><a name="line2008">2008    </a></b>	
+<b><a name="line2009">2009    </a></b>	    // -----------------------------------------------
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line648">648    </a></b>	                host->nvme_feature.prstnt_establish_step = 1;
+<b><a name="line649">649    </a></b>	            }
+<b><a name="line650">650    </a></b>	            else {
+<b><a name="line651">651    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_CMD_SEQ_ERR);
+<b><a name="line652">652    </a></b>	            }
+<b><a name="line653">653    </a></b>	            break;
+<b><a name="line654">654    </a></b>	
+<b><a name="line655">655    </a></b>	        default:
+<b><a name="line656">656    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line657">657    </a></b>	            break;
+<b><a name="line658">658    </a></b>	        }
+<b><a name="line659">659    </a></b>	        break;
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	    default:
+<b><a name="line662">662    </a></b>	        Dump_NVME(tprintf("      >> Invalid Log\n\r"));
+<b><a name="line663">663    </a></b>	        byte_cnt = 0;
+<b><a name="line664">664    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_LOG_PAGE);
+<b><a name="line665">665    </a></b>	        break;
+<b><a name="line666">666    </a></b>	    }
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	    if ( byte_cnt > 0 ) {
+<b><a name="line669">669    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_READ);
+<b><a name="line670">670    </a></b>	    }
+<b><a name="line671">671    </a></b>	}
+<b><a name="line672">672    </a></b>	
+<b><a name="line673">673    </a></b>	static void nvme_prstnt_event_log(U32 buf_addr, U8 established, HOST_API_STRUCT_PTR host)
+<b><a name="line674">674    </a></b>	{
+<b><a name="line675">675    </a></b>	    PRSTNT_EVENT_LOG_HDR_STRUCT_PTR prstnt_log_hdr_ptr = (PRSTNT_EVENT_LOG_HDR_STRUCT_PTR)buf_addr;
+<b><a name="line676">676    </a></b>	    PRSTNT_EVENT_LOG_EVENT_HEADER_STRUCT_PTR prstnt_log_event_hdr_ptr = (PRSTNT_EVENT_LOG_EVENT_HEADER_STRUCT_PTR)(buf_addr + 512);
+<b><a name="line677">677    </a></b>	    PRSTNT_EVENT_RECOVERY_STATUS_PTR prstnt_recovery_status_ptr = (PRSTNT_EVENT_RECOVERY_STATUS_PTR)(buf_addr + 512 + 24);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "buf_addr + 512UL" (unsigned) is not the same as that of the right operand "24"(signed).</font>
+<b><a name="line678">678    </a></b>	
+<b><a name="line679">679    </a></b>	    memset((void *)prstnt_log_hdr_ptr, 0x00, (sizeof(PRSTNT_EVENT_LOG_HDR_STRUCT) + sizeof(PRSTNT_EVENT_LOG_EVENT_HEADER_STRUCT) + sizeof(PRSTNT_EVENT_RECOVERY_STATUS)));
+<b><a name="line680">680    </a></b>	
+<b><a name="line681">681    </a></b>	    if (established) {
+<b><a name="line682">682    </a></b>	        host->nvme_feature.prstnt_timestamp   = phal_sys_rtt_get_ms();
+<b><a name="line683">683    </a></b>	        prstnt_log_hdr_ptr->poh[0]            = phal_sys_rtt_get_ms() / (1000 * 3600);
+<b><a name="line684">684    </a></b>	    }
+<b><a name="line685">685    </a></b>	
+<b><a name="line686">686    </a></b>	    prstnt_log_hdr_ptr->log_id                = LID_PERSISTENT_EVENT_LOG;
+<b><a name="line687">687    </a></b>	    prstnt_log_hdr_ptr->tnev                  = 1; // total num of events
+<b><a name="line688">688    </a></b>	    prstnt_log_hdr_ptr->tll                   = 512 + 24 + 7; // 512byte header + 24byte event header + 7byte content
+<b><a name="line689">689    </a></b>	    prstnt_log_hdr_ptr->log_revision          = NVME_PRSTNT_EVENT_LOG_REVISON;
+<b><a name="line690">690    </a></b>	    prstnt_log_hdr_ptr->log_hdr_len           = sizeof(PRSTNT_EVENT_LOG_HDR_STRUCT) - 20U;
+<b><a name="line691">691    </a></b>	    prstnt_log_hdr_ptr->timestamp             = host->nvme_feature.prstnt_timestamp;
+<b><a name="line692">692    </a></b>	    prstnt_log_hdr_ptr->power_cycle_cnt       = 1;
+<b><a name="line693">693    </a></b>	    prstnt_log_hdr_ptr->vid                   = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line694">694    </a></b>	    prstnt_log_hdr_ptr->ssvid                 = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line695">695    </a></b>	    memcpy((void *) & (prstnt_log_hdr_ptr->sn[0]), (void *) & (serial_number[0]), HOST_SN_BYTES);
+<b><a name="line696">696    </a></b>	    memcpy((void *) & (prstnt_log_hdr_ptr->mn[0]), (void *) & (model_number[0]), HOST_MN_BYTES);
+<b><a name="line697">697    </a></b>	    prstnt_log_hdr_ptr->gen_num               = 0;
+<b><a name="line698">698    </a></b>	    prstnt_log_hdr_ptr->rce                   = 0;
+<b><a name="line699">699    </a></b>	    prstnt_log_hdr_ptr->rcpit                 = 0;
+<b><a name="line700">700    </a></b>	    prstnt_log_hdr_ptr->rcpid                 = 0;
+<b><a name="line701">701    </a></b>	    prstnt_log_hdr_ptr->support_event_bmp[13] = 0x4000;
+<b><a name="line702">702    </a></b>	
+<b><a name="line703">703    </a></b>	    prstnt_log_event_hdr_ptr->event_type = PRSTNT_EVENT_LOG_EVENT_TYPE_VENDOR_SPECIFIC;
+<b><a name="line704">704    </a></b>	    prstnt_log_event_hdr_ptr->event_type_revision = PRSTNT_EVENT_LOG_EVENT_TYPE_REVISION;
+<b><a name="line705">705    </a></b>	    prstnt_log_event_hdr_ptr->ehl = EVENT_HDR_LEN;
+<b><a name="line706">706    </a></b>	    prstnt_log_event_hdr_ptr->pit = 0;
+<b><a name="line707">707    </a></b>	    prstnt_log_event_hdr_ptr->ctrl_id = 0;
+<b><a name="line708">708    </a></b>	    prstnt_log_event_hdr_ptr->event_timestamp = host->nvme_feature.prstnt_timestamp;
+</pre></body>
+</html>

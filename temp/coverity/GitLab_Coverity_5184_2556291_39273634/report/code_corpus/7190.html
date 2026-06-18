@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1334">1334    </a></b>	        Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1335">1335    </a></b>	        Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1336">1336    </a></b>	        Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1337">1337    </a></b>	
+<b><a name="line1338">1338    </a></b>	        // Set PHY reg
+<b><a name="line1339">1339    </a></b>	        if ((id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()) &&
+<b><a name="line1340">1340    </a></b>	            (id_table_landmark_ptr->reg.long_address < (hal_fw_pcie_get_misc_reg_base() + PCIE_TL_MISC_REG_REG_SIZE)) &&
+<b><a name="line1341">1341    </a></b>	            (offset < last)) {
+<b><a name="line1342">1342    </a></b>	            hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1343">1343    </a></b>	        }
+<b><a name="line1344">1344    </a></b>	        else {
+<b><a name="line1345">1345    </a></b>	            /*do nothing */
+<b><a name="line1346">1346    </a></b>	        }
+<b><a name="line1347">1347    </a></b>	        DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line1348">1348    </a></b>	
+<b><a name="line1349">1349    </a></b>	        offset += 8;    // addr + value
+<b><a name="line1350">1350    </a></b>	    }
+<b><a name="line1351">1351    </a></b>	    sal_log_tracker_set(sal_locate(0x1f, TYPE_STEP));
+<b><a name="line1352">1352    </a></b>	    host->set_id_tbl_landmark_done = 1U;
+<b><a name="line1353">1353    </a></b>	}
+<b><a name="line1354">1354    </a></b>	
+<b><a name="line1355">1355    </a></b>	
+<b><a name="line1356">1356    </a></b>	void host_api_set_pcie_iccm_dccm_landmark(void)
+<b><a name="line1357">1357    </a></b>	{
+<b><a name="line1358">1358    </a></b>	    ID_TABLE *p_id_table = (ID_TABLE *)DBUF_API_BOOTCODE_ID_TABLE_BASE;
+<b><a name="line1359">1359    </a></b>	    U16 iccm_dw_cnt = p_id_table->pcie_phy_rom_code_info.iccm_dw_cnt;
+<b><a name="line1360">1360    </a></b>	    U16 dccm_dw_cnt = p_id_table->pcie_phy_rom_code_info.dccm_dw_cnt;
+<b><a name="line1361">1361    </a></b>	    U32 P0_iccm_address_base = p_id_table->pcie_phy_rom_code_info.P0_iccm_bin_offset + DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line1362">1362    </a></b>	    U32 P0_dccm_address_base = p_id_table->pcie_phy_rom_code_info.P0_dccm_bin_offset + DBUF_API_BOOTCODE_DATA_BUFFER_BASE;//dccm binary after iccm 64KB
+<b><a name="line1363">1363    </a></b>	    U32 P1_iccm_address_base = p_id_table->pcie_phy_rom_code_info.P1_iccm_bin_offset + DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134217728UL" (unsigned) is not the same as that of the right operand "524288"(signed).</font>
+<b><a name="line1364">1364    </a></b>	    U32 P1_dccm_address_base = p_id_table->pcie_phy_rom_code_info.P1_dccm_bin_offset + DBUF_API_BOOTCODE_DATA_BUFFER_BASE;//dccm binary after iccm 64KB
+<b><a name="line1365">1365    </a></b>	    U32 address_offset = 0;
+<b><a name="line1366">1366    </a></b>	
+<b><a name="line1367">1367    </a></b>	    Dump_IDPG_FE(tprintf("update pcie phy rom code update_iccm_en:%d", p_id_table->update_iccm_en));
+<b><a name="line1368">1368    </a></b>	    Dump_IDPG_FE(tprintf("P0_iccm_address_base:%x P0_dccm_address_base:%x", P0_iccm_address_base, P0_dccm_address_base));
+<b><a name="line1369">1369    </a></b>	    Dump_IDPG_FE(tprintf("P1_iccm_address_base:%x P1_dccm_address_base:%x", P1_iccm_address_base, P1_dccm_address_base));
+<b><a name="line1370">1370    </a></b>	    Dump_IDPG_FE(tprintf("P0_update_iccm_en:%x P0_update_dccm_en:%x", p_id_table->P0_update_iccm_en, p_id_table->P0_update_dccm_en));
+<b><a name="line1371">1371    </a></b>	    Dump_IDPG_FE(tprintf("P1_update_iccm_en:%x P1_update_dccm_en:%x", p_id_table->P1_update_iccm_en, p_id_table->P1_update_dccm_en));
+<b><a name="line1372">1372    </a></b>	
+<b><a name="line1373">1373    </a></b>	    if(p_id_table->update_iccm_en)
+<b><a name="line1374">1374    </a></b>	    {
+<b><a name="line1375">1375    </a></b>	        sal_log_tracker_set(sal_locate(0x20, TYPE_STEP));
+<b><a name="line1376">1376    </a></b>	        Dump_IDPG_FE(tprintf("halt phy cpu"));
+<b><a name="line1377">1377    </a></b>	        (*((volatile U32 *)(0x314E078))) |= 0x0C; //halt pcie phy cpu0 [2] cpu1 [3] to update FW
+<b><a name="line1378">1378    </a></b>	
+<b><a name="line1379">1379    </a></b>	        if(p_id_table->P0_update_iccm_en || p_id_table->P0_update_dccm_en)
+<b><a name="line1380">1380    </a></b>	        {
+<b><a name="line1381">1381    </a></b>	            Dump_IDPG_FE(tprintf("change access_sel to apb 0"));
+<b><a name="line1382">1382    </a></b>	            (*((volatile U32 *)(0x3156000))) |= 0x200; //change access_sel to apb
+<b><a name="line1383">1383    </a></b>	            if(p_id_table->P0_update_iccm_en)
+<b><a name="line1384">1384    </a></b>	            {
+<b><a name="line1385">1385    </a></b>	                Dump_IDPG_FE(tprintf("update p0 iccm"));
+<b><a name="line1386">1386    </a></b>	                sal_log_tracker_set(sal_locate(0x21, TYPE_STEP));
+<b><a name="line1387">1387    </a></b>	                for(U16 index = 0; index < iccm_dw_cnt; index++ )
+<b><a name="line1388">1388    </a></b>	                {
+<b><a name="line1389">1389    </a></b>	                    (*((volatile U32 *)(0x315A000 + address_offset))) = *((volatile U32 *)(P0_iccm_address_base + address_offset));
+<b><a name="line1390">1390    </a></b>	                    address_offset+=4;
+<b><a name="line1391">1391    </a></b>	                }
+<b><a name="line1392">1392    </a></b>	            }
+<b><a name="line1393">1393    </a></b>	
+<b><a name="line1394">1394    </a></b>	            address_offset = 0;
+</pre></body>
+</html>

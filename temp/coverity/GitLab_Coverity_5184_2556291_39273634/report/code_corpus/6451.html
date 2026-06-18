@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2255">2255    </a></b>	        {
+<b><a name="line2256">2256    </a></b>	            break_retry = 1;
+<b><a name="line2257">2257    </a></b>	        }
+<b><a name="line2258">2258    </a></b>	    }
+<b><a name="line2259">2259    </a></b>	    return status;
+<b><a name="line2260">2260    </a></b>	}
+<b><a name="line2261">2261    </a></b>	
+<b><a name="line2262">2262    </a></b>	U32 fpl_fip_init(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr, ADDR_RULE_STRUCT_PTR addr_rule, const EFUSE_NAND_SETTING *p_efuse_nand_setting)
+<b><a name="line2263">2263    </a></b>	{
+<b><a name="line2264">2264    </a></b>	    U32 loop;
+<b><a name="line2265">2265    </a></b>	    U32 step;
+<b><a name="line2266">2266    </a></b>	    //U32 status;
+<b><a name="line2267">2267    </a></b>	
+<b><a name="line2268">2268    </a></b>	    loop    = TRUE;
+<b><a name="line2269">2269    </a></b>	    step    = FPL_SYNC_EFUSE_PARAM;
+<b><a name="line2270">2270    </a></b>	
+<b><a name="line2271">2271    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP));
+<b><a name="line2272">2272    </a></b>	
+<b><a name="line2273">2273    </a></b>	    memset((void *)fpl_ptr,      0U, sizeof(FPL_API_STRUCT));
+<b><a name="line2274">2274    </a></b>	    memset((void *)fip_inst_ptr, 0U, sizeof(FIP_INST_STRUCT));
+<b><a name="line2275">2275    </a></b>	
+<b><a name="line2276">2276    </a></b>	    fpl_ptr->p_efuse_nand_setting = p_efuse_nand_setting;
+<b><a name="line2277">2277    </a></b>	
+<b><a name="line2278">2278    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_STEP));
+<b><a name="line2279">2279    </a></b>	    fpl_sync_efuse_param(fpl_ptr);
+<b><a name="line2280">2280    </a></b>	
+<b><a name="line2281">2281    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_STEP));
+<b><a name="line2282">2282    </a></b>	    fpl_api_parsing_efuse_param(fpl_ptr, fip_inst_ptr, (U16 *)fpl_ptr->p_efuse_nand_setting->fpu_sequence);
+<b><a name="line2283">2283    </a></b>	
+<b><a name="line2284">2284    </a></b>	    sal_log_tracker_set(sal_locate(0x03, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "2284" (unsigned) is not the same as that of the right operand "4095"(signed).</font>
+<b><a name="line2285">2285    </a></b>	    fpl_fip_sys_init(fpl_ptr);
+<b><a name="line2286">2286    </a></b>	
+<b><a name="line2287">2287    </a></b>	    sal_log_tracker_set(sal_locate(0x04, TYPE_STEP));
+<b><a name="line2288">2288    </a></b>	    fpl_fip_conf(fpl_ptr);
+<b><a name="line2289">2289    </a></b>	
+<b><a name="line2290">2290    </a></b>	    sal_log_tracker_set(sal_locate(0x05, TYPE_STEP));
+<b><a name="line2291">2291    </a></b>	    fpl_ac_timing_init(fpl_ptr, fip_inst_ptr);
+<b><a name="line2292">2292    </a></b>	
+<b><a name="line2293">2293    </a></b>	    sal_log_tracker_set(sal_locate(0x06, TYPE_STEP));
+<b><a name="line2294">2294    </a></b>	    fpl_cmd_remap_table_init(fip_inst_ptr);
+<b><a name="line2295">2295    </a></b>	
+<b><a name="line2296">2296    </a></b>	    //sal_log_tracker_set(sal_locate(0x07, TYPE_STEP));
+<b><a name="line2297">2297    </a></b>	    //fpl_fip_fpu_init(fpl_ptr, fip_inst_ptr);
+<b><a name="line2298">2298    </a></b>	
+<b><a name="line2299">2299    </a></b>	    sal_log_tracker_set(sal_locate(0x08, TYPE_STEP));
+<b><a name="line2300">2300    </a></b>	    fpl_rule_init(fpl_ptr, addr_rule);
+<b><a name="line2301">2301    </a></b>	
+<b><a name="line2302">2302    </a></b>	    sal_log_tracker_set(sal_locate(0x09, TYPE_STEP));
+<b><a name="line2303">2303    </a></b>	    fpl_set_dq_revert(fpl_ptr);
+<b><a name="line2304">2304    </a></b>	
+<b><a name="line2305">2305    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line2306">2306    </a></b>	    sal_log_tracker_set(sal_locate(0x0A, TYPE_STEP));
+<b><a name="line2307">2307    </a></b>	    fpl_fip_clock_init(fpl_ptr);
+<b><a name="line2308">2308    </a></b>	#endif
+<b><a name="line2309">2309    </a></b>	
+<b><a name="line2310">2310    </a></b>	    if ((fpl_ptr->p_efuse_nand_setting->rx_mode_dq != HAL_FPL_RX_MODE_CTT) ||
+<b><a name="line2311">2311    </a></b>	        (fpl_ptr->p_efuse_nand_setting->ctrl_zq_calibration_dis == FALSE)) {
+<b><a name="line2312">2312    </a></b>	        sal_log_tracker_set(sal_locate(0x0B, TYPE_STEP));
+<b><a name="line2313">2313    </a></b>	        fpl_ptr->fip_init_status |= hal_fip_set_ctrl_zq_calibration();
+<b><a name="line2314">2314    </a></b>	    }
+<b><a name="line2315">2315    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9701">9701    </a></b>	    ret = (U8)(verify_sts == HAL_SEC_PQC_KAZ_ERROR(SEC_YES));
+<b><a name="line9702">9702    </a></b>	
+<b><a name="line9703">9703    </a></b>	    if (ret != SEC_YES)
+<b><a name="line9704">9704    </a></b>	    {
+<b><a name="line9705">9705    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9706">9706    </a></b>	        return (KAT_TYPE_KAZ | KAT_ERROR_VERIFY);
+<b><a name="line9707">9707    </a></b>	    }
+<b><a name="line9708">9708    </a></b>	
+<b><a name="line9709">9709    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line9710">9710    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9711">9711    </a></b>	        return (KAT_TYPE_KAZ | KAT_ERROR_TIMEOUT);
+<b><a name="line9712">9712    </a></b>	    }
+<b><a name="line9713">9713    </a></b>	
+<b><a name="line9714">9714    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9715">9715    </a></b>	}
+<b><a name="line9716">9716    </a></b>	#endif
+<b><a name="line9717">9717    </a></b>	#if KAT_MLKEM_EN
+<b><a name="line9718">9718    </a></b>	U32 host_sec_mlkem_verify_kat(U32 buf_addr)
+<b><a name="line9719">9719    </a></b>	{
+<b><a name="line9720">9720    </a></b>	    Dump_SEC(tprintf("MLKEM KAT"));
+<b><a name="line9721">9721    </a></b>	
+<b><a name="line9722">9722    </a></b>	    U32 cal_buf_addr = buf_addr;
+<b><a name="line9723">9723    </a></b>	    U32 ek_addr      = cal_buf_addr + BC_32KB + BC_32KB;
+<b><a name="line9724">9724    </a></b>	    U32 message_addr = ek_addr      + HAL_SEC_PQC_MLKEM_PUB_KEY_LEN;
+<b><a name="line9725">9725    </a></b>	    U32 ct_addr      = message_addr + HAL_SEC_PQC_MLKEM_MSG_LEN;
+<b><a name="line9726">9726    </a></b>	    U32 ss_addr      = ct_addr      + HAL_SEC_PQC_MLKEM_CTX_LEN;
+<b><a name="line9727">9727    </a></b>	    // U32 temp_addr    = ss_addr      + 128;
+<b><a name="line9728">9728    </a></b>	
+<b><a name="line9729">9729    </a></b>	    memcpy((void *)message_addr, (void *)sec_mlkem_kat_enc_msg, sizeof(sec_mlkem_kat_enc_msg));
+<b><a name="line9730">9730    </a></b>	    memcpy((void *)ek_addr, (void *)sec_mlkem_kat_enc_ek, sizeof(sec_mlkem_kat_enc_ek));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line9731">9731    </a></b>	
+<b><a name="line9732">9732    </a></b>	    if (phal_mlkem_enc((U8 *)ct_addr, (U8 *)ss_addr, (U8 *)ek_addr, (U8 *)message_addr, cal_buf_addr) != SEC_YES || \
+<b><a name="line9733">9733    </a></b>	        memcmp((void *)ct_addr, (void *)sec_mlkem_kat_enc_ctx, HAL_SEC_PQC_MLKEM_CTX_LEN) || \
+<b><a name="line9734">9734    </a></b>	        memcmp((void *)ss_addr, (void *)sec_mlkem_kat_enc_ss, HAL_SEC_PQC_MLKEM_SS_LEN))
+<b><a name="line9735">9735    </a></b>	    {
+<b><a name="line9736">9736    </a></b>	        Dump_SEC(tprintf("MLKEM encap failed\n"));
+<b><a name="line9737">9737    </a></b>	        return FAIL;
+<b><a name="line9738">9738    </a></b>	    }
+<b><a name="line9739">9739    </a></b>	
+<b><a name="line9740">9740    </a></b>	    Dump_SEC(tprintf("MLKEM ENC Pass"));
+<b><a name="line9741">9741    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9742">9742    </a></b>	}
+<b><a name="line9743">9743    </a></b>	#endif
+<b><a name="line9744">9744    </a></b>	
+<b><a name="line9745">9745    </a></b>	static U32 kat_aes256_xts(U32 kat_buffer)
+<b><a name="line9746">9746    </a></b>	{
+<b><a name="line9747">9747    </a></b>	    U32 kat_status = KAT_ERROR_NONE;
+<b><a name="line9748">9748    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_STEP));
+<b><a name="line9749">9749    </a></b>	    if (gSecKatRecord.exec_kat_aes_xts == 0)
+<b><a name="line9750">9750    </a></b>	    {
+<b><a name="line9751">9751    </a></b>	#if KAT_AES_EN
+<b><a name="line9752">9752    </a></b>	        if (phal_sqz_is_en()) {
+<b><a name="line9753">9753    </a></b>	            kat_status = sec_sqz_kat_AES_XTS();
+<b><a name="line9754">9754    </a></b>	        }
+<b><a name="line9755">9755    </a></b>	        else {
+<b><a name="line9756">9756    </a></b>	            kat_status = host_sec_aes_xts_256_kat(kat_buffer);
+<b><a name="line9757">9757    </a></b>	        }
+<b><a name="line9758">9758    </a></b>	        if (KAT_ERROR_NONE != kat_status) {
+<b><a name="line9759">9759    </a></b>	            sal_log_tracker_set(sal_locate(GET_KAT_STATUS_CODE(kat_status), TYPE_DATA));
+<b><a name="line9760">9760    </a></b>	            gSecKatRecord.rslt_kat_aes_xts = FAIL;
+<b><a name="line9761">9761    </a></b>	        }
+</pre></body>
+</html>

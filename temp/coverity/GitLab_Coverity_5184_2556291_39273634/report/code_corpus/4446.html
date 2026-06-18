@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1083">1083    </a></b>	                        fip_read_info_struct_ptr->error_map[ch][node] = (int_inf.all & (FIP_READ_EMPTY_ERROR | FIP_READ_CRC_ERROR));
+<b><a name="line1084">1084    </a></b>	                        if (err_map_inf[HAL_FIP_ERR_MAP_UNC].unc_bmp_4k & BIT(node)) {
+<b><a name="line1085">1085    </a></b>	                            fip_read_info_struct_ptr->error_map[ch][node] |= FIP_READ_UECC_ERROR;
+<b><a name="line1086">1086    </a></b>	                        }
+<b><a name="line1087">1087    </a></b>	                    }
+<b><a name="line1088">1088    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][0U] = ((((U16)cq_result.bit_flip_cnt_1st_frame_15_7) << 7U) | cq_result.bit_flip_cnt_1st_frame_6_0);
+<b><a name="line1089">1089    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][1U] = cq_result.bit_flip_cnt_2nd_frame;
+<b><a name="line1090">1090    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][2U] = ((((U16)cq_result.bit_flip_cnt_3rd_frame_15_7) << 7U) | cq_result.bit_flip_cnt_3rd_frame_6_0);
+<b><a name="line1091">1091    </a></b>	                    fip_read_info_struct_ptr->bit_correct[ch][3U] = cq_result.bit_flip_cnt_4th_frame;
+<b><a name="line1092">1092    </a></b>	                    fip_read_info_struct_ptr->node_cnt[ch] = frame_num;
+<b><a name="line1093">1093    </a></b>	                }
+<b><a name="line1094">1094    </a></b>	            }
+<b><a name="line1095">1095    </a></b>	            fip_read_info_struct_ptr->ch_map |= BIT(ch);
+<b><a name="line1096">1096    </a></b>	        }
+<b><a name="line1097">1097    </a></b>	    }
+<b><a name="line1098">1098    </a></b>	}
+<b><a name="line1099">1099    </a></b>	#else
+<b><a name="line1100">1100    </a></b>	
+<b><a name="line1101">1101    </a></b>	void fip_api_get_error_map(FIP_READ_INFO_STRUCT_PTR fip_read_info_struct_ptr, U8 frame_num)
+<b><a name="line1102">1102    </a></b>	{
+<b><a name="line1103">1103    </a></b>	    U8 ch;
+<b><a name="line1104">1104    </a></b>	    U8 node;
+<b><a name="line1105">1105    </a></b>	    HAL_FLH_SCQ_STRUCT cq_result;
+<b><a name="line1106">1106    </a></b>	
+<b><a name="line1107">1107    </a></b>	    (void)memset((void *)&cq_result, 0, sizeof(HAL_FLH_SCQ_STRUCT));
+<b><a name="line1108">1108    </a></b>	
+<b><a name="line1109">1109    </a></b>	    if (hal_db_pop((U8 *)(&cq_result), sizeof(HAL_FLH_SCQ_STRUCT), BE_MR_QID_CPU0_CQ_FIP_CH0) == PASS)
+<b><a name="line1110">1110    </a></b>	    {
+<b><a name="line1111">1111    </a></b>	        ch   = (cq_result.cmd_cq.dmar.tag / FIP_DMA_READ_TAG_PER_CH);
+<b><a name="line1112">1112    </a></b>	        node = (cq_result.cmd_cq.dmar.tag & FIP_DMA_READ_TAG_PER_CH_MASK);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "cq_result.cmd_cq.dmar.tag & 7U" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1113">1113    </a></b>	
+<b><a name="line1114">1114    </a></b>	        if (cq_result.cmd_cq.out_nand_unresp.op_code == FIP_INST_UNRESP_OP_CODE)
+<b><a name="line1115">1115    </a></b>	        {
+<b><a name="line1116">1116    </a></b>	            fip_read_info_struct_ptr->dqs_timeout_map[ch] |= BIT(node);
+<b><a name="line1117">1117    </a></b>	        }
+<b><a name="line1118">1118    </a></b>	        else
+<b><a name="line1119">1119    </a></b>	        {
+<b><a name="line1120">1120    </a></b>	            fip_read_info_struct_ptr->error_map[ch][node] = (cq_result.cmd_cq.dmar.all[0U] & FIP_READ_ERROR_MASK);
+<b><a name="line1121">1121    </a></b>	            fip_read_info_struct_ptr->bit_correct[ch][node] = (cq_result.cmd_cq.dmar.bcf_01 + cq_result.cmd_cq.dmar.bcf_10);
+<b><a name="line1122">1122    </a></b>	            fip_read_info_struct_ptr->node_cnt[ch] ++;
+<b><a name="line1123">1123    </a></b>	        }
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	        if (fip_read_info_struct_ptr->node_cnt[ch] == frame_num)
+<b><a name="line1126">1126    </a></b>	        {
+<b><a name="line1127">1127    </a></b>	            fip_read_info_struct_ptr->ch_map |= BIT(ch);
+<b><a name="line1128">1128    </a></b>	        }
+<b><a name="line1129">1129    </a></b>	    }
+<b><a name="line1130">1130    </a></b>	}
+<b><a name="line1131">1131    </a></b>	#endif
+<b><a name="line1132">1132    </a></b>	
+<b><a name="line1133">1133    </a></b>	
+<b><a name="line1134">1134    </a></b>	U32 fip_api_get_cq_result(FIP_READ_PARAM_STRUCT_PTR fip_read_param_struct_ptr, U8 ch)
+<b><a name="line1135">1135    </a></b>	{
+<b><a name="line1136">1136    </a></b>	    U32  status;
+<b><a name="line1137">1137    </a></b>	    U8 frame_num;
+<b><a name="line1138">1138    </a></b>	    U32 mabiao_addr;
+<b><a name="line1139">1139    </a></b>	
+<b><a name="line1140">1140    </a></b>	    status    = 0U;
+<b><a name="line1141">1141    </a></b>	    frame_num = fip_read_param_struct_ptr->node_count;
+<b><a name="line1142">1142    </a></b>	
+<b><a name="line1143">1143    </a></b>	    if (!gFplApiStruct.flash_if) {
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1509">1509    </a></b>	        return project_binary_error;
+<b><a name="line1510">1510    </a></b>	    }
+<b><a name="line1511">1511    </a></b>	
+<b><a name="line1512">1512    </a></b>	    sal_log_tracker_set(sal_locate(0x22, TYPE_STEP));
+<b><a name="line1513">1513    </a></b>	    project_binary_error = check_project_binary_security_setting(p_project_binary_header, gBCodeGlobalStruct.p_efuse_security_setting, project_binary_source);
+<b><a name="line1514">1514    </a></b>	    if (0 != project_binary_error) {
+<b><a name="line1515">1515    </a></b>	        Dump_SEC(tprintf("sec setting err"));
+<b><a name="line1516">1516    </a></b>	        return project_binary_error;
+<b><a name="line1517">1517    </a></b>	    }
+<b><a name="line1518">1518    </a></b>	
+<b><a name="line1519">1519    </a></b>	    //Check the Code Signature whenever it is available
+<b><a name="line1520">1520    </a></b>	    if (p_project_binary_header->code_sign_finish) {
+<b><a name="line1521">1521    </a></b>	        //TODO add HW checking to everywhere that uses these security functions
+<b><a name="line1522">1522    </a></b>	        //Especially the KAT and every instance hashing is used
+<b><a name="line1523">1523    </a></b>	        //TODO probably move the hw disable checking to within the hw functions that uses these
+<b><a name="line1524">1524    </a></b>	        //TODO refine the security hal functions
+<b><a name="line1525">1525    </a></b>	        //Don't use U8* and act as it is a U64, need to add timeout, need to add return status
+<b><a name="line1526">1526    </a></b>	        if (hal_hw_cfg_get(HW_CFG_SHA_DIS) || hal_hw_cfg_get(HW_CFG_PKE_DIS)) {
+<b><a name="line1527">1527    </a></b>	
+<b><a name="line1528">1528    </a></b>	            Dump_SEC(tprintf("!!!HW Disabled"));
+<b><a name="line1529">1529    </a></b>	            Dump_SEC(tprintf("PKE: %d", (hal_hw_cfg_get(HW_CFG_PKE_DIS))));
+<b><a name="line1530">1530    </a></b>	            Dump_SEC(tprintf("SHA: %d", (hal_hw_cfg_get(HW_CFG_SHA_DIS))));
+<b><a name="line1531">1531    </a></b>	
+<b><a name="line1532">1532    </a></b>	            Dump_SEC(tprintf("sec cfg err"));
+<b><a name="line1533">1533    </a></b>	            return PROJECT_BINARY_ERROR_HW_EFUSE;
+<b><a name="line1534">1534    </a></b>	        }
+<b><a name="line1535">1535    </a></b>	
+<b><a name="line1536">1536    </a></b>	        //Only check the validity of the code signature key if code signature checking is required
+<b><a name="line1537">1537    </a></b>	        if ((0 != gBCodeGlobalStruct.p_efuse_security_setting->check_code_signature_enable) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line1538">1538    </a></b>	            sal_log_tracker_set(sal_locate(0x23, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1538" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line1539">1539    </a></b>	            project_binary_error = check_code_signature_key_validity(p_project_binary_header, DBUF_API_BOOTCODE_TEMP_BUFFER_BASE, project_binary_type, project_binary_source);
+<b><a name="line1540">1540    </a></b>	            if (0 != project_binary_error) {
+<b><a name="line1541">1541    </a></b>	                Dump_SEC(tprintf("sec signature key validity err"));
+<b><a name="line1542">1542    </a></b>	                return project_binary_error;
+<b><a name="line1543">1543    </a></b>	            }
+<b><a name="line1544">1544    </a></b>	        }
+<b><a name="line1545">1545    </a></b>	
+<b><a name="line1546">1546    </a></b>	        sal_log_tracker_set(sal_locate(0x24, TYPE_STEP));
+<b><a name="line1547">1547    </a></b>	        project_binary_error = check_project_binary_code_sign(p_project_binary_header, DBUF_API_BOOTCODE_TEMP_BUFFER_BASE, DBUF_API_BOOTCODE_TEMP_BUFFER_SIZE, gProjectBinaryHash);
+<b><a name="line1548">1548    </a></b>	        host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line1549">1549    </a></b>	        if (0 != project_binary_error) {
+<b><a name="line1550">1550    </a></b>	            Dump_SEC(tprintf("sec code sign err"));
+<b><a name="line1551">1551    </a></b>	            return project_binary_error;
+<b><a name="line1552">1552    </a></b>	        }
+<b><a name="line1553">1553    </a></b>	    }
+<b><a name="line1554">1554    </a></b>	    else {
+<b><a name="line1555">1555    </a></b>	        //Set the calculated hash to 0
+<b><a name="line1556">1556    </a></b>	        //This is to obtain a deterministic value when there is no Code Signature
+<b><a name="line1557">1557    </a></b>	        memset((void *) & (gProjectBinaryHash[0]), 0x00, sizeof(gProjectBinaryHash));
+<b><a name="line1558">1558    </a></b>	
+<b><a name="line1559">1559    </a></b>	        sal_log_tracker_set(sal_locate(0x25, TYPE_STEP));
+<b><a name="line1560">1560    </a></b>	        //Check the Code Sign CRC or Project Binary CRC
+<b><a name="line1561">1561    </a></b>	        project_binary_error = check_project_binary_crc(p_project_binary_header);
+<b><a name="line1562">1562    </a></b>	        if (0 != project_binary_error) {
+<b><a name="line1563">1563    </a></b>	            Dump_SEC(tprintf("sec crc err"));
+<b><a name="line1564">1564    </a></b>	            return project_binary_error;
+<b><a name="line1565">1565    </a></b>	        }
+<b><a name="line1566">1566    </a></b>	    }
+<b><a name="line1567">1567    </a></b>	
+<b><a name="line1568">1568    </a></b>	    Dump_SEC(tprintf("Check Project Binary Complete with no errors"));
+<b><a name="line1569">1569    </a></b>	
+</pre></body>
+</html>

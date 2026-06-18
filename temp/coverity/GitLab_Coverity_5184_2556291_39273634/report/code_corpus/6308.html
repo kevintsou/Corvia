@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/main.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line69">69    </a></b>	        clear_sec_key_hash_and_data(&gEFuseAPI);
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	        //  Initialize the parts that may be uninitialized in the DBUF
+<b><a name="line72">72    </a></b>	        //status = sys_dbuf_init(DBUF_HOST_ZONE);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	        //  Perform host KAT if necessary
+<b><a name="line75">75    </a></b>	        if ((bc_ptr->p_efuse_security_setting->kat_enable)
+<b><a name="line76">76    </a></b>	            && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><a name="line77">77    </a></b>	            sal_log_tracker_set(sal_locate(0x0E, TYPE_STEP));
+<b><a name="line78">78    </a></b>	            sal_log_info_char('K');
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	            status = host_sec_kat_host(DBUF_API_BOOTCODE_TEMP_BUFFER_BASE);
+<b><a name="line81">81    </a></b>	            sal_log_info_num(status);
+<b><a name="line82">82    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_FLOW_HOST_KAT_FAIL, (0 == status));
+<b><a name="line83">83    </a></b>	        }
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	        if (KAT_ERROR_NONE != status) {
+<b><a name="line86">86    </a></b>	            if (bc_ptr->p_efuse_security_setting->essential_kat_fail_stop) {
+<b><a name="line87">87    </a></b>	                sal_log_tracker_set(sal_locate(0x0C, TYPE_FATAL));
+<b><a name="line88">88    </a></b>	                //KAT failed, become stuck
+<b><a name="line89">89    </a></b>	                security_fail_handle(SECURITY_FAIL_TYPE_KAT);
+<b><a name="line90">90    </a></b>	            }
+<b><a name="line91">91    </a></b>	        }
+<b><a name="line92">92    </a></b>	    }
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    sal_log_tracker_set(sal_locate(0x0F, TYPE_STEP));
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    update_dbuf_for_fw();
+<b><a name="line97">97    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line98">98    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134750208UL" (unsigned) is not the same as that of the right operand "4096"(signed).</font>
+<b><a name="line99">99    </a></b>	    if (p_load_code_status->load_code_state == LOAD_CODE_STATE_FAIL)
+<b><a name="line100">100    </a></b>	    {
+<b><a name="line101">101    </a></b>	        sal_log_tracker_set(sal_locate(0x30, TYPE_STEP));
+<b><a name="line102">102    </a></b>	        if (bc_ptr->p_efuse_security_setting != NULL)
+<b><a name="line103">103    </a></b>	        {
+<b><a name="line104">104    </a></b>	            if (0 != bc_ptr->p_efuse_security_setting->spi_bdbg)
+<b><a name="line105">105    </a></b>	            {
+<b><a name="line106">106    </a></b>	                spi_write_log(bc_ptr);
+<b><a name="line107">107    </a></b>	            }
+<b><a name="line108">108    </a></b>	        }
+<b><a name="line109">109    </a></b>	    }
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    return status;
+<b><a name="line112">112    </a></b>	}
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	static
+<b><a name="line115">115    </a></b>	void boot_ROM_daemon_flow(BC_GLOBAL_STRUCT_PTR bc_ptr, HOST_API_STRUCT_PTR host, VUC_DISPATCH_PTR vuc)
+<b><a name="line116">116    </a></b>	{
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    //  VUC dispatcher initialization
+<b><a name="line119">119    </a></b>	    vuc_dispatch_init(status);
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    host_init(host);
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    smbus_init(bc_ptr);
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_7_HOST_INIT, TYPE_TIMESTAMP));
+<b><a name="line126">126    </a></b>	
+<b><a name="line127">127    </a></b>	    while (1) {
+<b><a name="line128">128    </a></b>	        host_handler(host);
+<b><a name="line129">129    </a></b>	
+</pre></body>
+</html>

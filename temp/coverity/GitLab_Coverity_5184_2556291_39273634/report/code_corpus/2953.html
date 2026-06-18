@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2213">2213    </a></b>	            if((0 == ((gLRURetryLevel + nand_retry) % total_rr_cnt)) && (0 != gLRURetryLevel))
+<b><a name="line2214">2214    </a></b>	            {
+<b><a name="line2215">2215    </a></b>	                scan_bitmap_restore_read_offset(gLRURetryLevel, res_read_offset_ch_bitmap);
+<b><a name="line2216">2216    </a></b>	            }
+<b><a name="line2217">2217    </a></b>	
+<b><a name="line2218">2218    </a></b>	            for (copy_retry = 0; copy_retry < copy_retry_max; copy_retry++) {
+<b><a name="line2219">2219    </a></b>	                Dump_LoadCode(tprintf("Wordline %d~%d, ", wordline, (wordline + parallel_max - 1)));
+<b><a name="line2220">2220    </a></b>	                Dump_LoadCode(tprintf("NAND Retry %d, ", nand_retry));
+<b><a name="line2221">2221    </a></b>	                Dump_LoadCode(tprintf("Copy Retry %d", copy_retry));
+<b><a name="line2222">2222    </a></b>	
+<b><a name="line2223">2223    </a></b>	                //Mark the parallels that has yet to be read in this retry setting
+<b><a name="line2224">2224    </a></b>	                loop_parallel_bitmap = not_loaded_parallel_bitmap;
+<b><a name="line2225">2225    </a></b>	
+<b><a name="line2226">2226    </a></b>	                //A loop consists of NAND reads from different channels
+<b><a name="line2227">2227    </a></b>	                //NAND reads from the same channel is separated into different loops.
+<b><a name="line2228">2228    </a></b>	                //The maximum possible number of loops is the same as the maximum possible
+<b><a name="line2229">2229    </a></b>	                //number of copies of the FW Slot
+<b><a name="line2230">2230    </a></b>	                for (loop_per_round = 0; loop_per_round < parallel_max; loop_per_round++) {
+<b><a name="line2231">2231    </a></b>	
+<b><a name="line2232">2232    </a></b>	                    Dump_LoadCode(tprintf("Loop %d", loop_per_round));
+<b><a name="line2233">2233    </a></b>	
+<b><a name="line2234">2234    </a></b>	                    //Indicate which parallels are being read in this loop
+<b><a name="line2235">2235    </a></b>	                    reading_parallel_bitmap = 0;
+<b><a name="line2236">2236    </a></b>	                    //Indicate which channels are being read in this loop
+<b><a name="line2237">2237    </a></b>	                    channel_bitmap = 0;
+<b><a name="line2238">2238    </a></b>	
+<b><a name="line2239">2239    </a></b>	                    //Start the Read Trigger
+<b><a name="line2240">2240    </a></b>	                    for (parallel = 0; parallel < parallel_max; parallel++) {
+<b><a name="line2241">2241    </a></b>	                        //Skip loading the parallels that have already been read
+<b><a name="line2242">2242    </a></b>	                        if (0 == (loop_parallel_bitmap & (1 << parallel))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line2243">2243    </a></b>	                            continue;
+<b><a name="line2244">2244    </a></b>	                        }
+<b><a name="line2245">2245    </a></b>	
+<b><a name="line2246">2246    </a></b>	                        //The slot wordline that this parallel will be reading
+<b><a name="line2247">2247    </a></b>	                        parallel_slot_wordline = (wordline + parallel);
+<b><a name="line2248">2248    </a></b>	
+<b><a name="line2249">2249    </a></b>	                        //The starting chunk of this parallel for this copy retry
+<b><a name="line2250">2250    </a></b>	                        //Will turn into the chunk that contains the wordline for this copy
+<b><a name="line2251">2251    </a></b>	                        parallel_chunk = p_fw_slot_info->a_chunk_offset[(parallel + copy_retry) % copy_retry_max];
+<b><a name="line2252">2252    </a></b>	                        //The slot wordline to load
+<b><a name="line2253">2253    </a></b>	                        //Will turn into the logical wordline offset within this chunk to load
+<b><a name="line2254">2254    </a></b>	                        parallel_chunk_wordline = parallel_slot_wordline;
+<b><a name="line2255">2255    </a></b>	
+<b><a name="line2256">2256    </a></b>	                        Dump_LoadCode(tprintf("Parallel %d ", parallel));
+<b><a name="line2257">2257    </a></b>	                        Dump_LoadCode(tprintf("is Slot Wordline %d ", (U16)parallel_slot_wordline));
+<b><a name="line2258">2258    </a></b>	                        Dump_LoadCode(tprintf("of Copy %d ", ((parallel + copy_retry) % copy_retry_max)));
+<b><a name="line2259">2259    </a></b>	                        Dump_LoadCode(tprintf("starts in Chunk %d", (U16)parallel_chunk));
+<b><a name="line2260">2260    </a></b>	
+<b><a name="line2261">2261    </a></b>	                        //Input the starting chunk of this copy and output will be the chunk in this copy that contains the wordline
+<b><a name="line2262">2262    </a></b>	                        //Input the slot wordline to load and output will be the logical wordline offset within this chunk to load
+<b><a name="line2263">2263    </a></b>	                        relative_chunk = get_fw_chunk_info_from_slot_wordline(p_fw_slot_info->a_chunk_info, &parallel_chunk, &parallel_chunk_wordline);
+<b><a name="line2264">2264    </a></b>	                        if (FW_SLOT_CHUNK_COUNT <= relative_chunk) {
+<b><a name="line2265">2265    </a></b>	                            //This should never occur, as the FW_SLOT_INFO is checked earlier
+<b><a name="line2266">2266    </a></b>	                            p_fw_slot_status->fw_slot_info_error |= FW_SLOT_INFO_ERROR_INVALID_CHUNK_INFO;
+<b><a name="line2267">2267    </a></b>	
+<b><a name="line2268">2268    </a></b>	                            //This parallel does not need to be read in subsequent loops
+<b><a name="line2269">2269    </a></b>	                            //as it doesn't exist according to the FW Slot Info
+<b><a name="line2270">2270    </a></b>	                            loop_parallel_bitmap &= ~(1 << parallel);
+<b><a name="line2271">2271    </a></b>	                        }
+<b><a name="line2272">2272    </a></b>	                        else {
+<b><a name="line2273">2273    </a></b>	
+</pre></body>
+</html>

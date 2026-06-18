@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1287">1287    </a></b>	
+<b><a name="line1288">1288    </a></b>	            Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1289">1289    </a></b>	            Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1290">1290    </a></b>	            Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1291">1291    </a></b>	
+<b><a name="line1292">1292    </a></b>	            // check address
+<b><a name="line1293">1293    </a></b>	            if (offset < last) {
+<b><a name="line1294">1294    </a></b>	                // set value
+<b><a name="line1295">1295    </a></b>	                hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1296">1296    </a></b>	            }
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	            DATA_SYNCHRONIZATION_BARRIER();
+<b><a name="line1299">1299    </a></b>	
+<b><a name="line1300">1300    </a></b>	            offset += 8;    // addr + value
+<b><a name="line1301">1301    </a></b>	        }
+<b><a name="line1302">1302    </a></b>	    }
+<b><a name="line1303">1303    </a></b>	    sal_log_tracker_set(sal_locate(0x1d, TYPE_STEP));
+<b><a name="line1304">1304    </a></b>	}
+<b><a name="line1305">1305    </a></b>	#endif
+<b><a name="line1306">1306    </a></b>	
+<b><a name="line1307">1307    </a></b>	void host_api_set_fastlink_landmark(HOST_API_STRUCT_PTR host, U8 mode)
+<b><a name="line1308">1308    </a></b>	{
+<b><a name="line1309">1309    </a></b>	    ID_TABLE *p_id_table = (ID_TABLE *)DBUF_API_BOOTCODE_ID_TABLE_BASE;
+<b><a name="line1310">1310    </a></b>	    U16 counter          = 0U;
+<b><a name="line1311">1311    </a></b>	    U32 last;
+<b><a name="line1312">1312    </a></b>	    U32 offset;
+<b><a name="line1313">1313    </a></b>	    U32 ofst = 0U;
+<b><a name="line1314">1314    </a></b>	    U16 size = 0U;
+<b><a name="line1315">1315    </a></b>	    ID_TABLE_LANDMARK_PTR id_table_landmark_ptr;
+<b><a name="line1316">1316    </a></b>	    sal_log_tracker_set(sal_locate(0x1e, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1316" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line1317">1317    </a></b>	    switch (mode) {
+<b><a name="line1318">1318    </a></b>	    case HOST_FASTLINK_SINGLE_P0:
+<b><a name="line1319">1319    </a></b>	    case HOST_FASTLINK_DUAL_P0:
+<b><a name="line1320">1320    </a></b>	        ofst = ((U32)p_id_table->fastlink_backdoor_dual_p0.ofst << 3);//unit of ofst is QW
+<b><a name="line1321">1321    </a></b>	        size = ((U16)p_id_table->fastlink_backdoor_dual_p0.size);
+<b><a name="line1322">1322    </a></b>	        break;
+<b><a name="line1323">1323    </a></b>	    case HOST_FASTLINK_DUAL_P1:
+<b><a name="line1324">1324    </a></b>	        ofst = ((U32)p_id_table->fastlink_backdoor_dual_p1.ofst << 3);//unit of ofst is QW
+<b><a name="line1325">1325    </a></b>	        size = ((U16)p_id_table->fastlink_backdoor_dual_p1.size);
+<b><a name="line1326">1326    </a></b>	        break;
+<b><a name="line1327">1327    </a></b>	    default:
+<b><a name="line1328">1328    </a></b>	        break;
+<b><a name="line1329">1329    </a></b>	    }
+<b><a name="line1330">1330    </a></b>	    last = ((U32)p_id_table) + ofst + (size << 3);
+<b><a name="line1331">1331    </a></b>	    offset = ((U32)p_id_table) + ofst;
+<b><a name="line1332">1332    </a></b>	    for (counter = 0U; counter < size; counter++) {
+<b><a name="line1333">1333    </a></b>	        id_table_landmark_ptr = (ID_TABLE_LANDMARK_PTR)offset;
+<b><a name="line1334">1334    </a></b>	        Dump_IDPG_FE(tprintf("ofst = %x", offset));
+<b><a name="line1335">1335    </a></b>	        Dump_IDPG_FE(tprintf("addr = %x", id_table_landmark_ptr->reg.long_address));
+<b><a name="line1336">1336    </a></b>	        Dump_IDPG_FE(tprintf("data = %x", id_table_landmark_ptr->data));
+<b><a name="line1337">1337    </a></b>	
+<b><a name="line1338">1338    </a></b>	        // Set PHY reg
+<b><a name="line1339">1339    </a></b>	        if ((id_table_landmark_ptr->reg.long_address >= hal_fw_pcie_get_misc_reg_base()) &&
+<b><a name="line1340">1340    </a></b>	            (id_table_landmark_ptr->reg.long_address < (hal_fw_pcie_get_misc_reg_base() + PCIE_TL_MISC_REG_REG_SIZE)) &&
+<b><a name="line1341">1341    </a></b>	            (offset < last)) {
+<b><a name="line1342">1342    </a></b>	            hal_fw_pcie_set_id_tbl(id_table_landmark_ptr->reg.long_address, id_table_landmark_ptr->data);
+<b><a name="line1343">1343    </a></b>	        }
+<b><a name="line1344">1344    </a></b>	        else {
+<b><a name="line1345">1345    </a></b>	            /*do nothing */
+<b><a name="line1346">1346    </a></b>	        }
+<b><a name="line1347">1347    </a></b>	        DATA_SYNCHRONIZATION_BARRIER();
+</pre></body>
+</html>

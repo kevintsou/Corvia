@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line531">531    </a></b>	U8 hal_sec_sm9_z256_fp2_is_zero(HAL_SEC_SM9_Z256_FP2_T a)
+<b><a name="line532">532    </a></b>	{
+<b><a name="line533">533    </a></b>	    return (U8)((bool)hal_sec_sm9_z256_is_zero(a[0]) && (bool)hal_sec_sm9_z256_is_zero(a[1]));
+<b><a name="line534">534    </a></b>	}
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	U8 hal_sec_sm9_z256_fp2_equ(HAL_SEC_SM9_Z256_FP2_T a, HAL_SEC_SM9_Z256_FP2_T b)
+<b><a name="line537">537    </a></b>	{
+<b><a name="line538">538    </a></b>	    return (U8)((bool)hal_sec_sm9_z256_equ(a[0], b[0]) && (bool)hal_sec_sm9_z256_equ(a[1], b[1]));
+<b><a name="line539">539    </a></b>	}
+<b><a name="line540">540    </a></b>	
+<b><a name="line541">541    </a></b>	void hal_sec_sm9_z256_fp2_copy(HAL_SEC_SM9_Z256_FP2_T r, HAL_SEC_SM9_Z256_FP2_T a)
+<b><a name="line542">542    </a></b>	{
+<b><a name="line543">543    </a></b>	    (void)memcpy((void *)r, (void *)a, sizeof(HAL_SEC_SM9_Z256_FP2_T));
+<b><a name="line544">544    </a></b>	}
+<b><a name="line545">545    </a></b>	
+<b><a name="line546">546    </a></b>	void hal_sec_sm9_z256_fp2_to_bytes(HAL_SEC_SM9_Z256_FP2_T a, U8 buf[64])
+<b><a name="line547">547    </a></b>	{
+<b><a name="line548">548    </a></b>	    HAL_SEC_SM9_Z256_T z = {0};
+<b><a name="line549">549    </a></b>	
+<b><a name="line550">550    </a></b>	    hal_sec_sm9_z256_modp_from_mont(z, a[1]);
+<b><a name="line551">551    </a></b>	    hal_sec_sm9_z256_to_bytes(z, buf);
+<b><a name="line552">552    </a></b>	
+<b><a name="line553">553    </a></b>	    hal_sec_sm9_z256_modp_from_mont(z, a[0]);
+<b><a name="line554">554    </a></b>	    hal_sec_sm9_z256_to_bytes(z, buf + 32);
+<b><a name="line555">555    </a></b>	}
+<b><a name="line556">556    </a></b>	
+<b><a name="line557">557    </a></b>	U8 hal_sec_sm9_z256_fp2_from_bytes(HAL_SEC_SM9_Z256_FP2_T r, U8 buf[64])
+<b><a name="line558">558    </a></b>	{
+<b><a name="line559">559    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_p;
+<b><a name="line560">560    </a></b>	    (void)memcpy(sm9_z256_p, SM9_Z256_P, sizeof(SM9_Z256_P));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "SM9_Z256_P" of type "HAL_SEC_SM9_Z256_T const *" is cast to type "U64 const *".</font>
+<b><a name="line561">561    </a></b>	
+<b><a name="line562">562    </a></b>	    hal_sec_sm9_z256_from_bytes(r[1], buf);
+<b><a name="line563">563    </a></b>	
+<b><a name="line564">564    </a></b>	    if (hal_sec_sm9_z256_cmp(r[1], sm9_z256_p) >= 0)
+<b><a name="line565">565    </a></b>	    {
+<b><a name="line566">566    </a></b>	        return SEC_NO;
+<b><a name="line567">567    </a></b>	    }
+<b><a name="line568">568    </a></b>	
+<b><a name="line569">569    </a></b>	    hal_sec_sm9_z256_modp_to_mont(r[1], r[1]);
+<b><a name="line570">570    </a></b>	
+<b><a name="line571">571    </a></b>	    hal_sec_sm9_z256_from_bytes(r[0], buf + 32);
+<b><a name="line572">572    </a></b>	
+<b><a name="line573">573    </a></b>	    if (hal_sec_sm9_z256_cmp(r[0], sm9_z256_p) >= 0)
+<b><a name="line574">574    </a></b>	    {
+<b><a name="line575">575    </a></b>	        return SEC_NO;
+<b><a name="line576">576    </a></b>	    }
+<b><a name="line577">577    </a></b>	
+<b><a name="line578">578    </a></b>	    hal_sec_sm9_z256_modp_to_mont(r[0], r[0]);
+<b><a name="line579">579    </a></b>	
+<b><a name="line580">580    </a></b>	    return SEC_YES;
+<b><a name="line581">581    </a></b>	}
+<b><a name="line582">582    </a></b>	
+<b><a name="line583">583    </a></b>	void hal_sec_sm9_z256_fp2_add(HAL_SEC_SM9_Z256_FP2_T r, HAL_SEC_SM9_Z256_FP2_T a, HAL_SEC_SM9_Z256_FP2_T b)
+<b><a name="line584">584    </a></b>	{
+<b><a name="line585">585    </a></b>	    hal_sec_sm9_z256_modp_add(r[0], a[0], b[0]);
+<b><a name="line586">586    </a></b>	    hal_sec_sm9_z256_modp_add(r[1], a[1], b[1]);
+<b><a name="line587">587    </a></b>	}
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	void hal_sec_sm9_z256_fp2_dbl(HAL_SEC_SM9_Z256_FP2_T r, HAL_SEC_SM9_Z256_FP2_T a)
+<b><a name="line590">590    </a></b>	{
+<b><a name="line591">591    </a></b>	    hal_sec_sm9_z256_modp_dbl(r[0], a[0]);
+</pre></body>
+</html>

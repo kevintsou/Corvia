@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    return SEC_YES;
+<b><a name="line436">436    </a></b>	}
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	U8 hal_sec_pqc_kaz_sign(U8 *signature, U8 *digest, U8 *sk, HAL_SEC_PQC_KAZ_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line439">439    </a></b>	{
+<b><a name="line440">440    </a></b>	    U32 lenS = 0UL;
+<b><a name="line441">441    </a></b>	    U32 lenG1qQ = 0UL;
+<b><a name="line442">442    </a></b>	    U16 S2 = 0U;
+<b><a name="line443">443    </a></b>	    U8  rand_val_offset = 0U;
+<b><a name="line444">444    </a></b>	    U32 SSIZE = 0UL;
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.V1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_v1),          HAL_SEC_PQC_KAZ_SIGN_V1_LEN);
+<b><a name="line447">447    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.V2,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_v2),          HAL_SEC_PQC_KAZ_SIGN_V2_LEN);
+<b><a name="line448">448    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.SK,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sk),          HAL_SEC_PQC_KAZ_SIGN_SK_LEN);
+<b><a name="line449">449    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.hashValue,  (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_hash_val),    HAL_SEC_PQC_KAZ_SIGN_HASK_VAL_LEN);
+<b><a name="line450">450    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.r1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_r1),          HAL_SEC_PQC_KAZ_SIGN_R1_LEN);
+<b><a name="line451">451    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.OMEGA2,     (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_omega2),      HAL_SEC_PQC_KAZ_SIGN_OMEGA2_LEN);
+<b><a name="line452">452    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.BETA,       (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_beta),        HAL_SEC_PQC_KAZ_SIGN_BETA_LEN);
+<b><a name="line453">453    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.r2,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_r2),          HAL_SEC_PQC_KAZ_SIGN_R2_LEN);
+<b><a name="line454">454    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.OMEGA3,     (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_omega3),      HAL_SEC_PQC_KAZ_SIGN_OMEGA3_LEN);
+<b><a name="line455">455    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.BETA2,      (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_beta2),       HAL_SEC_PQC_KAZ_SIGN_BETA2_LEN);
+<b><a name="line456">456    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.S1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_s1),      HAL_SEC_PQC_KAZ_SIGN_SIG_S1_LEN);
+<b><a name="line457">457    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.tmp,        (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_temp),    HAL_SEC_PQC_KAZ_SIGN_SIG_TEMP_LEN);
+<b><a name="line458">458    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.Y1,         (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_y1),      HAL_SEC_PQC_KAZ_SIGN_SIG_Y1_LEN);
+<b><a name="line459">459    </a></b>	    hal_sec_pqc_kaz_mp_init_addr(kaz_buf_ptr->sign.sign_local_var_s.SF1,        (U32 *)(void *)(kaz_buf_ptr->sign.sign_buf_s.sign_sig_sf1),     HAL_SEC_PQC_KAZ_SIGN_SIG_SF1_LEN);
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	    // Get all system parameters and precomputed parameters
+<b><a name="line462">462    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1,          sizeof(G1_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1_CHAR);
+<b><a name="line463">463    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.q,           sizeof(q_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)q_CHAR);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "q_CHAR" to type "U8 *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line464">464    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.Q,           sizeof(Q_CHAR),         sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)Q_CHAR);
+<b><a name="line465">465    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1qQ,        sizeof(G1qQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1qQ_CHAR);
+<b><a name="line466">466    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiG1,       sizeof(phiG1_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiG1_CHAR);
+<b><a name="line467">467    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiphiG1,    sizeof(phiphiG1_CHAR),  sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)phiphiG1_CHAR);
+<b><a name="line468">468    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.qQ,          sizeof(qQ_CHAR),        sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)qQ_CHAR);
+<b><a name="line469">469    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiqQ,       sizeof(PHIqQ_CHAR),     sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIqQ_CHAR);
+<b><a name="line470">470    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.G1Q,         sizeof(G1Q_CHAR),       sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)G1Q_CHAR);
+<b><a name="line471">471    </a></b>	    hal_sec_pqc_kaz_mp_set_char(kaz_buf_ptr->sign.sign_local_var_s.phiQ,        sizeof(PHIQ_CHAR),      sizeof(U8), HAL_SEC_PQC_KAZ_LITTLE_ENDIAN, (U8 *)PHIQ_CHAR);
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    //1) Get kaz_ds_sign_key=(SK)
+<b><a name="line474">474    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.V1, HAL_SEC_PQC_KAZ_DS_V1_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk + HAL_SEC_PQC_KAZ_DS_SK_LEN));
+<b><a name="line475">475    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.V2, HAL_SEC_PQC_KAZ_DS_V2_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk + HAL_SEC_PQC_KAZ_DS_SK_LEN + HAL_SEC_PQC_KAZ_DS_V1_LEN));
+<b><a name="line476">476    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.SK, HAL_SEC_PQC_KAZ_DS_SK_LEN, sizeof(unsigned char), HAL_SEC_PQC_KAZ_BIG_ENDIAN, (U8 *)(sk));
+<b><a name="line477">477    </a></b>	
+<b><a name="line478">478    </a></b>	    //2) Compute HASHValue(m)
+<b><a name="line479">479    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.hashValue, HAL_SEC_PQC_KAZ_SYS_LEN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, digest);
+<b><a name="line480">480    </a></b>	
+<b><a name="line481">481    </a></b>	    lenG1qQ = hal_sec_pqc_kaz_mp_size_in_base(kaz_buf_ptr->sign.sign_local_var_s.G1qQ, 2UL);
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	    //3) Generate random prime r, random OMEGA2
+<b><a name="line484">484    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.r1, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line485">485    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line486">486    </a></b>	
+<b><a name="line487">487    </a></b>	    hal_sec_pqc_kaz_pke_find_next_prime(kaz_buf_ptr->sign.sign_local_var_s.r1, kaz_buf_ptr->sign.sign_local_var_s.r1, &kaz_buf_ptr->sign.sign_buf_s.next_prime_buf, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+<b><a name="line488">488    </a></b>	
+<b><a name="line489">489    </a></b>	    hal_sec_pqc_kaz_mp_import(kaz_buf_ptr->sign.sign_local_var_s.OMEGA2, HAL_SEC_PQC_KAZ_DS_SP_RAN, sizeof(U8), HAL_SEC_PQC_KAZ_BIG_ENDIAN, &kaz_buf_ptr->sign.sign_buf_s.sign_rand_val[rand_val_offset]);
+<b><a name="line490">490    </a></b>	    rand_val_offset += (U8)HAL_SEC_PQC_KAZ_DS_SP_RAN;
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	    //4) Compute BETA
+<b><a name="line493">493    </a></b>	    (void)hal_sec_pqc_kaz_pke_mpy64(kaz_buf_ptr->sign.sign_local_var_s.tmp, kaz_buf_ptr->sign.sign_local_var_s.OMEGA2, kaz_buf_ptr->sign.sign_local_var_s.phiG1);
+<b><a name="line494">494    </a></b>	    hal_sec_pqc_kaz_pke_powm(kaz_buf_ptr->sign.sign_local_var_s.BETA, kaz_buf_ptr->sign.sign_local_var_s.r1, kaz_buf_ptr->sign.sign_local_var_s.phiphiG1, kaz_buf_ptr->sign.sign_local_var_s.tmp, &kaz_buf_ptr->sign.sign_buf_s.powm_buf);
+</pre></body>
+</html>

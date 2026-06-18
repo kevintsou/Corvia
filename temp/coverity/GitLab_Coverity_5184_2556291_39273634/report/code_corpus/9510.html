@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2461">2461    </a></b>	}
+<b><a name="line2462">2462    </a></b>	
+<b><a name="line2463">2463    </a></b>	void dal_fip_set_gpo_io(U8 ch, U8 io_value)
+<b><a name="line2464">2464    </a></b>	{
+<b><a name="line2465">2465    </a></b>	    w_GPO_IO(ch, io_value);
+<b><a name="line2466">2466    </a></b>	}
+<b><a name="line2467">2467    </a></b>	
+<b><a name="line2468">2468    </a></b>	void dal_fip_set_gpo_io_oe(U8 ch, BOOL is_io_oe_en)
+<b><a name="line2469">2469    </a></b>	{
+<b><a name="line2470">2470    </a></b>	    w_GPO_IO_OE(ch, is_io_oe_en);
+<b><a name="line2471">2471    </a></b>	}
+<b><a name="line2472">2472    </a></b>	
+<b><a name="line2473">2473    </a></b>	void dal_fip_set_wp_value(U8 ch, BOOL is_wp_en)
+<b><a name="line2474">2474    </a></b>	{
+<b><a name="line2475">2475    </a></b>	    w_HW_WP_PIN_VALUE(ch, is_wp_en);
+<b><a name="line2476">2476    </a></b>	}
+<b><a name="line2477">2477    </a></b>	
+<b><a name="line2478">2478    </a></b>	void dal_fip_set_r_end_dqs_high_en(U8 ch, BOOL is_enable)
+<b><a name="line2479">2479    </a></b>	{
+<b><a name="line2480">2480    </a></b>	    w_R_END_DQS_HIGH_EN(ch, is_enable);
+<b><a name="line2481">2481    </a></b>	}
+<b><a name="line2482">2482    </a></b>	
+<b><a name="line2483">2483    </a></b>	void dal_fip_set_wdma_wat_phs_en(U8 ch, BOOL is_enable)
+<b><a name="line2484">2484    </a></b>	{
+<b><a name="line2485">2485    </a></b>	    w_WDMA_WAT_PHS_EN(ch, is_enable);
+<b><a name="line2486">2486    </a></b>	}
+<b><a name="line2487">2487    </a></b>	
+<b><a name="line2488">2488    </a></b>	void dal_fip_set_tadl_phs_cnt(U8 ch, U16 val)
+<b><a name="line2489">2489    </a></b>	{
+<b><a name="line2490">2490    </a></b>	    w_TADL_PHS_CNT(ch, val & TADL_PHS_CNT_MASK);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 16 bit width expression "val & 0x7ffU" to a wider 32 bit type.</font>
+<b><a name="line2491">2491    </a></b>	}
+<b><a name="line2492">2492    </a></b>	
+<b><a name="line2493">2493    </a></b>	void dal_fip_set_sdll_w_phs_len_pio(U8 ch, U8 val)
+<b><a name="line2494">2494    </a></b>	{
+<b><a name="line2495">2495    </a></b>	    w_SDLL_W_PHS_LEN_PIO(ch, val & SDLL_W_PHS_LEN_PIO_MASK);
+<b><a name="line2496">2496    </a></b>	}
+<b><a name="line2497">2497    </a></b>	///////////////////not check
+<b><a name="line2498">2498    </a></b>	
+<b><a name="line2499">2499    </a></b>	void dal_fip_page_fa_trig(U8 ch, U8 page_fa_sel)
+<b><a name="line2500">2500    </a></b>	{
+<b><a name="line2501">2501    </a></b>	    w_PAGE_FA_SEL(ch, page_fa_sel);
+<b><a name="line2502">2502    </a></b>	    r_PAGE_FA_TRIG(ch);
+<b><a name="line2503">2503    </a></b>	}
+<b><a name="line2504">2504    </a></b>	
+<b><a name="line2505">2505    </a></b>	void dal_fip_set_fphy_tx_dly_vale_die_2(U8 ch, U32 val)
+<b><a name="line2506">2506    </a></b>	{
+<b><a name="line2507">2507    </a></b>	    r32_w_FPHY_TX_DLY_VALE_DIE_2(ch, val);
+<b><a name="line2508">2508    </a></b>	}
+<b><a name="line2509">2509    </a></b>	
+<b><a name="line2510">2510    </a></b>	U32 dal_fip_get_fphy_rx_vref_cfg_die_0(U8 ch)
+<b><a name="line2511">2511    </a></b>	{
+<b><a name="line2512">2512    </a></b>	    return r32_r_FPHY_VREF_CFG_DIE_0(ch);
+<b><a name="line2513">2513    </a></b>	}
+<b><a name="line2514">2514    </a></b>	
+<b><a name="line2515">2515    </a></b>	void dal_fip_set_fphy_rx_vref_cfg_die_0(U8 ch, U32 val)
+<b><a name="line2516">2516    </a></b>	{
+<b><a name="line2517">2517    </a></b>	    r32_w_FPHY_VREF_CFG_DIE_0(ch, val);
+<b><a name="line2518">2518    </a></b>	}
+<b><a name="line2519">2519    </a></b>	
+<b><a name="line2520">2520    </a></b>	U32 dal_fip_get_fphy_rx_unmatch_dqs_rx_0(U8 ch)
+<b><a name="line2521">2521    </a></b>	{
+</pre></body>
+</html>

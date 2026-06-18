@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line841">841    </a></b>	        feature_ptr->iv_conf = attr_ptr->iv_config.u32;
+<b><a name="line842">842    </a></b>	        break;
+<b><a name="line843">843    </a></b>	
+<b><a name="line844">844    </a></b>	    case NVME_FID_WR_ATOMIC_NORMAL:          // FID A    (M)
+<b><a name="line845">845    </a></b>	        Dump_NVME(tprintf("      >> set feature: Write Atomic Normal.\n\r"));
+<b><a name="line846">846    </a></b>	        feature_ptr->dn = attr_ptr->wr_atm_nrml.dn;
+<b><a name="line847">847    </a></b>	        break;
+<b><a name="line848">848    </a></b>	
+<b><a name="line849">849    </a></b>	    case NVME_FID_ASYNC_EVENT_CONFIG:        // FID B    (M)
+<b><a name="line850">850    </a></b>	        Dump_NVME(tprintf("      >> set feature: AE Config.\n\r"));
+<b><a name="line851">851    </a></b>	        feature_ptr->aec = attr_ptr->aer_config.u32;
+<b><a name="line852">852    </a></b>	        break;
+<b><a name="line853">853    </a></b>	
+<b><a name="line854">854    </a></b>	    default:
+<b><a name="line855">855    </a></b>	        Dump_NVME(tprintf("      >> set feature: Invalid Field.\n\r"));
+<b><a name="line856">856    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line857">857    </a></b>	        break;
+<b><a name="line858">858    </a></b>	    }
+<b><a name="line859">859    </a></b>	}
+<b><a name="line860">860    </a></b>	
+<b><a name="line861">861    </a></b>	static void nvme_get_feature(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line862">862    </a></b>	{
+<b><a name="line863">863    </a></b>	    Dump_NVME(tprintf("  >> get feature.\n\r"));
+<b><a name="line864">864    </a></b>	
+<b><a name="line865">865    </a></b>	    volatile NVME_API_FEATURE_STRUCT_PTR    feature_ptr = &host->nvme_feature;
+<b><a name="line866">866    </a></b>	    volatile NVME_FEATURE_STRUCT_PTR           attr_ptr = &host->sq_cmd.payload_opt.adm.get_fea.attr;
+<b><a name="line867">867    </a></b>	    volatile HAL_APU_CPL_SQ_PARAM_PTR              hcpl_ptr = (HAL_APU_CPL_SQ_PARAM_PTR)&host->hcpl;
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	    U8    fid = host->sq_cmd.payload_opt.adm.get_fea.fid;
+<b><a name="line870">870    </a></b>	    U8    sel = host->sq_cmd.payload_opt.adm.get_fea.sel;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "host->sq_cmd.payload_opt.adm.get_fea.sel" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line871">871    </a></b>	
+<b><a name="line872">872    </a></b>	    if (sel > SEL_SUP_CAP) { // sel field > sup_cap, invalid field
+<b><a name="line873">873    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line874">874    </a></b>	        return;
+<b><a name="line875">875    </a></b>	    }
+<b><a name="line876">876    </a></b>	
+<b><a name="line877">877    </a></b>	    switch (fid) {
+<b><a name="line878">878    </a></b>	    case NVME_FID_ARBITRATION:               // FEA_ID 1    (M)
+<b><a name="line879">879    </a></b>	        Dump_NVME(tprintf("      >> get feature: Arb.\n\r"));
+<b><a name="line880">880    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line881">881    </a></b>	            hcpl_ptr->cmd_spec = SEL_NOT_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><a name="line882">882    </a></b>	        }
+<b><a name="line883">883    </a></b>	        else {
+<b><a name="line884">884    </a></b>	            hcpl_ptr->cmd_spec = 0;
+<b><a name="line885">885    </a></b>	        }
+<b><a name="line886">886    </a></b>	        break;
+<b><a name="line887">887    </a></b>	    case NVME_FID_PWR_MANAGEMENT:            // FEA_ID 2    (M)
+<b><a name="line888">888    </a></b>	        Dump_NVME(tprintf("      >> get feature: PWR Mgnt.\n\r"));
+<b><a name="line889">889    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line890">890    </a></b>	            hcpl_ptr->cmd_spec = SEL_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+<b><a name="line891">891    </a></b>	        }
+<b><a name="line892">892    </a></b>	        else {
+<b><a name="line893">893    </a></b>	            attr_ptr->pwr_mgnt.ps = feature_ptr->pwr;
+<b><a name="line894">894    </a></b>	            hcpl_ptr->cmd_spec = attr_ptr->cdw11;
+<b><a name="line895">895    </a></b>	        }
+<b><a name="line896">896    </a></b>	        break;
+<b><a name="line897">897    </a></b>	
+<b><a name="line898">898    </a></b>	    case NVME_FID_TEMPERATURE_THR:           // FEA_ID 4    (M)
+<b><a name="line899">899    </a></b>	        Dump_NVME(tprintf("      >> get feature: Temp THR.\n\r"));
+<b><a name="line900">900    </a></b>	        if (sel == SEL_SUP_CAP) {
+<b><a name="line901">901    </a></b>	            hcpl_ptr->cmd_spec = SEL_NOT_CHANGEABLE | SEL_1_CONTROLLER | SEL_NOT_SAVEABLE;
+</pre></body>
+</html>

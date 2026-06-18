@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_control.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    // Byte 2 (Bit1, Bit0)
+<b><a name="line86">86    </a></b>	    // 00b = dynamic EID : The endpoint uses a dynamic EID only.
+<b><a name="line87">87    </a></b>	    // 01b = static EID supported. : The endpoint was configured with a static EID.
+<b><a name="line88">88    </a></b>	    // 10b = static EID supported. : Present EID matches static EID. The endpoint has been configured with a static EID. The present value is the same as the static value.
+<b><a name="line89">89    </a></b>	    // 11b = static EID supported. : Present EID does not match static EID. Endpoint has been configured with a static EID. The present value is different than the static value.
+<b><a name="line90">90    </a></b>	    p_mctp_control_resp->resp_data.get_eid.epidtype = MCTP_CTRL_DYNAMIC_EID;
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    // Byte 2 (Bit5, Bit4)
+<b><a name="line93">93    </a></b>	    // 00b = simple endpoint
+<b><a name="line94">94    </a></b>	    // 01b = bus owner/bridge
+<b><a name="line95">95    </a></b>	    // 10b = reserved
+<b><a name="line96">96    </a></b>	    // 11b = reserved
+<b><a name="line97">97    </a></b>	    p_mctp_control_resp->resp_data.get_eid.eptype = MCTP_CTRL_SIMPLE_ENDPOINT;
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    // Byte 3
+<b><a name="line100">100    </a></b>	    // Medium-Specific Information.
+<b><a name="line101">101    </a></b>	    // This byte can hold additional information about optional configuration of the
+<b><a name="line102">102    </a></b>	    // endpoint on the given medium, such as whether certain types of timing or arbitration are supported.
+<b><a name="line103">103    </a></b>	    // This should only be used to report static information.
+<b><a name="line104">104    </a></b>	    // This byte shall be returned as 0x00 unless otherwise specified by the transport binding.
+<b><a name="line105">105    </a></b>	    p_mctp_control_resp->resp_data.get_eid.ms_info = 0U;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    return reponse_data_size;
+<b><a name="line108">108    </a></b>	}
+<b><a name="line109">109    </a></b>	
+<b><a name="line110">110    </a></b>	static U32 mctp_message_handle_mctp_control_get_mctp_version_support(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line111">111    </a></b>	{
+<b><a name="line112">112    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_req = (MCTP_CONTROL_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line113">113    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_resp = (MCTP_CONTROL_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_transmit_handler->reponse_packet_handler.buffer.p_base" of type "U8 *" is cast to type "MCTP_CONTROL_PTR".</font>
+<b><a name="line114">114    </a></b>	    U32 reponse_data_size = 0U;
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	    Dump_SMBUS(tprintf(" [MCTP CONTROL] Get MCTP Version Support"));
+<b><a name="line117">117    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    p_mctp_control_resp->resp_data.get_ver.cpl_code = MCTP_CTRL_CPL_SUCCESS;
+<b><a name="line120">120    </a></b>	
+<b><a name="line121">121    </a></b>	    // example :
+<b><a name="line122">122    </a></b>	    // Version 1.1.0    : 0xF1F1F000 (MAJOR) (MINOR) (UPDATE) (ALPHA)
+<b><a name="line123">123    </a></b>	    // Version 3.1      : 0xF3F1FF00
+<b><a name="line124">124    </a></b>	    // Version 1.0a     : 0xF1F0FF61
+<b><a name="line125">125    </a></b>	    // Version 3.7.10a  : 0xF3F71061
+<b><a name="line126">126    </a></b>	    // Version 10.11.7  : 0x1011F700
+<b><a name="line127">127    </a></b>	    switch (p_mctp_control_req->req_data.get_ver.mtnum)
+<b><a name="line128">128    </a></b>	    {
+<b><a name="line129">129    </a></b>	        // 12.6.3 - protocol version information
+<b><a name="line130">130    </a></b>	        case MCTP_MESSAGE_TYPE_MCTP_CONTROL:
+<b><a name="line131">131    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_cnt = E_MCTP_CTRL_PROTOCOL_VER_INFO_TOTAL;
+<b><a name="line132">132    </a></b>	
+<b><a name="line133">133    </a></b>	            // Entry 1: version 1.0 - 0xF1F0FF00
+<b><a name="line134">134    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_0].major  = MCTP_CTRL_PROTOCOL_VER_INFO_1_0_MAJOR;
+<b><a name="line135">135    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_0].minor  = MCTP_CTRL_PROTOCOL_VER_INFO_1_0_MINOR;
+<b><a name="line136">136    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_0].update = MCTP_CTRL_PROTOCOL_VER_INFO_1_0_UPDATE;
+<b><a name="line137">137    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_0].alpha  = MCTP_CTRL_PROTOCOL_VER_INFO_1_0_ALPHA;
+<b><a name="line138">138    </a></b>	
+<b><a name="line139">139    </a></b>	            // Entry 2: version 1.1 - 0xF1F1FF00
+<b><a name="line140">140    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_1].major  = MCTP_CTRL_PROTOCOL_VER_INFO_1_1_MAJOR; // ignore coverity
+<b><a name="line141">141    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_1].minor  = MCTP_CTRL_PROTOCOL_VER_INFO_1_1_MINOR;
+<b><a name="line142">142    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_1].update = MCTP_CTRL_PROTOCOL_VER_INFO_1_1_UPDATE;
+<b><a name="line143">143    </a></b>	            p_mctp_control_resp->resp_data.get_ver.ver_num_entry[E_MCTP_CTRL_PROTOCOL_VER_INFO_1_1].alpha  = MCTP_CTRL_PROTOCOL_VER_INFO_1_1_ALPHA;
+<b><a name="line144">144    </a></b>	
+</pre></body>
+</html>

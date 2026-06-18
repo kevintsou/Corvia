@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line390">390    </a></b>	}
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	U32 dal_sec_pke_get_bank_num(U8 bank_sel)
+<b><a name="line393">393    </a></b>	{
+<b><a name="line394">394    </a></b>	    return (U32)(DAL_SEC_PKE_GET_BANK_NUM(bank_sel));
+<b><a name="line395">395    </a></b>	}
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	U32 dal_sec_pke_get_rama_bank_num(void)
+<b><a name="line398">398    </a></b>	{
+<b><a name="line399">399    </a></b>	    return (U32)(DAL_SEC_PKE_GET_RAMA_BANK_NUM());
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	U32 dal_sec_pke_get_ramb_bank_num(void)
+<b><a name="line403">403    </a></b>	{
+<b><a name="line404">404    </a></b>	    return (U32)(DAL_SEC_PKE_GET_RAMB_BANK_NUM());
+<b><a name="line405">405    </a></b>	}
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	U32 dal_sec_pke_get_ramc_bank_num(void)
+<b><a name="line408">408    </a></b>	{
+<b><a name="line409">409    </a></b>	    return (U32)(DAL_SEC_PKE_GET_RAMC_BANK_NUM());
+<b><a name="line410">410    </a></b>	}
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	void dal_sec_pke_set_ram_abc_clr(void)
+<b><a name="line413">413    </a></b>	{
+<b><a name="line414">414    </a></b>	    DAL_SEC_PKE_SET_RAM_CLR_TRIG();
+<b><a name="line415">415    </a></b>	}
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	U32 dal_sec_pke_get_ram_abc_clr(void)
+<b><a name="line418">418    </a></b>	{
+<b><a name="line419">419    </a></b>	    return (U32)(DAL_SEC_PKE_GET_RAM_CLR_TRIG());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 8 bit width expression "((U8 volatile *)0x360a800[28U] >> 0U) & 1U" to a wider 32 bit type.</font>
+<b><a name="line420">420    </a></b>	}
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	void dal_sec_pke_set_ram_q_clr(void)
+<b><a name="line423">423    </a></b>	{
+<b><a name="line424">424    </a></b>	    DAL_SEC_PKE_SET_RAMQ_CLR_TRIG();
+<b><a name="line425">425    </a></b>	}
+<b><a name="line426">426    </a></b>	
+<b><a name="line427">427    </a></b>	U32 dal_sec_pke_get_ram_q_clr(void)
+<b><a name="line428">428    </a></b>	{
+<b><a name="line429">429    </a></b>	    return (U32)(DAL_SEC_PKE_GET_RAMQ_CLR_TRIG());
+<b><a name="line430">430    </a></b>	}
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	U32 dal_sec_pke_get_pc_ptr_out(void)
+<b><a name="line433">433    </a></b>	{
+<b><a name="line434">434    </a></b>	    return (U32)(DAL_SEC_PKE_GET_PC_PTR_OUT());
+<b><a name="line435">435    </a></b>	}
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	void dal_sec_pke_set_pc_ptr_in(U32 ptr_in)
+<b><a name="line438">438    </a></b>	{
+<b><a name="line439">439    </a></b>	    DAL_SEC_PKE_SET_PC_PTR_IN(ptr_in);
+<b><a name="line440">440    </a></b>	}
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	U32 dal_sec_pke_get_pc_ptr_in(void)
+<b><a name="line443">443    </a></b>	{
+<b><a name="line444">444    </a></b>	    return (U32)(DAL_SEC_PKE_GET_PC_PTR_IN());
+<b><a name="line445">445    </a></b>	}
+<b><a name="line446">446    </a></b>	
+<b><a name="line447">447    </a></b>	void dal_sec_pke_set_pc_ptr_set(void)
+<b><a name="line448">448    </a></b>	{
+<b><a name="line449">449    </a></b>	    DAL_SEC_PKE_SET_PC_PTR_SET();
+<b><a name="line450">450    </a></b>	}
+</pre></body>
+</html>

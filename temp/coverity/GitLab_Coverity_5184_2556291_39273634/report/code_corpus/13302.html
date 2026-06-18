@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line262">262    </a></b>	    U8 debug_message[0x100];
+<b><a name="line263">263    </a></b>	
+<b><a name="line264">264    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line265">265    </a></b>	    RP_SHARED_DATA sRpSharedData;
+<b><a name="line266">266    </a></b>	#else
+<b><a name="line267">267    </a></b>	    struct {
+<b><a name="line268">268    </a></b>	        U16 uwRecoveryReasonCode;
+<b><a name="line269">269    </a></b>	        U8 ubDeviceStatus;
+<b><a name="line270">270    </a></b>	        U8 ubDeviceRecoveryStatus;
+<b><a name="line271">271    </a></b>	    };
+<b><a name="line272">272    </a></b>	#endif
+<b><a name="line273">273    </a></b>	    U8 boot_code_scan_start_index; // pb
+<b><a name="line274">274    </a></b>	    U8 boot_code_scan_skip_revision;
+<b><a name="line275">275    </a></b>	    U8 rsv[58];
+<b><a name="line276">276    </a></b>	} LOADER_MESSAGE_TO_BOOT;
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	#define FIP_STATUS_BUSY                         (BIT0)                  // internal busy, NOT allow to trigger next fpu command, this is basically the same as timeout and should be removed
+<b><a name="line279">279    </a></b>	#define FIP_STATUS_TIMEOUT                      (BIT1)                  // FIP handling timeout
+<b><a name="line280">280    </a></b>	#define FIP_STATUS_SET_FEAT_DAT_CMP_FAIL        (BIT2)
+<b><a name="line281">281    </a></b>	#define FIP_STATUS_RESET_RETRY_FAIL             (BIT3)
+<b><a name="line282">282    </a></b>	#define FIP_STATUS_PIO_POLL_RDY_PIN_TIMEOUT     (BIT4)
+<b><a name="line283">283    </a></b>	#define FIP_STATUS_HARD_RESET_POLL_STS_FAIL     (BIT5)
+<b><a name="line284">284    </a></b>	#define FIP_STATUS_CTRL_ZQ_CAL_TIMEOUT          (BIT6)
+<b><a name="line285">285    </a></b>	#define FIP_STATUS_NAND_ZQ_CAL_TIMEOUT          (BIT7)
+<b><a name="line286">286    </a></b>	#define FIP_STATUS_MSB_DLY_TRAINING_TIMEOUT     (BIT8)
+<b><a name="line287">287    </a></b>	#define FIP_STATUS_MDLL_TRACKING_TIMEOUT        (BIT9)
+<b><a name="line288">288    </a></b>	#define FIP_STATUS_POR_RETRY_FAIL               (BIT10)
+<b><a name="line289">289    </a></b>	#define FIP_STATUS_PIO_ABORT_HANDLER            (BIT11)
+<b><a name="line290">290    </a></b>	#define FIP_STATUS_COP0_INIT_TIMEOUT            (BIT12)
+<b><a name="line291">291    </a></b>	#define FIP_STATUS_INVALID                      (0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line292">292    </a></b>	
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	extern FPL_API_STRUCT          gFplApiStruct;
+<b><a name="line295">295    </a></b>	extern ADDR_RULE_STRUCT        gAddrRulePCAStruct;
+<b><a name="line296">296    </a></b>	extern FIP_INST_STRUCT         gFipInstStruct;
+<b><a name="line297">297    </a></b>	extern FIP_READ_INFO_STRUCT    gFIPReadInfoStruct;
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	#define POLLING_TIMEOUT(CLK_MHZ, MS)            ((MS * 1000000) / (1000 / (CLK_MHZ)))
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	#define ADDR_RULE_LC_PER_PAGE                   (8)
+<b><a name="line302">302    </a></b>	
+<b><a name="line303">303    </a></b>	#endif /* _HAL_FLH_FIP_DEF_H_ */
+<b><a name="line304">304    </a></b>	
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	
+</pre></body>
+</html>

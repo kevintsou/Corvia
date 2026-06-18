@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1266">1266    </a></b>	    verify_status = PASS;
+<b><a name="line1267">1267    </a></b>	    result        = PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line1268">1268    </a></b>	    memset((void *)&rsa_key, 0x00, sizeof(rsa_key));
+<b><a name="line1269">1269    </a></b>	
+<b><a name="line1270">1270    </a></b>	    Dump_SEC(tprintf("Check Code Signature"));
+<b><a name="line1271">1271    </a></b>	
+<b><a name="line1272">1272    </a></b>	    //TODO this needs to be cleaned up a lot
+<b><a name="line1273">1273    </a></b>	    check_project_binary_error = 0;
+<b><a name="line1274">1274    </a></b>	
+<b><a name="line1275">1275    </a></b>	    //Combine all HW Status so that the HW can be checked together and waited together
+<b><a name="line1276">1276    </a></b>	    hw_status = 0;
+<b><a name="line1277">1277    </a></b>	
+<b><a name="line1278">1278    </a></b>	    //Record all the fields in the Project Binary Header that will be used
+<b><a name="line1279">1279    </a></b>	    //This is to prevent any unexpected changes to the Project Binary Header
+<b><a name="line1280">1280    </a></b>	    //affecting the rest of the calculations
+<b><a name="line1281">1281    </a></b>	    algorithm_type = p_project_binary_header->algorithm_type;
+<b><a name="line1282">1282    </a></b>	    file_format = p_project_binary_header->file_format;
+<b><a name="line1283">1283    </a></b>	    algorithm_settings = p_project_binary_header->algorithm_settings;
+<b><a name="line1284">1284    </a></b>	    bledn = p_project_binary_header->pubkey_bledn_sig_bledn;
+<b><a name="line1285">1285    </a></b>	
+<b><a name="line1286">1286    </a></b>	    //tprintf("algorithm_type = %x, file_format = %x, algorithm_settings = %x, bledn = %x", algorithm_type, file_format, algorithm_settings, bledn);
+<b><a name="line1287">1287    </a></b>	
+<b><a name="line1288">1288    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line1289">1289    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line1290">1290    </a></b>	
+<b><a name="line1291">1291    </a></b>	    sal_log_tracker_set(sal_locate((U8)(algorithm_type & 0xFF), TYPE_DATA));
+<b><a name="line1292">1292    </a></b>	    //Check the accepted file format(0x16), settings(0x2A) for a given algorithm
+<b><a name="line1293">1293    </a></b>	    //As well as locate the different parts required for signature verification
+<b><a name="line1294">1294    </a></b>	    switch (algorithm_type) {
+<b><a name="line1295">1295    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event equality_cond:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping to case "13UL".</font>
+<b><a name="line1296">1296    </a></b>	        key_size = sizeof(RSA4096_PUBLIC_KEY); //0x610
+<b><a name="line1297">1297    </a></b>	
+<b><a name="line1298">1298    </a></b>	        //File Format 5 for RSA4096_SHA512_PKCS1_V1_5 and RSA4096_SHA512_PKCS1_V2_1
+<b><a name="line1299">1299    </a></b>	        //includes the attached key and relevant paddings as part of the signed data
+<b><a name="line1300">1300    </a></b>	
+<b><a name="line1301">1301    </a></b>	        //Key is located at after the original data
+<b><a name="line1302">1302    </a></b>	        key_address = data_address + data_size;
+<b><a name="line1303">1303    </a></b>	
+<b><a name="line1304">1304    </a></b>	        //Signature is located right after the key, aligned to 512B
+<b><a name="line1305">1305    </a></b>	        signature_address = key_address + ((key_size + (SECTOR_SIZE - 1)) & ~(SECTOR_SIZE - 1));
+<b><a name="line1306">1306    </a></b>	        signature_size = HAL_SEC_RSA_4096_8BIT_LENGTH;
+<b><a name="line1307">1307    </a></b>	
+<b><a name="line1308">1308    </a></b>	        //The protected message starts from the start of the data to before the signature
+<b><a name="line1309">1309    </a></b>	        //This includes the key within the protected area
+<b><a name="line1310">1310    </a></b>	        message_address = data_address;
+<b><a name="line1311">1311    </a></b>	        message_size = signature_address - data_address;
+<b><a name="line1312">1312    </a></b>	
+<b><a name="line1313">1313    </a></b>	        //Make sure mmul64 is enabled
+<b><a name="line1314">1314    </a></b>	        // if (BIT1 != (algorithm_settings & (BIT2 | BIT1)))
+<b><a name="line1315">1315    </a></b>	        if (ALGORITHM_SETTINGS_MMUL_64x64 != GET_ALGORITHM_SETTINGS_MMUL(algorithm_settings)) {
+<b><a name="line1316">1316    </a></b>	            return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_SETTING;
+<b><a name="line1317">1317    </a></b>	        }
+<b><a name="line1318">1318    </a></b>	        break;
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3:
+<b><a name="line1321">1321    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sw_sm2_sm3(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1322">1322    </a></b>	        return check_project_binary_error;
+<b><a name="line1323">1323    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192:
+<b><a name="line1324">1324    </a></b>	        check_project_binary_error = check_project_binary_code_sign_lms_sha256_192(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1325">1325    </a></b>	        return check_project_binary_error;
+<b><a name="line1326">1326    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9:
+<b><a name="line1327">1327    </a></b>	        check_project_binary_error = check_project_binary_code_sign_sm9(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1328">1328    </a></b>	        return check_project_binary_error;
+<b><a name="line1329">1329    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PREHASH:
+<b><a name="line1330">1330    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, FALSE);
+<b><a name="line1331">1331    </a></b>	        return check_project_binary_error;
+<b><a name="line1332">1332    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_MLDSA_PURE:
+<b><a name="line1333">1333    </a></b>	        check_project_binary_error = check_project_binary_code_sign_mldsa(p_project_binary_header, calculation_buffer, calculation_buffer_size, project_binary_hash, TRUE);
+<b><a name="line1334">1334    </a></b>	        return check_project_binary_error;
+<b><a name="line1335">1335    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_KAZ:
+<b><a name="line1336">1336    </a></b>	        check_project_binary_error = check_project_binary_code_sign_kaz(p_project_binary_header, calculation_buffer, project_binary_hash);
+<b><a name="line1337">1337    </a></b>	        return check_project_binary_error;
+<b><a name="line1338">1338    </a></b>	    default:
+<b><a name="line1339">1339    </a></b>	        // This should never occur as algorithm_type is checked earlier
+<b><a name="line1340">1340    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1341">1341    </a></b>	    }
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	    //Set the various buffers required for verification
+<b><a name="line1344">1344    </a></b>	    switch (algorithm_type) {
+<b><a name="line1345">1345    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event equality_cond:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping to case "13UL".</font>
+<b><a name="line1346">1346    </a></b>	
+<b><a name="line1347">1347    </a></b>	        hash_buffer       = calculation_buffer;
+<b><a name="line1348">1348    </a></b>	        decryption_buffer = hash_buffer + SECTOR_SIZE;
+<b><a name="line1349">1349    </a></b>	
+<b><a name="line1350">1350    </a></b>	        //TODO this should be done when copying into the PKE buffers, instead of
+<b><a name="line1351">1351    </a></b>	        //TODO Maybe split it up so that a function gives out the address of all the components
+<b><a name="line1352">1352    </a></b>	        //A buffer to store key in the correct endian for input to the PKE
+<b><a name="line1353">1353    </a></b>	        signature_endian_buffer = decryption_buffer       + SECTOR_SIZE;
+<b><a name="line1354">1354    </a></b>	        mgf_buffer              = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1355">1355    </a></b>	        mask_buffer             = mgf_buffer              + SECTOR_SIZE;
+<b><a name="line1356">1356    </a></b>	        temp_buffer             = mask_buffer             + SECTOR_SIZE;
+<b><a name="line1357">1357    </a></b>	        key_endian_buffer       = signature_endian_buffer + SECTOR_SIZE;
+<b><a name="line1358">1358    </a></b>	
+<b><a name="line1359">1359    </a></b>	        memcpy((void *)signature_endian_buffer, (void *)signature_address, signature_size);
+<b><a name="line1360">1360    </a></b>	        memcpy((void *)key_endian_buffer, (void *)key_address, key_size);
+<b><a name="line1361">1361    </a></b>	
+<b><a name="line1362">1362    </a></b>	        //Convert the RSA key into a structure used by the PKE function
+<b><a name="line1363">1363    </a></b>	        sec_rsa4096_key_structure_convert2((RSA4096_PUBLIC_KEY_PTR)(key_endian_buffer), &rsa_key);
+<b><a name="line1364">1364    </a></b>	
+<b><a name="line1365">1365    </a></b>	        break;
+<b><a name="line1366">1366    </a></b>	
+<b><a name="line1367">1367    </a></b>	    default:
+<b><a name="line1368">1368    </a></b>	        //This should never occur as algorithm_type is checked earlier
+<b><a name="line1369">1369    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1370">1370    </a></b>	        //break;
+<b><a name="line1371">1371    </a></b>	    }
+<b><a name="line1372">1372    </a></b>	
+<b><a name="line1373">1373    </a></b>	    //Fix the endian of the key and signature
+<b><a name="line1374">1374    </a></b>	    switch (algorithm_type) {
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event const:</font></b> <font face="Arial"; size="3"; color="#FF5959">When switching on "algorithm_type", the value of "algorithm_type" must be equal to 13.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event dead_error_condition:</font></b> <font face="Arial"; size="3"; color="#FF5959">The "switch" governing value "algorithm_type" cannot reach the "default" case.</font>
+<b><a name="line1375">1375    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1376">1376    </a></b>	        //TODO could merge this into copying the data into the PKE buffer instead
+<b><a name="line1377">1377    </a></b>	        if (bledn & PROJECT_BINARY_HEADER_BLEDN_SIGNATURE_BIG_ENDIAN) {
+<b><a name="line1378">1378    </a></b>	            hal_sec_api_reverse_endian((void *)signature_endian_buffer, (void *)signature_endian_buffer, signature_size);
+<b><a name="line1379">1379    </a></b>	        }
+<b><a name="line1380">1380    </a></b>	
+<b><a name="line1381">1381    </a></b>	        if ((bledn & PROJECT_BINARY_HEADER_BLEDN_RR_LITTLE_ENDIAN) == 0) {
+<b><a name="line1382">1382    </a></b>	            hal_sec_api_reverse_endian((void *)rsa_key.rsa.rr, (void *)rsa_key.rsa.rr, HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line1383">1383    </a></b>	        }
+<b><a name="line1384">1384    </a></b>	
+<b><a name="line1385">1385    </a></b>	        if ((bledn & PROJECT_BINARY_HEADER_BLEDN_R_LITTLE_ENDIAN) == 0) {
+<b><a name="line1386">1386    </a></b>	            hal_sec_api_reverse_endian((void *)rsa_key.rsa.r, (void *)rsa_key.rsa.r, HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line1387">1387    </a></b>	        }
+<b><a name="line1388">1388    </a></b>	
+<b><a name="line1389">1389    </a></b>	        if (bledn & PROJECT_BINARY_HEADER_BLEDN_N0_BIG_ENDIAN) {
+<b><a name="line1390">1390    </a></b>	            hal_sec_api_reverse_endian((void *)rsa_key.rsa.n0, (void *)rsa_key.rsa.n0, 8U); // fix 8B
+<b><a name="line1391">1391    </a></b>	        }
+<b><a name="line1392">1392    </a></b>	
+<b><a name="line1393">1393    </a></b>	        if ((bledn & PROJECT_BINARY_HEADER_BLEDN_E_LITTLE_ENDIAN) == 0) {
+<b><a name="line1394">1394    </a></b>	            hal_sec_api_reverse_endian((void *)rsa_key.rsa.kx, (void *)rsa_key.rsa.kx, 4U); // fix 8B
+<b><a name="line1395">1395    </a></b>	        }
+<b><a name="line1396">1396    </a></b>	
+<b><a name="line1397">1397    </a></b>	        if ((bledn & PROJECT_BINARY_HEADER_BLEDN_N_LITTLE_ENDIAN) == 0) {
+<b><a name="line1398">1398    </a></b>	            hal_sec_api_reverse_endian((void *)rsa_key.rsa.n, (void *)rsa_key.rsa.n, HAL_SEC_RSA_4096_8BIT_LENGTH);
+<b><a name="line1399">1399    </a></b>	        }
+<b><a name="line1400">1400    </a></b>	        break;
+<b><a name="line1401">1401    </a></b>	
+<b><a name="line1402">1402    </a></b>	    default:
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event dead_error_begin:</font></b> <font face="Arial"; size="3"; color="#FF5959">Execution cannot reach this statement: "default:".</font>
+<b><a name="line1403">1403    </a></b>	        //This should never occur as algorithm_type has already been checked
+<b><a name="line1404">1404    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line1405">1405    </a></b>	        //break;
+<b><a name="line1406">1406    </a></b>	    }
+<b><a name="line1407">1407    </a></b>	
+<b><a name="line1408">1408    </a></b>	    //Perform decryption of signature, get decrypted signature later
+<b><a name="line1409">1409    </a></b>	
+<b><a name="line1410">1410    </a></b>	        //init all other fields for rsa_key struct
+<b><a name="line1411">1411    </a></b>	        dummy_en                = TRUE;
+<b><a name="line1412">1412    </a></b>	        kat_mode                = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line1413">1413    </a></b>	
+<b><a name="line1414">1414    </a></b>	        rsa_key.msg_addr.all    = (U64)message_address;
+<b><a name="line1415">1415    </a></b>	        rsa_key.msg_len         = message_size;
+<b><a name="line1416">1416    </a></b>	        rsa_key.hash_addr.all   = (U64)hash_buffer;
+<b><a name="line1417">1417    </a></b>	        rsa_key.encmsg_addr.all = (U64)decryption_buffer;
+<b><a name="line1418">1418    </a></b>	        rsa_key.mgf_addr.all    = (U64)mgf_buffer;
+<b><a name="line1419">1419    </a></b>	        rsa_key.mask_addr.all   = (U64)mask_buffer;
+<b><a name="line1420">1420    </a></b>	        rsa_key.tmp_addr.all    = (U64)temp_buffer;
+<b><a name="line1421">1421    </a></b>	        rsa_key.hash_id         = HAL_SEC_SHA2_512_MODE;
+<b><a name="line1422">1422    </a></b>	        rsa_key.rsa.input       = (U8 *)signature_endian_buffer;
+<b><a name="line1423">1423    </a></b>	        rsa_key.rsa.dummy_en    = dummy_en; // Enable for FIPS device
+<b><a name="line1424">1424    </a></b>	        rsa_key.rsa.dummy_stop  = dummy_en; // if dummy stop is not set to TRUE, it will take a long time to finish
+<b><a name="line1425">1425    </a></b>	        rsa_key.kat_mode        = kat_mode; // If kat_mode is set to 1, use memcmp. Otherwise, use dmsca cmp
+<b><a name="line1426">1426    </a></b>	        rsa_key.rsa.timeout_val = SEC_TIMEOUT_TICKS;
+<b><a name="line1427">1427    </a></b>	
+<b><a name="line1428">1428    </a></b>	        sal_log_tracker_set(sal_locate(0x30, TYPE_RSV6));
+<b><a name="line1429">1429    </a></b>	
+<b><a name="line1430">1430    </a></b>	
+<b><a name="line1431">1431    </a></b>	    switch (algorithm_type) {
+<b><a name="line1432">1432    </a></b>	    case PROJECT_BINARY_HEADER_ALGORITHM_TYPE_RSA4096_SHA512_PKCS1_V2_1:
+<b><a name="line1433">1433    </a></b>	        Dump_SEC(tprintf("PKCS1 2v1"));
+</pre></body>
+</html>

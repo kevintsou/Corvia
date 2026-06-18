@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2638">2638    </a></b>	                p_code_pointer_block_status->error.id_table |= CODE_POINTER_BLOCK_ERROR_ID_TABLE_REBUILD_REQUIRED;
+<b><a name="line2639">2639    </a></b>	            }
+<b><a name="line2640">2640    </a></b>	
+<b><a name="line2641">2641    </a></b>	            if (CODE_POINTER_BLOCK_MAX_VALID_COUNT > p_code_pointer_block_status->code_pointer_block_copy_count) {
+<b><a name="line2642">2642    </a></b>	                //TODO possibly refine this?
+<b><a name="line2643">2643    </a></b>	                for (copy = 0; copy < p_code_pointer_block_status->code_pointer_block_copy_count; copy++) {
+<b><a name="line2644">2644    </a></b>	                    //Check if this Code Pointer Block
+<b><a name="line2645">2645    </a></b>	                    //TODO maybe record only the Code Pointer Block FSA without the node?
+<b><a name="line2646">2646    </a></b>	                    if ((p_code_pointer_block_status->a_id_table_fsa[copy] & ~((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift)) ==
+<b><a name="line2647">2647    </a></b>	                        (id_table_fsa & ~((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift))) {
+<b><a name="line2648">2648    </a></b>	                        break;
+<b><a name="line2649">2649    </a></b>	                    }
+<b><a name="line2650">2650    </a></b>	                }
+<b><a name="line2651">2651    </a></b>	                if (copy == p_code_pointer_block_status->code_pointer_block_copy_count) {
+<b><a name="line2652">2652    </a></b>	                    //Record the ID Table address as there is still room in the structure
+<b><a name="line2653">2653    </a></b>	                    p_code_pointer_block_status->a_id_table_fsa[p_code_pointer_block_status->code_pointer_block_copy_count] = id_table_fsa;
+<b><a name="line2654">2654    </a></b>	                    p_code_pointer_block_status->code_pointer_block_copy_count++;
+<b><a name="line2655">2655    </a></b>	                }
+<b><a name="line2656">2656    </a></b>	
+<b><a name="line2657">2657    </a></b>	                if (p_code_pointer_block_status->code_pointer_block_copy_count == p_load_code_status->parameters.code_pointer_block_per_set) {
+<b><a name="line2658">2658    </a></b>	
+<b><a name="line2659">2659    </a></b>	                    Dump_LoadCode(tprintf(", FULL == %d", p_load_code_status->parameters.code_pointer_block_per_set));
+<b><a name="line2660">2660    </a></b>	                    //This set of Code Pointer Block is now full
+<b><a name="line2661">2661    </a></b>	                    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_ID_TABLE_COMPLETE;
+<b><a name="line2662">2662    </a></b>	                }
+<b><a name="line2663">2663    </a></b>	                else if (p_code_pointer_block_status->code_pointer_block_copy_count > p_load_code_status->parameters.code_pointer_block_per_set) {
+<b><a name="line2664">2664    </a></b>	
+<b><a name="line2665">2665    </a></b>	                    Dump_LoadCode(tprintf(", EXTRA > %d", p_load_code_status->parameters.code_pointer_block_per_set));
+<b><a name="line2666">2666    </a></b>	                    //This set of Code Pointer Block has extra copies
+<b><a name="line2667">2667    </a></b>	                    p_code_pointer_block_status->error.id_table |= CODE_POINTER_BLOCK_ERROR_ID_TABLE_EXTRA;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1UL << 1" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line2668">2668    </a></b>	                }
+<b><a name="line2669">2669    </a></b>	            }
+<b><a name="line2670">2670    </a></b>	            else {
+<b><a name="line2671">2671    </a></b>	
+<b><a name="line2672">2672    </a></b>	                Dump_LoadCode(tprintf(", EXCEED > %d", CODE_POINTER_BLOCK_MAX_VALID_COUNT));
+<b><a name="line2673">2673    </a></b>	                //The number of copies exceeds the maximum allowable by the structure
+<b><a name="line2674">2674    </a></b>	                //Do not record the exceeded ID Table address as there is no place to record it
+<b><a name="line2675">2675    </a></b>	                p_code_pointer_block_status->code_pointer_block_exceed_count++;
+<b><a name="line2676">2676    </a></b>	                p_code_pointer_block_status->error.id_table |= CODE_POINTER_BLOCK_ERROR_ID_TABLE_EXCEED_MAXIMUM;
+<b><a name="line2677">2677    </a></b>	            }
+<b><a name="line2678">2678    </a></b>	
+<b><a name="line2679">2679    </a></b>	            //The Code Pointer Block is recorded
+<b><a name="line2680">2680    </a></b>	            //Return the set that it is recorded in
+<b><a name="line2681">2681    </a></b>	            return set;
+<b><a name="line2682">2682    </a></b>	        }
+<b><a name="line2683">2683    </a></b>	    }
+<b><a name="line2684">2684    </a></b>	
+<b><a name="line2685">2685    </a></b>	    //This Code Pointer Block revision exceeds the possible amount of Code Pointer Block Sets
+<b><a name="line2686">2686    </a></b>	
+<b><a name="line2687">2687    </a></b>	    Dump_LoadCode(tprintf("Code Pointer Block Revision 0x%x ", revision));
+<b><a name="line2688">2688    </a></b>	    Dump_LoadCode(tprintf("at %x ", id_table_fsa));
+<b><a name="line2689">2689    </a></b>	    Dump_LoadCode(tprintf("exceeds max set count of %d", CODE_POINTER_BLOCK_SET_COUNT_MAX));
+<b><a name="line2690">2690    </a></b>	
+<b><a name="line2691">2691    </a></b>	    //TODO add a error status to record here
+<b><a name="line2692">2692    </a></b>	    p_load_code_status->code_pointer_block_set_found_count++;
+<b><a name="line2693">2693    </a></b>	
+<b><a name="line2694">2694    </a></b>	    //The Code Pointer Block can not be recorded because it will exceed the number of allowable sets
+<b><a name="line2695">2695    </a></b>	    //Return an invalid set number
+<b><a name="line2696">2696    </a></b>	    return CODE_POINTER_BLOCK_SET_COUNT_MAX;
+<b><a name="line2697">2697    </a></b>	}
+<b><a name="line2698">2698    </a></b>	
+</pre></body>
+</html>

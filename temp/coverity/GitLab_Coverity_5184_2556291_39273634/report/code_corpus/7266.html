@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_send.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	    //Transport Header + Packet Payload
+<b><a name="line68">68    </a></b>	    packet_descriptor.p_base = &(p_smbm->tx.base.pu8[sizeof(*p_medium_specific_header)]);
+<b><a name="line69">69    </a></b>	    packet_descriptor.size = (p_smbm->tx.uwSize - sizeof(*p_medium_specific_header));
+<b><a name="line70">70    </a></b>	    status = mctp_message_transmit_handler_disassemble_message(p_transmit_handler, &packet_descriptor);
+<b><a name="line71">71    </a></b>	    if (status & MESSAGE_ASSEMBLY_DROP_MESSAGE) {
+<b><a name="line72">72    </a></b>	        mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	        return 0xFFFFFFFFUL;
+<b><a name="line75">75    </a></b>	    }
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	    //Update the Byte Count in the Block Write command
+<b><a name="line78">78    </a></b>	    p_medium_specific_header->byte_count += packet_descriptor.size;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    //Update the data count in the SMBus buffer
+<b><a name="line81">81    </a></b>	    //-2 is smbus block write api will plus command code and byte count
+<b><a name="line82">82    </a></b>	    p_smbm->tx.uwCount = (sizeof(*p_medium_specific_header) + packet_descriptor.size - 2U);
+<b><a name="line83">83    </a></b>	    p_smbm->tx.uwOffset = 0U;
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	    phal_smbm_block_write(SMBUS0, p_destination_transport_info->slave_address, &(p_smbm->tx), p_smbm->tx.uwCount);
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	    p_transmit_handler->delay_flag = 0U;
+<b><a name="line88">88    </a></b>	    return 0UL;
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	U32 mctp_get_inter_packet_delay_ms(void)
+<b><a name="line92">92    </a></b>	{
+<b><a name="line93">93    </a></b>	    U32 intr_dly_time = MCTP_SMBM_PRTOCOL_INTERVAL_35MS - gBCodeGlobalStruct.parameter_config.mi_inter_packet_delay_time_ms;
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	    BC_APP_ASSERT(BCODE_ERROR_MI_INVALID_INTR_PACKET_DELAY_PARAMETER, (intr_dly_time <= 35));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "intr_dly_time" (unsigned) is not the same as that of the right operand "35"(signed).</font>
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	    if (intr_dly_time <= 4) {
+<b><a name="line98">98    </a></b>	        return 0; // case that <= 4 is using 0 ms delay
+<b><a name="line99">99    </a></b>	    }
+<b><a name="line100">100    </a></b>	    else {
+<b><a name="line101">101    </a></b>	        return intr_dly_time;
+<b><a name="line102">102    </a></b>	    }
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	/**
+<b><a name="line107">107    </a></b>	 * Disassemble a MCPT Message in the MCTP_MESSAGE_TRANSMIT_HANDLER into MCTP Packets that is ready to be sent out
+<b><a name="line108">108    </a></b>	 *
+<b><a name="line109">109    </a></b>	 * The packets do not contain the medium specific header
+<b><a name="line110">110    </a></b>	 *
+<b><a name="line111">111    </a></b>	 * @param p_transmit_handler
+<b><a name="line112">112    </a></b>	 * @param p_packet_descriptor
+<b><a name="line113">113    </a></b>	 * @return
+<b><a name="line114">114    </a></b>	 */
+<b><a name="line115">115    </a></b>	U32 mctp_message_transmit_handler_disassemble_message(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler, DATA_DESCRIPTOR *p_packet_descriptor)
+<b><a name="line116">116    </a></b>	{
+<b><a name="line117">117    </a></b>	    U32 eom;
+<b><a name="line118">118    </a></b>	    U32 transmission_unit;
+<b><a name="line119">119    </a></b>	
+<b><a name="line120">120    </a></b>	    MCTP_TRANSPORT_HEADER *p_transport_header;
+<b><a name="line121">121    </a></b>	    DATA_DESCRIPTOR packet_payload;
+<b><a name="line122">122    </a></b>	
+<b><a name="line123">123    </a></b>	    transmission_unit = p_transmit_handler->message_info.p_transport->transmission_unit;
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    //Calling this means that a packet can be disassembled from this message
+<b><a name="line126">126    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Disassembling Message of Transmit Handler"));
+</pre></body>
+</html>

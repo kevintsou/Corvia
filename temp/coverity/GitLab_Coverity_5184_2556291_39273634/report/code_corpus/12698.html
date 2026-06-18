@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/log/sal_log.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SAL_LOG_H_
+<b><a name="line2">2    </a></b>	#define _SAL_LOG_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_SAL_LOG_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_conf.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	// -------------------------------------------------------------------------------------------------
+<b><a name="line7">7    </a></b>	#define LOGID_UNDEF                 0xFF
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	#define LOGID_BNR_MAIN              0x60
+<b><a name="line10">10    </a></b>	#define LOGID_BNR_VUC               0x61
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#define LOGID_BOOT_MAIN             0x80
+<b><a name="line13">13    </a></b>	#define LOGID_BOOT_BASE             0x81
+<b><a name="line14">14    </a></b>	#define LOGID_BOOT_INIT             0x82
+<b><a name="line15">15    </a></b>	#define LOGID_BOOT_LCP              0x83
+<b><a name="line16">16    </a></b>	#define LOGID_BOOT_SIB              0x84
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#define LOGID_FPHY_INIT             0x90
+<b><a name="line19">19    </a></b>	#define LOGID_FIP_INIT              0x99
+<b><a name="line20">20    </a></b>	#define LOGID_NAND_POWER            0x9A
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	#define LOGID_USER_TP               0xA0
+<b><a name="line23">23    </a></b>	#define LOGID_USER_BE               0xB0
+<b><a name="line24">24    </a></b>	#define LOGID_USER_BE_ITF           0xB1
+<b><a name="line25">25    </a></b>	#define LOGID_USER_BE_DET           0xBD
+<b><a name="line26">26    </a></b>	#define LOGID_USER_DF               0xD0
+<b><a name="line27">27    </a></b>	#define LOGID_USER_FE               0xF0
+<b><a name="line28">28    </a></b>	#define LOGID_USER_I2C              0xE0
+<b><a name="line29">29    </a></b>	#define LOGID_USER_UART             0xE1
+<b><a name="line30">30    </a></b>	#define LOGID_USER_VUC_HANDLER      0xE2
+<b><a name="line31">31    </a></b>	#define LOGID_USER_SMBUS            0xE3
+<b><a name="line32">32    </a></b>	#define LOGID_USER_MCTP             0xE4
+<b><a name="line33">33    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/smbs_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line310">310    </a></b>	                else {
+<b><a name="line311">311    </a></b>	                    sys_smbs_isr_protocol_handle(p_smbs_device, slave_address, &(p_smbs->rx), &(p_smbs->tx), protocol_interrupt);
+<b><a name="line312">312    </a></b>	                }
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	        //Interrupts has been handled, clear and re-enable the interrupts
+<b><a name="line317">317    </a></b>	        //Disable IRQ while clearing and re-enabling
+<b><a name="line318">318    </a></b>	        p_smbs->interrupt_status &= ~interrupt_status;
+<b><a name="line319">319    </a></b>	        phal_smbs_rx_vld_clr(SMBUS0);
+<b><a name="line320">320    </a></b>	        if (SMBS_INT_WR_STOP_DET_BIT & interrupt_status)
+<b><a name="line321">321    </a></b>	        {
+<b><a name="line322">322    </a></b>	            phal_smbs_clr_ints(SMBUS0, interrupt_status | SMBS_INT_RXBUF_FULL_BIT);
+<b><a name="line323">323    </a></b>	            phal_smbs_int_en(SMBUS0, interrupt_status | SMBS_INT_RXBUF_FULL_BIT);
+<b><a name="line324">324    </a></b>	        }
+<b><a name="line325">325    </a></b>	        else
+<b><a name="line326">326    </a></b>	        {
+<b><a name="line327">327    </a></b>	            phal_smbs_clr_ints(SMBUS0, interrupt_status);
+<b><a name="line328">328    </a></b>	            phal_smbs_int_en(SMBUS0, interrupt_status);
+<b><a name="line329">329    </a></b>	        }
+<b><a name="line330">330    </a></b>	    }
+<b><a name="line331">331    </a></b>	}
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	static void sys_smbs_clear_unmatch_udid(void)
+<b><a name="line334">334    </a></b>	{
+<b><a name="line335">335    </a></b>	    U16 uwUnmatchClr = 0U;
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	    for (U8 ubIdx = 0; ubIdx < SMBUS_ADDRESS_INDEX_ARP; ubIdx++)
+<b><a name="line338">338    </a></b>	    {
+<b><a name="line339">339    </a></b>	        if (((r32_r_SMB_ARP_CTRL(SMBUS0) >> 12U) & BIT(ubIdx)) && (dal_smbs_api_get_udid_en(SMBUS0) & BIT(ubIdx)))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_13_5_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The right hand operand of a logical operator "&&" has persistent side effects because of calling function "dal_smbs_api_get_udid_en(0)".</font>
+<b><a name="line340">340    </a></b>	        {
+<b><a name="line341">341    </a></b>	            uwUnmatchClr |= BIT(ubIdx);
+<b><a name="line342">342    </a></b>	        }
+<b><a name="line343">343    </a></b>	    }
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	    // if not 0
+<b><a name="line346">346    </a></b>	    if (uwUnmatchClr)
+<b><a name="line347">347    </a></b>	    {
+<b><a name="line348">348    </a></b>	        phal_smbs_clear_unmatch_udid(SMBUS0, uwUnmatchClr);
+<b><a name="line349">349    </a></b>	    }
+<b><a name="line350">350    </a></b>	}
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	static void sys_smbs_isr_error_handle(SMBS_DEVICE *p_smbs_device, U16 slave_address, SMBUS_BUFFER *p_rx, SMBUS_BUFFER *p_tx, U32 error_interrupt)
+<b><a name="line353">353    </a></b>	{
+<b><a name="line354">354    </a></b>	    Dump_SMBUS(tprintf(" [SMBS] Slave Error Handle %x", error_interrupt));
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    if (0 != (error_interrupt & SMBS_INT_LOSS_ARB_BIT)) {
+<b><a name="line357">357    </a></b>	        //TODO
+<b><a name="line358">358    </a></b>	    }
+<b><a name="line359">359    </a></b>	
+<b><a name="line360">360    </a></b>	    // sw timeout reset if scl keep low for 25ms
+<b><a name="line361">361    </a></b>	    if (0U != (error_interrupt & SMBS_INT_TIMEOUT_MIN_BIT)) {
+<b><a name="line362">362    </a></b>	        //TODO
+<b><a name="line363">363    </a></b>	    }
+<b><a name="line364">364    </a></b>	
+<b><a name="line365">365    </a></b>	    if (0U != (error_interrupt & SMBS_INT_PEC_ERR_BIT)) {
+<b><a name="line366">366    </a></b>	        //Slave's PEC error can only occur after a write stop
+<b><a name="line367">367    </a></b>	        //So clear WR_STOP_DET and make sure it is not handled
+<b><a name="line368">368    </a></b>	    }
+<b><a name="line369">369    </a></b>	
+<b><a name="line370">370    </a></b>	    // HW auto reset if scl keep low for 35ms
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1465">1465    </a></b>	 *
+<b><a name="line1466">1466    </a></b>	 * @return
+<b><a name="line1467">1467    </a></b>	 *  16-bit bitmap that indicates the errors that have occurred
+<b><a name="line1468">1468    </a></b>	 *      BIT0 (PROJECT_BINARY_ERROR_HEADER_CODE_SIGNATURE_MARKING)
+<b><a name="line1469">1469    </a></b>	 *          The Code Signature Marking field (offset 0x00, size 0x10) is incorrect
+<b><a name="line1470">1470    </a></b>	 *      BIT1 (PROJECT_BINARY_ERROR_HEADER_IC_VERSION)
+<b><a name="line1471">1471    </a></b>	 *          The IC Version field (offset 0x18, Size 0x08) is incorrect
+<b><a name="line1472">1472    </a></b>	 *      BIT2 (PROJECT_BINARY_ERROR_HEADER_UNKNOWN_KEY)
+<b><a name="line1473">1473    </a></b>	 *          The Certificate ID (offset 0x10, size 0x04) is incorrect
+<b><a name="line1474">1474    </a></b>	 *      BIT3 (PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE)
+<b><a name="line1475">1475    </a></b>	 *          The Algorithm Type (offset 0x17, size 0x01) is incorrect
+<b><a name="line1476">1476    </a></b>	 *      BIT8 (PROJECT_BINARY_ERROR_CRC)
+<b><a name="line1477">1477    </a></b>	 *          The CRC is incorrect
+<b><a name="line1478">1478    </a></b>	 *      BIT9 (PROJECT_BINARY_ERROR_CODE_SIGNATURE)
+<b><a name="line1479">1479    </a></b>	 *          The Code Signature is incorrect
+<b><a name="line1480">1480    </a></b>	 *      BIT12 (PROJECT_BINARY_ERROR_HW_EFUSE)
+<b><a name="line1481">1481    </a></b>	 *          The eFuse for checking Code Signature is enabled, but the required
+<b><a name="line1482">1482    </a></b>	 *          Hardware IP is disabled
+<b><a name="line1483">1483    </a></b>	 *      BIT13 (PROJECT_BINARY_ERROR_HW_ERROR)
+<b><a name="line1484">1484    </a></b>	 *          The hardware required to check the CRC has failed
+<b><a name="line1485">1485    </a></b>	 */
+<b><a name="line1486">1486    </a></b>	
+<b><a name="line1487">1487    </a></b>	// TODO: check
+<b><a name="line1488">1488    </a></b>	U32 gCheckProjectBinaryDMSCA = 0;//HAL_SEC_DMSCA_FAIL;
+<b><a name="line1489">1489    </a></b>	
+<b><a name="line1490">1490    </a></b>	U32 check_project_binary(PROJECT_BINARY_HEADER *p_project_binary_header, U32 project_binary_source, U8 project_binary_type)
+<b><a name="line1491">1491    </a></b>	{
+<b><a name="line1492">1492    </a></b>	    U32 project_binary_error;
+<b><a name="line1493">1493    </a></b>	
+<b><a name="line1494">1494    </a></b>	    sal_log_tracker_set(sal_locate(0x20, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line1495">1495    </a></b>	    sal_log_tracker_set(sal_locate(project_binary_type, TYPE_DATA));
+<b><a name="line1496">1496    </a></b>	
+<b><a name="line1497">1497    </a></b>	    Dump_SEC(tprintf("Checking Project Binary"));
+<b><a name="line1498">1498    </a></b>	
+<b><a name="line1499">1499    </a></b>	    gCheckProjectBinaryDMSCA = HAL_SEC_DMSCA_FAIL;
+<b><a name="line1500">1500    </a></b>	
+<b><a name="line1501">1501    </a></b>	    sal_log_tracker_set_with_time(sal_locate(INIT_FLOW_STEP_ID_6_CHECK_BINARY, TYPE_TIMESTAMP));
+<b><a name="line1502">1502    </a></b>	
+<b><a name="line1503">1503    </a></b>	    sal_log_tracker_set(sal_locate(0x21, TYPE_STEP));
+<b><a name="line1504">1504    </a></b>	    //Check the Project Binary Header to ensure that it at least conforms to
+<b><a name="line1505">1505    </a></b>	    //the basic structure and header markings
+<b><a name="line1506">1506    </a></b>	    project_binary_error = check_project_binary_header(p_project_binary_header);
+<b><a name="line1507">1507    </a></b>	    if (0 != project_binary_error) {
+<b><a name="line1508">1508    </a></b>	        Dump_SEC(tprintf("sec header err"));
+<b><a name="line1509">1509    </a></b>	        return project_binary_error;
+<b><a name="line1510">1510    </a></b>	    }
+<b><a name="line1511">1511    </a></b>	
+<b><a name="line1512">1512    </a></b>	    sal_log_tracker_set(sal_locate(0x22, TYPE_STEP));
+<b><a name="line1513">1513    </a></b>	    project_binary_error = check_project_binary_security_setting(p_project_binary_header, gBCodeGlobalStruct.p_efuse_security_setting, project_binary_source);
+<b><a name="line1514">1514    </a></b>	    if (0 != project_binary_error) {
+<b><a name="line1515">1515    </a></b>	        Dump_SEC(tprintf("sec setting err"));
+<b><a name="line1516">1516    </a></b>	        return project_binary_error;
+<b><a name="line1517">1517    </a></b>	    }
+<b><a name="line1518">1518    </a></b>	
+<b><a name="line1519">1519    </a></b>	    //Check the Code Signature whenever it is available
+<b><a name="line1520">1520    </a></b>	    if (p_project_binary_header->code_sign_finish) {
+<b><a name="line1521">1521    </a></b>	        //TODO add HW checking to everywhere that uses these security functions
+<b><a name="line1522">1522    </a></b>	        //Especially the KAT and every instance hashing is used
+<b><a name="line1523">1523    </a></b>	        //TODO probably move the hw disable checking to within the hw functions that uses these
+<b><a name="line1524">1524    </a></b>	        //TODO refine the security hal functions
+<b><a name="line1525">1525    </a></b>	        //Don't use U8* and act as it is a U64, need to add timeout, need to add return status
+</pre></body>
+</html>

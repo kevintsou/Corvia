@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/ocp/ocp_secure_firmware_recovery.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line635">635    </a></b>	
+<b><a name="line636">636    </a></b>	        case RECOVERY_CMD_RECOVERY_STATUS:
+<b><a name="line637">637    </a></b>	            Dump_OCP(tprintf("  - RECOVERY_STATUS"));
+<b><a name="line638">638    </a></b>	            RpReadRecoveryStatus(pACRotData, pSmbsTx);
+<b><a name="line639">639    </a></b>	            break;
+<b><a name="line640">640    </a></b>	
+<b><a name="line641">641    </a></b>	        case RECOVERY_CMD_HW_STATUS:
+<b><a name="line642">642    </a></b>	            Dump_OCP(tprintf("  - HW_STATUS"));
+<b><a name="line643">643    </a></b>	            RpReadHwStatus(pACRotData, pSmbsTx);
+<b><a name="line644">644    </a></b>	            break;
+<b><a name="line645">645    </a></b>	
+<b><a name="line646">646    </a></b>	        case RECOVERY_CMD_INDIRECT_CTRL:
+<b><a name="line647">647    </a></b>	            Dump_OCP(tprintf("  - INDIRECT_CTRL"));
+<b><a name="line648">648    </a></b>	            RpReadIndirectCtrl(pACRotData, pSmbsTx);
+<b><a name="line649">649    </a></b>	            break;
+<b><a name="line650">650    </a></b>	
+<b><a name="line651">651    </a></b>	        case RECOVERY_CMD_INDIRECT_STATUS:
+<b><a name="line652">652    </a></b>	            Dump_OCP(tprintf("  - INDIRECT_STATUS"));
+<b><a name="line653">653    </a></b>	            RpReadIndirectStatus(pACRotData, pSmbsTx);
+<b><a name="line654">654    </a></b>	            break;
+<b><a name="line655">655    </a></b>	
+<b><a name="line656">656    </a></b>	        case RECOVERY_CMD_INDIRECT_DATA:
+<b><a name="line657">657    </a></b>	            Dump_OCP(tprintf("  - INDIRECT_DATA"));
+<b><a name="line658">658    </a></b>	            RpReadIndirectData(pACRotData, pSmbsTx);
+<b><a name="line659">659    </a></b>	            break;
+<b><a name="line660">660    </a></b>	
+<b><a name="line661">661    </a></b>	        default:
+<b><a name="line662">662    </a></b>	            // Should not go here, as we've filtered before heading into command handler
+<b><a name="line663">663    </a></b>	            Dump_OCP(tprintf("  - Protocol Error"));
+<b><a name="line664">664    </a></b>	            M_OCP_RECOVERY_SET_PROTOCOL_ERROR(pACRotData, PE_UNSUPPORTED_OR_WRITE_COMMAND);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">            ^</font>
+<b><a name="line665">665    </a></b>	            break;
+<b><a name="line666">666    </a></b>	    }
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	    // Dump_OCP(tprintf("  - Total Return Length = %d (data cnt byte: 1, data len: %d, PEC byte: 1)", pSmbsTx->uwCount, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]));
+<b><a name="line669">669    </a></b>	}
+<b><a name="line670">670    </a></b>	
+<b><a name="line671">671    </a></b>	/*!
+<b><a name="line672">672    </a></b>	   @brief      Fill PROT_CAP register data into SMBus slave TX buffer
+<b><a name="line673">673    </a></b>	
+<b><a name="line674">674    </a></b>	   @param      pACRotData        pointer to ACROT data
+<b><a name="line675">675    </a></b>	   @param      pSmbsTx           pointer to SMBus slave TX buffer
+<b><a name="line676">676    </a></b>	 */
+<b><a name="line677">677    </a></b>	static void RpReadProtCap(ACROT_DATA *pACRotData, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line678">678    </a></b>	{
+<b><a name="line679">679    </a></b>	    // Fill smbs TX buffer
+<b><a name="line680">680    </a></b>	    memcpy((void *)&pSmbsTx->pdata.pu8[SMBS_TX_DATA_OFST], (void *)&pACRotData->sProtCap, pSmbsTx->pdata.pu8[SMBS_TX_BYTE_CNT_OFST]);
+<b><a name="line681">681    </a></b>	
+<b><a name="line682">682    </a></b>	    Dump_OCP(tprintf("    (1) capibilities:"));
+<b><a name="line683">683    </a></b>	    Dump_OCP(tprintf("        (%s) device id",            ((pACRotData->sProtCap.sCapabilities.sAgent.btIdentification)       ? "O" : "X")));
+<b><a name="line684">684    </a></b>	    Dump_OCP(tprintf("        (%s) forced recovery",      ((pACRotData->sProtCap.sCapabilities.sAgent.btForcedRecovery)       ? "O" : "X")));
+<b><a name="line685">685    </a></b>	    Dump_OCP(tprintf("        (%s) mgmt reset",           ((pACRotData->sProtCap.sCapabilities.sAgent.btMgmtReset)            ? "O" : "X")));
+<b><a name="line686">686    </a></b>	    Dump_OCP(tprintf("        (%s) device reset",         ((pACRotData->sProtCap.sCapabilities.sAgent.btDeviceReset)          ? "O" : "X")));
+<b><a name="line687">687    </a></b>	    Dump_OCP(tprintf("        (%s) device status",        ((pACRotData->sProtCap.sCapabilities.sAgent.btDeviceStatus)         ? "O" : "X")));
+<b><a name="line688">688    </a></b>	    Dump_OCP(tprintf("        (%s) indirect ctrl",        ((pACRotData->sProtCap.sCapabilities.sAgent.btRecoveryMemoryAccess) ? "O" : "X")));
+<b><a name="line689">689    </a></b>	    Dump_OCP(tprintf("        (%s) local c image",        ((pACRotData->sProtCap.sCapabilities.sAgent.btLocalCImageSupport)   ? "O" : "X")));
+<b><a name="line690">690    </a></b>	    Dump_OCP(tprintf("        (%s) push c image",         ((pACRotData->sProtCap.sCapabilities.sAgent.btPushCImageSupport)    ? "O" : "X")));
+<b><a name="line691">691    </a></b>	    Dump_OCP(tprintf("        (%s) interface isolation",  ((pACRotData->sProtCap.sCapabilities.sAgent.btInterfaceIsolation)   ? "O" : "X")));
+<b><a name="line692">692    </a></b>	    Dump_OCP(tprintf("        (%s) hw status",            ((pACRotData->sProtCap.sCapabilities.sAgent.btHwStatus)             ? "O" : "X")));
+<b><a name="line693">693    </a></b>	    Dump_OCP(tprintf("        (%s) vendor command",       ((pACRotData->sProtCap.sCapabilities.sAgent.btVendorsCommand)       ? "O" : "X")));
+<b><a name="line694">694    </a></b>	    Dump_OCP(tprintf("    (2) total cms = %d", pACRotData->sProtCap.sCapabilities.ubTotalCMS));
+<b><a name="line695">695    </a></b>	    Dump_OCP(tprintf("    (3) max response time = %d (us)", (1U << pACRotData->sProtCap.sCapabilities.ubMaximumResponsesTime)));
+</pre></body>
+</html>

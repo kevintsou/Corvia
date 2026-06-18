@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/app/boot/main.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line138">138    </a></b>	}
+<b><a name="line139">139    </a></b>	
+<b><a name="line140">140    </a></b>	static void btcm_init(void)
+<b><a name="line141">141    </a></b>	{
+<b><a name="line142">142    </a></b>	    memset((void*)SCAT_BOOT_BTCM_ZI_BASE, 0, SCAT_BOOT_BTCM_ZI_SIZE);
+<b><a name="line143">143    </a></b>	    memset((void*)SCAT_BOOT_BTCM_STRUCT_BASE, 0, SCAT_BOOT_BTCM_STRUCT_SIZE);
+<b><a name="line144">144    </a></b>	}
+<b><a name="line145">145    </a></b>	
+<b><a name="line146">146    </a></b>	static void log_init(void)
+<b><a name="line147">147    </a></b>	{
+<b><a name="line148">148    </a></b>	    sal_print_init(FALSE);
+<b><a name="line149">149    </a></b>	    sal_log_info_init(LOG_INFO_BASE, LOG_INFO_SIZE, TRUE);
+<b><a name="line150">150    </a></b>	    sal_log_tracker_init(LOG_TRACKER_BASE, LOG_TRACKER_SIZE, LOG_TIME_STAMP_BASE, LOG_TIME_STAMP_SIZE, FALSE);
+<b><a name="line151">151    </a></b>	    sal_log_error_init(LOG_ERROR_BASE, LOG_ERROR_SIZE, FALSE);
+<b><a name="line152">152    </a></b>	}
+<b><a name="line153">153    </a></b>	
+<b><a name="line154">154    </a></b>	int main(void)
+<b><a name="line155">155    </a></b>	{
+<b><a name="line156">156    </a></b>	    btcm_init();
+<b><a name="line157">157    </a></b>	
+<b><a name="line158">158    </a></b>	    log_init();
+<b><a name="line159">159    </a></b>	
+<b><a name="line160">160    </a></b>	    // Switch GPIO to specific function, ex: UART, SMBus, SPI, I2CM
+<b><a name="line161">161    </a></b>	    phal_sys_gpio_specific_func_init();
+<b><a name="line162">162    </a></b>	
+<b><a name="line163">163    </a></b>	    BC_GLOBAL_STRUCT_PTR bc_ptr = (BC_GLOBAL_STRUCT_PTR)&gBCodeGlobalStruct;
+<b><a name="line164">164    </a></b>	    HOST_API_STRUCT_PTR  host   = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line165">165    </a></b>	    VUC_DISPATCH_PTR     vuc    = (VUC_DISPATCH_PTR)(&gVucDispatch);
+<b><a name="line166">166    </a></b>	
+<b><a name="line167">167    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_STEP));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "-2147483648" (unsigned) is not the same as that of the right operand "0xa7 << 4"(signed).</font>
+<b><a name="line168">168    </a></b>	    boot_sys_init_flow(bc_ptr, host);
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_STEP));
+<b><a name="line171">171    </a></b>	    back_init(bc_ptr);
+<b><a name="line172">172    </a></b>	
+<b><a name="line173">173    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_STEP));
+<b><a name="line174">174    </a></b>	    boot_sec_init_flow(bc_ptr);
+<b><a name="line175">175    </a></b>	
+<b><a name="line176">176    </a></b>	    sal_log_tracker_set(sal_locate(0x03, TYPE_STEP));
+<b><a name="line177">177    </a></b>	    boot_load_code_flow(bc_ptr);
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	    sal_log_tracker_set(sal_locate(0x04, TYPE_STEP));
+<b><a name="line180">180    </a></b>	    boot_ROM_daemon_flow(bc_ptr, host, vuc);
+<b><a name="line181">181    </a></b>	
+<b><a name="line182">182    </a></b>	    return 0;
+<b><a name="line183">183    </a></b>	}
+<b><a name="line184">184    </a></b>	
+</pre></body>
+</html>

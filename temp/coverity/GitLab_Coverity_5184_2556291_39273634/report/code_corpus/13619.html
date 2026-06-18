@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line403">403    </a></b>	void dal_fip_set_fip_dqs_timeout_cnt_en(U8 ch, U8 is_enalbe);
+<b><a name="line404">404    </a></b>	
+<b><a name="line405">405    </a></b>	
+<b><a name="line406">406    </a></b>	// dqs
+<b><a name="line407">407    </a></b>	U32 dal_fip_get_re_cnt(U8 ch);
+<b><a name="line408">408    </a></b>	U32 dal_fip_get_dqs_falling_cnt(U8 ch);
+<b><a name="line409">409    </a></b>	U32 dal_fip_get_dqs_rising_cnt(U8 ch);
+<b><a name="line410">410    </a></b>	void dal_fip_trig_insert_dummy_dqs(U8 ch, U32 len);
+<b><a name="line411">411    </a></b>	void dal_fip_set_pior_dqs_timeout_th(U8 ch, U8 threshold);
+<b><a name="line412">412    </a></b>	void dal_fip_set_dqs_loss_timeout_th(U8 ch, U16 threshold);
+<b><a name="line413">413    </a></b>	void dal_fip_set_pol_sts_timeout_th(U8 ch, U32 threshold);
+<b><a name="line414">414    </a></b>	void dal_fip_set_dma_dqs_loss_comp_dat(U8 ch, U16 data);
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	// inversion
+<b><a name="line417">417    </a></b>	void dal_fip_set_inversion(U8 ch, BOOL is_enable);
+<b><a name="line418">418    </a></b>	
+<b><a name="line419">419    </a></b>	// address generation
+<b><a name="line420">420    </a></b>	void dal_fip_set_lun_adr_cfg(U8 ch, U32 val);
+<b><a name="line421">421    </a></b>	void dal_fip_set_page_slc_pfx_val_sel(U8 ch, U8 sel);
+<b><a name="line422">422    </a></b>	U32 dal_fip_get_page_slc_pfx_val_sel(U8 ch);
+<b><a name="line423">423    </a></b>	void dal_fip_set_non_slc_pfx_cfg(U8 ch, U32 val);
+<b><a name="line424">424    </a></b>	U32 dal_fip_get_non_slc_pfx_cfg(U8 ch);
+<b><a name="line425">425    </a></b>	void dal_fip_set_page_pfx_trig(U8 ch, U8 val);
+<b><a name="line426">426    </a></b>	
+<b><a name="line427">427    </a></b>	// suspend resume
+<b><a name="line428">428    </a></b>	void dal_fip_set_spd_fail(U8 ch, U8 spd_fail_msk, U8 spd_fail_sts);
+<b><a name="line429">429    </a></b>	void dal_fip_set_spd_success(U8 ch, U8 grp_sel, U8 spd_success_msk, U8 spd_success_sts);
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	// 3D conversion
+<b><a name="line432">432    </a></b>	void dal_fip_set_sg_en(BOOL is_enable);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "dal_fip_set_sg_en" is declared but never defined.</font>
+<b><a name="line433">433    </a></b>	
+<b><a name="line434">434    </a></b>	// timing (legacy)
+<b><a name="line435">435    </a></b>	void dal_fip_set_timing_lgc_cls_0(U8 ch, U8 lgc_cmd_pre_len);
+<b><a name="line436">436    </a></b>	void dal_fip_set_timing_lgc_als_0(U8 ch, U8 lgc_adr_pre_len);
+<b><a name="line437">437    </a></b>	void dal_fip_set_timing_lgc_wp_0(U8 ch, U8 lgc_cmd_wen_len, U8 lgc_adr_wen_len);
+<b><a name="line438">438    </a></b>	void dal_fip_set_timing_lgc_clh_0(U8 ch, U8 lgc_cmd_pst_len);
+<b><a name="line439">439    </a></b>	void dal_fip_set_timing_lgc_alh_0(U8 ch, U8 lgc_adr_pst_len);
+<b><a name="line440">440    </a></b>	void dal_fip_set_timing_lgc_wc_0(U8 ch, U8 lgc_w_dat_pst_len);
+<b><a name="line441">441    </a></b>	void dal_fip_set_timing_lgc_adl_0(U8 ch, U8 lgc_w_dat_pre_len);
+<b><a name="line442">442    </a></b>	void dal_fip_set_timing_lgc_whr_0(U8 ch, U8 lgc_r_dat_pre_len);
+<b><a name="line443">443    </a></b>	void dal_fip_set_lgc_time_cfg_0(U8 ch, U32 val);
+<b><a name="line444">444    </a></b>	void dal_fip_set_lgc_time_cfg_1(U8 ch, U32 val);
+<b><a name="line445">445    </a></b>	void dal_fip_set_lgc_time_cfg_2(U8 ch, U32 val);
+<b><a name="line446">446    </a></b>	void dal_fip_set_lgc_time_cfg_3(U8 ch, U32 val);
+<b><a name="line447">447    </a></b>	U32 dal_fip_get_lgc_time_cfg_0(U8 ch);
+<b><a name="line448">448    </a></b>	U32 dal_fip_get_lgc_time_cfg_1(U8 ch);
+<b><a name="line449">449    </a></b>	U32 dal_fip_get_lgc_time_cfg_2(U8 ch);
+<b><a name="line450">450    </a></b>	U32 dal_fip_get_lgc_time_cfg_3(U8 ch);
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	// timing (toggle)
+<b><a name="line453">453    </a></b>	void dal_fip_set_timing_tgl_cals_0(U8 ch, U8 tgl_cmd_pre_len, U8 tgl_adr_pre_len);
+<b><a name="line454">454    </a></b>	void dal_fip_set_timing_tgl_wp_0(U8 ch, U8 tgl_cmd_wen_len, U8 tgl_adr_wen_len);
+<b><a name="line455">455    </a></b>	void dal_fip_set_timing_tgl_calh_0(U8 ch, U8 tgl_cmd_pst_len, U8 tgl_adr_pst_len);
+<b><a name="line456">456    </a></b>	void dal_fip_set_timing_tgl_cdqsh_0(U8 ch, U8 tgl_cdqsh_len);
+<b><a name="line457">457    </a></b>	void dal_fip_set_timing_tgl_wpre2_0(U8 ch, U8 tgl_w_dat_pre_len);
+<b><a name="line458">458    </a></b>	void dal_fip_set_timing_tgl_wpst_0(U8 ch, U8 tgl_w_dat_pst_len, U8 tgl_warmup_w_pst_len);
+<b><a name="line459">459    </a></b>	void dal_fip_set_timing_tgl_wpsth_0(U8 ch, U16 tgl_cmd_wpsth_phs_len, U8 tgl_warmup_w_psth_len, U8 tgl_warmup_w_susp_len, U8 tgl_w_dat_psth_phs_len, U8 tgl_w_dat_clh_phs_len);
+<b><a name="line460">460    </a></b>	void dal_fip_set_timing_tgl_rpre2_0(U8 ch, U8 tgl_r_dat_pre_phs_len);
+<b><a name="line461">461    </a></b>	void dal_fip_set_timing_tgl_rpst_0(U8 ch, U8 tgl_r_dat_pst_phs_len, U8 tgl_r_dat_fphi_pst_phs_len, U8 tgl_warmup_r_pst_len);
+<b><a name="line462">462    </a></b>	void dal_fip_set_timing_tgl_w_dat_psth_phs_cnt(U8 ch, U8 val);
+<b><a name="line463">463    </a></b>	void dal_fip_set_timing_tgl_r_dat_psth_phs_cnt(U8 ch, U8 val);
+</pre></body>
+</html>

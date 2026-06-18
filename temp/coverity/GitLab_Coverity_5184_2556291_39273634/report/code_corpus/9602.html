@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line348">348    </a></b>	    U64 n, j;
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    if (i == 0)
+<b><a name="line351">351    </a></b>	    {
+<b><a name="line352">352    </a></b>	        U64 tmp = ((a[0] << 1) & mask) - (a[0] & mask);
+<b><a name="line353">353    </a></b>	        return (int)tmp;
+<b><a name="line354">354    </a></b>	    }
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    j = ((U64)i * window_size - 1U);
+<b><a name="line357">357    </a></b>	    n = j / 64U;
+<b><a name="line358">358    </a></b>	    j = j % 64U;
+<b><a name="line359">359    </a></b>	
+<b><a name="line360">360    </a></b>	    wbits = a[n] >> (unsigned int)j;
+<b><a name="line361">361    </a></b>	    U64 tmp = (64U - j);
+<b><a name="line362">362    </a></b>	    if (tmp < (window_size + 1U) && n < 3U)
+<b><a name="line363">363    </a></b>	    {
+<b><a name="line364">364    </a></b>	        wbits |= a[n + 1U] << (unsigned int)tmp;
+<b><a name="line365">365    </a></b>	    }
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	    tmp = (wbits & mask) - ((wbits >> 1U) & mask);
+<b><a name="line368">368    </a></b>	    return (int)tmp;
+<b><a name="line369">369    </a></b>	}
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	void hal_sec_sm9_z256_modp_add(HAL_SEC_SM9_Z256_T r, HAL_SEC_SM9_Z256_T a, HAL_SEC_SM9_Z256_T b)
+<b><a name="line372">372    </a></b>	{
+<b><a name="line373">373    </a></b>	    U64 c;
+<b><a name="line374">374    </a></b>	    c = hal_sec_sm9_z256_add(r, a, b);
+<b><a name="line375">375    </a></b>	
+<b><a name="line376">376    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_modp_mont_one;
+<b><a name="line377">377    </a></b>	    (void)memcpy(sm9_z256_modp_mont_one, SM9_Z256_MODP_MONT_ONE, sizeof(SM9_Z256_MODP_MONT_ONE));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "SM9_Z256_MODP_MONT_ONE" of type "HAL_SEC_SM9_Z256_T const *" is cast to type "U64 const *".</font>
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	    if (c != 0U)
+<b><a name="line380">380    </a></b>	    {
+<b><a name="line381">381    </a></b>	        // a + b - p = (a + b - 2^256) + (2^256 - p)
+<b><a name="line382">382    </a></b>	        (void)hal_sec_sm9_z256_add(r, r, sm9_z256_modp_mont_one);
+<b><a name="line383">383    </a></b>	        return;
+<b><a name="line384">384    </a></b>	    }
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_p;
+<b><a name="line387">387    </a></b>	    (void)memcpy(sm9_z256_p, SM9_Z256_P, sizeof(SM9_Z256_P));
+<b><a name="line388">388    </a></b>	
+<b><a name="line389">389    </a></b>	    if (hal_sec_sm9_z256_cmp(r, sm9_z256_p) >= 0)
+<b><a name="line390">390    </a></b>	    {
+<b><a name="line391">391    </a></b>	        (void)hal_sec_sm9_z256_sub(r, r, sm9_z256_p);
+<b><a name="line392">392    </a></b>	    }
+<b><a name="line393">393    </a></b>	}
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	void hal_sec_sm9_z256_modp_sub(HAL_SEC_SM9_Z256_T r, HAL_SEC_SM9_Z256_T a, HAL_SEC_SM9_Z256_T b)
+<b><a name="line396">396    </a></b>	{
+<b><a name="line397">397    </a></b>	    U64 c;
+<b><a name="line398">398    </a></b>	    c = hal_sec_sm9_z256_sub(r, a, b);
+<b><a name="line399">399    </a></b>	
+<b><a name="line400">400    </a></b>	    HAL_SEC_SM9_Z256_T sm9_z256_modp_mont_one;
+<b><a name="line401">401    </a></b>	    (void)memcpy(sm9_z256_modp_mont_one, SM9_Z256_MODP_MONT_ONE, sizeof(SM9_Z256_MODP_MONT_ONE));
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    if (c != 0U)
+<b><a name="line404">404    </a></b>	    {
+<b><a name="line405">405    </a></b>	        // a - b + p = (a - b + 2^256) - (2^256 - p)
+<b><a name="line406">406    </a></b>	        (void)hal_sec_sm9_z256_sub(r, r, sm9_z256_modp_mont_one);
+<b><a name="line407">407    </a></b>	    }
+<b><a name="line408">408    </a></b>	}
+</pre></body>
+</html>

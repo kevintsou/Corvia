@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SUBSYSTEM_MANAGEMENT_DATA_H_
+<b><a name="line2">2    </a></b>	#define _SUBSYSTEM_MANAGEMENT_DATA_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_SUBSYSTEM_MANAGEMENT_DATA_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "smbus/ocp/ocp_datacenter.h"
+<b><a name="line5">5    </a></b>	#include "smbus/ocp/ocp_hyperscale.h"
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	// Vendor Specific
+<b><a name="line10">10    </a></b>	#define VS_CONFIG_OCP_DATACENTER                                (0x01U)
+<b><a name="line11">11    </a></b>	#define VS_CONFIG_OCP_HYPERSCALE                                (0x00U)
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	// Length
+<b><a name="line14">14    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_LENGTH_TOTAL                  (256U)
+<b><a name="line15">15    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_LENGTH_STATUS                 (0x06U)
+<b><a name="line16">16    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_LENGTH_IDENTIFICATION         (0x16U)
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	// Offset 248: Data Format Version Number / Log Page Version Number
+<b><a name="line19">19    </a></b>	#define OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_CLOUD_SSD             (0x03U)
+<b><a name="line20">20    </a></b>	#define OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_DATACENTER            (0x04U)
+<b><a name="line21">21    </a></b>	#define OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_HYPERSCALE            (0x05U)
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_STATUS_NO_TEMPERATURE_DATA    (0x80U)
+<b><a name="line24">24    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_STATUS_MAX_PDLU               (0xFFU)
+<b><a name="line25">25    </a></b>	#define SUBSYSTEM_MANAGEMENT_DATA_MAX_OFFSET                    (0xFFU)
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	#pragma pack(push, 1)
+<b><a name="line28">28    </a></b>	/* [REQ ID] SMBUS-1 */
+<b><a name="line29">29    </a></b>	typedef struct {
+<b><a name="line30">30    </a></b>	    // Byte 0-7: Status
+<b><a name="line31">31    </a></b>	    struct {
+<b><a name="line32">32    </a></b>	        U8 ubLength; // Should always be 0x06
+<b><a name="line33">33    </a></b>	
+</pre></body>
+</html>

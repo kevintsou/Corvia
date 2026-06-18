@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line479">479    </a></b>	            hal_set_fphy_ltt_drvp_in(ch, fpl_ptr->p_efuse_nand_setting->drvp_ltt);
+<b><a name="line480">480    </a></b>	        }
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	        w_TGL_R_DAT_PRE_PHS_CNT(ch, r_TGL_R_DAT_PRE_PHS_CNT(ch) + trpre[fpl_ptr->p_efuse_nand_setting->redriver_trpre_delay]);
+<b><a name="line483">483    </a></b>	        w_TGL_R_DAT_FPHI_PST_PHS_CNT(ch, 9);
+<b><a name="line484">484    </a></b>	
+<b><a name="line485">485    </a></b>	        if (io_type != HAL_FPL_IO_TYPE_SDR) {
+<b><a name="line486">486    </a></b>	            if (rx_mode == HAL_FPL_RX_MODE_CTT) {
+<b><a name="line487">487    </a></b>	                if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_50MT || fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_100MT) {
+<b><a name="line488">488    </a></b>	                    w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x0U);
+<b><a name="line489">489    </a></b>	                } else {
+<b><a name="line490">490    </a></b>	                    w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x1U);
+<b><a name="line491">491    </a></b>	                }
+<b><a name="line492">492    </a></b>	            } else {
+<b><a name="line493">493    </a></b>	                w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x1U);
+<b><a name="line494">494    </a></b>	            }
+<b><a name="line495">495    </a></b>	        } else {
+<b><a name="line496">496    </a></b>	            w_FLH_FPHI_REG_TX_DIS_DET_DQSB(ch, 0x0U);
+<b><a name="line497">497    </a></b>	        }
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	
+<b><a name="line500">500    </a></b>	        if (fpl_ptr->p_efuse_nand_setting->toggle_timing_mode == 0x1U) {   //for micron/ymtc timing mode setting
+<b><a name="line501">501    </a></b>	            w_TGL_R_DAT_DQSRH_PHS_CNT(ch, 0x1U);
+<b><a name="line502">502    </a></b>	        } else if (fpl_ptr->p_efuse_nand_setting->toggle_timing_mode == 0x2U) {    //for kic timing mode setting
+<b><a name="line503">503    </a></b>	            w_TGL_R_DAT_DQSRH_PHS_CNT(ch, 0x0U);
+<b><a name="line504">504    </a></b>	        }   //0x00 and 0x11 default setting
+<b><a name="line505">505    </a></b>	    }
+<b><a name="line506">506    </a></b>	
+<b><a name="line507">507    </a></b>	    w_PU_SEED_MODE(0);  //0 : phison mode, 1 : 3D mode(toshiba mode), x3 only support phison mode
+<b><a name="line508">508    </a></b>	    w_FRM_CNT(((1 << fpl_ptr->p_efuse_nand_setting->frame_cnt) - 1));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast of composite expression of essential type signed to essential type unsigned.</font>
+<b><a name="line509">509    </a></b>	}
+<b><a name="line510">510    </a></b>	
+<b><a name="line511">511    </a></b>	
+<b><a name="line512">512    </a></b>	void fpl_sync_efuse_param(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line513">513    </a></b>	{
+<b><a name="line514">514    </a></b>	    fpl_ptr->page_bit                   =   EFUSE_PARSE_PAGE_BIT(fpl_ptr->p_efuse_nand_setting->page_bit);
+<b><a name="line515">515    </a></b>	    fpl_ptr->plane_bit                  =   EFUSE_PARSE_PLANE_BIT(fpl_ptr->p_efuse_nand_setting->plane_bit);
+<b><a name="line516">516    </a></b>	    fpl_ptr->block_bit                  =   EFUSE_PARSE_BLOCK_BIT(fpl_ptr->p_efuse_nand_setting->block_bit);
+<b><a name="line517">517    </a></b>	    fpl_ptr->die_bit                    =   EFUSE_PARSE_DIE_BIT(fpl_ptr->p_efuse_nand_setting->die_bit);
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	    fpl_ptr->por_rty_tbl_num            =   EFUSE_PARSE_POR_RTY_TBL_NUM(fpl_ptr->p_efuse_nand_setting->por_retry_table_num);
+<b><a name="line520">520    </a></b>	    fpl_ptr->flash_if                   =   EFUSE_PARSE_FLH_IF(fpl_ptr->p_efuse_nand_setting->flh_if_typ);
+<b><a name="line521">521    </a></b>	    fpl_ptr->plane_count                =   EFUSE_PARSE_PLANE_COUNT(fpl_ptr->p_efuse_nand_setting->plane_count);
+<b><a name="line522">522    </a></b>	
+<b><a name="line523">523    </a></b>	    fpl_ptr->set_if_adr_count           =   EFUSE_PARSE_SET_IF_ADR_CNT(fpl_ptr->p_efuse_nand_setting->set_feature_address_count);
+<b><a name="line524">524    </a></b>	    fpl_ptr->set_if_dat_count           =   EFUSE_PARSE_SET_IF_DAT_CNT(fpl_ptr->p_efuse_nand_setting->set_feature_data_count);
+<b><a name="line525">525    </a></b>	
+<b><a name="line526">526    </a></b>	    fpl_ptr->row_adr_byte_cnt           =   EFUSE_PARSE_ROW_ADDRESS_BYTE_COUNT(fpl_ptr->p_efuse_nand_setting->row_address_byte_count);
+<b><a name="line527">527    </a></b>	
+<b><a name="line528">528    </a></b>	    fpl_ptr->dq_revert_bitmap           =   EFUSE_PARSE_DQ_REVERT_BITMAP(fpl_ptr->p_efuse_nand_setting->dq_revert_bitmap_l, fpl_ptr->p_efuse_nand_setting->dq_revert_bitmap_h) ;
+<b><a name="line529">529    </a></b>	
+<b><a name="line530">530    </a></b>	    fpl_ptr->scr_seed_vb_config         =   EFUSE_PARSE_SCR_SEED_VB_CONF(fpl_ptr->p_efuse_nand_setting->scr_seed_vb_config);
+<b><a name="line531">531    </a></b>	#if NAND_RETRY_DEBUG
+<b><a name="line532">532    </a></b>	    fpl_ptr->trigger_error              =   TRUE;
+<b><a name="line533">533    </a></b>	#endif
+<b><a name="line534">534    </a></b>	}
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	void fpl_sync_poll_param(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR  fip_inst_ptr)
+<b><a name="line537">537    </a></b>	{
+<b><a name="line538">538    </a></b>	    if (fip_inst_ptr->inst[INST_ID_POLL_STASTUS].op_num != 0U) {
+<b><a name="line539">539    </a></b>	        fpl_ptr->status_mask = fip_inst_ptr->inst[INST_ID_POLL_STASTUS].data[0U];
+</pre></body>
+</html>

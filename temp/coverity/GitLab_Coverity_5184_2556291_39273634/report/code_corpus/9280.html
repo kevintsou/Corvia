@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line325">325    </a></b>	    memset((void *)xmod_buf, XMOD_CTZ, (xmodem->packet_size));
+<b><a name="line326">326    </a></b>	    for (buf_idx = 0; buf_idx < (xmodem->packet_size >> 1); buf_idx++) {
+<b><a name="line327">327    </a></b>	        for (idx = 0; idx < 2; idx++) {
+<b><a name="line328">328    </a></b>	            shift_bit = (idx) ? 0 : 4;
+<b><a name="line329">329    </a></b>	            data = (((U8 *)host_buf)[buf_idx] >> shift_bit) & 0x0F;
+<b><a name="line330">330    </a></b>	            data = (data < 10) ? (data + ('0')) : (data + (('A') - 10));
+<b><a name="line331">331    </a></b>	            xmod_buf[(buf_idx << 1) + idx] = data;
+<b><a name="line332">332    </a></b>	        }
+<b><a name="line333">333    </a></b>	    }
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    if (XMOD_CRC16 == xmodem->protect_mode) {
+<b><a name="line336">336    </a></b>	        crc = calculate_crc16((U32)xmod_buf, xmodem->packet_size, 0);
+<b><a name="line337">337    </a></b>	        Dump_XModem(tprintf("CRC: 0x%X", crc));
+<b><a name="line338">338    </a></b>	        xmodem->token[CRC_1_TOK] = ((crc >> 8) & 0xFF);
+<b><a name="line339">339    </a></b>	        xmodem->token[CRC_2_TOK] = ((crc >> 0) & 0xFF);
+<b><a name="line340">340    </a></b>	    }
+<b><a name="line341">341    </a></b>	    else {
+<b><a name="line342">342    </a></b>	        chk_sum = calculate_chksum((U32)xmod_buf, xmodem->packet_size);
+<b><a name="line343">343    </a></b>	        Dump_XModem(tprintf("Check Sum: 0x%X", chk_sum));
+<b><a name="line344">344    </a></b>	        xmodem->token[CRC_1_TOK] = chk_sum;
+<b><a name="line345">345    </a></b>	        xmodem->token[CRC_2_TOK] = XMOD_CHKSUM;
+<b><a name="line346">346    </a></b>	    }
+<b><a name="line347">347    </a></b>	}
+<b><a name="line348">348    </a></b>	
+<b><a name="line349">349    </a></b>	static void xmodem_send_packet_data(XMOD_STRUCT_PTR xmodem)
+<b><a name="line350">350    </a></b>	{
+<b><a name="line351">351    </a></b>	    U8 *xmod_buf;
+<b><a name="line352">352    </a></b>	    U16 buf_idx;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    xmod_buf = (U8 *)DBUF_API_BOOTCODE_XMODEM_BUFFER_BASE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "139091968UL" (unsigned) is not the same as that of the right operand "1024"(signed).</font>
+<b><a name="line355">355    </a></b>	    Dump_XModem(tprintf("xmod_buf: 0x%x", xmod_buf));
+<b><a name="line356">356    </a></b>	    Dump_XModem(tprintf("packet_size: %d", xmodem->packet_size));
+<b><a name="line357">357    </a></b>	
+<b><a name="line358">358    </a></b>	    for (buf_idx = 0; buf_idx < xmodem->packet_size; buf_idx++) { //print too much, it may cuase uart vuc fail, so only print 8 bytes
+<b><a name="line359">359    </a></b>	#if 0
+<b><a name="line360">360    </a></b>	        if ((buf_idx % 16) == 0) {
+<b><a name="line361">361    </a></b>	            Dump_XModem(tprintf("\n\r"));
+<b><a name="line362">362    </a></b>	        }
+<b><a name="line363">363    </a></b>	        Dump_XModem(tprintf(" %x", xmod_buf[buf_idx]));
+<b><a name="line364">364    </a></b>	#endif
+<b><a name="line365">365    </a></b>	        xmodem_send_byte(xmod_buf[buf_idx]);
+<b><a name="line366">366    </a></b>	    }
+<b><a name="line367">367    </a></b>	}
+<b><a name="line368">368    </a></b>	
+<b><a name="line369">369    </a></b>	static void xmodem_send_to_state(XMOD_STRUCT_PTR xmodem, U8 next_state)
+<b><a name="line370">370    </a></b>	{
+<b><a name="line371">371    </a></b>	    Dump_XModem(tprintf("S%d->%d", xmodem->send_state, next_state));
+<b><a name="line372">372    </a></b>	    xmodem->send_state = next_state;
+<b><a name="line373">373    </a></b>	}
+<b><a name="line374">374    </a></b>	
+<b><a name="line375">375    </a></b>	void xmodem_send_handler(XMOD_STRUCT_PTR xmodem, U8 xmod_data)
+<b><a name="line376">376    </a></b>	{
+<b><a name="line377">377    </a></b>	    Dump_XModem(tprintf("X%d s%x", xmodem->send_state, xmod_data));
+<b><a name="line378">378    </a></b>	    if (XMOD_CAN == xmod_data) {
+<b><a name="line379">379    </a></b>	        xmodem->abort_type = XMOD_RCV_CANCEL;
+<b><a name="line380">380    </a></b>	        xmodem_send_to_state(xmodem, XMOD_SEND_INVALID_STATE);
+<b><a name="line381">381    </a></b>	        return;
+<b><a name="line382">382    </a></b>	    }
+<b><a name="line383">383    </a></b>	
+<b><a name="line384">384    </a></b>	    if (XMOD_SEND_WAIT == xmodem->send_state) {
+<b><a name="line385">385    </a></b>	        /*
+</pre></body>
+</html>

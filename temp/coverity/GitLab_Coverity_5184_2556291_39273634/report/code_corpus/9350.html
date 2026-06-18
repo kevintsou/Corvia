@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line287">287    </a></b>	    {
+<b><a name="line288">288    </a></b>	        switch (entry_size)
+<b><a name="line289">289    </a></b>	        {
+<b><a name="line290">290    </a></b>	            case COP2_DMAC_ENTRY_SIZE_1B:
+<b><a name="line291">291    </a></b>	            case COP2_DMAC_ENTRY_SIZE_2B:
+<b><a name="line292">292    </a></b>	            case COP2_DMAC_ENTRY_SIZE_4B:
+<b><a name="line293">293    </a></b>	                mr_len = 3U;
+<b><a name="line294">294    </a></b>	                value_len = 4U;
+<b><a name="line295">295    </a></b>	                break;
+<b><a name="line296">296    </a></b>	            case COP2_DMAC_ENTRY_SIZE_8B:
+<b><a name="line297">297    </a></b>	                mr_len = 3U;
+<b><a name="line298">298    </a></b>	                value_len = 8U;
+<b><a name="line299">299    </a></b>	                break;
+<b><a name="line300">300    </a></b>	            case COP2_DMAC_ENTRY_SIZE_16B:
+<b><a name="line301">301    </a></b>	                mr_len = 4U;
+<b><a name="line302">302    </a></b>	                value_len = 16U;
+<b><a name="line303">303    </a></b>	                break;
+<b><a name="line304">304    </a></b>	            case COP2_DMAC_ENTRY_SIZE_32B:
+<b><a name="line305">305    </a></b>	            default:
+<b><a name="line306">306    </a></b>	                mr_len = 6U;
+<b><a name="line307">307    </a></b>	                value_len = 32U;
+<b><a name="line308">308    </a></b>	                break;
+<b><a name="line309">309    </a></b>	        }
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	        // DW4~11
+<b><a name="line312">312    </a></b>	        (void)memcpy((void *)&dmac_sv_cmd->value[0U], (void *)value, value_len);
+<b><a name="line313">313    </a></b>	    }
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	    // MR
+<b><a name="line316">316    </a></b>	    dmac_sv_cmd->mr_hdr.len = mr_len - 1U;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "mr_len - 1U" of width 8 to a target of width 32.</font>
+<b><a name="line317">317    </a></b>	}
+<b><a name="line318">318    </a></b>	
+<b><a name="line319">319    </a></b>	static U8 phal_cop2_dmac_push_sv_sq(U16 tag, U16 mr_tid, U64 tar_addr, U32 *value, U32 data_size, U8 entry_size, U32 rdn_seed, U8 rdn_en, U8 cq_en, U8 dependence)
+<b><a name="line320">320    </a></b>	{
+<b><a name="line321">321    </a></b>	    U8 db_id = HOST_MR_QID_CPU0_SQ_DMAC_NORMAL;
+<b><a name="line322">322    </a></b>	    U8 is_sq_full = hal_db_is_mst_full(db_id, (U8)sizeof(COP2_DMAC_MOV_SQ_CMD));
+<b><a name="line323">323    </a></b>	    if ((U8)TRUE == is_sq_full)
+<b><a name="line324">324    </a></b>	    {
+<b><a name="line325">325    </a></b>	        return (U8)FAIL;
+<b><a name="line326">326    </a></b>	    }
+<b><a name="line327">327    </a></b>	    else
+<b><a name="line328">328    </a></b>	    {
+<b><a name="line329">329    </a></b>	        COP2_DMAC_CMD_STRUCT dmac_cmd;
+<b><a name="line330">330    </a></b>	        (void)memset((void *)(&dmac_cmd), 0, sizeof(COP2_DMAC_CMD_STRUCT));
+<b><a name="line331">331    </a></b>	
+<b><a name="line332">332    </a></b>	        phal_cop2_set_mr_hdr(&dmac_cmd.mr_hdr, mr_tid, HAL_MR_HDR_LEN_OF(COP2_DMAC_SV_SQ_CMD));
+<b><a name="line333">333    </a></b>	        phal_cop2_dmac_fill_sv_cmd(&dmac_cmd, entry_size, rdn_en, cq_en, dependence, data_size, tar_addr, rdn_seed, value);
+<b><a name="line334">334    </a></b>	        phal_cop2_dmac_push_cmd(&dmac_cmd, tag, db_id);
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	
+<b><a name="line337">337    </a></b>	    return (U8)PASS;
+<b><a name="line338">338    </a></b>	}
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	U8 phal_dmac_sv(U64 tar_addr, U32 value, U32 data_size, U32 rdn_seed, U8 rdn_en)
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	    COP2_DMAC_CQ cq;
+<b><a name="line344">344    </a></b>	    U32 set_value = value;
+<b><a name="line345">345    </a></b>	
+<b><a name="line346">346    </a></b>	    if ((U8)FAIL == phal_cop2_dmac_push_sv_sq(0, HAL_COP2_MR_TID_DMAC_L, tar_addr, &set_value, data_size, ENTRY_SIZE_4B, rdn_seed, rdn_en, TRUE, FALSE))
+<b><a name="line347">347    </a></b>	    {
+</pre></body>
+</html>

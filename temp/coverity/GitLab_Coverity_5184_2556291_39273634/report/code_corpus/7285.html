@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/nvme/mi/nvme_mi_basic_management_command.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line46">46    </a></b>	    // 0100b  - SMBus Specification 2.0
+<b><a name="line47">47    </a></b>	    // 0101b  - SMBus Specification 3.0
+<b><a name="line48">48    </a></b>	    p_udid->interface.smbus_version = SMBUS_UDID_SMBUS_VERSION_3_0;
+<b><a name="line49">49    </a></b>	    p_udid->interface.oem       = 1U; //This bit shall be set to ���1'
+<b><a name="line50">50    </a></b>	    p_udid->interface.asf       = 1U; //This bit shall be set to ���1���.
+<b><a name="line51">51    </a></b>	    p_udid->interface.ipmi      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line52">52    </a></b>	    p_udid->interface.zone      = 0U; //This bit shall be cleared to ���0���.
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	    //This field contains a vendor assigned device ID for the Management Endpoint
+<b><a name="line55">55    </a></b>	    p_udid->device_id = phal_pcie_get_device_id(PCIE_PORT_0);
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    //This field contains the PCI-SIG vendor ID for the Management Endpoint
+<b><a name="line58">58    </a></b>	    p_udid->vendor_id = phal_pcie_get_vendor_id(PCIE_PORT_0); //HW default is 0x1987
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    //TODO: need to confirm
+<b><a name="line61">61    </a></b>	    p_udid->version.silicon_revision_id = phal_get_hw_ver(); // ASIC Silicon revision
+<b><a name="line62">62    </a></b>	    p_udid->version.udid_version = 1U;          // UDID version 1
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    p_udid->device_capabilities.pec_supported = 1U;
+<b><a name="line65">65    </a></b>	    p_udid->device_capabilities.address_type = SMBUS_UDID_ADDRESS_TYPE_DYNAMIC_VOLATILE; // dynamic and volatile address device
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	static void nvme_basic_management_command_subsystem_management_data_update(SUBSYSTEM_MANAGEMENT_DATA_T *p_subsystem_management_data)
+<b><a name="line69">69    </a></b>	{
+<b><a name="line70">70    </a></b>	    U16 uwVID = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    p_subsystem_management_data->sCommon.sIdentification.aubVendorID[0U] = (uwVID >> 8U) & 0xFFU;
+<b><a name="line73">73    </a></b>	    p_subsystem_management_data->sCommon.sIdentification.aubVendorID[1U] = (uwVID) & 0xFFU;
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    for (U8 ubIdx = 0; ubIdx < SN_BYTES; ubIdx++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "ubIdx" (unsigned) is not the same as that of the right operand "20"(signed).</font>
+<b><a name="line76">76    </a></b>	    {
+<b><a name="line77">77    </a></b>	        p_subsystem_management_data->sCommon.sIdentification.aubSerialNumber[ubIdx] = serial_number[ubIdx];
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	    OCP_DATACENTER_T *pDatacenter = &p_subsystem_management_data->uVendorSpecific.sDatacenter;
+<b><a name="line81">81    </a></b>	    memcpy((void *)pDatacenter->sByteOffset_96_153.aubFwVersionNumber, (void *)fw_version, FW_VER_BYTES);
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	    pDatacenter->sByteOffset_96_153.aubSecurityVersionNumber[0U] = (gBCodeGlobalStruct.p_efuse_security_setting->security_version_host >> 8U) & 0xFFU;
+<b><a name="line84">84    </a></b>	    pDatacenter->sByteOffset_96_153.aubSecurityVersionNumber[1U] = (gBCodeGlobalStruct.p_efuse_security_setting->security_version_host) & 0xFFU;
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    memcpy((void *)pDatacenter->sByteOffset_96_153.aubModelNumber, (void *)model_number, HOST_MN_BYTES);
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	#if 0
+<b><a name="line89">89    </a></b>	    HOST_API_STRUCT_PTR host = (HOST_API_STRUCT_PTR)&gHostApiStruct;
+<b><a name="line90">90    </a></b>	    //	PCIE_STRUCT_PTR     pcie = &host->pcie;
+<b><a name="line91">91    </a></b>	    IDEN_CTRL_DATA ctrl_data = {0U}; //coverity
+<b><a name="line92">92    </a></b>	
+<b><a name="line93">93    </a></b>	    Dump_SMBUS(tprintf(" [MI-BMC] Subsystem Management Data Update\r\n"));
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	    //========================== Status (0x00-0x07) ==========================//
+<b><a name="line96">96    </a></b>	    nvme_basic_management_command_subsystem_management_get_pcie_link_active(p_subsystem_management_data);
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    //========================== Identification (0x08-0x1F) ==========================//
+<b><a name="line99">99    </a></b>	    p_subsystem_management_data->datacenter.identification.a_vid[0U] = (((U16)phal_pcie_get_vendor_id(PCIE_PORT_0) >> 8U) & 0xFFU);
+<b><a name="line100">100    </a></b>	    p_subsystem_management_data->datacenter.identification.a_vid[1U] = (((U16)phal_pcie_get_vendor_id(PCIE_PORT_0) >> 0U) & 0xFFU);
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	    //========================== Vendor Specific (032-049) ==========================//
+<b><a name="line103">103    </a></b>	
+<b><a name="line104">104    </a></b>	    //========================== Vendor Specific (050-089) ==========================//
+<b><a name="line105">105    </a></b>	    if (EFUSE_OCP_SMBUS_BASIC_MGR_CMD_SPEC_DATACENTER == gEFuseAPI.efuse_security_setting.ocp_smbus_basic_mgr_cmd_spec_sel) { // Datacenter
+<b><a name="line106">106    </a></b>	        // Power State Descriptors
+</pre></body>
+</html>

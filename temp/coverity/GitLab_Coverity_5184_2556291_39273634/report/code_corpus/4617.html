@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line70">70    </a></b>	    rd_cnt = rd_cnt / db_size;
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	    HAL_APU_HCMD_PTR hcmd_ptr = (HAL_APU_HCMD_PTR)hal_db_api_get_rptr(db_id);
+<b><a name="line73">73    </a></b>	    ctag = dal_apu_get_hcmd_ctag(hcmd_ptr);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    if ((rd_cnt > 0) && (dal_cmgr_get_ct_vld(ctag) == 0U)) {
+<b><a name="line76">76    </a></b>	        Dump_Reset(tprintf("Pop sync cmd ctag=%x", ctag));
+<b><a name="line77">77    </a></b>	        hal_db_api_set_rpiu(db_id, db_size); // pop this sync cmd
+<b><a name="line78">78    </a></b>	    }
+<b><a name="line79">79    </a></b>	}
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	static void clr_queue_en(HOST_API_STRUCT_PTR host)
+<b><a name="line82">82    </a></b>	{
+<b><a name="line83">83    </a></b>	    U16 i;
+<b><a name="line84">84    </a></b>	    U8  rst_admin_q_reg = TRUE;
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    if (host->host_event.rst_flag & (RST_NVME_CC_DIS | RST_NVME_CC_SHN)) {
+<b><a name="line87">87    </a></b>	        rst_admin_q_reg = FALSE;
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    for (i = 0U; i < NVME_MAX_Q_CNT; i++) {
+<b><a name="line91">91    </a></b>	        host->host_info.ioq.iosq[i].en        = FALSE;
+<b><a name="line92">92    </a></b>	        host->host_info.ioq.iosq[i].cqid      = 0U;
+<b><a name="line93">93    </a></b>	        host->host_info.ioq.iosq[i].qsize     = 0U;
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	        hal_nvme_nl_clr_sq_en(i, rst_admin_q_reg);
+<b><a name="line96">96    </a></b>	    }
+<b><a name="line97">97    </a></b>	
+<b><a name="line98">98    </a></b>	    for (i = 0U; i < NVME_MAX_Q_CNT; i++) {
+<b><a name="line99">99    </a></b>	        host->host_info.ioq.iocq[i].en        = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line100">100    </a></b>	        host->host_info.ioq.iocq[i].qsize     = 0U;
+<b><a name="line101">101    </a></b>	        host->host_info.ioq.iocq[i].intr_en   = FALSE;
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	        hal_nvme_nl_clr_cq_en(i, rst_admin_q_reg);
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	}
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	static void drop_outstanding_cmd(HOST_API_STRUCT_PTR host)
+<b><a name="line108">108    </a></b>	{
+<b><a name="line109">109    </a></b>	    // delete cmd fetched but not parsed in NL
+<b><a name="line110">110    </a></b>	    hal_nvme_nl_del_cmd_buf();
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    // clear IQSQ and IOCQ enable
+<b><a name="line113">113    </a></b>	    clr_queue_en(host);
+<b><a name="line114">114    </a></b>	
+<b><a name="line115">115    </a></b>	    // delete cmd under parsing in CMGR
+<b><a name="line116">116    </a></b>	    delete_cmgr_cmd(host);
+<b><a name="line117">117    </a></b>	
+<b><a name="line118">118    </a></b>	    // delete cmd in DB
+<b><a name="line119">119    </a></b>	    delete_db_cmd(host);
+<b><a name="line120">120    </a></b>	}
+<b><a name="line121">121    </a></b>	
+<b><a name="line122">122    </a></b>	static void check_nvme_idle(HOST_API_STRUCT_PTR host)
+<b><a name="line123">123    </a></b>	{
+<b><a name="line124">124    </a></b>	
+<b><a name="line125">125    </a></b>	    // check DMA & CFMGR idle
+<b><a name="line126">126    </a></b>	    // Poll NVME command parsing stopped
+<b><a name="line127">127    </a></b>	    U32 mabiao_addr;
+<b><a name="line128">128    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_DMA_CFMGR_STATE, 500);
+<b><a name="line129">129    </a></b>	
+<b><a name="line130">130    </a></b>	    while (hal_host_reset_wait_dma_cfmgr_idle(PCIE_PORT_0) != PASS) {
+</pre></body>
+</html>

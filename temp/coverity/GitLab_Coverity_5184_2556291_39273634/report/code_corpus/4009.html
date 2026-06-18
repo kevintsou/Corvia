@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line254">254    </a></b>	        }
+<b><a name="line255">255    </a></b>	        else if(test_case == 6U)
+<b><a name="line256">256    </a></b>	        {
+<b><a name="line257">257    </a></b>	            phal_spi_read_buffer(dbuf_spi_base + 0x52000, spi_dbg_base_addr, 0x8UL);
+<b><a name="line258">258    </a></b>	
+<b><a name="line259">259    </a></b>	            phal_spi_read_buffer(dbuf_spi_base + 0x52000 + 0x1000, spi_dbg_base_addr + 0x1000, 0x8UL);
+<b><a name="line260">260    </a></b>	        }
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	        // //BDBG,B=66(0x42),D=68(0x44),G=71(0x47)
+<b><a name="line263">263    </a></b>	    }
+<b><a name="line264">264    </a></b>	    else
+<b><a name="line265">265    </a></b>	    {
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	    }
+<b><a name="line268">268    </a></b>	#endif
+<b><a name="line269">269    </a></b>	}
+<b><a name="line270">270    </a></b>	
+<b><a name="line271">271    </a></b>	static void hal_spi_dma_write_one_page(U32 target_addr, U64 source_addr)
+<b><a name="line272">272    </a></b>	{
+<b><a name="line273">273    </a></b>	
+<b><a name="line274">274    </a></b>	    if (source_addr > 0xFFFFFFFFFFUL) {
+<b><a name="line275">275    </a></b>	        Dump_SPI(tprintf("Source address is over range!!!"));
+<b><a name="line276">276    </a></b>	    }
+<b><a name="line277">277    </a></b>	
+<b><a name="line278">278    </a></b>	    if (target_addr > SPI_ROM_SIZE_512K) {
+<b><a name="line279">279    </a></b>	        Dump_SPI(tprintf("Target address is over range!!!"));
+<b><a name="line280">280    </a></b>	    }
+<b><a name="line281">281    </a></b>	
+<b><a name="line282">282    </a></b>	    // Check WIP of status
+<b><a name="line283">283    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WIP, 0U)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1UL << 0" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line284">284    </a></b>	        return;
+<b><a name="line285">285    </a></b>	    }
+<b><a name="line286">286    </a></b>	
+<b><a name="line287">287    </a></b>	    spi_write_enable();
+<b><a name="line288">288    </a></b>	
+<b><a name="line289">289    </a></b>	    // Check WEL of status
+<b><a name="line290">290    </a></b>	    if (PASS != spi_status_check(SPI_STATUS_WEL, SPI_STATUS_WEL)) {
+<b><a name="line291">291    </a></b>	        return;
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    w_spi_DMA_RW_DIR(1);                    // 0: read, 1: write
+<b><a name="line295">295    </a></b>	    // w_spi_IO_LATCH_POL(0);                  // 0: positive edge  1: negative dege
+<b><a name="line296">296    </a></b>	    w_spi_SPI_CS_H_CNT(0x07);               // 0x07 is hardware reset value
+<b><a name="line297">297    </a></b>	    w_spi_DUM_BYTE_EN(0);                   // 0: disable 1: enable Fast Read Mode and 2xIO/Read mode
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    spi_init();
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	    w_spi_SPI_START_ADDR(target_addr);      // Address
+<b><a name="line302">302    </a></b>	    w_spi_SPI_START_ADDR_LEN(0x03U);        // 3 byte address
+<b><a name="line303">303    </a></b>	    w_spi_CMD1_LEN(0x01U);
+<b><a name="line304">304    </a></b>	    r32_w_SPI_CMMD_1(0x02U);                // page program
+<b><a name="line305">305    </a></b>	    r32_w_SPI_DMA_BCNT(SPI_ROM_PAGE_SIZE);
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_31_3(source_addr >> 3U);
+<b><a name="line308">308    </a></b>	    w_spi_SPI_DMA_RAM_ADDR_39_32(source_addr >> 32U);
+<b><a name="line309">309    </a></b>	
+<b><a name="line310">310    </a></b>	    w_spi_CMD_OD_1(0x01U);                  // Execute Command 6 (0x02, PAGE PROGRAM)
+<b><a name="line311">311    </a></b>	    w_spi_CMD_OD_2(0x0AU);                  // Address
+<b><a name="line312">312    </a></b>	    w_spi_CMD_OD_3(0x0DU);                  // Data
+<b><a name="line313">313    </a></b>	
+<b><a name="line314">314    </a></b>	    w_spi_R_DATA_LOC(0);
+</pre></body>
+</html>

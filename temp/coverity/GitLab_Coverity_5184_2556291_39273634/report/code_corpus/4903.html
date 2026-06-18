@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2020, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  host_sec_drbg.c                                                       */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	#include "user_libs.h"
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	/*!
+<b><a name="line20">20    </a></b>	 @brief DRBG struct initial
+<b><a name="line21">21    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line22">22    </a></b>	 @return NONE
+<b><a name="line23">23    </a></b>	 @note
+<b><a name="line24">24    </a></b>	 - SHA HW IP
+<b><a name="line25">25    </a></b>	 */
+<b><a name="line26">26    </a></b>	U8 drbg_struct_init(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, RNG_HEALTH_TEST_DATA_STRUCT_PTR rng_health_ptr)
+<b><a name="line27">27    </a></b>	{
+<b><a name="line28">28    </a></b>	    U8 status = FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line29">29    </a></b>	    drbg_hash_mac_var_init(drbg_api_struct_ptr);
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    status |= drbg_get_entropy_input(drbg_api_struct_ptr, NULL, 0U, rng_health_ptr);
+<b><a name="line32">32    </a></b>	    status |= drbg_get_nonce(drbg_api_struct_ptr, NULL, 0U, rng_health_ptr);
+<b><a name="line33">33    </a></b>	    drbg_get_personal_str(drbg_api_struct_ptr, NULL, 0U);
+<b><a name="line34">34    </a></b>	    drbg_get_add_input(drbg_api_struct_ptr, NULL, 0U);
+<b><a name="line35">35    </a></b>	    drbg_instantiation(drbg_api_struct_ptr);
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    return status;
+<b><a name="line38">38    </a></b>	}
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	/*!
+<b><a name="line41">41    </a></b>	 @brief DRBG variable initial
+<b><a name="line42">42    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line43">43    </a></b>	 @return NONE
+<b><a name="line44">44    </a></b>	 @note
+<b><a name="line45">45    </a></b>	 - max_num_bit_per_req refer to NIST.SP.800-90Ar1
+<b><a name="line46">46    </a></b>	 */
+<b><a name="line47">47    </a></b>	void drbg_hash_mac_var_init(DRBG_API_STRUCT_PTR drbg_api_struct_ptr)
+<b><a name="line48">48    </a></b>	{
+<b><a name="line49">49    </a></b>	    // SHA 256
+<b><a name="line50">50    </a></b>	    drbg_api_struct_ptr->drbg_info.max_security_strength     = DRBG_SS_256;
+<b><a name="line51">51    </a></b>	    drbg_api_struct_ptr->drbg_material.req_security_strength = DRBG_SS_256;
+<b><a name="line52">52    </a></b>	    drbg_api_struct_ptr->drbg_info.output_block_len          = 64U;           // 512 bits
+<b><a name="line53">53    </a></b>	    drbg_api_struct_ptr->drbg_info.max_entropy_input_len     = 125U;          // 1000 bits <= 2^35 bits
+<b><a name="line54">54    </a></b>	    drbg_api_struct_ptr->drbg_info.seed_len                  = 55U;           // 440 bits
+<b><a name="line55">55    </a></b>	    drbg_api_struct_ptr->drbg_info.max_persional_str_len     = 32U;           // up to 32 byte
+<b><a name="line56">56    </a></b>	    drbg_api_struct_ptr->drbg_info.max_additional_len        = 100U;          // 800 bits <= 2^35 bits
+<b><a name="line57">57    </a></b>	    drbg_api_struct_ptr->drbg_info.max_num_bit_per_req       = 1U << 19U;     // <= 2^19 bits
+<b><a name="line58">58    </a></b>	    drbg_api_struct_ptr->drbg_info.reseed_interval           = 10000U;        // <= 2^48
+<b><a name="line59">59    </a></b>	    drbg_api_struct_ptr->drbg_info.sup_prediction_resistance = TRUE;
+</pre></body>
+</html>

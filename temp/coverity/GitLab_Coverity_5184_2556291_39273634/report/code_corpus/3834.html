@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pcie/feat/pcie_reset.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	    if (pf_id == PCIE_PF_0) {
+<b><a name="line46">46    </a></b>	        dal_set_pf0_force_to(port_id, enable);
+<b><a name="line47">47    </a></b>	    }
+<b><a name="line48">48    </a></b>	    else if (pf_id == PCIE_PF_1) {
+<b><a name="line49">49    </a></b>	        dal_set_pf1_force_to(port_id, enable);
+<b><a name="line50">50    </a></b>	    }
+<b><a name="line51">51    </a></b>	    else {
+<b><a name="line52">52    </a></b>	        // MISRA C Rule 15.7: All if ... else if constructs shall be terminated with an else statement.
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	    return TRUE;
+<b><a name="line55">55    </a></b>	}
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	BOOL hal_func_set_perst_trig(PCIE_PVT_CFG_PTR cfg, U32 port_id, U32 value)
+<b><a name="line58">58    </a></b>	{
+<b><a name="line59">59    </a></b>	    if (unlikely(port_id >= cfg->port_cnt))
+<b><a name="line60">60    </a></b>	    {
+<b><a name="line61">61    </a></b>	        return FALSE;
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    dal_pcie_set_perst_trig(port_id, value);
+<b><a name="line65">65    </a></b>	    return TRUE;
+<b><a name="line66">66    </a></b>	}
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	U32 hal_func_get_sys_perstn_intr(PCIE_PVT_CFG_PTR cfg, U32 port_id)
+<b><a name="line70">70    </a></b>	{
+<b><a name="line71">71    </a></b>	    if (unlikely(port_id >= cfg->port_cnt))
+<b><a name="line72">72    </a></b>	    {
+<b><a name="line73">73    </a></b>	        return FALSE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "0" from essential type "boolean" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line74">74    </a></b>	    }
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	    return dal_pcie_get_sys_perstn_intr(port_id);
+<b><a name="line77">77    </a></b>	}
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	BOOL hal_func_set_all_func_cfg_not_rdy(PCIE_PVT_CFG_PTR cfg, U32 port_id, U32 enable)
+<b><a name="line80">80    </a></b>	{
+<b><a name="line81">81    </a></b>	    if (unlikely(port_id >= cfg->port_cnt))
+<b><a name="line82">82    </a></b>	    {
+<b><a name="line83">83    </a></b>	        return FALSE;
+<b><a name="line84">84    </a></b>	    }
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    dal_set_all_func_cfg_not_rdy(port_id, enable);
+<b><a name="line87">87    </a></b>	    return TRUE;
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/scat/scatter.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _SCATTER_H_
+<b><a name="line2">2    </a></b>	#define _SCATTER_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_SCATTER_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	// ROM
+<b><a name="line6">6    </a></b>	#define SCAT_ROM_BASE              (0x00080000)
+<b><a name="line7">7    </a></b>	#define SCAT_ROM_SIZE              (0x00050000)
+<b><a name="line8">8    </a></b>	#define SCAT_ROM_VER_SIZE          (0x00000010)
+<b><a name="line9">9    </a></b>	#define SCAT_ROM_CODE_SIZE         (SCAT_ROM_SIZE - SCAT_ROM_VER_SIZE - 4)
+<b><a name="line10">10    </a></b>	#define SCAT_ROM_VER_BASE          (SCAT_ROM_BASE + SCAT_ROM_CODE_SIZE)
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	// ATCM
+<b><a name="line13">13    </a></b>	#define SCAT_ATCM_BASE             (0x00000000)
+<b><a name="line14">14    </a></b>	#define SCAT_ATCM_SIZE             (0x00060000)
+<b><a name="line15">15    </a></b>	#define SCAT_ATCM_CODE_SIZE        (SCAT_ATCM_SIZE - SCAT_ROM_VER_SIZE - 4)
+<b><a name="line16">16    </a></b>	#define SCAT_ATCM_VER_BASE         (SCAT_ATCM_BASE + SCAT_ATCM_CODE_SIZE)
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	// BTCM1 - X3 use b1tcm for doorbell
+<b><a name="line19">19    </a></b>	#define SCAT_BTCM1_BASE            (0x00140000)
+<b><a name="line20">20    </a></b>	#define SCAT_BTCM1_SIZE            (0x00020000)
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	#define SCAT_DB_BASE               (SCAT_BTCM1_BASE)
+<b><a name="line23">23    </a></b>	#define SCAT_DB_SIZE               (SCAT_BTCM1_SIZE - 0xE000)
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	#define SCAT_MABIAO_BASE           (SCAT_DB_BASE + SCAT_DB_SIZE)
+<b><a name="line26">26    </a></b>	#define SCAT_MABIAO_SIZE           (0x00000D00)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	#define SCAT_LOG_BASE              (SCAT_MABIAO_BASE + SCAT_MABIAO_SIZE)
+<b><a name="line29">29    </a></b>	#define SCAT_LOG_SIZE              (SCAT_BTCM1_SIZE - SCAT_DB_SIZE - SCAT_MABIAO_SIZE)
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	#define      LOG_INFO_BASE         (SCAT_LOG_BASE)
+<b><a name="line32">32    </a></b>	#define      LOG_INFO_SIZE         (0x00000400)
+<b><a name="line33">33    </a></b>	#define      LOG_ERROR_BASE        (LOG_INFO_BASE + LOG_INFO_SIZE)
+</pre></body>
+</html>

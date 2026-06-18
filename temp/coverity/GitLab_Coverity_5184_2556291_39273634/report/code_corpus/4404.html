@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line655">655    </a></b>	
+<b><a name="line656">656    </a></b>	    status      = 0U;
+<b><a name="line657">657    </a></b>	    feat_adr_id = 0U;
+<b><a name="line658">658    </a></b>	    (void)memset((void *)&param, 0U, sizeof(FIP_PIO_PARAM_UNION));
+<b><a name="line659">659    </a></b>	    param.comm.ch                              = ch;
+<b><a name="line660">660    </a></b>	    param.comm.bank                            = bank;
+<b><a name="line661">661    </a></b>	    param.comm.die                             = die;
+<b><a name="line662">662    </a></b>	    param.comm.plane                           = plane;
+<b><a name="line663">663    </a></b>	    param.comm.odt_prefix                      = gFplApiStruct.p_efuse_nand_setting->odt_prefix;
+<b><a name="line664">664    </a></b>	    param.cmd_addr.dat_buf                     = data_buf;
+<b><a name="line665">665    </a></b>	
+<b><a name="line666">666    </a></b>	    fip_pio_parsing(cmd_info_ptr, &param, TRUE, retry_tbl);
+<b><a name="line667">667    </a></b>	
+<b><a name="line668">668    </a></b>	    feat_adr_id = ((param.cmd_addr.addr_len > 1U) ? (1U) : (0U));
+<b><a name="line669">669    </a></b>	
+<b><a name="line670">670    </a></b>	    if (gFplApiStruct.retry_by_set_parm == TRUE) {
+<b><a name="line671">671    </a></b>	        status = hal_fip_api_get_parameter(param.comm.ch,
+<b><a name="line672">672    </a></b>	                param.comm.bank,
+<b><a name="line673">673    </a></b>	                (U8 *)&param.cmd_addr.cmd[0U],
+<b><a name="line674">674    </a></b>	                (U8 *)&param.cmd_addr.addr[feat_adr_id],
+<b><a name="line675">675    </a></b>	                param.cmd_addr.dat_buf,
+<b><a name="line676">676    </a></b>	                param.cmd_addr.dat_len,
+<b><a name="line677">677    </a></b>	                gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l,
+<b><a name="line678">678    </a></b>	                gFplApiStruct.p_efuse_nand_setting->odt_prefix,
+<b><a name="line679">679    </a></b>	                (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line680">680    </a></b>	                HAL_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line681">681    </a></b>	    }
+<b><a name="line682">682    </a></b>	    else {
+<b><a name="line683">683    </a></b>	        status = hal_fip_api_get_feature(param.comm.ch,
+<b><a name="line684">684    </a></b>	                param.comm.bank,
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "param.comm.bank" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line685">685    </a></b>	                param.cmd_addr.cmd[0U],
+<b><a name="line686">686    </a></b>	                param.cmd_addr.addr[feat_adr_id],
+<b><a name="line687">687    </a></b>	                param.cmd_addr.dat_buf,
+<b><a name="line688">688    </a></b>	                gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l,
+<b><a name="line689">689    </a></b>	                gFplApiStruct.p_efuse_nand_setting->odt_prefix,
+<b><a name="line690">690    </a></b>	                (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line691">691    </a></b>	                gFplApiStruct.p_efuse_nand_setting->channel_exist_bitmap,
+<b><a name="line692">692    </a></b>	                HAL_TIMEOUT_LEN_MS + (U64)gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line693">693    </a></b>	    }
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	    return status;
+<b><a name="line696">696    </a></b>	}
+<b><a name="line697">697    </a></b>	
+<b><a name="line698">698    </a></b>	U32 fip_chk_nand_status(U8 ch, U8 poll_cmd, U8 status_mask, U8 status_cmp)
+<b><a name="line699">699    </a></b>	{
+<b><a name="line700">700    </a></b>	    U32 status;
+<b><a name="line701">701    </a></b>	    U8  data_buf;
+<b><a name="line702">702    </a></b>	
+<b><a name="line703">703    </a></b>	    status   = 0U;
+<b><a name="line704">704    </a></b>	    data_buf = 0U;
+<b><a name="line705">705    </a></b>	
+<b><a name="line706">706    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 100 + gFplApiStruct.p_efuse_nand_setting->delay_for_nbs_test * 30000);
+<b><a name="line707">707    </a></b>	    do {
+<b><a name="line708">708    </a></b>	        if (gFplApiStruct.p_efuse_nand_setting->samsung_cer_mode == TRUE) {
+<b><a name="line709">709    </a></b>	            hal_fip_api_cer_pre_fix(ch, 0U, 0U, (U32 *)&gFplApiStruct.ac_timing);
+<b><a name="line710">710    </a></b>	        }
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	        status |= hal_fip_api_read_status(ch, 0U, &data_buf,
+<b><a name="line713">713    </a></b>	                gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l,
+<b><a name="line714">714    </a></b>	                (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line715">715    </a></b>	                gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+</pre></body>
+</html>

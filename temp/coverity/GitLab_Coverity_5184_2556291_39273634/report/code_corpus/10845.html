@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1320">1320    </a></b>	            for (bit = 0U; bit < EFUSE_PARAM_READ_RTY_DAT_SIZE; bit++) {
+<b><a name="line1321">1321    </a></b>	                if (BITS_GET(read_rty_bit_map[retry_idx], bit, 1U) == TRUE) {
+<b><a name="line1322">1322    </a></b>	                    //get retry parameter
+<b><a name="line1323">1323    </a></b>	                    data_adr_ptr --;
+<b><a name="line1324">1324    </a></b>	                    fpl_ptr->read_rty_tbl[retry_idx][bit] = data_ref_ptr[data_adr_ptr];
+<b><a name="line1325">1325    </a></b>	                }
+<b><a name="line1326">1326    </a></b>	            }
+<b><a name="line1327">1327    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]read_rty_bit_map[%d] = 0x%x\r\n", retry_idx, read_rty_bit_map[retry_idx]);
+<b><a name="line1328">1328    </a></b>	        }
+<b><a name="line1329">1329    </a></b>	
+<b><a name="line1330">1330    </a></b>	        for (z = 0; z < EFUSE_PARAM_READ_RTY_TBL_SIZE; z++) {
+<b><a name="line1331">1331    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]read_rty_tbl[%d] = 0x%x 0x%x 0x%x 0x%x\r\n", \
+<b><a name="line1332">1332    </a></b>	                z, fpl_ptr->read_rty_tbl[z][0], fpl_ptr->read_rty_tbl[z][1], \
+<b><a name="line1333">1333    </a></b>	                fpl_ptr->read_rty_tbl[z][2], fpl_ptr->read_rty_tbl[z][3]);
+<b><a name="line1334">1334    </a></b>	        }
+<b><a name="line1335">1335    </a></b>	    }
+<b><a name="line1336">1336    </a></b>	
+<b><a name="line1337">1337    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->por_retry_enable == TRUE) {
+<b><a name="line1338">1338    </a></b>	        //get por retry info first
+<b><a name="line1339">1339    </a></b>	        data_adr_ptr -= EFUSE_PARAM_READ_RTY_BMP_SIZE;
+<b><a name="line1340">1340    </a></b>	        memcpy((void *)&fpl_ptr->por_rty_bitmap, (void *) & (data_ref_ptr[data_adr_ptr]), EFUSE_PARAM_READ_RTY_BMP_SIZE);
+<b><a name="line1341">1341    </a></b>	        FIP_DBG_INFO_PRINTF("[parsing_efuse]por_rty_bitmap = 0x%x\r\n", fpl_ptr->por_rty_bitmap);
+<b><a name="line1342">1342    </a></b>	
+<b><a name="line1343">1343    </a></b>	        //initial por_rty_tbl
+<b><a name="line1344">1344    </a></b>	        memset((void *)&fpl_ptr->por_rty_tbl, 0U, EFUSE_PARAM_POR_RTY_TBL_SIZE * EFUSE_PARAM_READ_RTY_DAT_SIZE);
+<b><a name="line1345">1345    </a></b>	        //get each retry parameter bitmap
+<b><a name="line1346">1346    </a></b>	        for (retry_idx = 0U; retry_idx < EFUSE_PARAM_POR_RTY_TBL_SIZE; retry_idx++) {
+<b><a name="line1347">1347    </a></b>	            por_rty_bit_map[retry_idx] = ((fpl_ptr->por_rty_bitmap >> (retry_idx * EFUSE_PARAM_READ_RTY_DAT_SIZE)) & EFUSE_PARAM_READ_RTY_DAT_MASK);
+<b><a name="line1348">1348    </a></b>	            for (bit = 0U; bit < EFUSE_PARAM_READ_RTY_DAT_SIZE; bit++) {
+<b><a name="line1349">1349    </a></b>	                if (BITS_GET(por_rty_bit_map[retry_idx], bit, 1U) == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "1U == 0U" is invariant.</font>
+<b><a name="line1350">1350    </a></b>	                    //get retry parameter
+<b><a name="line1351">1351    </a></b>	                    data_adr_ptr --;
+<b><a name="line1352">1352    </a></b>	                    fpl_ptr->por_rty_tbl[retry_idx][bit] = data_ref_ptr[data_adr_ptr];
+<b><a name="line1353">1353    </a></b>	                }
+<b><a name="line1354">1354    </a></b>	            }
+<b><a name="line1355">1355    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]por_rty_bit_map[%d] = 0x%x\r\n", retry_idx, por_rty_bit_map[retry_idx]);
+<b><a name="line1356">1356    </a></b>	        }
+<b><a name="line1357">1357    </a></b>	
+<b><a name="line1358">1358    </a></b>	        for (z = 0; z < EFUSE_PARAM_POR_RTY_TBL_SIZE; z++) {
+<b><a name="line1359">1359    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]por_rty_tbl[%d] = 0x%x 0x%x 0x%x 0x%x\r\n", \
+<b><a name="line1360">1360    </a></b>	                z, fpl_ptr->por_rty_tbl[z][0], fpl_ptr->por_rty_tbl[z][1], \
+<b><a name="line1361">1361    </a></b>	                fpl_ptr->por_rty_tbl[z][2], fpl_ptr->por_rty_tbl[z][3]);
+<b><a name="line1362">1362    </a></b>	        }
+<b><a name="line1363">1363    </a></b>	    }
+<b><a name="line1364">1364    </a></b>	
+<b><a name="line1365">1365    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->plane_address_enable == TRUE) {
+<b><a name="line1366">1366    </a></b>	        data_adr_ptr -= fpl_ptr->plane_count;
+<b><a name="line1367">1367    </a></b>	        memcpy((void *) fpl_ptr->plane_adr_tbl, (void *) & (data_ref_ptr[data_adr_ptr]), fpl_ptr->plane_count);
+<b><a name="line1368">1368    </a></b>	        for (z = 0; z < fpl_ptr->plane_count; z++) {
+<b><a name="line1369">1369    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]pln_adr_tbl[%d] = 0x%x\r\n", z, fpl_ptr->plane_adr_tbl[z]);
+<b><a name="line1370">1370    </a></b>	        }
+<b><a name="line1371">1371    </a></b>	    }
+<b><a name="line1372">1372    </a></b>	
+<b><a name="line1373">1373    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->set_feature_enable == TRUE) {
+<b><a name="line1374">1374    </a></b>	        data_adr_ptr -= fpl_ptr->set_if_adr_count;
+<b><a name="line1375">1375    </a></b>	        memcpy((void *) fpl_ptr->set_if_adr_tbl, (void *) & (data_ref_ptr[data_adr_ptr]), fpl_ptr->set_if_adr_count);
+<b><a name="line1376">1376    </a></b>	        for (z = 0; z < fpl_ptr->set_if_adr_count; z++) {
+<b><a name="line1377">1377    </a></b>	            FIP_DBG_INFO_PRINTF("[parsing_efuse]set_if_adr_tbl[%d] = 0x%x\r\n", z, fpl_ptr->set_if_adr_tbl[z]);
+<b><a name="line1378">1378    </a></b>	        }
+<b><a name="line1379">1379    </a></b>	
+<b><a name="line1380">1380    </a></b>	        data_adr_ptr -= fpl_ptr->set_if_dat_count;
+</pre></body>
+</html>

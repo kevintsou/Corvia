@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line365">365    </a></b>	}
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	void dal_sec_sha_set_rdout_idx(U8 idx)
+<b><a name="line368">368    </a></b>	{
+<b><a name="line369">369    </a></b>	    DAL_SEC_SHA_SET_RDOUT_IDX(idx);
+<b><a name="line370">370    </a></b>	}
+<b><a name="line371">371    </a></b>	
+<b><a name="line372">372    </a></b>	void dal_sec_sha_set_restr_val(U32 restr_val)
+<b><a name="line373">373    </a></b>	{
+<b><a name="line374">374    </a></b>	    DAL_SEC_SHA_SET_RSTR_VAL(restr_val);
+<b><a name="line375">375    </a></b>	}
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	void dal_sec_sha_set_restr_en(U8 enable)
+<b><a name="line378">378    </a></b>	{
+<b><a name="line379">379    </a></b>	    DAL_SEC_SHA_SET_RESTR_EN(enable);
+<b><a name="line380">380    </a></b>	}
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	void dal_sec_sha_set_restr_idx(U8 idx)
+<b><a name="line383">383    </a></b>	{
+<b><a name="line384">384    </a></b>	    DAL_SEC_SHA_SET_RESTR_IDX(idx);
+<b><a name="line385">385    </a></b>	}
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	void dal_sec_sha_set_restr_trig(void)
+<b><a name="line388">388    </a></b>	{
+<b><a name="line389">389    </a></b>	    DAL_SEC_SHA_SET_RESTR_TRIG();
+<b><a name="line390">390    </a></b>	}
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	U32 dal_sec_sha_get_restr_trig(void)
+<b><a name="line393">393    </a></b>	{
+<b><a name="line394">394    </a></b>	    return (U32)(DAL_SEC_SHA_GET_RESTR_TRIG());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 8 bit width expression "((U8 volatile *)0x360aa00[52U] >> 1U) & 1U" to a wider 32 bit type.</font>
+<b><a name="line395">395    </a></b>	}
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	void dal_sec_sha_set_pbkdf2_start(void)
+<b><a name="line398">398    </a></b>	{
+<b><a name="line399">399    </a></b>	    DAL_SEC_SHA_SET_PBKDF2_START();
+<b><a name="line400">400    </a></b>	}
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	U32 dal_sec_sha_get_pbkdf2_start(void)
+<b><a name="line403">403    </a></b>	{
+<b><a name="line404">404    </a></b>	    return (U32)(DAL_SEC_SHA_GET_PBKDF2_START());
+<b><a name="line405">405    </a></b>	}
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	void dal_sec_sha_set_pbkdf2_loop_cnt(U16 loop_cnt)
+<b><a name="line408">408    </a></b>	{
+<b><a name="line409">409    </a></b>	    DAL_SEC_SHA_SET_PBKDF2_LOOP_CNT(loop_cnt);
+<b><a name="line410">410    </a></b>	}
+<b><a name="line411">411    </a></b>	
+<b><a name="line412">412    </a></b>	void dal_sec_sha_set_ots_en(U8 val)
+<b><a name="line413">413    </a></b>	{
+<b><a name="line414">414    </a></b>	    DAL_SEC_SHA_SET_OTS_EN(val);
+<b><a name="line415">415    </a></b>	}
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	void dal_sec_sha_set_ots_start(void)
+<b><a name="line418">418    </a></b>	{
+<b><a name="line419">419    </a></b>	    DAL_SEC_SHA_SET_OTS_START();
+<b><a name="line420">420    </a></b>	}
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	U32 dal_sec_sha_get_ots_start(void)
+<b><a name="line423">423    </a></b>	{
+<b><a name="line424">424    </a></b>	    return (U32)(DAL_SEC_SHA_GET_OTS_START());
+<b><a name="line425">425    </a></b>	}
+</pre></body>
+</html>

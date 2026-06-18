@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line8720">8720    </a></b>	    aesofl_param.comm.batch_en    = 0U;
+<b><a name="line8721">8721    </a></b>	    aesofl_param.comm.setkey.kidx = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line8722">8722    </a></b>	
+<b><a name="line8723">8723    </a></b>	    ret = phal_sec_aes_ofl_blocking(&aesofl_param);
+<b><a name="line8724">8724    </a></b>	
+<b><a name="line8725">8725    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8726">8726    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8727">8727    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8728">8728    </a></b>	    }
+<b><a name="line8729">8729    </a></b>	
+<b><a name="line8730">8730    </a></b>	    if (gSecAesTimeout) {
+<b><a name="line8731">8731    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_TIMEOUT);
+<b><a name="line8732">8732    </a></b>	    }
+<b><a name="line8733">8733    </a></b>	
+<b><a name="line8734">8734    </a></b>	    if ((U8)(memcmp((void *)aesofl_param.comm.targ_addr.low, (void *)ctx_addr, aesofl_param.comm.src_len) != 0)) { //compare encrypt result and cipher context
+<b><a name="line8735">8735    </a></b>	        Dump_SEC(tprintf("ENC F!"));
+<b><a name="line8736">8736    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8737">8737    </a></b>	    }
+<b><a name="line8738">8738    </a></b>	
+<b><a name="line8739">8739    </a></b>	    //for decrypt kat
+<b><a name="line8740">8740    </a></b>	    aesofl_param.comm.encrypt     = HAL_SEC_AES_DECRYPT;
+<b><a name="line8741">8741    </a></b>	    aesofl_param.comm.batch_en    = 0U;
+<b><a name="line8742">8742    </a></b>	    aesofl_param.comm.setkey.kidx = HAL_SEC_AES_OFL_RAM_KEY_IDX;
+<b><a name="line8743">8743    </a></b>	    aesofl_param.comm.src_addr = aesofl_param.comm.targ_addr;
+<b><a name="line8744">8744    </a></b>	
+<b><a name="line8745">8745    </a></b>	    ret = phal_sec_aes_ofl_blocking(&aesofl_param);
+<b><a name="line8746">8746    </a></b>	
+<b><a name="line8747">8747    </a></b>	    if (ret == SEC_NO) {
+<b><a name="line8748">8748    </a></b>	        Dump_SEC(tprintf("API F!"));
+<b><a name="line8749">8749    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4" to the operator "|" does not have an essentially unsigned type.</font>
+<b><a name="line8750">8750    </a></b>	    }
+<b><a name="line8751">8751    </a></b>	
+<b><a name="line8752">8752    </a></b>	    if (gSecAesTimeout) {
+<b><a name="line8753">8753    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_TIMEOUT);
+<b><a name="line8754">8754    </a></b>	    }
+<b><a name="line8755">8755    </a></b>	
+<b><a name="line8756">8756    </a></b>	    if ((U8)(memcmp((void *)aesofl_param.comm.targ_addr.low, (void *)ptx_addr, aesofl_param.comm.src_len) != 0)) { //compare encrypt result and cipher context
+<b><a name="line8757">8757    </a></b>	        Dump_SEC(tprintf("DEC F!"));
+<b><a name="line8758">8758    </a></b>	        return (KAT_TYPE_AES | KAT_ERROR_VERIFY);
+<b><a name="line8759">8759    </a></b>	    }
+<b><a name="line8760">8760    </a></b>	
+<b><a name="line8761">8761    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line8762">8762    </a></b>	}
+<b><a name="line8763">8763    </a></b>	
+<b><a name="line8764">8764    </a></b>	U32 host_sec_aes_sm4_xts_128_kat(U32 buf_addr)
+<b><a name="line8765">8765    </a></b>	{
+<b><a name="line8766">8766    </a></b>	    gSecAesTimeout = 0;
+<b><a name="line8767">8767    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line8768">8768    </a></b>	    SEC_AESOFL_PARAMS_T aesofl_param;
+<b><a name="line8769">8769    </a></b>	
+<b><a name="line8770">8770    </a></b>	    U32 ptx_addr     = buf_addr;
+<b><a name="line8771">8771    </a></b>	    U32 ctx_addr     = buf_addr + 0x600;
+<b><a name="line8772">8772    </a></b>	    U32 kat_tag_addr = buf_addr + 0x800; // only used in gcm mode
+<b><a name="line8773">8773    </a></b>	    U8  pat_idx      = KATSM4_XTS_PAT_IDX;
+<b><a name="line8774">8774    </a></b>	
+<b><a name="line8775">8775    </a></b>	    Dump_SEC(tprintf("OFLSM4 XTS256 KAT"));
+<b><a name="line8776">8776    </a></b>	    sec_aesofl_kat_init_param(&aesofl_param, pat_idx, ptx_addr, ctx_addr, kat_tag_addr, SEC_YES);
+<b><a name="line8777">8777    </a></b>	
+<b><a name="line8778">8778    </a></b>	
+<b><a name="line8779">8779    </a></b>	    //for encrypt kat
+<b><a name="line8780">8780    </a></b>	    aesofl_param.comm.encrypt     = HAL_SEC_AES_ENCRYPT;
+</pre></body>
+</html>

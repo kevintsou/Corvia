@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/sec/phal_sm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "lib/platform.h"
+<b><a name="line2">2    </a></b>	#include "phal/sec/phal_sm.h"
+<b><a name="line3">3    </a></b>	#include "phal/phal_sqz.h"
+<b><a name="line4">4    </a></b>	#include "phal/bootcode_hal_db.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	static void sec_sm2_init(SQZ_SM2_VERIFY_PARAM_PTR sqz_param, SEC_ECC_PARAMS_T_PTR sm2_param){
+<b><a name="line8">8    </a></b>	    memcpy((void *)&(sqz_param->sm2_param), sm2_param, sizeof(SEC_ECC_PARAMS_T));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memcpy" is unused.</font>
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	    memcpy((void *)sqz_param->sm2_pubkey.qx.data, (void *)sm2_param->pubkey_ptr->qx.data, sm2_param->curve_size);
+<b><a name="line11">11    </a></b>	    memcpy((void *)sqz_param->sm2_pubkey.qy.data, (void *)sm2_param->pubkey_ptr->qy.data, sm2_param->curve_size);
+<b><a name="line12">12    </a></b>	}
+<b><a name="line13">13    </a></b>	static U32 phal_sec_sm2_verify_algo_sqz(SEC_ECC_PARAMS_T_PTR sm2_param){
+<b><a name="line14">14    </a></b>	    SQZ_SM2_VERIFY_PARAM_PTR sqz_param = (SQZ_SM2_VERIFY_PARAM_PTR)phal_sqz_get_param_buf_base();
+<b><a name="line15">15    </a></b>	    memset((void *)sqz_param, 0, sizeof(SQZ_SM2_VERIFY_PARAM));
+<b><a name="line16">16    </a></b>	    sec_sm2_init(sqz_param, sm2_param);
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line19">19    </a></b>	    MR_SQ_PARAM sq = form_sq(sqz_param, MR_CODE_SIGN, SM2_VERIFY, SM2_VERIFY_TAG);
+<b><a name="line20">20    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line21">21    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line22">22    </a></b>	    if (cq.cmd_result != HAL_SEC_SM2_ERROR(SEC_YES) || cq.sqz_result != SQZ_CMD_PASS){
+<b><a name="line23">23    </a></b>	        Dump_SEC(tprintf("[SQZ][SM2] Fail"));
+<b><a name="line24">24    </a></b>	    }
+<b><a name="line25">25    </a></b>	    return cq.cmd_result;
+<b><a name="line26">26    </a></b>	}
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	static U32 hal_sec_sm9_verify_sqz(SQZ_SM9_VERIFY_PARAM_PTR params){
+<b><a name="line29">29    </a></b>	    SQZ_SM9_VERIFY_PARAM_PTR sqz_param = (SQZ_SM9_VERIFY_PARAM_PTR)phal_sqz_get_param_buf_base();
+<b><a name="line30">30    </a></b>	    memset((void *)sqz_param, 0, sizeof(SQZ_SM9_VERIFY_PARAM));
+<b><a name="line31">31    </a></b>	    memcpy((void *)sqz_param, params, sizeof(SQZ_SM9_VERIFY_PARAM));
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    MR_CQ_PARAM cq;
+<b><a name="line34">34    </a></b>	    MR_SQ_PARAM sq = form_sq(sqz_param, MR_CODE_SIGN, SM9_VERIFY, SM9_VERIFY_TAG);
+<b><a name="line35">35    </a></b>	    hal_db_push_block(&sq, 0, MR_QID_CPU0_SQ_SQZ_CMD);
+<b><a name="line36">36    </a></b>	    hal_db_pop_block_sqz(&cq, 0, MR_QID_CPU0_CQ_SQZ, MABIAO_SQZ);
+<b><a name="line37">37    </a></b>	    if (cq.cmd_result != HAL_SEC_SM9_ERROR(SEC_YES) || cq.sqz_result != SQZ_CMD_PASS){
+<b><a name="line38">38    </a></b>	        Dump_SEC(tprintf("[SQZ][SM9] Fail"));
+<b><a name="line39">39    </a></b>	    }
+</pre></body>
+</html>

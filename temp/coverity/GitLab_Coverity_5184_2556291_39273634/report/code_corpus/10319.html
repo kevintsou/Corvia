@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sys/hal_syspd1_efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	    if (ready_signal == 0x01U)
+<b><a name="line43">43    </a></b>	    {
+<b><a name="line44">44    </a></b>	        return 0U;
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	    else if (ready_signal == 0x3U)
+<b><a name="line47">47    </a></b>	    {
+<b><a name="line48">48    </a></b>	        return 1U;
+<b><a name="line49">49    </a></b>	    }
+<b><a name="line50">50    </a></b>	    else
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        return 2U;
+<b><a name="line53">53    </a></b>	    }
+<b><a name="line54">54    </a></b>	}
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	U8 hal_efuse_program(U8 bank, U8 addr, U32 data, BOOL wait_time_out)
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    U8 status = PROGRAM_BANK_DATA_NO_TIMEOUT;
+<b><a name="line59">59    </a></b>	    w_CR_CFG_VDT(0U);
+<b><a name="line60">60    </a></b>	    MABIAO_IDLE_US(33ULL);
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    w_MODE_SEL(EFU_PROGRAM_MODE);
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    w_BANK_SEL(bank);
+<b><a name="line65">65    </a></b>	    w_EFUC_ADR(addr);
+<b><a name="line66">66    </a></b>	    w_PROGRAM_DATA(data);
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    w_TRIGGER(1U);
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	    if (wait_time_out)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "wait_time_out", taking true branch.</font>
+<b><a name="line71">71    </a></b>	    {
+<b><a name="line72">72    </a></b>	        U32 mabiao_addr = MABIAO_SET_US(MABIAO_EFUSE, EFUSE_CMD_TIMEOUT_US);
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0xff << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "255", is not allowed.  The shift amount is 24.</font>
+<b><a name="line73">73    </a></b>	        while (0 == r_PROGRAM_READY())
+<b><a name="line74">74    </a></b>	        {
+<b><a name="line75">75    </a></b>	            if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line76">76    </a></b>	                status = PROGRAM_BANK_TIMEOUT;
+<b><a name="line77">77    </a></b>	                sal_log_tracker_set(sal_locate(0x01, TYPE_FATAL));
+<b><a name="line78">78    </a></b>	                break;
+<b><a name="line79">79    </a></b>	            }
+<b><a name="line80">80    </a></b>	        }
+<b><a name="line81">81    </a></b>	    }
+<b><a name="line82">82    </a></b>	    else
+<b><a name="line83">83    </a></b>	    {
+<b><a name="line84">84    </a></b>	        if (r_PROGRAM_READY() == 0U)
+<b><a name="line85">85    </a></b>	        {
+<b><a name="line86">86    </a></b>	            status = PROGRAM_BANK_NO_RDY;
+<b><a name="line87">87    </a></b>	        }
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	    w_CR_CFG_VDT(1U);
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    MABIAO_IDLE_US(2);
+<b><a name="line92">92    </a></b>	    return status;
+<b><a name="line93">93    </a></b>	}
+<b><a name="line94">94    </a></b>	
+<b><a name="line95">95    </a></b>	void hal_prg_chk_en_clr(void)
+<b><a name="line96">96    </a></b>	{
+<b><a name="line97">97    </a></b>	    w_PRG_CHK_EN(0U);
+<b><a name="line98">98    </a></b>	}
+<b><a name="line99">99    </a></b>	
+<b><a name="line100">100    </a></b>	void hal_prg_chk_en_set(void)
+<b><a name="line101">101    </a></b>	{
+<b><a name="line102">102    </a></b>	    w_PRG_CHK_EN(1U);
+<b><a name="line103">103    </a></b>	}
+</pre></body>
+</html>

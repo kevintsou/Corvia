@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1403">1403    </a></b>	                    address_offset+=4;
+<b><a name="line1404">1404    </a></b>	                }
+<b><a name="line1405">1405    </a></b>	            }
+<b><a name="line1406">1406    </a></b>	        }
+<b><a name="line1407">1407    </a></b>	
+<b><a name="line1408">1408    </a></b>	        if(p_id_table->P1_update_iccm_en || p_id_table->P1_update_dccm_en)
+<b><a name="line1409">1409    </a></b>	        {
+<b><a name="line1410">1410    </a></b>	            Dump_IDPG_FE(tprintf("change access_sel to apb 1"));
+<b><a name="line1411">1411    </a></b>	            (*((volatile U32 *)(0x319e000))) |= 0x200; //change access_sel to apb
+<b><a name="line1412">1412    </a></b>	            address_offset = 0;
+<b><a name="line1413">1413    </a></b>	            if(p_id_table->P1_update_iccm_en)
+<b><a name="line1414">1414    </a></b>	            {
+<b><a name="line1415">1415    </a></b>	                Dump_IDPG_FE(tprintf("update p1 iccm"));
+<b><a name="line1416">1416    </a></b>	                sal_log_tracker_set(sal_locate(0x23, TYPE_STEP));
+<b><a name="line1417">1417    </a></b>	                for(U16 index = 0; index < iccm_dw_cnt; index++ )
+<b><a name="line1418">1418    </a></b>	                {
+<b><a name="line1419">1419    </a></b>	                    (*((volatile U32 *)(0x31A2000 + address_offset))) = *((volatile U32 *)(P1_iccm_address_base + address_offset));
+<b><a name="line1420">1420    </a></b>	                    address_offset+=4;
+<b><a name="line1421">1421    </a></b>	                }
+<b><a name="line1422">1422    </a></b>	            }
+<b><a name="line1423">1423    </a></b>	
+<b><a name="line1424">1424    </a></b>	            address_offset = 0;
+<b><a name="line1425">1425    </a></b>	
+<b><a name="line1426">1426    </a></b>	            if(p_id_table->P1_update_dccm_en)
+<b><a name="line1427">1427    </a></b>	            {
+<b><a name="line1428">1428    </a></b>	                Dump_IDPG_FE(tprintf("update p1 dccm"));
+<b><a name="line1429">1429    </a></b>	                sal_log_tracker_set(sal_locate(0x24, TYPE_STEP));
+<b><a name="line1430">1430    </a></b>	                for(U16 index = 0; index < dccm_dw_cnt; index++ )
+<b><a name="line1431">1431    </a></b>	                {
+<b><a name="line1432">1432    </a></b>	                    (*((volatile U32 *)(0x31B2000 + address_offset))) = *((volatile U32 *)(P1_dccm_address_base + address_offset));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "52109312UL" (signed) is not the same as that of the right operand "address_offset"(unsigned).</font>
+<b><a name="line1433">1433    </a></b>	                    address_offset+=4;
+<b><a name="line1434">1434    </a></b>	                }
+<b><a name="line1435">1435    </a></b>	            }
+<b><a name="line1436">1436    </a></b>	        }
+<b><a name="line1437">1437    </a></b>	
+<b><a name="line1438">1438    </a></b>	        (*((volatile U32 *)(0x314E078))) &=~ 0x0C; //relsease pcie phy cpu0 [2] cpu1 [3] halt
+<b><a name="line1439">1439    </a></b>	    }
+<b><a name="line1440">1440    </a></b>	    Dump_IDPG_FE(tprintf("finish update iccm dccm"));
+<b><a name="line1441">1441    </a></b>	}
+<b><a name="line1442">1442    </a></b>	
+<b><a name="line1443">1443    </a></b>	void host_api_nvme_main(HOST_API_STRUCT_PTR host)
+<b><a name="line1444">1444    </a></b>	{
+<b><a name="line1445">1445    </a></b>	    if (host->host_event.rst_flag) {
+<b><a name="line1446">1446    </a></b>	        host_normal_event(host);
+<b><a name="line1447">1447    </a></b>	    }
+<b><a name="line1448">1448    </a></b>	}
+<b><a name="line1449">1449    </a></b>	
+</pre></body>
+</html>

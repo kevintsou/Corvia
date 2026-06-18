@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pqc_kaz_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line700">700    </a></b>	
+<b><a name="line701">701    </a></b>	U32 hal_sec_kaz_cal_buf_size(U32 a_char_sz, U32 n_char_sz)
+<b><a name="line702">702    </a></b>	{
+<b><a name="line703">703    </a></b>	    U32 max_size = HAL_SEC_PQC_KAZ_MAX(a_char_sz, n_char_sz);
+<b><a name="line704">704    </a></b>	
+<b><a name="line705">705    </a></b>	    U32 return_sz = max_size;
+<b><a name="line706">706    </a></b>	
+<b><a name="line707">707    </a></b>	    return_sz = HAL_SEC_PQC_KAZ_SIZE_ALIGN_8BYTE(max_size);
+<b><a name="line708">708    </a></b>	
+<b><a name="line709">709    </a></b>	    return return_sz;
+<b><a name="line710">710    </a></b>	}
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	U32 hal_sec_pqc_kaz_gen_r(U8 *n_char, U32 n_sz, U32 a_sz, U32 max_buffer_sz, U8 *n_n0_ptr, U8 *R_ptr, U8 *RR_ptr, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_powm_buf_ptr)
+<b><a name="line713">713    </a></b>	{
+<b><a name="line714">714    </a></b>	    U32 return_sz = max_buffer_sz;
+<b><a name="line715">715    </a></b>	
+<b><a name="line716">716    </a></b>	    // test code
+<b><a name="line717">717    </a></b>	    if (memcmp(n_char, G1Q_odd, n_sz) == 0)
+<b><a name="line718">718    </a></b>	    {
+<b><a name="line719">719    </a></b>	        if (a_sz <= 12UL) // V1
+<b><a name="line720">720    </a></b>	        {
+<b><a name="line721">721    </a></b>	            (void)memcpy((void *)n_n0_ptr,  (void *)G1Q_odd_n0,     8);
+<b><a name="line722">722    </a></b>	            (void)memcpy((void *)R_ptr,     (void *)G1Q_odd_R_40,   sizeof(G1Q_odd_R_40));
+<b><a name="line723">723    </a></b>	            (void)memcpy((void *)RR_ptr,    (void *)G1Q_odd_RR_40,  sizeof(G1Q_odd_RR_40));
+<b><a name="line724">724    </a></b>	            return_sz = 40UL;
+<b><a name="line725">725    </a></b>	        }
+<b><a name="line726">726    </a></b>	        else
+<b><a name="line727">727    </a></b>	        {
+<b><a name="line728">728    </a></b>	            (void)memcpy((void *)n_n0_ptr,  (void *)G1Q_odd_n0, 8);
+<b><a name="line729">729    </a></b>	            (void)memcpy((void *)R_ptr,     (void *)G1Q_odd_R,  sizeof(G1Q_odd_R));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The type cast of the pointer expression "G1Q_odd_R" to type "void *" removes "const" qualifier from the pointed to type.</font>
+<b><a name="line730">730    </a></b>	            (void)memcpy((void *)RR_ptr,    (void *)G1Q_odd_RR, sizeof(G1Q_odd_RR));
+<b><a name="line731">731    </a></b>	            return_sz = 64UL;
+<b><a name="line732">732    </a></b>	        }
+<b><a name="line733">733    </a></b>	    }
+<b><a name="line734">734    </a></b>	    else
+<b><a name="line735">735    </a></b>	    {
+<b><a name="line736">736    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_n0(n_char, (U16)max_buffer_sz, (U64 *)(void *)n_n0_ptr);
+<b><a name="line737">737    </a></b>	        (void)hal_sec_pqc_kaz_pke_cal_r_rr(n_char, (U16)max_buffer_sz, (U64 *)(void *)n_n0_ptr, R_ptr, RR_ptr, 0U, kaz_powm_buf_ptr);
+<b><a name="line738">738    </a></b>	    }
+<b><a name="line739">739    </a></b>	
+<b><a name="line740">740    </a></b>	    return return_sz;
+<b><a name="line741">741    </a></b>	}
+<b><a name="line742">742    </a></b>	
+<b><a name="line743">743    </a></b>	void hal_sec_pqc_kaz_pke_powm_odd(HAL_SEC_PQC_KAZ_MP_S_LIST output_mpz, HAL_SEC_PQC_KAZ_MP_S_LIST a_mpz, HAL_SEC_PQC_KAZ_MP_S_LIST e_mpz, HAL_SEC_PQC_KAZ_MP_S_LIST n_mpz, HAL_SEC_PQC_KAZ_POWM_BUF_S_PTR kaz_buf_ptr)
+<b><a name="line744">744    </a></b>	{
+<b><a name="line745">745    </a></b>	    U32 a_sz = a_mpz->mp_size << 2UL;
+<b><a name="line746">746    </a></b>	    U32 e_sz = e_mpz->mp_size << 2UL;
+<b><a name="line747">747    </a></b>	    U32 n_sz = n_mpz->mp_size << 2UL;
+<b><a name="line748">748    </a></b>	
+<b><a name="line749">749    </a></b>	    U32 max_buffer_sz = hal_sec_kaz_cal_buf_size(a_sz, n_sz);
+<b><a name="line750">750    </a></b>	
+<b><a name="line751">751    </a></b>	    if (max_buffer_sz > 128UL) // buffer only 128B, if large 128B must fail
+<b><a name="line752">752    </a></b>	    {
+<b><a name="line753">753    </a></b>	        return;
+<b><a name="line754">754    </a></b>	    }
+<b><a name="line755">755    </a></b>	
+<b><a name="line756">756    </a></b>	    U32 e_max_sz = HAL_SEC_PQC_KAZ_SIZE_ALIGN_8BYTE(e_sz); // align 8B
+<b><a name="line757">757    </a></b>	
+<b><a name="line758">758    </a></b>	    U8 *a_char = (U8 *)(kaz_buf_ptr->powm_a_char);
+<b><a name="line759">759    </a></b>	    (void)memset(a_char, 0x00, 128); // powm_a_char max 128B
+<b><a name="line760">760    </a></b>	    (void)memcpy(a_char, (U8 *)(a_mpz->mp_d_ptr), a_sz);
+</pre></body>
+</html>

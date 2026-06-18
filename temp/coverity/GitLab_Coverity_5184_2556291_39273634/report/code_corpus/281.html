@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line159">159    </a></b>	    DAL_SEC_PKE_SET_CMDQ_WR_PTR(cmd_size);
+<b><a name="line160">160    </a></b>	
+<b><a name="line161">161    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line162">162    </a></b>	
+<b><a name="line163">163    </a></b>	    DAL_SEC_PKE_SET_WR_PTR_SET();
+<b><a name="line164">164    </a></b>	    while (1UL == DAL_SEC_PKE_GET_WR_PTR_SET())
+<b><a name="line165">165    </a></b>	    {
+<b><a name="line166">166    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line167">167    </a></b>	        {
+<b><a name="line168">168    </a></b>	            is_timeout = 1U;
+<b><a name="line169">169    </a></b>	            break;
+<b><a name="line170">170    </a></b>	        }
+<b><a name="line171">171    </a></b>	    }
+<b><a name="line172">172    </a></b>	
+<b><a name="line173">173    </a></b>	    if (is_timeout == 0U)
+<b><a name="line174">174    </a></b>	    {
+<b><a name="line175">175    </a></b>	        trigger_done = 1U;
+<b><a name="line176">176    </a></b>	    }
+<b><a name="line177">177    </a></b>	
+<b><a name="line178">178    </a></b>	    return trigger_done;
+<b><a name="line179">179    </a></b>	}
+<b><a name="line180">180    </a></b>	
+<b><a name="line181">181    </a></b>	U8 dal_sec_pke_wptr_set(U64 timeout_val)
+<b><a name="line182">182    </a></b>	{
+<b><a name="line183">183    </a></b>	    U8 trigger_done = 0U;
+<b><a name="line184">184    </a></b>	    U8 is_timeout = 0U;
+<b><a name="line185">185    </a></b>	
+<b><a name="line186">186    </a></b>	    DAL_SEC_PKE_SET_PC_PTR_IN(DAL_SEC_PKE_GET_PC_PTR_OUT());
+<b><a name="line187">187    </a></b>	
+<b><a name="line188">188    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "188" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	    DAL_SEC_PKE_SET_PC_PTR_SET();
+<b><a name="line191">191    </a></b>	    while (DAL_SEC_PKE_GET_PC_PTR_SET() == 1U)
+<b><a name="line192">192    </a></b>	    {
+<b><a name="line193">193    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line194">194    </a></b>	        {
+<b><a name="line195">195    </a></b>	            is_timeout = 1U;
+<b><a name="line196">196    </a></b>	            break;
+<b><a name="line197">197    </a></b>	        }
+<b><a name="line198">198    </a></b>	    }
+<b><a name="line199">199    </a></b>	
+<b><a name="line200">200    </a></b>	    if (is_timeout == 0U)
+<b><a name="line201">201    </a></b>	    {
+<b><a name="line202">202    </a></b>	        trigger_done = 1U;
+<b><a name="line203">203    </a></b>	    }
+<b><a name="line204">204    </a></b>	
+<b><a name="line205">205    </a></b>	    return trigger_done;
+<b><a name="line206">206    </a></b>	}
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	void dal_sec_hwacc_pke_setting(void)
+<b><a name="line209">209    </a></b>	{
+<b><a name="line210">210    </a></b>	    DAL_SEC_PKE_SET_CMDQ_WR_PTR(DAL_SEC_PKE_GET_PC_PTR_OUT() + 459U);
+<b><a name="line211">211    </a></b>	    DAL_SEC_PKE_SET_WR_PTR_SET();
+<b><a name="line212">212    </a></b>	
+<b><a name="line213">213    </a></b>	    DAL_SEC_PKE_SET_LBUF_BASE(1U);
+<b><a name="line214">214    </a></b>	    DAL_SEC_PKE_SET_SBUF_BASE(0U);
+<b><a name="line215">215    </a></b>	}
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	U32 dal_sec_pke_get_global_addr(void)
+<b><a name="line218">218    </a></b>	{
+<b><a name="line219">219    </a></b>	    return (DAL_SEC_PKE_REG_BASE);
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3247">3247    </a></b>	                    loop_copy_bitmap &= ~(1 << copy);
+<b><a name="line3248">3248    </a></b>	
+<b><a name="line3249">3249    </a></b>	                    Dump_ScanID(tprintf("Read Trigger Copy %d(Channel %d) NAND Retry %d, FSA %L, block %d, plane %d, page %d", copy, a_channel[copy], nand_retry, a_fsa[copy], (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line3250">3250    </a></b>	
+<b><a name="line3251">3251    </a></b>	                    a_fip_read_param[copy].nand_addr.all = a_fsa[copy];
+<b><a name="line3252">3252    </a></b>	                    for (backup = 0; backup < backup_max; backup++) {
+<b><a name="line3253">3253    </a></b>	                        a_fip_read_param[copy].buf_addr[backup] = data_address + (backup << LC_BYTE_SIZE_SHIFT);
+<b><a name="line3254">3254    </a></b>	                        a_fip_read_param[copy].spr_addr[backup] = spare_address + (backup << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><a name="line3255">3255    </a></b>	                    }
+<b><a name="line3256">3256    </a></b>	                    a_fip_read_param[copy].node_count = 1;
+<b><a name="line3257">3257    </a></b>	
+<b><a name="line3258">3258    </a></b>	                    command_status = fip_api_read_cmd(&(a_fip_read_param[copy]), ((gLRURetryLevel + nand_retry) % nand_retry_max));
+<b><a name="line3259">3259    </a></b>	                    if (0 == (command_status & (HAL_STATUS_SET_FEAT_DAT_CMP_FAIL | HAL_STATUS_TIMEOUT))) {
+<b><a name="line3260">3260    </a></b>	                        //Mark this channel as being read
+<b><a name="line3261">3261    </a></b>	                        channel_bitmap |= (1 << a_channel[copy]);
+<b><a name="line3262">3262    </a></b>	
+<b><a name="line3263">3263    </a></b>	                        //Mark this copy as being read
+<b><a name="line3264">3264    </a></b>	                        reading_copy_bitmap |= (1 << copy);
+<b><a name="line3265">3265    </a></b>	
+<b><a name="line3266">3266    </a></b>	                        res_read_offset_ch_bitmap |= (1 << a_channel[copy]);
+<b><a name="line3267">3267    </a></b>	                    }
+<b><a name="line3268">3268    </a></b>	                    else {
+<b><a name="line3269">3269    </a></b>	
+<b><a name="line3270">3270    </a></b>	                        Dump_ScanID(tprintf("!!!Copy %d (FSA %L) Read Trigger Error, status = %x", copy, a_fip_read_param[copy].nand_addr.all, command_status));
+<b><a name="line3271">3271    </a></b>	                        sal_log_tracker_set(sal_locate(0xE8, TYPE_LOAD_CODE_ERR));
+<b><a name="line3272">3272    </a></b>	                        sal_log_info_char('T');
+<b><a name="line3273">3273    </a></b>	                        sal_log_info_num(a_fip_read_param[copy].nand_addr.all); //Part of 'T', FSA of the read command
+<b><a name="line3274">3274    </a></b>	
+<b><a name="line3275">3275    </a></b>	                        //TODO go through all fip_status usages
+<b><a name="line3276">3276    </a></b>	                        if (command_status & (HAL_STATUS_TIMEOUT)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "command_status & 2UL" does not have an essentially boolean type.</font>
+<b><a name="line3277">3277    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_TIMEOUT] |= (1 << a_channel[copy]);
+<b><a name="line3278">3278    </a></b>	                        }
+<b><a name="line3279">3279    </a></b>	                        if (command_status & (HAL_STATUS_BUSY)) {
+<b><a name="line3280">3280    </a></b>	                            a_flash_error_channel_bitmap[LOAD_CODE_FLASH_ERROR_BUSY] |= (1 << a_channel[copy]);
+<b><a name="line3281">3281    </a></b>	                        }
+<b><a name="line3282">3282    </a></b>	                    }
+<b><a name="line3283">3283    </a></b>	                }
+<b><a name="line3284">3284    </a></b>	                else {
+<b><a name="line3285">3285    </a></b>	
+<b><a name="line3286">3286    </a></b>	                    Dump_ScanID(tprintf("Copy %d FSA %L (Channel %d) in use: bitmap %x", copy, a_fsa[copy], a_channel[copy], channel_bitmap));
+<b><a name="line3287">3287    </a></b>	                }
+<b><a name="line3288">3288    </a></b>	            }
+<b><a name="line3289">3289    </a></b>	
+<b><a name="line3290">3290    </a></b>	            //Check the result of the Read Trigger
+<b><a name="line3291">3291    </a></b>	            for (copy = 0; copy < copy_max; copy++) {
+<b><a name="line3292">3292    </a></b>	                //Skip copies that are not being read
+<b><a name="line3293">3293    </a></b>	                if (0 == (reading_copy_bitmap & (1 << copy))) {
+<b><a name="line3294">3294    </a></b>	                    continue;
+<b><a name="line3295">3295    </a></b>	                }
+<b><a name="line3296">3296    </a></b>	
+<b><a name="line3297">3297    </a></b>	                command_status = fip_api_chk_status(a_channel[copy], (HAL_FLH_CHK_FAG_BUSY | HAL_FLH_CHK_NAND_BUSY | HAL_FLH_CHK_RDY_BUSY));
+<b><a name="line3298">3298    </a></b>	                //FIP_DBG_INFO_PRINTF("  row address:0x%08x", hal_fip_get_row_address(copy));
+<b><a name="line3299">3299    </a></b>	                //FIP_DBG_INFO_PRINTF("  column address:0x%04x\r\n", hal_fip_get_column_address(copy));
+<b><a name="line3300">3300    </a></b>	                //Receive the cq result of the Read Trigger
+<b><a name="line3301">3301    </a></b>	                //command_status |= fip_api_get_cq_result(&a_fip_read_param[copy], a_channel[copy]);
+<b><a name="line3302">3302    </a></b>	
+<b><a name="line3303">3303    </a></b>	                if (0 == (command_status & HAL_STATUS_TIMEOUT)) {
+<b><a name="line3304">3304    </a></b>	                    //Do nothing, the Read Trigger command finished correctly
+<b><a name="line3305">3305    </a></b>	                }
+<b><a name="line3306">3306    </a></b>	                else {
+<b><a name="line3307">3307    </a></b>	                    //The Read Trigger has timeout
+</pre></body>
+</html>

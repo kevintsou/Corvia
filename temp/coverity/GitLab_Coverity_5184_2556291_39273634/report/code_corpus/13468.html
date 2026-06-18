@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_sm9_z256_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2">2    </a></b>	/*
+<b><a name="line3">3    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line4">4    </a></b>	 *   header files
+<b><a name="line5">5    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line6">6    </a></b>	 */
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	#include "lib/platform.h"
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	/*
+<b><a name="line11">11    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line12">12    </a></b>	 *   definitions
+<b><a name="line13">13    </a></b>	 * ---------------------------------------------------------------------------------------------------
+<b><a name="line14">14    </a></b>	 */
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	const HAL_SEC_SM9_Z256_T SM9_ZERO = {0, 0, 0, 0};
+<b><a name="line17">17    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_ONE = {1, 0, 0, 0};
+<b><a name="line18">18    </a></b>	
+<b><a name="line19">19    </a></b>	// p =  b640000002a3a6f1d603ab4ff58ec74521f2934b1a7aeedbe56f9b27e351457d
+<b><a name="line20">20    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_P =
+<b><a name="line21">21    </a></b>	{
+<b><a name="line22">22    </a></b>	    0xe56f9b27e351457dULL, 0x21f2934b1a7aeedbULL, 0xd603ab4ff58ec745ULL, 0xb640000002a3a6f1ULL
+<b><a name="line23">23    </a></b>	};
+<b><a name="line24">24    </a></b>	
+<b><a name="line25">25    </a></b>	// n =  b640000002a3a6f1d603ab4ff58ec74449f2934b18ea8beee56ee19cd69ecf25
+<b><a name="line26">26    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_N =
+<b><a name="line27">27    </a></b>	{
+<b><a name="line28">28    </a></b>	    0xe56ee19cd69ecf25ULL, 0x49f2934b18ea8beeULL, 0xd603ab4ff58ec744ULL, 0xb640000002a3a6f1ULL
+<b><a name="line29">29    </a></b>	};
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_NEG_N =
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'SM9_Z256_NEG_N', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                         ^</font>
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    0x1a911e63296130dbULL, 0xb60d6cb4e7157411ULL, 0x29fc54b00a7138bbULL, 0x49bffffffd5c590eULL
+<b><a name="line34">34    </a></b>	};
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_MODP_MONT_ONE = {0x1a9064d81caeba83ULL, 0xde0d6cb4e5851124ULL, 0x29fc54b00a7138baULL, 0x49bffffffd5c590eULL};
+<b><a name="line37">37    </a></b>	const HAL_SEC_SM9_Z256_T SM9_Z256_MODP_MONT_FIVE = {0xb9f2c1e8c8c71995ULL, 0x125df8f246a377fcULL, 0x25e650d049188d1cULL, 0x43fffffed866f63ULL};
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	const HAL_SEC_SM9_Z256_POINT_T SM9_Z256_MONT_P1 =
+<b><a name="line40">40    </a></b>	{
+<b><a name="line41">41    </a></b>	    {0x22e935e29860501bULL, 0xa946fd5e0073282cULL, 0xefd0cec817a649beULL, 0x5129787c869140b5ULL},
+<b><a name="line42">42    </a></b>	    {0xee779649eb87f7c7ULL, 0x15563cbdec30a576ULL, 0x326353912824efbfULL, 0x7215717763c39828ULL},
+<b><a name="line43">43    </a></b>	    {0x1a9064d81caeba83ULL, 0xde0d6cb4e5851124ULL, 0x29fc54b00a7138baULL, 0x49bffffffd5c590eULL}
+<b><a name="line44">44    </a></b>	};
+<b><a name="line45">45    </a></b>	
+<b><a name="line46">46    </a></b>	const HAL_SEC_SM9_Z256_TWIST_POINT_T SM9_Z256_MONT_P2 =
+<b><a name="line47">47    </a></b>	{
+<b><a name="line48">48    </a></b>	    {   {0x260226a68ce2da8fULL, 0x7ee5645edbf6c06bULL, 0xf8f57c82b1495444ULL, 0x61fcf018bc47c4d1ULL},
+<b><a name="line49">49    </a></b>	        {0xdb6db4822750a8a6ULL, 0x84c6135a5121f134ULL, 0x1874032f88791d41ULL, 0x905112f2b85f3a37ULL}
+<b><a name="line50">50    </a></b>	    },
+<b><a name="line51">51    </a></b>	    {   {0xc03f138f9171c24aULL, 0x92fbab45a15a3ca7ULL, 0x2445561e2ff77cdbULL, 0x108495e0c0f62eceULL},
+<b><a name="line52">52    </a></b>	        {0xf7b82dac4c89bfbbULL, 0x3706f3f6a49dc12fULL, 0x1e29de93d3eef769ULL, 0x81e448c3c76a5d53ULL}
+<b><a name="line53">53    </a></b>	    },
+<b><a name="line54">54    </a></b>	    {{0x1a9064d81caeba83ULL, 0xde0d6cb4e5851124ULL, 0x29fc54b00a7138baULL, 0x49bffffffd5c590eULL}, {0, 0, 0, 0}},
+<b><a name="line55">55    </a></b>	};
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	// p = b640000002a3a6f1d603ab4ff58ec74521f2934b1a7aeedbe56f9b27e351457d
+<b><a name="line58">58    </a></b>	// p' = -p^(-1) mod 2^256 = afd2bac5558a13b3966a4b291522b137181ae39613c8dbaf892bc42c2f2ee42b
+<b><a name="line59">59    </a></b>	// sage: -(IntegerModRing(2^256)(p))^-1
+<b><a name="line60">60    </a></b>	const U64 SM9_Z256_P_PRIME[4] =
+<b><a name="line61">61    </a></b>	{
+<b><a name="line62">62    </a></b>	    0x892bc42c2f2ee42bULL, 0x181ae39613c8dbafULL, 0x966a4b291522b137ULL, 0xafd2bac5558a13b3ULL,
+</pre></body>
+</html>

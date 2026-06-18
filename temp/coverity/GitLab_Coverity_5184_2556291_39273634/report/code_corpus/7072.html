@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_rst.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line874">874    </a></b>	    //set ssc enable, need to check ssc_en and detect xtal mode
+<b><a name="line875">875    </a></b>	    sal_log_tracker_set(sal_locate(0xEE, TYPE_STEP));
+<b><a name="line876">876    </a></b>	    dal_set_ssc_enable(p_ofst, port_mode_from_pad);
+<b><a name="line877">877    </a></b>	}
+<b><a name="line878">878    </a></b>	
+<b><a name="line879">879    </a></b>	static void host_api_pcie_open_port_link(HOST_API_STRUCT_PTR host, U8 p_ofst, U8 port_mode)
+<b><a name="line880">880    </a></b>	{
+<b><a name="line881">881    </a></b>	    U32 mabiao_addr;
+<b><a name="line882">882    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR  host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line883">883    </a></b>	
+<b><a name="line884">884    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIOA_PCIE_CHECK_SYS_PERSTN, 1);
+<b><a name="line885">885    </a></b>	    while (1)
+<b><a name="line886">886    </a></b>	    {
+<b><a name="line887">887    </a></b>	        if(dal_pcie_get_sys_perstn_intr(p_ofst))
+<b><a name="line888">888    </a></b>	        {
+<b><a name="line889">889    </a></b>	            Dump_FastLink(tprintf("port %d detect sys perstn int success", p_ofst));
+<b><a name="line890">890    </a></b>	            sal_log_tracker_set(sal_locate(0x10, TYPE_STEP));
+<b><a name="line891">891    </a></b>	            dal_pcie_set_perst_trig(p_ofst, 0);
+<b><a name="line892">892    </a></b>	            break;
+<b><a name="line893">893    </a></b>	        }
+<b><a name="line894">894    </a></b>	
+<b><a name="line895">895    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line896">896    </a></b>	        {
+<b><a name="line897">897    </a></b>	            Dump_FastLink(tprintf("port %d detect sys perstn int timeout", p_ofst));
+<b><a name="line898">898    </a></b>	            sal_log_tracker_set(sal_locate(0x11, TYPE_STEP));
+<b><a name="line899">899    </a></b>	            break;
+<b><a name="line900">900    </a></b>	        }
+<b><a name="line901">901    </a></b>	    }
+<b><a name="line902">902    </a></b>	
+<b><a name="line903">903    </a></b>	    if(r_PCIE_SYS_XPERSTB_FP(p_ofst) == 1)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "((U8 volatile *)gPcieSysMiscRegPortBase[p_ofst][1168U] >> 4U) & 1U" (unsigned) is not the same as that of the right operand "1"(signed).</font>
+<b><a name="line904">904    </a></b>	    {
+<b><a name="line905">905    </a></b>	        Dump_FastLink(tprintf("port %d detect xperstb_fp int", p_ofst));
+<b><a name="line906">906    </a></b>	        sal_log_tracker_set(sal_locate(0x12, TYPE_STEP));
+<b><a name="line907">907    </a></b>	        return;
+<b><a name="line908">908    </a></b>	    }
+<b><a name="line909">909    </a></b>	
+<b><a name="line910">910    </a></b>	    dal_clr_sp_pcie_int(p_ofst, hal_pcie_int_type(SYS_PERSTN_INTR));// clr sys_perstn_intr status
+<b><a name="line911">911    </a></b>	
+<b><a name="line912">912    </a></b>	    /********** Config space registers init flow start **********/
+<b><a name="line913">913    </a></b>	    //PCIe controller misc
+<b><a name="line914">914    </a></b>	    if ((host_flow->attr.fastlink_landmark_en == TRUE) && (host->set_id_tbl_landmark_done == 0U))
+<b><a name="line915">915    </a></b>	    {
+<b><a name="line916">916    </a></b>	        if (port_mode <= PCIE_PORT_MODE_SINGLE)
+<b><a name="line917">917    </a></b>	        {
+<b><a name="line918">918    </a></b>	            Dump_FastLink(tprintf("single P0 landmark"));
+<b><a name="line919">919    </a></b>	            sal_log_tracker_set(sal_locate(0x13, TYPE_STEP));
+<b><a name="line920">920    </a></b>	            host_api_set_fastlink_landmark(host, HOST_FASTLINK_SINGLE_P0);
+<b><a name="line921">921    </a></b>	        }
+<b><a name="line922">922    </a></b>	        else
+<b><a name="line923">923    </a></b>	        {
+<b><a name="line924">924    </a></b>	            if(r_CR_DUALPORT_DBC() == 0)
+<b><a name="line925">925    </a></b>	            {
+<b><a name="line926">926    </a></b>	                //host regarded as dual port mode since dualport# low
+<b><a name="line927">927    </a></b>	                if(p_ofst == PCIE_PORT_OFST_0)
+<b><a name="line928">928    </a></b>	                {
+<b><a name="line929">929    </a></b>	                    Dump_FastLink(tprintf("dual P0 landmark"));
+<b><a name="line930">930    </a></b>	                    sal_log_tracker_set(sal_locate(0x14, TYPE_STEP));
+<b><a name="line931">931    </a></b>	                    host_api_set_fastlink_landmark(host, HOST_FASTLINK_DUAL_P0);
+<b><a name="line932">932    </a></b>	                }
+<b><a name="line933">933    </a></b>	
+<b><a name="line934">934    </a></b>	                if(p_ofst == PCIE_PORT_OFST_1)
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line524">524    </a></b>	            cmd_info_ptr->op_id += 2U;
+<b><a name="line525">525    </a></b>	            break;
+<b><a name="line526">526    </a></b>	
+<b><a name="line527">527    </a></b>	        case INST_PLANE_ADR_RTY:
+<b><a name="line528">528    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = gFplApiStruct.plane_adr_tbl[param->comm.plane];
+<b><a name="line529">529    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line530">530    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line531">531    </a></b>	            break;
+<b><a name="line532">532    </a></b>	
+<b><a name="line533">533    </a></b>	        case INST_DIE_ADR:
+<b><a name="line534">534    </a></b>	            param->cmd_addr.addr[param->cmd_addr.addr_len] = param->comm.die;
+<b><a name="line535">535    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line536">536    </a></b>	            param->cmd_addr.addr_len ++;
+<b><a name="line537">537    </a></b>	            break;
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	        case INST_DAT_FEAT_RTY_C:
+<b><a name="line540">540    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line541">541    </a></b>	                for (i = 0U; i < DAT_FEAT_CYCLE_NUM; i++) {
+<b><a name="line542">542    </a></b>	                    param->cmd_addr.dat_buf[param->cmd_addr.dat_len] = retry_tbl[i];
+<b><a name="line543">543    </a></b>	                    param->cmd_addr.dat_len++;
+<b><a name="line544">544    </a></b>	                }
+<b><a name="line545">545    </a></b>	            }
+<b><a name="line546">546    </a></b>	            else {
+<b><a name="line547">547    </a></b>	                param->cmd_addr.dat_len += DAT_FEAT_CYCLE_NUM;
+<b><a name="line548">548    </a></b>	            }
+<b><a name="line549">549    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line550">550    </a></b>	            break;
+<b><a name="line551">551    </a></b>	
+<b><a name="line552">552    </a></b>	        case INST_CMD_EFh:
+<b><a name="line553">553    </a></b>	            if (get_feat == FALSE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "get_feat" (unsigned) is not the same as that of the right operand "0"(boolean).</font>
+<b><a name="line554">554    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_EFh;
+<b><a name="line555">555    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line556">556    </a></b>	            }
+<b><a name="line557">557    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line558">558    </a></b>	            break;
+<b><a name="line559">559    </a></b>	
+<b><a name="line560">560    </a></b>	        case INST_CMD_EEh:
+<b><a name="line561">561    </a></b>	            if (get_feat == TRUE) {
+<b><a name="line562">562    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_EEh;
+<b><a name="line563">563    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line564">564    </a></b>	            }
+<b><a name="line565">565    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line566">566    </a></b>	            break;
+<b><a name="line567">567    </a></b>	
+<b><a name="line568">568    </a></b>	        case INST_CMD_36h:
+<b><a name="line569">569    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line570">570    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_36h;
+<b><a name="line571">571    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line572">572    </a></b>	            }
+<b><a name="line573">573    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line574">574    </a></b>	            break;
+<b><a name="line575">575    </a></b>	
+<b><a name="line576">576    </a></b>	        case INST_CMD_16h:
+<b><a name="line577">577    </a></b>	            if (get_feat == FALSE) {
+<b><a name="line578">578    </a></b>	                param->cmd_addr.cmd[param->cmd_addr.cmd_len_l] = CMD_16h;
+<b><a name="line579">579    </a></b>	                param->cmd_addr.cmd_len_l++;
+<b><a name="line580">580    </a></b>	            }
+<b><a name="line581">581    </a></b>	            cmd_info_ptr->op_id ++;
+<b><a name="line582">582    </a></b>	            break;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	        case INST_CMD_37h:
+</pre></body>
+</html>

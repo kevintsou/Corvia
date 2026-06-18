@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_rng.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  bootcode_hal_rng.h                                                    */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _BOOTCODE_HAL_RNG_H_
+<b><a name="line19">19    </a></b>	#define _BOOTCODE_HAL_RNG_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_BOOTCODE_HAL_RNG_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "lib/platform.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	U8 bootcode_hal_rng_get_value(U32 rand_len, U8 *rand_val);
+<b><a name="line24">24    </a></b>	U8 phal_init_rng(U32 repetition_count_test, U32 adaptive_proportion_test, U8 health_test_en);
+<b><a name="line25">25    </a></b>	#endif /* _BOOTCODE_HAL_RNG_H_ */
+<b><a name="line26">26    </a></b>	
+</pre></body>
+</html>

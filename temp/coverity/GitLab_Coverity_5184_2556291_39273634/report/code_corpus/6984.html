@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line498">498    </a></b>	    phal_smbs_disable_addr(SMBUS0, BIT(SMBUS_ADDRESS_INDEX_ARA));
+<b><a name="line499">499    </a></b>	#endif
+<b><a name="line500">500    </a></b>	    w_SMBS_ALERT_AUTO_EN(ent, 0U);   // AUTO ALERT unsupported in HW
+<b><a name="line501">501    </a></b>	    phal_smbs_hw_alert_disable(ent); // AUTO ALERT unsupported in HW
+<b><a name="line502">502    </a></b>	
+<b><a name="line503">503    </a></b>	    // 4. HW auto reset SMBS while 35ms timeout
+<b><a name="line504">504    </a></b>	    dal_smbs_api_set_en_auto_rst_det(ent, (U8)1U);
+<b><a name="line505">505    </a></b>	    dal_smbs_api_set_smbclk_low_count(ent, 0xD59F7UL);  // 25MHz, 35ms
+<b><a name="line506">506    </a></b>	    dal_smbs_api_set_auto_rst_en(ent, (U8)1U);
+<b><a name="line507">507    </a></b>	}
+<b><a name="line508">508    </a></b>	#endif
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	void smbus_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line511">511    </a></b>	{
+<b><a name="line512">512    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line513">513    </a></b>	    // OCP recovery - force boot error
+<b><a name="line514">514    </a></b>	    if (TRUE == OcpRecoverySetDeviceFailure(gpFwSimCtrl1Reg->ocp_recovery_is_trigger,
+<b><a name="line515">515    </a></b>	                                            DS_BOOT_FAILURE, RRC_GENERIC_HARDWARE_SOFT_ERROR))
+<b><a name="line516">516    </a></b>	    {
+<b><a name="line517">517    </a></b>	        gpFwSimCtrl1Reg->ocp_recovery_is_trigger = 1;
+<b><a name="line518">518    </a></b>	    }
+<b><a name="line519">519    </a></b>	
+<b><a name="line520">520    </a></b>	    sys_api_smbus_init((void *)&gSMBM
+<b><a name="line521">521    </a></b>	        , (void *)&gSMBS
+<b><a name="line522">522    </a></b>	        , DBUF_API_BOOTCODE_SMBUS_BUFFER_BASE
+<b><a name="line523">523    </a></b>	        , DBUF_API_BOOTCODE_SMBUS_BUFFER_SIZE
+<b><a name="line524">524    </a></b>	        , bc_ptr->parameter_config.edsff_enable_flag);
+<b><a name="line525">525    </a></b>	
+<b><a name="line526">526    </a></b>	    mctp_management_init(&gMCTP
+<b><a name="line527">527    </a></b>	        , DBUF_API_BOOTCODE_MCTP_PACKET_BASE
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134742016UL" (unsigned) is not the same as that of the right operand "8192"(signed).</font>
+<b><a name="line528">528    </a></b>	        , DBUF_API_BOOTCODE_MCTP_PACKET_SIZE
+<b><a name="line529">529    </a></b>	        , DBUF_API_BOOTCODE_MCTP_MESSAGE_BASE
+<b><a name="line530">530    </a></b>	        , DBUF_API_BOOTCODE_MCTP_MESSAGE_SIZE);
+<b><a name="line531">531    </a></b>	
+<b><a name="line532">532    </a></b>	    nvme_basic_management_command_init(GetSubsystemManagementDataPtr());
+<b><a name="line533">533    </a></b>	
+<b><a name="line534">534    </a></b>	    init_smbus_variables();
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	    smbs_disable_specific_addr_to_avoid_illegal_usage(SMBUS0);
+<b><a name="line537">537    </a></b>	
+<b><a name="line538">538    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line539">539    </a></b>	    framework_smbus_init(0 /* pHostGM */);
+<b><a name="line540">540    </a></b>	#else
+<b><a name="line541">541    </a></b>	    framework_smbus_init();
+<b><a name="line542">542    </a></b>	#endif
+<b><a name="line543">543    </a></b>	
+<b><a name="line544">544    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line545">545    </a></b>	}
+<b><a name="line546">546    </a></b>	
+</pre></body>
+</html>

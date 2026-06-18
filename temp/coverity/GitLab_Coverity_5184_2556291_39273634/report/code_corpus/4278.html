@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1541">1541    </a></b>	        case INST_CMD_00h:
+<b><a name="line1542">1542    </a></b>	        case INST_CMD_30h:
+<b><a name="line1543">1543    </a></b>	        case INST_CMD_A2h:
+<b><a name="line1544">1544    </a></b>	        case INST_CMD_DAh:
+<b><a name="line1545">1545    </a></b>	            if (cmd_type == INST_ID_READ_CMD) {
+<b><a name="line1546">1546    </a></b>	                fpl_op_code_ref(&(fip_inst_ptr->inst[INST_ID_PREFIX_FOR_RETRY]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1547">1547    </a></b>	            }
+<b><a name="line1548">1548    </a></b>	            fpl_op_code_ref(&(fip_inst_ptr->inst[cmd_type]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1549">1549    </a></b>	            break;
+<b><a name="line1550">1550    </a></b>	
+<b><a name="line1551">1551    </a></b>	        case INST_CMD_EFh:
+<b><a name="line1552">1552    </a></b>	        case INST_CMD_EEh:
+<b><a name="line1553">1553    </a></b>	            if (cmd_type == INST_ID_SET_FEAT) {
+<b><a name="line1554">1554    </a></b>	                fpl_op_code_ref(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1555">1555    </a></b>	            }
+<b><a name="line1556">1556    </a></b>	            fpl_op_code_ref(&(fip_inst_ptr->inst[cmd_type]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1557">1557    </a></b>	            break;
+<b><a name="line1558">1558    </a></b>	
+<b><a name="line1559">1559    </a></b>	        default:
+<b><a name="line1560">1560    </a></b>	            fpl_op_code_ref(&(fip_inst_ptr->inst[cmd_type]), &val, INST_REF_ZERO_OP_CODE);
+<b><a name="line1561">1561    </a></b>	            break;
+<b><a name="line1562">1562    </a></b>	        }
+<b><a name="line1563">1563    </a></b>	
+<b><a name="line1564">1564    </a></b>	        val         =  val >> (EFUSE_PARAM_BIT_PER_OP_CODE + (op_code_ref_num * EFUSE_PARAM_BIT_PER_OP_CODE));
+<b><a name="line1565">1565    </a></b>	        get_bit     =  get_bit - (EFUSE_PARAM_BIT_PER_OP_CODE + (op_code_ref_num * EFUSE_PARAM_BIT_PER_OP_CODE));
+<b><a name="line1566">1566    </a></b>	        data_adr_ptr =  data_adr_ptr - data_ref_num;
+<b><a name="line1567">1567    </a></b>	    }
+<b><a name="line1568">1568    </a></b>	
+<b><a name="line1569">1569    </a></b>	    if (fip_inst_ptr->inst[INST_ID_SET_FEAT_FOR_RETRY].op_num < 2U) {
+<b><a name="line1570">1570    </a></b>	        fpl_ptr->retry_by_prefix = TRUE;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1" from essential type "boolean" to different or narrower essential type "unsigned 32-bit int".</font>
+<b><a name="line1571">1571    </a></b>	        Dump_Debug(tprintf("[parsing_efuse]retry_by_prefix!!\r\n"));
+<b><a name="line1572">1572    </a></b>	    }
+<b><a name="line1573">1573    </a></b>	
+<b><a name="line1574">1574    </a></b>	#if 0
+<b><a name="line1575">1575    </a></b>	    for (z = 0U; z < INST_ID_NUM; z++) {
+<b><a name="line1576">1576    </a></b>	        U8 j;
+<b><a name="line1577">1577    </a></b>	        tprintf("[parsing_efuse]--------ID[%d]", z);
+<b><a name="line1578">1578    </a></b>	        tprintf("[parsing_efuse]*op_id = %d", fip_inst_ptr->inst[z].op_id);
+<b><a name="line1579">1579    </a></b>	        tprintf("[parsing_efuse]*data_id] = %d", fip_inst_ptr->inst[z].data_id);
+<b><a name="line1580">1580    </a></b>	        for (j = 0U; j < fip_inst_ptr->inst[z].op_id; j++) {
+<b><a name="line1581">1581    </a></b>	            tprintf("[parsing_efuse]op[%d] = %d", j, fip_inst_ptr->inst[z].op[j]);
+<b><a name="line1582">1582    </a></b>	        }
+<b><a name="line1583">1583    </a></b>	
+<b><a name="line1584">1584    </a></b>	        for (j = 0U; j < fip_inst_ptr->inst[z].data_id; j++) {
+<b><a name="line1585">1585    </a></b>	            tprintf("[parsing_efuse]data[%d] = %d", j, fip_inst_ptr->inst[z].data[j]);
+<b><a name="line1586">1586    </a></b>	        }
+<b><a name="line1587">1587    </a></b>	    }
+<b><a name="line1588">1588    </a></b>	#endif
+<b><a name="line1589">1589    </a></b>	}
+<b><a name="line1590">1590    </a></b>	
+<b><a name="line1591">1591    </a></b>	
+<b><a name="line1592">1592    </a></b>	void fpl_set_feat_if_seq_parsing(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr)
+<b><a name="line1593">1593    </a></b>	{
+<b><a name="line1594">1594    </a></b>	    U32  index;
+<b><a name="line1595">1595    </a></b>	    U32  op_id;
+<b><a name="line1596">1596    </a></b>	    U32  data_id;
+<b><a name="line1597">1597    </a></b>	    U32  set_feat_seq_id;
+<b><a name="line1598">1598    </a></b>	    U32  get_feat_seq_id;
+<b><a name="line1599">1599    </a></b>	    U32  status;
+<b><a name="line1600">1600    </a></b>	    U8   feat_data_id;
+<b><a name="line1601">1601    </a></b>	    U8   data_ref_num;
+</pre></body>
+</html>

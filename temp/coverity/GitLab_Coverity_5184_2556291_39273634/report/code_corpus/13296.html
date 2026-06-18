@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/nvme_protocol.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  nvme_protocol.h                                                       */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef NVME_PROTOCOL_H
+<b><a name="line19">19    </a></b>	#define NVME_PROTOCOL_H
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "sal_libs.h"
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	/************************************************************************************************
+<b><a name="line24">24    </a></b>	 * Definition of NVMe Hardware Spec                                                             *
+<b><a name="line25">25    </a></b>	 ************************************************************************************************/
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	#define NS_MAX_NUM                  (1) // boot code max # of NS is 1
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	#define NS_NONE                     (0)
+<b><a name="line30">30    </a></b>	#define NS1                         (1)
+<b><a name="line31">31    </a></b>	#define ALL_NS                      (0xFFFFFFFF)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_7_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Numeric literal "0xFFFFFFFF" is unsigned but does not use a "u" or "U" suffix.</font>
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	#define FUNC_MAX_NUM                (1)
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	#define FUNC0                       (0)
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	#define NVME_MAX_Q_CNT              (9U) // 1 AdminQ + 8 IOQ
+<b><a name="line40">40    </a></b>	#define NVME_MAX_IV_NUM             (NVME_MAX_Q_CNT - 1) // valid interrupt vector number is 0 ~ MAX_IV_NUM
+<b><a name="line41">41    </a></b>	#define NVME_MAX_IOQ_CNT            (NVME_MAX_Q_CNT - 1)
+<b><a name="line42">42    </a></b>	#define NVME_MAX_QPB_ID             (8) // max QID
+<b><a name="line43">43    </a></b>	#define NVME_MAX_PORT_NUM           (1U)
+<b><a name="line44">44    </a></b>	#define NVME_MAX_PF_NUM_PER_PORT    (1U)
+<b><a name="line45">45    </a></b>	#define NVME_MAX_NUM_OF_LBA_RANGE   (64U)
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	// E28 handles max 512 NVME command at the same time
+<b><a name="line48">48    </a></b>	#define CTAG_MAX_NUM                (512U)
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	/************************************************************************************************
+<b><a name="line51">51    </a></b>	 * Definition of NVMe Spec                                                                      *
+<b><a name="line52">52    </a></b>	 ************************************************************************************************/
+<b><a name="line53">53    </a></b>	
+<b><a name="line54">54    </a></b>	/*
+<b><a name="line55">55    </a></b>	*  NVM Express specification revision 1.2
+<b><a name="line56">56    </a></b>	*/
+<b><a name="line57">57    </a></b>	
+<b><a name="line58">58    </a></b>	#define NVME_SCT_GENERIC_CMD_STS                             (0x0U)
+<b><a name="line59">59    </a></b>	#define NVME_SCT_CMD_SPECIFIC_STS                            (0x1U)
+<b><a name="line60">60    </a></b>	#define NVME_SCT_MEDIA_DATA_INTEGRITY_ERR                    (0x2U)
+<b><a name="line61">61    </a></b>	#define NVME_SCT_PATH_RELATED_STS                            (0x3U)
+<b><a name="line62">62    </a></b>	#define NVME_SCT_VENDOR_SPECIFIC                             (0x7U)
+</pre></body>
+</html>

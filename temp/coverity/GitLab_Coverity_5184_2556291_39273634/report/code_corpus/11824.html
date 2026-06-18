@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_isr.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line189">189    </a></b>	    Dump_PCIE(tprintf("%x %x",int_struct.dw[12],int_struct.dw[13]));
+<b><a name="line190">190    </a></b>	
+<b><a name="line191">191    </a></b>	
+<b><a name="line192">192    </a></b>	    if (hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_R), &int_struct))
+<b><a name="line193">193    </a></b>	    {
+<b><a name="line194">194    </a></b>	        Dump_PCIE(tprintf("<Link Up R>"));
+<b><a name="line195">195    </a></b>	        event->rst_flag |= RST_PCIE_LINK_R;
+<b><a name="line196">196    </a></b>	    }
+<b><a name="line197">197    </a></b>	
+<b><a name="line198">198    </a></b>	    if (hal_chk_pcie_int_sts(hal_pcie_int_type(LINKUP_F), &int_struct))
+<b><a name="line199">199    </a></b>	    {
+<b><a name="line200">200    </a></b>	        Dump_PCIE(tprintf("<Link Up F>"));
+<b><a name="line201">201    </a></b>	        event->rst_flag |= RST_PCIE_LINK_F;
+<b><a name="line202">202    </a></b>	    }
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	    if (hal_chk_pcie_int_sts(hal_pcie_int_type(PCLK_MIS_INTR), &int_struct))
+<b><a name="line205">205    </a></b>	    {
+<b><a name="line206">206    </a></b>	        Dump_PCIE(tprintf("<PCLK_MIS_INTR>"));
+<b><a name="line207">207    </a></b>	        w_PCIE_SYS_PM_SEL_AUX_CLK_OVRD(0, 1);//(void)pcie->op.set_pm_sel_aux_clk_ovrd(pcie, 1U);
+<b><a name="line208">208    </a></b>	    }
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    if (hal_chk_pcie_int_sts(hal_pcie_int_type(SYS_PCLK_DETECT), &int_struct))
+<b><a name="line211">211    </a></b>	    {
+<b><a name="line212">212    </a></b>	        Dump_PCIE(tprintf("<SYS_PCLK_DETECT>"));
+<b><a name="line213">213    </a></b>	        w_PCIE_SYS_PM_SEL_AUX_CLK_OVRD(0, 0);//(void)pcie->op.set_pm_sel_aux_clk_ovrd(pcie, 0U);
+<b><a name="line214">214    </a></b>	    }
+<b><a name="line215">215    </a></b>	
+<b><a name="line216">216    </a></b>	    if(hal_chk_pcie_int_sts(hal_pcie_int_type(PF_FLR_REQ), &int_struct))
+<b><a name="line217">217    </a></b>	    {
+<b><a name="line218">218    </a></b>	        hal_func_set_pf_cfg_not_rdy(&pcie->pvt_cfg, PCIE_PORT_0, PCIE_PF_0, PCIE_ENABLE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "hal_func_set_pf_cfg_not_rdy" is unused.</font>
+<b><a name="line219">219    </a></b>	        Dump_PCIE(tprintf("<PCIE_FLR>"));
+<b><a name="line220">220    </a></b>	        event->rst_flag |= RST_PCIE_FLR;
+<b><a name="line221">221    </a></b>	    }
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	    if(hal_chk_pcie_int_sts(hal_pcie_int_type(START_BIST), &int_struct))
+<b><a name="line224">224    </a></b>	    {
+<b><a name="line225">225    </a></b>	        Dump_PCIE(tprintf("<PCIE_BIST>"));
+<b><a name="line226">226    </a></b>	        event->rst_flag |= RST_PCIE_START_BIST;
+<b><a name="line227">227    </a></b>	    }
+<b><a name="line228">228    </a></b>	}
+<b><a name="line229">229    </a></b>	
+</pre></body>
+</html>

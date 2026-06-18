@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line506">506    </a></b>	    p_nand_status_content->total_read_fail_block_count_d2_d3;
+<b><a name="line507">507    </a></b>	    p_nand_status_content->total_erase_fail_block_count_d1;
+<b><a name="line508">508    </a></b>	    p_nand_status_content->total_erase_fail_block_count_d2_d3;
+<b><a name="line509">509    </a></b>	    p_nand_status_content->total_program_fail_block_count_d1;
+<b><a name="line510">510    </a></b>	    p_nand_status_content->total_program_fail_block_count_d2_d3;
+<b><a name="line511">511    </a></b>	    p_nand_status_content->nand_read_count;
+<b><a name="line512">512    </a></b>	    p_nand_status_content->nand_write_count;
+<b><a name="line513">513    </a></b>	    */
+<b><a name="line514">514    </a></b>	    return;
+<b><a name="line515">515    </a></b>	}
+<b><a name="line516">516    </a></b>	
+<b><a name="line517">517    </a></b>	void vuc_read_system_info_thermal_status(THERMAL_STATUS *p_thermal_status_content)
+<b><a name="line518">518    </a></b>	{
+<b><a name="line519">519    </a></b>	    /*
+<b><a name="line520">520    </a></b>	    p_thermal_status_content->maximum_drive_temperature_after_drive_produce;
+<b><a name="line521">521    </a></b>	    p_thermal_status_content->minimum_drive_temperature_after_drive_produce;
+<b><a name="line522">522    </a></b>	    p_thermal_status_content->current_drive_temperature;
+<b><a name="line523">523    </a></b>	    p_thermal_status_content->current_chip_internal_temperature;
+<b><a name="line524">524    </a></b>	    p_thermal_status_content->current_nand_temperature;
+<b><a name="line525">525    </a></b>	    p_thermal_status_content->thermal_throttle_trig_counts;
+<b><a name="line526">526    </a></b>	    p_thermal_status_content->total_thermal_throttle_trig_minutes;
+<b><a name="line527">527    </a></b>	    */
+<b><a name="line528">528    </a></b>	    return;
+<b><a name="line529">529    </a></b>	}
+<b><a name="line530">530    </a></b>	#endif
+<b><a name="line531">531    </a></b>	
+<b><a name="line532">532    </a></b>	static void vuc_read_system_info_security_protect(SECURITY_PROTECT *p_system_security_protect_content)
+<b><a name="line533">533    </a></b>	{
+<b><a name="line534">534    </a></b>	    U32 asymmetric_key;
+<b><a name="line535">535    </a></b>	    if (gVucDispatch.lock_en) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gVucDispatch.lock_en", taking true branch.</font>
+<b><a name="line536">536    </a></b>	        if(!gVucDispatch.lock_by_sp800_227)      //56B
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "!gVucDispatch.lock_by_sp800_227", taking true branch.</font>
+<b><a name="line537">537    </a></b>	        {
+<b><a name="line538">538    </a></b>	            p_system_security_protect_content->security_support_status     |= SYS_INFO_SEC_SUP_STATUS_VUC_PROT; // Support VUC protection
+<b><a name="line539">539    </a></b>	            p_system_security_protect_content->vuc_protect_mode             = READ_SYSTEM_INFO_VUC_PROTECT_MODE_V4;
+<b><a name="line540">540    </a></b>	            p_system_security_protect_content->vuc_protect_secure_key_index = READ_SYSTEM_INFO_PHISON_KEY_INDEX;
+<b><a name="line541">541    </a></b>	
+<b><a name="line542">542    </a></b>	            if (gVUCProtect.protect_state < VUC_PROTECT_VERIFY_STATE_ENGINEERING) {
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gVUCProtect.protect_state < 2U", taking true branch.</font>
+<b><a name="line543">543    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_LOCK;
+<b><a name="line544">544    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line545">545    </a></b>	            else if (gVUCProtect.protect_state < VUC_PROTECT_VERIFY_STATE_PASS) {
+<b><a name="line546">546    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line547">547    </a></b>	            }
+<b><a name="line548">548    </a></b>	            else {
+<b><a name="line549">549    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line550">550    </a></b>	            }
+<b><a name="line551">551    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line552">552    </a></b>	        else    //227
+<b><a name="line553">553    </a></b>	        {
+<b><a name="line554">554    </a></b>	            p_system_security_protect_content->security_support_status     |= SYS_INFO_SEC_SUP_STATUS_VUC_PROT; // Support VUC protection
+<b><a name="line555">555    </a></b>	            p_system_security_protect_content->vuc_protect_mode             = READ_SYSTEM_INFO_VUC_PROTECT_MODE_V5;
+<b><a name="line556">556    </a></b>	            p_system_security_protect_content->vuc_protect_secure_key_index = READ_SYSTEM_INFO_PHISON_KEY_INDEX;
+<b><a name="line557">557    </a></b>	
+<b><a name="line558">558    </a></b>	            if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_ENGINEERING) {
+<b><a name="line559">559    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_LOCK;
+<b><a name="line560">560    </a></b>	            }
+<b><a name="line561">561    </a></b>	            else if (gVUALock.ubVUCLockState < VUA_VERIFY_STATE_PASS) {
+<b><a name="line562">562    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_ENGINEERING;
+<b><a name="line563">563    </a></b>	            }
+<b><a name="line564">564    </a></b>	            else {
+<b><a name="line565">565    </a></b>	                p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_SECURITY;
+<b><a name="line566">566    </a></b>	            }
+<b><a name="line567">567    </a></b>	        }
+<b><a name="line568">568    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line569">569    </a></b>	    else
+<b><a name="line570">570    </a></b>	    {
+<b><a name="line571">571    </a></b>	        p_system_security_protect_content->vuc_protect_mode = READ_SYSTEM_INFO_VUC_PROTECT_MODE_NO_SUPPORT;
+<b><a name="line572">572    </a></b>	        p_system_security_protect_content->vuc_protect_status = READ_SYSTEM_INFO_VUC_PROTECT_STATE_NOT_PROTECT;
+<b><a name="line573">573    </a></b>	    }
+<b><a name="line574">574    </a></b>	
+<b><a name="line575">575    </a></b>	    if ((gBCodeGlobalStruct.p_efuse_security_setting->check_code_signature_enable) && (0 != gBCodeGlobalStruct.production_mode)) {
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "(*gBCodeGlobalStruct.p_efuse_security_setting).check_code_signature_enable", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "0 != gBCodeGlobalStruct.production_mode", taking true branch.</font>
+<b><a name="line576">576    </a></b>	        p_system_security_protect_content->security_support_status |= SYS_INFO_SEC_SUP_STATUS_CODE_SIGN;
+<b><a name="line577">577    </a></b>	    }
+<b><a name="line578">578    </a></b>	
+<b><a name="line579">579    </a></b>	    //Return all valid Code Sign Key index
+<b><a name="line580">580    </a></b>	    p_system_security_protect_content->code_sign_key_index = 0;
+<b><a name="line581">581    </a></b>	    for (asymmetric_key = 0; asymmetric_key < EFUSE_CODE_SIGN_KEY_HASH_COUNT; asymmetric_key++) {
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "asymmetric_key < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "asymmetric_key < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(17) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "asymmetric_key < 5U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(18) Event cond_at_most:</font></b> <font face="Arial"; size="3"; color="#FF5959">Checking "asymmetric_key < 5UL" implies that "asymmetric_key" may be up to 4 on the true branch.</font>
+<b><a name="line582">582    </a></b>	        if (check_field_valid(
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(19) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting).assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><a name="line583">583    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line584">584    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting->assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line585">585    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << asymmetric_key); // get host valid key index
+<b><a name="line586">586    </a></b>	        }
+<b><a name="line587">587    </a></b>	        if (check_field_valid(
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(20) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "check_field_valid(((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U) & 3U, ((*gBCodeGlobalStruct.p_efuse_security_setting_1).bfn_assymetric_key_state >> asymmetric_key * 4U + 2U) & 3U)", taking true branch.</font>
+<b><a name="line588">588    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U)) & 0x03U,
+<b><a name="line589">589    </a></b>	                ((gBCodeGlobalStruct.p_efuse_security_setting_1->bfn_assymetric_key_state) >> (asymmetric_key * 4U + 2U)) & 0x03U)) {
+<b><a name="line590">590    </a></b>	            p_system_security_protect_content->code_sign_key_index |= (1 << (asymmetric_key + EFUSE_CODE_SIGN_KEY_HASH_COUNT)); // get nand valid key index
+<b><font face="Arial"; size="3"; color="#F00000">(21) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "1 << asymmetric_key + 5UL", shifting more than 7 bits, the number of bits in the essential type of the left expression, "1", is not allowed.  The shift amount, "asymmetric_key + 5UL", is as much as 9.</font>
+<b><a name="line591">591    </a></b>	        }
+<b><a name="line592">592    </a></b>	    }
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(16) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Jumping back to the beginning of the loop.</font>
+<b><a name="line593">593    </a></b>	
+<b><a name="line594">594    </a></b>	    return;
+<b><a name="line595">595    </a></b>	}
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	#if 0
+<b><a name="line598">598    </a></b>	void vuc_read_system_info_drive_status(DRIVE_STATUS *p_drive_status_content)
+<b><a name="line599">599    </a></b>	{
+<b><a name="line600">600    </a></b>	    /*
+<b><a name="line601">601    </a></b>	    p_drive_status_content->fw_assert_code = gBCodeGlobalStruct.err_history.info[0];
+<b><a name="line602">602    </a></b>	    p_drive_status_content->fw_error_condition = gBCodeGlobalStruct.err_history.err_idx;
+<b><a name="line603">603    </a></b>	    p_drive_status_content->write_protect_status = 0xFF;
+<b><a name="line604">604    </a></b>	    p_drive_status_content->drive_life_percent_used;
+<b><a name="line605">605    </a></b>	    p_drive_status_content->e3d_error_count;
+<b><a name="line606">606    </a></b>	    p_drive_status_content->crc_error_count;
+<b><a name="line607">607    </a></b>	    p_drive_status_content->fw_code_update_count;
+<b><a name="line608">608    </a></b>	    p_drive_status_content->power_cycle_count;
+<b><a name="line609">609    </a></b>	    p_drive_status_content->abnormal_power_cycle_count;
+<b><a name="line610">610    </a></b>	    p_drive_status_content->power_on_time_second = timer_get_time() / 1000U;         //add variable to record how long does it take to initalize host   //check with AAron
+<b><a name="line611">611    </a></b>	    p_drive_status_content->host_protocol_phy_error;
+<b><a name="line612">612    </a></b>	    p_drive_status_content->host_read_count;
+<b><a name="line613">613    </a></b>	    p_drive_status_content->host_write_count;
+<b><a name="line614">614    </a></b>	    */
+<b><a name="line615">615    </a></b>	}
+<b><a name="line616">616    </a></b>	
+<b><a name="line617">617    </a></b>	void vuc_read_system_info_flash_status_log(FLASH_STATUS_LOG *p_flash_status_content)
+<b><a name="line618">618    </a></b>	{
+<b><a name="line619">619    </a></b>	    /*
+<b><a name="line620">620    </a></b>	    p_flash_status_content->maximum_erase_count_d1;
+<b><a name="line621">621    </a></b>	    p_flash_status_content->maximum_erase_count_d2_d3;
+<b><a name="line622">622    </a></b>	    p_flash_status_content->average_erase_count_d1;
+<b><a name="line623">623    </a></b>	    p_flash_status_content->average_erase_count_d2_d3;
+</pre></body>
+</html>

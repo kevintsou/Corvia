@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/fip/hal_fip.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line606">606    </a></b>	 *
+<b><a name="line607">607    </a></b>	 */
+<b><a name="line608">608    </a></b>	
+<b><a name="line609">609    </a></b>	void hal_fip_set_interface(HAL_FIP_STRUCT_PTR fip);
+<b><a name="line610">610    </a></b>	void hal_fip_mdll_tracking_trig(void);
+<b><a name="line611">611    </a></b>	U8 hal_fip_mdll_tracking_chk_done(void);
+<b><a name="line612">612    </a></b>	U8 hal_fip_mdll_tracking_end(void);
+<b><a name="line613">613    </a></b>	void hal_fip_set_mdll_tracking(HAL_FIP_STRUCT_PTR fip);
+<b><a name="line614">614    </a></b>	
+<b><a name="line615">615    </a></b>	// pio
+<b><a name="line616">616    </a></b>	void hal_fip_pio_ce_enable(U8 ch, U8 ce);
+<b><a name="line617">617    </a></b>	void hal_fip_pio_ce_disable(U8 ch, U8 ce);
+<b><a name="line618">618    </a></b>	void hal_fip_pio_dqs(U8 ch, U8 dqs);
+<b><a name="line619">619    </a></b>	void hal_fip_pio_adr(U8 ch, U8 adr);
+<b><a name="line620">620    </a></b>	void hal_fip_pio_write_data(HAL_FIP_STRUCT_PTR fip, U8 ch, U8 *data, U16 size);
+<b><a name="line621">621    </a></b>	void hal_fip_pio_read_data(HAL_FIP_STRUCT_PTR fip, U8 ch, U8 *data, U16 size);
+<b><a name="line622">622    </a></b>	
+<b><a name="line623">623    </a></b>	// ldpc
+<b><a name="line624">624    </a></b>	void hal_fip_init_ch_reg(void);
+<b><a name="line625">625    </a></b>	#endif
+<b><a name="line626">626    </a></b>	
+<b><a name="line627">627    </a></b>	void hal_fip_set_rd_dll90_reg(U8 ch, U32 rdll_md, U32 sdll_r_dir_val);
+<b><a name="line628">628    </a></b>	void hal_fip_set_dq_reverse(U8 ch, U8 ce, BOOL is_reverse);
+<b><a name="line629">629    </a></b>	U32  hal_fip_ctrl_zq_calibration(void/*zq struct*/);
+<b><a name="line630">630    </a></b>	void hal_fip_ac_timing_init(HAL_FIP_STRUCT_PTR hal_fip_ptr);
+<b><a name="line631">631    </a></b>	BOOL hal_fip_chk_fctl_fag_idle(U8 ch);
+<b><a name="line632">632    </a></b>	BOOL hal_fip_chk_fctl_fag_sca_idle(U8 ch);
+<b><a name="line633">633    </a></b>	BOOL hal_fip_chk_rby_sts(U8 ch);
+<b><a name="line634">634    </a></b>	U8   hal_fip_get_ch_num(void);
+<b><a name="line635">635    </a></b>	void hal_fip_set_write_warmup_option(U8 ch, U8 warmup_mode, U8 cycle_num);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "hal_fip_set_write_warmup_option" is declared but never defined.</font>
+<b><a name="line636">636    </a></b>	void hal_fip_set_read_warmup_option(U8 ch, U8 warmup_mode, U8 cycle_num);
+<b><a name="line637">637    </a></b>	void hal_fip_set_w_warmup_enable(U8 ch, BOOL is_enable);
+<b><a name="line638">638    </a></b>	void hal_fip_set_r_warmup_enable(U8 ch, BOOL is_enable);
+<b><a name="line639">639    </a></b>	void hal_fip_set_over_ecc_thr(U8 idx, U16 threshold);
+<b><a name="line640">640    </a></b>	void hal_fip_set_int_eot(U8 ch, BOOL is_en, BOOL is_cpu_en, BOOL is_map_en, BOOL is_no_stop_en);
+<b><a name="line641">641    </a></b>	void hal_fip_set_io_type(U8 ch, U8 io_type, U8 dis_dqsb, U8 dis_re);
+<b><a name="line642">642    </a></b>	void hal_fip_set_sca_io_type(U8 ch, U8 is_sca);
+<b><a name="line643">643    </a></b>	void hal_fip_set_io_mode(U8 ch, U8 rx_mode, U8 tx_mode);
+<b><a name="line644">644    </a></b>	void hal_fip_set_edo_mode(U8 ch, U8 is_enable);
+<b><a name="line645">645    </a></b>	void hal_fip_set_dis_dqs_detect(U8 ch, U8 is_enable);
+<b><a name="line646">646    </a></b>	void hal_fip_get_int_inf(U8 ch, HAL_FIP_INT_INF_STRUCT_PTR int_inf);
+<b><a name="line647">647    </a></b>	void hal_fip_set_sca_prot(U8 ch, U8 is_enable);
+<b><a name="line648">648    </a></b>	void hal_fip_set_sca_auto_mode(U8 ch, U8 is_enable);
+<b><a name="line649">649    </a></b>	#if 0
+<b><a name="line650">650    </a></b>	// nand ctrl
+<b><a name="line651">651    </a></b>	void hal_fip_nand_ctrl_reset(U8 ch, U8 ce, U32 *ac_timing);
+<b><a name="line652">652    </a></b>	void hal_fip_nand_ctrl_hard_reset(U8 ch, U8 ce, U32 *ac_timing);
+<b><a name="line653">653    </a></b>	void hal_fip_nand_ctrl_die_sel(U8 ch, U8 ce, U8 die, U32 *ac_timing);
+<b><a name="line654">654    </a></b>	void hal_fip_nand_ctrl_cer_pre_fix(U8 ch, U8 ce, U8 chip_addr, U32 *ac_timing);
+<b><a name="line655">655    </a></b>	U32  hal_fip_nand_ctrl_read_status(U8 ch, U8 ce, U8 *status, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line656">656    </a></b>	U32  hal_fip_nand_ctrl_read_status_by_lun(U8 ch, U8 ce, U8 addr_cnt, U8 *addr, U8 *status, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line657">657    </a></b>	void hal_fip_nand_ctrl_write_data_dobule_byte(U8 ch, U8 *data, U16 size);
+<b><a name="line658">658    </a></b>	U32  hal_fip_nand_ctrl_set_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line659">659    </a></b>	U32  hal_fip_nand_ctrl_read_data_skip_highbyte(U8 ch, U8 *data, U16 size);
+<b><a name="line660">660    </a></b>	U32  hal_fip_nand_ctrl_read_data_sca(U8 ch, U8 ce, U8 *data, U16 size);
+<b><a name="line661">661    </a></b>	U32  hal_fip_nand_ctrl_get_feature(U8 ch, U8 ce, U8 cmd, U8 feat_adr, U8 *dat, U8 cmd_dqs_h, U8 warmup_bypass, U8 odt_terminated, U32 *ac_timing);
+<b><a name="line662">662    </a></b>	#endif
+<b><a name="line663">663    </a></b>	
+<b><a name="line664">664    </a></b>	void hal_fip_collect_error_map(U8 ch, HAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR err_map_inf);
+<b><a name="line665">665    </a></b>	U32  hal_fip_cq_handler_for_bootcode(HAL_FIP_INT_MSG_STRUCT_PTR cq_ptr, HAL_FIP_INT_INF_STRUCT_PTR int_inf_ptr, HAL_FIP_SRQ_ERR_MAP_INF_STRUCT_PTR err_map_inf_ptr);
+<b><a name="line666">666    </a></b>	
+</pre></body>
+</html>

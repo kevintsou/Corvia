@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2479">2479    </a></b>	                        }
+<b><a name="line2480">2480    </a></b>	                    }
+<b><a name="line2481">2481    </a></b>	
+<b><a name="line2482">2482    </a></b>	                    //All wordlines in this retry setting has been read
+<b><a name="line2483">2483    </a></b>	                    //No further loops required
+<b><a name="line2484">2484    </a></b>	                    if (0x00 == loop_parallel_bitmap) {
+<b><a name="line2485">2485    </a></b>	                        break;
+<b><a name="line2486">2486    </a></b>	                    }
+<b><a name="line2487">2487    </a></b>	                }
+<b><a name="line2488">2488    </a></b>	
+<b><a name="line2489">2489    </a></b>	                //All wordlines in this round has been loaded
+<b><a name="line2490">2490    </a></b>	                //No further Copy retries are needed
+<b><a name="line2491">2491    </a></b>	                if (0x00 == not_loaded_parallel_bitmap) {
+<b><a name="line2492">2492    </a></b>	                    break;
+<b><a name="line2493">2493    </a></b>	                }
+<b><a name="line2494">2494    </a></b>	            }
+<b><a name="line2495">2495    </a></b>	
+<b><a name="line2496">2496    </a></b>	            //All wordlines in this round has been loaded
+<b><a name="line2497">2497    </a></b>	            //No further NAND retries are needed
+<b><a name="line2498">2498    </a></b>	            if (0x00 == not_loaded_parallel_bitmap) {
+<b><a name="line2499">2499    </a></b>	                break;
+<b><a name="line2500">2500    </a></b>	            }
+<b><a name="line2501">2501    </a></b>	        }
+<b><a name="line2502">2502    </a></b>	
+<b><a name="line2503">2503    </a></b>	        // Avoid unnecessary read offset
+<b><a name="line2504">2504    </a></b>	        if (nand_retry >= nand_retry_max) {
+<b><a name="line2505">2505    </a></b>	            nand_retry -= 1U;
+<b><a name="line2506">2506    </a></b>	        }
+<b><a name="line2507">2507    </a></b>	
+<b><a name="line2508">2508    </a></b>	        if(0 == gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "0" (signed) is not the same as that of the right operand "(*gFplApiStruct.p_efuse_nand_setting).lru_disable"(unsigned).</font>
+<b><a name="line2509">2509    </a></b>	        {
+<b><a name="line2510">2510    </a></b>	            gLRURetryLevel = ((gLRURetryLevel + nand_retry) % total_rr_cnt);
+<b><a name="line2511">2511    </a></b>	            nand_retry_max -= nand_retry;
+<b><a name="line2512">2512    </a></b>	        }
+<b><a name="line2513">2513    </a></b>	        else
+<b><a name="line2514">2514    </a></b>	        {
+<b><a name="line2515">2515    </a></b>	            scan_bitmap_restore_read_offset(((gLRURetryLevel + nand_retry) % total_rr_cnt), res_read_offset_ch_bitmap);
+<b><a name="line2516">2516    </a></b>	        }
+<b><a name="line2517">2517    </a></b>	
+<b><a name="line2518">2518    </a></b>	        //Loading through all retry settings has failed to read all wordlines
+<b><a name="line2519">2519    </a></b>	        if (0x00 != not_loaded_parallel_bitmap) {
+<b><a name="line2520">2520    </a></b>	            p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_UNLOADABLE;
+<b><a name="line2521">2521    </a></b>	            break;
+<b><a name="line2522">2522    </a></b>	        }
+<b><a name="line2523">2523    </a></b>	    }
+<b><a name="line2524">2524    </a></b>	
+<b><a name="line2525">2525    </a></b>	
+<b><a name="line2526">2526    </a></b>	    // get ready to service PERST event in Boot Code stage
+<b><a name="line2527">2527    </a></b>	    host_api_chk_pcie_link_without_isr(&gHostApiStruct);
+<b><a name="line2528">2528    </a></b>	
+<b><a name="line2529">2529    </a></b>	    if(0 == gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><a name="line2530">2530    </a></b>	    {
+<b><a name="line2531">2531    </a></b>	        // if enable LRU, reset read level at end of load code process
+<b><a name="line2532">2532    </a></b>	        scan_bitmap_restore_read_offset(((gLRURetryLevel + nand_retry) % total_rr_cnt), res_read_offset_ch_bitmap);
+<b><a name="line2533">2533    </a></b>	    }
+<b><a name="line2534">2534    </a></b>	
+<b><a name="line2535">2535    </a></b>	    if (p_fw_slot_status->copy_retry_count || p_fw_slot_status->nand_retry_count) {
+<b><a name="line2536">2536    </a></b>	        p_fw_slot_status->fw_slot_error |= CODE_POINTER_BLOCK_ERROR_PROJECT_BINARY_REBUILD_REQUIRED;
+<b><a name="line2537">2537    </a></b>	    }
+<b><a name="line2538">2538    </a></b>	
+<b><a name="line2539">2539    </a></b>	    return (p_fw_slot_status->fw_slot_error);
+</pre></body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/ic_type/pcie_single_port_pf.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line6">6    </a></b>	 *
+<b><a name="line7">7    </a></b>	 * bar: 0=>bar0, 1=>bar1, ...
+<b><a name="line8">8    </a></b>	 * mask: bar mask
+<b><a name="line9">9    </a></b>	 * mem_type: 0b00=>32-bit access sapce, 0b10=>64-bit access space (for memory space)
+<b><a name="line10">10    </a></b>	 * mem_prefetch: 0=>non-prefetchable, 1=>prefetchable (for memory space)
+<b><a name="line11">11    </a></b>	 */
+<b><a name="line12">12    </a></b>	typedef struct pcie_bar_struct      PCIE_BAR_STRUCT, *PCIE_BAR_STRUCT_PTR;
+<b><a name="line13">13    </a></b>	struct pcie_bar_struct
+<b><a name="line14">14    </a></b>	{
+<b><a name="line15">15    </a></b>	    U32 bar           : 8;
+<b><a name="line16">16    </a></b>	    U32 mem_type      : 8;
+<b><a name="line17">17    </a></b>	    U32 mem_prefetch  : 8;
+<b><a name="line18">18    </a></b>	    U32 rsv           : 8;
+<b><a name="line19">19    </a></b>	    U64 mask;
+<b><a name="line20">20    </a></b>	};
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	typedef struct pcie_struct      PCIE_STRUCT, *PCIE_STRUCT_PTR;
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	/*
+<b><a name="line25">25    </a></b>	 * This structure records public functions and other private things.
+<b><a name="line26">26    </a></b>	 * Public: pcie->op
+<b><a name="line27">27    </a></b>	 * Private: pcie->pvt_op, pvt_cfg
+<b><a name="line28">28    </a></b>	 */
+<b><a name="line29">29    </a></b>	struct pcie_struct {
+<b><a name="line30">30    </a></b>	    // Private
+<b><a name="line31">31    </a></b>	    //PCIE_PVT_OP pvt_op;
+<b><a name="line32">32    </a></b>	    PCIE_PVT_CFG pvt_cfg;
+<b><a name="line33">33    </a></b>	};
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	BOOL hal_trig_pf_flr_ack(PCIE_STRUCT_PTR pcie);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "hal_trig_pf_flr_ack" is declared but never defined.</font>
+<b><a name="line36">36    </a></b>	BOOL hal_set_pf_force_to(PCIE_STRUCT_PTR pcie, U32 enable);
+<b><a name="line37">37    </a></b>	BOOL hal_block_l1ss(PCIE_STRUCT_PTR pcie, U32 enable);
+<b><a name="line38">38    </a></b>	BOOL hal_block_aspm_l1(PCIE_STRUCT_PTR pcie, U32 enable);
+<b><a name="line39">39    </a></b>	BOOL hal_pcie_set_aspm_l0s_sup(PCIE_STRUCT_PTR pcie, U32 enable);
+<b><a name="line40">40    </a></b>	PCIE_LTSSM_STATE hal_get_ltssm_state(PCIE_STRUCT_PTR pcie);
+<b><a name="line41">41    </a></b>	U32 hal_get_link_width(PCIE_STRUCT_PTR pcie);
+<b><a name="line42">42    </a></b>	U32 hal_get_device_id(PCIE_STRUCT_PTR pcie);
+<b><a name="line43">43    </a></b>	BOOL hal_set_port_cnt(PCIE_STRUCT_PTR pcie, U32 port_cnt);
+<b><a name="line44">44    </a></b>	BOOL hal_set_link_req_rst_not_contd_flsh(PCIE_STRUCT_PTR pcie, U32 port_id, U32 enable);
+<b><a name="line45">45    </a></b>	#endif /* #ifndef PCIE_SINGLE_PORT_PF_H */
+<b><a name="line46">46    </a></b>	
+</pre></body>
+</html>

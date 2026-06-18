@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_vua.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line206">206    </a></b>	}
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	SECResult_e boot_memcmp(void *pDestination, void *pSource, U32 ulLength)
+<b><a name="line209">209    </a></b>	{
+<b><a name="line210">210    </a></b>	    U8 *pubDst = (U8 *) pDestination;
+<b><a name="line211">211    </a></b>	    U8 *pubSrc = (U8 *) pSource ;
+<b><a name="line212">212    </a></b>	    SECResult_e Result = SECResult_PASS;
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    for (U32 uli = 0 ; uli < ulLength; uli++) {
+<b><a name="line215">215    </a></b>	        if (pubDst[uli] != pubSrc[uli]) {
+<b><a name="line216">216    </a></b>	            Result = SECResult_FAIL;
+<b><a name="line217">217    </a></b>	        }
+<b><a name="line218">218    </a></b>	    }
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    return Result;
+<b><a name="line221">221    </a></b>	}
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	U8 VUA_mlkem_enc(U8 *pChiperText, U8 *pSharedSecret, U8 *pMLKEMPublicKey){
+<b><a name="line224">224    </a></b>	    U8 result = FALSE;
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	    U32 cal_buf_addr = gVUALock.ulHashCalBufBase;
+<b><a name="line227">227    </a></b>	    U32 ek_addr = cal_buf_addr + BC_32KB + BC_32KB;
+<b><a name="line228">228    </a></b>	    U32 msg_addr = ek_addr + HAL_SEC_PQC_MLKEM_PUB_KEY_LEN;
+<b><a name="line229">229    </a></b>	    U32 ct_addr      = msg_addr + HAL_SEC_PQC_MLKEM_MSG_LEN;
+<b><a name="line230">230    </a></b>	    U32 ss_addr      = ct_addr      + HAL_SEC_PQC_MLKEM_CTX_LEN;
+<b><a name="line231">231    </a></b>	    // U32 temp_buf    = ss_addr      + 128;
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	    memcpy((void *)ek_addr, (void *)pMLKEMPublicKey, HAL_SEC_PQC_MLKEM_PUB_KEY_LEN);
+<b><a name="line234">234    </a></b>	
+<b><a name="line235">235    </a></b>	    VUA_gen_rng((U8 *)msg_addr);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "VUA_gen_rng" is unused.</font>
+<b><a name="line236">236    </a></b>	    // memset((void *)msg_addr, 0, HAL_SEC_PQC_MLKEM_MSG_LEN);
+<b><a name="line237">237    </a></b>	
+<b><a name="line238">238    </a></b>	    phal_mlkem_enc((U8 *)ct_addr, (U8 *)ss_addr, (U8 *)ek_addr, (U8 *)msg_addr, cal_buf_addr);
+<b><a name="line239">239    </a></b>	
+<b><a name="line240">240    </a></b>	    memcpy((void *)pChiperText, (void *)ct_addr, HAL_SEC_PQC_MLKEM_CTX_LEN);
+<b><a name="line241">241    </a></b>	    memcpy((void *)pSharedSecret, (void *)ss_addr, HAL_SEC_PQC_MLKEM_SS_LEN);
+<b><a name="line242">242    </a></b>	
+<b><a name="line243">243    </a></b>	    // reset
+<b><a name="line244">244    </a></b>	    memset((void *)cal_buf_addr, 0U, BC_32KB + BC_32KB + HAL_SEC_PQC_MLKEM_PUB_KEY_LEN + HAL_SEC_PQC_MLKEM_MSG_LEN + HAL_SEC_PQC_MLKEM_CTX_LEN + 128U);
+<b><a name="line245">245    </a></b>	
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	    return result;
+<b><a name="line248">248    </a></b>	}
+<b><a name="line249">249    </a></b>	
+</pre></body>
+</html>

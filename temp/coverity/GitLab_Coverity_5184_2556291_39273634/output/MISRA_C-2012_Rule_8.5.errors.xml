@@ -1,0 +1,872 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{OcpRecoveryActivateImage}}}}}}</description>
+<line>5</line>
+<column>13</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{OcpRecoveryActivateImage}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<line>174</line>
+<column>6</column>
+</event>
+<extra>OcpRecoveryActivateImage</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{crc_calc}}}}}}</description>
+<line>25</line>
+<column>12</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{crc_calc}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.h</file>
+<line>138</line>
+<column>5</column>
+</event>
+<extra>crc_calc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{dal_fip_delay}}}}}}</description>
+<line>3034</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{dal_fip_delay}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</file>
+<line>516</line>
+<column>6</column>
+</event>
+<extra>dal_fip_delay</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/fip/dal_fip.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{dal_fip_set_top_page_stnum}}}}}}</description>
+<line>558</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{dal_fip_set_top_page_stnum}}}}}}</description>
+<line>560</line>
+<column>6</column>
+</event>
+<extra>dal_fip_set_top_page_stnum</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{dal_nl_get_p_cmdf_busy}}}}}}</description>
+<line>3</line>
+<column>4</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{dal_nl_get_p_cmdf_busy}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/inc/flow/nvme/dal_flow_nvme_nl_func.h</file>
+<line>141</line>
+<column>4</column>
+</event>
+<extra>dal_nl_get_p_cmdf_busy</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{hal_db_api_get_base_adr}}}}}}</description>
+<line>29</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{hal_db_api_get_base_adr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db_ps5303.h</file>
+<line>162</line>
+<column>5</column>
+</event>
+<extra>hal_db_api_get_base_adr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{hal_db_api_get_rptr}}}}}}</description>
+<line>31</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{hal_db_api_get_rptr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db_ps5303.h</file>
+<line>164</line>
+<column>5</column>
+</event>
+<extra>hal_db_api_get_rptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{hal_db_api_get_wptr}}}}}}</description>
+<line>30</line>
+<column>5</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{hal_db_api_get_wptr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/mrdb/hal_db_ps5303.h</file>
+<line>163</line>
+<column>5</column>
+</event>
+<extra>hal_db_api_get_wptr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_uart_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{hal_uart_interrupt_rx_enable}}}}}}</description>
+<line>6</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{hal_uart_interrupt_rx_enable}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/uart/hal_uart_api.h</file>
+<line>70</line>
+<column>6</column>
+</event>
+<extra>hal_uart_interrupt_rx_enable</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{host_api_nvme_isr}}}}}}</description>
+<line>77</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{host_api_nvme_isr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/c0_host_api.h</file>
+<line>286</line>
+<column>13</column>
+</event>
+<extra>host_api_nvme_isr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{host_api_pcie_isr}}}}}}</description>
+<line>76</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{host_api_pcie_isr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/c0_host_api.h</file>
+<line>284</line>
+<column>13</column>
+</event>
+<extra>host_api_pcie_isr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{host_api_perst_isr}}}}}}</description>
+<line>75</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{host_api_perst_isr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/c0_host_api.h</file>
+<line>285</line>
+<column>13</column>
+</event>
+<extra>host_api_perst_isr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/i2c/i2c.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{i2c_nand_power_off_through_mcu}}}}}}</description>
+<line>6</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{i2c_nand_power_off_through_mcu}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.h</file>
+<line>136</line>
+<column>13</column>
+</event>
+<extra>i2c_nand_power_off_through_mcu</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/i2c/i2c.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{i2c_nand_power_on_through_mcu}}}}}}</description>
+<line>7</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{i2c_nand_power_on_through_mcu}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_i2c.h</file>
+<line>137</line>
+<column>13</column>
+</event>
+<extra>i2c_nand_power_on_through_mcu</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/boot_cpu.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{prefetch_handler}}}}}}</description>
+<line>4</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{prefetch_handler}}}}}}</description>
+<line>23</line>
+<column>6</column>
+</event>
+<extra>prefetch_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{sys_api_smbs_isr}}}}}}</description>
+<line>78</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{sys_api_smbs_isr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.h</file>
+<line>172</line>
+<column>6</column>
+</event>
+<extra>sys_api_smbs_isr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_sys.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{uart_isr}}}}}}</description>
+<line>74</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{uart_isr}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.h</file>
+<line>81</line>
+<column>6</column>
+</event>
+<extra>uart_isr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_cq_send}}}}}}</description>
+<line>35</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_cq_send}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>108</line>
+<column>13</column>
+</event>
+<extra>vuc_cq_send</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_data_rcv}}}}}}</description>
+<line>37</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_data_rcv}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>109</line>
+<column>13</column>
+</event>
+<extra>vuc_data_rcv</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_data_send}}}}}}</description>
+<line>38</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_data_send}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>110</line>
+<column>13</column>
+</event>
+<extra>vuc_data_send</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_packet_handler}}}}}}</description>
+<line>42</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_packet_handler}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>113</line>
+<column>13</column>
+</event>
+<extra>vuc_packet_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_sq_rcv}}}}}}</description>
+<line>31</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_sq_rcv}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>107</line>
+<column>13</column>
+</event>
+<extra>vuc_sq_rcv</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_uart_handler}}}}}}</description>
+<line>43</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_uart_handler}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>114</line>
+<column>13</column>
+</event>
+<extra>vuc_uart_handler</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_uart_rcv_sq}}}}}}</description>
+<line>39</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_uart_rcv_sq}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>111</line>
+<column>13</column>
+</event>
+<extra>vuc_uart_rcv_sq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{vuc_uart_send_cq}}}}}}</description>
+<line>40</line>
+<column>6</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{vuc_uart_send_cq}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.h</file>
+<line>112</line>
+<column>13</column>
+</event>
+<extra>vuc_uart_send_cq</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/key_manifest_api.h</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gEFuseAPI}}}}}}</description>
+<line>80</line>
+<column>25</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gEFuseAPI}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.h</file>
+<line>132</line>
+<column>36</column>
+</event>
+<extra>gEFuseAPI</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gFIPReadInfoStruct}}}}}}</description>
+<line>24</line>
+<column>29</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gFIPReadInfoStruct}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>297</line>
+<column>32</column>
+</event>
+<extra>gFIPReadInfoStruct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gFipInstStruct}}}}}}</description>
+<line>23</line>
+<column>29</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gFipInstStruct}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_def.h</file>
+<line>296</line>
+<column>32</column>
+</event>
+<extra>gFipInstStruct</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gSecAesTimeout}}}}}}</description>
+<line>4095</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecAesTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<line>25</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecAesTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<line>7</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecAesTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<line>32</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecAesTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_aes_api.h</file>
+<line>546</line>
+<column>11</column>
+</event>
+<extra>gSecAesTimeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gSecPkeTimeout}}}}}}</description>
+<line>4096</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecPkeTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<line>27</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecPkeTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<line>34</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecPkeTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_pke_api.h</file>
+<line>939</line>
+<column>11</column>
+</event>
+<extra>gSecPkeTimeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gSecShaTimeout}}}}}}</description>
+<line>4094</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecShaTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<line>26</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecShaTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/sec_dice_api.c</file>
+<line>33</line>
+<column>11</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gSecShaTimeout}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/sec/hal_sec_sha_api.h</file>
+<line>228</line>
+<column>11</column>
+</event>
+<extra>gSecShaTimeout</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{gVUCProtect}}}}}}</description>
+<line>22</line>
+<column>20</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{gVUCProtect}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/front/vuc.c</file>
+<line>5</line>
+<column>20</column>
+</event>
+<extra>gVUCProtect</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 8.5</checker>
+<type>MISRA_C_2012_Rule_8.5</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>unknown</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_8_5_violation</tag>
+<description>{CovLStrv2{{t{Symbol {0} is declared more than once.}{{code{sec_mldsa_kat_pattern_1}}}}}}</description>
+<line>3770</line>
+<column>36</column>
+</event>
+<event>
+<tag>other_declaration</tag>
+<description>{CovLStrv2{{t{Another declaration for {0}.}{{code{sec_mldsa_kat_pattern_1}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.h</file>
+<line>217</line>
+<column>43</column>
+</event>
+<extra>sec_mldsa_kat_pattern_1</extra>
+<subcategory>none</subcategory>
+</error>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/vuc/framework_vuc.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "framework_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	U8 framework_vuc_check_cmd_crc(U32* cmd_raw)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    // Get VUC CRC from Byte 62, 63
+<b><a name="line6">6    </a></b>	    U16 uwCmdCRC = (U16)(cmd_raw[15] >> 16);
+<b><a name="line7">7    </a></b>	    uwCmdCRC = ((uwCmdCRC & 0x00FF) << 8) | ((uwCmdCRC & 0xFF00) >> 8);
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	    Dump_Debug(tprintf("uwCmdCRC = %x", uwCmdCRC));
+<b><a name="line10">10    </a></b>	
+<b><a name="line11">11    </a></b>	    // Only Check VUC CRC when it is not zero
+<b><a name="line12">12    </a></b>	    if(0 != uwCmdCRC)
+<b><a name="line13">13    </a></b>	    {
+<b><a name="line14">14    </a></b>	        // Clear VUC CRC value
+<b><a name="line15">15    </a></b>	        cmd_raw[15] &= 0x0000FFFF;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "65535UL" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	        // Calculate VUC CRC
+<b><a name="line18">18    </a></b>	        U16 uwCalCRC = sal_calculate_crc16((U32)(&cmd_raw[0]), VUC_SQ_CMD_LEN, 0);
+<b><a name="line19">19    </a></b>	        Dump_Debug(tprintf("uwCalCRC = %x", uwCalCRC));
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	        // Check VUC CRC is correct or not
+<b><a name="line22">22    </a></b>	        if(uwCmdCRC != uwCalCRC)
+<b><a name="line23">23    </a></b>	        {
+<b><a name="line24">24    </a></b>	            return FAIL;
+<b><a name="line25">25    </a></b>	        }
+<b><a name="line26">26    </a></b>	    }
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	    return PASS;
+<b><a name="line29">29    </a></b>	}
+<b><a name="line30">30    </a></b>	
+</pre></body>
+</html>

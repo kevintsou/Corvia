@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line822">822    </a></b>	}
+<b><a name="line823">823    </a></b>	
+<b><a name="line824">824    </a></b>	
+<b><a name="line825">825    </a></b>	U32 fpl_por_retry(FPL_API_STRUCT_PTR fpl_ptr, FIP_INST_STRUCT_PTR fip_inst_ptr)
+<b><a name="line826">826    </a></b>	{
+<b><a name="line827">827    </a></b>	    U32 status;
+<b><a name="line828">828    </a></b>	    U8  retry_idx;
+<b><a name="line829">829    </a></b>	    U8  cnt;
+<b><a name="line830">830    </a></b>	    U8  ch;
+<b><a name="line831">831    </a></b>	    U32 ch_bitmap;
+<b><a name="line832">832    </a></b>	    U32 tmp_status;
+<b><a name="line833">833    </a></b>	    U8  poll_data;
+<b><a name="line834">834    </a></b>	    U8  set_feat_dat[FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line835">835    </a></b>	    U8  get_feat_dat[FIP_SET_FEAT_BUF_SIZE];
+<b><a name="line836">836    </a></b>	    U8  data_buf;
+<b><a name="line837">837    </a></b>	    U32 rty_tbl;
+<b><a name="line838">838    </a></b>	
+<b><a name="line839">839    </a></b>	    tmp_status      = 0U;
+<b><a name="line840">840    </a></b>	    status          = 0U;
+<b><a name="line841">841    </a></b>	    cnt             = 0U;
+<b><a name="line842">842    </a></b>	    ch              = 0U;
+<b><a name="line843">843    </a></b>	    retry_idx       = 0U;
+<b><a name="line844">844    </a></b>	    poll_data       = 0U;
+<b><a name="line845">845    </a></b>	    ch_bitmap       = fpl_ptr->p_efuse_nand_setting->channel_exist_bitmap;
+<b><a name="line846">846    </a></b>	    rty_tbl         = 0U;
+<b><a name="line847">847    </a></b>	
+<b><a name="line848">848    </a></b>	    while (1) {
+<b><a name="line849">849    </a></b>	        if ((status & HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT) == 0U) {
+<b><a name="line850">850    </a></b>	            for (ch = 0U; ch < FLH_MAX_PHYS_CH; ch ++) {
+<b><a name="line851">851    </a></b>	                if ((BITS_GET(ch_bitmap, ch, 1U) == TRUE) && ((status & HAL_STATUS_PIO_POLL_RDY_PIN_TIMEOUT) == 0U)) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "(ch_bitmap >> ch) & 1ULL" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line852">852    </a></b>	                    status |= hal_fip_api_read_status(ch, 0U, &data_buf,
+<b><a name="line853">853    </a></b>	                            gFplApiStruct.p_efuse_nand_setting->cmd_dqs_l,
+<b><a name="line854">854    </a></b>	                            (U32 *)&gFplApiStruct.ac_timing,
+<b><a name="line855">855    </a></b>	                            gFplApiStruct.p_efuse_nand_setting->odt_prefix);
+<b><a name="line856">856    </a></b>	
+<b><a name="line857">857    </a></b>	                    if ((data_buf & FLH_POR_STATUS_MASK) != FLH_POR_STATUS_CMP) {
+<b><a name="line858">858    </a></b>	                        tmp_status = 0U;
+<b><a name="line859">859    </a></b>	                        cnt = 0U;
+<b><a name="line860">860    </a></b>	                        do {
+<b><a name="line861">861    </a></b>	                            memset((void *)set_feat_dat, 0x00, sizeof(set_feat_dat));
+<b><a name="line862">862    </a></b>	                            memset((void *)get_feat_dat, 0x00, sizeof(get_feat_dat));
+<b><a name="line863">863    </a></b>	
+<b><a name="line864">864    </a></b>	                            tmp_status |= fip_set_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), (U8 *)&rty_tbl, ch, 0U, 0U, 0U, set_feat_dat);
+<b><a name="line865">865    </a></b>	
+<b><a name="line866">866    </a></b>	                            if (tmp_status == 0U) {
+<b><a name="line867">867    </a></b>	                                tmp_status |= fip_get_feature_retry(&(fip_inst_ptr->inst[INST_ID_POR_RETRY]), (U8 *)&rty_tbl, ch, 0U, 0U, 0U, get_feat_dat);
+<b><a name="line868">868    </a></b>	
+<b><a name="line869">869    </a></b>	                                if (tmp_status == 0U) {
+<b><a name="line870">870    </a></b>	                                    if (memcmp((void *)set_feat_dat, (void *)get_feat_dat, FIP_SET_FEAT_BUF_SIZE) == 0U) {
+<b><a name="line871">871    </a></b>	                                        break;
+<b><a name="line872">872    </a></b>	                                    }
+<b><a name="line873">873    </a></b>	                                }
+<b><a name="line874">874    </a></b>	                                else {
+<b><a name="line875">875    </a></b>	                                    status |= tmp_status;
+<b><a name="line876">876    </a></b>	                                }
+<b><a name="line877">877    </a></b>	                            }
+<b><a name="line878">878    </a></b>	                            else {
+<b><a name="line879">879    </a></b>	                                status |= tmp_status;
+<b><a name="line880">880    </a></b>	                            }
+<b><a name="line881">881    </a></b>	                            cnt++;
+<b><a name="line882">882    </a></b>	                        } while ((cnt < FLH_SET_FEAT_CNT_MAX) && (tmp_status == 0U));
+</pre></body>
+</html>

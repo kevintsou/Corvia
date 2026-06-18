@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "proj_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	static void hal_boot_init_ch_reg(void)
+<b><a name="line4">4    </a></b>	{
+<b><a name="line5">5    </a></b>	    for (U8 ch = 0U; ch < HAL_FIP_CH_NUM; ch ++) {
+<b><a name="line6">6    </a></b>	        //set write protected
+<b><a name="line7">7    </a></b>	        w_WP_ODT(ch, 0x3U);
+<b><a name="line8">8    </a></b>	        w_HW_WP_PIN_EN(ch, 0);
+<b><a name="line9">9    </a></b>	        //WP0 : write protected (default 1)
+<b><a name="line10">10    </a></b>	        //WP1 : bus switch (default 0)
+<b><a name="line11">11    </a></b>	        w_HW_WP_PIN_VALUE(ch, 0x3U); /* not protected */
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	        // set dqs high when r end
+<b><a name="line14">14    </a></b>	        w_R_END_DQS_HIGH_EN(ch, TRUE);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast of composite expression of essential type ambiguous essential type to essential type unsigned.</font>
+<b><a name="line15">15    </a></b>	        for (U8 ce = 0U; ce < 8U; ce ++)
+<b><a name="line16">16    </a></b>	        {
+<b><a name="line17">17    </a></b>	            r8_w_FCH_INS_HD_CE_0(ch, ce, BIT(ce));
+<b><a name="line18">18    </a></b>	        }
+<b><a name="line19">19    </a></b>	    }
+<b><a name="line20">20    </a></b>	}
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	void hal_cop0_pmu_reset_cop0(U8 hw_reset)
+<b><a name="line23">23    </a></b>	{
+<b><a name="line24">24    </a></b>	    U8 grp_bmp = (U8)BIT_MASK(DAL_COP0_GRP_NUM, 0U);
+<b><a name="line25">25    </a></b>	
+<b><a name="line26">26    </a></b>	    for (U8 ch = 0U; ch < DAL_COP0_CH_NUM; ch++)
+<b><a name="line27">27    </a></b>	    {
+<b><a name="line28">28    </a></b>	        w_PU_FIP_INS_AHBM0_ERROR_CLR(ch, 1U);
+<b><a name="line29">29    </a></b>	        w_PU_FIP_INS_AHBM1_ERROR_CLR(ch, 1U);
+<b><a name="line30">30    </a></b>	    }
+<b><a name="line31">31    </a></b>	    //1. gated cop0_common clock:
+<b><a name="line32">32    </a></b>	    w_CR_COP0_COMM_SYS_CKEN(0U);
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	    r32_w_CLK_CKEN_2(r32_r_CLK_CKEN_2() & ~(BIT28 | BIT29 | BIT30 | BIT31));
+<b><a name="line35">35    </a></b>	    r32_w_CLK_CKEN_3(0U);
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    //2. assert reset:
+<b><a name="line38">38    </a></b>	   if (hw_reset == 0U)
+<b><a name="line39">39    </a></b>	    {
+<b><a name="line40">40    </a></b>	        r16_w_SW_RST_2(1U, 0x00F0U);
+<b><a name="line41">41    </a></b>	    }
+<b><a name="line42">42    </a></b>	    else
+<b><a name="line43">43    </a></b>	    {
+<b><a name="line44">44    </a></b>	        r16_w_SW_RST_2(1U, 0x0000U);
+<b><a name="line45">45    </a></b>	    }
+</pre></body>
+</html>

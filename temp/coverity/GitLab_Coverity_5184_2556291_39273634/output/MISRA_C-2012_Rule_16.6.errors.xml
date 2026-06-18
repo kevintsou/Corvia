@@ -1,0 +1,126 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</file>
+<function>mctp_message_handle_nvme_mi_message_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (destination_mctp_message_info.p_transport-&gt;binding)}}}}}}</description>
+<line>870</line>
+<column>5</column>
+</event>
+<extra>binding,destination_mctp_message_info,p_transport</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (algorithm_type)}}}}}}</description>
+<line>1294</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (algorithm_type)}}}}}}</description>
+<line>1344</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (algorithm_type)}}}}}}</description>
+<line>1374</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_code_sign</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (algorithm_type)}}}}}}</description>
+<line>1431</line>
+<column>5</column>
+</event>
+<extra>algorithm_type</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_response</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (destination_mctp_message_info.p_transport-&gt;binding)}}}}}}</description>
+<line>354</line>
+<column>5</column>
+</event>
+<extra>binding,destination_mctp_message_info,p_transport</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 16.6</checker>
+<type>MISRA_C_2012_Rule_16.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_packet_check_header_version</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_16_6_violation</tag>
+<description>{CovLStrv2{{t{The switch statement {0} has only one conforming switch clause.}{{code{switch (p_transport-&gt;binding)}}}}}}</description>
+<line>27</line>
+<column>5</column>
+</event>
+<extra>binding,p_transport</extra>
+<subcategory>none</subcategory>
+</error>

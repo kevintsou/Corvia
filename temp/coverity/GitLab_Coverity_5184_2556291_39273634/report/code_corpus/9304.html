@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2801">2801    </a></b>	 *
+<b><a name="line2802">2802    </a></b>	 * - None.
+<b><a name="line2803">2803    </a></b>	 *
+<b><a name="line2804">2804    </a></b>	 */
+<b><a name="line2805">2805    </a></b>	void dal_fip_set_lun_adr_cfg(U8 ch, U32 val)
+<b><a name="line2806">2806    </a></b>	{
+<b><a name="line2807">2807    </a></b>	    r32_w_FCH_LUN_ADR_CFG(ch, val);
+<b><a name="line2808">2808    </a></b>	}
+<b><a name="line2809">2809    </a></b>	
+<b><a name="line2810">2810    </a></b>	/*!
+<b><a name="line2811">2811    </a></b>	 * @brief   set SLC page pfx value selection to specific channel
+<b><a name="line2812">2812    </a></b>	 *
+<b><a name="line2813">2813    </a></b>	 * -
+<b><a name="line2814">2814    </a></b>	 *
+<b><a name="line2815">2815    </a></b>	 * @param[in] ch          Selected channel
+<b><a name="line2816">2816    </a></b>	 * @param[in] sel         SLC page pfx value selection
+<b><a name="line2817">2817    </a></b>	 * @return None
+<b><a name="line2818">2818    </a></b>	 * @note
+<b><a name="line2819">2819    </a></b>	 *
+<b><a name="line2820">2820    </a></b>	 * - None.
+<b><a name="line2821">2821    </a></b>	 *
+<b><a name="line2822">2822    </a></b>	 */
+<b><a name="line2823">2823    </a></b>	void dal_fip_set_page_slc_pfx_val_sel(U8 ch, U8 sel)
+<b><a name="line2824">2824    </a></b>	{
+<b><a name="line2825">2825    </a></b>	    w_PAGE_PFX_VAL_SEL(ch, sel);
+<b><a name="line2826">2826    </a></b>	}
+<b><a name="line2827">2827    </a></b>	
+<b><a name="line2828">2828    </a></b>	U32 dal_fip_get_page_slc_pfx_val_sel(U8 ch)
+<b><a name="line2829">2829    </a></b>	{
+<b><a name="line2830">2830    </a></b>	    return r_PAGE_PFX_VAL_SEL(ch);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Assigning composite expression "((U8 volatile *)gFlhRegTxChBase[ch][332U] >> 4U) & 7U" of width 8 to a target of width 32.</font>
+<b><a name="line2831">2831    </a></b>	}
+<b><a name="line2832">2832    </a></b>	
+<b><a name="line2833">2833    </a></b>	/*!
+<b><a name="line2834">2834    </a></b>	 * @brief   set non-SLC pfx cfg to specific channel
+<b><a name="line2835">2835    </a></b>	 *
+<b><a name="line2836">2836    </a></b>	 * -
+<b><a name="line2837">2837    </a></b>	 *
+<b><a name="line2838">2838    </a></b>	 * @param[in] ch          Selected channel
+<b><a name="line2839">2839    </a></b>	 * @param[in] val         Set to non-SLC pfx cfg (FCH_NON_SLC_PFX_CFG)
+<b><a name="line2840">2840    </a></b>	 * @return None
+<b><a name="line2841">2841    </a></b>	 * @note
+<b><a name="line2842">2842    </a></b>	 *
+<b><a name="line2843">2843    </a></b>	 * - None.
+<b><a name="line2844">2844    </a></b>	 *
+<b><a name="line2845">2845    </a></b>	 */
+<b><a name="line2846">2846    </a></b>	void dal_fip_set_non_slc_pfx_cfg(U8 ch, U32 val)
+<b><a name="line2847">2847    </a></b>	{
+<b><a name="line2848">2848    </a></b>	    r32_w_FCH_NON_SLC_PFX_CFG(ch, val);
+<b><a name="line2849">2849    </a></b>	}
+<b><a name="line2850">2850    </a></b>	
+<b><a name="line2851">2851    </a></b>	U32 dal_fip_get_non_slc_pfx_cfg(U8 ch)
+<b><a name="line2852">2852    </a></b>	{
+<b><a name="line2853">2853    </a></b>	    return r32_r_FCH_NON_SLC_PFX_CFG(ch);
+<b><a name="line2854">2854    </a></b>	}
+<b><a name="line2855">2855    </a></b>	
+<b><a name="line2856">2856    </a></b>	/*!
+<b><a name="line2857">2857    </a></b>	 * @brief   set to trigger PAGE_PFX_TRIG to specific channel
+<b><a name="line2858">2858    </a></b>	 *
+<b><a name="line2859">2859    </a></b>	 * -
+<b><a name="line2860">2860    </a></b>	 *
+<b><a name="line2861">2861    </a></b>	 * @param[in] ch          Selected channel
+</pre></body>
+</html>

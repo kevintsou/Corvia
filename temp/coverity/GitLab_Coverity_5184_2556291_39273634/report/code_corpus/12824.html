@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_spi.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _PHAL_SPI_H_
+<b><a name="line2">2    </a></b>	#define _PHAL_SPI_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_PHAL_SPI_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#define HAL_SPI_MODE_0          (0U)
+<b><a name="line5">5    </a></b>	#define HAL_SPI_MODE_1          (1U)
+<b><a name="line6">6    </a></b>	#define HAL_SPI_MODE_2          (2U)
+<b><a name="line7">7    </a></b>	#define HAL_SPI_MODE_3          (3U)
+<b><a name="line8">8    </a></b>	
+<b><a name="line9">9    </a></b>	void phal_spi_boot_init(U8 mode_sel);
+<b><a name="line10">10    </a></b>	U8 phal_spi_read_buffer(U32 ulDstAddr, U32 ulSrcSPIOffset, U32 ulSize);
+<b><a name="line11">11    </a></b>	U8 phal_spi_write_buffer(U32 ulDstAddr, U32 ulSrcAddr, U32 ulSize);
+<b><a name="line12">12    </a></b>	U8 phal_spi_check_valid(void);
+<b><a name="line13">13    </a></b>	void spi_erase_all(void);
+<b><a name="line14">14    </a></b>	
+<b><a name="line15">15    </a></b>	#endif
+<b><a name="line16">16    </a></b>	
+</pre></body>
+</html>

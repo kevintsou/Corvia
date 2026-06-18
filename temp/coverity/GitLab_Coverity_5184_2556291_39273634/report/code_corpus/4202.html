@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line283">283    </a></b>	    //clear clock divider
+<b><a name="line284">284    </a></b>	    hal_fip_set_ca_clk_div_en(FALSE, 0U);
+<b><a name="line285">285    </a></b>	    hal_fip_set_clk_div_en(FALSE, 0U);
+<b><a name="line286">286    </a></b>	
+<b><a name="line287">287    </a></b>	    //set clock divider
+<b><a name="line288">288    </a></b>	    if (fpl_ptr->p_efuse_nand_setting->sca_mode_en == EFUSE_PARAM_PROTOCOL_CONVENTIONAL) {
+<b><a name="line289">289    </a></b>	        //CONV MODE
+<b><a name="line290">290    </a></b>	        if (fpl_ptr->flash_if == HAL_FIP_OP_FLH_IF_LEGACY) {
+<b><a name="line291">291    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_LEGACY_50MT) {
+<b><a name="line292">292    </a></b>	                hal_fip_set_clk_div_en(TRUE, 0U);
+<b><a name="line293">293    </a></b>	            }
+<b><a name="line294">294    </a></b>	            else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_LEGACY_25MT) {
+<b><a name="line295">295    </a></b>	                hal_fip_set_clk_div_en(TRUE, 1U);
+<b><a name="line296">296    </a></b>	            }
+<b><a name="line297">297    </a></b>	            else {
+<b><a name="line298">298    </a></b>	                hal_fip_set_clk_div_en(TRUE, 2U); // FIP_TEST_LEGACY_12_5MT
+<b><a name="line299">299    </a></b>	            }
+<b><a name="line300">300    </a></b>	        }
+<b><a name="line301">301    </a></b>	        else {
+<b><a name="line302">302    </a></b>	            if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_400MT) {
+<b><a name="line303">303    </a></b>	                hal_fip_set_clk_div_en(TRUE, 0U);
+<b><a name="line304">304    </a></b>	            }
+<b><a name="line305">305    </a></b>	            else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_200MT) {
+<b><a name="line306">306    </a></b>	                hal_fip_set_clk_div_en(TRUE, 1U);
+<b><a name="line307">307    </a></b>	            }
+<b><a name="line308">308    </a></b>	            else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_50MT) {
+<b><a name="line309">309    </a></b>	                hal_fip_set_clk_div_en(TRUE, 3U);
+<b><a name="line310">310    </a></b>	            }
+<b><a name="line311">311    </a></b>	            else {
+<b><a name="line312">312    </a></b>	                hal_fip_set_clk_div_en(TRUE, 2U); // FIP_TEST_TOGGLE_100MT
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "1" from essential type "boolean" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line313">313    </a></b>	            }
+<b><a name="line314">314    </a></b>	        }
+<b><a name="line315">315    </a></b>	    }
+<b><a name="line316">316    </a></b>	    else {
+<b><a name="line317">317    </a></b>	        //SCA MODE
+<b><a name="line318">318    </a></b>	        //CA BUS
+<b><a name="line319">319    </a></b>	        // HW recommand not to use in X3
+<b><a name="line320">320    </a></b>	//        hal_fip_set_ca_clk_div_en(FALSE, 0U);
+<b><a name="line321">321    </a></b>	
+<b><a name="line322">322    </a></b>	        //DQ BUS
+<b><a name="line323">323    </a></b>	        if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_400MT) {
+<b><a name="line324">324    </a></b>	            hal_fip_set_clk_div_en(TRUE, 0U);
+<b><a name="line325">325    </a></b>	        }
+<b><a name="line326">326    </a></b>	        else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_200MT) {
+<b><a name="line327">327    </a></b>	            hal_fip_set_clk_div_en(TRUE, 1U);
+<b><a name="line328">328    </a></b>	        }
+<b><a name="line329">329    </a></b>	        else if (fpl_ptr->p_efuse_nand_setting->fip_dq_clock_divider == FIP_TEST_TOGGLE_50MT) {
+<b><a name="line330">330    </a></b>	            hal_fip_set_clk_div_en(TRUE, 3U);
+<b><a name="line331">331    </a></b>	        }
+<b><a name="line332">332    </a></b>	        else {
+<b><a name="line333">333    </a></b>	            hal_fip_set_clk_div_en(TRUE, 2U); // FIP_TEST_TOGGLE_100MT
+<b><a name="line334">334    </a></b>	        }
+<b><a name="line335">335    </a></b>	    }
+<b><a name="line336">336    </a></b>	}
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	void fpl_fip_sys_init(FPL_API_STRUCT_PTR fpl_ptr)
+<b><a name="line340">340    </a></b>	{
+<b><a name="line341">341    </a></b>	    // PMU have already done fphy_power_on and fphy_osc_enable in pmu
+<b><a name="line342">342    </a></b>	#if (IC_TYPE_ASIC == IC_TYPE)
+<b><a name="line343">343    </a></b>	    U8 fphy_clk[HAL_FPL_OSC_CLK_CNT] = {0U, 1U, 2U, 3U, 4U}; // from syspd2_oscctrl_fphy
+</pre></body>
+</html>

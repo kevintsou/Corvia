@@ -1,0 +1,54 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.24</checker>
+<type>MISRA_C_2012_Rule_21.24</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>makeError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_24_violation</tag>
+<description>{CovLStrv2{{t{The function {0} should not be used.}{srand}}}}</description>
+<line>144</line>
+<column>5</column>
+</event>
+<extra>srand</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.24</checker>
+<type>MISRA_C_2012_Rule_21.24</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>makeError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_24_violation</tag>
+<description>{CovLStrv2{{t{The function {0} should not be used.}{rand}}}}</description>
+<line>145</line>
+<column>27</column>
+</event>
+<extra>rand</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 21.24</checker>
+<type>MISRA_C_2012_Rule_21.24</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/utils/sal_utils.c</file>
+<function>makeError</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_21_24_violation</tag>
+<description>{CovLStrv2{{t{The function {0} should not be used.}{rand}}}}</description>
+<line>146</line>
+<column>24</column>
+</event>
+<extra>rand</extra>
+<subcategory>none</subcategory>
+</error>

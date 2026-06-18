@@ -1,0 +1,492 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_cmd_adm.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line49">49    </a></b>	/*
+<b><a name="line50">50    </a></b>	 *  private
+<b><a name="line51">51    </a></b>	 */
+<b><a name="line52">52    </a></b>	
+<b><a name="line53">53    </a></b>	static U32 get_4k_cnt(U32 byte_cnt)
+<b><a name="line54">54    </a></b>	{
+<b><a name="line55">55    </a></b>	    U32 byte_4k_cnt;
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    byte_4k_cnt = byte_cnt / LC_BYTE_SIZE;
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    if (byte_cnt % LC_BYTE_SIZE) {
+<b><a name="line60">60    </a></b>	        byte_4k_cnt++;
+<b><a name="line61">61    </a></b>	    }
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    return byte_4k_cnt;
+<b><a name="line64">64    </a></b>	}
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	static void nvme_create_io_cq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	    Dump_NVME(tprintf("  >> create IO CQ.\n\r"));
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    U8  fid        = host->hcmd.payload.info.nonuser.fid;
+<b><a name="line72">72    </a></b>	    U16 qid        = host->sq_cmd.payload_opt.adm.create_cq.qid;
+<b><a name="line73">73    </a></b>	    U16 qsize      = host->sq_cmd.payload_opt.adm.create_cq.qsize;
+<b><a name="line74">74    </a></b>	    U16 ivid       = host->sq_cmd.payload_opt.adm.create_cq.iv;
+<b><a name="line75">75    </a></b>	    U8  pc         = host->sq_cmd.payload_opt.adm.create_cq.pc;
+<b><a name="line76">76    </a></b>	    U8  ie         = host->sq_cmd.payload_opt.adm.create_cq.ien;
+<b><a name="line77">77    </a></b>	    U16 max_num_cq = (host->nvme_feature.cq_num + 1);
+<b><a name="line78">78    </a></b>	    U32 intr_en    = host->sq_cmd.payload_opt.adm.create_cq.ien;
+<b><a name="line79">79    </a></b>	    U64 prp1_base  = (U64)host->sq_cmd.ct_prp1;
+<b><a name="line80">80    </a></b>	    U8  cap_cqr    = hal_nl_get_cap_cqr(PCIE_PORT_OFST_0);
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    // chk fields
+<b><a name="line83">83    </a></b>	    if ((qid == 0) || (qid > max_num_cq) || (host->host_info.ioq.iocq[qid].en)) {
+<b><a name="line84">84    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line85">85    </a></b>	        return;
+<b><a name="line86">86    </a></b>	    }
+<b><a name="line87">87    </a></b>	    else if ((qsize == 0) || (qsize > NVME_MQES)) {
+<b><a name="line88">88    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_SIZE);
+<b><a name="line89">89    </a></b>	        return;
+<b><a name="line90">90    </a></b>	    }
+<b><a name="line91">91    </a></b>	    else if (ivid > NVME_MAX_IV_NUM) { // max q
+<b><a name="line92">92    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_INT_VECTOR);
+<b><a name="line93">93    </a></b>	        return;
+<b><a name="line94">94    </a></b>	    }
+<b><a name="line95">95    </a></b>	    else if ((host->sq_cmd.payload_opt.adm.create_cq.pc == 0) && (cap_cqr == 1)) {
+<b><a name="line96">96    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line97">97    </a></b>	        return;
+<b><a name="line98">98    </a></b>	    }
+<b><a name="line99">99    </a></b>	    // TODO:
+<b><a name="line100">100    </a></b>	#if 0
+<b><a name="line101">101    </a></b>	    else if (prp1_base & ((U64)1 << (12 + (U8)hal_nl_get_cc_mps(FUNC0)) - 1)) {
+<b><a name="line102">102    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_PRP_OFFSET_INVALID);
+<b><a name="line103">103    </a></b>	        return;
+<b><a name="line104">104    </a></b>	    }
+<b><a name="line105">105    </a></b>	#endif
+<b><a name="line106">106    </a></b>	    Dump_NVME(tprintf("create io cq check pass"));
+<b><a name="line107">107    </a></b>	    // create queue
+<b><a name="line108">108    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line109">109    </a></b>	    hal_nvme_create_cq(qid, ie, prp1_base, ivid, qsize, pc);
+<b><a name="line110">110    </a></b>	    host->host_info.ioq.iocq[qid].qsize   = qsize;
+<b><a name="line111">111    </a></b>	    host->host_info.ioq.iocq[qid].intr_en = intr_en;
+<b><a name="line112">112    </a></b>	    host->host_info.ioq.iocq[qid].en      = TRUE;
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	}
+<b><a name="line115">115    </a></b>	
+<b><a name="line116">116    </a></b>	static void nvme_create_io_sq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line117">117    </a></b>	{
+<b><a name="line118">118    </a></b>	    Dump_NVME(tprintf("  >> create IO SQ\n\r"));
+<b><a name="line119">119    </a></b>	
+<b><a name="line120">120    </a></b>	    U8  fid        = host->hcmd.payload.info.nonuser.fid;
+<b><a name="line121">121    </a></b>	    U16 qid        = host->sq_cmd.payload_opt.adm.create_sq.qid;
+<b><a name="line122">122    </a></b>	    U16 cqid       = host->sq_cmd.payload_opt.adm.create_sq.cqid;
+<b><a name="line123">123    </a></b>	    U16 qsize      = host->sq_cmd.payload_opt.adm.create_sq.qsize;
+<b><a name="line124">124    </a></b>	    U8  qprio      = host->sq_cmd.payload_opt.adm.create_sq.qprio;
+<b><a name="line125">125    </a></b>	    U8  pc         = host->sq_cmd.payload_opt.adm.create_sq.pc;
+<b><a name="line126">126    </a></b>	    U16 max_num_sq = (host->nvme_feature.sq_num + 1);
+<b><a name="line127">127    </a></b>	    U16 max_num_cq = (host->nvme_feature.cq_num + 1);
+<b><a name="line128">128    </a></b>	    U64 prp1_base  = (U64)host->sq_cmd.ct_prp1;
+<b><a name="line129">129    </a></b>	    U8  cap_cqr    = hal_nl_get_cap_cqr(PCIE_PORT_OFST_0);
+<b><a name="line130">130    </a></b>	    U8  wrr        = hal_nl_get_wrr(fid);
+<b><a name="line131">131    </a></b>	
+<b><a name="line132">132    </a></b>	    // chk fields
+<b><a name="line133">133    </a></b>	    if ((qid == 0) || (qid > max_num_sq) || (host->host_info.ioq.iosq[qid].en)) {
+<b><a name="line134">134    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line135">135    </a></b>	        return;
+<b><a name="line136">136    </a></b>	    }
+<b><a name="line137">137    </a></b>	    else if ((cqid == 0) || (cqid > max_num_cq)) {
+<b><a name="line138">138    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line139">139    </a></b>	        return;
+<b><a name="line140">140    </a></b>	    }
+<b><a name="line141">141    </a></b>	    else if ((qsize == 0) || (qsize > NVME_MQES)) {
+<b><a name="line142">142    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_SIZE);
+<b><a name="line143">143    </a></b>	        return;
+<b><a name="line144">144    </a></b>	    }
+<b><a name="line145">145    </a></b>	    else if (host->host_info.ioq.iocq[cqid].en == FALSE) {
+<b><a name="line146">146    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_COMPLETION_QUEUE_INVALID);
+<b><a name="line147">147    </a></b>	        return;
+<b><a name="line148">148    </a></b>	    }
+<b><a name="line149">149    </a></b>	    else if ((host->sq_cmd.payload_opt.adm.create_sq.pc == 0) && (cap_cqr == 1)) {
+<b><a name="line150">150    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line151">151    </a></b>	        return;
+<b><a name="line152">152    </a></b>	    }
+<b><a name="line153">153    </a></b>	    // TODO:
+<b><a name="line154">154    </a></b>	#if 0
+<b><a name="line155">155    </a></b>	    else if (prp1_base & ((U64)1 << (12 + (U8)hal_nl_get_cc_mps(FUNC0)) - 1)) { // check prp format
+<b><a name="line156">156    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_PRP_OFFSET_INVALID);
+<b><a name="line157">157    </a></b>	        return;
+<b><a name="line158">158    </a></b>	    }
+<b><a name="line159">159    </a></b>	#endif
+<b><a name="line160">160    </a></b>	    Dump_NVME(tprintf("create io sq check pass"));
+<b><a name="line161">161    </a></b>	    // create queue
+<b><a name="line162">162    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line163">163    </a></b>	    hal_nvme_create_sq(qid, (wrr == 0U) ? SQ_PRIORITY_URGENT : qprio, prp1_base, cqid, qsize, pc);
+<b><a name="line164">164    </a></b>	
+<b><a name="line165">165    </a></b>	    // save IOQ setting to host
+<b><a name="line166">166    </a></b>	    host->host_info.ioq.iosq[qid].qsize = qsize; // set qsize
+<b><a name="line167">167    </a></b>	    host->host_info.ioq.iosq[qid].cqid  = cqid;
+<b><a name="line168">168    </a></b>	    host->host_info.ioq.iosq[qid].en    = TRUE;
+<b><a name="line169">169    </a></b>	
+<b><a name="line170">170    </a></b>	}
+<b><a name="line171">171    </a></b>	
+<b><a name="line172">172    </a></b>	static void nvme_delete_io_sq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line173">173    </a></b>	{
+<b><a name="line174">174    </a></b>	    Dump_NVME(tprintf("  >> delete IO SQ\n\r"));
+<b><a name="line175">175    </a></b>	    U8         fid = host->hcmd.payload.info.nonuser.fid;
+<b><a name="line176">176    </a></b>	    U16        qid = host->sq_cmd.payload_opt.adm.delete_sq.qid;
+<b><a name="line177">177    </a></b>	    U16 max_num_sq = (host->nvme_feature.sq_num + 1);
+<b><a name="line178">178    </a></b>	
+<b><a name="line179">179    </a></b>	
+<b><a name="line180">180    </a></b>	    if ((qid == 0) || (qid > max_num_sq) || (host->host_info.ioq.iosq[qid].en == FALSE)) {
+<b><a name="line181">181    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line182">182    </a></b>	        return;
+<b><a name="line183">183    </a></b>	    }
+<b><a name="line184">184    </a></b>	
+<b><a name="line185">185    </a></b>	    dal_nl_set_port_mask(PCIE_PORT_0);
+<b><a name="line186">186    </a></b>	    dal_nl_set_iosq_mask(qid);
+<b><a name="line187">187    </a></b>	
+<b><a name="line188">188    </a></b>	    dal_nl_set_p_blk_cmd_en(PCIE_PORT_0);
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_CMGR_POLL, 100);
+<b><a name="line191">191    </a></b>	    while (dal_cmgr_get_stable(PCIE_PORT_OFST_0) == 0) {
+<b><a name="line192">192    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line193">193    </a></b>	            break;
+<b><a name="line194">194    </a></b>	        }
+<b><a name="line195">195    </a></b>	    }
+<b><a name="line196">196    </a></b>	
+<b><a name="line197">197    </a></b>	    hal_nvme_nl_del_req(0U, PCIE_PF_0, fid, qid, HAL_NVME_DEL_TYPE_QUEUE, 100);
+<b><a name="line198">198    </a></b>	
+<b><a name="line199">199    </a></b>	    dal_nl_clr_p_blk_cmd_en(PCIE_PORT_0);
+<b><a name="line200">200    </a></b>	
+<b><a name="line201">201    </a></b>	    dal_nl_clr_port_mask(PCIE_PORT_0);
+<b><a name="line202">202    </a></b>	
+<b><a name="line203">203    </a></b>	
+<b><a name="line204">204    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line205">205    </a></b>	
+<b><a name="line206">206    </a></b>	    dal_nl_clr_sq_en(qid);
+<b><a name="line207">207    </a></b>	
+<b><a name="line208">208    </a></b>	    dal_nl_clr_iosq_mask(qid);
+<b><a name="line209">209    </a></b>	
+<b><a name="line210">210    </a></b>	    host->host_info.ioq.iosq[qid].en       = FALSE;
+<b><a name="line211">211    </a></b>	    host->host_info.ioq.iosq[qid].cqid     = 0;
+<b><a name="line212">212    </a></b>	    host->host_info.ioq.iosq[qid].qsize    = 0;
+<b><a name="line213">213    </a></b>	
+<b><a name="line214">214    </a></b>	    Dump_NVME(tprintf("End nvme_delete_io_sq\n\r"));
+<b><a name="line215">215    </a></b>	}
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	static void nvme_delete_io_cq(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line218">218    </a></b>	{
+<b><a name="line219">219    </a></b>	    Dump_NVME(tprintf("  >> delete IO CQ.\n\r"));
+<b><a name="line220">220    </a></b>	
+<b><a name="line221">221    </a></b>	    U8         fid = host->hcmd.payload.info.nonuser.fid;
+<b><a name="line222">222    </a></b>	    U16        qid = host->sq_cmd.payload_opt.adm.delete_sq.qid;
+<b><a name="line223">223    </a></b>	    U16 max_num_cq = (host->nvme_feature.cq_num + 1);
+<b><a name="line224">224    </a></b>	
+<b><a name="line225">225    </a></b>	
+<b><a name="line226">226    </a></b>	    if ((qid == 0) || (qid > max_num_cq) || (host->host_info.ioq.iocq[qid].en == FALSE)) {
+<b><a name="line227">227    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_ID);
+<b><a name="line228">228    </a></b>	        return;
+<b><a name="line229">229    </a></b>	    }
+<b><a name="line230">230    </a></b>	
+<b><a name="line231">231    </a></b>	    for ( U16 sqid = 1; sqid < NVME_MAX_Q_CNT; ++sqid ) {
+<b><a name="line232">232    </a></b>	        if ( (host->host_info.ioq.iosq[sqid].cqid == qid) &&
+<b><a name="line233">233    </a></b>	            (host->host_info.ioq.iosq[sqid].en   == TRUE) ) { // a sq is still attched to deleted cq
+<b><a name="line234">234    </a></b>	            nvme_set_cpl_sts(host, NVME_SCT_CMD_SPECIFIC_STS, NVME_SPECIFIC_STS_INVALID_QUEUE_DEL);
+<b><a name="line235">235    </a></b>	            return;
+<b><a name="line236">236    </a></b>	        }
+<b><a name="line237">237    </a></b>	    }
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	    hal_nvme_fw_set_id(0U, PCIE_PF_0, fid);
+<b><a name="line240">240    </a></b>	    dal_nl_clr_cq_en(qid);
+<b><a name="line241">241    </a></b>	
+<b><a name="line242">242    </a></b>	    host->host_info.ioq.iocq[qid].en       = FALSE;
+<b><a name="line243">243    </a></b>	    host->host_info.ioq.iocq[qid].intr_en  = FALSE;
+<b><a name="line244">244    </a></b>	    host->host_info.ioq.iocq[qid].qsize    = 0;
+<b><a name="line245">245    </a></b>	}
+<b><a name="line246">246    </a></b>	
+<b><a name="line247">247    </a></b>	static void fill_cns_ns_data(HOST_API_STRUCT_PTR host, U32 buf_addr, U32 nsid)
+<b><a name="line248">248    </a></b>	{
+<b><a name="line249">249    </a></b>	    IDEN_NS_DATA_PTR ns_data_ptr = (IDEN_NS_DATA_PTR)buf_addr;
+<b><a name="line250">250    </a></b>	    U64              nlb         = host->host_info.total_lba;
+<b><a name="line251">251    </a></b>	
+<b><a name="line252">252    </a></b>	    ns_data_ptr->lbaFormat[0].lbads = SECTOR_SIZE_SHIFT;// lbads = 2^9 = 512
+<b><a name="line253">253    </a></b>	    ns_data_ptr->nsze      = nlb;
+<b><a name="line254">254    </a></b>	    ns_data_ptr->ncap      = nlb;
+<b><a name="line255">255    </a></b>	    ns_data_ptr->nuse      = nlb;
+<b><a name="line256">256    </a></b>	    ns_data_ptr->nguid[0]  = NVME_NGUID_L_NS1;
+<b><a name="line257">257    </a></b>	    ns_data_ptr->nguid[1]  = NVME_NGUID_H_NS1;
+<b><a name="line258">258    </a></b>	    ns_data_ptr->eui64     = NVME_EUI64_NS1;
+<b><a name="line259">259    </a></b>	    ns_data_ptr->nsfeat    = 0;
+<b><a name="line260">260    </a></b>	    ns_data_ptr->nlbaf     = 0;    // 0'based
+<b><a name="line261">261    </a></b>	    ns_data_ptr->flbas     = 0;
+<b><a name="line262">262    </a></b>	    ns_data_ptr->mc        = 0;
+<b><a name="line263">263    </a></b>	    ns_data_ptr->dpc       = 0;
+<b><a name="line264">264    </a></b>	    ns_data_ptr->dps       = 0;
+<b><a name="line265">265    </a></b>	    ns_data_ptr->nmic      = 0;
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	    //ns_data_ptr->nvmsetid = HAL_NVME_CMGR_GET_NS_NVMSETID(0) + 1;
+<b><a name="line268">268    </a></b>	}
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	static void fill_cns_ctrl_data(HOST_API_STRUCT_PTR host, U32 buf_addr)
+<b><a name="line271">271    </a></b>	{
+<b><a name="line272">272    </a></b>	    IDEN_CTRL_DATA_PTR ctrl_data_ptr = (IDEN_CTRL_DATA_PTR)buf_addr;
+<b><a name="line273">273    </a></b>	    U32 i;
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	    memset( ctrl_data_ptr, 0, sizeof(IDEN_CTRL_DATA) );
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	    // Controller Capabilities and Features 0-255
+<b><a name="line278">278    </a></b>	    ctrl_data_ptr->vid   = phal_pcie_get_vendor_id(PCIE_PORT_0);
+<b><a name="line279">279    </a></b>	    ctrl_data_ptr->ssvid = phal_pcie_get_subsystem_vendor_id(PCIE_PORT_0);
+<b><a name="line280">280    </a></b>	
+<b><a name="line281">281    </a></b>	    // [23:04]
+<b><a name="line282">282    </a></b>	    memcpy((void *) & (ctrl_data_ptr->sn[0]), (void *) & (serial_number[0]), HOST_SN_BYTES);
+<b><a name="line283">283    </a></b>	    // [63:24]
+<b><a name="line284">284    </a></b>	    memcpy((void *) & (ctrl_data_ptr->mn[0]), (void *) & (model_number[0]), HOST_MN_BYTES);
+<b><a name="line285">285    </a></b>	    // [71:64]
+<b><a name="line286">286    </a></b>	    memcpy((void *) & (ctrl_data_ptr->fr[0]), (void *) & (fw_version[0]), HOST_FW_VER_BYTES);
+<b><a name="line287">287    </a></b>	
+<b><a name="line288">288    </a></b>	    ctrl_data_ptr->rab = 1;                     // [72]
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	    for (i = 0; i < 3; i++) {                   // [75:73]
+<b><a name="line291">291    </a></b>	        ctrl_data_ptr->ieee_oui[i] = (U8)(IEEE_OUI_ID >> (i * 8));
+<b><a name="line292">292    </a></b>	    }
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	    //ctrl_data_ptr->cmic = 0x00;
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	    ctrl_data_ptr->mdts      = NVME_MDTS;        // [77]
+<b><a name="line297">297    </a></b>	    ctrl_data_ptr->cntlid    = 0;                // [79:78]
+<b><a name="line298">298    </a></b>	    ctrl_data_ptr->ver       = NVME_VER_1_4;     // [83:80]
+<b><a name="line299">299    </a></b>	    ctrl_data_ptr->rtd3r     = NVME_RTD3R;       // [87:84]
+<b><a name="line300">300    </a></b>	    ctrl_data_ptr->rtd3e     = NVME_RTD3E;       // [91:88]
+<b><a name="line301">301    </a></b>	
+<b><a name="line302">302    </a></b>	    ctrl_data_ptr->ctrl_type = 1U;               // [111] I/O controller
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    ctrl_data_ptr->nvmsr     = 0U;               // [253]
+<b><a name="line305">305    </a></b>	    ctrl_data_ptr->mec       = 1U;               // [255] NVM Subsystem contains a Management Endpoint on an SMBus/I2C port.
+<b><a name="line306">306    </a></b>	
+<b><a name="line307">307    </a></b>	    // Admin Command Set Attributes 256~511
+<b><a name="line308">308    </a></b>	    ctrl_data_ptr->oacs     = NVME_OACS;        // [257:256]
+<b><a name="line309">309    </a></b>	    ctrl_data_ptr->acl      = NVME_ACL;         // [258]
+<b><a name="line310">310    </a></b>	    ctrl_data_ptr->aerl     = host->nvme_feature.aerl; // [259]
+<b><a name="line311">311    </a></b>	    ctrl_data_ptr->frmw     = NVME_FW_ACT_WITHOUT_RST_SUP << 4 | NVME_FW_SLOT_NUM << 1 | NVME_1ST_FW_SLOT_RO;      // [260]
+<b><a name="line312">312    </a></b>	    ctrl_data_ptr->lpa      = NVME_LPA;         // [261]
+<b><a name="line313">313    </a></b>	    ctrl_data_ptr->elpe     = NVME_ELPE;        // [262]
+<b><a name="line314">314    </a></b>	    ctrl_data_ptr->npss     = NVME_NPSS;        // [263]
+<b><a name="line315">315    </a></b>	    ctrl_data_ptr->apsta    = NVME_APSTA;       // [265]
+<b><a name="line316">316    </a></b>	    ctrl_data_ptr->avscc    = NVME_AVSCC;       // [264]
+<b><a name="line317">317    </a></b>	    ctrl_data_ptr->wctemp   = NVME_WCTEMP;      // [267:266]
+<b><a name="line318">318    </a></b>	    ctrl_data_ptr->cctemp   = NVME_CCTEMP;      // [269:268]
+<b><a name="line319">319    </a></b>	    ctrl_data_ptr->fwug     = NVME_FWUG;        // [319]
+<b><a name="line320">320    </a></b>	    ctrl_data_ptr->pels     = 0x01;             // [355:352]
+<b><a name="line321">321    </a></b>	    ctrl_data_ptr->sqes     = 0x66;              // [512]    --> 2^6=64 bytes
+<b><a name="line322">322    </a></b>	    ctrl_data_ptr->cqes     = 0x44;              // [513]    --> 2^4=16 bytes
+<b><a name="line323">323    </a></b>	    ctrl_data_ptr->nn       = CONFIG_NS_NUM;
+<b><a name="line324">324    </a></b>	
+<b><a name="line325">325    </a></b>	    // Power State Descriptors 2048~3071
+<b><a name="line326">326    </a></b>	    ctrl_data_ptr->ps_des[0].mp     = 100;      // [15:0]   --> 1W  //TODO: chk
+<b><a name="line327">327    </a></b>	    ctrl_data_ptr->ps_des[0].enlat  = 5;        // [63:32]  --> 5us //TODO: chk
+<b><a name="line328">328    </a></b>	    ctrl_data_ptr->ps_des[0].exlat  = 5;        // [95:64]  --> 5us //TODO: chk
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	    // Assert ID
+<b><a name="line331">331    </a></b>	    U32 error_log_1st = sal_log_error_get_base()[0];
+<b><a name="line332">332    </a></b>	
+<b><a name="line333">333    </a></b>	    ctrl_data_ptr->vendor_data2[809] = ((error_log_1st >> 24) & 0xFF);
+<b><a name="line334">334    </a></b>	    ctrl_data_ptr->vendor_data2[810] = ((error_log_1st >> 16) & 0xFF);
+<b><a name="line335">335    </a></b>	    ctrl_data_ptr->vendor_data2[811] = ((error_log_1st >> 8) & 0xFF);
+<b><a name="line336">336    </a></b>	    ctrl_data_ptr->vendor_data2[812] = ((error_log_1st >> 0) & 0xFF);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	}
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	static void fill_cns_nsid_list(U32 buf_addr)
+<b><a name="line341">341    </a></b>	{
+<b><a name="line342">342    </a></b>	    U32 *nsid_list_ptr = (U32 *)buf_addr;
+<b><a name="line343">343    </a></b>	
+<b><a name="line344">344    </a></b>	    nsid_list_ptr[0] = NS1;
+<b><a name="line345">345    </a></b>	}
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	static void fill_cns_nsid_des_list(U32 buf_addr, U32 nsid)
+<b><a name="line348">348    </a></b>	{
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    NVME_IDEN_NSID_DES_WITH_UUID_PTR  nsid_des_ptr = (NVME_IDEN_NSID_DES_WITH_UUID_PTR)buf_addr;
+<b><a name="line351">351    </a></b>	
+<b><a name="line352">352    </a></b>	    nsid_des_ptr->nidt_0        = NVME_NIDT_EUI64;
+<b><a name="line353">353    </a></b>	    nsid_des_ptr->nidl_0        = NVME_NIDL_EUI64;
+<b><a name="line354">354    </a></b>	    nsid_des_ptr->nid_eui64     = NVME_EUI64_NS1;
+<b><a name="line355">355    </a></b>	
+<b><a name="line356">356    </a></b>	    nsid_des_ptr->nidt_1        = NVME_NIDT_NGUID;
+<b><a name="line357">357    </a></b>	    nsid_des_ptr->nidl_1        = NVME_NIDL_NGUID;
+<b><a name="line358">358    </a></b>	    nsid_des_ptr->nid_nguid[0]  = NVME_NGUID_L_NS1;
+<b><a name="line359">359    </a></b>	    nsid_des_ptr->nid_nguid[1]  = NVME_NGUID_H_NS1;
+<b><a name="line360">360    </a></b>	
+<b><a name="line361">361    </a></b>	    nsid_des_ptr->nidt_2        = NVME_NIDT_UUID;
+<b><a name="line362">362    </a></b>	    nsid_des_ptr->nidl_2        = NVME_NIDL_UUID;
+<b><a name="line363">363    </a></b>	    nsid_des_ptr->nid_uuid[0]   = NVME_UUID_L;
+<b><a name="line364">364    </a></b>	    nsid_des_ptr->nid_uuid[1U]  = NVME_UUID_H;
+<b><a name="line365">365    </a></b>	
+<b><a name="line366">366    </a></b>	}
+<b><a name="line367">367    </a></b>	
+<b><a name="line368">368    </a></b>	static void host_admin_nud_dma_and_td_handle(HOST_API_STRUCT_PTR host, U32 buf_addr, U16 ctag, U32 byte_cnt, U8 op)
+<b><a name="line369">369    </a></b>	{
+<b><a name="line370">370    </a></b>	    if (host->hcmd.mctp_fake_hcmd == FALSE) {
+<b><a name="line371">371    </a></b>	        host_nud_dma(buf_addr, host->spr_base, ctag, byte_cnt, op);
+<b><a name="line372">372    </a></b>	        nvme_htd_handle(host, op);
+<b><a name="line373">373    </a></b>	    }
+<b><a name="line374">374    </a></b>	    else {
+<b><a name="line375">375    </a></b>	        // MCTP over SMBus
+<b><a name="line376">376    </a></b>	        host->buffer_base = buf_addr;
+<b><a name="line377">377    </a></b>	        host->buffer_size = byte_cnt;
+<b><a name="line378">378    </a></b>	
+<b><a name="line379">379    </a></b>	        // sync to oob nvme-mi admin response dw 0
+<b><a name="line380">380    </a></b>	        host->hcpl.dw0  = 0;
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	        // sync to oob nvme-mi admin response dw 1
+<b><a name="line383">383    </a></b>	        host->hcpl.dw1  = 0;
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	        // sync to oob nvme-mi admin response dw 3
+<b><a name="line386">386    </a></b>	        host->hcpl.sc   = 0;
+<b><a name="line387">387    </a></b>	        host->hcpl.sct  = 0;
+<b><a name="line388">388    </a></b>	        host->hcpl.more = 0;
+<b><a name="line389">389    </a></b>	        host->hcpl.dnr  = 0;
+<b><a name="line390">390    </a></b>	    }
+<b><a name="line391">391    </a></b>	}
+<b><a name="line392">392    </a></b>	
+<b><a name="line393">393    </a></b>	static void host_nud_dma(U32 buf_addr, U32 spr_addr, U16 ctag, U32 byte_cnt, U8 op)
+<b><a name="line394">394    </a></b>	{
+<b><a name="line395">395    </a></b>	    HAL_APU_FW_BCMD_SQ_HW apu_sq;
+<b><a name="line396">396    </a></b>	    HAL_APU_TRIG_DMA_PARAM fw_buf_ready;
+<b><a name="line397">397    </a></b>	
+<b><a name="line398">398    </a></b>	    U32 cur_buf_addr  = buf_addr;
+<b><a name="line399">399    </a></b>	    U32 cur_4k_cnt    = 0;
+<b><a name="line400">400    </a></b>	    U32 total_4k_cnt  = get_4k_cnt(byte_cnt);
+<b><a name="line401">401    </a></b>	    U32 remain_4K_cnt = total_4k_cnt;
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    hal_cmgr_set_ct_rlbn(ctag, total_4k_cnt);
+<b><a name="line404">404    </a></b>	
+<b><a name="line405">405    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_DMA_RDY, 200);
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	    while ( remain_4K_cnt ) {
+<b><a name="line408">408    </a></b>	        memset((void *)&fw_buf_ready, 0x0U, sizeof(HAL_APU_TRIG_DMA_PARAM));
+<b><a name="line409">409    </a></b>	
+<b><a name="line410">410    </a></b>	        fw_buf_ready.ctag              = ctag;
+<b><a name="line411">411    </a></b>	        fw_buf_ready.ud                = 0U;
+<b><a name="line412">412    </a></b>	        fw_buf_ready.fst               = (cur_4k_cnt == 0U) ? TRUE : FALSE;                // first 4k
+<b><a name="line413">413    </a></b>	        fw_buf_ready.lst               = (cur_4k_cnt == total_4k_cnt - 1) ? TRUE : FALSE;  // last 4K
+<b><a name="line414">414    </a></b>	        fw_buf_ready.dir               = (op == NUD_DMA_WRITE) ? NUD_DMA_WRITE : NUD_DMA_READ;
+<b><a name="line415">415    </a></b>	        fw_buf_ready.node_tag          = 0U;
+<b><a name="line416">416    </a></b>	        fw_buf_ready.buf_addr_l        = (U32)(cur_buf_addr);
+<b><a name="line417">417    </a></b>	        fw_buf_ready.buf_addr_h        = 0;
+<b><a name="line418">418    </a></b>	        fw_buf_ready.spr_addr_l        = spr_addr;
+<b><a name="line419">419    </a></b>	        fw_buf_ready.spr_addr_h        = 0;
+<b><a name="line420">420    </a></b>	        fw_buf_ready.fw_bcmd.tbc       = byte_cnt;
+<b><a name="line421">421    </a></b>	        fw_buf_ready.fw_bcmd.offset    = 0U;
+<b><a name="line422">422    </a></b>	        fw_buf_ready.fw_bcmd.dma_done  = 0U;
+<b><a name="line423">423    </a></b>	        fw_buf_ready.fw_bcmd.err_info  = 0U;
+<b><a name="line424">424    </a></b>	        fw_buf_ready.fw_bcmd.acpl      = 0U;
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	        hal_apu_fill_fw_bcmd_sq(&apu_sq, &fw_buf_ready);
+<b><a name="line427">427    </a></b>	        Dump_NVME(tprintf("NUD DMA %x %x %x %x %x",apu_sq.header, apu_sq.all[0], apu_sq.all[1], apu_sq.all[2], apu_sq.all[3]));
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_api_get_full(HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == TRUE), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line430">430    </a></b>	        WAIT_UNTIL_TIMEOUT((hal_db_push(&apu_sq, sizeof(HAL_APU_FW_BCMD_SQ_HW), HOST_MR_QID_CPU0_SQ_NVME_NUD_DMA_P0) == FAIL), NVME_CMD_TIMEOUT_THRESHOLD, ERR_DB_FULL_TIMEOUT, MABIAO_DB_WAIT_SQ);
+<b><a name="line431">431    </a></b>	
+<b><a name="line432">432    </a></b>	        cur_buf_addr = cur_buf_addr + LC_BYTE_SIZE;
+<b><a name="line433">433    </a></b>	        --remain_4K_cnt;
+<b><a name="line434">434    </a></b>	        ++cur_4k_cnt;
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line437">437    </a></b>	            break;
+<b><a name="line438">438    </a></b>	        }
+<b><a name="line439">439    </a></b>	    }
+<b><a name="line440">440    </a></b>	}
+<b><a name="line441">441    </a></b>	
+<b><a name="line442">442    </a></b>	static void nvme_security_send(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line443">443    </a></b>	{
+<b><a name="line444">444    </a></b>	    Dump_NVME(tprintf("  >> sec send.\n\r"));
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    U32 buf_base  = host->buffer_base;
+<b><a name="line447">447    </a></b>	    U32 buf_addr  = buf_base;
+<b><a name="line448">448    </a></b>	    U32 byte_cnt  = host->sq_cmd.payload_opt.raw.cdw11;
+<b><a name="line449">449    </a></b>	    U8      secp  = host->sq_cmd.payload_opt.adm.adm_sec_send.secp;
+<b><a name="line450">450    </a></b>	    U8     spsp0  = host->sq_cmd.payload_opt.adm.adm_sec_send.spsp0;
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    VUC_DISPATCH_PTR vuc_dispatch = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><a name="line453">453    </a></b>	
+<b><a name="line454">454    </a></b>	    if (secp == 0xFE && ((spsp0 == SCSI_PASS_THROUGH_SEND_SQ) || (spsp0 == SCSI_PASS_THROUGH_WRITE_DATA))) {
+<b><a name="line455">455    </a></b>	        host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_WRITE);
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	        if (SCSI_PASS_THROUGH_SEND_SQ == spsp0) {
+<b><a name="line458">458    </a></b>	            Dump_NVME(tprintf("      >> Send SQ.\n\r "));
+<b><a name="line459">459    </a></b>	            vuc_dispatch->mode = VUC_HANDLER_PACKET_MODE;
+<b><a name="line460">460    </a></b>	            vuc_sq_rcv();
+<b><a name="line461">461    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line462">462    </a></b>	        }
+<b><a name="line463">463    </a></b>	        else if ((VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state)) { //(SCSI_PASS_THROUGH_WRITE_DATA == spsp0)
+<b><a name="line464">464    </a></b>	            Dump_NVME(tprintf("      >> write data.\n\r "));
+<b><a name="line465">465    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line466">466    </a></b>	        }
+<b><a name="line467">467    </a></b>	        else {
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	        }
+<b><a name="line470">470    </a></b>	    }
+<b><a name="line471">471    </a></b>	    /*
+<b><a name="line472">472    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_IDENTIFY)
+<b><a name="line473">473    </a></b>	    {
+<b><a name="line474">474    </a></b>	        //PRINTF("\r\n security send : identify \r\n");
+<b><a name="line475">475    </a></b>	    }
+<b><a name="line476">476    </a></b>	    else if (secp == 0xFE && spsp0 == SCSI_PASS_THROUGH_GET_LOG_PAGE)
+<b><a name="line477">477    </a></b>	    {
+<b><a name="line478">478    </a></b>	        //PRINTF("\r\n security send : get log page \r\n");
+<b><a name="line479">479    </a></b>	    }
+<b><a name="line480">480    </a></b>	    */
+<b><a name="line481">481    </a></b>	    else {
+<b><a name="line482">482    </a></b>	        //PRINTF("\r\n security send do nothing , secp = %x",secp);
+<b><a name="line483">483    </a></b>	        nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line484">484    </a></b>	    }
+<b><a name="line485">485    </a></b>	    Dump_NVME(tprintf("end nvme_security_send\n\r"));
+<b><a name="line486">486    </a></b>	}
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	static void nvme_security_receive(HOST_API_STRUCT_PTR host, U16 ctag)
+<b><a name="line489">489    </a></b>	{
+<b><a name="line490">490    </a></b>	    Dump_NVME(tprintf("  >> sec receive.\n\r"));
+<b><a name="line491">491    </a></b>	
+<b><a name="line492">492    </a></b>	    volatile ADM_GET_LOG_PTR            log_ptr = &host->sq_cmd.payload_opt.adm.get_log;
+<b><a name="line493">493    </a></b>	    U32  buf_base = host->buffer_base;
+<b><a name="line494">494    </a></b>	    U32  buf_addr = buf_base;
+<b><a name="line495">495    </a></b>	    U32  byte_cnt = host->sq_cmd.payload_opt.raw.cdw11;
+<b><a name="line496">496    </a></b>	    U8       secp = host->sq_cmd.payload_opt.adm.adm_sec_receive.secp;
+<b><a name="line497">497    </a></b>	    U8      spsp0 = host->sq_cmd.payload_opt.adm.adm_sec_receive.spsp0;
+<b><a name="line498">498    </a></b>	    U8 *buf_addr_ptr = (U8 *)(void *)buf_addr;
+<b><a name="line499">499    </a></b>	    U8 buf_addr_idx = 0;
+<b><a name="line500">500    </a></b>	    U8 sup_feat_num = 0;
+<b><a name="line501">501    </a></b>	
+<b><a name="line502">502    </a></b>	    VUC_DISPATCH_PTR vuc_dispatch = (VUC_DISPATCH_PTR)&gVucDispatch;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Identifier "vuc_dispatch" is already used to represent a type.</font>
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	
+<b><a name="line505">505    </a></b>	    if (secp == 0x00) {
+<b><a name="line506">506    </a></b>	        if (byte_cnt != 0U) { // AL
+<b><a name="line507">507    </a></b>	            memset((void *)buf_addr, 0, byte_cnt); // init buffer space
+<b><a name="line508">508    </a></b>	            buf_addr_ptr[6] = 0x00; // security list length
+<b><a name="line509">509    </a></b>	            buf_addr_idx = 8;
+<b><a name="line510">510    </a></b>	            buf_addr_ptr[buf_addr_idx] = 0x00;
+<b><a name="line511">511    </a></b>	            buf_addr_idx++;
+<b><a name="line512">512    </a></b>	            sup_feat_num++;
+<b><a name="line513">513    </a></b>	            buf_addr_ptr[buf_addr_idx] = 0xFE;
+<b><a name="line514">514    </a></b>	            sup_feat_num++;
+<b><a name="line515">515    </a></b>	            buf_addr_ptr[7] = sup_feat_num; // security list length
+<b><a name="line516">516    </a></b>	            host_admin_nud_dma_and_td_handle(host, buf_addr, ctag, byte_cnt, NUD_DMA_READ);
+<b><a name="line517">517    </a></b>	        }
+<b><a name="line518">518    </a></b>	    }
+<b><a name="line519">519    </a></b>	    else if (secp == 0xFE && ((spsp0 == SCSI_PASS_THROUGH_READ_DATA) || (spsp0 == SCSI_PASS_THROUGH_READ_CQ))) {
+<b><a name="line520">520    </a></b>	        if (SCSI_PASS_THROUGH_READ_CQ == spsp0) {
+<b><a name="line521">521    </a></b>	            vuc_cq_send();
+<b><a name="line522">522    </a></b>	            vuc_packet_handler(vuc_dispatch);
+<b><a name="line523">523    </a></b>	        }
+<b><a name="line524">524    </a></b>	        else if ((VUC_HANDLER_CMD_DISPATCH == vuc_dispatch->state)) { //(SCSI_PASS_THROUGH_READ_DATA == spsp0)
+<b><a name="line525">525    </a></b>	            if(byte_cnt < 16)
+<b><a name="line526">526    </a></b>	            {
+<b><a name="line527">527    </a></b>	                nvme_set_cpl_sts(host, NVME_SCT_GENERIC_CMD_STS, NVME_GENERIC_STS_INVALID_FIELD);
+<b><a name="line528">528    </a></b>	                return;
+<b><a name="line529">529    </a></b>	            }
+<b><a name="line530">530    </a></b>	            else
+<b><a name="line531">531    </a></b>	            {
+<b><a name="line532">532    </a></b>	                vuc_packet_handler(vuc_dispatch);
+<b><a name="line533">533    </a></b>	            }
+</pre></body>
+</html>

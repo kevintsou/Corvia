@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/pmu/hal_pmu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line30">30    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	    while (dal_pmu_get_flash_cnt_non_ready() != 1U) {
+<b><a name="line33">33    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line34">34    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_FLASH_CNT_START_TIMEOUT;
+<b><a name="line35">35    </a></b>	        }
+<b><a name="line36">36    </a></b>	    }
+<b><a name="line37">37    </a></b>	    sal_log_tracker_set(sal_locate(0x15, TYPE_RSV6));
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	    return status;
+<b><a name="line40">40    </a></b>	}
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	U8 hal_flh_power_on(U32 timeout, U8 ssc_en, U8 ftrack_en)
+<b><a name="line43">43    </a></b>	{
+<b><a name="line44">44    </a></b>	    U8 status = 0U;
+<b><a name="line45">45    </a></b>	    U32 mabiao_addr;
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    // @step 1. Make sure NAND power start to down to 0V
+<b><a name="line48">48    </a></b>	    sal_log_tracker_set(sal_locate(0x20, TYPE_RSV6));
+<b><a name="line49">49    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    while (r_PMU_FLASH_CNT_NON_READY() != 0U) {
+<b><a name="line52">52    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line53">53    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_FLASH_CNT_TIMEOUT;
+<b><a name="line54">54    </a></b>	        }
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	    // @step 2. Check NAND CORE power off
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    sal_log_tracker_set(sal_locate(0x21, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "15" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line60">60    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line63">63    </a></b>	    while (r_CR_VOUT_FC() != 0U) {
+<b><a name="line64">64    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line65">65    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FC_0_TIMEOUT;
+<b><a name="line66">66    </a></b>	        }
+<b><a name="line67">67    </a></b>	    }
+<b><a name="line68">68    </a></b>	#endif
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	#if (IC_TYPE == IC_TYPE_ASIC)
+<b><a name="line71">71    </a></b>	    // @step 3. Check NAND IO power off
+<b><a name="line72">72    </a></b>	    sal_log_tracker_set(sal_locate(0x22, TYPE_RSV6));
+<b><a name="line73">73    </a></b>	    mabiao_addr = MABIAO_SET_MS(MABIAO_BE, timeout);
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	    while (r_CR_VOUT_FIO_1P2V() != 0U) {
+<b><a name="line76">76    </a></b>	        if (MABIAO_CHK(mabiao_addr)) {
+<b><a name="line77">77    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FIO1P2_0_TIMEOUT;
+<b><a name="line78">78    </a></b>	        }
+<b><a name="line79">79    </a></b>	    }
+<b><a name="line80">80    </a></b>	#endif
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	/*
+<b><a name="line83">83    </a></b>	    // disable VDT mask
+<b><a name="line84">84    </a></b>	    mabiao_set(MABIAO_MS, &gsMabiao[MABIAO_BE], timeout);   //ken :  Polling cr_vout_fio_0p6, but no this register
+<b><a name="line85">85    </a></b>	    while (r_CR_VOUT_FIO_1P2V() != 0U) {
+<b><a name="line86">86    </a></b>	        if (mabiao_chk(&gsMabiao[MABIAO_BE])) {
+<b><a name="line87">87    </a></b>	            return HAL_PMU_POWER_RESET_FAIL_STATUS_VOUT_FIO1P2_0_TIMEOUT;
+<b><a name="line88">88    </a></b>	        }
+<b><a name="line89">89    </a></b>	    }
+<b><a name="line90">90    </a></b>	*/
+</pre></body>
+</html>

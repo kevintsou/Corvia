@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9680">9680    </a></b>	    U32 pk_addr  = sig_addr + 68U;
+<b><a name="line9681">9681    </a></b>	
+<b><a name="line9682">9682    </a></b>	    HAL_SEC_PQC_KAZ_BUF_S_PTR sec_kaz_buf = (HAL_SEC_PQC_KAZ_BUF_S_PTR)(buffer_addr);
+<b><a name="line9683">9683    </a></b>	
+<b><a name="line9684">9684    </a></b>	    U32 verify_sts = 0UL;
+<b><a name="line9685">9685    </a></b>	
+<b><a name="line9686">9686    </a></b>	    SEC_SHA_PARAMS_T sha2_param;
+<b><a name="line9687">9687    </a></b>	
+<b><a name="line9688">9688    </a></b>	    (void)memcpy((void *)(U32 *)(sha_src_addr), (void *)(kaz_msg), sizeof(kaz_msg));
+<b><a name="line9689">9689    </a></b>	    (void)memcpy((U8 *)(U32 *)(sig_addr), kaz_signature, sizeof(kaz_signature));
+<b><a name="line9690">9690    </a></b>	    (void)memcpy((U8 *)(U32 *)(pk_addr), kaz_pk, sizeof(kaz_pk));
+<b><a name="line9691">9691    </a></b>	
+<b><a name="line9692">9692    </a></b>	    (void)memset(&sha2_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line9693">9693    </a></b>	    sha2_param.src_addr.all  = sha_src_addr;
+<b><a name="line9694">9694    </a></b>	    sha2_param.targ_addr.all = sha_targ_addr;
+<b><a name="line9695">9695    </a></b>	    sha2_param.src_len       = sizeof(kaz_msg);
+<b><a name="line9696">9696    </a></b>	    sha2_param.sha_mode      = HAL_SEC_SHA2_512_MODE;
+<b><a name="line9697">9697    </a></b>	    (void)phal_sec_sha_blocking(&sha2_param);
+<b><a name="line9698">9698    </a></b>	
+<b><a name="line9699">9699    </a></b>	    verify_sts = phal_sec_pqc_kaz_verify((U8 *)sha_targ_addr, (U8 *)sig_addr, (U8 *)pk_addr, sec_kaz_buf);
+<b><a name="line9700">9700    </a></b>	
+<b><a name="line9701">9701    </a></b>	    ret = (U8)(verify_sts == HAL_SEC_PQC_KAZ_ERROR(SEC_YES));
+<b><a name="line9702">9702    </a></b>	
+<b><a name="line9703">9703    </a></b>	    if (ret != SEC_YES)
+<b><a name="line9704">9704    </a></b>	    {
+<b><a name="line9705">9705    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9706">9706    </a></b>	        return (KAT_TYPE_KAZ | KAT_ERROR_VERIFY);
+<b><a name="line9707">9707    </a></b>	    }
+<b><a name="line9708">9708    </a></b>	
+<b><a name="line9709">9709    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout" does not have an essentially boolean type.</font>
+<b><a name="line9710">9710    </a></b>	        Dump_SEC(tprintf("F!"));
+<b><a name="line9711">9711    </a></b>	        return (KAT_TYPE_KAZ | KAT_ERROR_TIMEOUT);
+<b><a name="line9712">9712    </a></b>	    }
+<b><a name="line9713">9713    </a></b>	
+<b><a name="line9714">9714    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9715">9715    </a></b>	}
+<b><a name="line9716">9716    </a></b>	#endif
+<b><a name="line9717">9717    </a></b>	#if KAT_MLKEM_EN
+<b><a name="line9718">9718    </a></b>	U32 host_sec_mlkem_verify_kat(U32 buf_addr)
+<b><a name="line9719">9719    </a></b>	{
+<b><a name="line9720">9720    </a></b>	    Dump_SEC(tprintf("MLKEM KAT"));
+<b><a name="line9721">9721    </a></b>	
+<b><a name="line9722">9722    </a></b>	    U32 cal_buf_addr = buf_addr;
+<b><a name="line9723">9723    </a></b>	    U32 ek_addr      = cal_buf_addr + BC_32KB + BC_32KB;
+<b><a name="line9724">9724    </a></b>	    U32 message_addr = ek_addr      + HAL_SEC_PQC_MLKEM_PUB_KEY_LEN;
+<b><a name="line9725">9725    </a></b>	    U32 ct_addr      = message_addr + HAL_SEC_PQC_MLKEM_MSG_LEN;
+<b><a name="line9726">9726    </a></b>	    U32 ss_addr      = ct_addr      + HAL_SEC_PQC_MLKEM_CTX_LEN;
+<b><a name="line9727">9727    </a></b>	    // U32 temp_addr    = ss_addr      + 128;
+<b><a name="line9728">9728    </a></b>	
+<b><a name="line9729">9729    </a></b>	    memcpy((void *)message_addr, (void *)sec_mlkem_kat_enc_msg, sizeof(sec_mlkem_kat_enc_msg));
+<b><a name="line9730">9730    </a></b>	    memcpy((void *)ek_addr, (void *)sec_mlkem_kat_enc_ek, sizeof(sec_mlkem_kat_enc_ek));
+<b><a name="line9731">9731    </a></b>	
+<b><a name="line9732">9732    </a></b>	    if (phal_mlkem_enc((U8 *)ct_addr, (U8 *)ss_addr, (U8 *)ek_addr, (U8 *)message_addr, cal_buf_addr) != SEC_YES || \
+<b><a name="line9733">9733    </a></b>	        memcmp((void *)ct_addr, (void *)sec_mlkem_kat_enc_ctx, HAL_SEC_PQC_MLKEM_CTX_LEN) || \
+<b><a name="line9734">9734    </a></b>	        memcmp((void *)ss_addr, (void *)sec_mlkem_kat_enc_ss, HAL_SEC_PQC_MLKEM_SS_LEN))
+<b><a name="line9735">9735    </a></b>	    {
+<b><a name="line9736">9736    </a></b>	        Dump_SEC(tprintf("MLKEM encap failed\n"));
+<b><a name="line9737">9737    </a></b>	        return FAIL;
+<b><a name="line9738">9738    </a></b>	    }
+<b><a name="line9739">9739    </a></b>	
+<b><a name="line9740">9740    </a></b>	    Dump_SEC(tprintf("MLKEM ENC Pass"));
+</pre></body>
+</html>

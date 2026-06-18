@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1102">1102    </a></b>	        w_PIO_DAT_LAST(ch, 1);
+<b><a name="line1103">1103    </a></b>	    }
+<b><a name="line1104">1104    </a></b>	    return status;
+<b><a name="line1105">1105    </a></b>	}
+<b><a name="line1106">1106    </a></b>	
+<b><a name="line1107">1107    </a></b>	U32 hal_fip_api_dma_out(U8 ch, U8 ce, U8 *cmd, U8 *addr_dat, U8 addr_num1, U8 addr_num2, U32 data_address, U32 data_length, U8 cmd_dqs_h, U32 *ac_timing, U8 is_change_column_enhanced)
+<b><a name="line1108">1108    </a></b>	{
+<b><a name="line1109">1109    </a></b>	    U32 status;
+<b><a name="line1110">1110    </a></b>	    U8 i;
+<b><a name="line1111">1111    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1112">1112    </a></b>	
+<b><a name="line1113">1113    </a></b>	    status      = 0U;
+<b><a name="line1114">1114    </a></b>	
+<b><a name="line1115">1115    </a></b>	    if (is_sca == 0U) {
+<b><a name="line1116">1116    </a></b>	        //dal_fip_pio_dqs(ch, cmd_dqs_h);
+<b><a name="line1117">1117    </a></b>	        w_PIO_DQS_OE(ch, 1);
+<b><a name="line1118">1118    </a></b>	        w_PIO_DQS(ch, cmd_dqs_h);
+<b><a name="line1119">1119    </a></b>	    }
+<b><a name="line1120">1120    </a></b>	    else {
+<b><a name="line1121">1121    </a></b>	        //set fip fetch pio data from ca bus
+<b><a name="line1122">1122    </a></b>	        w_PIO_DATA_MODE(ch, 0);
+<b><a name="line1123">1123    </a></b>	    }
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	    //dal_fip_pio_ce_enable(ch, ce);
+<b><a name="line1126">1126    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] |= (U32)(BIT(ce));
+<b><a name="line1127">1127    </a></b>	    w_DQ_BIT_REV_IDX(ch, ce);
+<b><a name="line1128">1128    </a></b>	    //tCS
+<b><a name="line1129">1129    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCS]);
+<b><a name="line1130">1130    </a></b>	
+<b><a name="line1131">1131    </a></b>	    if (is_change_column_enhanced == TRUE) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "is_change_column_enhanced" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line1132">1132    </a></b>	        //SAMSUNG_V8
+<b><a name="line1133">1133    </a></b>	        w_PIO_CMD(ch, 0U);
+<b><a name="line1134">1134    </a></b>	        for (i = 0U; i < addr_num1; i++) {
+<b><a name="line1135">1135    </a></b>	            w_PIO_ADR(ch, addr_dat[i]);
+<b><a name="line1136">1136    </a></b>	        }
+<b><a name="line1137">1137    </a></b>	    }
+<b><a name="line1138">1138    </a></b>	
+<b><a name="line1139">1139    </a></b>	    w_PIO_CMD(ch, cmd[0U]);
+<b><a name="line1140">1140    </a></b>	    for (i = 0U; i < addr_num2; i++) {
+<b><a name="line1141">1141    </a></b>	        w_PIO_ADR(ch, addr_dat[i]);
+<b><a name="line1142">1142    </a></b>	    }
+<b><a name="line1143">1143    </a></b>	    w_PIO_CMD(ch, cmd[1U]);
+<b><a name="line1144">1144    </a></b>	    // tWHR2 ~= tWHR * 2 //tCCS ~= tWHR * 4
+<b><a name="line1145">1145    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TWHR] * 4U);
+<b><a name="line1146">1146    </a></b>	
+<b><a name="line1147">1147    </a></b>	    // dma out
+<b><a name="line1148">1148    </a></b>	    status |= hal_nand_api_read_data(ch, (U8 *)data_address, data_length);
+<b><a name="line1149">1149    </a></b>	
+<b><a name="line1150">1150    </a></b>	    //tCH
+<b><a name="line1151">1151    </a></b>	    dal_fip_delay(ac_timing[HAL_DLY_TCH]);
+<b><a name="line1152">1152    </a></b>	    //dal_fip_pio_ce_disable(ch, ce);
+<b><a name="line1153">1153    </a></b>	    r32_FLH_REG_TX(ch)[r32_FCH_FCE_ENB] &= (U32)(~(BIT(ce)));
+<b><a name="line1154">1154    </a></b>	
+<b><a name="line1155">1155    </a></b>	    return status;
+<b><a name="line1156">1156    </a></b>	}
+<b><a name="line1157">1157    </a></b>	
+<b><a name="line1158">1158    </a></b>	void hal_pio_cmd(U8 ch, U8 cmd, U32 *ac_timing)
+<b><a name="line1159">1159    </a></b>	{
+<b><a name="line1160">1160    </a></b>	    U8 is_sca = (U8)r_SCA_PROT(ch);
+<b><a name="line1161">1161    </a></b>	
+<b><a name="line1162">1162    </a></b>	    if (is_sca == 1U) {
+</pre></body>
+</html>

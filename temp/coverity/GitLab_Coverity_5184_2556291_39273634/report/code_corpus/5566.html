@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line55">55    </a></b>	    }
+<b><a name="line56">56    </a></b>	    else if (VS_CONFIG_OCP_HYPERSCALE == ubVsConfig)
+<b><a name="line57">57    </a></b>	    {
+<b><a name="line58">58    </a></b>	        Dump_SMBUS(tprintf(" [BASIC_MGMT_CMD] OCP hyperscale"));
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	        bIsBasicMgmtCmdCode = IS_OCP_HYPERSCALE_CMD_CODE(ubCmdCode);
+<b><a name="line61">61    </a></b>	    }
+<b><a name="line62">62    </a></b>	
+<b><a name="line63">63    </a></b>	    return bIsBasicMgmtCmdCode;
+<b><a name="line64">64    </a></b>	}
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	/*!
+<b><a name="line67">67    </a></b>	   @brief      Caculate CRC
+<b><a name="line68">68    </a></b>	
+<b><a name="line69">69    </a></b>	   @param      ubDataByte        data byte
+<b><a name="line70">70    </a></b>	   @param      ubRemainder       remainder
+<b><a name="line71">71    </a></b>	   @param      ubFinal           final
+<b><a name="line72">72    </a></b>	   @return     U8
+<b><a name="line73">73    </a></b>	 */
+<b><a name="line74">74    </a></b>	static U8 SMBSCalculateCRC(U8 ubDataByte, U8 ubRemainder, U8 ubFinal)
+<b><a name="line75">75    </a></b>	{
+<b><a name="line76">76    </a></b>	#define SMB_CRC8_POLYNOMIAL         (0x07)      //  x^8 + x^2 + x + 1, 1_0000_0111
+<b><a name="line77">77    </a></b>	#define SMB_CRC8_BIT_COUNT          (0x08)
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	    if (ubFinal)
+<b><a name="line80">80    </a></b>	    {
+<b><a name="line81">81    </a></b>	        ubDataByte = 0;
+<b><a name="line82">82    </a></b>	    }
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    for (U8 ubIdx = 0; ubIdx < SMB_CRC8_BIT_COUNT; ubIdx++)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "ubIdx" (unsigned) is not the same as that of the right operand "8"(signed).</font>
+<b><a name="line85">85    </a></b>	    {
+<b><a name="line86">86    </a></b>	        if (ubRemainder & BIT(SMB_CRC8_BIT_COUNT - 1)) { //it is equal to Shift left the augmented message until a 1 comes out
+<b><a name="line87">87    </a></b>	            //XOR the contents of the register with the low eight bits of the polynomial
+<b><a name="line88">88    </a></b>	            ubRemainder = ((ubRemainder << 1) + (ubDataByte >> (SMB_CRC8_BIT_COUNT - 1))) ^ SMB_CRC8_POLYNOMIAL;
+<b><a name="line89">89    </a></b>	        }
+<b><a name="line90">90    </a></b>	        else {
+<b><a name="line91">91    </a></b>	            ubRemainder = ((ubRemainder << 1) + (ubDataByte >> (SMB_CRC8_BIT_COUNT - 1))); //no 1 comes out, only shift
+<b><a name="line92">92    </a></b>	        }
+<b><a name="line93">93    </a></b>	        ubDataByte = ubDataByte << 1;
+<b><a name="line94">94    </a></b>	    }
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    return ubRemainder;
+<b><a name="line97">97    </a></b>	}
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	/*!
+<b><a name="line100">100    </a></b>	   @brief      Calculate subsystem management data PEC
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	   @param      ubSlaveAddr       slave address
+<b><a name="line103">103    </a></b>	   @param      ubCmdCode         command code
+<b><a name="line104">104    </a></b>	   @param      ubDataLength      data length (byte count) for PEC calculatation
+<b><a name="line105">105    </a></b>	   @param      pData             pointer to data start
+<b><a name="line106">106    </a></b>	   @return     U8
+<b><a name="line107">107    </a></b>	 */
+<b><a name="line108">108    </a></b>	U8 SmbsBlockReadCalculatePEC(U8 ubSlaveAddr, U8 ubCmdCode, U8 ubDataLength, U8 *pData)
+<b><a name="line109">109    </a></b>	{
+<b><a name="line110">110    </a></b>	    U8 ubPEC = 0;
+<b><a name="line111">111    </a></b>	    U8 ubIdx;
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    ubPEC = SMBSCalculateCRC(ubSlaveAddr << 1, ubPEC, FALSE);		// write
+<b><a name="line114">114    </a></b>	    ubPEC = SMBSCalculateCRC(ubCmdCode, ubPEC, FALSE);
+<b><a name="line115">115    </a></b>	    ubPEC = SMBSCalculateCRC((ubSlaveAddr << 1) + BIT0, ubPEC, FALSE); 	// read
+</pre></body>
+</html>

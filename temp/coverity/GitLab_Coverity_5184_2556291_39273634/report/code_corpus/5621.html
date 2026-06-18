@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1299">1299    </a></b>	
+<b><a name="line1300">1300    </a></b>	void dal_nl_set_cpl_st(U8 p_ofst, U16 status)
+<b><a name="line1301">1301    </a></b>	{
+<b><a name="line1302">1302    </a></b>	    w_all_NL_FCPL_STS(p_ofst, status);
+<b><a name="line1303">1303    </a></b>	}
+<b><a name="line1304">1304    </a></b>	
+<b><a name="line1305">1305    </a></b>	void dal_nl_set_cpl_spec(U8 p_ofst, U32 val)
+<b><a name="line1306">1306    </a></b>	{
+<b><a name="line1307">1307    </a></b>	    w_all_NL_FCPL_SPEC(p_ofst, val);
+<b><a name="line1308">1308    </a></b>	}
+<b><a name="line1309">1309    </a></b>	
+<b><a name="line1310">1310    </a></b>	void dal_nl_set_cpl_dw1(U8 p_ofst, U32 val)
+<b><a name="line1311">1311    </a></b>	{
+<b><a name="line1312">1312    </a></b>	    w_all_NL_FCPL_DW1(p_ofst, val);
+<b><a name="line1313">1313    </a></b>	}
+<b><a name="line1314">1314    </a></b>	
+<b><a name="line1315">1315    </a></b>	void dal_nl_set_cpl_nlb(U8 p_ofst, U16 val)
+<b><a name="line1316">1316    </a></b>	{
+<b><a name="line1317">1317    </a></b>	    w_all_NL_FCPL_NLB(p_ofst, val);
+<b><a name="line1318">1318    </a></b>	}
+<b><a name="line1319">1319    </a></b>	
+<b><a name="line1320">1320    </a></b>	void dal_nl_set_cpl_sqid(U8 p_ofst, U16 sqid)
+<b><a name="line1321">1321    </a></b>	{
+<b><a name="line1322">1322    </a></b>	    w_all_NL_FCPL_SQID(p_ofst, sqid);
+<b><a name="line1323">1323    </a></b>	}
+<b><a name="line1324">1324    </a></b>	
+<b><a name="line1325">1325    </a></b>	void dal_nl_set_cpl_fid(U8 p_ofst, U8 fid)
+<b><a name="line1326">1326    </a></b>	{
+<b><a name="line1327">1327    </a></b>	    // w_all_NL_FCPL_FID_H(p_ofst, (fid >> 6U));
+<b><a name="line1328">1328    </a></b>	    w_all_NL_FCPL_FID(p_ofst, (fid & 0x3F));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "fid" (unsigned) is not the same as that of the right operand "63"(signed).</font>
+<b><a name="line1329">1329    </a></b>	}
+<b><a name="line1330">1330    </a></b>	
+<b><a name="line1331">1331    </a></b>	void dal_nl_set_cpl_lbas(U8 p_ofst, U8 val) //1: 4K, 0:512B
+<b><a name="line1332">1332    </a></b>	{
+<b><a name="line1333">1333    </a></b>	    w_all_NL_FCPL_LBAS(p_ofst, val);
+<b><a name="line1334">1334    </a></b>	}
+<b><a name="line1335">1335    </a></b>	
+<b><a name="line1336">1336    </a></b>	void dal_nl_set_cpl_io_cmd(U8 p_ofst)
+<b><a name="line1337">1337    </a></b>	{
+<b><a name="line1338">1338    </a></b>	    w_all_NL_FCPL_IO_CMD(p_ofst, 1U);
+<b><a name="line1339">1339    </a></b>	}
+<b><a name="line1340">1340    </a></b>	
+<b><a name="line1341">1341    </a></b>	void dal_nl_set_cpl_log(U8 p_ofst)
+<b><a name="line1342">1342    </a></b>	{
+<b><a name="line1343">1343    </a></b>	    w_all_NL_FCPL_LOG(p_ofst, 1U);
+<b><a name="line1344">1344    </a></b>	}
+<b><a name="line1345">1345    </a></b>	
+<b><a name="line1346">1346    </a></b>	void dal_nl_set_cpl_ctag(U8 p_ofst, U16 ctag)
+<b><a name="line1347">1347    </a></b>	{
+<b><a name="line1348">1348    </a></b>	    w_all_NL_FCPL_CTAG(p_ofst, ctag);
+<b><a name="line1349">1349    </a></b>	}
+<b><a name="line1350">1350    </a></b>	
+<b><a name="line1351">1351    </a></b>	void dal_nl_clr_cpl_io_cmd(U8 p_ofst)
+<b><a name="line1352">1352    </a></b>	{
+<b><a name="line1353">1353    </a></b>	    w_all_NL_FCPL_IO_CMD(p_ofst, 0U);
+<b><a name="line1354">1354    </a></b>	}
+<b><a name="line1355">1355    </a></b>	
+<b><a name="line1356">1356    </a></b>	void dal_nl_clr_cpl_log(U8 p_ofst)
+<b><a name="line1357">1357    </a></b>	{
+<b><a name="line1358">1358    </a></b>	    w_all_NL_FCPL_LOG(p_ofst, 0U);
+<b><a name="line1359">1359    </a></b>	}
+</pre></body>
+</html>

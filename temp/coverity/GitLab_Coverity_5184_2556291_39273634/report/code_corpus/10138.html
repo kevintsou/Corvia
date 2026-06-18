@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/mi/subsystem_management_data.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line380">380    </a></b>	    memcpy((void *)pHyperscale->sByteOffset_96_153.aubModelNumber, (void *)NVME_ModelStr, sizeof(NVME_ModelStr));
+<b><a name="line381">381    </a></b>	#endif
+<b><a name="line382">382    </a></b>	
+<b><a name="line383">383    </a></b>	    // (TBD) Device Raw Capacity In GB
+<b><a name="line384">384    </a></b>	
+<b><a name="line385">385    </a></b>	
+<b><a name="line386">386    </a></b>	    /********************************************************************************************
+<b><a name="line387">387    </a></b>	     * Byte Offset 154:241
+<b><a name="line388">388    </a></b>	     ********************************************************************************************/
+<b><a name="line389">389    </a></b>	    // all 0
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	
+<b><a name="line392">392    </a></b>	    /********************************************************************************************
+<b><a name="line393">393    </a></b>	     * Byte Offset 242:247
+<b><a name="line394">394    </a></b>	     ********************************************************************************************/
+<b><a name="line395">395    </a></b>	    pHyperscale->sByteOffset_242_247.ubLength = OCP_HYPERSCALE_DATA_LENGTH_CMD_CODE_242;
+<b><a name="line396">396    </a></b>	
+<b><a name="line397">397    </a></b>	    // When set to 1b the secure boot feature reporting is supported
+<b><a name="line398">398    </a></b>	    // Set further value while device status is !healthy and going to start ocp recovery
+<b><a name="line399">399    </a></b>	    // See OcpRecoveryUpdateSubsystemManagementData
+<b><a name="line400">400    </a></b>	    pHyperscale->sByteOffset_242_247.uSecurityBootFailureReporting.sBit.btSecureBootFailureReportingSupport = 0x1U;
+<b><a name="line401">401    </a></b>	
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	    /********************************************************************************************
+<b><a name="line404">404    </a></b>	     * Byte Offset 248:255
+<b><a name="line405">405    </a></b>	     ********************************************************************************************/
+<b><a name="line406">406    </a></b>	    pHyperscale->sByteOffset_248_255.ubLength = OCP_HYPERSCALE_DATA_LENGTH_CMD_CODE_248;
+<b><a name="line407">407    </a></b>	
+<b><a name="line408">408    </a></b>	    /* [OCP hyperscale v1.0, REQ ID: SMBUS-11] */
+<b><a name="line409">409    </a></b>	    pHyperscale->sByteOffset_248_255.aubDataFormatVersionNumber[0] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_HYPERSCALE >> 8U) & 0xFFU;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "5U >> 8U", shifting more than 7 bits, the number of bits in the essential type of the left expression, "5U", is not allowed.  The shift amount is 8.</font>
+<b><a name="line410">410    </a></b>	    pHyperscale->sByteOffset_248_255.aubDataFormatVersionNumber[1] = (OCP_SMBUS_BASIC_MGMT_CMD_SPEC_SEL_HYPERSCALE) & 0xFFU;
+<b><a name="line411">411    </a></b>	}
+<b><a name="line412">412    </a></b>	
+<b><a name="line413">413    </a></b>	/*!
+<b><a name="line414">414    </a></b>	   @brief      Init subsystem management data structure for nvme basic management command
+<b><a name="line415">415    </a></b>	
+<b><a name="line416">416    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line417">417    </a></b>	   @param      pHostVar                     pointer to host variable
+<b><a name="line418">418    </a></b>	 */
+<b><a name="line419">419    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line420">420    </a></b>	void SubsystemManagementDataInit(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, HOST_VAR_T *pHostVar)
+<b><a name="line421">421    </a></b>	#else
+<b><a name="line422">422    </a></b>	void SubsystemManagementDataInit(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData)
+<b><a name="line423">423    </a></b>	#endif
+<b><a name="line424">424    </a></b>	{
+<b><a name="line425">425    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line426">426    </a></b>	    U8 ubIdx;
+<b><a name="line427">427    </a></b>	#endif
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    U8 ubVsConfig = GetSubsystemManagementDataVendorSpecificConfig();
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	    memset((void *)pSubsystemManagementData, 0, sizeof(SUBSYSTEM_MANAGEMENT_DATA_T));
+<b><a name="line432">432    </a></b>	
+<b><a name="line433">433    </a></b>	    /********************************************************************************************
+<b><a name="line434">434    </a></b>	     * Common - Status (Follows E28)
+<b><a name="line435">435    </a></b>	     ********************************************************************************************/
+<b><a name="line436">436    </a></b>	    pSubsystemManagementData->sCommon.sStatus.ubLength = SUBSYSTEM_MANAGEMENT_DATA_LENGTH_STATUS;
+<b><a name="line437">437    </a></b>	
+<b><a name="line438">438    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btSmbusArbitration    = 1U;
+<b><a name="line439">439    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btDriveNotReady       = 0U;
+<b><a name="line440">440    </a></b>	    pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btResetNotRequired    = 1U;
+</pre></body>
+</html>

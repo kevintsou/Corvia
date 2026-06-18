@@ -1,0 +1,1296 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/hal/src/diag/mrdb/hal_db.c</file>
+<function>hal_db_push</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{sq_size - db_remain_size}}}{16}{32}}}}</description>
+<line>291</line>
+<column>100</column>
+</event>
+<extra>db_remain_size,sq_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_pcie_get_sys_perstn_intr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gPcieSysMiscRegPortBase[port_id][1168U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>2171</line>
+<column>12</column>
+</event>
+<extra>gPcieSysMiscRegPortBase,port_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_get_inter_packet_delay_ms</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{35U - gBCodeGlobalStruct.parameter_config.mi_inter_packet_delay_time_ms}}}{8}{32}}}}</description>
+<line>93</line>
+<column>25</column>
+</event>
+<extra>gBCodeGlobalStruct,mi_inter_packet_delay_time_ms,parameter_config</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_inst_gen_dmar</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{frm_idx &gt;&gt; 2U}}}{8}{32}}}}</description>
+<line>372</line>
+<column>31</column>
+</event>
+<extra>frm_idx</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>jump_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{ptr_project_binary_header-&gt;section_sector_size[0] &lt;&lt; 9}}}{16}{32}}}}</description>
+<line>73</line>
+<column>22</column>
+</event>
+<extra>ptr_project_binary_header,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>jump_pram</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{ptr_project_binary_header-&gt;section_sector_size[1] &lt;&lt; 9}}}{16}{32}}}}</description>
+<line>76</line>
+<column>22</column>
+</event>
+<extra>ptr_project_binary_header,section_sector_size</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_dmac.c</file>
+<function>phal_cop2_dmac_fill_sv_cmd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{mr_len - 1U}}}{8}{32}}}}</description>
+<line>316</line>
+<column>31</column>
+</event>
+<extra>mr_len</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/i2c/i2c.c</file>
+<function>i2c_set_param_by_power_ctrl</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{0U &lt;&lt; (*(*pBC).p_efuse_security_setting).i2c_power_on_delay_time_mag}}}{8}{16}}}}</description>
+<line>49</line>
+<column>48</column>
+</event>
+<extra>i2c_power_on_delay_time_mag,pBC,p_efuse_security_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/i2c/i2c.c</file>
+<function>i2c_set_param_by_power_ctrl</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{0U &lt;&lt; (*(*pBC).p_efuse_security_setting).i2c_power_off_delay_time_mag}}}{8}{16}}}}</description>
+<line>61</line>
+<column>48</column>
+</event>
+<extra>i2c_power_off_delay_time_mag,pBC,p_efuse_security_setting</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/vuc_protect/c0_vuc_protect.c</file>
+<function>vuc_send_secure_info</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{(p_secure_key_info_common-&gt;ucKeyIndex[0] &lt;&lt; 8) | (p_secure_key_info_common-&gt;ucKeyIndex[1] &lt;&lt; 0)}}}{8}{16}}}}</description>
+<line>111</line>
+<column>40</column>
+</event>
+<extra>p_secure_key_info_common,ucKeyIndex</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>hal_fip_mdll_tracking</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhDllRegChBase[ch][13U] &gt;&gt; 0U) &amp; 0xfU}}}{8}{32}}}}</description>
+<line>1678</line>
+<column>17</column>
+</event>
+<extra>ch,gFlhDllRegChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_pcie_get_pm_sel_aux_clk_ovrd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gPcieSysMiscRegPortBase[port_id][120U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>2166</line>
+<column>12</column>
+</event>
+<extra>gPcieSysMiscRegPortBase,port_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_fw_slot</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{wordline + parallel}}}{16}{32}}}}</description>
+<line>2247</line>
+<column>50</column>
+</event>
+<extra>parallel,wordline</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_get_link_speed</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{(((U8 volatile *)gPcieSnpsMiscRegPortBase[port_id][1274U] &gt;&gt; 2U) &amp; 7U) + 1U}}}{8}{32}}}}</description>
+<line>1524</line>
+<column>16</column>
+</event>
+<extra>gPcieSnpsMiscRegPortBase,port_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_get_link_width</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U16 volatile *)0x3116000[65UL] &gt;&gt; 4U) &amp; 0x3fU}}}{16}{32}}}}</description>
+<line>1536</line>
+<column>16</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_control.c</file>
+<function>mctp_message_handle_mctp_control_get_mctp_version_support</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{2U + (p_mctp_control_resp-&gt;resp_data.get_ver.ver_num_cnt &lt;&lt; 2)}}}{8}{32}}}}</description>
+<line>206</line>
+<column>29</column>
+</event>
+<extra>get_ver,p_mctp_control_resp,resp_data,ver_num_cnt</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/pcie/pcie_ctrl.c</file>
+<function>dal_get_ltssm_state</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gPcieSnpsMiscRegPortBase[port_id][1273U] &gt;&gt; 0U) &amp; 0x3fU}}}{8}{32}}}}</description>
+<line>1507</line>
+<column>16</column>
+</event>
+<extra>gPcieSnpsMiscRegPortBase,port_id</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_memk_scr_busy</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[72U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>1028</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_aes_api.c</file>
+<function>dal_sec_aes_otf_get_memk_scr_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[72U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>1023</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_mdll_tracking_trig</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhDllRegChBase[ch][13U] &gt;&gt; 0U) &amp; 0xfU}}}{8}{32}}}}</description>
+<line>2049</line>
+<column>17</column>
+</event>
+<extra>ch,gFlhDllRegChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_pke_api.c</file>
+<function>dal_sec_pke_get_jmp_isr_int_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360a800[90U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>484</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_get_ltr_thr2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x30c0000[1U] &gt;&gt; 5U) &amp; 1U}}}{8}{32}}}}</description>
+<line>1097</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/nvme/dal_flow_nvme_nl_func.c</file>
+<function>dal_nl_get_ltr_thr1</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x30c0000[1U] &gt;&gt; 4U) &amp; 1U}}}{8}{32}}}}</description>
+<line>1092</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_get_die_num_for_each_ce</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhRegTxChBase[ch][172U] &gt;&gt; 0U) &amp; 3U}}}{8}{32}}}}</description>
+<line>1301</line>
+<column>12</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sm3_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>152</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/bootcode_hal_fpl_api.c</file>
+<function>fpl_api_fw_gen_pat</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{4096U * node_num}}}{16}{32}}}}</description>
+<line>1323</line>
+<column>36</column>
+</event>
+<extra>node_num</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha256_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>187</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha512t256_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 5U) &amp; 1U}}}{8}{32}}}}</description>
+<line>232</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_get_fpu_div_value</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhRegRxChBase[ch][124U] &gt;&gt; 3U) &amp; 7U}}}{8}{32}}}}</description>
+<line>1571</line>
+<column>12</column>
+</event>
+<extra>ch,gFlhRegRxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_otf_get_sm4otf_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[53U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>125</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_otf_get_sm4otf_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[54U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>120</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_256_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>259</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_pke_get_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360a800[64U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>136</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha384_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 3U) &amp; 1U}}}{8}{32}}}}</description>
+<line>202</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_384_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>279</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha512_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 4U) &amp; 1U}}}{8}{32}}}}</description>
+<line>217</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_get_fpu_div_enable</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhRegRxChBase[ch][124U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>1566</line>
+<column>12</column>
+</event>
+<extra>ch,gFlhRegRxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha1_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>172</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_shake256_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 5U) &amp; 1U}}}{8}{32}}}}</description>
+<line>324</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_384_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>274</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha512_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 4U) &amp; 1U}}}{8}{32}}}}</description>
+<line>212</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</file>
+<function>dal_fip_get_page_slc_pfx_val_sel</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)gFlhRegTxChBase[ch][332U] &gt;&gt; 4U) &amp; 7U}}}{8}{32}}}}</description>
+<line>2830</line>
+<column>12</column>
+</event>
+<extra>ch,gFlhRegTxChBase</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_512_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 3U) &amp; 1U}}}{8}{32}}}}</description>
+<line>289</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_ofl_get_aesofl_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ab00[110U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>72</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_pke_get_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360a800[64U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>141</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_224_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>244</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha512t256_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 5U) &amp; 1U}}}{8}{32}}}}</description>
+<line>227</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_ofl_get_sm4ofl_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ab00[110U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>88</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_otf_get_aesotf_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[54U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>104</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_256_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>264</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_shake128_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 4U) &amp; 1U}}}{8}{32}}}}</description>
+<line>309</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_shake256_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 5U) &amp; 1U}}}{8}{32}}}}</description>
+<line>319</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_otf_get_aesotf_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ac00[53U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>109</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha384_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 3U) &amp; 1U}}}{8}{32}}}}</description>
+<line>197</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_ofl_get_aesofl_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ab00[109U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>77</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha1_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>167</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sm3_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[57U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>157</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_shake128_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[66U] &gt;&gt; 4U) &amp; 1U}}}{8}{32}}}}</description>
+<line>304</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha256_st_over</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[58U] &gt;&gt; 2U) &amp; 1U}}}{8}{32}}}}</description>
+<line>182</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_224_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 0U) &amp; 1U}}}{8}{32}}}}</description>
+<line>249</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_sha_get_sha3_512_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360aa00[65U] &gt;&gt; 3U) &amp; 1U}}}{8}{32}}}}</description>
+<line>294</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_selfcheck_api.c</file>
+<function>dal_sec_aes_ofl_get_sm4ofl_st_pass</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x360ab00[109U] &gt;&gt; 1U) &amp; 1U}}}{8}{32}}}}</description>
+<line>93</line>
+<column>12</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_prstnt_event_log</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{phal_sys_rtt_get_ms() / 3600000UL}}}{32}{64}}}}</description>
+<line>683</line>
+<column>49</column>
+</event>
+<extra>phal_sys_rtt_get_ms</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_smbus_ext.c</file>
+<function>phal_smbs_api_set_arp_direct_en</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{dal_smbs_api_get_arp_directed_en(ent) | (1U &lt;&lt; index)}}}{16}{32}}}}</description>
+<line>73</line>
+<column>43</column>
+</event>
+<extra>dal_smbs_api_get_arp_directed_en,index</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</file>
+<function>mctp_message_transmit_handler_assemble_message</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{p_transmit_handler-&gt;packet_sequence_number + 1U &amp; 3U}}}{8}{32}}}}</description>
+<line>115</line>
+<column>39</column>
+</event>
+<extra>p_transmit_handler,packet_sequence_number</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>create_load_code_status</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{1U &lt;&lt; 3U - (*p_efuse_nand_setting).scan_block_window_count}}}{8}{16}}}}</description>
+<line>3646</line>
+<column>74</column>
+</event>
+<extra>p_efuse_nand_setting,scan_block_window_count</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_code_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x3600000[59U] &gt;&gt; 0U) &amp; 1U}}}{8}{16}}}}</description>
+<line>3833</line>
+<column>89</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_code_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{((U8 volatile *)0x3600000[1U] &gt;&gt; 2U) &amp; 1U}}}{8}{16}}}}</description>
+<line>3835</line>
+<column>89</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/proj/ps5303/phal/phal_spi.c</file>
+<function>phal_spi_write_buffer</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{ulSrcAddr + ul_index}}}{32}{64}}}}</description>
+<line>369</line>
+<column>60</column>
+</event>
+<extra>ulSrcAddr,ul_index</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{(vuc_dispatch-&gt;sq_cmd.crc[0] &lt;&lt; 8) | vuc_dispatch-&gt;sq_cmd.crc[1]}}}{8}{16}}}}</description>
+<line>338</line>
+<column>27</column>
+</event>
+<extra>crc,sq_cmd,vuc_dispatch</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{p_smbs_rx-&gt;uwCount - 1U}}}{16}{32}}}}</description>
+<line>177</line>
+<column>22</column>
+</event>
+<extra>p_smbs_rx,uwCount</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 10.6</checker>
+<type>MISRA_C_2012_Rule_10.6</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_smbus.c</file>
+<function>smbs_protocol_handler_mctp_packet</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_10_6_violation</tag>
+<description>{CovLStrv2{{t{Assigning composite expression {0} of width {1} to a target of width {2}.}{{code{p_medium_specific_header-&gt;source_slave_address &lt;&lt; 1U}}}{8}{16}}}}</description>
+<line>209</line>
+<column>89</column>
+</event>
+<extra>p_medium_specific_header,source_slave_address</extra>
+<subcategory>none</subcategory>
+</error>

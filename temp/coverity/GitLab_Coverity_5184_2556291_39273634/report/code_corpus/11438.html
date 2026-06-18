@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/handler/smbs_protocol_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "framework_libs.h"
+<b><a name="line2">2    </a></b>	
+<b><a name="line3">3    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	extern void OcpRecoveryActivateImage(U32 ulBinaryBase);
+<b><a name="line6">6    </a></b>	
+<b><a name="line7">7    </a></b>	typedef enum {
+<b><a name="line8">8    </a></b>	    E_SMBS_BUS_CONDITION_WRITE_STOP   = 0xA1U,
+<b><a name="line9">9    </a></b>	    E_SMBS_BUS_CONDITION_REPEAT_START = 0xA2U,
+<b><a name="line10">10    </a></b>	    E_SMBS_BUS_CONDITION_NOT_USED     = 0xA3U,
+<b><a name="line11">11    </a></b>	} SMBS_BUS_CONDITION_E;
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	/*!
+<b><a name="line14">14    </a></b>	   @brief      Get smbs bus condition for handler
+<b><a name="line15">15    </a></b>	
+<b><a name="line16">16    </a></b>	   @param      pSmbsRx           pointer to smbs rx
+<b><a name="line17">17    </a></b>	   @param      pSmbsTx           pointer to smbs tx
+<b><a name="line18">18    </a></b>	   @return     SMBS_BUS_CONDITION_E
+<b><a name="line19">19    </a></b>	 */
+<b><a name="line20">20    </a></b>	static SMBS_BUS_CONDITION_E GetSmbsBusCondition(SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line21">21    </a></b>	{
+<b><a name="line22">22    </a></b>	    SMBS_BUS_CONDITION_E eSmbsBusCondition = E_SMBS_BUS_CONDITION_NOT_USED;
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	    if ((NULL != pSmbsRx) && (NULL == pSmbsTx))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_15_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">No non-empty terminating "else" statement.</font>
+<b><a name="line25">25    </a></b>	    {
+<b><a name="line26">26    </a></b>	        eSmbsBusCondition = E_SMBS_BUS_CONDITION_WRITE_STOP;
+<b><a name="line27">27    </a></b>	    }
+<b><a name="line28">28    </a></b>	    else if ((NULL != pSmbsRx) && (NULL != pSmbsTx))
+<b><a name="line29">29    </a></b>	    {
+<b><a name="line30">30    </a></b>	        eSmbsBusCondition = E_SMBS_BUS_CONDITION_REPEAT_START;
+<b><a name="line31">31    </a></b>	    }
+<b><a name="line32">32    </a></b>	
+<b><a name="line33">33    </a></b>	    return eSmbsBusCondition;
+<b><a name="line34">34    </a></b>	}
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	/*!
+<b><a name="line37">37    </a></b>	   @brief      Smbs protocol handler - basic management command
+<b><a name="line38">38    </a></b>	
+<b><a name="line39">39    </a></b>	   @param      pSubsystemManagementData     pointer to subsystem management data
+<b><a name="line40">40    </a></b>	   @param      uwSlaveAddress               slave address
+<b><a name="line41">41    </a></b>	   @param      pSmbsRx                      pointer to smbs rx
+<b><a name="line42">42    </a></b>	   @param      pSmbsTx                      pointer to smbs tx
+<b><a name="line43">43    </a></b>	   @return     U32
+<b><a name="line44">44    </a></b>	 */
+<b><a name="line45">45    </a></b>	U32 SmbsProtocolHandler_BasicManagementCommand(SUBSYSTEM_MANAGEMENT_DATA_T *pSubsystemManagementData, U16 uwSlaveAddr, SMBUS_BUFFER_T *pSmbsRx, SMBUS_BUFFER_T *pSmbsTx)
+<b><a name="line46">46    </a></b>	{
+<b><a name="line47">47    </a></b>	    SMBS_BUS_CONDITION_E eSmbsBusCondition = GetSmbsBusCondition(pSmbsRx, pSmbsTx);
+<b><a name="line48">48    </a></b>	    U8 ubCmdCode = pSmbsRx->pdata.pu8[SMBS_RX_CMD_OFST];
+<b><a name="line49">49    </a></b>	
+<b><a name="line50">50    </a></b>	    switch (eSmbsBusCondition)
+<b><a name="line51">51    </a></b>	    {
+<b><a name="line52">52    </a></b>	        case E_SMBS_BUS_CONDITION_WRITE_STOP:
+<b><a name="line53">53    </a></b>	            if (SMBUS_BASIC_MANAGEMENT_COMMAND_RESET_ARBITRATION == ubCmdCode)          // send byte
+<b><a name="line54">54    </a></b>	            {
+<b><a name="line55">55    </a></b>	                pSubsystemManagementData->sCommon.sStatus.uSFlags.sBit.btSmbusArbitration = 0U;
+</pre></body>
+</html>

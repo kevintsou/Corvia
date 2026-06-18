@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1794">1794    </a></b>	        }
+<b><a name="line1795">1795    </a></b>	    }
+<b><a name="line1796">1796    </a></b>	}
+<b><a name="line1797">1797    </a></b>	
+<b><a name="line1798">1798    </a></b>	
+<b><a name="line1799">1799    </a></b>	/**
+<b><a name="line1800">1800    </a></b>	 * Calculates the Chunk Info and Chunk Wordline offset from the
+<b><a name="line1801">1801    </a></b>	 * first Chunk Info of the copy and the Code Wordline.
+<b><a name="line1802">1802    </a></b>	 *
+<b><a name="line1803">1803    </a></b>	 * @param fw_chunk_info_start
+<b><a name="line1804">1804    </a></b>	 *  The first Chunk Info the copy
+<b><a name="line1805">1805    </a></b>	 * @param copy_wordline
+<b><a name="line1806">1806    </a></b>	 *  The Wordline within the copy
+<b><a name="line1807">1807    </a></b>	 */
+<b><a name="line1808">1808    </a></b>	
+<b><a name="line1809">1809    </a></b>	static U32 get_fw_chunk_info_from_slot_wordline(const FW_CHUNK_INFO *a_fw_chunk_info_start, U32 *p_chunk, U32 *p_wordline)
+<b><a name="line1810">1810    </a></b>	{
+<b><a name="line1811">1811    </a></b>	    U32 start_chunk;
+<b><a name="line1812">1812    </a></b>	    U32 wordline_offset;
+<b><a name="line1813">1813    </a></b>	
+<b><a name="line1814">1814    </a></b>	    U8 chunk;
+<b><a name="line1815">1815    </a></b>	
+<b><a name="line1816">1816    </a></b>	    Dump_LoadCode(tprintf("Slot Wordline %d ", (U16)*p_wordline));
+<b><a name="line1817">1817    </a></b>	
+<b><a name="line1818">1818    </a></b>	    //The chunk at input is the starting chunk of this copy
+<b><a name="line1819">1819    </a></b>	    start_chunk = *p_chunk;
+<b><a name="line1820">1820    </a></b>	    //The wordline at input is the logical slot wordline to look for
+<b><a name="line1821">1821    </a></b>	    wordline_offset = *p_wordline;
+<b><a name="line1822">1822    </a></b>	
+<b><a name="line1823">1823    </a></b>	    for (chunk = start_chunk; chunk < FW_SLOT_CHUNK_COUNT; chunk++) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "start_chunk" from essential type "unsigned 32-bit int" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line1824">1824    </a></b>	        //If the wordline offset, relative to the start of this chunk fits within this chunk
+<b><a name="line1825">1825    </a></b>	        if (a_fw_chunk_info_start[chunk].wordline_count > wordline_offset) {
+<b><a name="line1826">1826    </a></b>	            //The chunk at output is now the chunk that contains the input slot wordline
+<b><a name="line1827">1827    </a></b>	            *p_chunk = chunk;
+<b><a name="line1828">1828    </a></b>	            //The wordline at output is now the wordline within this chunk
+<b><a name="line1829">1829    </a></b>	            *p_wordline = wordline_offset;
+<b><a name="line1830">1830    </a></b>	
+<b><a name="line1831">1831    </a></b>	            Dump_LoadCode(tprintf("is Chunk %d Wordline %d", chunk, (U16)wordline_offset));
+<b><a name="line1832">1832    </a></b>	            return (chunk - start_chunk);
+<b><a name="line1833">1833    </a></b>	        }
+<b><a name="line1834">1834    </a></b>	
+<b><a name="line1835">1835    </a></b>	        //Decrease the wordline offset by the number of wordlines in this chunk
+<b><a name="line1836">1836    </a></b>	        //This makes the wordline offset now relative to the new chunk
+<b><a name="line1837">1837    </a></b>	        wordline_offset -= a_fw_chunk_info_start[chunk].wordline_count;
+<b><a name="line1838">1838    </a></b>	    }
+<b><a name="line1839">1839    </a></b>	
+<b><a name="line1840">1840    </a></b>	    Dump_LoadCode(tprintf("does not exist, exceeded by %d wordline", (U16)wordline_offset));
+<b><a name="line1841">1841    </a></b>	
+<b><a name="line1842">1842    </a></b>	    //There are no more chunks left to check
+<b><a name="line1843">1843    </a></b>	    return FW_SLOT_CHUNK_COUNT;
+<b><a name="line1844">1844    </a></b>	}
+<b><a name="line1845">1845    </a></b>	
+<b><a name="line1846">1846    </a></b>	static U32 check_fw_slot_info(const FW_SLOT_INFO *p_fw_slot_info)
+<b><a name="line1847">1847    </a></b>	{
+<b><a name="line1848">1848    </a></b>	    U32 fw_slot_info_error;
+<b><a name="line1849">1849    </a></b>	    U32 copy;
+<b><a name="line1850">1850    </a></b>	
+<b><a name="line1851">1851    </a></b>	    U32 chunk, wordline, relative_chunk;
+<b><a name="line1852">1852    </a></b>	
+<b><a name="line1853">1853    </a></b>	    Dump_LoadCode(tprintf("Checking FW Slot Info @ %L", (U64)p_fw_slot_info));
+<b><a name="line1854">1854    </a></b>	
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line132">132    </a></b>	 * @note
+<b><a name="line133">133    </a></b>	 *
+<b><a name="line134">134    </a></b>	 */
+<b><a name="line135">135    </a></b>	U32 dal_fip_fpu_fill_rr_pc_cmd(U32 fpu_base, U8 dqs_h, U8 dqs_oe, U8 sel)
+<b><a name="line136">136    </a></b>	{
+<b><a name="line137">137    </a></b>	    DAL_FIP_FPU_RR_STRUCT_PTR ptr = (DAL_FIP_FPU_RR_STRUCT_PTR)fpu_base;
+<b><a name="line138">138    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line139">139    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RR;
+<b><a name="line140">140    </a></b>	    ptr->cmd = 1;
+<b><a name="line141">141    </a></b>	    ptr->dqs_oe = dqs_oe;
+<b><a name="line142">142    </a></b>	    ptr->dqs_h  = dqs_h;
+<b><a name="line143">143    </a></b>	    ptr->num = sel;
+<b><a name="line144">144    </a></b>	
+<b><a name="line145">145    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line146">146    </a></b>	}
+<b><a name="line147">147    </a></b>	
+<b><a name="line148">148    </a></b>	/*!
+<b><a name="line149">149    </a></b>	 * @brief
+<b><a name="line150">150    </a></b>	 *
+<b><a name="line151">151    </a></b>	 * - TODO:
+<b><a name="line152">152    </a></b>	 *
+<b><a name="line153">153    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line154">154    </a></b>	 * @return    Next FPU Base.
+<b><a name="line155">155    </a></b>	 * @note
+<b><a name="line156">156    </a></b>	 *
+<b><a name="line157">157    </a></b>	 */
+<b><a name="line158">158    </a></b>	U32 dal_fip_fpu_fill_lun_adr(U32 fpu_base)
+<b><a name="line159">159    </a></b>	{
+<b><a name="line160">160    </a></b>	    DAL_FIP_FPU_RR_STRUCT_PTR ptr = (DAL_FIP_FPU_RR_STRUCT_PTR)fpu_base;
+<b><a name="line161">161    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line162">162    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RR;
+<b><a name="line163">163    </a></b>	    ptr->adr = 1;
+<b><a name="line164">164    </a></b>	    ptr->lun = 1;
+<b><a name="line165">165    </a></b>	
+<b><a name="line166">166    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line167">167    </a></b>	}
+<b><a name="line168">168    </a></b>	
+<b><a name="line169">169    </a></b>	/*!
+<b><a name="line170">170    </a></b>	 * @brief
+<b><a name="line171">171    </a></b>	 *
+<b><a name="line172">172    </a></b>	 * - TODO:
+<b><a name="line173">173    </a></b>	 *
+<b><a name="line174">174    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line175">175    </a></b>	 * @return    Next FPU Base.
+<b><a name="line176">176    </a></b>	 * @note
+<b><a name="line177">177    </a></b>	 *
+<b><a name="line178">178    </a></b>	 */
+<b><a name="line179">179    </a></b>	U32 dal_fip_fpu_fill_dly(U32 fpu_base, U8 cycle)
+<b><a name="line180">180    </a></b>	{
+<b><a name="line181">181    </a></b>	    DAL_FIP_FPU_DLY_STRUCT_PTR ptr = (DAL_FIP_FPU_DLY_STRUCT_PTR)fpu_base;
+<b><a name="line182">182    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line183">183    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_DLY;
+<b><a name="line184">184    </a></b>	    ptr->cycle  = cycle;
+<b><a name="line185">185    </a></b>	
+<b><a name="line186">186    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line187">187    </a></b>	}
+<b><a name="line188">188    </a></b>	
+<b><a name="line189">189    </a></b>	
+<b><a name="line190">190    </a></b>	/*!
+<b><a name="line191">191    </a></b>	 * @brief
+<b><a name="line192">192    </a></b>	 *
+</pre></body>
+</html>

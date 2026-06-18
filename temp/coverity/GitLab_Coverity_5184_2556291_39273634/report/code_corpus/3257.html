@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3473">3473    </a></b>	        if(0 == gFplApiStruct.p_efuse_nand_setting->lru_disable)
+<b><a name="line3474">3474    </a></b>	        {
+<b><a name="line3475">3475    </a></b>	            gLRURetryLevel = ((gLRURetryLevel + nand_retry) % nand_retry_max);
+<b><a name="line3476">3476    </a></b>	        }
+<b><a name="line3477">3477    </a></b>	
+<b><a name="line3478">3478    </a></b>	        Dump_ScanID(tprintf("Code Pointer is found at offset %d", code_pointer_offset));
+<b><a name="line3479">3479    </a></b>	
+<b><a name="line3480">3480    </a></b>	        //A Full set of Code Pointer was not found
+<b><a name="line3481">3481    </a></b>	        if (((1 << copy_max) - 1) != code_pointer_valid_copy_bitmap) {
+<b><a name="line3482">3482    </a></b>	            //The Code Pointers have errors and should be rebuilt
+<b><a name="line3483">3483    </a></b>	            p_code_pointer_block_status->error.code_pointer |= CODE_POINTER_BLOCK_ERROR_CODE_POINTER_REBUILD_REQUIRED;
+<b><a name="line3484">3484    </a></b>	
+<b><a name="line3485">3485    </a></b>	            Dump_ScanID(tprintf("!!!Rebuild required: Bitmap %L(!= %L)", (U64)code_pointer_valid_copy_bitmap, (U64)((1UL << copy_max) - 1UL)));
+<b><a name="line3486">3486    </a></b>	        }
+<b><a name="line3487">3487    </a></b>	
+<b><a name="line3488">3488    </a></b>	        return 0;
+<b><a name="line3489">3489    </a></b>	    }
+<b><a name="line3490">3490    </a></b>	    else {
+<b><a name="line3491">3491    </a></b>	        //No Code Pointer was found, it does not exist
+<b><a name="line3492">3492    </a></b>	        return 1;
+<b><a name="line3493">3493    </a></b>	    }
+<b><a name="line3494">3494    </a></b>	}
+<b><a name="line3495">3495    </a></b>	
+<b><a name="line3496">3496    </a></b>	U8 scan_code_pointer_offset(const CODE_POINTER_INFO *p_code_pointer_info, CODE_POINTER *p_code_pointer, U32 data_buffer, U32 spare_buffer, LOAD_CODE_STATUS *p_load_code_status, CODE_POINTER_BLOCK_STATUS *p_code_pointer_block_status, U16 *a_flash_error_channel_bitmap)
+<b><a name="line3497">3497    </a></b>	{
+<b><a name="line3498">3498    </a></b>	    U32 code_pointer_count;
+<b><a name="line3499">3499    </a></b>	
+<b><a name="line3500">3500    </a></b>	    U8 code_pointer_status;
+<b><a name="line3501">3501    </a></b>	
+<b><a name="line3502">3502    </a></b>	    sal_log_tracker_set(sal_locate(0x04, TYPE_RSV6));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "3502" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line3503">3503    </a></b>	    sal_log_info_char('P'); //Scan Code Pointer Offset
+<b><a name="line3504">3504    </a></b>	    sal_log_info_num(p_code_pointer_info->max_count); //Part of 'P', the maximum number of Code Pointer offsets t scan through
+<b><a name="line3505">3505    </a></b>	
+<b><a name="line3506">3506    </a></b>	    Dump_ScanID(tprintf("Scanning Code Pointer Offset into %L, Max %d, Skip Wordline %d", (U64)p_code_pointer, p_code_pointer_info->max_count, p_code_pointer_info->skip_wordline));
+<b><a name="line3507">3507    </a></b>	
+<b><a name="line3508">3508    </a></b>	    //Indicate that Code Pointer Scanning has been started for this Code Pointer Block set
+<b><a name="line3509">3509    </a></b>	    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_CODE_POINTER_SCAN_START;
+<b><a name="line3510">3510    </a></b>	
+<b><a name="line3511">3511    </a></b>	    //Scan for the code pointer starting from the last location and work backwards
+<b><a name="line3512">3512    </a></b>	    for (code_pointer_count = p_code_pointer_info->max_count; code_pointer_count > 0 ; code_pointer_count--) {
+<b><a name="line3513">3513    </a></b>	        code_pointer_status = check_code_pointer_offset(p_code_pointer_info, (code_pointer_count - 1), p_code_pointer, DBUF_API_BOOTCODE_FIP_DATA_BUFFER, DBUF_API_BOOTCODE_FIP_SPARE_BUFFER, p_load_code_status, p_code_pointer_block_status, a_flash_error_channel_bitmap);
+<b><a name="line3514">3514    </a></b>	        if (0 == code_pointer_status) {
+<b><a name="line3515">3515    </a></b>	            Dump_ScanID(tprintf("Code Pointer %d is it", (U8)(code_pointer_count - 1)));
+<b><a name="line3516">3516    </a></b>	            p_code_pointer_block_status->code_pointer_offset = (code_pointer_count - 1);
+<b><a name="line3517">3517    </a></b>	            p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_CODE_POINTER_FOUND;
+<b><a name="line3518">3518    </a></b>	
+<b><a name="line3519">3519    </a></b>	            sal_log_info_char('Q'); //Code Pointer Offset found
+<b><a name="line3520">3520    </a></b>	            sal_log_info_num(p_code_pointer_block_status->code_pointer_offset); //Part of 'Q', The offset of the Code Pointer Offset
+<b><a name="line3521">3521    </a></b>	
+<b><a name="line3522">3522    </a></b>	            return 0;
+<b><a name="line3523">3523    </a></b>	        }
+<b><a name="line3524">3524    </a></b>	    }
+<b><a name="line3525">3525    </a></b>	
+<b><a name="line3526">3526    </a></b>	    //No Code Pointer has been found
+<b><a name="line3527">3527    </a></b>	    p_code_pointer_block_status->code_pointer_offset = 0xFFFF;
+<b><a name="line3528">3528    </a></b>	    p_code_pointer_block_status->error.code_pointer |= CODE_POINTER_BLOCK_ERROR_CODE_POINTER_DOES_NOT_EXIST;
+<b><a name="line3529">3529    </a></b>	    p_code_pointer_block_status->state |= CODE_POINTER_BLOCK_STATE_UNUSABLE;
+<b><a name="line3530">3530    </a></b>	
+<b><a name="line3531">3531    </a></b>	    return 1;
+<b><a name="line3532">3532    </a></b>	}
+<b><a name="line3533">3533    </a></b>	
+</pre></body>
+</html>

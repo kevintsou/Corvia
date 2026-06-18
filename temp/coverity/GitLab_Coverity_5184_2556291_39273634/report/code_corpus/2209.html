@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/code_sign_kat.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line9548">9548    </a></b>	    memset((void *)(U32)lms_msg_addr, 0U, 0xC00U);
+<b><a name="line9549">9549    </a></b>	    sec_fill_kat_bin_header(lms_msg_addr, &key_index[0], PROJECT_BINARY_HEADER_SIGNATURE_FILE_FORMAT_KEY_SIGNATURE, PROJECT_BINARY_HEADER_ALGORITHM_TYPE_LMS_SHA256_192, public_key_size, &a_record_key_information[0], &a_timestamp[0]);
+<b><a name="line9550">9550    </a></b>	    memcpy((void *)(U32)(lms_msg_addr + 0x200U), (void *)&lms_sha256_192_key_data[0], sizeof(lms_sha256_192_key_data));
+<b><a name="line9551">9551    </a></b>	    memcpy((void *)(U32)(lms_msg_addr + 0x400U), (void *)&lms_sha256_192_code_sign[0], sizeof(lms_sha256_192_code_sign));
+<b><a name="line9552">9552    </a></b>	
+<b><a name="line9553">9553    </a></b>	    {
+<b><a name="line9554">9554    </a></b>	        /* [0x17]: determine HASH algorithm */
+<b><a name="line9555">9555    </a></b>	        if (((U8 *)lms_msg_addr)[0x17U] == 0x24U || ((U8 *)lms_msg_addr)[0x17U] == 0x25U) {
+<b><a name="line9556">9556    </a></b>	            sha_mode = HAL_SEC_SHA2_256_MODE;
+<b><a name="line9557">9557    </a></b>	        }
+<b><a name="line9558">9558    </a></b>	
+<b><a name="line9559">9559    </a></b>	        /* [0x16]: determin file format of code header */
+<b><a name="line9560">9560    </a></b>	        if (((U8 *)lms_msg_addr)[0x16U] == 0x05U) {
+<b><a name="line9561">9561    </a></b>	            lms_pk_addr  = lms_msg_addr + 0x200U + 8U;
+<b><a name="line9562">9562    </a></b>	            lms_sig_addr = lms_msg_addr + 0x200U + (((volatile U8 *)lms_msg_addr)[0x21U] << 9);
+<b><a name="line9563">9563    </a></b>	
+<b><a name="line9564">9564    </a></b>	
+<b><a name="line9565">9565    </a></b>	            SEC_SHA_PARAMS_T sha_params;
+<b><a name="line9566">9566    </a></b>	            (void)memset(&sha_params, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line9567">9567    </a></b>	            sha_params.src_addr.low  = lms_msg_addr;
+<b><a name="line9568">9568    </a></b>	            sha_params.sha_mode      = sha_mode;
+<b><a name="line9569">9569    </a></b>	            sha_params.src_len       = 0x200 + (((volatile U8 *)lms_msg_addr)[0x21U] << 9);
+<b><a name="line9570">9570    </a></b>	            sha_params.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line9571">9571    </a></b>	            sha_params.targ_addr.low = lms_hash_addr;
+<b><a name="line9572">9572    </a></b>	            sha_params.digest_len    = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line9573">9573    </a></b>	            phal_sec_sha_blocking(&sha_params);
+<b><a name="line9574">9574    </a></b>	        }
+<b><a name="line9575">9575    </a></b>	        else {
+<b><a name="line9576">9576    </a></b>	            Dump_SEC(tprintf("F!"));
+<b><a name="line9577">9577    </a></b>	            return (KAT_TYPE_LMS | KAT_ERROR_INVALID_PARAM);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "12" to the operator "<<" does not have an essentially unsigned type.</font>
+<b><a name="line9578">9578    </a></b>	        }
+<b><a name="line9579">9579    </a></b>	
+<b><a name="line9580">9580    </a></b>	        // sec_lms_reset_hash_buf(&lms_buffer, buf_addr);
+<b><a name="line9581">9581    </a></b>	
+<b><a name="line9582">9582    </a></b>	        sec_get_lms_info((U32)((U32 *)lms_pk_addr)[1], (U32)((U32 *)lms_pk_addr)[2], &lms_sig_len);
+<b><a name="line9583">9583    </a></b>	
+<b><a name="line9584">9584    </a></b>	        ret = phal_lms_verify((U8 *)lms_pk_addr, (void *)lms_hash_addr, 32, (U8 *)lms_sig_addr, lms_sig_len, buf_addr, &lms_buffer, SEC_YES);
+<b><a name="line9585">9585    </a></b>	
+<b><a name="line9586">9586    </a></b>	        if (ret == SEC_NO) {
+<b><a name="line9587">9587    </a></b>	            Dump_SEC(tprintf("F!"));
+<b><a name="line9588">9588    </a></b>	            return (KAT_TYPE_LMS | KAT_ERROR_VERIFY);
+<b><a name="line9589">9589    </a></b>	        }
+<b><a name="line9590">9590    </a></b>	    }
+<b><a name="line9591">9591    </a></b>	
+<b><a name="line9592">9592    </a></b>	    return KAT_ERROR_NONE;
+<b><a name="line9593">9593    </a></b>	}
+<b><a name="line9594">9594    </a></b>	#endif
+<b><a name="line9595">9595    </a></b>	
+<b><a name="line9596">9596    </a></b>	#if KAT_MLDSA_EN
+<b><a name="line9597">9597    </a></b>	#define KAT_MSG_1_LEN (128)
+<b><a name="line9598">9598    </a></b>	U32 host_sec_mldsa_verify_kat(U32 buf_addr)
+<b><a name="line9599">9599    </a></b>	{
+<b><a name="line9600">9600    </a></b>	    Dump_SEC(tprintf("MLDSA KAT"));
+<b><a name="line9601">9601    </a></b>	    U8 ret = SEC_NO;
+<b><a name="line9602">9602    </a></b>	    const SEC_MLDSA_VERIFY_KAT_PATTERN *pattern = &sec_mldsa_kat_pattern_1;
+<b><a name="line9603">9603    </a></b>	    // U32 sig_addr = buf_addr;
+<b><a name="line9604">9604    </a></b>	    // U32 msg_addr = sig_addr + HAL_SEC_PQC_MLDSA_SIG_LEN + 13;
+<b><a name="line9605">9605    </a></b>	    // U32 pk_addr  = msg_addr + KAT_MSG_1_LEN;
+<b><a name="line9606">9606    </a></b>	
+<b><a name="line9607">9607    </a></b>	    U32 sig_addr = buf_addr;
+<b><a name="line9608">9608    </a></b>	    U32 msg_addr = sig_addr + HAL_SEC_PQC_MLDSA_SIG_LEN + 1U;
+</pre></body>
+</html>

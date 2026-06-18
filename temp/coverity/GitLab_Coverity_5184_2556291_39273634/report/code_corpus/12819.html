@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/nvme_protocol.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1085">1085    </a></b>	    union nvme_volatile_wr_cache {
+<b><a name="line1086">1086    </a></b>	            volatile U32 u32;
+<b><a name="line1087">1087    </a></b>	
+<b><a name="line1088">1088    </a></b>	            struct {
+<b><a name="line1089">1089    </a></b>	    volatile U32 wce         :  1;       // Volatile Write Cache Enabled
+<b><a name="line1090">1090    </a></b>	        volatile U32 rsvd        :  31;      // Reserved
+<b><a name="line1091">1091    </a></b>	    };
+<b><a name="line1092">1092    </a></b>	    };
+<b><a name="line1093">1093    </a></b>	
+<b><a name="line1094">1094    </a></b>	    // FID 07h : Number of Queues
+<b><a name="line1095">1095    </a></b>	    typedef union nvme_num_of_que      NVME_NUM_OF_QUEUE, *NVME_NUM_OF_QUEUE_PTR;
+<b><a name="line1096">1096    </a></b>	
+<b><a name="line1097">1097    </a></b>	    union nvme_num_of_que {
+<b><a name="line1098">1098    </a></b>	            volatile U32 u32;
+<b><a name="line1099">1099    </a></b>	
+<b><a name="line1100">1100    </a></b>	            struct {
+<b><a name="line1101">1101    </a></b>	    volatile U32 nsqr        :  16;      // Number of I/O Completion Queues Requested
+<b><a name="line1102">1102    </a></b>	        volatile U32 ncqr        :  16;      // Number of I/O Submission Queues Requested
+<b><a name="line1103">1103    </a></b>	    };
+<b><a name="line1104">1104    </a></b>	    };
+<b><a name="line1105">1105    </a></b>	
+<b><a name="line1106">1106    </a></b>	    // FID 08h : Interrupt Coalescing
+<b><a name="line1107">1107    </a></b>	    typedef union nvme_int_clsc      NVME_INT_CLSC, *NVME_INT_CLSC_PTR;
+<b><a name="line1108">1108    </a></b>	
+<b><a name="line1109">1109    </a></b>	    union nvme_int_clsc {
+<b><a name="line1110">1110    </a></b>	            volatile U32 u32;
+<b><a name="line1111">1111    </a></b>	
+<b><a name="line1112">1112    </a></b>	            struct {
+<b><a name="line1113">1113    </a></b>	    volatile U32 thr         :  8;       // Aggregation Threshold
+<b><a name="line1114">1114    </a></b>	        volatile U32 time        :  8;       // Aggregation Time
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"time", a reserved identifier or macro name described in Section 7, "Library", of the C standard, shall not be declared.</font>
+<b><a name="line1115">1115    </a></b>	        volatile U32 rsvd        :  16;      // Reserved
+<b><a name="line1116">1116    </a></b>	    };
+<b><a name="line1117">1117    </a></b>	    };
+<b><a name="line1118">1118    </a></b>	
+<b><a name="line1119">1119    </a></b>	    // FID 09h : Interrupt Vector Configuration
+<b><a name="line1120">1120    </a></b>	    typedef union nvme_iv_config      NVME_IV_CONFIG, *NVME_IV_CONFIG_PTR;
+<b><a name="line1121">1121    </a></b>	
+<b><a name="line1122">1122    </a></b>	    union nvme_iv_config {
+<b><a name="line1123">1123    </a></b>	            volatile U32 u32;
+<b><a name="line1124">1124    </a></b>	
+<b><a name="line1125">1125    </a></b>	            struct {
+<b><a name="line1126">1126    </a></b>	    volatile U32 iv          :  16;      // Interrupt Vector
+<b><a name="line1127">1127    </a></b>	        volatile U32 cd          :  1;       // Coalescing Disable
+<b><a name="line1128">1128    </a></b>	        volatile U32 rsvd        :  15;      // Reserved
+<b><a name="line1129">1129    </a></b>	    };
+<b><a name="line1130">1130    </a></b>	    };
+<b><a name="line1131">1131    </a></b>	
+<b><a name="line1132">1132    </a></b>	    // FID 0Ah : Write Atomicity Normal
+<b><a name="line1133">1133    </a></b>	    typedef union nvme_wr_atm_nrml      NVME_WR_ATM_NRML, *NVME_WR_ATM_NRML_PTR;
+<b><a name="line1134">1134    </a></b>	
+<b><a name="line1135">1135    </a></b>	    union nvme_wr_atm_nrml {
+<b><a name="line1136">1136    </a></b>	            volatile U32 u32;
+<b><a name="line1137">1137    </a></b>	
+<b><a name="line1138">1138    </a></b>	            struct {
+<b><a name="line1139">1139    </a></b>	    volatile U32 dn          :  1;       // Disable Normal
+<b><a name="line1140">1140    </a></b>	        volatile U32 rsvd        :  31;      // Reserved
+<b><a name="line1141">1141    </a></b>	    };
+<b><a name="line1142">1142    </a></b>	    };
+<b><a name="line1143">1143    </a></b>	
+<b><a name="line1144">1144    </a></b>	    // FID 0Bh : Async Event Configuration
+<b><a name="line1145">1145    </a></b>	    typedef union nvme_async_event_config      NVME_ASYNC_EVENT_CONFIG, *NVME_ASYNC_EVENT_CONFIG_PTR;
+</pre></body>
+</html>

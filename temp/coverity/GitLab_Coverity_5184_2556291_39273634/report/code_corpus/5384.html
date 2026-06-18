@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/vendor_handler.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line43">43    </a></b>	void vuc_uart_handler(VUC_DISPATCH_PTR vuc_dispatch);
+<b><a name="line44">44    </a></b>	
+<b><a name="line45">45    </a></b>	static void vuc_check_burner_byXmodem(VUC_DISPATCH_PTR vuc_dispatch);
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	void vuc_sq_dump(VUC_SQ_STRUCT_PTR sq_cmd)
+<b><a name="line48">48    </a></b>	{
+<b><a name="line49">49    </a></b>	    U8 param_idx;
+<b><a name="line50">50    </a></b>	
+<b><a name="line51">51    </a></b>	    for (param_idx = 0; param_idx < VUC_SQ_CMD_LEN; param_idx++) {
+<b><a name="line52">52    </a></b>	        if (0 == (param_idx % 4)) {
+<b><a name="line53">53    </a></b>	            Dump_Vendor(tprintf("\n\r [DW%d]\t", (param_idx / 4)));
+<b><a name="line54">54    </a></b>	        }
+<b><a name="line55">55    </a></b>	        Dump_Vendor(tprintf("0x%x ", ((U8 *)sq_cmd)[param_idx]));
+<b><a name="line56">56    </a></b>	    }
+<b><a name="line57">57    </a></b>	}
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	#define DB_VUC_SQ_PARSING       ((1) && DB_FTL_VENDOR_HANDLER)
+<b><a name="line60">60    </a></b>	void vuc_sq_parsing(VUC_DISPATCH_PTR vuc_dispatch)
+<b><a name="line61">61    </a></b>	{
+<b><a name="line62">62    </a></b>	#if DB_VUC_SQ_PARSING
+<b><a name="line63">63    </a></b>	    //vuc_sq_dump(sq_cmd);
+<b><a name="line64">64    </a></b>	    Dump_Vendor(tprintf("\n\r [Receive SQ]"));
+<b><a name="line65">65    </a></b>	    Dump_Vendor(tprintf(" OP Code: 0x%x", vuc_dispatch->sq_cmd.opc));
+<b><a name="line66">66    </a></b>	    Dump_Vendor(tprintf(", NDT: 0x%x", vuc_dispatch->sq_cmd.ndt));
+<b><a name="line67">67    </a></b>	    Dump_Vendor(tprintf(", Feature: 0x%x", vuc_dispatch->sq_cmd.feature));
+<b><a name="line68">68    </a></b>	    Dump_Vendor(tprintf(", Sub-Feature: 0x%x", vuc_dispatch->sq_cmd.sub_feature));
+<b><a name="line69">69    </a></b>	    Dump_Vendor(tprintf(", LBA: 0x%x", vuc_dispatch->sq_cmd.slba[0]));
+<b><a name="line70">70    </a></b>	#endif  //  DB_VUC_SQ_PARSING
+<b><a name="line71">71    </a></b>	    if ((VUC_NVME_OPC_DATA_IN == vuc_dispatch->sq_cmd.opc) || (VUC_OPC_ENC_DATA_IN == vuc_dispatch->sq_cmd.opc)) {
+<b><a name="line72">72    </a></b>	        vuc_dispatch->io_type = VUC_HANDLER_DATA_IN;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Implicit conversion of "VUC_HANDLER_DATA_IN" from essential type "anonymous enum" to different or narrower essential type "unsigned 8-bit int".</font>
+<b><a name="line73">73    </a></b>	    }
+<b><a name="line74">74    </a></b>	    else if ((VUC_NVME_OPC_DATA_OUT == vuc_dispatch->sq_cmd.opc) || (VUC_OPC_ENC_DATA_OUT == vuc_dispatch->sq_cmd.opc)) {
+<b><a name="line75">75    </a></b>	        vuc_dispatch->io_type = VUC_HANDLER_DATA_OUT;
+<b><a name="line76">76    </a></b>	    }
+<b><a name="line77">77    </a></b>	    else if ((VUC_NVME_OPC_NO_DATA == vuc_dispatch->sq_cmd.opc) || (VUC_OPC_ENC_NO_DATA == vuc_dispatch->sq_cmd.opc)) {
+<b><a name="line78">78    </a></b>	        vuc_dispatch->io_type = VUC_HANDLER_NO_DATA;
+<b><a name="line79">79    </a></b>	    }
+<b><a name="line80">80    </a></b>	    else {
+<b><a name="line81">81    </a></b>	        BC_APP_ASSERT(BCODE_ERROR_VUC_UNKNOWN_IO_TYPE, 0);
+<b><a name="line82">82    </a></b>	    }
+<b><a name="line83">83    </a></b>	}
+<b><a name="line84">84    </a></b>	
+<b><a name="line85">85    </a></b>	void vuc_sq_rcv(void)
+<b><a name="line86">86    </a></b>	{
+<b><a name="line87">87    </a></b>	    gVucDispatch.sq_rcv_flag = TRUE;
+<b><a name="line88">88    </a></b>	}
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	U8 vuc_sq_crc_chk(VUC_DISPATCH_PTR vuc_dispatch)
+<b><a name="line91">91    </a></b>	{
+<b><a name="line92">92    </a></b>	    U8 result = PASS;
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	    return result;
+<b><a name="line95">95    </a></b>	}
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	void vuc_sq_reset(void)
+<b><a name="line98">98    </a></b>	{
+<b><a name="line99">99    </a></b>	    memset((void *) & (gVucDispatch.sq_cmd), 0x00, VUC_SQ_CMD_LEN);
+<b><a name="line100">100    </a></b>	}
+<b><a name="line101">101    </a></b>	
+<b><a name="line102">102    </a></b>	void vuc_cq_dump(VUC_CQ_STRUCT_PTR cq_cmd)
+<b><a name="line103">103    </a></b>	{
+</pre></body>
+</html>

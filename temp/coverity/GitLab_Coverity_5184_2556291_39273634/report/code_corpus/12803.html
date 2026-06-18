@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/framework/smbus/framework_smbus.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#ifndef _FRAMEWORK_SMBUS_H_
+<b><a name="line2">2    </a></b>	#define _FRAMEWORK_SMBUS_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">"_FRAMEWORK_SMBUS_H_", an identifier or macro name beginning with an underscore, shall not be declared.</font>
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "framework_conf.h"
+<b><a name="line5">5    </a></b>	#include "smbus/mi/subsystem_management_data_api.h"
+<b><a name="line6">6    </a></b>	#include "smbus/ocp/ocp_secure_firmware_recovery_api.h"
+<b><a name="line7">7    </a></b>	
+<b><a name="line8">8    </a></b>	// SMBus Specification v3.3
+<b><a name="line9">9    </a></b>	
+<b><a name="line10">10    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line11">11    </a></b>	
+<b><a name="line12">12    </a></b>	#if SAL_DEF_FE_FRAMEWORK_SUPPORT
+<b><a name="line13">13    </a></b>	/*************************************************************************************************
+<b><a name="line14">14    </a></b>	 * 6.6.3 ARP commands
+<b><a name="line15">15    </a></b>	 *************************************************************************************************/
+<b><a name="line16">16    </a></b>	// General (00h through 1Fh)
+<b><a name="line17">17    </a></b>	#define ARP_CMD_GENERAL_PREPARE_TO_ARP              (0x01U)
+<b><a name="line18">18    </a></b>	#define ARP_CMD_GENERAL_RESET_DEVICE                (0x02U)
+<b><a name="line19">19    </a></b>	#define ARP_CMD_GENERAL_GET_UDID                    (0x03U)
+<b><a name="line20">20    </a></b>	#define ARP_CMD_GENERAL_ASSIGN_ADDRESS              (0x04U)
+<b><a name="line21">21    </a></b>	
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	/*************************************************************************************************
+<b><a name="line24">24    </a></b>	 * Appendix C. SMBus Device Address Assignment
+<b><a name="line25">25    </a></b>	 *************************************************************************************************/
+<b><a name="line26">26    </a></b>	#define SMBUS_DEVICE_DEFAULT_ADDRESS                (0xC2U) // 0b1100_001X
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	
+<b><a name="line29">29    </a></b>	/*************************************************************************************************
+<b><a name="line30">30    </a></b>	 * Init Step
+<b><a name="line31">31    </a></b>	 *************************************************************************************************/
+<b><a name="line32">32    </a></b>	typedef enum {
+<b><a name="line33">33    </a></b>	    E_FRAMEWORK_SMBUS_INIT_STEP_START = 0,
+</pre></body>
+</html>

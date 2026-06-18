@@ -1,0 +1,73 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.3</checker>
+<type>MISRA_C_2012_Rule_5.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>check_project_binary_crc</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_3_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0} hides another declaration.}{{code{crc_calc}}}}}}</description>
+<line>350</line>
+<column>18</column>
+</event>
+<event>
+<tag>hidden_declaration</tag>
+<description>{CovLStrv2{{t{This declaration of {0} is hidden.}{{code{crc_calc}}}}}}</description>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/lib.h</file>
+<line>138</line>
+<column>5</column>
+</event>
+<extra>crc_calc</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.3</checker>
+<type>MISRA_C_2012_Rule_5.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>host_nud_dma</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_3_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0} hides another declaration.}{{code{mabiao_addr}}}}}}</description>
+<line>429</line>
+<column>9</column>
+</event>
+<event>
+<tag>hidden_declaration</tag>
+<description>{CovLStrv2{{t{This declaration of {0} is hidden.}{{code{mabiao_addr}}}}}}</description>
+<line>405</line>
+<column>9</column>
+</event>
+<extra>mabiao_addr</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 5.3</checker>
+<type>MISRA_C_2012_Rule_5.3</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>host_nud_dma</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_5_3_violation</tag>
+<description>{CovLStrv2{{t{Declaration with identifier {0} hides another declaration.}{{code{mabiao_addr}}}}}}</description>
+<line>430</line>
+<column>9</column>
+</event>
+<event>
+<tag>hidden_declaration</tag>
+<description>{CovLStrv2{{t{This declaration of {0} is hidden.}{{code{mabiao_addr}}}}}}</description>
+<line>405</line>
+<column>9</column>
+</event>
+<extra>mabiao_addr</extra>
+<subcategory>none</subcategory>
+</error>

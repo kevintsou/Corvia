@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_dice_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line16">16    </a></b>	#define SEC_DICE_API_C
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#include "user_libs.h"
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	#undef LOGID
+<b><a name="line21">21    </a></b>	#define LOGID LOGID_USER_TP
+<b><a name="line22">22    </a></b>	
+<b><a name="line23">23    </a></b>	// need pass to loader information: cdi_addr
+<b><a name="line24">24    </a></b>	/*
+<b><a name="line25">25    </a></b>	 * the output length of sec_sha2_hmac_blocking function will be multiple of 32byte
+<b><a name="line26">26    </a></b>	 * e.g.
+<b><a name="line27">27    </a></b>	 * SHA2_256_DIGEST_SIZE -> the output length is 32byte
+<b><a name="line28">28    </a></b>	 * SHA2_384_DIGEST_SIZE -> the output length is 64byte
+<b><a name="line29">29    </a></b>	 * SHA2_512_DIGEST_SIZE -> the output length is 64byte
+<b><a name="line30">30    </a></b>	 */
+<b><a name="line31">31    </a></b>	
+<b><a name="line32">32    </a></b>	extern U8 gSecAesTimeout;
+<b><a name="line33">33    </a></b>	extern U8 gSecShaTimeout;
+<b><a name="line34">34    </a></b>	extern U8 gSecPkeTimeout;
+<b><a name="line35">35    </a></b>	
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	static U8 dice_kat_test(U32 cal_buf_addr)
+<b><a name="line38">38    </a></b>	{
+<b><a name="line39">39    </a></b>	    BC_GLOBAL_STRUCT_PTR bc_ptr = (BC_GLOBAL_STRUCT_PTR)&gBCodeGlobalStruct;
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    if (bc_ptr->p_efuse_security_setting->kat_enable) {  //TODO: sqz not ready
+<b><a name="line42">42    </a></b>	        if (host_sec_kat_dice(cal_buf_addr) != KAT_ERROR_NONE)
+<b><a name="line43">43    </a></b>	        {
+<b><a name="line44">44    </a></b>	            if (bc_ptr->p_efuse_security_setting->dice_kat_fail_stop) {
+<b><a name="line45">45    </a></b>	                sal_log_tracker_set(sal_locate(0xFF, TYPE_FATAL));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "4095" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line46">46    </a></b>	                //KAT failed, become stuck
+<b><a name="line47">47    </a></b>	                security_fail_handle(SECURITY_FAIL_TYPE_KAT);
+<b><a name="line48">48    </a></b>	            }
+<b><a name="line49">49    </a></b>	            else {
+<b><a name="line50">50    </a></b>	                sal_log_tracker_set(sal_locate(0x12, TYPE_STEP));
+<b><a name="line51">51    </a></b>	            }
+<b><a name="line52">52    </a></b>	            return FAIL;
+<b><a name="line53">53    </a></b>	        }
+<b><a name="line54">54    </a></b>	    }
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	    // KAT pass
+<b><a name="line57">57    </a></b>	    sal_log_tracker_set(sal_locate(0x13, TYPE_STEP));
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    return PASS;
+<b><a name="line60">60    </a></b>	}
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	/*!
+<b><a name="line63">63    </a></b>	@brief generate cdi
+<b><a name="line64">64    </a></b>	@param[in] dice_param                  dice parameter structure
+<b><a name="line65">65    </a></b>	@param[in] cal_buf_addr                require 1KB size, should be located in ddr or dbuffer(accessed by SHA HW IP)
+<b><a name="line66">66    </a></b>	@param[in] output_buf                  require 64B size, contain CDI, should be located in ddr or dbuffer
+<b><a name="line67">67    </a></b>	@return U8, dice pass or error
+<b><a name="line68">68    </a></b>	@note
+<b><a name="line69">69    </a></b>	- SHA HW IP
+<b><a name="line70">70    </a></b>	*/
+<b><a name="line71">71    </a></b>	void dice_gen_cdi(DICE_PARAM_PTR dice_param, U32 cal_buf_addr, DICE_OUTPUT_PTR output_buf)
+<b><a name="line72">72    </a></b>	{
+<b><a name="line73">73    </a></b>	    const U8  label[11]   = {'M', 'i', 'c', 'r', 'o', 'n', ' ', 'D', 'I', 'C', 'E'};
+<b><a name="line74">74    </a></b>	    const U8  context1[4] = {'H', 'M', 'A', 'C'};
+<b><a name="line75">75    </a></b>	    const U16 l           = (HAL_SEC_SHA2_512_DIGEST_LEN * 8);
+<b><a name="line76">76    </a></b>	
+</pre></body>
+</html>

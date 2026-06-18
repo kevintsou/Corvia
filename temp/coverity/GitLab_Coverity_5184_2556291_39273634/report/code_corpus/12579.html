@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line31">31    </a></b>	#if MI_OOB_SMBUS_EN
+<b><a name="line32">32    </a></b>	static void init_ocp_device_info(void)
+<b><a name="line33">33    </a></b>	{
+<b><a name="line34">34    </a></b>	    U32 ulRpSharedDataBase = DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_OCP_RECV_RP_SHARED_DATA;
+<b><a name="line35">35    </a></b>	    RP_SHARED_DATA *pRpSharedData = (RP_SHARED_DATA *)(ulRpSharedDataBase);
+<b><a name="line36">36    </a></b>	    BOOL bCopySharedDataFromDbuf = FALSE;
+<b><a name="line37">37    </a></b>	
+<b><a name="line38">38    </a></b>	    // Init a DBUF base for bootcode and loader/fw to share OCP ACRoT data
+<b><a name="line39">39    </a></b>	    SetRpSharedDataBase(ulRpSharedDataBase);
+<b><a name="line40">40    </a></b>	
+<b><a name="line41">41    </a></b>	    if (gpFwSimCtrl1Reg->ocp_recovery_is_trigger)
+<b><a name="line42">42    </a></b>	    {
+<b><a name="line43">43    </a></b>	        // Change shared base while FW jump to bootcode
+<b><a name="line44">44    </a></b>	        pRpSharedData = &gpLoaderErrMessage->sRpSharedData;
+<b><a name="line45">45    </a></b>	        bCopySharedDataFromDbuf = TRUE;
+<b><a name="line46">46    </a></b>	    }
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	    OcpRecoveryACRotDataInit(pRpSharedData, bCopySharedDataFromDbuf);
+<b><a name="line49">49    </a></b>	}
+<b><a name="line50">50    </a></b>	#endif
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	#define ERR_SYS_IP_INIT_FAIL    (BIT0)
+<b><a name="line53">53    </a></b>	#define ERR_DBUF_INIT_FAIL      (BIT1)
+<b><a name="line54">54    </a></b>	#define ERR_RNG_INIT_FAIL       (BIT2)
+<b><a name="line55">55    </a></b>	#define ERR_SQZ_INIT_FAIL       (BIT3)
+<b><a name="line56">56    </a></b>	U8 sys_init(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line57">57    </a></b>	{
+<b><a name="line58">58    </a></b>	    U8 sys_init_result = PASS;
+<b><a name="line59">59    </a></b>	
+<b><a name="line60">60    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV2));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_20_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Macro parameter expands into an expression without being wrapped by parentheses.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">                        ^</font>
+<b><a name="line61">61    </a></b>	    // reset uart, spi, i2c at the same time
+<b><a name="line62">62    </a></b>	    PHAL_RST_N_CLR_RST_N_PIP_SEL();
+<b><a name="line63">63    </a></b>	    PHAL_RST_N_SET_RST_N_PIP_SEL();
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	    PHAL_RST_N_CLR_RST_N_PIP_PDAON_SEL();
+<b><a name="line66">66    </a></b>	    PHAL_RST_N_SET_RST_N_PIP_PDAON_SEL();
+<b><a name="line67">67    </a></b>	
+<b><a name="line68">68    </a></b>	    PHAL_RST_N_CLR_RST_N_UART_SEL();
+<b><a name="line69">69    </a></b>	    PHAL_RST_N_SET_RST_N_UART_SEL();
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    PHAL_RST_N_CLR_RST_N_I2CM_SEL();
+<b><a name="line72">72    </a></b>	    PHAL_RST_N_SET_RST_N_I2CM_SEL();
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    //TODO : reset cop2 dmac it need move to phal later
+<b><a name="line75">75    </a></b>	    w_CR_RST_N_COP2(0U);
+<b><a name="line76">76    </a></b>	    w_CR_RST_N_COP2_CTLREG(0U);
+<b><a name="line77">77    </a></b>	
+<b><a name="line78">78    </a></b>	    w_CR_RST_N_COP2(1U);
+<b><a name="line79">79    </a></b>	    w_CR_RST_N_COP2_CTLREG(1U);
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	    sal_log_tracker_set(sal_locate(0x01, TYPE_RSV2));
+<b><a name="line82">82    </a></b>	    //Enable CPU tick count
+<b><a name="line83">83    </a></b>	    if (sys_ip_init(bc_ptr)) {
+<b><a name="line84">84    </a></b>	        sys_init_result |= ERR_SYS_IP_INIT_FAIL;
+<b><a name="line85">85    </a></b>	    }
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	#if 0 //only for test loader init pcie link
+<b><a name="line88">88    </a></b>	    host_api_pcie_loader_update_phy_rom_without_isr(&gHostApiStruct);
+<b><a name="line89">89    </a></b>	#endif
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	    // Init OCP info prior to DBUF init
+</pre></body>
+</html>

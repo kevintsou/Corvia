@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/host_init.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line63">63    </a></b>	        for (i = 0; i < q_cnt; i++) {
+<b><a name="line64">64    </a></b>	            // CQ first
+<b><a name="line65">65    </a></b>	            if (hal_nl_get_cq_en(i)) {
+<b><a name="line66">66    </a></b>	                host->host_info.ioq.iocq[i].en      = TRUE;
+<b><a name="line67">67    </a></b>	                host->host_info.ioq.iocq[i].intr_en = TRUE;
+<b><a name="line68">68    </a></b>	                host->host_info.ioq.iocq[i].qsize   = dal_nl_get_cq_size(i);
+<b><a name="line69">69    </a></b>	            }
+<b><a name="line70">70    </a></b>	            else {
+<b><a name="line71">71    </a></b>	                host->host_info.ioq.iocq[i].en      = FALSE;
+<b><a name="line72">72    </a></b>	                host->host_info.ioq.iocq[i].intr_en = FALSE;
+<b><a name="line73">73    </a></b>	                host->host_info.ioq.iocq[i].qsize   = 0;
+<b><a name="line74">74    </a></b>	            }
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	            // SQ
+<b><a name="line77">77    </a></b>	            if (hal_nl_get_sq_en(i)) {
+<b><a name="line78">78    </a></b>	                host->host_info.ioq.iosq[i].en      = TRUE;
+<b><a name="line79">79    </a></b>	                host->host_info.ioq.iosq[i].cqid    = dal_nl_get_sq_cqid(i);
+<b><a name="line80">80    </a></b>	                host->host_info.ioq.iosq[i].qsize   = dal_nl_get_sq_size(i);
+<b><a name="line81">81    </a></b>	            }
+<b><a name="line82">82    </a></b>	            else {
+<b><a name="line83">83    </a></b>	                host->host_info.ioq.iosq[i].en      = FALSE;
+<b><a name="line84">84    </a></b>	                host->host_info.ioq.iosq[i].cqid    = 0;
+<b><a name="line85">85    </a></b>	                host->host_info.ioq.iosq[i].qsize   = 0;
+<b><a name="line86">86    </a></b>	            }
+<b><a name="line87">87    </a></b>	        }
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	    host->host_info.total_lba = (DBUF_API_BOOTCODE_DATA_BUFFER_SIZE >> SECTOR_SIZE_SHIFT);
+<b><a name="line91">91    </a></b>	    host->vuc_ptr      = &gVucApiCmdStruct;
+<b><a name="line92">92    </a></b>	    host->buffer_base  = DBUF_API_BOOTCODE_HOST_BUFFER_BASE;                 // Data buffer  must align 4K
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134742016UL" (unsigned) is not the same as that of the right operand "8192"(signed).</font>
+<b><a name="line93">93    </a></b>	    host->buffer_size  = DBUF_API_BOOTCODE_HOST_BUFFER_SIZE;                 // TBD 128K     must align 4K
+<b><a name="line94">94    </a></b>	    host->spr_base     = DBUF_API_BOOTCODE_HOST_SPARE_BASE;                  // start from buf base + buffer size 128k
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    // Set spare valid prevent 1st read cmd unc
+<b><a name="line97">97    </a></b>	    memset((void *)host->spr_base, 0xFF, sizeof(U8));
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    host_var_reset(host);
+<b><a name="line100">100    </a></b>	
+<b><a name="line101">101    </a></b>	    host_vuc_init(host->vuc_ptr);
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    sal_log_tracker_set(sal_locate(0x02, TYPE_RSV6));
+<b><a name="line104">104    </a></b>	}
+<b><a name="line105">105    </a></b>	
+<b><a name="line106">106    </a></b>	static void c0_init_hardware(HOST_API_STRUCT_PTR host)
+<b><a name="line107">107    </a></b>	{
+<b><a name="line108">108    </a></b>	    HOST_API_HOST_FLOW_STRUCT_PTR host_flow = (HOST_API_HOST_FLOW_STRUCT_PTR)&host->host_id_tbl.flow;
+<b><a name="line109">109    </a></b>	    U8 i;
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	    sal_log_tracker_set(sal_locate(0x00, TYPE_RSV6));
+<b><a name="line112">112    </a></b>	
+<b><a name="line113">113    </a></b>	    memset((void *)host_flow, 0U, sizeof(HOST_API_HOST_FLOW_STRUCT));
+<b><a name="line114">114    </a></b>	    host_flow->attr.use_sys_reg_setting   = TRUE;
+<b><a name="line115">115    </a></b>	    host_flow->attr.fastlink_landmark_en  = FALSE;
+<b><a name="line116">116    </a></b>	    host_flow->attr.auto_dtc_wait_time    = 0U;
+<b><a name="line117">117    </a></b>	    host_flow->attr.port_mode  = PCIE_PORT_MODE_SINGLE;
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    if (gpFwSimCtrl0Reg->not_init_host_hw) { // if jump from FW, blk all ports at first
+<b><a name="line120">120    </a></b>	        sal_log_tracker_set(sal_locate(0x01, TYPE_RSV6));
+<b><a name="line121">121    </a></b>	        PCIE_STRUCT_PTR pcie = &host->pcie;
+<b><a name="line122">122    </a></b>	        for (i = 0; i < PCIE_PORT_MODE_SINGLE; i++) {
+<b><a name="line123">123    </a></b>	            dal_nl_set_port_mask(i);
+</pre></body>
+</html>

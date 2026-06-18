@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line477">477    </a></b>	
+<b><a name="line478">478    </a></b>	    // DAT_L and DAT_H are used to check flash RBY
+<b><a name="line479">479    </a></b>	    // The rule 0 of check RBY: (read data & DAT_H) != DAT_L
+<b><a name="line480">480    </a></b>	    // The rule 1 of check RBY: (read data & DAT_H) == DAT_L
+<b><a name="line481">481    </a></b>	    // (rule is set by AP_CMP_MODE)
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	    ptr->w2.opcode  = DAL_FIP_FPU_OPCODE_DAT;
+<b><a name="line484">484    </a></b>	    ptr->w2.dat_h_2 = fail_mask;
+<b><a name="line485">485    </a></b>	
+<b><a name="line486">486    </a></b>	    // DAT_L and DAT_H_2 are used to check program/erase fail bit
+<b><a name="line487">487    </a></b>	    // The rule 0 of check fail bit: (read data & DAT_H_2) != DAT_L
+<b><a name="line488">488    </a></b>	    // The rule 1 of check fail bit: (read data & DAT_H_2) != (DAT_L & DAT_H_2)
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    return (U32)(fpu_base + (DAL_FIP_FPU_UNIT_SIZE * 3U));
+<b><a name="line491">491    </a></b>	}
+<b><a name="line492">492    </a></b>	
+<b><a name="line493">493    </a></b>	/*!
+<b><a name="line494">494    </a></b>	 * @brief
+<b><a name="line495">495    </a></b>	 *
+<b><a name="line496">496    </a></b>	 * - TODO:
+<b><a name="line497">497    </a></b>	 *
+<b><a name="line498">498    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line499">499    </a></b>	 * @return    Next FPU Base.
+<b><a name="line500">500    </a></b>	 * @note
+<b><a name="line501">501    </a></b>	 *
+<b><a name="line502">502    </a></b>	 */
+<b><a name="line503">503    </a></b>	U32 dal_fip_fpu_fill_datw(U32 fpu_base, U8 first, U8 last, U8 dat)
+<b><a name="line504">504    </a></b>	{
+<b><a name="line505">505    </a></b>	    DAL_FIP_FPU_DAT_STRUCT_PTR ptr = (DAL_FIP_FPU_DAT_STRUCT_PTR)fpu_base;
+<b><a name="line506">506    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line507">507    </a></b>	    ptr->w0.opcode = DAL_FIP_FPU_OPCODE_DAT;
+<b><a name="line508">508    </a></b>	    ptr->w0.rw = 1;
+<b><a name="line509">509    </a></b>	    ptr->w0.first  = first;
+<b><a name="line510">510    </a></b>	    ptr->w0.last   = last;
+<b><a name="line511">511    </a></b>	    ptr->w0.dat_l = dat;
+<b><a name="line512">512    </a></b>	
+<b><a name="line513">513    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line514">514    </a></b>	}
+<b><a name="line515">515    </a></b>	
+<b><a name="line516">516    </a></b>	/*!
+<b><a name="line517">517    </a></b>	 * @brief
+<b><a name="line518">518    </a></b>	 *
+<b><a name="line519">519    </a></b>	 * - TODO:
+<b><a name="line520">520    </a></b>	 *
+<b><a name="line521">521    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line522">522    </a></b>	 * @return    Next FPU Base.
+<b><a name="line523">523    </a></b>	 * @note
+<b><a name="line524">524    </a></b>	 *
+<b><a name="line525">525    </a></b>	 */
+<b><a name="line526">526    </a></b>	U32 dal_fip_fpu_fill_pol(U32 fpu_base, U8 mask)
+<b><a name="line527">527    </a></b>	{
+<b><a name="line528">528    </a></b>	    DAL_FIP_FPU_POL_STRUCT_PTR ptr = (DAL_FIP_FPU_POL_STRUCT_PTR)fpu_base;
+<b><a name="line529">529    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line530">530    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_POL;
+<b><a name="line531">531    </a></b>	    ptr->status = 1;
+<b><a name="line532">532    </a></b>	    ptr->mask   = mask;
+<b><a name="line533">533    </a></b>	
+<b><a name="line534">534    </a></b>	    // The polling finish condition is (read data & MASK) == MASK
+<b><a name="line535">535    </a></b>	
+<b><a name="line536">536    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line537">537    </a></b>	}
+</pre></body>
+</html>

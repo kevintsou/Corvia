@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_drbg.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line28">28    </a></b>	    U8 status = FALSE;
+<b><a name="line29">29    </a></b>	    drbg_hash_mac_var_init(drbg_api_struct_ptr);
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	    status |= drbg_get_entropy_input(drbg_api_struct_ptr, NULL, 0U, rng_health_ptr);
+<b><a name="line32">32    </a></b>	    status |= drbg_get_nonce(drbg_api_struct_ptr, NULL, 0U, rng_health_ptr);
+<b><a name="line33">33    </a></b>	    drbg_get_personal_str(drbg_api_struct_ptr, NULL, 0U);
+<b><a name="line34">34    </a></b>	    drbg_get_add_input(drbg_api_struct_ptr, NULL, 0U);
+<b><a name="line35">35    </a></b>	    drbg_instantiation(drbg_api_struct_ptr);
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    return status;
+<b><a name="line38">38    </a></b>	}
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	/*!
+<b><a name="line41">41    </a></b>	 @brief DRBG variable initial
+<b><a name="line42">42    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line43">43    </a></b>	 @return NONE
+<b><a name="line44">44    </a></b>	 @note
+<b><a name="line45">45    </a></b>	 - max_num_bit_per_req refer to NIST.SP.800-90Ar1
+<b><a name="line46">46    </a></b>	 */
+<b><a name="line47">47    </a></b>	void drbg_hash_mac_var_init(DRBG_API_STRUCT_PTR drbg_api_struct_ptr)
+<b><a name="line48">48    </a></b>	{
+<b><a name="line49">49    </a></b>	    // SHA 256
+<b><a name="line50">50    </a></b>	    drbg_api_struct_ptr->drbg_info.max_security_strength     = DRBG_SS_256;
+<b><a name="line51">51    </a></b>	    drbg_api_struct_ptr->drbg_material.req_security_strength = DRBG_SS_256;
+<b><a name="line52">52    </a></b>	    drbg_api_struct_ptr->drbg_info.output_block_len          = 64U;           // 512 bits
+<b><a name="line53">53    </a></b>	    drbg_api_struct_ptr->drbg_info.max_entropy_input_len     = 125U;          // 1000 bits <= 2^35 bits
+<b><a name="line54">54    </a></b>	    drbg_api_struct_ptr->drbg_info.seed_len                  = 55U;           // 440 bits
+<b><a name="line55">55    </a></b>	    drbg_api_struct_ptr->drbg_info.max_persional_str_len     = 32U;           // up to 32 byte
+<b><a name="line56">56    </a></b>	    drbg_api_struct_ptr->drbg_info.max_additional_len        = 100U;          // 800 bits <= 2^35 bits
+<b><a name="line57">57    </a></b>	    drbg_api_struct_ptr->drbg_info.max_num_bit_per_req       = 1U << 19U;     // <= 2^19 bits
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "1U << 19U", shifting more than 7 bits, the number of bits in the essential type of the left expression, "1U", is not allowed.  The shift amount is 19.</font>
+<b><a name="line58">58    </a></b>	    drbg_api_struct_ptr->drbg_info.reseed_interval           = 10000U;        // <= 2^48
+<b><a name="line59">59    </a></b>	    drbg_api_struct_ptr->drbg_info.sup_prediction_resistance = TRUE;
+<b><a name="line60">60    </a></b>	}
+<b><a name="line61">61    </a></b>	/*!
+<b><a name="line62">62    </a></b>	 @brief DRBG get entropy input
+<b><a name="line63">63    </a></b>	 @param[in] drbg_api_struct_ptr  DRBG module structure
+<b><a name="line64">64    </a></b>	 @param[in] entropy_input_ptr    entropy input pointer for KAT
+<b><a name="line65">65    </a></b>	 @param[in] entropy_inpu_len     entropy input length for KAT
+<b><a name="line66">66    </a></b>	 @return NONE
+<b><a name="line67">67    </a></b>	 @note
+<b><a name="line68">68    </a></b>	 - NONE
+<b><a name="line69">69    </a></b>	 */
+<b><a name="line70">70    </a></b>	U8 drbg_get_entropy_input(DRBG_API_STRUCT_PTR drbg_api_struct_ptr, U8 *entropy_input_ptr, U32 entropy_input_len, RNG_HEALTH_TEST_DATA_STRUCT_PTR rng_health_ptr)
+<b><a name="line71">71    </a></b>	{
+<b><a name="line72">72    </a></b>	    U8  fail_status = FALSE;
+<b><a name="line73">73    </a></b>	
+<b><a name="line74">74    </a></b>	    if (entropy_input_len == 0U) {
+<b><a name="line75">75    </a></b>	        drbg_api_struct_ptr->drbg_material.entropy_input_len = DRBG_ENTROPY_INPUT_LEN;
+<b><a name="line76">76    </a></b>	        drbg_get_try_limit_rng_data(rng_health_ptr, drbg_api_struct_ptr->drbg_material.entropy_input_len, drbg_api_struct_ptr->drbg_material.entropy_input_ptr);
+<b><a name="line77">77    </a></b>	    }
+<b><a name="line78">78    </a></b>	    else {
+<b><a name="line79">79    </a></b>	        (void)memset((void *)drbg_api_struct_ptr->drbg_material.entropy_input_ptr, 0x00, DRBG_ENTROPY_INPUT_BUF_LEN);
+<b><a name="line80">80    </a></b>	        drbg_api_struct_ptr->drbg_material.entropy_input_len = entropy_input_len;
+<b><a name="line81">81    </a></b>	        (void)memcpy((void *)drbg_api_struct_ptr->drbg_material.entropy_input_ptr, (void *)entropy_input_ptr, entropy_input_len);
+<b><a name="line82">82    </a></b>	    }
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    return fail_status;
+<b><a name="line85">85    </a></b>	}
+<b><a name="line86">86    </a></b>	
+<b><a name="line87">87    </a></b>	/*!
+<b><a name="line88">88    </a></b>	 @brief DRBG get nonce
+</pre></body>
+</html>

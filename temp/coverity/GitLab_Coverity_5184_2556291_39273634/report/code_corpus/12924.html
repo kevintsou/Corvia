@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_nvme.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line448">448    </a></b>	        U32 rsv1         : 1;
+<b><a name="line449">449    </a></b>	        U32 sv           : 8;
+<b><a name="line450">450    </a></b>	        U32 node_tag     : 16;
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	        //DW3-6
+<b><a name="line453">453    </a></b>	        union
+<b><a name="line454">454    </a></b>	        {
+<b><a name="line455">455    </a></b>	            struct
+<b><a name="line456">456    </a></b>	            {
+<b><a name="line457">457    </a></b>	                //DW3
+<b><a name="line458">458    </a></b>	                U32 e3d_bmp     : 8;
+<b><a name="line459">459    </a></b>	                U32 runc_bmp    : 8;
+<b><a name="line460">460    </a></b>	                U32 wunc_bmp    : 8;
+<b><a name="line461">461    </a></b>	                U32 dulb_bmp    : 8;
+<b><a name="line462">462    </a></b>	
+<b><a name="line463">463    </a></b>	                //DW4
+<b><a name="line464">464    </a></b>	                U32 pig_bmp     : 8;
+<b><a name="line465">465    </a></b>	                U32 pir_bmp     : 8;
+<b><a name="line466">466    </a></b>	                U32 pia_bmp     : 8;
+<b><a name="line467">467    </a></b>	                U32 pis_bmp     : 8;
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	                //DW5-6
+<b><a name="line470">470    </a></b>	                U64 dma_err_info;
+<b><a name="line471">471    </a></b>	            };
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	            U32 pi_raw_info[4];
+<b><a name="line474">474    </a></b>	        };
+<b><a name="line475">475    </a></b>	    };
+<b><a name="line476">476    </a></b>	};
+<b><a name="line477">477    </a></b>	/*
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_3_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Nesting comment with character sequences "//" or "/*" in comment.</font>
+<b><a name="line478">478    </a></b>	typedef struct hal_fw_apu_dma_done          HAL_FW_APU_DMA_DONE, *HAL_FW_APU_DMA_DONE_PTR;
+<b><a name="line479">479    </a></b>	union hal_fw_apu_dma_done
+<b><a name="line480">480    </a></b>	{
+<b><a name="line481">481    </a></b>	    U32 all[4];
+<b><a name="line482">482    </a></b>	    struct
+<b><a name="line483">483    </a></b>	    {
+<b><a name="line484">484    </a></b>	        union
+<b><a name="line485">485    </a></b>	        {
+<b><a name="line486">486    </a></b>	            struct
+<b><a name="line487">487    </a></b>	            {
+<b><a name="line488">488    </a></b>	                //DW0
+<b><a name="line489">489    </a></b>	                U32 ctag        : 9;
+<b><a name="line490">490    </a></b>	                U32 rsv         : 3;
+<b><a name="line491">491    </a></b>	                U32 lca_h       : 4; //lca[35 : 32]
+<b><a name="line492">492    </a></b>	                U32 nsid        : 8;
+<b><a name="line493">493    </a></b>	                U32 err         : 1;
+<b><a name="line494">494    </a></b>	                U32 unc         : 1;
+<b><a name="line495">495    </a></b>	                U32 e3d         : 1;
+<b><a name="line496">496    </a></b>	                U32 due         : 1;
+<b><a name="line497">497    </a></b>	                U32 fua         : 1;
+<b><a name="line498">498    </a></b>	                U32 rsv1        : 2;
+<b><a name="line499">499    </a></b>	                U32 de          : 1;
+<b><a name="line500">500    </a></b>	
+<b><a name="line501">501    </a></b>	                //DW1
+<b><a name="line502">502    </a></b>	                U32 lca_l; //lca[31 : 0]
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	                //DW2
+<b><a name="line505">505    </a></b>	                U32 e3d_bmp     : 8;
+<b><a name="line506">506    </a></b>	                U32 runc_bmp    : 8;
+<b><a name="line507">507    </a></b>	                U32 wunc_bmp    : 8;
+<b><a name="line508">508    </a></b>	                U32 dulb_bmp    : 8;
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip_fpu.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line675">675    </a></b>	 * @return    Next FPU Base.
+<b><a name="line676">676    </a></b>	 * @note
+<b><a name="line677">677    </a></b>	 *
+<b><a name="line678">678    </a></b>	 */
+<b><a name="line679">679    </a></b>	U32 dal_fip_fpu_fill_smp(U32 fpu_base, U8 op, U8 val)
+<b><a name="line680">680    </a></b>	{
+<b><a name="line681">681    </a></b>	    DAL_FIP_FPU_SMP_STRUCT_PTR ptr = (DAL_FIP_FPU_SMP_STRUCT_PTR)fpu_base;
+<b><a name="line682">682    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line683">683    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_SMP;
+<b><a name="line684">684    </a></b>	    ptr->smp = 1;
+<b><a name="line685">685    </a></b>	    ptr->op = op;
+<b><a name="line686">686    </a></b>	    ptr->val = val;
+<b><a name="line687">687    </a></b>	
+<b><a name="line688">688    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line689">689    </a></b>	}
+<b><a name="line690">690    </a></b>	
+<b><a name="line691">691    </a></b>	/*!
+<b><a name="line692">692    </a></b>	 * @brief
+<b><a name="line693">693    </a></b>	 *
+<b><a name="line694">694    </a></b>	 * - TODO:
+<b><a name="line695">695    </a></b>	 *
+<b><a name="line696">696    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line697">697    </a></b>	 * @return    Next FPU Base.
+<b><a name="line698">698    </a></b>	 * @note
+<b><a name="line699">699    </a></b>	 *
+<b><a name="line700">700    </a></b>	 */
+<b><a name="line701">701    </a></b>	U32 dal_fip_fpu_fill_cer(U32 fpu_base, U8 last, U8 fw, U8 val)
+<b><a name="line702">702    </a></b>	{
+<b><a name="line703">703    </a></b>	    DAL_FIP_FPU_CER_STRUCT_PTR ptr = (DAL_FIP_FPU_CER_STRUCT_PTR)fpu_base;
+<b><a name="line704">704    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line705">705    </a></b>	    ptr->opcode = (U8)(DAL_FIP_FPU_OPCODE_CER >> 3U);
+<b><a name="line706">706    </a></b>	    ptr->fw    = fw;
+<b><a name="line707">707    </a></b>	    ptr->last  = last;
+<b><a name="line708">708    </a></b>	    ptr->val   = val;
+<b><a name="line709">709    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line710">710    </a></b>	}
+<b><a name="line711">711    </a></b>	
+<b><a name="line712">712    </a></b>	/*!
+<b><a name="line713">713    </a></b>	 * @brief
+<b><a name="line714">714    </a></b>	 *
+<b><a name="line715">715    </a></b>	 * - TODO:
+<b><a name="line716">716    </a></b>	 *
+<b><a name="line717">717    </a></b>	 * @param[in] fpu_base FPU base address
+<b><a name="line718">718    </a></b>	 * @return    Next FPU Base.
+<b><a name="line719">719    </a></b>	 * @note
+<b><a name="line720">720    </a></b>	 *
+<b><a name="line721">721    </a></b>	 */
+<b><a name="line722">722    </a></b>	U32 dal_fip_fpu_fill_raw_read(U32 fpu_base, U8 dst_ptr, U8 src_ptr, U8 logic, U8 mode, U8 trn_en)
+<b><a name="line723">723    </a></b>	{
+<b><a name="line724">724    </a></b>	    DAL_FIP_FPU_RAW_STRUCT_PTR ptr = (DAL_FIP_FPU_RAW_STRUCT_PTR)fpu_base;
+<b><a name="line725">725    </a></b>	    memset((void *)ptr, 0, sizeof(*ptr));
+<b><a name="line726">726    </a></b>	    ptr->opcode = DAL_FIP_FPU_OPCODE_RAW;
+<b><a name="line727">727    </a></b>	
+<b><a name="line728">728    </a></b>	    ptr->dst_ptr = dst_ptr;
+<b><a name="line729">729    </a></b>	    ptr->src_ptr = src_ptr;
+<b><a name="line730">730    </a></b>	    ptr->logic   = logic;
+<b><a name="line731">731    </a></b>	    ptr->mode    = mode;
+<b><a name="line732">732    </a></b>	    ptr->trn_en  = trn_en;
+<b><a name="line733">733    </a></b>	
+<b><a name="line734">734    </a></b>	    return (U32)(fpu_base + DAL_FIP_FPU_UNIT_SIZE);
+<b><a name="line735">735    </a></b>	}
+</pre></body>
+</html>

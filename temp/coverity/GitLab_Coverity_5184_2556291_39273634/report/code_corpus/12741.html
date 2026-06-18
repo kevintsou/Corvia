@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/xmodem.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	/**************************************************************************/
+<b><a name="line2">2    </a></b>	/*                                                                        */
+<b><a name="line3">3    </a></b>	/*  Copyright (C) 2000-2017, Phison Electronics Corp., Inc.               */
+<b><a name="line4">4    </a></b>	/*  All rights reserved                                                   */
+<b><a name="line5">5    </a></b>	/*                                                                        */
+<b><a name="line6">6    </a></b>	/*  The content of this document is confidential and shall be applied     */
+<b><a name="line7">7    </a></b>	/*  subject to the terms and conditions of the license agreement and      */
+<b><a name="line8">8    </a></b>	/*  other applicable laws. Any unauthorized access, use or disclosure     */
+<b><a name="line9">9    </a></b>	/*  of this document is strictly prohibited and may be punishable         */
+<b><a name="line10">10    </a></b>	/*  under laws.                                                           */
+<b><a name="line11">11    </a></b>	/*                                                                        */
+<b><a name="line12">12    </a></b>	/*  xmodem.h                                                              */
+<b><a name="line13">13    </a></b>	/*                                                                        */
+<b><a name="line14">14    </a></b>	/*                                                                        */
+<b><a name="line15">15    </a></b>	/*                                                                        */
+<b><a name="line16">16    </a></b>	/**************************************************************************/
+<b><a name="line17">17    </a></b>	
+<b><a name="line18">18    </a></b>	#ifndef _XMODEM_H_
+<b><a name="line19">19    </a></b>	#define _XMODEM_H_
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_21_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining or undefining a reserved name "_XMODEM_H_", which is an identifier or macro name beginning with an underscore.</font>
+<b><a name="line20">20    </a></b>	
+<b><a name="line21">21    </a></b>	#include "user_conf.h"
+<b><a name="line22">22    </a></b>	#include "top/uart.h"
+<b><a name="line23">23    </a></b>	
+<b><a name="line24">24    </a></b>	enum XMODDEM_RETURN_STATUS {
+<b><a name="line25">25    </a></b>	    XMOD_ACK_STATUS = 0,
+<b><a name="line26">26    </a></b>	    XMOD_NAK_STATUS,
+<b><a name="line27">27    </a></b>	    XMOD_CAN_STATUS,
+<b><a name="line28">28    </a></b>	    XMOD_RETURN_STATUS_TYPE
+<b><a name="line29">29    </a></b>	};
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	//XModem Buffer
+<b><a name="line32">32    </a></b>	#define XMODEM_BUFFER_BASE  (DBUF_BCODE_HOST_BUFFER_BASE)//POFF_BOOT_BUFFER_BASE
+<b><a name="line33">33    </a></b>	#define XMODEM_BUFFER_SIZE  (DBUF_BCODE_HOST_BUFFER_SIZE)//POFF_BOOT_BUFFER_SIZE
+<b><a name="line34">34    </a></b>	
+<b><a name="line35">35    </a></b>	#define XMOD_BUFB           ((U8  *)XMODEM_BUFFER_BASE)
+<b><a name="line36">36    </a></b>	#define XMOD_BUFW           ((U16 *)XMODEM_BUFFER_BASE)
+<b><a name="line37">37    </a></b>	#define XMOD_BUFL           ((U32 *)XMODEM_BUFFER_BASE)
+<b><a name="line38">38    </a></b>	#define XMOD_BUFLL          ((U32 *)XMODEM_BUFFER_BASE)
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	#define XMOD_SECTOR_SIZE     (512)
+<b><a name="line41">41    </a></b>	
+<b><a name="line42">42    </a></b>	//XModem timing definitions
+<b><a name="line43">43    </a></b>	#define XMOD_TRAN_TIMEOUT_MS        (10000)     //Time to timeout in milli-seconds between the end of one packet and the start of the next
+<b><a name="line44">44    </a></b>	#define XMOD_PACK_TIMEOUT_MS        (1000)      //Time to timeout in milli-seconds between the previous byte and the next byte within the same packet
+<b><a name="line45">45    </a></b>	#define XMOD_PING_TIME_MS           (3000)      //The time between pings, pings of C/NAK are switched for every ping time
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	//XModem byte definitions
+<b><a name="line48">48    </a></b>	#define XMOD_SOH            (0x01)
+<b><a name="line49">49    </a></b>	#define XMOD_STX            (0x02)
+<b><a name="line50">50    </a></b>	#define XMOD_EOT            (0x04)
+</pre></body>
+</html>

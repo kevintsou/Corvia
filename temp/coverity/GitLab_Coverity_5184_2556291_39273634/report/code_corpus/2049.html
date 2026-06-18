@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line256">256    </a></b>	                //nvme_mi, record error unknown designation id UDSTID
+<b><a name="line257">257    </a></b>	                message_assembly_status |= (MESSAGE_ASSEMBLY_INVALID_UNKNOWN_DESTINATION_EID | MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line258">258    </a></b>	            }
+<b><a name="line259">259    </a></b>	#endif
+<b><a name="line260">260    </a></b>	
+<b><a name="line261">261    </a></b>	            status = mctp_packet_check_tag_owner(p_transport, p_transport_header, p_mctp);
+<b><a name="line262">262    </a></b>	            if (1U == status) {
+<b><a name="line263">263    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Bad, Unexpected, or Expired Message Tag"));
+<b><a name="line264">264    </a></b>	
+<b><a name="line265">265    </a></b>	                //uart_printf("!!!Bad, Unexpected, or Expired Message Tag of 0x%x with a TO of 1\r\n", p_transport_header->msg_tag);
+<b><a name="line266">266    </a></b>	                //8.6 Dropped packets
+<b><a name="line267">267    </a></b>	                //  Bad, unexpected, or expired message tag
+<b><a name="line268">268    </a></b>	                //nvme_mi, record error unknown designation id TODO@Aaron record error?
+<b><a name="line269">269    </a></b>	                message_assembly_status |= (
+<b><a name="line270">270    </a></b>	                        MESSAGE_ASSEMBLY_INVALID_BAD_MESSAGE_TAG |
+<b><a name="line271">271    </a></b>	                        MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line272">272    </a></b>	            }
+<b><a name="line273">273    </a></b>	        }
+<b><a name="line274">274    </a></b>	    }
+<b><a name="line275">275    </a></b>	
+<b><a name="line276">276    </a></b>	    //===== Start of Message Handling (eom + som + transmission_unit)
+<b><a name="line277">277    </a></b>	    //Assign a Transmit Handler for the Start of Message
+<b><a name="line278">278    </a></b>	    if (MESSAGE_ASSEMBLY_VALID == message_assembly_status) {
+<b><a name="line279">279    </a></b>	        //If this packet is the first packet of a message
+<b><a name="line280">280    </a></b>	        if (1U == p_transport_header->som) {
+<b><a name="line281">281    </a></b>	            //Only start the message assembly if
+<b><a name="line282">282    </a></b>	            //1. It is the negotiated transmission unit, or
+<b><a name="line283">283    </a></b>	            //2. It is a single packet message (has EOM)
+<b><a name="line284">284    </a></b>	            if ((packet_payload.size == p_transport->transmission_unit) ||
+<b><a name="line285">285    </a></b>	                ((p_transport_header->eom) && (packet_payload.size <= p_transport->transmission_unit))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "(*p_transport_header).eom" of non-boolean essential type is being interpreted as a boolean value for the operator "&&".</font>
+<b><a name="line286">286    </a></b>	                // bootcode only support one transmit handler
+<b><a name="line287">287    </a></b>	                // when receive som = 1, will cover previous transmit handler
+<b><a name="line288">288    </a></b>	                p_transmit_handler = &p_mctp->transmit_handler;
+<b><a name="line289">289    </a></b>	                mctp_message_transmit_handler_receive_assign(p_transmit_handler, p_transport, p_source_transport_info, p_transport_header);
+<b><a name="line290">290    </a></b>	            }
+<b><a name="line291">291    </a></b>	            else {
+<b><a name="line292">292    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Unsupported Transmission Unit"));
+<b><a name="line293">293    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Packet Payload Size : %x", packet_payload.size));
+<b><a name="line294">294    </a></b>	                Dump_SMBUS(tprintf("    >>>>> Transmission Unit : %x", p_transport->transmission_unit));
+<b><a name="line295">295    </a></b>	                //8.6 Dropped packets
+<b><a name="line296">296    </a></b>	                //  Unsupported transmission unit
+<b><a name="line297">297    </a></b>	                message_assembly_status |= (
+<b><a name="line298">298    </a></b>	                        MESSAGE_ASSEMBLY_INVALID_EXCEED_BASELINE_TRANSMISSION_UNIT |
+<b><a name="line299">299    </a></b>	                        MESSAGE_ASSEMBLY_DROP_PACKET);
+<b><a name="line300">300    </a></b>	            }
+<b><a name="line301">301    </a></b>	        }
+<b><a name="line302">302    </a></b>	    }
+<b><a name="line303">303    </a></b>	
+<b><a name="line304">304    </a></b>	    //===== Find the Transmit Handler responsible for receiving this packet ===== //
+<b><a name="line305">305    </a></b>	    if (MESSAGE_ASSEMBLY_VALID == message_assembly_status) {
+<b><a name="line306">306    </a></b>	        //This should be found if this packet has the SOM bit and went through the assigning a Transmit Handler
+<b><a name="line307">307    </a></b>	        //Use the message transmit handler if it has the same message identifier
+<b><a name="line308">308    </a></b>	        //(Message Tag, Source Endpoint ID, Tag Owner)
+<b><a name="line309">309    </a></b>	        p_transmit_handler = mctp_message_transmit_handler_find_existing(p_mctp, p_transport_header, MCTP_MESSAGE_TRANSMIT_DIRECTION_RECEIVE);
+<b><a name="line310">310    </a></b>	        if (NULL == p_transmit_handler) {
+<b><a name="line311">311    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Unexpected Message Tag or Source Endpoint ID or Tag Owner"));
+<b><a name="line312">312    </a></b>	            //8.6 Dropped packets
+<b><a name="line313">313    </a></b>	            //  Unexpected "middle" packet or "end" packet
+<b><a name="line314">314    </a></b>	
+<b><a name="line315">315    </a></b>	            //No Message Handler is assigned to handle this Message Terminus because
+<b><a name="line316">316    </a></b>	            //1. The packet is an unexpected "middle" or "end" packet
+</pre></body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line681">681    </a></b>	    memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line682">682    </a></b>	    sec_sha_param.src_addr.low  = (U32)message_address;
+<b><a name="line683">683    </a></b>	    sec_sha_param.src_len       = message_size;
+<b><a name="line684">684    </a></b>	    sec_sha_param.targ_addr.low = (U32)hash_buffer;
+<b><a name="line685">685    </a></b>	    sec_sha_param.sha_mode      = HAL_SEC_SHA2_256_MODE;
+<b><a name="line686">686    </a></b>	    sec_sha_param.digest_len    = HAL_SEC_SHA2_256_DIGEST_LEN;
+<b><a name="line687">687    </a></b>	    sec_sha_param.timeout_val   = SEC_TIMEOUT_TICKS;
+<b><a name="line688">688    </a></b>	    sec_sha_param.dummy_en      = TRUE;
+<b><a name="line689">689    </a></b>	    phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line690">690    </a></b>	    memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_512_DIGEST_LEN);
+<b><a name="line691">691    </a></b>	    memcpy((void *)project_binary_hash, (void *)hash_buffer, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line692">692    </a></b>	
+<b><a name="line693">693    </a></b>	    disable_dmsca = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line694">694    </a></b>	
+<b><a name="line695">695    </a></b>	    // sec_lms_reset_hash_buf(&lms_buffer, buffer_addr_for_lms);
+<b><a name="line696">696    </a></b>	
+<b><a name="line697">697    </a></b>	    sec_get_lms_info((U32)((U32 *)lms_key_struct_ptr->pk)[1], (U32)((U32 *)lms_key_struct_ptr->pk)[2], &signature_size);
+<b><a name="line698">698    </a></b>	
+<b><a name="line699">699    </a></b>	    if (phal_lms_verify((U8 *)lms_key_struct_ptr->pk, (void *)hash_buffer, 32, (U8 *)signature_address, signature_size, buffer_addr_for_lms, &lms_buffer, disable_dmsca) != SEC_YES) {
+<b><a name="line700">700    </a></b>	
+<b><a name="line701">701    </a></b>	        Dump_SEC(tprintf("Err"));
+<b><a name="line702">702    </a></b>	        Dump_SEC(tprintf("LMS Code Sign verify fail"));
+<b><a name="line703">703    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line704">704    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line705">705    </a></b>	        return PROJECT_BINARY_ERROR_CODE_SIGNATURE;
+<b><a name="line706">706    </a></b>	    }
+<b><a name="line707">707    </a></b>	
+<b><a name="line708">708    </a></b>	    if (gSecAesTimeout | gSecShaTimeout | gSecPkeTimeout) {
+<b><a name="line709">709    </a></b>	        memset((void *)project_binary_hash, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line710">710    </a></b>	        memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line711">711    </a></b>	        return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line712">712    </a></b>	    }
+<b><a name="line713">713    </a></b>	
+<b><a name="line714">714    </a></b>	    Dump_SEC(tprintf("Signature Verify Pass"));
+<b><a name="line715">715    </a></b>	    memset((void *)hash_buffer, 0x00, HAL_SEC_SHA2_256_DIGEST_LEN);
+<b><a name="line716">716    </a></b>	
+<b><a name="line717">717    </a></b>	    return PROJECT_BINARY_ERROR_NO_ERROR;
+<b><a name="line718">718    </a></b>	}
+<b><a name="line719">719    </a></b>	
+<b><a name="line720">720    </a></b>	static U32 check_project_binary_code_sign_sm9(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U8 *project_binary_hash)
+<b><a name="line721">721    </a></b>	{
+<b><a name="line722">722    </a></b>	    U32 data_address, data_size;
+<b><a name="line723">723    </a></b>	    U32 key_address, key_size;
+<b><a name="line724">724    </a></b>	    U32 signature_address;
+<b><a name="line725">725    </a></b>	    U32 message_address, message_size;
+<b><a name="line726">726    </a></b>	    U32 identity;
+<b><a name="line727">727    </a></b>	
+<b><a name="line728">728    </a></b>	    U32 hash_buffer, buffer_addr_for_sm9;
+<b><a name="line729">729    </a></b>	    SM9_KEY_STRUCT_PTR sm9_key_struct_ptr;
+<b><a name="line730">730    </a></b>	
+<b><a name="line731">731    </a></b>	    HAL_SEC_SM9_VERIFY_BUF_T sm9_verify_buf;
+<b><a name="line732">732    </a></b>	    SEC_SHA_PARAMS_T  sec_sha_param;
+<b><a name="line733">733    </a></b>	
+<b><a name="line734">734    </a></b>	    // U8 disable_dmsca = SEC_NO;
+<b><a name="line735">735    </a></b>	
+<b><a name="line736">736    </a></b>	    Dump_SEC(tprintf("SM9"));
+<b><a name="line737">737    </a></b>	
+<b><a name="line738">738    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line739">739    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line740">740    </a></b>	    key_size  = sizeof(SM9_KEY_STRUCT);
+<b><a name="line741">741    </a></b>	
+</pre></body>
+</html>

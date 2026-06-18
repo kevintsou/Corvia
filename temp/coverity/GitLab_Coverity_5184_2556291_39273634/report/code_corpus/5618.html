@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/mrdb/dal_flow_db.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line213">213    </a></b>	 @param n Entry
+<b><a name="line214">214    </a></b>	 @param value data_size
+<b><a name="line215">215    </a></b>	 @note Indicate that data size of each element in the circular queue.
+<b><a name="line216">216    </a></b>	DATA_SIZE = 0    : 1Byte
+<b><a name="line217">217    </a></b>	DATA_SIZE = 1    : 2Byte
+<b><a name="line218">218    </a></b>	DATA_SIZE = 2    : 4Byte
+<b><a name="line219">219    </a></b>	DATA_SIZE = 3    : 8Byte
+<b><a name="line220">220    </a></b>	DATA_SIZE = 4    : 16Byte
+<b><a name="line221">221    </a></b>	DATA_SIZE = 5    : 32Byte
+<b><a name="line222">222    </a></b>	DATA_SIZE = 6    : 64Byte
+<b><a name="line223">223    </a></b>	DATA_SIZE = 7    : 128Byte
+<b><a name="line224">224    </a></b>	Note:
+<b><a name="line225">225    </a></b>	While VQ = 1, DATA_SIZE is locked and can't be modified.
+<b><a name="line226">226    </a></b>	 */
+<b><a name="line227">227    </a></b>	void dal_db_api_set_data_size(U8 n, U8 value)
+<b><a name="line228">228    </a></b>	{
+<b><a name="line229">229    </a></b>	    // r8_DOORBELL[(r8_BUF_DATA_CTRL + ((n * control_register_ENTRY_SIZE) >> 0U)) + (2U)] = (value);
+<b><a name="line230">230    </a></b>	}
+<b><a name="line231">231    </a></b>	
+<b><a name="line232">232    </a></b>	/*!
+<b><a name="line233">233    </a></b>	 @brief dal_db_api_set_vq
+<b><a name="line234">234    </a></b>	 @param n Entry
+<b><a name="line235">235    </a></b>	 @param value vq
+<b><a name="line236">236    </a></b>	 @note Valid Queue
+<b><a name="line237">237    </a></b>	Only when VQ = 1, QBASE_ADR, WPTR, RPTR, BUF_LEN, DATA_SIZE are valid and FW can start to access circular queue.
+<b><a name="line238">238    </a></b>	 */
+<b><a name="line239">239    </a></b>	void dal_db_api_set_vq(U8 n)
+<b><a name="line240">240    </a></b>	{
+<b><a name="line241">241    </a></b>	    // w_mr_Q_VLD(n, 1);
+<b><a name="line242">242    </a></b>	    r32_QINFO[r32_Q_INFO_SEE(n)] = (r32_QINFO[r32_Q_INFO_SEE(n)] &  ~(1 << mr_Q_RST_SHIFT)) | (1 << mr_Q_VLD_SHIFT);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "(U32 volatile *)0x3efe000[28UL + 32UL * (U32)n >> 2U] & 0xfffffdffUL" (unsigned) is not the same as that of the right operand "1 << 8U"(signed).</font>
+<b><a name="line243">243    </a></b>	}
+<b><a name="line244">244    </a></b>	
+<b><a name="line245">245    </a></b>	void dal_db_api_clr_vq(U8 n)
+<b><a name="line246">246    </a></b>	{
+<b><a name="line247">247    </a></b>	    w_mr_Q_VLD(n, 0);
+<b><a name="line248">248    </a></b>	}
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	/*!
+<b><a name="line251">251    </a></b>	 @brief dal_db_api_set_wpiu
+<b><a name="line252">252    </a></b>	 @param value wpiu
+<b><a name="line253">253    </a></b>	 @note (FW triggers this field to maintain WPTR)
+<b><a name="line254">254    </a></b>	Limitation: must less or equal to buffer length
+<b><a name="line255">255    </a></b>	Range of WPIU : 1 ~ (BUF_LEN)
+<b><a name="line256">256    </a></b>	When WPIU is written, WPTR is incremented depending on the following rule
+<b><a name="line257">257    </a></b>	a. WPTR = WPTR + (DATA_SIZE * WPIU[7:0]) byte write to 0xC
+<b><a name="line258">258    </a></b>	b. WPTR = WPTR + (DATA_SIZE * WPIU[15:0]) word write to 0xC
+<b><a name="line259">259    </a></b>	c. WPTR = WPTR + (DATA_SIZE * {WPIU[15:8],8'h0}) byte write to 0xD
+<b><a name="line260">260    </a></b>	 */
+<b><a name="line261">261    </a></b>	void dal_db_api_set_wpiu(U8 n, U16 value)
+<b><a name="line262">262    </a></b>	{
+<b><a name="line263">263    </a></b>	    w_mr_Q_WPIU(n, value);
+<b><a name="line264">264    </a></b>	}
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	/*!
+<b><a name="line267">267    </a></b>	 @brief dal_db_api_set_rpiu
+<b><a name="line268">268    </a></b>	 @param value rpiu
+<b><a name="line269">269    </a></b>	 @note (FW triggers this field to maintain RPTR)
+<b><a name="line270">270    </a></b>	Limitation: must less or equal to buffer length
+<b><a name="line271">271    </a></b>	Range of RPIU : 1 ~ (BUF_LEN)
+<b><a name="line272">272    </a></b>	When RPIU is read, RPTR is incremented depending on the following rule
+<b><a name="line273">273    </a></b>	a. RPTR = RPTR + (DATA_SIZE * RPIU[7:0]) byte read to 0x10
+</pre></body>
+</html>

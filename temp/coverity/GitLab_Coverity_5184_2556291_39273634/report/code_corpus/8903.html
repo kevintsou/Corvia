@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/top.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line376">376    </a></b>	
+<b><a name="line377">377    </a></b>	    dal_gic_disable_interrupt(GIC_ID_UART0_INT);
+<b><a name="line378">378    </a></b>	    dal_gic_disable_interrupt(GIC_ID_SMBS_INT);
+<b><a name="line379">379    </a></b>	    host_api_disable_host_int();
+<b><a name="line380">380    </a></b>	    //uart_check_fifo_empty(10000);
+<b><a name="line381">381    </a></b>	
+<b><a name="line382">382    </a></b>	#if (IC_TYPE_ASIC != IC_TYPE)
+<b><a name="line383">383    </a></b>	    // For fix sys_clk too low cause pmu polling timeout problem(FPGA only)
+<b><a name="line384">384    </a></b>	    bootcode_hal_pmu_set_p0_timeout_bypass();
+<b><a name="line385">385    </a></b>	#endif
+<b><a name="line386">386    </a></b>	
+<b><a name="line387">387    </a></b>	    if (ISP_ROM_MODE == mode) {
+<b><a name="line388">388    </a></b>	        phal_pmu_md_en_set(PMU_MD_ROM_EN);
+<b><a name="line389">389    </a></b>	    }
+<b><a name="line390">390    </a></b>	
+<b><a name="line391">391    </a></b>	    if (ISP_PRAM_MODE == mode) {
+<b><a name="line392">392    </a></b>	        phal_pmu_md_en_set(PMU_MD_PRAM_EN);
+<b><a name="line393">393    </a></b>	    }
+<b><a name="line394">394    </a></b>	
+<b><a name="line395">395    </a></b>	    if (ISP_SPI_MODE == mode) {
+<b><a name="line396">396    </a></b>	        phal_pmu_md_en_set(PMU_MD_SPI_EN);
+<b><a name="line397">397    </a></b>	    }
+<b><a name="line398">398    </a></b>	
+<b><a name="line399">399    </a></b>	    wfe_ignore_interrupt();
+<b><a name="line400">400    </a></b>	    // ASM_WFI();
+<b><a name="line401">401    </a></b>	}
+<b><a name="line402">402    </a></b>	
+<b><a name="line403">403    </a></b>	void boot_sec_init_flow(BC_GLOBAL_STRUCT_PTR bc_ptr)
+<b><a name="line404">404    </a></b>	{
+<b><a name="line405">405    </a></b>	    rpc_function_address_init((RPC_FUNCTION_ADDRESS_PTR)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_RPC_FUNCTION_ADDRESS));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "134754304UL" (unsigned) is not the same as that of the right operand "3408"(signed).</font>
+<b><a name="line406">406    </a></b>	
+<b><a name="line407">407    </a></b>	#if SEC_ATTACK_DEFENSE_EN
+<b><a name="line408">408    </a></b>	    if (gEFuseAPI.efuse_security_setting.security_attack_detection_enable == 1U) {
+<b><a name="line409">409    </a></b>	        // Enable EM Attack / Radiation Attack detection
+<b><a name="line410">410    </a></b>	        if (bootcode_hal_sec_cnt_init() != PASS) {
+<b><a name="line411">411    </a></b>	            BC_APP_ASSERT(BCODE_ERROR_SYS_SEC_CNT_INIT_FAIL, 0);
+<b><a name="line412">412    </a></b>	        }
+<b><a name="line413">413    </a></b>	    }
+<b><a name="line414">414    </a></b>	#endif
+<b><a name="line415">415    </a></b>	}
+<b><a name="line416">416    </a></b>	
+<b><a name="line417">417    </a></b>	static void hook_tp_efuse_update_debug_cap(void)
+<b><a name="line418">418    </a></b>	{
+<b><a name="line419">419    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.disable_mem_log)
+<b><a name="line420">420    </a></b>	    {
+<b><a name="line421">421    </a></b>	        sal_log_disable_all_mem_log();
+<b><a name="line422">422    </a></b>	    }
+<b><a name="line423">423    </a></b>	
+<b><a name="line424">424    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.uart_output_message_disable)
+<b><a name="line425">425    </a></b>	    {
+<b><a name="line426">426    </a></b>	        sal_log_enable_disable_all_uart(FALSE);
+<b><a name="line427">427    </a></b>	    }
+<b><a name="line428">428    </a></b>	
+<b><a name="line429">429    </a></b>	    if (0 != gBCodeGlobalStruct.parameter_config.enable_debug_func)
+<b><a name="line430">430    </a></b>	    {
+<b><a name="line431">431    </a></b>	        sal_log_enable_disable_all_uart(TRUE);
+<b><a name="line432">432    </a></b>	        gSalDbg.enabling_flag = 0x8299DEB6;
+<b><a name="line433">433    </a></b>	        gSalDbg.log_dbuf_usage = 1;
+<b><a name="line434">434    </a></b>	        gSalDbg.log_debug = 1;
+<b><a name="line435">435    </a></b>	        gSalDbg.log_idpg_scan = 1;
+<b><a name="line436">436    </a></b>	        gSalDbg.log_init = 1;
+</pre></body>
+</html>

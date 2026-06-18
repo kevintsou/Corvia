@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/i2c/i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line68">68    </a></b>	        case I2C_PWR_CTRL_NAND_POWER_RESET:
+<b><a name="line69">69    </a></b>	            Dump_I2C(tprintf("I2C NAND power RESET"));
+<b><a name="line70">70    </a></b>	            sal_log_tracker_set(sal_locate(0xD2, TYPE_STEP));
+<b><a name="line71">71    </a></b>	
+<b><a name="line72">72    </a></b>	            // delay time
+<b><a name="line73">73    </a></b>	            pI2cCmdSet->sDw1.uwDelayTime     = MUC_POWER_RESET_DELAY_TIME;
+<b><a name="line74">74    </a></b>	            pI2cCmdSet->sDw1.ubDelayTimeUnit = MCU_POWER_RESET_DELAY_TIME_UNIT;
+<b><a name="line75">75    </a></b>	
+<b><a name="line76">76    </a></b>	            // op code
+<b><a name="line77">77    </a></b>	            pI2cCmdSet->sDw3_4.aubOp[E_I2C_OP_0] = I2C_OPCODE_NAND_POWER_RESET;
+<b><a name="line78">78    </a></b>	            break;
+<b><a name="line79">79    </a></b>	
+<b><a name="line80">80    </a></b>	        default:
+<b><a name="line81">81    </a></b>	            // do nothing
+<b><a name="line82">82    </a></b>	            break;
+<b><a name="line83">83    </a></b>	    }
+<b><a name="line84">84    </a></b>	}
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	/*!
+<b><a name="line87">87    </a></b>	   @brief      Send I2C command to MCU to power on/off NAND
+<b><a name="line88">88    </a></b>	
+<b><a name="line89">89    </a></b>	   @param      ubPowerControl    power on/off
+<b><a name="line90">90    </a></b>	   @return     I2C_ERR_E
+<b><a name="line91">91    </a></b>	 */
+<b><a name="line92">92    </a></b>	static I2C_ERR_E i2c_nand_power_control_through_mcu(U8 ubPowerControl)
+<b><a name="line93">93    </a></b>	{
+<b><a name="line94">94    </a></b>	    I2C_CMDSET_T sI2cCmdSet;
+<b><a name="line95">95    </a></b>	    I2C_ERR_E eI2cErr = E_I2C_NO_ERR;
+<b><a name="line96">96    </a></b>	
+<b><a name="line97">97    </a></b>	    memset((void *)&sI2cCmdSet, 0x00U, sizeof(I2C_CMDSET_T));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_17_7_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The return value of a non-void function "memset" is unused.</font>
+<b><a name="line98">98    </a></b>	
+<b><a name="line99">99    </a></b>	    // 1. Init I2C cmdset parameters
+<b><a name="line100">100    </a></b>	    sI2cCmdSet.sDw0.ubCmdSetEn  = ID_FEATURE_ENABLE;
+<b><a name="line101">101    </a></b>	    sI2cCmdSet.sDw0.bWaitFinish = TRUE;
+<b><a name="line102">102    </a></b>	    sI2cCmdSet.sDw2.ubSlaveAddr = I2C_ADDRESS_MCU;
+<b><a name="line103">103    </a></b>	    sI2cCmdSet.sDw2.ubWrOpCnt   = 1U;
+<b><a name="line104">104    </a></b>	    sI2cCmdSet.sDw2.ubRdOpCnt   = 0U;
+<b><a name="line105">105    </a></b>	    sI2cCmdSet.sDw2.ubRdDataCnt = 0U;
+<b><a name="line106">106    </a></b>	
+<b><a name="line107">107    </a></b>	    sal_log_tracker_set(sal_locate(0xC0, TYPE_STEP));
+<b><a name="line108">108    </a></b>	
+<b><a name="line109">109    </a></b>	    // 2. Set I2C param (opcode, delay time) by power control
+<b><a name="line110">110    </a></b>	    i2c_set_param_by_power_ctrl(&sI2cCmdSet, ubPowerControl);
+<b><a name="line111">111    </a></b>	
+<b><a name="line112">112    </a></b>	    sal_log_tracker_set(sal_locate(0xC1, TYPE_STEP));
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	    // 3. Trigger I2C process
+<b><a name="line115">115    </a></b>	    eI2cErr = I2cTriggerProcess(&sI2cCmdSet);
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    if (E_I2C_NO_ERR == eI2cErr)
+<b><a name="line118">118    </a></b>	    {
+<b><a name="line119">119    </a></b>	        sal_log_tracker_set(sal_locate(0xCD, TYPE_STEP));
+<b><a name="line120">120    </a></b>	        //mabiao_idle(sI2cCmdSet.sDw1.ubDelayTimeUnit, sI2cCmdSet.sDw1.uwDelayTime);
+<b><a name="line121">121    </a></b>	    }
+<b><a name="line122">122    </a></b>	    else
+<b><a name="line123">123    </a></b>	    {
+<b><a name="line124">124    </a></b>	        sal_log_tracker_set(sal_locate(0xCE, TYPE_STEP));
+<b><a name="line125">125    </a></b>	        sal_log_tracker_set(sal_locate((U8)eI2cErr, TYPE_DATA));
+<b><a name="line126">126    </a></b>	        Dump_I2C(tprintf("I2C trigger failed (errCode = %d)", eI2cErr));
+<b><a name="line127">127    </a></b>	    }
+<b><a name="line128">128    </a></b>	
+</pre></body>
+</html>

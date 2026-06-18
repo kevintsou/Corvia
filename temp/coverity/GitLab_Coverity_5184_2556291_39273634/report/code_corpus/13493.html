@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/sal/utils/sal_utils.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line1">1    </a></b>	#include "sal_libs.h"
+<b><a name="line2">2    </a></b>	#define HEX_DUMP_EN     FALSE
+<b><a name="line3">3    </a></b>	volatile U32 wait_connect_flag = 0;
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Defining 'wait_connect_flag', which has external linkage, but no visible external declaration.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event caretline:</font></b> <font face="Arial"; size="3"; color="#FF5959">             ^</font>
+<b><a name="line4">4    </a></b>	
+<b><a name="line5">5    </a></b>	void *memcpy_P(void *destination, void *source, U32 num)
+<b><a name="line6">6    </a></b>	{
+<b><a name="line7">7    </a></b>	    U8 *destination_addr = NULL;
+<b><a name="line8">8    </a></b>	    U8 *source_addr = NULL;
+<b><a name="line9">9    </a></b>	    U32 i;
+<b><a name="line10">10    </a></b>	    destination_addr = (U8 *) destination;
+<b><a name="line11">11    </a></b>	    source_addr = (U8 *)  source ;
+<b><a name="line12">12    </a></b>	
+<b><a name="line13">13    </a></b>	    for (i = 0 ; i < num; i++) {
+<b><a name="line14">14    </a></b>	        destination_addr[i] = source_addr[i];  /* parasoft-suppress BD-PB-NOTINIT "ignore"*/ /* parasoft-suppress MISRA2012-RULE-9_1 "ignore"*/
+<b><a name="line15">15    </a></b>	    }
+<b><a name="line16">16    </a></b>	
+<b><a name="line17">17    </a></b>	    return 0;
+<b><a name="line18">18    </a></b>	}
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	void *memmove_P(void *destination, void *source, U32 num)
+<b><a name="line21">21    </a></b>	{
+<b><a name="line22">22    </a></b>	    U8 *destination_addr = NULL;
+<b><a name="line23">23    </a></b>	    U8 *source_addr = NULL;
+<b><a name="line24">24    </a></b>	    destination_addr = (U8 *) destination;
+<b><a name="line25">25    </a></b>	    source_addr = (U8 *)  source ;
+<b><a name="line26">26    </a></b>	
+<b><a name="line27">27    </a></b>	    if (destination_addr < source_addr) {
+<b><a name="line28">28    </a></b>	        while (num--) {
+<b><a name="line29">29    </a></b>	            *destination_addr++ = *source_addr++;
+<b><a name="line30">30    </a></b>	        }
+<b><a name="line31">31    </a></b>	    }
+<b><a name="line32">32    </a></b>	    else {
+<b><a name="line33">33    </a></b>	        U8 *lasts = source_addr + (num - 1);
+<b><a name="line34">34    </a></b>	        U8 *lastd = destination_addr + (num - 1);
+</pre></body>
+</html>

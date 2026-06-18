@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_receive.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	    return 0U;
+<b><a name="line63">63    </a></b>	}
+<b><a name="line64">64    </a></b>	#endif
+<b><a name="line65">65    </a></b>	
+<b><a name="line66">66    </a></b>	static U32 mctp_packet_check_tag_owner(const MCTP_TRANSPORT *p_transport, const MCTP_TRANSPORT_HEADER *p_transport_header, const MCTP_MANAGEMENT *p_mctp)
+<b><a name="line67">67    </a></b>	{
+<b><a name="line68">68    </a></b>	    //Currently all Tag Owner is accepted
+<b><a name="line69">69    </a></b>	    //Even when a message with a TO of 0 is not expected to be received
+<b><a name="line70">70    </a></b>	    return 0U;
+<b><a name="line71">71    </a></b>	}
+<b><a name="line72">72    </a></b>	
+<b><a name="line73">73    </a></b>	static U32 mctp_message_transmit_handler_assemble_message(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler, const DATA_DESCRIPTOR *p_packet_descriptor)
+<b><a name="line74">74    </a></b>	{
+<b><a name="line75">75    </a></b>	    U32 timeout_us;
+<b><a name="line76">76    </a></b>	    U32 message_byte_end;
+<b><a name="line77">77    </a></b>	    U32 transmission_unit;
+<b><a name="line78">78    </a></b>	    U32 expected_packet_sequence_number;
+<b><a name="line79">79    </a></b>	    DATA_DESCRIPTOR packet_payload;
+<b><a name="line80">80    </a></b>	    const MCTP_TRANSPORT_HEADER *p_transport_header;
+<b><a name="line81">81    </a></b>	
+<b><a name="line82">82    </a></b>	    transmission_unit = p_transmit_handler->message_info.p_transport->transmission_unit;
+<b><a name="line83">83    </a></b>	
+<b><a name="line84">84    </a></b>	    // Calling this means that this packet can be assembled into this Transmit Handler
+<b><a name="line85">85    </a></b>	
+<b><a name="line86">86    </a></b>	    // byte 4 : hdr_version + rsvd
+<b><a name="line87">87    </a></b>	    // byte 5 : destination_endpoint_id
+<b><a name="line88">88    </a></b>	    // byte 6 : source_endpoint_id
+<b><a name="line89">89    </a></b>	    // byte 7 : msg_tag + to + pkt_seq_num + eom + som
+<b><a name="line90">90    </a></b>	    p_transport_header = (const MCTP_TRANSPORT_HEADER *)(p_packet_descriptor->p_base);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The object pointer expression "p_packet_descriptor->p_base" of type "U8 * const" is cast to type "MCTP_TRANSPORT_HEADER const *".</font>
+<b><a name="line91">91    </a></b>	
+<b><a name="line92">92    </a></b>	    // Packet payload
+<b><a name="line93">93    </a></b>	    packet_payload.p_base = p_transmit_handler->request_packet_handler.buffer.p_base; // p_packet_descriptor->p_base + sizeof(*p_transport_header);
+<b><a name="line94">94    </a></b>	    packet_payload.size = p_transmit_handler->request_packet_handler.byte_count;          //p_packet_descriptor->size - sizeof(*p_transport_header);
+<b><a name="line95">95    </a></b>	
+<b><a name="line96">96    </a></b>	    //-----Transport Header
+<b><a name="line97">97    </a></b>	    //Check any other relevant fields
+<b><a name="line98">98    </a></b>	    Dump_SMBUS(tprintf(" [MCTP] Check Any Sequence Packet Number"));
+<b><a name="line99">99    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Transport pkt_seq_num : %x", p_transport_header->pkt_seq_num));
+<b><a name="line100">100    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Transmit  pkt_seq_num : %x", p_transmit_handler->packet_sequence_number));
+<b><a name="line101">101    </a></b>	    //Check any other relevant fields
+<b><a name="line102">102    </a></b>	
+<b><a name="line103">103    </a></b>	    //Since a pre-condition for calling this function is that this packet can
+<b><a name="line104">104    </a></b>	    //be assembled into this Transmit Handler, there are a few conditions that
+<b><a name="line105">105    </a></b>	    //has already been checked
+<b><a name="line106">106    </a></b>	    //  Checked before this packet is even considered for assembly
+<b><a name="line107">107    </a></b>	    //      Header Version
+<b><a name="line108">108    </a></b>	    //      Destination EID
+<b><a name="line109">109    </a></b>	    //  Assumed to be correct as these are required to find the Transmit Handler for this packet
+<b><a name="line110">110    </a></b>	    //      Source EID (Message Terminus)
+<b><a name="line111">111    </a></b>	    //      Message Tag (Message Terminus)
+<b><a name="line112">112    </a></b>	    //      Tag Owner (Message Terminus)
+<b><a name="line113">113    </a></b>	
+<b><a name="line114">114    </a></b>	    //Check the Packet Sequence Number
+<b><a name="line115">115    </a></b>	    expected_packet_sequence_number = ((p_transmit_handler->packet_sequence_number + 1U) & ((1U << MCTP_TRANSPORT_HEADER_PKT_SEQ_NUM_BIT) - 1U));
+<b><a name="line116">116    </a></b>	    if (expected_packet_sequence_number == p_transport_header->pkt_seq_num) {
+<b><a name="line117">117    </a></b>	        //Current packet's packet sequence number is a continuation of the
+<b><a name="line118">118    </a></b>	        //previous packet's packet sequence number
+<b><a name="line119">119    </a></b>	    }
+<b><a name="line120">120    </a></b>	    else {
+<b><a name="line121">121    </a></b>	        Dump_SMBUS(tprintf(" [MCTP] Out Of Sequence Packet Number"));
+</pre></body>
+</html>

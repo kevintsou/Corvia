@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_nvme_mi.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line472">472    </a></b>	
+<b><a name="line473">473    </a></b>	    U8 opcode;
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	    Dump_SMBUS(tprintf(" [MCTP NVME-MI] Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    //TODO should actually set the p_nvme_mi_cmd_resp_msg and response_data_base into the response buffer
+<b><a name="line478">478    </a></b>	    //But that requires changing the underlying structure of constructing the response messages
+<b><a name="line479">479    </a></b>	    p_nvme_mi_cmd_req_msg = (NVME_MI_CMD_REQ_MSG *)(p_transmit_handler->request_message_handler.buffer.p_base);
+<b><a name="line480">480    </a></b>	    p_nvme_mi_cmd_resp_msg = (NVME_MI_CMD_RESP_MSG *)(p_transmit_handler->reponse_packet_handler.buffer.p_base);
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	    memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line483">483    </a></b>	
+<b><a name="line484">484    </a></b>	    //This assumes that all NVME MI commands' response data are handled in host->buffer_base
+<b><a name="line485">485    </a></b>	    response_data.p_base = (U8 *)(host->buffer_base);
+<b><a name="line486">486    </a></b>	    response_data.size = 0;
+<b><a name="line487">487    </a></b>	
+<b><a name="line488">488    </a></b>	    message_response_status = NVME_MI_RSP_MSG_STS_SUCCESS;
+<b><a name="line489">489    </a></b>	
+<b><a name="line490">490    </a></b>	    //The minimum number of bytes required to form a NVME MI Command requires is
+<b><a name="line491">491    </a></b>	    // (16 byte) : mi command request format
+<b><a name="line492">492    </a></b>	    // (N  byte) : Request Data (Optional)
+<b><a name="line493">493    </a></b>	    // (4  byte) : Message Integrity Check (MIC)
+<b><a name="line494">494    </a></b>	    if (p_transmit_handler->request_message_handler.byte_count >= (sizeof(NVME_MI_CMD_REQ_MSG) + 4U)) {
+<b><a name="line495">495    </a></b>	        // NVMe Request Data have data
+<b><a name="line496">496    </a></b>	        request_data.p_base = (p_transmit_handler->request_message_handler.buffer.p_base + sizeof(NVME_MI_CMD_REQ_MSG));
+<b><a name="line497">497    </a></b>	        request_data.size = (p_transmit_handler->request_message_handler.byte_count - (sizeof(NVME_MI_CMD_REQ_MSG) + 4U));
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	        //the copy is essentially useless, its basically to match the admin command handle in case it handles things in the host buffer
+<b><a name="line500">500    </a></b>	        //The NVMe-MI message command request data in the host->buffer_base handle
+<b><a name="line501">501    </a></b>	        memcpy((void *)(host->buffer_base), (void *) & (request_data.p_base[0U]), request_data.size);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_11_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The expression "host->buffer_base" of type "U32" is cast to type "void *".</font>
+<b><a name="line502">502    </a></b>	    }
+<b><a name="line503">503    </a></b>	    else {
+<b><a name="line504">504    </a></b>	        //Not enough data to properly form the command
+<b><a name="line505">505    </a></b>	        message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_SIZE;
+<b><a name="line506">506    </a></b>	    }
+<b><a name="line507">507    </a></b>	
+<b><a name="line508">508    </a></b>	    if (NVME_MI_RSP_MSG_STS_SUCCESS == message_response_status) {
+<b><a name="line509">509    </a></b>	        // Init response header + format (8 byte)
+<b><a name="line510">510    </a></b>	        memset((void *)p_nvme_mi_cmd_resp_msg, 0, sizeof(NVME_MI_CMD_RESP_MSG));
+<b><a name="line511">511    </a></b>	
+<b><a name="line512">512    </a></b>	        opcode = p_nvme_mi_cmd_req_msg->opcode;
+<b><a name="line513">513    </a></b>	
+<b><a name="line514">514    </a></b>	        switch (opcode) {
+<b><a name="line515">515    </a></b>	        case NVME_MI_CMD_READ_MI_STRUCT:     // 0x00     (M)
+<b><a name="line516">516    </a></b>	            mctp_message_handle_nvme_mi_message_read_mi_struct(p_nvme_mi_cmd_req_msg, p_nvme_mi_cmd_resp_msg, (U32)(response_data.p_base));
+<b><a name="line517">517    </a></b>	            if (NVME_MI_RSP_MSG_STS_SUCCESS == p_nvme_mi_cmd_resp_msg->dw1.generic_error.status) {
+<b><a name="line518">518    </a></b>	                response_data.size = p_nvme_mi_cmd_resp_msg->dw1.nvme_mi_command.nmresp;
+<b><a name="line519">519    </a></b>	            }
+<b><a name="line520">520    </a></b>	            break;
+<b><a name="line521">521    </a></b>	        case NVME_MI_CMD_SUBSYS_HEALTH_POLL: // 0x01     (M)
+<b><a name="line522">522    </a></b>	            // bootcode not support
+<b><a name="line523">523    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Subsystem Health Status Poll (Bootcode not support)"));
+<b><a name="line524">524    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line525">525    </a></b>	            break;
+<b><a name="line526">526    </a></b>	        case NVME_MI_CMD_CTRL_HEALTH_POLL:   // 0x02     (M)
+<b><a name="line527">527    </a></b>	            // bootcode not support
+<b><a name="line528">528    </a></b>	            Dump_SMBUS(tprintf("    >>>>> Controller Health Status Poll (Bootcode not support)"));
+<b><a name="line529">529    </a></b>	            message_response_status |= NVME_MI_RSP_MSG_STS_INV_CMD_OPC;
+<b><a name="line530">530    </a></b>	            break;
+<b><a name="line531">531    </a></b>	        case NVME_MI_CMD_CONFIG_SET:         // 0x03     (M)
+<b><a name="line532">532    </a></b>	            mctp_message_handle_nvme_mi_message_configuration_set(p_nvme_mi_cmd_req_msg, p_nvme_mi_cmd_resp_msg, p_transmit_handler->message_info.p_transport);
+</pre></body>
+</html>

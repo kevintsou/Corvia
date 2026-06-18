@@ -1,0 +1,1501 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_OTHER</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/sec/code_sign_kat.c</file>
+<function>security_fail_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{while}} loop is not a compound statement.}}}}</description>
+<line>10455</line>
+<column>14</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_OTHER</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>hal_smbs_reset_2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>672</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>hal_smbs_reset_2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>672</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_get_inter_packet_delay_ms</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>95</line>
+<column>5</column>
+</event>
+<extra>intr_dly_time</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/mctp/mctp_send.c</file>
+<function>mctp_get_inter_packet_delay_ms</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>95</line>
+<column>5</column>
+</event>
+<extra>intr_dly_time</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_set_cpl_sts</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>400</line>
+<column>5</column>
+</event>
+<extra>sct</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_set_cpl_sts</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>400</line>
+<column>5</column>
+</event>
+<extra>sct</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_err_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>183</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_err_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>183</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>595</line>
+<column>13</column>
+</event>
+<extra>_hang</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</file>
+<function>fip_pio_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>595</line>
+<column>13</column>
+</event>
+<extra>_hang</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_OTHER</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{while}} loop is not a compound statement.}}}}</description>
+<line>139</line>
+<column>26</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_OTHER</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_OTHER</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor.c</file>
+<function>vuc_isp_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{while}} loop is not a compound statement.}}}}</description>
+<line>244</line>
+<column>22</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_OTHER</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_htd_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>162</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_htd_handle</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>162</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feat_if_seq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>1703</line>
+<column>13</column>
+</event>
+<extra>_hang</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/fpl/fpl_api.c</file>
+<function>fpl_set_feat_if_seq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>1703</line>
+<column>13</column>
+</event>
+<extra>_hang</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_sq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>81</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_sq_parsing</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>81</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_OTHER</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_cmd_adm.c</file>
+<function>nvme_fw_commit</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{while}} loop is not a compound statement.}}}}</description>
+<line>1111</line>
+<column>26</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_OTHER</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_packet_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>263</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_packet_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>263</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_rcv_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>143</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_rcv_sq</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>143</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbm_api.c</file>
+<function>hal_smbm_reset_2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>30</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbm_api.c</file>
+<function>hal_smbm_reset_2</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>30</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_send_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>445</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/xmodem.c</file>
+<function>xmodem_send_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>445</line>
+<column>13</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_smbs_arp_assign_address_hdl</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>646</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_smbs_arp_assign_address_hdl</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>646</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_OTHER</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/load.c</file>
+<function>load_code_process</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{while}} loop is not a compound statement.}}}}</description>
+<line>3889</line>
+<column>26</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_OTHER</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>344</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_after_jump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>344</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_normal</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>108</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_normal</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>108</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_normal</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>125</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_send_cpl_normal</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>125</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>39</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>39</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>48</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>48</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>54</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>54</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>57</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_rx_not_empty_int</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>57</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.c</file>
+<function>sys_api_smbus_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>36</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.c</file>
+<function>sys_api_smbus_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>36</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.c</file>
+<function>sys_api_smbus_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>41</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbus_api.c</file>
+<function>sys_api_smbus_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>41</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_dispatch_cmd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>431</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/host/host_common.c</file>
+<function>nvme_dispatch_cmd</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>431</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_api_smbs_isr_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>238</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_api_smbs_isr_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>238</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_api_smbs_isr_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>250</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/smbs_api.c</file>
+<function>sys_api_smbs_isr_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>250</line>
+<column>21</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>75</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>75</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>80</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>80</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>85</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>85</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>92</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/uart.c</file>
+<function>uart_isr</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>92</line>
+<column>9</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/back/back.c</file>
+<function>back_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>24</line>
+<column>9</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/back/back.c</file>
+<function>back_init</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>24</line>
+<column>9</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>392</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/vendor_handler.c</file>
+<function>vuc_uart_handler</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>392</line>
+<column>17</column>
+</event>
+<extra>&lt;no ids&gt;</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>473</line>
+<column>5</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>473</line>
+<column>5</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>477</line>
+<column>9</column>
+</event>
+<extra>gSecAesTimeout</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>477</line>
+<column>9</column>
+</event>
+<extra>gSecAesTimeout</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>552</line>
+<column>5</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/user/top/top.c</file>
+<function>boot_sys_init_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>552</line>
+<column>5</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>29</line>
+<column>13</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>29</line>
+<column>13</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>46</line>
+<column>17</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>46</line>
+<column>17</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{then}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>82</line>
+<column>13</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 15.6</checker>
+<type>MISRA_C_2012_Rule_15.6</type>
+<subtype>RULE_REPORTS_IF</subtype>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/yue/app/boot/main.c</file>
+<function>boot_load_code_flow</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_15_6_violation</tag>
+<description>{CovLStrv2{{t{The body of the {code{else}} branch of the {code{if}} statement is not a compound statement.}}}}</description>
+<line>82</line>
+<column>13</column>
+</event>
+<extra>status</extra>
+<subcategory>RULE_REPORTS_IF</subcategory>
+</error>

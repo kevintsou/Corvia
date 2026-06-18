@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/src/diag/sec/hal_sec_pke_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line249">249    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line250">250    </a></b>	
+<b><a name="line251">251    </a></b>	    dal_sec_pke_set_ram_abc_clr();
+<b><a name="line252">252    </a></b>	    while (1U == dal_sec_pke_get_ram_abc_clr())
+<b><a name="line253">253    </a></b>	    {
+<b><a name="line254">254    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line255">255    </a></b>	        {
+<b><a name="line256">256    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line257">257    </a></b>	            break;
+<b><a name="line258">258    </a></b>	        }
+<b><a name="line259">259    </a></b>	    }
+<b><a name="line260">260    </a></b>	}
+<b><a name="line261">261    </a></b>	
+<b><a name="line262">262    </a></b>	/*!
+<b><a name="line263">263    </a></b>	 @brief       clear SRAM MEMQ
+<b><a name="line264">264    </a></b>	 @param[in]   timeout_val   - setting timeout value
+<b><a name="line265">265    </a></b>	
+<b><a name="line266">266    </a></b>	 @note
+<b><a name="line267">267    </a></b>	
+<b><a name="line268">268    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line269">269    </a></b>	
+<b><a name="line270">270    </a></b>	 */
+<b><a name="line271">271    </a></b>	void hal_sec_pke_ram_q_clr(U64 timeout_val)
+<b><a name="line272">272    </a></b>	{
+<b><a name="line273">273    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line274">274    </a></b>	
+<b><a name="line275">275    </a></b>	    dal_sec_pke_set_ram_q_clr();
+<b><a name="line276">276    </a></b>	    while (1U == dal_sec_pke_get_ram_q_clr())
+<b><a name="line277">277    </a></b>	    {
+<b><a name="line278">278    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "mabiao_chk(mabiao_addr)" does not have an essentially boolean type.</font>
+<b><a name="line279">279    </a></b>	        {
+<b><a name="line280">280    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line281">281    </a></b>	            break;
+<b><a name="line282">282    </a></b>	        }
+<b><a name="line283">283    </a></b>	    }
+<b><a name="line284">284    </a></b>	}
+<b><a name="line285">285    </a></b>	
+<b><a name="line286">286    </a></b>	/*!
+<b><a name="line287">287    </a></b>	 @brief       clear pke MEMQ
+<b><a name="line288">288    </a></b>	 @param[in]   timeout_val - setting timeout value
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	 @note
+<b><a name="line291">291    </a></b>	
+<b><a name="line292">292    </a></b>	 - global variable gSecPkeTimeout change to 1U if timeout occurs
+<b><a name="line293">293    </a></b>	
+<b><a name="line294">294    </a></b>	 */
+<b><a name="line295">295    </a></b>	void hal_sec_pke_cmd_clr(U64 timeout_val)
+<b><a name="line296">296    </a></b>	{
+<b><a name="line297">297    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_TP, HAL_MABIAO_SEC_TIMEOUT);
+<b><a name="line298">298    </a></b>	
+<b><a name="line299">299    </a></b>	    dal_sec_pke_set_cmd_clr();
+<b><a name="line300">300    </a></b>	    while (1U == dal_sec_pke_get_cmd_clr())
+<b><a name="line301">301    </a></b>	    {
+<b><a name="line302">302    </a></b>	        if (MABIAO_CHK(mabiao_addr))
+<b><a name="line303">303    </a></b>	        {
+<b><a name="line304">304    </a></b>	            gSecPkeTimeout = SEC_YES;
+<b><a name="line305">305    </a></b>	            break;
+<b><a name="line306">306    </a></b>	        }
+<b><a name="line307">307    </a></b>	    }
+<b><a name="line308">308    </a></b>	}
+<b><a name="line309">309    </a></b>	
+</pre></body>
+</html>

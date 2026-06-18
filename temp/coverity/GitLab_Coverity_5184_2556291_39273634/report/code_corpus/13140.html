@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/hal/inc/public/diag/pcie/pcie.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line2">2    </a></b>	#define PCIE_H
+<b><a name="line3">3    </a></b>	
+<b><a name="line4">4    </a></b>	#include "sal_libs.h"
+<b><a name="line5">5    </a></b>	
+<b><a name="line6">6    </a></b>	/*
+<b><a name="line7">7    </a></b>	 * Port count
+<b><a name="line8">8    </a></b>	 */
+<b><a name="line9">9    </a></b>	#define PCIE_SINGLE_PORT                   (1U)
+<b><a name="line10">10    </a></b>	#define PCIE_DUAL_PORT                     (2U)
+<b><a name="line11">11    </a></b>	#define PCIE_TRIPLE_PORT                   (3U)
+<b><a name="line12">12    </a></b>	#define PCIE_QUAD_PORT                     (4U)
+<b><a name="line13">13    </a></b>	
+<b><a name="line14">14    </a></b>	/*
+<b><a name="line15">15    </a></b>	 * PF count of port
+<b><a name="line16">16    </a></b>	 */
+<b><a name="line17">17    </a></b>	#define PCIE_SINGLE_PF_OF_PORT             (1U)
+<b><a name="line18">18    </a></b>	#define PCIE_DUAL_PF_OF_PORT               (2U)
+<b><a name="line19">19    </a></b>	
+<b><a name="line20">20    </a></b>	/*
+<b><a name="line21">21    </a></b>	 * Port ID
+<b><a name="line22">22    </a></b>	 */
+<b><a name="line23">23    </a></b>	#define PCIE_PORT_0                        (0U)
+<b><a name="line24">24    </a></b>	#define PCIE_PORT_1                        (1U)
+<b><a name="line25">25    </a></b>	#define PCIE_PORT_2                        (2U)
+<b><a name="line26">26    </a></b>	#define PCIE_PORT_3                        (3U)
+<b><a name="line27">27    </a></b>	
+<b><a name="line28">28    </a></b>	/*
+<b><a name="line29">29    </a></b>	 * PF ID
+<b><a name="line30">30    </a></b>	 */
+<b><a name="line31">31    </a></b>	#define PCIE_PF_0                          (0U)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "PCIE_PF_0", which is has already been used.</font>
+<b><a name="line32">32    </a></b>	#define PCIE_PF_1                          (1U)
+<b><a name="line33">33    </a></b>	
+<b><a name="line34">34    </a></b>	/*
+<b><a name="line35">35    </a></b>	 * Link speed
+<b><a name="line36">36    </a></b>	 *
+<b><a name="line37">37    </a></b>	 * PCIE_GEN_ERROR_PARAM is not the link speed.
+<b><a name="line38">38    </a></b>	 * This indicates that the function with link speed parameter has an error.
+<b><a name="line39">39    </a></b>	 */
+<b><a name="line40">40    </a></b>	#define PCIE_GEN_ERROR_PARAM               (0U)
+<b><a name="line41">41    </a></b>	#define PCIE_GEN_1                         (1U)
+<b><a name="line42">42    </a></b>	#define PCIE_GEN_2                         (2U)
+<b><a name="line43">43    </a></b>	#define PCIE_GEN_3                         (3U)
+<b><a name="line44">44    </a></b>	#define PCIE_GEN_4                         (4U)
+<b><a name="line45">45    </a></b>	#define PCIE_GEN_5                         (5U)
+<b><a name="line46">46    </a></b>	#define PCIE_GEN_6                         (6U)
+<b><a name="line47">47    </a></b>	
+<b><a name="line48">48    </a></b>	// PCIe Link Widths
+<b><a name="line49">49    </a></b>	#define PCIE_WIDTHS_ERROR_PARAM             (0U)
+<b><a name="line50">50    </a></b>	#define PCIE_WIDTHS_1                       (1U)
+<b><a name="line51">51    </a></b>	#define PCIE_WIDTHS_2                       (2U)
+<b><a name="line52">52    </a></b>	#define PCIE_WIDTHS_4                       (3U)
+<b><a name="line53">53    </a></b>	#define PCIE_WIDTHS_8                       (4U)
+<b><a name="line54">54    </a></b>	#define PCIE_WIDTHS_16                      (5U)
+<b><a name="line55">55    </a></b>	
+<b><a name="line56">56    </a></b>	/*
+<b><a name="line57">57    </a></b>	 * Enable or Disable
+<b><a name="line58">58    </a></b>	 */
+<b><a name="line59">59    </a></b>	#define PCIE_ENABLE                        (1U)
+<b><a name="line60">60    </a></b>	#define PCIE_DISABLE                       (0U)
+<b><a name="line61">61    </a></b>	
+<b><a name="line62">62    </a></b>	/*
+<b><a name="line63">63    </a></b>	 * Function type used by op.get_max_func_cnt()
+<b><a name="line64">64    </a></b>	 */
+<b><a name="line65">65    </a></b>	#define PCIE_PORT                          (0U)
+<b><a name="line66">66    </a></b>	#define PCIE_PF                            (1U)
+<b><a name="line67">67    </a></b>	#define PCIE_VF                            (2U)
+<b><a name="line68">68    </a></b>	#define PCIE_FUNC                          (3U)
+<b><a name="line69">69    </a></b>	#define PCIE_PF_OF_PORT                    (4U)
+</pre></body>
+</html>

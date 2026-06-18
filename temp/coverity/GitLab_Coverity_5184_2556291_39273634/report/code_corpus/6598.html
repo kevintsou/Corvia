@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line927">927    </a></b>	        }
+<b><a name="line928">928    </a></b>	        if (i == ((fip_read_param_struct_ptr->nand_addr.node + fip_read_param_struct_ptr->node_count) - 1))
+<b><a name="line929">929    </a></b>	        {
+<b><a name="line930">930    </a></b>	            opt |= HAL_FIP_OP_OPT_LAST;
+<b><a name="line931">931    </a></b>	        }
+<b><a name="line932">932    </a></b>	        tag = ((fip_read_param_struct_ptr->nand_addr.ch * FIP_DMA_READ_TAG_PER_CH) + i);
+<b><a name="line933">933    </a></b>	        buf = (U8 *)fip_inst_gen_dmar(buf, scr_seed[i], crc_seed[i],  fip_read_param_struct_ptr->buf_addr[i], fip_read_param_struct_ptr->spr_addr[i], i, tag, opt);
+<b><a name="line934">934    </a></b>	    }
+<b><a name="line935">935    </a></b>	
+<b><a name="line936">936    </a></b>	    buf = (U8 *)fip_inst_gen_dly(buf, gFipInstStruct.ac_timing[FLH_DLY_TCH]);
+<b><a name="line937">937    </a></b>	
+<b><a name="line938">938    </a></b>	    buf = (U8 *)fip_inst_gen_ce(buf, 0U);
+<b><a name="line939">939    </a></b>	
+<b><a name="line940">940    </a></b>	    buf = (U8 *)fip_inst_gen_end(buf);
+<b><a name="line941">941    </a></b>	
+<b><a name="line942">942    </a></b>	    sq_cmd_size = buf - inst_buf;
+<b><a name="line943">943    </a></b>	    sq_cmd_size = fip_align_nbit(sq_cmd_size, DOORBELL_ALIGN_NUM);
+<b><a name="line944">944    </a></b>	
+<b><a name="line945">945    </a></b>	    hal_flh_scq_mr_header(inst_buf , mr_target_id, mr_source_id, sq_cmd_size);
+<b><a name="line946">946    </a></b>	
+<b><a name="line947">947    </a></b>	    hal_db_push_cmd_ext((void *)inst_buf, HOST_MR_QID_CPU0_SQ_DMAC_NORMAL);
+<b><a name="line948">948    </a></b>	
+<b><a name="line949">949    </a></b>	}
+<b><a name="line950">950    </a></b>	
+<b><a name="line951">951    </a></b>	void fip_gen_scr_and_crc_seed(U32 *scr_seed, U64 *crc_seed , U32 page, U32 block)
+<b><a name="line952">952    </a></b>	{
+<b><a name="line953">953    </a></b>	    U8  i;
+<b><a name="line954">954    </a></b>	    U32 vb;
+<b><a name="line955">955    </a></b>	
+<b><a name="line956">956    </a></b>	    vb = (gFplApiStruct.scr_seed_vb_config == TRUE) ? (block) : (0U);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "gFplApiStruct.scr_seed_vb_config" (unsigned) is not the same as that of the right operand "1"(boolean).</font>
+<b><a name="line957">957    </a></b>	
+<b><a name="line958">958    </a></b>	    for (i = 0U; i < FLH_MAX_LC_PER_PAGE; i++)
+<b><a name="line959">959    </a></b>	    {
+<b><a name="line960">960    </a></b>	        scr_seed[i] = ps_rand_seed_gen(0U, vb, page, i);
+<b><a name="line961">961    </a></b>	        //scr_seed[i] = 0U;
+<b><a name="line962">962    </a></b>	        //crc_seed[i] = 0U;
+<b><a name="line963">963    </a></b>	    }
+<b><a name="line964">964    </a></b>	}
+<b><a name="line965">965    </a></b>	
+<b><a name="line966">966    </a></b>	void fip_cop0_pu_seed_get_seed(U8 ch, U16 block, U16 pe, U32 agitation, U16 pg, U8 frame_bitmap, U8 frame_4_to_7, U32 *seed)
+<b><a name="line967">967    </a></b>	{
+<b><a name="line968">968    </a></b>	    U16 vb = (gFplApiStruct.scr_seed_vb_config == TRUE) ? (block) : (0U);
+<b><a name="line969">969    </a></b>	    // clear valid flag
+<b><a name="line970">970    </a></b>	    w_FW_SEED_VALID(ch, 0U);
+<b><a name="line971">971    </a></b>	
+<b><a name="line972">972    </a></b>	    // fill parameters
+<b><a name="line973">973    </a></b>	    r32_w_FW_PU_SEED_INPUT_0_MULTI_WRITE(ch, vb, pe);
+<b><a name="line974">974    </a></b>	    r32_w_FW_PU_SEED_INPUT_1_MULTI_WRITE(ch, agitation);
+<b><a name="line975">975    </a></b>	    ASM_DSB();
+<b><a name="line976">976    </a></b>	
+<b><a name="line977">977    </a></b>	    // trigger
+<b><a name="line978">978    </a></b>	    r32_w_FW_PU_SEED_INPUT_2_MULTI_WRITE(ch, frame_bitmap, frame_4_to_7, pg, 1U/* trigger */);
+<b><a name="line979">979    </a></b>	
+<b><a name="line980">980    </a></b>	    U32 mabiao_addr = MABIAO_SET_MS(MABIAO_FIP_CHK, 5);
+<b><a name="line981">981    </a></b>	    // wait hw process
+<b><a name="line982">982    </a></b>	    while (r_FW_SEED_VALID(ch) == 0U/* not ready */)
+<b><a name="line983">983    </a></b>	    {
+<b><a name="line984">984    </a></b>	        if (TRUE == MABIAO_CHK(mabiao_addr)) {
+<b><a name="line985">985    </a></b>	            Dump_Debug(tprintf("COP0 generate seed timeout."));
+<b><a name="line986">986    </a></b>	            break;
+<b><a name="line987">987    </a></b>	        }
+</pre></body>
+</html>

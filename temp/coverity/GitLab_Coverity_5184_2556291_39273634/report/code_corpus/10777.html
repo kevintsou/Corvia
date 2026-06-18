@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/fip/dal_fip.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line428">428    </a></b>	#define SHA_CLKk_EN_FW                              (BIT18)
+<b><a name="line429">429    </a></b>	#define LZSS_CLK_EN_FW                              (BIT19)
+<b><a name="line430">430    </a></b>	#define TS_CLK_EN_FW                                (BIT24)
+<b><a name="line431">431    </a></b>	#define RNG_CLK_EN_FW                               (BIT25)
+<b><a name="line432">432    </a></b>	
+<b><a name="line433">433    </a></b>	#define PWR_GATING_MASK                             (FLH_CLK_EN_FW | FLH_SYSCLK_EN | ECC_CLK_EN_FW | ZQ_CLK_EN_FW | AES_CLKk_EN_FW | \
+<b><a name="line434">434    </a></b>	        SHA_CLKk_EN_FW | LZSS_CLK_EN_FW | TS_CLK_EN_FW | RNG_CLK_EN_FW)
+<b><a name="line435">435    </a></b>	
+<b><a name="line436">436    </a></b>	#define SET_IP_CLK_TURN_OFF(x)           (R32_SYS0_PWR_CTRL[SYS0L_PWR_CLK_GATE_CTRL] &= (~(x) & PWR_GATING_MASK))
+<b><a name="line437">437    </a></b>	#define SET_IP_CLK_TURN_ON(x)            (R32_SYS0_PWR_CTRL[SYS0L_PWR_CLK_GATE_CTRL] |= ((x) & PWR_GATING_MASK))
+<b><a name="line438">438    </a></b>	
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    //set 4 CHs WP
+<b><a name="line441">441    </a></b>	    R32_SYS1_FLH_PAD[SYS1L_SYS_FLH_PAD_CH0_FWPB] |= BIT16;
+<b><a name="line442">442    </a></b>	    R32_SYS1_FLH_PAD[SYS1L_SYS_FLH_PAD_CH1_FWPB] |= BIT16;
+<b><a name="line443">443    </a></b>	    R32_SYS1_FLH_PAD[SYS1L_SYS_FLH_PAD_CH2_FWPB] |= BIT16;
+<b><a name="line444">444    </a></b>	    R32_SYS1_FLH_PAD[SYS1L_SYS_FLH_PAD_CH3_FWPB] |= BIT16;
+<b><a name="line445">445    </a></b>	
+<b><a name="line446">446    </a></b>	    // PS5027 FPGA / ASIC set this bit on
+<b><a name="line447">447    </a></b>	    ENABLE_FIO_WPT_OPT();
+<b><a name="line448">448    </a></b>	
+<b><a name="line449">449    </a></b>	    SET_IP_CLK_TURN_ON(PWR_GATING_MASK);
+<b><a name="line450">450    </a></b>	#endif
+<b><a name="line451">451    </a></b>	}
+<b><a name="line452">452    </a></b>	
+<b><a name="line453">453    </a></b>	#endif
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	void dal_fip_init_top_reg(void)
+<b><a name="line456">456    </a></b>	{
+<b><a name="line457">457    </a></b>	    w_WR_CH_MASK(0xffffU & (~BIT_MASK_16(ALIGN_CEILING(DAL_FIP_CH_NUM, DAL_FIP_CH_NUM_PER_HD))));
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_3_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Controlling expression "16U == 0U" is invariant.</font>
+<b><a name="line458">458    </a></b>	}
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	/*
+<b><a name="line461">461    </a></b>	 *  public function definition
+<b><a name="line462">462    </a></b>	 *
+<b><a name="line463">463    </a></b>	 */
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	void dal_fip_set_rd_dll90_reg(U8 ch, U32 rdll_md, U32 sdll_r_dir_val)
+<b><a name="line466">466    </a></b>	{
+<b><a name="line467">467    </a></b>	    w_FLH_FPHI_CTL_RX_RDLL_MD(ch, rdll_md);
+<b><a name="line468">468    </a></b>	    w_FLH_FPHI_CTL_RX_SDLL_R_DIR_VAL(ch, sdll_r_dir_val);
+<b><a name="line469">469    </a></b>	}
+<b><a name="line470">470    </a></b>	
+<b><a name="line471">471    </a></b>	void dal_fip_set_wr_dll90_reg(U8 ch, U32 wdll_md, U32 sdll_w_dir_val)
+<b><a name="line472">472    </a></b>	{
+<b><a name="line473">473    </a></b>	    w_FLH_FPHI_CTL_TX_WDLL_MD(ch, wdll_md);
+<b><a name="line474">474    </a></b>	    w_FLH_FPHI_CTL_TX_SDLL_W_DIR_VAL(ch, sdll_w_dir_val);
+<b><a name="line475">475    </a></b>	}
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	U32 dal_fip_get_mdll_rd_dll90_reg(U8 ch)
+<b><a name="line478">478    </a></b>	{
+<b><a name="line479">479    </a></b>	    if (ch % 2U == 0U) {
+<b><a name="line480">480    </a></b>	        return r_FLH_DLL_CAL_MDLL_VALUE_CH0_RD(ch);
+<b><a name="line481">481    </a></b>	    }
+<b><a name="line482">482    </a></b>	    else {
+<b><a name="line483">483    </a></b>	        return r_FLH_DLL_CAL_MDLL_VALUE_CH1_RD(ch);
+<b><a name="line484">484    </a></b>	    }
+<b><a name="line485">485    </a></b>	}
+<b><a name="line486">486    </a></b>	
+<b><a name="line487">487    </a></b>	U32 dal_fip_get_mdll_wr_dll90_reg(U8 ch)
+<b><a name="line488">488    </a></b>	{
+</pre></body>
+</html>

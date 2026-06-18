@@ -1,0 +1,628 @@
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;0x&quot;}}}{{code{char *}}}}}}</description>
+<line>86</line>
+<column>38</column>
+</event>
+<extra>0x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;0x&quot;}}}{{code{char *}}}}}}</description>
+<line>91</line>
+<column>38</column>
+</event>
+<extra>0x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;0x&quot;}}}{{code{char *}}}}}}</description>
+<line>96</line>
+<column>38</column>
+</event>
+<extra>0x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_raw_vprintf</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;0x&quot;}}}{{code{char *}}}}}}</description>
+<line>100</line>
+<column>38</column>
+</event>
+<extra>0x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_error_set</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>156</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log.c</file>
+<function>sal_log_error_set</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;[!!!!] ASSERT = %x&quot;}}}{{code{char *}}}}}}</description>
+<line>156</line>
+<column>5</column>
+</event>
+<extra>[!!!!] ASSERT = %x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_splitter</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>203</line>
+<column>20</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_mem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] dump mem:%x/%x&quot;}}}{{code{char *}}}}}}</description>
+<line>181</line>
+<column>20</column>
+</event>
+<extra>
+[%B] dump mem:%x/%x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_mem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B]&quot;}}}{{code{char *}}}}}}</description>
+<line>185</line>
+<column>28</column>
+</event>
+<extra>
+[%B]</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_mem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot; %x|&quot;}}}{{code{char *}}}}}}</description>
+<line>188</line>
+<column>32</column>
+</event>
+<extra> %x|</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print_mem</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot; %x&quot;}}}{{code{char *}}}}}}</description>
+<line>192</line>
+<column>24</column>
+</event>
+<extra> %x</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print32h</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B]&quot;}}}{{code{char *}}}}}}</description>
+<line>151</line>
+<column>28</column>
+</event>
+<extra>
+[%B]</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print32h</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot; %x,&quot;}}}{{code{char *}}}}}}</description>
+<line>153</line>
+<column>24</column>
+</event>
+<extra> %x,</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/sal/log/sal_log_printer.c</file>
+<function>sal_print8</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B]&quot;}}}{{code{char *}}}}}}</description>
+<line>168</line>
+<column>28</column>
+</event>
+<extra>
+[%B]</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>584</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;- VUCLOCK -&quot;}}}{{code{char *}}}}}}</description>
+<line>584</line>
+<column>5</column>
+</event>
+<extra>- VUCLOCK -</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>585</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;enable: %b&quot;}}}{{code{char *}}}}}}</description>
+<line>585</line>
+<column>5</column>
+</event>
+<extra>enable: %b</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>587</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;  FDLY: %b&quot;}}}{{code{char *}}}}}}</description>
+<line>587</line>
+<column>5</column>
+</event>
+<extra>  FDLY: %b</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>589</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;StsDft: %b&quot;}}}{{code{char *}}}}}}</description>
+<line>589</line>
+<column>5</column>
+</event>
+<extra>StsDft: %b</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>590</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;   Sts: %b&quot;}}}{{code{char *}}}}}}</description>
+<line>590</line>
+<column>5</column>
+</event>
+<extra>   Sts: %b</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>591</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot; F!Cnt: %d&quot;}}}{{code{char *}}}}}}</description>
+<line>591</line>
+<column>5</column>
+</event>
+<extra> F!Cnt: %d</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>592</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;erLine: %d&quot;}}}{{code{char *}}}}}}</description>
+<line>592</line>
+<column>5</column>
+</event>
+<extra>erLine: %d</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>593</line>
+<column>5</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;&quot;}}}{{code{char *}}}}}}</description>
+<line>593</line>
+<column>5</column>
+</event>
+<extra></extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>596</line>
+<column>9</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;RK:&quot;}}}{{code{char *}}}}}}</description>
+<line>596</line>
+<column>9</column>
+</event>
+<extra>RK:</extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;\n[%B] &quot;}}}{{code{char *}}}}}}</description>
+<line>603</line>
+<column>9</column>
+</event>
+<extra>
+[%B] </extra>
+<subcategory>none</subcategory>
+</error>
+<error>
+<domain>STATIC_C</domain>
+<lang>C</lang>
+<checker>MISRA C-2012 Rule 7.4</checker>
+<type>MISRA_C_2012_Rule_7.4</type>
+<file>/builds/d9/bootcode/duanyue/ws_fw/src_root/framework/vua/framework_vua.c</file>
+<function>VUA_dump</function>
+<ordered>true</ordered>
+<event>
+<main>true</main>
+<tag>misra_c_2012_rule_7_4_violation</tag>
+<description>{CovLStrv2{{t{String literal {0} is passed as an argument which is required to have type {1}.}{{code{&quot;SK:&quot;}}}{{code{char *}}}}}}</description>
+<line>603</line>
+<column>9</column>
+</event>
+<extra>SK:</extra>
+<subcategory>none</subcategory>
+</error>

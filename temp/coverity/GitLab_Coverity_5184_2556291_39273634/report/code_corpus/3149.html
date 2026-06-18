@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line3198">3198    </a></b>	    code_pointer_valid_copy_bitmap = 0;
+<b><a name="line3199">3199    </a></b>	
+<b><a name="line3200">3200    </a></b>	    //Bitmap to indicate which Copy of the Code Pointer Offset has not been checked yet
+<b><a name="line3201">3201    </a></b>	    not_checked_copy_bitmap = ((1 << copy_max) - 1);
+<b><a name="line3202">3202    </a></b>	
+<b><a name="line3203">3203    </a></b>	    for (nand_retry = 0; nand_retry < nand_retry_max; nand_retry++) {
+<b><a name="line3204">3204    </a></b>	        //Indicates which Code Pointer Block copies have not been checked by the loops
+<b><a name="line3205">3205    </a></b>	        loop_copy_bitmap = not_checked_copy_bitmap;
+<b><a name="line3206">3206    </a></b>	        if((0 == ((gLRURetryLevel + nand_retry) % nand_retry_max)) && (0 != gLRURetryLevel))
+<b><a name="line3207">3207    </a></b>	        {
+<b><a name="line3208">3208    </a></b>	            scan_bitmap_restore_read_offset(gLRURetryLevel, res_read_offset_ch_bitmap);
+<b><a name="line3209">3209    </a></b>	        }
+<b><a name="line3210">3210    </a></b>	
+<b><a name="line3211">3211    </a></b>	        //A loop consists of NAND reads from different channels
+<b><a name="line3212">3212    </a></b>	        //NAND reads from the same channel is separated into different loops.
+<b><a name="line3213">3213    </a></b>	        //The maximum possible number of loops is the same as the maximum possible
+<b><a name="line3214">3214    </a></b>	        //number of copies of the Code Pointer Blocks,
+<b><a name="line3215">3215    </a></b>	        for (loop_per_round = 0; loop_per_round < copy_max; loop_per_round++) {
+<b><a name="line3216">3216    </a></b>	
+<b><a name="line3217">3217    </a></b>	            Dump_ScanID(tprintf("Loop %d", loop_per_round));
+<b><a name="line3218">3218    </a></b>	
+<b><a name="line3219">3219    </a></b>	            //Indicate which copies are being read in this loop
+<b><a name="line3220">3220    </a></b>	            reading_copy_bitmap = 0;
+<b><a name="line3221">3221    </a></b>	            //Indicate which channels are being read in this loop
+<b><a name="line3222">3222    </a></b>	            channel_bitmap = 0;
+<b><a name="line3223">3223    </a></b>	
+<b><a name="line3224">3224    </a></b>	            //Start the Read Trigger
+<b><a name="line3225">3225    </a></b>	            for (copy = 0; copy < copy_max; copy++) {
+<b><a name="line3226">3226    </a></b>	                //Skip checking this copy if it has been checked in a previous loop
+<b><a name="line3227">3227    </a></b>	                if (0 == (loop_copy_bitmap & (1 << copy))) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The operand "1 << copy" to the operator "&" does not have an essentially unsigned type.</font>
+<b><a name="line3228">3228    </a></b>	                    continue;
+<b><a name="line3229">3229    </a></b>	                }
+<b><a name="line3230">3230    </a></b>	
+<b><a name="line3231">3231    </a></b>	                //Use the ID Table FSA as the base, but remove the Node and Page Component
+<b><a name="line3232">3232    </a></b>	                a_fsa[copy] = p_code_pointer_block_status->a_id_table_fsa[copy] &
+<b><a name="line3233">3233    </a></b>	                    ~(((U64)(gFplApiStruct.addr_rule->rule_node.mask) << gFplApiStruct.addr_rule->rule_node.shift) |
+<b><a name="line3234">3234    </a></b>	                        ((U64)(gFplApiStruct.addr_rule->rule_page.mask) << gFplApiStruct.addr_rule->rule_page.shift));
+<b><a name="line3235">3235    </a></b>	                //Add in the Code Pointer Page
+<b><a name="line3236">3236    </a></b>	                a_fsa[copy] = a_fsa[copy] |
+<b><a name="line3237">3237    </a></b>	                    ((U64)(code_pointer_page) << gFplApiStruct.addr_rule->rule_page.shift);
+<b><a name="line3238">3238    </a></b>	                a_channel[copy] = ((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_ch.shift) & gFplApiStruct.addr_rule->rule_ch.mask);
+<b><a name="line3239">3239    </a></b>	
+<b><a name="line3240">3240    </a></b>	                //Data and Spare Address is set according to the channel, this is to prevent buffer overflow
+<b><a name="line3241">3241    </a></b>	                data_address = data_buffer + (a_channel[copy] * (FLH_MAX_LC_PER_PAGE << LC_BYTE_SIZE_SHIFT));
+<b><a name="line3242">3242    </a></b>	                spare_address = spare_buffer + (a_channel[copy] * (FLH_MAX_LC_PER_PAGE << LC_SPARE_SIZE_ALIGNMENT_SHIFT));
+<b><a name="line3243">3243    </a></b>	
+<b><a name="line3244">3244    </a></b>	                //Skip this channel if it is already being read by another copy
+<b><a name="line3245">3245    </a></b>	                if (0 == (channel_bitmap & (1 << a_channel[copy]))) {
+<b><a name="line3246">3246    </a></b>	                    //This copy is checked and can be skipped in subsequent loops
+<b><a name="line3247">3247    </a></b>	                    loop_copy_bitmap &= ~(1 << copy);
+<b><a name="line3248">3248    </a></b>	
+<b><a name="line3249">3249    </a></b>	                    Dump_ScanID(tprintf("Read Trigger Copy %d(Channel %d) NAND Retry %d, FSA %L, block %d, plane %d, page %d", copy, a_channel[copy], nand_retry, a_fsa[copy], (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_block.shift) & gFplApiStruct.addr_rule->rule_block.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_plane.shift) & gFplApiStruct.addr_rule->rule_plane.mask), (U32)((a_fsa[copy] >> gFplApiStruct.addr_rule->rule_page.shift) & gFplApiStruct.addr_rule->rule_page.mask)));
+<b><a name="line3250">3250    </a></b>	
+<b><a name="line3251">3251    </a></b>	                    a_fip_read_param[copy].nand_addr.all = a_fsa[copy];
+<b><a name="line3252">3252    </a></b>	                    for (backup = 0; backup < backup_max; backup++) {
+<b><a name="line3253">3253    </a></b>	                        a_fip_read_param[copy].buf_addr[backup] = data_address + (backup << LC_BYTE_SIZE_SHIFT);
+<b><a name="line3254">3254    </a></b>	                        a_fip_read_param[copy].spr_addr[backup] = spare_address + (backup << LC_SPARE_SIZE_ALIGNMENT_SHIFT);
+<b><a name="line3255">3255    </a></b>	                    }
+<b><a name="line3256">3256    </a></b>	                    a_fip_read_param[copy].node_count = 1;
+<b><a name="line3257">3257    </a></b>	
+<b><a name="line3258">3258    </a></b>	                    command_status = fip_api_read_cmd(&(a_fip_read_param[copy]), ((gLRURetryLevel + nand_retry) % nand_retry_max));
+</pre></body>
+</html>

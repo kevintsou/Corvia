@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/sec/sec_key_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line30">30    </a></b>	
+<b><a name="line31">31    </a></b>	void sec_ecc_ecdsa_verify_param_reverse(U32 key_addr, U32 sig_addr, U32 hash_addr, U32 ecc_sup_byte, U8 endian)
+<b><a name="line32">32    </a></b>	{
+<b><a name="line33">33    </a></b>	    ECC_KEY_STRUCT_PTR ecc_key_struct_ptr = (ECC_KEY_STRUCT_PTR)key_addr;
+<b><a name="line34">34    </a></b>	    ECC_SIG_STRUCT_PTR ecc_sig_struct_ptr;
+<b><a name="line35">35    </a></b>	    U8 *z;
+<b><a name="line36">36    </a></b>	
+<b><a name="line37">37    </a></b>	    ecc_sig_struct_ptr = (ECC_SIG_STRUCT_PTR)sig_addr;
+<b><a name="line38">38    </a></b>	    z = (U8 * )hash_addr;
+<b><a name="line39">39    </a></b>	
+<b><a name="line40">40    </a></b>	    if (endian & BIT0) {
+<b><a name="line41">41    </a></b>	        //R/S/Z
+<b><a name="line42">42    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_sig_struct_ptr->mema_head.r, (void *)ecc_sig_struct_ptr->mema_head.r, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line43">43    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_sig_struct_ptr->mema_head.s, (void *)ecc_sig_struct_ptr->mema_head.s, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line44">44    </a></b>	        hal_sec_api_reverse_endian((void *)z, (void *)z, ecc_sup_byte);
+<b><a name="line45">45    </a></b>	    }
+<b><a name="line46">46    </a></b>	
+<b><a name="line47">47    </a></b>	    if (endian & BIT1) {
+<b><a name="line48">48    </a></b>	        //N_N0
+<b><a name="line49">49    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memr_head.nn0, (void *)ecc_key_struct_ptr->memr_head.nn0, SEC_ECC_REG_SUPPORT_BYTE_NUM);
+<b><a name="line50">50    </a></b>	    }
+<b><a name="line51">51    </a></b>	
+<b><a name="line52">52    </a></b>	    if (!(endian & BIT2)) {
+<b><a name="line53">53    </a></b>	        //N/NR/NRR
+<b><a name="line54">54    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_head.n, (void *)ecc_key_struct_ptr->memc_head.n, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line55">55    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_head.nr, (void *)ecc_key_struct_ptr->memb_head.nr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line56">56    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->nrr, (void *)ecc_key_struct_ptr->nrr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line57">57    </a></b>	    }
+<b><a name="line58">58    </a></b>	
+<b><a name="line59">59    </a></b>	    if (endian & BIT3) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_14_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">The condition expression "endian & 8UL" does not have an essentially boolean type.</font>
+<b><a name="line60">60    </a></b>	        //P_N0
+<b><a name="line61">61    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memr_head.pn0, (void *)ecc_key_struct_ptr->memr_head.pn0, SEC_ECC_REG_SUPPORT_BYTE_NUM);
+<b><a name="line62">62    </a></b>	    }
+<b><a name="line63">63    </a></b>	
+<b><a name="line64">64    </a></b>	    if (!(endian & BIT4)) {
+<b><a name="line65">65    </a></b>	        //P/PR/PRR
+<b><a name="line66">66    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_head.p, (void *)ecc_key_struct_ptr->memb_head.p, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line67">67    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_head.pr, (void *)ecc_key_struct_ptr->memc_head.pr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line68">68    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->prr, (void *)ecc_key_struct_ptr->prr, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line69">69    </a></b>	    }
+<b><a name="line70">70    </a></b>	
+<b><a name="line71">71    </a></b>	    if (!(endian & BIT5)) {
+<b><a name="line72">72    </a></b>	        //Qx/Qy/P1hRx/P1hRy/P11hRx/P11hRy/P2Rx/P2Ry/P12Rx/P12Ry/P1h2Rx/P1h2Ry/P11h2Rx/P11h2Ry/P2hRx/P2hRy/P12hRx/P12hRy/P1h2hRx/P1h2hRy/P11h2hRx/P11h2hRy/P22hRx/P22hRy/P122hRx/P122hRy/P1h22hRx/P1h22hRy/P11h22hRx/P11h22hRy
+<b><a name="line73">73    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->qx, (void *)ecc_key_struct_ptr->qx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line74">74    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->qy, (void *)ecc_key_struct_ptr->qy, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line75">75    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p1hrx, (void *)ecc_key_struct_ptr->memb_point.p1hrx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line76">76    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p1hry, (void *)ecc_key_struct_ptr->memc_point.p1hry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line77">77    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p11hrx, (void *)ecc_key_struct_ptr->memb_point.p11hrx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line78">78    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p11hry, (void *)ecc_key_struct_ptr->memc_point.p11hry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line79">79    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p2rx, (void *)ecc_key_struct_ptr->memb_point.p2rx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line80">80    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p2ry, (void *)ecc_key_struct_ptr->memc_point.p2ry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line81">81    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p12rx, (void *)ecc_key_struct_ptr->memb_point.p12rx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line82">82    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p12ry, (void *)ecc_key_struct_ptr->memc_point.p12ry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line83">83    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p1h2rx, (void *)ecc_key_struct_ptr->memb_point.p1h2rx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line84">84    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p1h2ry, (void *)ecc_key_struct_ptr->memc_point.p1h2ry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line85">85    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p11h2rx, (void *)ecc_key_struct_ptr->memb_point.p11h2rx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line86">86    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p11h2ry, (void *)ecc_key_struct_ptr->memc_point.p11h2ry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line87">87    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p2hrx, (void *)ecc_key_struct_ptr->memb_point.p2hrx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line88">88    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p2hry, (void *)ecc_key_struct_ptr->memc_point.p2hry, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line89">89    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memb_point.p12hrx, (void *)ecc_key_struct_ptr->memb_point.p12hrx, HAL_SEC_ECC_MAX_BYTE_NUM);
+<b><a name="line90">90    </a></b>	        hal_sec_api_reverse_endian((void *)ecc_key_struct_ptr->memc_point.p12hry, (void *)ecc_key_struct_ptr->memc_point.p12hry, HAL_SEC_ECC_MAX_BYTE_NUM);
+</pre></body>
+</html>

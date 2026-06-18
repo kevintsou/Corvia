@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/lib/dal/src/sec/dal_sec_sha_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line289">289    </a></b>	}
+<b><a name="line290">290    </a></b>	
+<b><a name="line291">291    </a></b>	void dal_sec_sha_set_buf_addr(U32 buf_addr)
+<b><a name="line292">292    </a></b>	{
+<b><a name="line293">293    </a></b>	    DAL_SEC_SHA_SET_BUF_BASE(buf_addr);
+<b><a name="line294">294    </a></b>	}
+<b><a name="line295">295    </a></b>	
+<b><a name="line296">296    </a></b>	void dal_sec_sha_set_src_buf_addr(U32 src_buf_addr)
+<b><a name="line297">297    </a></b>	{
+<b><a name="line298">298    </a></b>	    DAL_SEC_SHA_SET_SOC_BUF_BASE((U8)src_buf_addr);
+<b><a name="line299">299    </a></b>	}
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	void dal_sec_sha_set_targ_buf_addr(U32 targ_buf_addr)
+<b><a name="line302">302    </a></b>	{
+<b><a name="line303">303    </a></b>	    DAL_SEC_SHA_SET_TAG_BUF_BASE((U8)targ_buf_addr);
+<b><a name="line304">304    </a></b>	}
+<b><a name="line305">305    </a></b>	
+<b><a name="line306">306    </a></b>	void dal_sec_sha_set_shake_en(U8 enable)
+<b><a name="line307">307    </a></b>	{
+<b><a name="line308">308    </a></b>	    DAL_SEC_SHA_SET_SHAKE_EN(enable);
+<b><a name="line309">309    </a></b>	}
+<b><a name="line310">310    </a></b>	
+<b><a name="line311">311    </a></b>	void dal_sec_sha_set_sqz_trig(void)
+<b><a name="line312">312    </a></b>	{
+<b><a name="line313">313    </a></b>	    DAL_SEC_SHA_SET_SQZ_TRIG();
+<b><a name="line314">314    </a></b>	}
+<b><a name="line315">315    </a></b>	
+<b><a name="line316">316    </a></b>	U32 dal_sec_sha_get_sqz_trig(void)
+<b><a name="line317">317    </a></b>	{
+<b><a name="line318">318    </a></b>	    return (U32)(DAL_SEC_SHA_GET_SQZ_TRIG());
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_8_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Cast from 8 bit width expression "((U8 volatile *)0x360aa00[20U] >> 1U) & 1U" to a wider 32 bit type.</font>
+<b><a name="line319">319    </a></b>	}
+<b><a name="line320">320    </a></b>	
+<b><a name="line321">321    </a></b>	void dal_sec_sha_set_shake_out_len(U32 val)
+<b><a name="line322">322    </a></b>	{
+<b><a name="line323">323    </a></b>	    DAL_SEC_SHA_SET_SHAKE_OUT_LEN(val);
+<b><a name="line324">324    </a></b>	}
+<b><a name="line325">325    </a></b>	
+<b><a name="line326">326    </a></b>	void dal_sec_sha_set_sqz_cnt(U32 val)
+<b><a name="line327">327    </a></b>	{
+<b><a name="line328">328    </a></b>	    DAL_SEC_SHA_SET_SQZ_CNT(val);
+<b><a name="line329">329    </a></b>	}
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	void dal_sec_sha_set_trig_cnt(U16 trig_cnt)
+<b><a name="line332">332    </a></b>	{
+<b><a name="line333">333    </a></b>	    DAL_SEC_SHA_SET_TRIG_CNT(trig_cnt);
+<b><a name="line334">334    </a></b>	}
+<b><a name="line335">335    </a></b>	
+<b><a name="line336">336    </a></b>	void dal_sec_sha_set_start_adr(U32 val)
+<b><a name="line337">337    </a></b>	{
+<b><a name="line338">338    </a></b>	    DAL_SEC_SHA_SET_START_ADR((U16)val);
+<b><a name="line339">339    </a></b>	}
+<b><a name="line340">340    </a></b>	
+<b><a name="line341">341    </a></b>	void dal_sec_sha2_dbg_init(U32 rounds_num)
+<b><a name="line342">342    </a></b>	{
+<b><a name="line343">343    </a></b>	    DAL_SEC_SHA_SET_DBG_RND_EN(1U);
+<b><a name="line344">344    </a></b>	    DAL_SEC_SHA_SET_DBG_RND(rounds_num);
+<b><a name="line345">345    </a></b>	}
+<b><a name="line346">346    </a></b>	
+<b><a name="line347">347    </a></b>	void dal_sec_sha_clr_dbg_rnd_en(void)
+<b><a name="line348">348    </a></b>	{
+<b><a name="line349">349    </a></b>	    DAL_SEC_SHA_SET_DBG_RND_EN(0U);
+</pre></body>
+</html>

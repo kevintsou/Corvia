@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/proj/ps5303/phal/phal_i2c.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line71">71    </a></b>	            M_I2CM_SET_HS_SDA_HOLD_CNT(0x0U);
+<b><a name="line72">72    </a></b>	            M_I2CM_SET_HS_SDA_ST_SETUP_CNT(0x3U);
+<b><a name="line73">73    </a></b>	            M_I2CM_SET_HS_SCL_ST_HOLD_CNT(0x8U);
+<b><a name="line74">74    </a></b>	            M_I2CM_SET_THIGH_MIN_CNT(0x2U);
+<b><a name="line75">75    </a></b>	            break;
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	        case I2C_HS_3M4:
+<b><a name="line78">78    </a></b>	            // high speed mode 3.4MHz
+<b><a name="line79">79    </a></b>	            M_I2CM_SET_HS_SCL_LT(0x3U);
+<b><a name="line80">80    </a></b>	            M_I2CM_SET_SCL_SEL(FALSE);
+<b><a name="line81">81    </a></b>	            M_I2CM_SET_HS_SCL_HT(0x3U);
+<b><a name="line82">82    </a></b>	
+<b><a name="line83">83    </a></b>	            M_I2CM_SET_HS_SDA_HOLD_CNT(0x0U);
+<b><a name="line84">84    </a></b>	            M_I2CM_SET_HS_SDA_ST_SETUP_CNT(0x3U);
+<b><a name="line85">85    </a></b>	            M_I2CM_SET_HS_SCL_ST_HOLD_CNT(0x8U);
+<b><a name="line86">86    </a></b>	            M_I2CM_SET_THIGH_MIN_CNT(0x1U);
+<b><a name="line87">87    </a></b>	            break;
+<b><a name="line88">88    </a></b>	    }
+<b><a name="line89">89    </a></b>	}
+<b><a name="line90">90    </a></b>	
+<b><a name="line91">91    </a></b>	/*!
+<b><a name="line92">92    </a></b>	   @brief      check i2c is idle (refer to icv - hal_api_i2c_check_trigger_done)
+<b><a name="line93">93    </a></b>	
+<b><a name="line94">94    </a></b>	   @param      ubGroup           group
+<b><a name="line95">95    </a></b>	   @return     I2C_STATUS_E
+<b><a name="line96">96    </a></b>	 */
+<b><a name="line97">97    </a></b>	I2C_STATUS_E phal_i2c_check_trigger_done(U8 ubGroup)
+<b><a name="line98">98    </a></b>	{
+<b><a name="line99">99    </a></b>	    // This register is set to start I2C and auto clear when I2C finishes
+<b><a name="line100">100    </a></b>	    if (TRUE == M_I2CM_GET_GPX_I2C_START(ubGroup))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "1U" (boolean) is not the same as that of the right operand "((U8 volatile *)0x3614000[(44UL + 24UL * (U32)ubGroup >> 0U) + 0UL] >> 0U) & 1U"(unsigned).</font>
+<b><a name="line101">101    </a></b>	    {
+<b><a name="line102">102    </a></b>	        return E_I2C_STATUS_BUSY;
+<b><a name="line103">103    </a></b>	    }
+<b><a name="line104">104    </a></b>	
+<b><a name="line105">105    </a></b>	    return E_I2C_STATUS_IDLE;
+<b><a name="line106">106    </a></b>	}
+<b><a name="line107">107    </a></b>	
+<b><a name="line108">108    </a></b>	/*!
+<b><a name="line109">109    </a></b>	   @brief      set i2c gpx reg (refer to icv - hal_api_i2c_op)
+<b><a name="line110">110    </a></b>	
+<b><a name="line111">111    </a></b>	   @param      pI2cParam         pointer to i2c param
+<b><a name="line112">112    </a></b>	 */
+<b><a name="line113">113    </a></b>	void phal_set_i2c_gpx_reg(I2C_CTRL_PARAM_PTR pI2cParam)
+<b><a name="line114">114    </a></b>	{
+<b><a name="line115">115    </a></b>	    U8 ubOpIdx;
+<b><a name="line116">116    </a></b>	
+<b><a name="line117">117    </a></b>	    M_I2CM_SET_GPX_SLAVE_ADDR(pI2cParam->ubGroup, pI2cParam->uwSlaveAddr);
+<b><a name="line118">118    </a></b>	
+<b><a name="line119">119    </a></b>	    for (ubOpIdx = 0U; ubOpIdx < (pI2cParam->ubOpCnt); ubOpIdx++)
+<b><a name="line120">120    </a></b>	    {
+<b><a name="line121">121    </a></b>	        M_I2CM_SET_R8_GPX_OP_REG(pI2cParam->ubGroup, ubOpIdx, pI2cParam->aubOP[ubOpIdx]);
+<b><a name="line122">122    </a></b>	    }
+<b><a name="line123">123    </a></b>	
+<b><a name="line124">124    </a></b>	    M_I2CM_SET_R32_GPX_CTRL(pI2cParam->ubGroup, pI2cParam->ulMode);
+<b><a name="line125">125    </a></b>	    M_I2CM_SET_GPX_DATA_CNT(pI2cParam->ubGroup, pI2cParam->ubDataCnt);
+<b><a name="line126">126    </a></b>	    M_I2CM_SET_GPX_OP_CNT(pI2cParam->ubGroup, pI2cParam->ubOpCnt);
+<b><a name="line127">127    </a></b>	}
+<b><a name="line128">128    </a></b>	
+<b><a name="line129">129    </a></b>	/*!
+<b><a name="line130">130    </a></b>	   @brief      i2c trigger process (refer to icv - hal_api_i2c_trigger_process)
+<b><a name="line131">131    </a></b>	
+</pre></body>
+</html>

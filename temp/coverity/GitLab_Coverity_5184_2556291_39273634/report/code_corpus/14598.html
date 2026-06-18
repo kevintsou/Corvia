@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_smbus.h</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line54">54    </a></b>	
+<b><a name="line55">55    </a></b>	} MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS;
+<b><a name="line56">56    </a></b>	
+<b><a name="line57">57    </a></b>	//--DSP0237 v1.1.0 (MCTP SMBus/I2C Transport Binding Specification)
+<b><a name="line58">58    </a></b>	//----6.3 MCTP packet encapsulation
+<b><a name="line59">59    </a></b>	//----Table 1 嚙碾 Packet header field descriptions
+<b><a name="line60">60    </a></b>	//Set to 0001b for MCTP devices that are conformant to the MCTP
+<b><a name="line61">61    </a></b>	//Base Specification 1.0 and this version of the SMBus transport
+<b><a name="line62">62    </a></b>	//binding.
+<b><a name="line63">63    </a></b>	//Conforms with DSP0236_1.3.0 and DSP0237_1.1.0
+<b><a name="line64">64    </a></b>	
+<b><a name="line65">65    </a></b>	#define MCTP_HEADER_VERSION_MCTP_BASE_1_0_SMBUS_TRANSPORT  (0x01U)
+<b><a name="line66">66    </a></b>	
+<b><a name="line67">67    </a></b>	typedef union {
+<b><a name="line68">68    </a></b>	    MCTP_TRANSPORT_INFO_GENERIC generic;
+<b><a name="line69">69    </a></b>	
+<b><a name="line70">70    </a></b>	    struct {
+<b><a name="line71">71    </a></b>	        U8 slave_address; //This is the SMBus Slave Address of the source with R/W bit set to 0
+<b><a name="line72">72    </a></b>	        U8 rsvd_1_3[15];
+<b><a name="line73">73    </a></b>	    };
+<b><a name="line74">74    </a></b>	
+<b><a name="line75">75    </a></b>	} MCTP_TRANSPORT_INFO_SMBUS;
+<b><a name="line76">76    </a></b>	
+<b><a name="line77">77    </a></b>	#define SMBS_SLAVE_ADDRESS_MCTP (0x1CU)
+<b><a name="line78">78    </a></b>	
+<b><a name="line79">79    </a></b>	extern MCTP_TRANSPORT gMCTP_SMBus;
+<b><a name="line80">80    </a></b>	
+<b><a name="line81">81    </a></b>	void mctp_transport_init_smbus(MCTP_TRANSPORT *p_transport, U16 slave_address);
+<b><a name="line82">82    </a></b>	void mctp_transport_info_init_smbus(MCTP_TRANSPORT_INFO_SMBUS *p_transport_info, U16 slave_address);
+<b><a name="line83">83    </a></b>	void mctp_medium_specific_header_init_smbus(MCTP_MEDIUM_SPECIFIC_HEADER_SMBUS *p_medium_specific_header, MCTP_TRANSPORT_INFO_SMBUS *p_source_transport_info, DATA_DESCRIPTOR *p_packet_descriptor);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_8_6_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Function "mctp_medium_specific_header_init_smbus" is declared but never defined.</font>
+<b><a name="line84">84    </a></b>	void mctp_management_transport_init_smbus(MCTP_TRANSPORT *p_transport);
+<b><a name="line85">85    </a></b>	void smbs_udid_init_management_endpoint(SMBUS_UDID *p_udid);
+<b><a name="line86">86    </a></b>	U32 smbs_protocol_handler_mctp_packet(MCTP_TRANSPORT *p_mctp_smbus, U16 slave_address, SMBUS_BUFFER *p_smbs_rx, SMBUS_BUFFER *p_smbs_tx);
+<b><a name="line87">87    </a></b>	
+<b><a name="line88">88    </a></b>	#endif /* MI_OOB_SMBUS_EN */
+<b><a name="line89">89    </a></b>	
+<b><a name="line90">90    </a></b>	#endif /* MCTP_SMBUS_H */
+<b><a name="line91">91    </a></b>	
+</pre></body>
+</html>

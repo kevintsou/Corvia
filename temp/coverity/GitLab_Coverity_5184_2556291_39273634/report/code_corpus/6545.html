@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/fpl/hal_flh_fip_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line316">316    </a></b>	        {
+<b><a name="line317">317    </a></b>	            p->u32_val[i] = (HAL_FIP_OP_DATW | (((U32)data[i]) << 16U));
+<b><a name="line318">318    </a></b>	        }
+<b><a name="line319">319    </a></b>	
+<b><a name="line320">320    </a></b>	        i ++;
+<b><a name="line321">321    </a></b>	    }
+<b><a name="line322">322    </a></b>	
+<b><a name="line323">323    </a></b>	    if (i > 0U)
+<b><a name="line324">324    </a></b>	    {
+<b><a name="line325">325    </a></b>	        p->u32_val[i - 1U] |= HAL_FIP_OP_LAST_DAT;
+<b><a name="line326">326    </a></b>	    }
+<b><a name="line327">327    </a></b>	
+<b><a name="line328">328    </a></b>	    return (U32)&inst[i * sizeof(HAL_FIP_OP_DATW_STRUCT)];
+<b><a name="line329">329    </a></b>	}
+<b><a name="line330">330    </a></b>	
+<b><a name="line331">331    </a></b>	U32 fip_inst_gen_addr(U8 *inst, U8 *addr , U8 len)
+<b><a name="line332">332    </a></b>	{
+<b><a name="line333">333    </a></b>	    //tprintf("fip_inst_gen_addr addr cycle = %x", len);
+<b><a name="line334">334    </a></b>	    HAL_FIP_OP_UNION_PTR p ;
+<b><a name="line335">335    </a></b>	    p  = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line336">336    </a></b>	    U8 i;
+<b><a name="line337">337    </a></b>	    i = 0U;
+<b><a name="line338">338    </a></b>	
+<b><a name="line339">339    </a></b>	    while (i < len)
+<b><a name="line340">340    </a></b>	    {
+<b><a name="line341">341    </a></b>	        p->u32_val[i] = HAL_FIP_OP_ADR | (((U32)addr[i]) << 8U);
+<b><a name="line342">342    </a></b>	        i ++;
+<b><a name="line343">343    </a></b>	    }
+<b><a name="line344">344    </a></b>	
+<b><a name="line345">345    </a></b>	    if ((1 <= i) && (i <= HAL_FIP_INST_U32_ARRAY_SIZE))
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "1" (signed) is not the same as that of the right operand "i"(unsigned).</font>
+<b><a name="line346">346    </a></b>	    {
+<b><a name="line347">347    </a></b>	        p->u32_val[i - 1U] |= HAL_FIP_OP_LAST_CLE_ALE;
+<b><a name="line348">348    </a></b>	    }
+<b><a name="line349">349    </a></b>	
+<b><a name="line350">350    </a></b>	    return (U32)&inst[i * sizeof(HAL_FIP_OP_ADDR_STRUCT)];
+<b><a name="line351">351    </a></b>	}
+<b><a name="line352">352    </a></b>	
+<b><a name="line353">353    </a></b>	U32 fip_inst_gen_dmar(U8 *inst, U32 scr_seed, U64 crc_seed, U64 buf_addr, U64 spr_addr, U8 frm_idx, U16 tag, U32 opt)
+<b><a name="line354">354    </a></b>	{
+<b><a name="line355">355    </a></b>	    HAL_FIP_OP_UNION_PTR p = (HAL_FIP_OP_UNION_PTR)(void *)inst;
+<b><a name="line356">356    </a></b>	
+<b><a name="line357">357    </a></b>	    p->dmar.op_code         = HAL_FIP_OP_DMAR;
+<b><a name="line358">358    </a></b>	
+<b><a name="line359">359    </a></b>	    p->dmar.ins_mode        = FIP_DMAR_INST_MODE;
+<b><a name="line360">360    </a></b>	    p->dmar.addr_mode       = FIP_DMAR_ADDR_MODE;
+<b><a name="line361">361    </a></b>	    p->dmar.first           = HAL_FIP_OP_OPT_CHK_FIRST(opt);
+<b><a name="line362">362    </a></b>	    p->dmar.last            = HAL_FIP_OP_OPT_CHK_LAST(opt);
+<b><a name="line363">363    </a></b>	
+<b><a name="line364">364    </a></b>	    p->dmar.eot_value       = FIP_DMAR_EOT_VAL;
+<b><a name="line365">365    </a></b>	    p->dmar.frm_mode        = FIP_DMAR_FRM_MODE;
+<b><a name="line366">366    </a></b>	    p->dmar.out_mode        = FIP_DMAR_OUT_MODE;
+<b><a name="line367">367    </a></b>	    p->dmar.buf_vld         = FIP_DMAR_BUF_VALID;
+<b><a name="line368">368    </a></b>	    p->dmar.crc_seed_l      = crc_seed;
+<b><a name="line369">369    </a></b>	    p->dmar.crc_seed_h      = (U8)(crc_seed >> 32U);
+<b><a name="line370">370    </a></b>	
+<b><a name="line371">371    </a></b>	    p->dmar.frm_idx_l       = frm_idx;
+<b><a name="line372">372    </a></b>	    p->dmar.frm_idx_h       = (frm_idx >> 2U);
+<b><a name="line373">373    </a></b>	    p->dmar.tag             = tag;
+<b><a name="line374">374    </a></b>	    p->dmar.scr_seed        = scr_seed;
+<b><a name="line375">375    </a></b>	    p->dmar.addr1_l         = (U32)buf_addr;
+<b><a name="line376">376    </a></b>	    p->dmar.addr2_l         = (U32)spr_addr;
+</pre></body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/host/mctp/mctp_control.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line210">210    </a></b>	}
+<b><a name="line211">211    </a></b>	
+<b><a name="line212">212    </a></b>	static U32 mctp_message_handle_mctp_control_get_message_type_support(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><a name="line213">213    </a></b>	{
+<b><a name="line214">214    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_resp = (MCTP_CONTROL_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line215">215    </a></b>	    U32 reponse_data_size = MCTP_RESP_DATA_SIZE_4B;
+<b><a name="line216">216    </a></b>	
+<b><a name="line217">217    </a></b>	    Dump_SMBUS(tprintf(" [MCTP CONTROL] Get MCTP Message Type Support"));
+<b><a name="line218">218    </a></b>	    Dump_SMBUS(tprintf("    >>>>> Receive Message Count : %d", p_transmit_handler->request_message_handler.byte_count));
+<b><a name="line219">219    </a></b>	
+<b><a name="line220">220    </a></b>	    // Byte 0 : Completion Code
+<b><a name="line221">221    </a></b>	    p_mctp_control_resp->resp_data.mt_sup.cpl_code = MCTP_CTRL_CPL_SUCCESS;
+<b><a name="line222">222    </a></b>	
+<b><a name="line223">223    </a></b>	    // Byte 1 : MCTP Message Type Count. One-based.
+<b><a name="line224">224    </a></b>	    // Number of message types in addition to the MCTP control message type that is supported by this endpoint
+<b><a name="line225">225    </a></b>	    p_mctp_control_resp->resp_data.mt_sup.msg_type_cnt = MCTP_CONTROL_CNT_2B;
+<b><a name="line226">226    </a></b>	
+<b><a name="line227">227    </a></b>	    // Byte 2 : List of Message Type numbers. One byte per number
+<b><a name="line228">228    </a></b>	    p_mctp_control_resp->resp_data.mt_sup.msg_type_num = MCTP_MESSAGE_TYPE_MCTP_CONTROL;
+<b><a name="line229">229    </a></b>	
+<b><a name="line230">230    </a></b>	    // Byte 3 : List of Message Type numbers. One byte per number
+<b><a name="line231">231    </a></b>	    p_mctp_control_resp->resp_data.mt_sup.msg_type_num2 = MCTP_MESSAGE_TYPE_NVME_MANAGEMENT_MESSAGES;
+<b><a name="line232">232    </a></b>	
+<b><a name="line233">233    </a></b>	    // Byte 4 : List of Message Type numbers. One byte per number
+<b><a name="line234">234    </a></b>	    p_mctp_control_resp->resp_data.mt_sup.msg_type_num3 = 0U;
+<b><a name="line235">235    </a></b>	
+<b><a name="line236">236    </a></b>	    return reponse_data_size;
+<b><a name="line237">237    </a></b>	}
+<b><a name="line238">238    </a></b>	
+<b><a name="line239">239    </a></b>	U32 mctp_message_handle_mctp_control(MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler)
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event other_declaration:</font></b> <font face="Arial"; size="3"; color="#FF5959">The first 31 characters of identifiers "mctp_message_handle_mctp_control" and "mctp_message_handle_mctp_control_response" are identical.</font>
+<b><a name="line240">240    </a></b>	{
+<b><a name="line241">241    </a></b>	    MCTP_CONTROL_HEADER_PTR p_mctp_control_header = (MCTP_CONTROL_HEADER_PTR)p_transmit_handler->request_message_handler.buffer.p_base;
+<b><a name="line242">242    </a></b>	    MCTP_CONTROL_PTR p_mctp_control_resp = (MCTP_CONTROL_PTR)p_transmit_handler->reponse_packet_handler.buffer.p_base;
+<b><a name="line243">243    </a></b>	    U32 response_data_base = ((U32)p_mctp_control_resp + sizeof(MCTP_CONTROL_HEADER));
+<b><a name="line244">244    </a></b>	    U32 response_data_size;
+<b><a name="line245">245    </a></b>	
+<b><a name="line246">246    </a></b>	    memset((void *)p_mctp_control_resp, 0, sizeof(MCTP_CONTROL));
+<b><a name="line247">247    </a></b>	
+<b><a name="line248">248    </a></b>	    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_SUCCESS;
+<b><a name="line249">249    </a></b>	
+<b><a name="line250">250    </a></b>	    do {
+<b><a name="line251">251    </a></b>	        if (p_transmit_handler->request_message_handler.byte_count < MCTP_CTRL_MSG_REQ_HDR_SIZE)
+<b><a name="line252">252    </a></b>	        {
+<b><a name="line253">253    </a></b>	            p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_UNSUPPORTED_CMD;
+<b><a name="line254">254    </a></b>	            break;
+<b><a name="line255">255    </a></b>	        }
+<b><a name="line256">256    </a></b>	
+<b><a name="line257">257    </a></b>	        if (0U != p_mctp_control_header->d) {
+<b><a name="line258">258    </a></b>	            // Command/Request     :    Target EID, Tag Owner = 1, Request bit = 1, Datagram bit = 0
+<b><a name="line259">259    </a></b>	            // Response            :    Target EID, Tag Owner = 0, Request bit = 0, Datagram bit = 0
+<b><a name="line260">260    </a></b>	            // Broadcast Request   : Broadcast EID, Tag Owner = 1, Request bit = 1, Datagram bit = 0
+<b><a name="line261">261    </a></b>	            // Datagram            :    Target EID, Tag Owner = 1, Request bit = 1, Datagram bit = 1
+<b><a name="line262">262    </a></b>	            // Broadcast Datagram  : Broadcast EID, Tag Owner = 1, Request bit = 1, Datagram bit = 1
+<b><a name="line263">263    </a></b>	            p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_DATA;
+<b><a name="line264">264    </a></b>	            break;
+<b><a name="line265">265    </a></b>	        }
+<b><a name="line266">266    </a></b>	
+<b><a name="line267">267    </a></b>	        if (1U != p_mctp_control_header->rq) {
+<b><a name="line268">268    </a></b>	            // Command/Request     :    Target EID, Tag Owner = 1, Request bit = 1, Datagram bit = 0
+<b><a name="line269">269    </a></b>	            // Response            :    Target EID, Tag Owner = 0, Request bit = 0, Datagram bit = 0
+<b><a name="line270">270    </a></b>	            // Broadcast Request   : Broadcast EID, Tag Owner = 1, Request bit = 1, Datagram bit = 0
+<b><a name="line271">271    </a></b>	            // Datagram            :    Target EID, Tag Owner = 1, Request bit = 1, Datagram bit = 1
+<b><a name="line272">272    </a></b>	            // Broadcast Datagram  : Broadcast EID, Tag Owner = 1, Request bit = 1, Datagram bit = 1
+<b><a name="line273">273    </a></b>	            p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_DATA;
+<b><a name="line274">274    </a></b>	            break;
+<b><a name="line275">275    </a></b>	        }
+<b><a name="line276">276    </a></b>	
+<b><a name="line277">277    </a></b>	        switch (p_mctp_control_header->command_code)
+<b><a name="line278">278    </a></b>	        {
+<b><a name="line279">279    </a></b>	            case MCTP_CTRL_MSG_OPC_SET_ENDPOINT_ID:
+<b><a name="line280">280    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_SET_EID))
+<b><a name="line281">281    </a></b>	                {
+<b><a name="line282">282    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line283">283    </a></b>	                }
+<b><a name="line284">284    </a></b>	                else
+<b><a name="line285">285    </a></b>	                {
+<b><a name="line286">286    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_set_eid(p_transmit_handler);
+<b><a name="line287">287    </a></b>	                }
+<b><a name="line288">288    </a></b>	                break;
+<b><a name="line289">289    </a></b>	
+<b><a name="line290">290    </a></b>	            case MCTP_CTRL_MSG_OPC_GET_ENDPOINT_ID:
+<b><a name="line291">291    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_GET_EID))
+<b><a name="line292">292    </a></b>	                {
+<b><a name="line293">293    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line294">294    </a></b>	                }
+<b><a name="line295">295    </a></b>	                else
+<b><a name="line296">296    </a></b>	                {
+<b><a name="line297">297    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_get_eid(p_transmit_handler);
+<b><a name="line298">298    </a></b>	                }
+<b><a name="line299">299    </a></b>	                break;
+<b><a name="line300">300    </a></b>	
+<b><a name="line301">301    </a></b>	            case MCTP_CTRL_MSG_OPC_GET_MCTP_VERSION_SUPPORT:
+<b><a name="line302">302    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_GET_VER_SUP))
+<b><a name="line303">303    </a></b>	                {
+<b><a name="line304">304    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line305">305    </a></b>	                }
+<b><a name="line306">306    </a></b>	                else
+<b><a name="line307">307    </a></b>	                {
+<b><a name="line308">308    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_get_mctp_version_support(p_transmit_handler);
+<b><a name="line309">309    </a></b>	                }
+<b><a name="line310">310    </a></b>	                break;
+<b><a name="line311">311    </a></b>	
+<b><a name="line312">312    </a></b>	            case MCTP_CTRL_MSG_OPC_GET_MESSAGE_TYPE_SUPPORT:
+<b><a name="line313">313    </a></b>	                if (p_transmit_handler->request_message_handler.byte_count != (MCTP_CTRL_MSG_REQ_HDR_SIZE + MCTP_REQ_DATA_SIZE_GET_MSG_TYPE_SUP))
+<b><a name="line314">314    </a></b>	                {
+<b><a name="line315">315    </a></b>	                    p_mctp_control_resp->param.cpl_code = MCTP_CTRL_CPL_ERROR_INVALID_LENGTH;
+<b><a name="line316">316    </a></b>	                }
+<b><a name="line317">317    </a></b>	                else
+<b><a name="line318">318    </a></b>	                {
+<b><a name="line319">319    </a></b>	                    response_data_size = mctp_message_handle_mctp_control_get_message_type_support(p_transmit_handler);
+<b><a name="line320">320    </a></b>	                }
+<b><a name="line321">321    </a></b>	                break;
+<b><a name="line322">322    </a></b>	
+<b><a name="line323">323    </a></b>	            default :
+<b><a name="line324">324    </a></b>	                //Other bootcode not support
+<b><a name="line325">325    </a></b>	                p_mctp_control_resp->param.cpl_code |= MCTP_CTRL_CPL_ERROR_UNSUPPORTED_CMD;
+<b><a name="line326">326    </a></b>	                break;
+<b><a name="line327">327    </a></b>	        }
+<b><a name="line328">328    </a></b>	    } while(0);
+<b><a name="line329">329    </a></b>	
+<b><a name="line330">330    </a></b>	    if (MCTP_CTRL_CPL_SUCCESS != p_mctp_control_resp->param.cpl_code)
+<b><a name="line331">331    </a></b>	    {
+<b><a name="line332">332    </a></b>	        response_data_size = 1U; // response completion code
+<b><a name="line333">333    </a></b>	    }
+<b><a name="line334">334    </a></b>	
+<b><a name="line335">335    </a></b>	    //Reset the Transmit Handler to idle
+<b><a name="line336">336    </a></b>	    mctp_message_transmit_handler_reset(p_transmit_handler);
+<b><a name="line337">337    </a></b>	
+<b><a name="line338">338    </a></b>	    mctp_message_handle_mctp_control_response(&p_transmit_handler->message_info, p_mctp_control_header->instance_id, p_mctp_control_header->command_code, (U8 *)response_data_base, response_data_size);
+<b><a name="line339">339    </a></b>	
+<b><a name="line340">340    </a></b>	    return 0UL;
+<b><a name="line341">341    </a></b>	}
+<b><a name="line342">342    </a></b>	
+<b><a name="line343">343    </a></b>	U32 mctp_message_handle_mctp_control_response(MCTP_MESSAGE_INFO *p_source_mctp_message_info, U8 instance_id, U8 command_code, U8 *p_response_data, U32 response_data_size)
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_5_1_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Declaration with identifier "mctp_message_handle_mctp_control_response", which is ambiguous.</font>
+<b><a name="line344">344    </a></b>	{
+<b><a name="line345">345    </a></b>	    U32 send_status;
+<b><a name="line346">346    </a></b>	    MCTP_CONTROL_HEADER mctp_control_header;
+<b><a name="line347">347    </a></b>	    DATA_DESCRIPTOR a_message_descriptor[MCTP_MESSAGE_PARTS_COUNT];
+<b><a name="line348">348    </a></b>	    MCTP_MESSAGE_INFO destination_mctp_message_info;
+<b><a name="line349">349    </a></b>	    MCTP_MESSAGE_TRANSMIT_HANDLER *p_transmit_handler;
+<b><a name="line350">350    </a></b>	
+<b><a name="line351">351    </a></b>	    //-----MCTP Information
+<b><a name="line352">352    </a></b>	    destination_mctp_message_info.p_transport = p_source_mctp_message_info->p_transport;
+<b><a name="line353">353    </a></b>	
+<b><a name="line354">354    </a></b>	    switch (destination_mctp_message_info.p_transport->binding) {
+<b><a name="line355">355    </a></b>	    case MCTP_PHYSICAL_TRANSPORT_BINDING_IDENTIFIER_SMBUS:
+<b><a name="line356">356    </a></b>	        //The defined Slave Address should match Transmit Handler's recorded Slave Address
+<b><a name="line357">357    </a></b>	        mctp_transport_info_init_smbus((MCTP_TRANSPORT_INFO_SMBUS *) & (destination_mctp_message_info.source_transport_info), ((MCTP_TRANSPORT_INFO_SMBUS *) & (p_source_mctp_message_info->source_transport_info))->slave_address);
+<b><a name="line358">358    </a></b>	        destination_mctp_message_info.hdr_verions = MCTP_HEADER_VERSION_MCTP_BASE_1_0_SMBUS_TRANSPORT;
+<b><a name="line359">359    </a></b>	        break;
+<b><a name="line360">360    </a></b>	    default:
+<b><a name="line361">361    </a></b>	        //Record error?
+<b><a name="line362">362    </a></b>	        //Do not expect MCTP Message of type SMP to be serviced for this binding
+<b><a name="line363">363    </a></b>	        return 1UL;
+<b><a name="line364">364    </a></b>	        //break;
+<b><a name="line365">365    </a></b>	    }
+<b><a name="line366">366    </a></b>	
+<b><a name="line367">367    </a></b>	    //The Transmit Handler's recorded Source End ID should match the defined Destination Endpoint ID
+<b><a name="line368">368    </a></b>	    destination_mctp_message_info.destination_endpoint_id = p_source_mctp_message_info->message_terminus.source_eid;
+<b><a name="line369">369    </a></b>	
+<b><a name="line370">370    </a></b>	    //The Transmit Handler's recorded Destination End ID should match the defined Source Endpoint ID
+<b><a name="line371">371    </a></b>	    destination_mctp_message_info.message_terminus.source_eid = p_source_mctp_message_info->destination_endpoint_id;
+<b><a name="line372">372    </a></b>	    destination_mctp_message_info.message_terminus.tag_owner = MCTP_TRANSPORT_HEADER_TAG_OWNER_DESTINATION;
+<b><a name="line373">373    </a></b>	    destination_mctp_message_info.message_terminus.message_tag = p_source_mctp_message_info->message_terminus.message_tag;
+<b><a name="line374">374    </a></b>	
+</pre></body>
+</html>

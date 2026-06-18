@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/efuse_api.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line448">448    </a></b>	    // get baudrate option
+<b><a name="line449">449    </a></b>	    baudrate_bd_data   = (U8)(boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0xF);
+<b><a name="line450">450    </a></b>	    bc_ptr->parameter_config.uart_baudrate_mode = (U8)((baudrate_bd_data & 0x03) | ((baudrate_bd_data >> 2U) & 0x03));
+<b><a name="line451">451    </a></b>	
+<b><a name="line452">452    </a></b>	    // get uart xmodem sideband enable
+<b><a name="line453">453    </a></b>	    xmodem_sideband_enable_data = (U8)((boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0x30) >> 4U);
+<b><a name="line454">454    </a></b>	    bc_ptr->parameter_config.xmodem_sideband_enable = ((xmodem_sideband_enable_data & 0x01) | ((xmodem_sideband_enable_data >> 1U) & 0x01));
+<b><a name="line455">455    </a></b>	
+<b><a name="line456">456    </a></b>	    // get uart output message disable
+<b><a name="line457">457    </a></b>	    U8 uart_output_message_disable;
+<b><a name="line458">458    </a></b>	    uart_output_message_disable = (U8)((boot_landmark_0_buf[EFUSE_BYTE_BAUDRATE_OFFSET] & 0xC0) >> 6U);
+<b><a name="line459">459    </a></b>	    bc_ptr->parameter_config.uart_output_message_disable = ((uart_output_message_disable & 0x01) | ((uart_output_message_disable >> 1U) & 0x01));
+<b><a name="line460">460    </a></b>	
+<b><a name="line461">461    </a></b>	    // get uart rx latch position config enable
+<b><a name="line462">462    </a></b>	    uart_rx_latch_position_config_enable = (U8)(boot_landmark_0_buf[EFUSE_BYTE_UART_RX_LATCH_POSITION_OFFSET] & 0x3);
+<b><a name="line463">463    </a></b>	    bc_ptr->parameter_config.uart_rx_latch_position_config_enable = ((uart_rx_latch_position_config_enable & 0x01) | ((uart_rx_latch_position_config_enable >> 1U) & 0x01));
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    // get uart rx latch position
+<b><a name="line466">466    </a></b>	    uart_rx_latch_position = (U8)((boot_landmark_0_buf[EFUSE_BYTE_UART_RX_LATCH_POSITION_OFFSET] & 0xFC) >> 2);
+<b><a name="line467">467    </a></b>	    bc_ptr->parameter_config.uart_rx_latch_position = ((uart_rx_latch_position & 0x07) | ((uart_rx_latch_position >> 3U) & 0x07));
+<b><a name="line468">468    </a></b>	
+<b><a name="line469">469    </a></b>	
+<b><a name="line470">470    </a></b>	    // MI inter packet delay time
+<b><a name="line471">471    </a></b>	    mi_inter_packet_delay_time_ms = ((*(U16 *)(&(boot_landmark_1_buf[EFUSE_BYTE_MI_INTER_PACKET_DELAY_TIME_MS]))) & 0x3FF);
+<b><a name="line472">472    </a></b>	    bc_ptr->parameter_config.mi_inter_packet_delay_time_ms = ((mi_inter_packet_delay_time_ms & 0x1F) | ((mi_inter_packet_delay_time_ms >> 5) & 0x1F));
+<b><a name="line473">473    </a></b>	
+<b><a name="line474">474    </a></b>	    disable_mem_log = (U8)((boot_landmark_1_buf[EFUSE_BYTE_DEBUG_LOG] & 0x40) >> 6);
+<b><a name="line475">475    </a></b>	    bc_ptr->parameter_config.disable_mem_log = disable_mem_log;
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	    enable_debug_func = (U8)((boot_landmark_1_buf[EFUSE_BYTE_DEBUG_LOG] & 0x80) >> 7);
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event misra_c_2012_rule_10_4_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">Essential type of the left hand operand "boot_landmark_1_buf[31U]" (unsigned) is not the same as that of the right operand "128"(signed).</font>
+<b><a name="line478">478    </a></b>	    bc_ptr->parameter_config.enable_debug_func = enable_debug_func;
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	    return;
+<b><a name="line481">481    </a></b>	}
+<b><a name="line482">482    </a></b>	
+<b><a name="line483">483    </a></b>	U8 get_efuse_dmsca_compare_disable(EFUSE_API *p_efuse_api)
+<b><a name="line484">484    </a></b>	{
+<b><a name="line485">485    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting = get_efuse_security_setting(p_efuse_api);
+<b><a name="line486">486    </a></b>	
+<b><a name="line487">487    </a></b>	    if (p_security_setting == NULL) {
+<b><a name="line488">488    </a></b>	        return 0;
+<b><a name="line489">489    </a></b>	    }
+<b><a name="line490">490    </a></b>	    else {
+<b><a name="line491">491    </a></b>	        return (U8)p_security_setting->dmsca_compare_disable;
+<b><a name="line492">492    </a></b>	    }
+<b><a name="line493">493    </a></b>	}
+<b><a name="line494">494    </a></b>	
+<b><a name="line495">495    </a></b>	U8 get_efuse_sm4_load_code_decryption(EFUSE_API *p_efuse_api)
+<b><a name="line496">496    </a></b>	{
+<b><a name="line497">497    </a></b>	    const EFUSE_SECURITY_SETTING *p_security_setting = get_efuse_security_setting(p_efuse_api);
+<b><a name="line498">498    </a></b>	
+<b><a name="line499">499    </a></b>	    if (p_security_setting == NULL) {
+<b><a name="line500">500    </a></b>	        // If security setting efuse is not read, then use default setting.
+<b><a name="line501">501    </a></b>	        return 0U;
+<b><a name="line502">502    </a></b>	    }
+<b><a name="line503">503    </a></b>	    else {
+<b><a name="line504">504    </a></b>	        return (U8)p_security_setting->sm4_load_code_decryption;
+<b><a name="line505">505    </a></b>	    }
+<b><a name="line506">506    </a></b>	
+<b><a name="line507">507    </a></b>	}
+<b><a name="line508">508    </a></b>	
+</pre></body>
+</html>

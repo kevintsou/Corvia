@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Coverity error reader: ws_fw/src_root/yue/user/top/load.c</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<body link="#000000" vlink="#000000"><pre>
+<b><a name="line420">420    </a></b>	}
+<b><a name="line421">421    </a></b>	
+<b><a name="line422">422    </a></b>	static U32 check_code_signature_key_validity(const PROJECT_BINARY_HEADER *p_project_binary_header, U32 calculation_buffer, U8 project_binary_type, U32 project_binary_source)
+<b><a name="line423">423    </a></b>	{
+<b><a name="line424">424    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line425">425    </a></b>	
+<b><a name="line426">426    </a></b>	    const EFUSE_CODE_SIGN_KEY_HASH *p_efuse_code_sign_key_hash;
+<b><a name="line427">427    </a></b>	
+<b><a name="line428">428    </a></b>	    // Get All key hash
+<b><a name="line429">429    </a></b>	    U8 compare_key_cnt = 0;
+<b><a name="line430">430    </a></b>	
+<b><a name="line431">431    </a></b>	    //Components of the Project Binary
+<b><a name="line432">432    </a></b>	    U32 data_address, data_size;
+<b><a name="line433">433    </a></b>	    U32 key_address, key_size;
+<b><a name="line434">434    </a></b>	
+<b><a name="line435">435    </a></b>	    U32 key_id;
+<b><a name="line436">436    </a></b>	
+<b><a name="line437">437    </a></b>	    U8 sha2_mode; //mode for hashing public key
+<b><a name="line438">438    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line439">439    </a></b>	
+<b><a name="line440">440    </a></b>	    U8 is_sha_sm3 = FALSE;
+<b><a name="line441">441    </a></b>	    U8 disable_dmsca = SEC_NO;
+<b><a name="line442">442    </a></b>	
+<b><a name="line443">443    </a></b>	    Dump_SEC(tprintf("Check Code Signature Key Validity"));
+<b><a name="line444">444    </a></b>	    p_efuse_code_sign_key_hash = NULL;
+<b><a name="line445">445    </a></b>	    data_address = (U32)p_project_binary_header;
+<b><a name="line446">446    </a></b>	    data_size = (p_project_binary_header->project_binary_sector_size << SECTOR_SIZE_SHIFT);
+<b><a name="line447">447    </a></b>	
+<b><a name="line448">448    </a></b>	    key_size = get_key_size(p_project_binary_header->algorithm_type);
+<b><a name="line449">449    </a></b>	    if (key_size == 0) {
+<b><font face="Arial"; size="3"; color="#F00000">(1) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "key_size == 0", taking false branch.</font>
+<b><a name="line450">450    </a></b>	        return PROJECT_BINARY_ERROR_HEADER_ALGORITHM_TYPE;
+<b><a name="line451">451    </a></b>	    }
+<b><a name="line452">452    </a></b>	
+<b><a name="line453">453    </a></b>	    key_address = data_address + data_size;
+<b><a name="line454">454    </a></b>	
+<b><a name="line455">455    </a></b>	    key_id = *(U32 *)(key_address);
+<b><a name="line456">456    </a></b>	
+<b><a name="line457">457    </a></b>	    Dump_SEC(tprintf("key_address %x", key_address));
+<b><a name="line458">458    </a></b>	    Dump_SEC(tprintf("key_id     %c%c%c%c", ((key_id)&0xFF), ((key_id >> 8)&0xFF), ((key_id >> 16)&0xFF), ((key_id >> 24)&0xFF)));
+<b><a name="line459">459    </a></b>	
+<b><a name="line460">460    </a></b>	    if ((p_project_binary_header->algorithm_type == PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM2_SM3) || (p_project_binary_header->algorithm_type == PROJECT_BINARY_HEADER_ALGORITHM_TYPE_SW_SM9))
+<b><font face="Arial"; size="3"; color="#F00000">(2) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_project_binary_header->algorithm_type == 38", taking false branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(3) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "p_project_binary_header->algorithm_type == 49", taking false branch.</font>
+<b><a name="line461">461    </a></b>	    {
+<b><a name="line462">462    </a></b>	        is_sha_sm3 = TRUE;
+<b><a name="line463">463    </a></b>	    }
+<b><a name="line464">464    </a></b>	
+<b><a name="line465">465    </a></b>	    sal_log_tracker_set(sal_locate(0x40, TYPE_STEP));
+<b><a name="line466">466    </a></b>	
+<b><a name="line467">467    </a></b>	    {
+<b><a name="line468">468    </a></b>	        //Check if the Code Signature Key in the Project Binary is known
+<b><a name="line469">469    </a></b>	        //if type of proj bin is key manifest -> load key from efuse
+<b><a name="line470">470    </a></b>	        //if type of proj bin is loader fw and enable key manifest -> load key from key_manifest_api
+<b><a name="line471">471    </a></b>	        //if type of proj bin is loader fw but disable key manifset -> return error bit map
+<b><a name="line472">472    </a></b>	        if (project_binary_type == FW_PROJECT_BINARY_TYPE) {
+<b><font face="Arial"; size="3"; color="#F00000">(4) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "project_binary_type == 0U", taking true branch.</font>
+<b><a name="line473">473    </a></b>	            KEY_MANIFEST_API_PTR key_manifest_api_ptr;
+<b><a name="line474">474    </a></b>	
+<b><a name="line475">475    </a></b>	            key_manifest_api_ptr = GET_GP_KEY_MANIFEST_API();
+<b><a name="line476">476    </a></b>	
+<b><a name="line477">477    </a></b>	            if (key_manifest_api_ptr->key_skip == KEY_MANIFEST_NO_SKIP) {
+<b><font face="Arial"; size="3"; color="#F00000">(5) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "key_manifest_api_ptr->key_skip == 0U", taking true branch.</font>
+<b><a name="line478">478    </a></b>	                sync_key_header_info(key_manifest_api_ptr);
+<b><a name="line479">479    </a></b>	
+<b><a name="line480">480    </a></b>	                sha2_mode = get_sha2_mode(key_manifest_api_ptr);
+<b><a name="line481">481    </a></b>	
+<b><a name="line482">482    </a></b>	                p_efuse_code_sign_key_hash = get_correct_key_hash(key_manifest_api_ptr, ((RSA4096_PUBLIC_KEY *)key_address)->key.id);
+<b><a name="line483">483    </a></b>	                compare_key_cnt = 1;
+<b><a name="line484">484    </a></b>	            }
+<b><font face="Arial"; size="3"; color="#F00000">(6) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line485">485    </a></b>	            else if (key_manifest_api_ptr->key_skip == KEY_MANIFEST_SKIP) {
+<b><a name="line486">486    </a></b>	                sha2_mode = (is_sha_sm3 == FALSE) ? HAL_SEC_SHA2_512_MODE : HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line487">487    </a></b>	                p_efuse_code_sign_key_hash = get_efuse_code_sign_key_hash_valid(project_binary_source, &gEFuseAPI);
+<b><a name="line488">488    </a></b>	                compare_key_cnt = EFUSE_CODE_SIGN_KEY_HASH_COUNT;
+<b><a name="line489">489    </a></b>	            }
+<b><a name="line490">490    </a></b>	            else {
+<b><a name="line491">491    </a></b>	                //else
+<b><a name="line492">492    </a></b>	            }
+<b><a name="line493">493    </a></b>	        }
+<b><font face="Arial"; size="3"; color="#F00000">(7) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Falling through to end of if statement.</font>
+<b><a name="line494">494    </a></b>	        else if (project_binary_type == KEY_MANIFEST_PROJECT_BINARY_TYPE) {
+<b><a name="line495">495    </a></b>	            sha2_mode = (is_sha_sm3 == FALSE) ? HAL_SEC_SHA2_512_MODE : HAL_SEC_SHA2_SM3_MODE;
+<b><a name="line496">496    </a></b>	
+<b><a name="line497">497    </a></b>	            p_efuse_code_sign_key_hash = get_efuse_code_sign_key_hash_valid(project_binary_source, &gEFuseAPI);
+<b><a name="line498">498    </a></b>	            compare_key_cnt = EFUSE_CODE_SIGN_KEY_HASH_COUNT;
+<b><a name="line499">499    </a></b>	        }
+<b><a name="line500">500    </a></b>	        else {
+<b><a name="line501">501    </a></b>	            //else
+<b><a name="line502">502    </a></b>	        }
+<b><a name="line503">503    </a></b>	
+<b><a name="line504">504    </a></b>	        if (NULL == p_efuse_code_sign_key_hash) {
+<b><font face="Arial"; size="3"; color="#F00000">(8) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "NULL == p_efuse_code_sign_key_hash", taking false branch.</font>
+<b><a name="line505">505    </a></b>	
+<b><a name="line506">506    </a></b>	            Dump_SEC(tprintf("!!!Check Fail %x", (U64)PROJECT_BINARY_ERROR_SECURITY_SETTING_UNKNOWN_KEY));
+<b><a name="line507">507    </a></b>	            Dump_SEC(tprintf("Unknown Key"));
+<b><a name="line508">508    </a></b>	            Dump_SEC(tprintf("Key Index %x", (U64)((RSA4096_PUBLIC_KEY *)key_address)->key.id));
+<b><a name="line509">509    </a></b>	
+<b><a name="line510">510    </a></b>	            //TODO should split the key errors into unknown key (index not found)
+<b><a name="line511">511    </a></b>	            //and key disabled (key state is not valid)
+<b><a name="line512">512    </a></b>	            //Return early here because subsequent checks requires these to be correct
+<b><a name="line513">513    </a></b>	            return PROJECT_BINARY_ERROR_SECURITY_SETTING_UNKNOWN_KEY;
+<b><a name="line514">514    </a></b>	        }
+<b><a name="line515">515    </a></b>	    }
+<b><a name="line516">516    </a></b>	
+<b><a name="line517">517    </a></b>	    sal_log_tracker_set(sal_locate(0x41, TYPE_STEP));
+<b><a name="line518">518    </a></b>	
+<b><a name="line519">519    </a></b>	    {
+<b><a name="line520">520    </a></b>	        //Check if the Code Signature Key in the Project Binary is valid by
+<b><a name="line521">521    </a></b>	        //verifying the hash of the key
+<b><a name="line522">522    </a></b>	        //The hash is performed over the key included in the Project Binary,
+<b><a name="line523">523    </a></b>	        //  before any endian modification
+<b><a name="line524">524    </a></b>	        //This is so that the hash can be calculated straight from the binary
+<b><a name="line525">525    </a></b>	        //  without needing to know how the key looks when it is used
+<b><a name="line526">526    </a></b>	        //The one down side to this is that the hash will change whenever the endian changes
+<b><a name="line527">527    </a></b>	        if ((sha2_mode != HAL_SEC_SHA2_512_MODE) && (sha2_mode != HAL_SEC_SHA2_SM3_MODE)) { // only support sha 512 and sm3
+<b><font face="Arial"; size="3"; color="#F00000">(9) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "sha2_mode != 2U", taking true branch.</font>
+<b><font face="Arial"; size="3"; color="#F00000">(10) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "sha2_mode != 3U", taking false branch.</font>
+<b><a name="line528">528    </a></b>	            return PROJECT_BINARY_ERROR_SECURITY_SETTING_INCORRECT_KEY_HASH;
+<b><a name="line529">529    </a></b>	        }
+<b><a name="line530">530    </a></b>	
+<b><a name="line531">531    </a></b>	        memset((void *)&sec_sha_param, 0, sizeof(SEC_SHA_PARAMS_T));
+<b><a name="line532">532    </a></b>	        sec_sha_param.src_addr.all     = (U64)key_address;
+<b><a name="line533">533    </a></b>	        sec_sha_param.src_len          = key_size;
+<b><a name="line534">534    </a></b>	        sec_sha_param.targ_addr.all    = (U64)calculation_buffer;
+<b><a name="line535">535    </a></b>	        sec_sha_param.sha_mode         = sha2_mode;
+<b><a name="line536">536    </a></b>	        sec_sha_param.dummy_en         = FALSE;
+<b><a name="line537">537    </a></b>	        phal_sec_sha_blocking(&sec_sha_param);
+<b><a name="line538">538    </a></b>	
+<b><a name="line539">539    </a></b>	        if (gSecShaTimeout) {
+<b><font face="Arial"; size="3"; color="#F00000">(11) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "gSecShaTimeout", taking false branch.</font>
+<b><a name="line540">540    </a></b>	            return PROJECT_BINARY_ERROR_SECURITY_SETTING_TIMEOUT;
+<b><a name="line541">541    </a></b>	        }
+<b><a name="line542">542    </a></b>	
+<b><a name="line543">543    </a></b>	        sal_log_tracker_set(sal_locate(0x42, TYPE_STEP));
+<b><a name="line544">544    </a></b>	
+<b><a name="line545">545    </a></b>	        disable_dmsca = get_efuse_dmsca_compare_disable(&gEFuseAPI);
+<b><a name="line546">546    </a></b>	
+<b><a name="line547">547    </a></b>	        // Compare all efuse key hash //TODO- change to dmsca_def compare
+<b><a name="line548">548    </a></b>	        for (U8 idx = 0; idx < compare_key_cnt; idx++)
+<b><font face="Arial"; size="3"; color="#F00000">(12) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "idx < compare_key_cnt", taking true branch.</font>
+<b><a name="line549">549    </a></b>	        {
+<b><a name="line550">550    </a></b>	            if (HAL_SEC_DMSCA_PASS == phal_sec_verify_signature_compare((U32)(p_efuse_code_sign_key_hash + idx), calculation_buffer, hal_sec_get_digest_len(sha2_mode), disable_dmsca))
+<b><font face="Arial"; size="3"; color="#F00000">(13) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "15525U == phal_sec_verify_signature_compare((U32)(p_efuse_code_sign_key_hash + idx), calculation_buffer, hal_sec_get_digest_len(sha2_mode), disable_dmsca)", taking false branch.</font>
+<b><a name="line551">551    </a></b>	            {
+<b><a name="line552">552    </a></b>	                sal_log_tracker_set(sal_locate(0x43, TYPE_STEP));
+<b><a name="line553">553    </a></b>	
+<b><a name="line554">554    </a></b>	                if (EFUSE_PARSE_CPTRA_STATE(gEFuseAPI.efuse_security_setting.u16_union.sqz.cptra_enable))
+<b><a name="line555">555    </a></b>	                {
+<b><a name="line556">556    </a></b>	                    // Truncate 384b for caliptra context
+<b><a name="line557">557    </a></b>	                    phal_sqz_set_pk_hash(calculation_buffer);
+<b><a name="line558">558    </a></b>	                }
+<b><a name="line559">559    </a></b>	                memset((void *)calculation_buffer, 0x00, hal_sec_get_digest_len(sha2_mode));
+<b><a name="line560">560    </a></b>	                Dump_SEC(tprintf("KV OK idx(%d)", idx));
+<b><a name="line561">561    </a></b>	                break;
+<b><a name="line562">562    </a></b>	            }
+<b><a name="line563">563    </a></b>	
+<b><a name="line564">564    </a></b>	            if ((idx + 1) == compare_key_cnt)
+<b><font face="Arial"; size="3"; color="#F00000">(14) Event path:</font></b> <font face="Arial"; size="3"; color="#FF5959">Condition "idx + 1 == compare_key_cnt", taking true branch.</font>
+<b><a name="line565">565    </a></b>	            {
+<b><a name="line566">566    </a></b>	                Dump_SEC(tprintf("KV F! cmp(%d)", compare_key_cnt));
+<b><a name="line567">567    </a></b>	                sal_log_tracker_set(sal_locate(0x4F, TYPE_FATAL));
+<b><font face="Arial"; size="3"; color="#F00000">(15) Event misra_c_2012_rule_12_2_violation:</font></b> <font face="Arial"; size="3"; color="#FF5959">In expression "0x83 << 24", shifting more than 7 bits, the number of bits in the essential type of the left expression, "131", is not allowed.  The shift amount is 24.</font>
+<b><a name="line568">568    </a></b>	                memset((void *)calculation_buffer, 0x00, hal_sec_get_digest_len(sha2_mode));
+<b><a name="line569">569    </a></b>	                return PROJECT_BINARY_ERROR_SECURITY_SETTING_INCORRECT_KEY_HASH;
+<b><a name="line570">570    </a></b>	            }
+<b><a name="line571">571    </a></b>	        }
+<b><a name="line572">572    </a></b>	    }
+<b><a name="line573">573    </a></b>	
+<b><a name="line574">574    </a></b>	    return 0;
+<b><a name="line575">575    </a></b>	}
+<b><a name="line576">576    </a></b>	
+<b><a name="line577">577    </a></b>	static U32 check_dice_pre_process(U32 calculation_buffer, U8 metadata_input_type)
+<b><a name="line578">578    </a></b>	{
+<b><a name="line579">579    </a></b>	    gSecShaTimeout = 0; // clear flag
+<b><a name="line580">580    </a></b>	
+<b><a name="line581">581    </a></b>	    U32 data_address, data_size;
+<b><a name="line582">582    </a></b>	    U32 key_address, key_size;
+<b><a name="line583">583    </a></b>	
+<b><a name="line584">584    </a></b>	    U32 load_code_address = (U32)(DBUF_API_BOOTCODE_MISC_BASE + DBUF_API_BOOTCODE_MISC_OFFSET_LOAD_CODE_STATUS);
+<b><a name="line585">585    </a></b>	    U32 project_binary_address = (U32)DBUF_API_BOOTCODE_DATA_BUFFER_BASE;
+<b><a name="line586">586    </a></b>	
+<b><a name="line587">587    </a></b>	    SEC_SHA_PARAMS_T sec_sha_param;
+<b><a name="line588">588    </a></b>	
+<b><a name="line589">589    </a></b>	    LOAD_CODE_STATUS *p_load_code_status;
+<b><a name="line590">590    </a></b>	    const PROJECT_BINARY_HEADER *p_project_binary_header;
+<b><a name="line591">591    </a></b>	
+<b><a name="line592">592    </a></b>	    p_load_code_status = (LOAD_CODE_STATUS *)(load_code_address);
+<b><a name="line593">593    </a></b>	    project_binary_address += (p_load_code_status->key_manifest_size);
+<b><a name="line594">594    </a></b>	    p_project_binary_header = (const PROJECT_BINARY_HEADER *)(project_binary_address);
+<b><a name="line595">595    </a></b>	    sal_log_tracker_set(sal_locate(0x40, TYPE_STEP));
+<b><a name="line596">596    </a></b>	
+<b><a name="line597">597    </a></b>	    // Set caliptra svn
+<b><a name="line598">598    </a></b>	    phal_sqz_set_svn(p_project_binary_header->security_version);
+</pre></body>
+</html>
