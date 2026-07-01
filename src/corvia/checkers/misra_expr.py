@@ -31,6 +31,19 @@ class MisraExprChecker(BaseChecker):
     misra_rules = [RULE_12_1, RULE_12_2, RULE_12_3, RULE_12_4,
                    RULE_13_1, RULE_13_2, RULE_13_3, RULE_13_4, RULE_13_5, RULE_13_6]
 
+    def __init__(self) -> None:
+        super().__init__()
+        # ExprList nodes that are function-call argument lists, not comma
+        # operators. pycparser represents both as c_ast.ExprList, so we record
+        # the argument lists while visiting FuncCall and skip them in
+        # visit_ExprList (tracked by object id).
+        self._funccall_arg_lists: set[int] = set()
+
+    def visit_FuncCall(self, node: c_ast.FuncCall) -> None:
+        if isinstance(node.args, c_ast.ExprList):
+            self._funccall_arg_lists.add(id(node.args))
+        self.generic_visit(node)
+
     def visit_BinaryOp(self, node: c_ast.BinaryOp) -> None:
         if node.op in _LOW_PRECEDENCE_OPS:
             if isinstance(node.left, c_ast.BinaryOp) and node.left.op in _LOW_PRECEDENCE_OPS:
@@ -79,8 +92,12 @@ class MisraExprChecker(BaseChecker):
         self.generic_visit(node)
 
     def visit_ExprList(self, node: c_ast.ExprList) -> None:
-        if node.exprs and len(node.exprs) > 1:
-            self.report(node, "Use of comma operator", Severity.INFO, RULE_12_3)
+        # A function-call argument list is also a c_ast.ExprList in pycparser,
+        # but its commas are argument separators, not the comma operator. Only
+        # report ExprLists that are genuine comma-operator expressions.
+        if id(node) not in self._funccall_arg_lists:
+            if node.exprs and len(node.exprs) > 1:
+                self.report(node, "Use of comma operator", Severity.INFO, RULE_12_3)
         self.generic_visit(node)
 
     def visit_UnaryOp(self, node: c_ast.UnaryOp) -> None:
