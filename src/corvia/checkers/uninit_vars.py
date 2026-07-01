@@ -307,35 +307,79 @@ class UninitVarsChecker(BaseChecker):
                 self._handle_if(node.iffalse, dict(var_states))
 
     def _handle_func_call(self, node: c_ast.FuncCall, var_states: dict[str, _VarState]) -> None:
+        callee_name = node.name.name if isinstance(node.name, c_ast.ID) else None
         if node.args:
             for idx, arg in enumerate(node.args.exprs or []):
                 if isinstance(arg, c_ast.UnaryOp) and arg.op == "&":
+                    # Passing &var to a function. The overwhelmingly common
+                    # reason to take a variable's address is so the callee can
+                    # write into it (an out-parameter, e.g. timer_start(&timer)).
+                    # Treat this as initializing the variable, unless we have a
+                    # function summary that proves the callee does NOT write
+                    # through this parameter.
                     if isinstance(arg.expr, c_ast.ID):
                         name = arg.expr.name
-                        if name in var_states and not var_states[name].fully_initialized:
-                            self.report(
-                                node,
-                                f"Partially initialized variable '{name}' passed by reference to function",
-                                Severity.WARNING,
-                                RULE_9_1,
-                            )
-
-                if isinstance(arg, c_ast.ID) and arg.name in var_states:
-                    callee_name = node.name.name if isinstance(node.name, c_ast.ID) else None
-                    if callee_name and self._ctx and self._ctx.function_output_param_not_initialized(callee_name, idx):
-                        state = var_states[arg.name]
-                        if not state.fully_initialized:
-                            self.report(
-                                arg,
-                                f"Variable '{arg.name}' passed to function '{callee_name}' that may not initialize it",
-                                Severity.WARNING,
-                                RULE_9_1,
-                            )
+                        if name in var_states:
+                            writes_through = self._callee_initializes_param(callee_name, idx)
+                            if writes_through is False:
+                                if not var_states[name].fully_initialized:
+                                    self.report(
+                                        node,
+                                        f"Variable '{name}' passed by reference to '{callee_name}', "
+                                        f"which does not initialize it",
+                                        Severity.WARNING,
+                                        RULE_9_1,
+                                    )
+                            else:
+                                # Unknown callee or a proven out-parameter:
+                                # assume the callee initializes the object.
+                                var_states[name].fully_initialized = True
+                    # Do not fall through to _check_reads for &var: taking an
+                    # address is not a read of the value.
+                    continue
 
                 self._check_reads(arg, var_states)
 
+    def _callee_initializes_param(self, callee_name: Optional[str], idx: int) -> Optional[bool]:
+        """Tri-state answer to 'does callee write through its idx-th param?'
+
+        True  -> summary proves it writes (out-parameter).
+        False -> summary proves it does NOT write.
+        None  -> unknown; caller should stay optimistic (address-of arguments
+                 are out-parameters by convention).
+
+        To avoid false positives we only ever return False when we are highly
+        confident: the summary is present, records writes for OTHER parameters
+        (so it is genuinely tracking writes) but not for this one. A summary
+        that records no writes at all is treated as unknown, since our summary
+        analysis may simply have failed to track an indirect write.
+        """
+        if not callee_name or not self._ctx:
+            return None
+        summary = getattr(self._ctx, "summaries", {}).get(callee_name)
+        if summary is None:
+            return None
+        written = getattr(summary, "output_params_initialized", set())
+        if idx in written:
+            return True
+        if written:
+            return False
+        return None
+
     def _check_reads(self, node: c_ast.Node, var_states: dict[str, _VarState]) -> None:
         if node is None:
+            return
+
+        if isinstance(node, c_ast.UnaryOp) and node.op == "&":
+            # Taking a variable's address is not a read of its value. Treat a
+            # bare &var as an out-parameter initialization to stay consistent
+            # with _handle_func_call.
+            if isinstance(node.expr, c_ast.ID):
+                name = node.expr.name
+                if name in var_states:
+                    var_states[name].fully_initialized = True
+            else:
+                self._check_reads(node.expr, var_states)
             return
 
         if isinstance(node, c_ast.ID):
@@ -498,11 +542,22 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
                 self._check_use(stmt.expr, state)
 
         elif isinstance(stmt, c_ast.FuncCall):
-            if stmt.args:
-                for arg in stmt.args.exprs or []:
-                    self._check_use(arg, state)
+            self._process_call_args(stmt, state)
         else:
             self._check_use(stmt, state)
+
+    def _process_call_args(self, call: c_ast.FuncCall, state: _UninitCFGState) -> None:
+        if not call.args:
+            return
+        for arg in call.args.exprs or []:
+            if isinstance(arg, c_ast.UnaryOp) and arg.op == "&" and isinstance(arg.expr, c_ast.ID):
+                # &var passed to a function is treated as an out-parameter
+                # write: the callee is assumed to initialize the object.
+                name = arg.expr.name
+                state.init.add(name)
+                state.uninit.discard(name)
+                continue
+            self._check_use(arg, state)
 
     def _check_use(self, node: c_ast.Node, state: _UninitCFGState) -> None:
         if node is None:
@@ -514,6 +569,19 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
                     node.name,
                     f"Variable '{node.name}' may be uninitialized on some execution paths",
                 ))
+            return
+        if isinstance(node, c_ast.UnaryOp) and node.op == "&":
+            # Taking an address is not a read of the value; if the operand is a
+            # plain variable, treat it as an out-parameter write (initialized).
+            if isinstance(node.expr, c_ast.ID):
+                state.init.add(node.expr.name)
+                state.uninit.discard(node.expr.name)
+            else:
+                self._check_use(node.expr, state)
+            return
+        if isinstance(node, c_ast.FuncCall):
+            # A nested call (e.g. x = foo(&y)) may itself have &var out-params.
+            self._process_call_args(node, state)
             return
         if isinstance(node, c_ast.Assignment):
             self._check_use(node.rvalue, state)
