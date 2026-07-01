@@ -39,3 +39,26 @@ def test_nonexistent_target():
     result = engine.analyze(["/nonexistent/path"])
     assert len(result.issues) == 1
     assert result.issues[0].severity == Severity.ERROR
+
+
+def test_populate_context_fills_source_line(tmp_path):
+    from corvia.models import Issue
+
+    src = tmp_path / "ctx_demo.c"
+    src.write_text("int a;\nint b = bad_call();\nint c;\n")
+
+    issues = [
+        Issue(checker_id="x", severity=Severity.WARNING, message="m",
+              file=str(src), line=2),
+        # Out-of-range line is left untouched, not crashed on.
+        Issue(checker_id="x", severity=Severity.WARNING, message="m",
+              file=str(src), line=99),
+        # An existing context is preserved.
+        Issue(checker_id="x", severity=Severity.WARNING, message="m",
+              file=str(src), line=1, context="keep me"),
+    ]
+    AnalysisEngine._populate_context(issues)
+
+    assert issues[0].context == "int b = bad_call();"  # trimmed source line
+    assert issues[1].context is None                    # out of range -> untouched
+    assert issues[2].context == "keep me"               # pre-set -> preserved

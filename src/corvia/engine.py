@@ -19,6 +19,7 @@ from corvia.core.call_graph import build_call_graph
 from corvia.core.config import CorviaConfig, severity_from_string
 from corvia.core.context import AnalysisContext
 from corvia.core.summary import compute_summaries
+from corvia.core.symbol_export import serialize_symbol_graph
 from corvia.core.symbol_table import build_symbol_table
 from corvia.models import AnalysisResult, Issue, MisraCategory, Severity
 from corvia.parser import CParser
@@ -144,8 +145,34 @@ class AnalysisEngine:
 
             result.issues.extend(self._filter_issues(file_issues))
 
+        self._populate_context(result.issues)
         result.issues.sort(key=lambda i: (i.file, i.line, i.column))
         return result
+
+    @staticmethod
+    def _populate_context(issues: list[Issue]) -> None:
+        """Fill each issue's ``context`` with its source line so consumers can
+        show the offending code without re-reading files themselves.
+
+        Best-effort: an issue keeps a context a checker already set, and lines
+        that can't be read (missing file, out-of-range line) are left as-is.
+        Files are read once and cached across issues.
+        """
+        line_cache: dict[str, list[str]] = {}
+        for issue in issues:
+            if issue.context or not issue.file or issue.line <= 0:
+                continue
+            lines = line_cache.get(issue.file)
+            if lines is None:
+                try:
+                    lines = Path(issue.file).read_text(
+                        encoding="utf-8", errors="replace"
+                    ).splitlines()
+                except OSError:
+                    lines = []
+                line_cache[issue.file] = lines
+            if 1 <= issue.line <= len(lines):
+                issue.context = lines[issue.line - 1].strip()
 
     def _save_cache(
         self, filename: str, issues: list[Issue], ctx: AnalysisContext
@@ -182,6 +209,28 @@ class AnalysisEngine:
                 defines=defines,
             )
         )
+
+    def export_symbol_graph(self, targets: list[str]) -> dict:
+        """Parse all target files and return a JSON-able symbol + call graph.
+
+        Unlike ``analyze``, this always performs a full parse of every file
+        (the incremental cache is intentionally bypassed): a call graph built
+        from only the changed files would be incomplete, which defeats the
+        purpose of exporting it for cross-file reasoning. No checkers run —
+        this is parse + symbol/call-graph construction only.
+        """
+        result = AnalysisResult()
+        files = self._collect_files(targets, result)
+
+        asts: dict[str, c_ast.FileAST] = {}
+        for f in files:
+            ast, _ = self._parser.parse_file(f)
+            if ast is not None:
+                asts[f] = ast
+
+        symbol_table = build_symbol_table(asts)
+        call_graph = build_call_graph(asts, symbol_table)
+        return serialize_symbol_graph(symbol_table, call_graph, asts)
 
     def analyze_file(self, filepath: str) -> list[Issue]:
         ast, parse_errors = self._parser.parse_file(filepath)
