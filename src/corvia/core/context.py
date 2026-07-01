@@ -50,3 +50,16 @@ class AnalysisContext:
         if s is None:
             return False
         return param_idx in s.output_params_not_initialized
+
+    def function_initializes_output_param(self, func_name: str, param_idx: int) -> bool:
+        """True if func_name writes through its param_idx-th pointer parameter
+        (e.g. *p = ... or p->f = ...), thereby initializing the caller's object.
+
+        Returns False for unknown/external functions: without a body we cannot
+        prove initialization, so callers stay conservative. Address-of arguments
+        to such functions are handled by the caller's own heuristics.
+        """
+        s = self.summaries.get(func_name)
+        if s is None:
+            return False
+        return param_idx in s.output_params_initialized
