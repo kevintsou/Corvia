@@ -36,6 +36,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="corvia",
         description="CORVIA - C language static analysis tool with MISRA C:2012 support",
+        epilog="Config setup: use `corvia config detect/init` to create corvia.toml.",
     )
     p.add_argument("targets", nargs="*", help="Files or directories to analyze")
     p.add_argument("-V", "--version", action="version", version=f"corvia {__version__}")
@@ -76,6 +77,90 @@ def _list_checkers() -> None:
         print()
 
 
+def _build_config_parser() -> argparse.ArgumentParser:
+    from corvia.core.config_templates import list_config_templates
+
+    template_ids = ["auto"] + [t.id for t in list_config_templates()]
+    p = argparse.ArgumentParser(
+        prog="corvia config",
+        description="Manage project-level corvia.toml configuration files",
+    )
+    sub = p.add_subparsers(dest="command", required=True)
+
+    list_p = sub.add_parser("list-templates", help="List available corvia.toml templates")
+    list_p.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
+
+    detect_p = sub.add_parser("detect", help="Detect the best template for a target project")
+    detect_p.add_argument("target", nargs="?", default=".", help="Project directory or source file")
+    detect_p.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
+
+    init_p = sub.add_parser("init", help="Create corvia.toml for a target project")
+    init_p.add_argument("target", nargs="?", default=".", help="Project directory or source file")
+    init_p.add_argument("--template", choices=template_ids, default="auto", help="Template id (default: auto)")
+    init_p.add_argument("--force", action="store_true", help="Overwrite an existing corvia.toml")
+    init_p.add_argument("--dry-run", action="store_true", help="Print the generated config without writing it")
+    init_p.add_argument("--soc", help="Override detected Phison SOC id, e.g. PS5801 or PT5801")
+    init_p.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
+
+    return p
+
+
+def _main_config(argv: list[str]) -> int:
+    from corvia.core.config import ConfigError
+    from corvia.core.config_templates import (
+        detect_config_templates,
+        dumps_json,
+        init_config,
+        list_config_templates,
+    )
+
+    parser = _build_config_parser()
+    args = parser.parse_args(argv)
+
+    try:
+        if args.command == "list-templates":
+            templates = [t.to_dict() for t in list_config_templates()]
+            if args.json:
+                print(dumps_json({"templates": templates}))
+            else:
+                for template in templates:
+                    print(f"{template['id']:<10} {template['description']}")
+            return 0
+
+        if args.command == "detect":
+            detections = [d.to_dict() for d in detect_config_templates(args.target)]
+            if args.json:
+                print(dumps_json({"target": str(Path(args.target).resolve()), "candidates": detections}))
+            else:
+                for candidate in detections:
+                    reasons = "; ".join(candidate["reasons"])
+                    print(f"{candidate['template_id']:<10} {candidate['confidence']:>3}%  {reasons}")
+            return 0
+
+        if args.command == "init":
+            result = init_config(
+                args.target,
+                template_id=args.template,
+                force=args.force,
+                dry_run=args.dry_run,
+                soc=args.soc,
+            )
+            if args.json:
+                print(dumps_json(result))
+            elif args.dry_run:
+                print(result["content"])
+            else:
+                reasons = "; ".join(result["reasons"])
+                print(f"Created {result['path']} using template '{result['template']}' ({reasons})")
+            return 0
+    except ConfigError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    parser.error(f"Unknown config command: {args.command}")
+    return 2
+
+
 def _format_text(result: AnalysisResult, use_color: bool) -> str:
     lines: list[str] = []
     for issue in result.issues:
@@ -107,8 +192,12 @@ def _format_text(result: AnalysisResult, use_color: bool) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    effective_argv = list(sys.argv[1:] if argv is None else argv)
+    if effective_argv[:1] == ["config"]:
+        return _main_config(effective_argv[1:])
+
     parser = _build_parser()
-    args = parser.parse_args(argv)
+    args = parser.parse_args(effective_argv)
 
     if args.list_checkers:
         _list_checkers()
@@ -137,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
         elif not Path(discover_base).exists():
             discover_base = "."
     if not args.no_config:
-        from corvia.core.config import ConfigError, discover_or_create, find_example_tomls, load, parse_cproject_include_paths, _EXAMPLE_TOML
+        from corvia.core.config import ConfigError, discover_or_create, load, parse_cproject_include_paths
         try:
             if args.config:
                 config = load(args.config)
@@ -157,54 +246,52 @@ def main(argv: list[str] | None = None) -> int:
                     else:
                         cproject_path = cproject_path.resolve()
                 else:
-                    cproject_path = cproject_path.resolve()
+                        cproject_path = cproject_path.resolve()
                 cproject_includes = parse_cproject_include_paths(cproject_path)
-        except ConfigError:
-            dest = Path(discover_base).resolve() / "corvia.toml"
+        except ConfigError as exc:
+            from corvia.core.config_templates import init_config, list_config_templates
 
-            # 照舊寫入 corvia.toml.example 供使用者參考
-            example_path = Path(discover_base).resolve() / "corvia.toml.example"
-            try:
-                example_path.write_text(_EXAMPLE_TOML, encoding="utf-8")
-            except OSError:
-                pass
-
-            templates = find_example_tomls()
             selected = None
-
-            if templates and sys.stdin.isatty():
-                print("\nNo corvia.toml found. Choose a template to get started:\n", file=sys.stderr)
+            if sys.stdin.isatty():
+                print(f"\n{exc}\n", file=sys.stderr)
+                print("Choose a corvia.toml template to initialize:\n", file=sys.stderr)
+                templates = list_config_templates()
+                print("  [a] auto       Let Corvia detect the best template", file=sys.stderr)
                 for i, t in enumerate(templates, 1):
-                    desc = ""
-                    try:
-                        first = t.read_text(encoding="utf-8").splitlines()[0]
-                        if first.startswith("#"):
-                            desc = "  " + first.lstrip("# ").strip()
-                    except OSError:
-                        pass
-                    print(f"  [{i}] {t.name}{desc}", file=sys.stderr)
+                    print(f"  [{i}] {t.id:<10} {t.description}", file=sys.stderr)
                 print("  [0] Skip (add corvia.toml manually or use --no-config)\n", file=sys.stderr)
                 try:
-                    choice = input("Select [0]: ").strip()
-                    idx = int(choice) if choice else 0
-                    if 1 <= idx <= len(templates):
-                        selected = templates[idx - 1]
+                    choice = input("Select [a]: ").strip().lower()
+                    if choice in ("", "a", "auto"):
+                        selected = "auto"
+                    else:
+                        idx = int(choice)
+                        if 1 <= idx <= len(templates):
+                            selected = templates[idx - 1].id
                 except (ValueError, EOFError, KeyboardInterrupt):
-                    pass
+                    selected = None
 
             if selected:
-                import shutil
-                shutil.copy(selected, dest)
-                print(f"Copied {selected.name} -> corvia.toml", file=sys.stderr)
                 try:
-                    config = load(str(dest))
-                    print(f"Using config: {dest}", file=sys.stderr)
+                    result = init_config(discover_base, template_id=selected)
+                except ConfigError as e2:
+                    print(f"Error: {e2}", file=sys.stderr)
+                    return 2
+                try:
+                    config = load(str(result["path"]))
+                    reasons = "; ".join(str(r) for r in result["reasons"])
+                    print(
+                        f"Created {result['path']} using template '{result['template']}' ({reasons})",
+                        file=sys.stderr,
+                    )
+                    print(f"Using config: {result['path']}", file=sys.stderr)
                 except ConfigError as e2:
                     print(f"Error: {e2}", file=sys.stderr)
                     return 2
             else:
                 print(
-                    "No corvia.toml found. Use --no-config to skip, or copy a template from example_toml/.",
+                    "No corvia.toml found. Run `corvia config detect <project>` and "
+                    "`corvia config init <project> --template auto`, or use --no-config to skip.",
                     file=sys.stderr,
                 )
                 return 2
