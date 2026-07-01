@@ -268,6 +268,14 @@ corvia src/
 
 Corvia will automatically discover and load `corvia.toml` by walking upward from the target path.
 
+> **Scan one build variant at a time.** MISRA cross-translation-unit rules
+> (e.g. 5.8 "external identifiers shall be unique") assume a single linked
+> program. If your tree contains mutually-exclusive build variants — such as
+> `PS5801/` and `PT5801/`, only one of which is selected at build time — do
+> **not** scan both together, or their same-named functions will be reported
+> as duplicate definitions. Pass only the active variant's source directories
+> as scan targets, e.g. `corvia common/source/phison_hw/PS5801 common/sal common/config`.
+
 ---
 
 ## Checkers / 檢查器
