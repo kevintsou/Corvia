@@ -12,7 +12,7 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **C Preprocessor mode**: Preprocess files with gcc/clang before parsing, resolving `#include`, macros, and conditional compilation (enabled by default; use `--no-cpp` to disable)
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
 - **Makefile support**: Auto-detect include paths and defines from `Makefile` (runs `make -B -n` when available, falls back to static variable expansion for Windows/cross-platform use)
-- **Interactive setup wizard**: When `corvia.toml` is missing, displays a menu of templates from `example_toml/` to choose from; auto-creates config in the working directory (non-interactive environments fall back to auto-creation with defaults)
+- **First-class config setup**: `corvia config detect/init` selects and generates `corvia.toml` from built-in templates, with machine-readable JSON for agents and CI
 - **Multiple output formats**: text, JSON, HTML, Markdown
 - **Incremental analysis**: Cache results to skip unchanged files
 - **MISRA category filtering**: Filter by mandatory / required / advisory
@@ -109,7 +109,15 @@ corvia --no-cpp src/
 ```
 
 ### Use a configuration file
-Create `corvia.toml` in your project root (or run `corvia` without one and it will interactively prompt you to choose a template):
+Create `corvia.toml` in your project root manually, or let Corvia detect and
+generate the closest matching template:
+
+```bash
+corvia config detect . --json
+corvia config init . --template auto
+```
+
+Example `corvia.toml`:
 
 ```toml
 [paths]
@@ -160,6 +168,27 @@ corvia [options] [targets ...]
 | `--external-checkers` | Directory containing external checker modules |
 | `--no-color` | Disable colored output |
 
+### Config setup commands
+
+```bash
+corvia config list-templates
+corvia config detect <project_dir>
+corvia config init <project_dir> --template auto
+```
+
+Use `--json` with any config command for machine-readable output. `config init`
+never overwrites an existing `corvia.toml` unless `--force` is supplied.
+
+Supported templates:
+
+| Template | Description |
+|----------|-------------|
+| `auto` | Select the highest-confidence detected template |
+| `ds5` | Eclipse CDT / ARM DS-5 project using `.cproject` include extraction |
+| `ps5801` | Phison PS5801/PT5801 firmware; dynamically renders existing SoC include directories when present |
+| `makefile` | Makefile-backed project using Corvia's `-I` / `-D` extraction |
+| `minimal` | Portable fallback with preprocessing and cache enabled |
+
 ### Examples / 範例
 
 ```bash
@@ -198,7 +227,7 @@ corvia src/
 
 ## Configuration / 設定檔 (`corvia.toml`)
 
-CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory. If no config file is found, an interactive wizard displays available templates from `example_toml/` for you to choose from (in non-interactive environments, defaults are used instead).
+CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory. If no config file is found, run `corvia config detect` and `corvia config init` to generate one before analysis.
 
 ### Full configuration reference
 
@@ -239,28 +268,32 @@ A complete annotated template is available at `corvia.toml.example`.
 
 ## Example Configurations / 範例設定檔
 
-Ready-to-use `corvia.toml` templates are provided in the [`example_toml/`](example_toml/) folder:
+Ready-to-use `corvia.toml` templates are bundled with the package and exposed through `corvia config`:
 
-| File | Description |
-|------|-------------|
-| [`corvia.toml.ps5801`](example_toml/corvia.toml.ps5801) | Phison PS5801 SoC firmware project — manual include path list, uses C preprocessor with SOC defines |
-| [`corvia.toml.ds5`](example_toml/corvia.toml.ds5) | Eclipse CDT / ARM DS-5 project — auto-extracts include paths from `.cproject` |
+| Template | Description |
+|----------|-------------|
+| `ps5801` | Phison PS5801/PT5801 firmware project; dynamically renders existing SoC include paths where possible |
+| `ds5` | Eclipse CDT / ARM DS-5 project; auto-extracts include paths from `.cproject` |
+| `makefile` | Makefile-backed project; extracts include paths and defines from `Makefile` |
+| `minimal` | Generic fallback for projects that need manual include path tuning |
 
 ### How to use / 使用方式
 
-1. Copy the closest matching example to your project root and rename it `corvia.toml`:
+1. Detect candidates:
 
 ```bash
-# Eclipse CDT / DS-5 project
-cp /path/to/corvia/example_toml/corvia.toml.ds5 your_project/corvia.toml
-
-# Phison PS5801 firmware project
-cp /path/to/corvia/example_toml/corvia.toml.ps5801 your_project/corvia.toml
+corvia config detect your_project --json
 ```
 
-2. Edit the file to match your project (adjust paths, defines, SOC_ID, etc.).
+2. Initialize config:
 
-3. Run Corvia from your project directory:
+```bash
+corvia config init your_project --template auto
+```
+
+3. Edit the file to match your project if needed (adjust paths, defines, SOC_ID, etc.).
+
+4. Run Corvia from your project directory:
 
 ```bash
 corvia src/
