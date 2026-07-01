@@ -56,6 +56,10 @@ class FunctionSummary:
     # Uninitialized output parameters (Rule 9.1)
     output_params_not_initialized: set[int] = field(default_factory=set)
 
+    # Pointer parameters the function writes through (*p = ... / p->f = ...),
+    # i.e. out-parameters that initialize the caller's object (Rule 9.1).
+    output_params_initialized: set[int] = field(default_factory=set)
+
     # Bookkeeping
     is_external: bool = False  # True for known stdlib / unresolved
     is_recursive: bool = False
@@ -175,6 +179,7 @@ class _SummaryComputer:
         summary.params_must_not_be_null = analyzer.params_dereffed_unconditionally
         summary.return_value_used_internally = analyzer.return_value_used
         summary.output_params_not_initialized = analyzer.output_params_not_initialized
+        summary.output_params_initialized = analyzer.output_params_written
 
         return summary
 
@@ -206,6 +211,7 @@ class _BodyAnalyzer:
         self._allocated_locals: set[str] = set()
         self._opened_locals: set[str] = set()
         self.output_params_not_initialized: set[int] = set()
+        self.output_params_written: set[int] = set()
         self._param_initialized: dict[int, bool] = {i: False for i in param_index.values()}
 
     def walk(self, node: c_ast.Node) -> None:
@@ -220,7 +226,14 @@ class _BodyAnalyzer:
                 if self._is_open_call(node.rvalue):
                     self._opened_locals.add(name)
             if isinstance(node.lvalue, c_ast.UnaryOp) and node.lvalue.op == "*":
+                # *p = ...   -> writes through pointer param p
                 self._mark_param_initialized(node.lvalue.expr)
+            elif isinstance(node.lvalue, c_ast.StructRef) and node.lvalue.type == "->":
+                # p->field = ...  -> writes through pointer param p
+                self._mark_param_initialized(node.lvalue.name)
+            elif isinstance(node.lvalue, c_ast.ArrayRef):
+                # p[i] = ...  -> writes through pointer/array param p
+                self._mark_param_initialized(node.lvalue.name)
             self.has_side_effects = True
 
         elif isinstance(node, c_ast.FuncCall):
@@ -271,7 +284,9 @@ class _BodyAnalyzer:
 
     def _mark_param_initialized(self, node: c_ast.Node) -> None:
         if isinstance(node, c_ast.ID) and node.name in self.param_index:
-            self._param_initialized[self.param_index[node.name]] = True
+            idx = self.param_index[node.name]
+            self._param_initialized[idx] = True
+            self.output_params_written.add(idx)
 
     def _track_call(self, call: c_ast.FuncCall) -> None:
         self.has_side_effects = True
