@@ -25,7 +25,8 @@ RULE_11_8 = MisraRule("11.8", MisraCategory.REQUIRED, "A cast shall not remove a
 RULE_11_9 = MisraRule("11.9", MisraCategory.REQUIRED, "The macro NULL shall be the only permitted form of integer null pointer constant")
 
 
-def _classify(type_node: c_ast.Node) -> dict:
+def _classify(type_node: c_ast.Node, typedefs: dict[str, dict] | None = None,
+              _depth_guard: int = 0) -> dict:
     """Classify a type node into kind + qualifiers + base type names.
 
     Returns a dict with:
@@ -35,6 +36,13 @@ def _classify(type_node: c_ast.Node) -> dict:
       ptr_quals: list of qualifiers on the pointee (const/volatile)
       depth: pointer depth (0 = not a pointer)
       to_kind: classification of the pointee
+
+    ``typedefs`` maps a typedef name to the classification of its underlying
+    type. Many embedded codebases hide pointers behind typedefs (e.g.
+    ``typedef struct x *X_PTR``); without resolving them a cast like
+    ``(X_PTR)void_ptr`` is misread as an integer conversion, producing false
+    11.4/11.6 violations. When a bare identifier names such a typedef, its
+    resolved classification is combined with any additional pointer depth.
     """
     info: dict = {"kind": "other", "base": [], "ptr_quals": [], "depth": 0, "to_kind": None}
 
@@ -64,8 +72,29 @@ def _classify(type_node: c_ast.Node) -> dict:
 
     if isinstance(inner, c_ast.IdentifierType):
         names = inner.names
-        info["base"] = names
         joined = " ".join(names)
+
+        # Resolve typedefs whose underlying type is itself a pointer, e.g.
+        # ``typedef struct timer *TIMER_PTR``. These are the ones that get
+        # misclassified as integers. Typedefs that name a plain object/scalar
+        # type (``typedef struct A {..} A``) are deliberately NOT rewritten
+        # here: the normal handling below already classifies ``A`` / ``A*``
+        # correctly and preserves the base name for Rule 11.3.
+        if (typedefs is not None and _depth_guard < 16
+                and len(names) == 1 and names[0] in typedefs):
+            resolved = dict(typedefs[names[0]])
+            resolved_kind = resolved.get("kind")
+            resolved_depth = resolved.get("depth", 0)
+            if resolved_depth >= 1 and resolved_kind in (
+                    "void_pointer", "object_pointer", "char_pointer", "func_pointer"):
+                out = dict(resolved)
+                out["depth"] = depth + resolved_depth
+                out["ptr_quals"] = list(dict.fromkeys(quals + resolved.get("ptr_quals", [])))
+                if not out.get("base"):
+                    out["base"] = [names[0]]
+                return out
+
+        info["base"] = names
         if depth >= 1:
             if joined == "void":
                 info["kind"] = "void_pointer"
@@ -118,12 +147,33 @@ class MisraPointerConvChecker(BaseChecker):
     def __init__(self) -> None:
         super().__init__()
         self._local_types: list[dict[str, dict]] = []
+        self._typedefs: dict[str, dict] = {}
+
+    def _build_typedef_map(self, node: c_ast.FileAST) -> dict[str, dict]:
+        """Resolve every typedef to a classification, following typedef chains.
+
+        Built in two phases so that a typedef referring to an earlier typedef
+        (e.g. ``typedef X_PTR Y;``) resolves correctly regardless of order.
+        """
+        raw: dict[str, c_ast.Node] = {}
+        for ext in node.ext or []:
+            if isinstance(ext, c_ast.Typedef) and ext.name:
+                raw[ext.name] = ext.type
+
+        resolved: dict[str, dict] = {}
+        # Iterate to a fixpoint: a typedef that refers to another typedef needs
+        # the referent resolved first, and declaration order is not guaranteed.
+        for _ in range(3):
+            for name in raw:
+                resolved[name] = _classify(raw[name], resolved)
+        return resolved
 
     def visit_FileAST(self, node: c_ast.FileAST) -> None:
+        self._typedefs = self._build_typedef_map(node)
         self._local_types = [{}]
         for ext in node.ext or []:
             if isinstance(ext, c_ast.Decl) and ext.name:
-                self._local_types[0][ext.name] = _classify(ext.type)
+                self._local_types[0][ext.name] = _classify(ext.type, self._typedefs)
         self.generic_visit(node)
         self._local_types = []
 
@@ -136,7 +186,7 @@ class MisraPointerConvChecker(BaseChecker):
             if isinstance(t, c_ast.FuncDecl) and t.args:
                 for p in t.args.params or []:
                     if isinstance(p, c_ast.Decl) and p.name:
-                        scope[p.name] = _classify(p.type)
+                        scope[p.name] = _classify(p.type, self._typedefs)
         self._local_types.append(scope)
         if node.body:
             self.generic_visit(node.body)
@@ -144,7 +194,7 @@ class MisraPointerConvChecker(BaseChecker):
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
         if node.name and self._local_types:
-            self._local_types[-1][node.name] = _classify(node.type)
+            self._local_types[-1][node.name] = _classify(node.type, self._typedefs)
         if node.init:
             self.visit(node.init)
 
@@ -153,14 +203,14 @@ class MisraPointerConvChecker(BaseChecker):
             self.generic_visit(node)
             return
 
-        target = _classify(node.to_type)
+        target = _classify(node.to_type, self._typedefs)
         source = self._classify_expr(node.expr) or {"kind": "other"}
 
         self._check_cast(node, source, target)
         self.generic_visit(node)
 
     def _classify_expr(self, node: c_ast.Node) -> dict | None:
-        result = _classify_expr(node, self._ctx)
+        result = _classify_expr(node, self._ctx, self._typedefs)
         if result is not None:
             return result
         if isinstance(node, c_ast.ID):
@@ -232,7 +282,7 @@ class MisraPointerConvChecker(BaseChecker):
             )
 
 
-def _classify_expr(node: c_ast.Node, ctx) -> dict | None:
+def _classify_expr(node: c_ast.Node, ctx, typedefs: dict[str, dict] | None = None) -> dict | None:
     """Best-effort source-side classification (no full type inference)."""
     if isinstance(node, c_ast.Constant):
         if node.type == "int":
@@ -244,7 +294,7 @@ def _classify_expr(node: c_ast.Node, ctx) -> dict | None:
     if isinstance(node, c_ast.ID) and node.name == "NULL":
         return {"kind": "void_pointer", "base": ["void"], "ptr_quals": [], "depth": 1}
     if isinstance(node, c_ast.Cast):
-        return _classify(node.to_type)
+        return _classify(node.to_type, typedefs)
     if isinstance(node, c_ast.UnaryOp) and node.op == "&":
         inner = _classify_expr(node.expr, ctx) or {"kind": "object_pointer"}
         return {"kind": "object_pointer", "base": inner.get("base", []), "ptr_quals": [], "depth": 1}

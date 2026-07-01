@@ -46,3 +46,15 @@ void use_zero_constant(void) {
     int *p = 0;
     (void)p;
 }
+
+/* Pointer hidden behind a typedef: (HCMD_PTR)void_ptr must be read as a
+   void->object pointer conversion (11.5), NOT a pointer/integer (11.4) or
+   void/arithmetic (11.6) conversion. Regression guard for typedef pointer
+   resolution. */
+typedef struct hcmd { int ctag; } HCMD;
+typedef HCMD *HCMD_PTR;
+
+int typedef_pointer_cast(void *dptr) {
+    HCMD_PTR hp = (HCMD_PTR)dptr;
+    return hp->ctag;
+}
