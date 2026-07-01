@@ -49,3 +49,15 @@ def test_const_qualifier_drop(fixtures_dir):
     result = _run(f)
     rule_ids = {i.misra_rule.rule_id for i in result.issues if i.misra_rule}
     assert "11.8" in rule_ids
+
+
+def test_typedef_pointer_cast_not_misclassified(fixtures_dir):
+    """A cast to a pointer typedef (HCMD_PTR) from void* must be classified as
+    void->object (11.5), not the spurious pointer/integer (11.4) or
+    void/arithmetic (11.6) that arises when a pointer typedef is mistaken for
+    an integer. The fixture contains no genuine 11.6 cast, so any 11.6 here
+    would be the typedef false positive."""
+    f = str(fixtures_dir / "misra_pointer_conv.c")
+    result = _run(f)
+    rule_ids = [i.misra_rule.rule_id for i in result.issues if i.misra_rule]
+    assert "11.6" not in rule_ids
