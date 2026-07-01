@@ -42,6 +42,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("-c", "--checkers", help="Comma-separated checker IDs to enable (default: all)")
     p.add_argument("-f", "--format", choices=["text", "json", "html", "md"], default="text", help="Output format (default: text)")
     p.add_argument("-o", "--output", help="Output file path")
+    p.add_argument("--emit-symbols", metavar="PATH", help="Also write a JSON symbol table + call graph to PATH (for dependency-aware tooling)")
     p.add_argument("-s", "--severity", choices=["info", "warning", "error"], default="info", help="Minimum severity (default: info)")
     p.add_argument("--misra-only", action="store_true", help="Only show issues with MISRA rule mapping")
     p.add_argument("--misra-category", choices=["mandatory", "required", "advisory"], help="Filter by MISRA category")
@@ -286,6 +287,15 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Report written to {args.output}")
     else:
         print(output)
+
+    if args.emit_symbols:
+        import json
+
+        graph = engine.export_symbol_graph(args.targets)
+        Path(args.emit_symbols).write_text(
+            json.dumps(graph, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        print(f"Symbol graph written to {args.emit_symbols}", file=sys.stderr)
 
     has_errors = any(i.severity == Severity.ERROR for i in result.issues)
     return 1 if has_errors else 0
