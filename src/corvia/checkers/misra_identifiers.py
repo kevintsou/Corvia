@@ -46,9 +46,32 @@ def _is_compiler_reserved(name: str) -> bool:
     return False
 
 
+_SYSTEM_PATH_MARKERS = (
+    "fake_libc_include",   # Corvia's bundled libc stubs
+    "mingw",               # MinGW / MSYS host toolchain headers
+    "arm-none-eabi",       # ARM bare-metal toolchain headers
+    "arm-gnu-toolchain",
+    "/usr/include",
+    "/usr/lib",
+    "\\include\\gcc",
+    "/lib/gcc",
+)
+
+
 def _is_non_user_file(path: str) -> bool:
-    """Return True for pseudo-paths that represent compiler internals."""
-    return path.startswith("<")  # <built-in>, <command-line>, etc.
+    """Return True for paths that do not represent user project code.
+
+    Cross-translation-unit identifier rules (5.1/5.6/5.8/5.9) must only compare
+    identifiers the programmer actually owns. Symbols pulled in from the host
+    toolchain (MinGW/glibc/ARM bare-metal headers) or Corvia's own fake libc
+    stubs are not user definitions; comparing project functions against them
+    produces pure false positives (e.g. a project symbol reported as
+    "defined in multiple files" alongside <mingw>/vadefs.h).
+    """
+    if path.startswith("<"):  # <built-in>, <command-line>, etc.
+        return True
+    lowered = path.replace("\\", "/").lower()
+    return any(marker.replace("\\", "/") in lowered for marker in _SYSTEM_PATH_MARKERS)
 
 
 class MisraIdentifiersChecker(BaseChecker):
