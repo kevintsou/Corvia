@@ -122,14 +122,15 @@ class AnalysisEngine:
 
         ctx = self._build_context(asts)
 
-        total_check = len(asts) * len(self._checker_classes)
-        check_done = 0
-        for filename, ast in asts.items():
+        total_files = len(asts)
+        for file_idx, (filename, ast) in enumerate(asts.items()):
+            # Progress is reported per source file (not per file x checker), so
+            # the count matches the number of files being analyzed rather than
+            # ballooning to files * checkers.
+            if progress_callback:
+                progress_callback(file_idx + 1, total_files, f"check {Path(filename).name}")
             file_issues: list[Issue] = []
             for checker_cls in self._checker_classes:
-                check_done += 1
-                if progress_callback:
-                    progress_callback(check_done, total_check, f"check {Path(filename).name}")
                 checker = checker_cls()
                 checker.set_file(filename)
                 checker.set_context(ctx)
