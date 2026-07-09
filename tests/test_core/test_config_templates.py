@@ -32,6 +32,26 @@ def test_init_auto_generates_dynamic_phison_include_paths(tmp_path: Path):
     assert 'template: ps5801' in generated
     assert 'common/include/phison_hw/PT5801/reg' in generated
     assert '-DSOC_ID=PT5801' in generated
+    assert '"parser" = "warning"' in generated
+
+
+def test_init_ps5801_static_fallback_downgrades_parser_warnings(tmp_path: Path):
+    result = init_config(tmp_path, template_id="ps5801")
+
+    generated = (tmp_path / "corvia.toml").read_text(encoding="utf-8")
+    assert result["template"] == "ps5801"
+    assert '"parser" = "warning"' in generated
+
+
+def test_init_makefile_downgrades_parser_warnings(tmp_path: Path):
+    (tmp_path / "Makefile").write_text("CFLAGS += -Iinclude\n", encoding="utf-8")
+
+    result = init_config(tmp_path, template_id="makefile")
+
+    generated = (tmp_path / "corvia.toml").read_text(encoding="utf-8")
+    assert result["template"] == "makefile"
+    assert 'makefile = "Makefile"' in generated
+    assert '"parser" = "warning"' in generated
 
 
 def test_init_does_not_overwrite_without_force(tmp_path: Path):

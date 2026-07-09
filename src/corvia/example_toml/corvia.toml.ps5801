@@ -62,6 +62,12 @@ include = [
 # Preprocessor defines — match build defaults
 cpp_args = "-DSOC_ID=PS5801 -DPS5801=2 -DPT5801=1"
 
+[severity]
+# Firmware projects often contain target/toolchain-specific preprocessor
+# constructs that host clang can only diagnose. Keep the scan and symbol
+# export usable while still surfacing those parser diagnostics in the report.
+"parser" = "warning"
+
 [output]
 format = "text"
 

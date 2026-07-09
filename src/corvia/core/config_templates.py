@@ -199,6 +199,11 @@ makefile = "Makefile"
 # make_target = "all"
 # make_args = ["SOC_ID=PS5801"]
 
+[severity]
+# Host preprocessing of firmware Makefiles can emit target-specific parser
+# diagnostics. Downgrade them so Corvia still emits findings and symbols.
+"parser" = "warning"
+
 [cache]
 enabled = true
 dir = ".corvia_cache"
@@ -255,6 +260,12 @@ use_cpp = true
 {_render_include_list(include_dirs)}
 
 cpp_args = "-DSOC_ID={soc_id} -DPS5801=2 -DPT5801=1"
+
+[severity]
+# Firmware projects often contain target/toolchain-specific preprocessor
+# constructs that host clang can only diagnose. Keep the scan and symbol
+# export usable while still surfacing those parser diagnostics in the report.
+"parser" = "warning"
 
 [output]
 format = "text"
