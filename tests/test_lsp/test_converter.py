@@ -82,6 +82,23 @@ def test_uri_path_roundtrip():
     assert path_to_file_uri("file:///already.c") == "file:///already.c"
 
 
+def test_relative_path_to_uri_does_not_raise():
+    from pathlib import Path
+
+    uri = path_to_file_uri("rel/path.c")
+    assert uri == Path("rel/path.c").resolve().as_uri()
+
+
+def test_unc_uri_preserves_host():
+    import sys
+
+    result = file_uri_to_path("file://server/share/x.c")
+    if sys.platform == "win32":
+        assert result == r"\\server\share\x.c"
+    else:
+        assert "server" in result
+
+
 def test_zero_line_clamped():
     issue = Issue(
         checker_id="x",

@@ -17,8 +17,11 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
+from pathlib import Path
 
+from corvia import __version__
 from corvia.engine import AnalysisEngine
 from corvia.lsp.converter import (
     file_uri_to_path,
@@ -50,7 +53,7 @@ def _import_language_server():
 def create_server():
     LanguageServer, types = _import_language_server()
 
-    server = LanguageServer("corvia-lsp", "0.1.0")
+    server = LanguageServer("corvia-lsp", __version__)
     engine = AnalysisEngine(incremental=True)
 
     def _publish(uri: str, diagnostics: list[dict]) -> None:
@@ -75,18 +78,30 @@ def create_server():
                     message=d["message"],
                 )
             )
-        server.text_document_publish_diagnostics(
-            types.PublishDiagnosticsParams(uri=uri, diagnostics=lsp_diags)
-        )
+        if hasattr(server, "text_document_publish_diagnostics"):  # pygls >= 2.x
+            server.text_document_publish_diagnostics(
+                types.PublishDiagnosticsParams(uri=uri, diagnostics=lsp_diags)
+            )
+        else:  # pygls 1.x
+            server.publish_diagnostics(uri, lsp_diags)
+
+    def _norm(path: str) -> str:
+        return os.path.normcase(str(Path(path).resolve()))
 
     def _analyze_and_publish(uri: str) -> None:
         path = file_uri_to_path(uri)
         result = engine.analyze([path])
         grouped = issues_by_file(result.issues)
+        analyzed = _norm(path)
+        analyzed_published = False
         for file, issues in grouped.items():
             target_uri = path_to_file_uri(file)
             _publish(target_uri, [issue_to_diagnostic(i) for i in issues])
-        if not grouped:
+            if _norm(file) == analyzed:
+                analyzed_published = True
+        # Always clear diagnostics for the analyzed document itself, even
+        # when other files (e.g. included headers) still have issues.
+        if not analyzed_published:
             _publish(uri, [])
 
     @server.feature(types.TEXT_DOCUMENT_DID_OPEN)

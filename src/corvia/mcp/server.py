@@ -104,7 +104,7 @@ def analyze(
             summary         — {total_files, total_issues, ERROR, WARNING, INFO}
             issues          — list of issue dicts {checker_id, severity, message,
                               file, line, column, end_line, context, misra_rule}
-            misra_summary   — {rule_id: {count, category, description}, ...}
+            misra_summary   — {rule_id: {rule_id, category, description, violations}, ...}
     """
     min_severity = _SEVERITY_MAP.get(severity.lower(), Severity.INFO)
     misra_cat = _MISRA_CAT_MAP.get(misra_category.lower()) if misra_category else None
@@ -112,7 +112,7 @@ def analyze(
     # --- Config resolution (mirrors cli.py logic) ---
     resolved_config = None
     if not no_config:
-        from corvia.core.config import ConfigError, discover_or_create, load
+        from corvia.core.config import ConfigError, discover, load
 
         try:
             if config:
@@ -120,7 +120,9 @@ def analyze(
             else:
                 discover_base = str(Path(path).resolve().parent if Path(path).is_file()
                                     else Path(path).resolve())
-                resolved_config = discover_or_create(discover_base)
+                # discover() is a pure lookup — unlike discover_or_create()
+                # it never writes a corvia.toml.example into the project.
+                resolved_config = discover(discover_base)
         except ConfigError:
             # If no config found / error, continue without config
             resolved_config = None
@@ -185,19 +187,34 @@ def list_checkers() -> list[dict[str, Any]]:
 # Tool: clean_cache
 # ---------------------------------------------------------------------------
 @mcp.tool()
-def clean_cache(cache_dir: str = ".corvia_cache") -> str:
-    """Delete the Corvia incremental analysis cache.
+def clean_cache(target_dir: str, cache_dir: Optional[str] = None) -> str:
+    """Delete the Corvia incremental analysis cache for a project.
 
     Args:
-        cache_dir: Path to the cache directory (default: .corvia_cache).
+        target_dir: Project directory (or a file inside it) whose cache
+            should be removed. The cache directory is resolved relative to
+            it, the same way `analyze` resolves its cache location.
+        cache_dir: Explicit cache directory. Absolute paths are used as-is;
+            relative paths are resolved against target_dir. Defaults to
+            .corvia_cache next to target_dir.
 
     Returns:
-        A confirmation message.
+        A confirmation message, or "no cache found" when nothing was deleted.
     """
     from corvia.core.cache import CacheManager
 
-    CacheManager(cache_dir).clear()
-    return f"Cache cleared: {cache_dir}"
+    target_path = Path(target_dir).resolve()
+    base_dir = target_path.parent if target_path.is_file() else target_path
+    if cache_dir is None:
+        resolved = base_dir / ".corvia_cache"
+    else:
+        cache_path = Path(cache_dir)
+        resolved = cache_path if cache_path.is_absolute() else base_dir / cache_path
+
+    if not resolved.exists():
+        return f"No cache found at {resolved}"
+    CacheManager(str(resolved)).clear()
+    return f"Cache cleared: {resolved}"
 
 
 # ---------------------------------------------------------------------------

@@ -45,7 +45,8 @@ def install_cpp() -> int:
             try:
                 answer = input("Install MinGW-w64 GCC via winget? [Y/n]: ").strip().lower()
             except (EOFError, KeyboardInterrupt):
-                answer = "y"
+                print("\nAborted.", file=sys.stderr)
+                return 1
             if answer and answer not in ("y", "yes", ""):
                 print("Skipped installation.")
                 return 1

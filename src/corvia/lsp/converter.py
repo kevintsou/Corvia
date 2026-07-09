@@ -68,11 +68,14 @@ def issues_by_file(issues: list[Issue]) -> dict[str, list[Issue]]:
 
 def file_uri_to_path(uri: str) -> str:
     if uri.startswith("file://"):
-        return url2pathname(urlparse(uri).path)
+        p = urlparse(uri)
+        # Preserve the UNC host (file://server/share/x.c -> \\server\share\x.c)
+        return url2pathname(f"//{p.netloc}{p.path}" if p.netloc else p.path)
     return uri
 
 
 def path_to_file_uri(path: str) -> str:
     if path.startswith("file://"):
         return path
-    return Path(path).as_uri()
+    # as_uri() raises ValueError on relative paths, so resolve first.
+    return Path(path).resolve().as_uri()

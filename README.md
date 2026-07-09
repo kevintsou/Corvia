@@ -150,6 +150,7 @@ corvia [options] [targets ...]
 | `-f, --format` | Output format: `text`, `json`, `html`, `md` (default: text) |
 | `-o, --output` | Output file path |
 | `-s, --severity` | Minimum severity: `info`, `warning`, `error` (default: info) |
+| `--fail-on` | Exit non-zero when issues at/above this severity exist: `error`, `warning`, `info` (default: error) — useful for CI gating |
 | `--misra-only` | Only show issues with MISRA rule mapping |
 | `--misra-category` | Filter by MISRA category: `mandatory`, `required`, `advisory` |
 | `--use-cpp` | Enable C preprocessor mode (default: enabled) |

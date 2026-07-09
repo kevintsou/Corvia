@@ -6,6 +6,11 @@ from corvia.models import AnalysisResult
 from corvia.reporters.base import BaseReporter
 
 
+def _table_cell(text: str) -> str:
+    """Escape text for a Markdown table cell (pipes and newlines break rows)."""
+    return str(text).replace("|", "\\|").replace("\r\n", " ").replace("\n", " ").replace("\r", " ")
+
+
 class MdReporter(BaseReporter):
     def generate(self, result: AnalysisResult) -> str:
         from corvia import __version__
@@ -31,7 +36,7 @@ class MdReporter(BaseReporter):
             lines.append("| Rule | Category | Violations | Description |")
             lines.append("|------|----------|------------|-------------|")
             for rid, rule in misra.items():
-                lines.append(f"| {rule['rule_id']} | {rule['category']} | {rule['violations']} | {rule['description']} |")
+                lines.append(f"| {rule['rule_id']} | {rule['category']} | {rule['violations']} | {_table_cell(rule['description'])} |")
             lines.append("")
 
         if data["issues"]:
@@ -54,7 +59,7 @@ class MdReporter(BaseReporter):
                     if issue.get("misra_rule"):
                         mr = issue["misra_rule"]
                         misra_rule = f"Rule {mr['rule_id']} ({mr['category']})"
-                    lines.append(f"| {loc} | {checker} | {misra_rule} | {issue['message']} |")
+                    lines.append(f"| {loc} | {checker} | {misra_rule} | {_table_cell(issue['message'])} |")
                 lines.append("")
 
         lines.append("---\n")

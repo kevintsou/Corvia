@@ -41,10 +41,12 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("targets", nargs="*", help="Files or directories to analyze")
     p.add_argument("-V", "--version", action="version", version=f"corvia {__version__}")
     p.add_argument("-c", "--checkers", help="Comma-separated checker IDs to enable (default: all)")
-    p.add_argument("-f", "--format", choices=["text", "json", "html", "md"], default="text", help="Output format (default: text)")
+    p.add_argument("-f", "--format", choices=["text", "json", "html", "md"], default=None, help="Output format (default: text, or output_format from corvia.toml)")
     p.add_argument("-o", "--output", help="Output file path")
     p.add_argument("--emit-symbols", metavar="PATH", help="Also write a JSON symbol table + call graph to PATH (for dependency-aware tooling)")
     p.add_argument("-s", "--severity", choices=["info", "warning", "error"], default="info", help="Minimum severity (default: info)")
+    p.add_argument("--fail-on", choices=["error", "warning", "info"], default="error",
+                   help="Exit with code 1 if any issue at or above this severity is found (default: error)")
     p.add_argument("--misra-only", action="store_true", help="Only show issues with MISRA rule mapping")
     p.add_argument("--misra-category", choices=["mandatory", "required", "advisory"], help="Filter by MISRA category")
     p.add_argument("--use-cpp", action="store_true", default=True, help="Use C preprocessor before parsing (default: enabled)")
@@ -75,6 +77,12 @@ def _list_checkers() -> None:
             rules = ", ".join(f"Rule {r.rule_id}" for r in cls.misra_rules)
             print(f"  {'':20s} MISRA: {rules}")
         print()
+
+
+# Verbs handled by the `corvia config` subcommand. Keep in sync with
+# _build_config_parser(). A bare `corvia config <path>` where <path> is not
+# one of these is treated as an analysis target, not a config command.
+_CONFIG_VERBS = frozenset({"list-templates", "detect", "init"})
 
 
 def _build_config_parser() -> argparse.ArgumentParser:
@@ -194,7 +202,13 @@ def _format_text(result: AnalysisResult, use_color: bool) -> str:
 def main(argv: list[str] | None = None) -> int:
     effective_argv = list(sys.argv[1:] if argv is None else argv)
     if effective_argv[:1] == ["config"]:
-        return _main_config(effective_argv[1:])
+        rest = effective_argv[1:]
+        # Only route to the config subcommand for a known verb (or help
+        # request); otherwise a target literally named "config" is a path.
+        if rest and rest[0] in (_CONFIG_VERBS | {"-h", "--help"}):
+            return _main_config(rest)
+        if not rest and not Path("config").exists():
+            return _main_config(rest)
 
     parser = _build_parser()
     args = parser.parse_args(effective_argv)
@@ -220,11 +234,11 @@ def main(argv: list[str] | None = None) -> int:
     cproject_includes: list[str] = []
     discover_base = "."
     if not args.no_config and args.targets:
-        first_target = Path(args.targets[0])
-        if first_target.is_absolute():
+        first_target = Path(args.targets[0]).resolve()
+        if first_target.is_dir():
+            discover_base = str(first_target)
+        else:
             discover_base = str(first_target.parent)
-        elif not Path(discover_base).exists():
-            discover_base = "."
     if not args.no_config:
         from corvia.core.config import ConfigError, discover_or_create, load, parse_cproject_include_paths
         try:
@@ -299,8 +313,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Using config: {config.source_path}", file=sys.stderr)
 
     output_format = args.format
-    if config and config.output_format and "-f" not in (argv or sys.argv) and "--format" not in (argv or sys.argv):
-        output_format = config.output_format
+    if output_format is None:
+        output_format = config.output_format if (config and config.output_format) else "text"
 
     no_color = args.no_color
     if config and config.no_color is not None and not args.no_color:
@@ -341,11 +355,13 @@ def main(argv: list[str] | None = None) -> int:
 
     if _has_tqdm and len(files_for_progress) > 1:
         progress_bar = tqdm(total=0, desc="Parsing", unit="file", ncols=80)
+        checking_started = False
         def progress_callback(curr, total, name):
+            nonlocal checking_started
             if name.startswith("check "):
-                if progress_bar.desc != "Checking":
+                if not checking_started:
+                    checking_started = True
                     progress_bar.reset(total=total)
-                    progress_bar.set_description("Checking")
                 progress_bar.set_description(f"Checking {name[6:]}")
             else:
                 if total != progress_bar.total:
@@ -384,8 +400,9 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(f"Symbol graph written to {args.emit_symbols}", file=sys.stderr)
 
-    has_errors = any(i.severity == Severity.ERROR for i in result.issues)
-    return 1 if has_errors else 0
+    fail_threshold = _SEVERITY_MAP[args.fail_on]
+    has_failures = any(i.severity >= fail_threshold for i in result.issues)
+    return 1 if has_failures else 0
 
 
 if __name__ == "__main__":

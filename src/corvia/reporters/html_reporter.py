@@ -92,7 +92,7 @@ footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
 </div>
 </body>
 </html>
-""")
+""", autoescape=True)
 
 
 class HtmlReporter(BaseReporter):

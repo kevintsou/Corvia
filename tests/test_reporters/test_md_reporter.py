@@ -33,3 +33,27 @@ def test_md_empty():
     output = reporter.generate(result)
     assert "Total" in output
     assert "0" in output
+
+
+def test_md_escapes_pipes_and_newlines_in_table_cells():
+    result = AnalysisResult(
+        files_analyzed=["test.c"],
+        issues=[
+            Issue(
+                checker_id="dead-code",
+                severity=Severity.WARNING,
+                message="bad expr `a | b`\nsecond line",
+                file="test.c",
+                line=5,
+                column=1,
+                misra_rule=MisraRule("2.1", MisraCategory.REQUIRED, "No | pipes\nin descriptions"),
+            ),
+        ],
+    )
+    output = MdReporter().generate(result)
+    issue_row = next(l for l in output.splitlines() if "dead-code" in l)
+    assert "bad expr `a \\| b` second line" in issue_row
+    misra_row = next(l for l in output.splitlines() if "No \\| pipes" in l)
+    assert "\n" not in misra_row
+    # Every table row must keep its column count (pipes escaped, no raw newlines)
+    assert issue_row.count(" | ") == 3
