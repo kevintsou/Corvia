@@ -56,6 +56,95 @@ def test_cli_writes_context_and_symbol_graph(tmp_path):
     )
 
 
+def test_emit_symbols_falls_back_when_cpp_parse_fails(tmp_path):
+    src = tmp_path / "demo.c"
+    out = tmp_path / "findings.json"
+    symbols = tmp_path / "symbols.json"
+    cache_dir = tmp_path / ".corvia_cache"
+
+    src.write_text(
+        '#include "missing_vendor_header.h"\n'
+        "int symbol_survives(void) { return 7; }\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "corvia.toml").write_text(
+        """
+[paths]
+use_cpp = true
+
+[severity]
+"parser" = "warning"
+""",
+        encoding="utf-8",
+    )
+
+    rc = main(
+        [
+            "--no-incremental",
+            "--cache-dir",
+            str(cache_dir),
+            "-f",
+            "json",
+            "-o",
+            str(out),
+            "--emit-symbols",
+            str(symbols),
+            str(src),
+        ]
+    )
+
+    assert rc == 0
+    findings = json.loads(out.read_text(encoding="utf-8"))
+    assert any(i["checker_id"] == "parser" for i in findings["issues"])
+
+    graph = json.loads(symbols.read_text(encoding="utf-8"))
+    functions = {f["name"] for f in graph["functions"]}
+    assert "symbol_survives" in functions
+
+
+def test_emit_symbols_uses_regex_fallback_for_parser_hostile_file(tmp_path):
+    src = tmp_path / "vendor.c"
+    out = tmp_path / "findings.json"
+    symbols = tmp_path / "symbols.json"
+
+    src.write_text(
+        '#include "missing_vendor_header.h"\n'
+        "void vendor_symbol(UNKNOWN_PTR pCmd) {\n"
+        "    VENDOR_REG_WRITE(pCmd->dw[0]);\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "corvia.toml").write_text(
+        """
+[paths]
+use_cpp = true
+
+[severity]
+"parser" = "warning"
+""",
+        encoding="utf-8",
+    )
+
+    rc = main(
+        [
+            "--no-incremental",
+            "-f",
+            "json",
+            "-o",
+            str(out),
+            "--emit-symbols",
+            str(symbols),
+            str(src),
+        ]
+    )
+
+    assert rc == 0
+    graph = json.loads(symbols.read_text(encoding="utf-8"))
+    functions = {f["name"]: f for f in graph["functions"]}
+    assert "vendor_symbol" in functions
+    assert "VENDOR_REG_WRITE" in functions["vendor_symbol"]["callees"]
+
+
 def _write_demo_source(tmp_path):
     src = tmp_path / "demo.c"
     src.write_text("void takes_unused(int unused) { }\n", encoding="utf-8")

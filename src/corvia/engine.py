@@ -18,6 +18,7 @@ from corvia.core.cache import CacheManager, FileCache, hash_file
 from corvia.core.call_graph import build_call_graph
 from corvia.core.config import CorviaConfig, severity_from_string
 from corvia.core.context import AnalysisContext
+from corvia.core.regex_symbol_export import extract_regex_symbol_graph, merge_symbol_graphs
 from corvia.core.summary import compute_summaries
 from corvia.core.symbol_export import serialize_symbol_graph
 from corvia.core.symbol_table import build_symbol_table
@@ -84,6 +85,9 @@ class AnalysisEngine:
             if not use_cpp and config.use_cpp:
                 use_cpp = True
         self._parser = CParser(use_cpp=use_cpp, include_dirs=merged_includes or None, cpp_defines=cpp_defines, cpp_args=merged_cpp_args or None, auto_install=True)
+        self._symbol_fallback_parser = CParser(
+            use_cpp=False, keep_conditional_bodies=True
+        )
 
         if incremental is None:
             incremental = False
@@ -154,7 +158,7 @@ class AnalysisEngine:
             if progress_callback:
                 progress_callback(idx + 1, len(files), str(Path(f).name))
             ast, parse_errors = self._parser.parse_file(f)
-            result.issues.extend(parse_errors)
+            result.issues.extend(self._filter_issues(parse_errors))
             if ast is not None:
                 asts[f] = ast
 
@@ -315,12 +319,20 @@ class AnalysisEngine:
         asts: dict[str, c_ast.FileAST] = {}
         for f in files:
             ast, _ = self._parser.parse_file(f)
+            if ast is None:
+                # Symbol export is auxiliary context for cross-file reasoning.
+                # If strict preprocessing fails on target-specific macros or
+                # vendor headers, fall back to Corvia's tolerant parser instead
+                # of emitting an empty/near-empty graph.
+                ast, _ = self._symbol_fallback_parser.parse_file(f)
             if ast is not None:
                 asts[f] = ast
 
         symbol_table = build_symbol_table(asts)
         call_graph = build_call_graph(asts, symbol_table)
-        return serialize_symbol_graph(symbol_table, call_graph, asts)
+        graph = serialize_symbol_graph(symbol_table, call_graph, asts)
+        regex_graph = extract_regex_symbol_graph(files)
+        return merge_symbol_graphs(graph, regex_graph)
 
     def analyze_file(self, filepath: str) -> list[Issue]:
         ast, parse_errors = self._parser.parse_file(filepath)

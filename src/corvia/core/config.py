@@ -40,6 +40,28 @@ from typing import Any, Optional
 from corvia.models import Severity
 
 
+def _is_windows_absolute_path(value: str) -> bool:
+    return bool(re.match(r"^[A-Za-z]:[\\/]", value)) or value.startswith("\\\\")
+
+
+def _resolve_cproject_path(proj_dir: Path, rel_path: str) -> Path:
+    """Resolve an Eclipse CDT path on the current platform.
+
+    Eclipse stores workspace paths with POSIX-style "/" separators even on
+    Windows. Build the path from components instead of rewriting "/" to "\\",
+    which creates literal backslash characters on macOS/Linux. Real Windows
+    absolute paths are left for ``Path`` to interpret on Windows.
+    """
+    cleaned = rel_path.strip().strip('"').replace("&quot;", "")
+    if _is_windows_absolute_path(cleaned):
+        return Path(cleaned)
+    parts = [
+        part for part in cleaned.replace("\\", "/").lstrip("/").split("/")
+        if part and part != "."
+    ]
+    return proj_dir.joinpath(*parts) if parts else proj_dir
+
+
 def parse_cproject_include_paths(cproject_path: str | Path) -> list[str]:
     """Extract include paths from Eclipse .cproject file.
 
@@ -98,18 +120,24 @@ def parse_cproject_include_paths(cproject_path: str | Path) -> list[str]:
         full_match = content[m.start():brace_end + 1]
         inner = full_match[len('${workspace_loc:'):-1].lstrip('/')
 
-        rel_path = inner
+        rel_path = inner.strip().strip('"').replace("&quot;", "")
         if '${ProjName}' in inner:
             rel_path = inner.replace('${ProjName}', project_name or '')
+            normalized = rel_path.replace("\\", "/").lstrip("/")
             if project_name:
-                rel_path = rel_path.replace(f'{project_name}/', '')
-        elif project_name and inner.startswith(f'{project_name}/'):
-            rel_path = inner[len(project_name) + 1:]
+                prefix = f'{project_name}/'
+                if normalized.startswith(prefix):
+                    rel_path = normalized[len(prefix):]
+                else:
+                    rel_path = normalized
+        else:
+            normalized = rel_path.replace("\\", "/").lstrip("/")
+            if project_name and normalized.startswith(f'{project_name}/'):
+                rel_path = normalized[len(project_name) + 1:]
+            else:
+                rel_path = normalized
 
-        rel_path_clean = rel_path.replace('/', '\\')
-        if rel_path_clean.startswith('\\'):
-            rel_path_clean = rel_path_clean[1:]
-        full_path = str(proj_dir / rel_path_clean)
+        full_path = str(_resolve_cproject_path(proj_dir, rel_path))
 
         if Path(full_path).exists() and full_path not in include_paths:
             include_paths.append(full_path)

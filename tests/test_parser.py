@@ -33,6 +33,37 @@ def test_parse_missing_file():
     assert "not found" in errors[0].message.lower()
 
 
+def test_cpp_fatal_error_does_not_parse_partial_stdout(tmp_path):
+    """A preprocessor fatal error can still produce partial stdout. Treat the
+    translation unit as failed instead of parsing that partial text into an
+    incomplete AST/symbol graph."""
+    src = tmp_path / "partial.c"
+    src.write_text('#include "missing_header.h"\nint after(void) { return 1; }\n', encoding="utf-8")
+
+    parser = CParser(use_cpp=True)
+    ast, errors = parser.parse_file(str(src))
+
+    assert ast is None
+    assert errors
+    assert errors[0].checker_id == "parser"
+    assert "missing_header.h" in errors[0].message
+
+
+def test_cpp_uses_bundled_stdlib_stub(tmp_path):
+    src = tmp_path / "uses_stdlib.c"
+    src.write_text(
+        "#include <stdlib.h>\n"
+        "int has_symbol(void) { void *p = malloc(4); free(p); return 0; }\n",
+        encoding="utf-8",
+    )
+
+    parser = CParser(use_cpp=True)
+    ast, errors = parser.parse_file(str(src))
+
+    assert ast is not None
+    assert errors == []
+
+
 def test_code_after_if_else_endif_survives_stripping():
     """Regression: #elif/#else must not increase the conditional nesting
     depth, otherwise everything after the first #if/#else/#endif block is
@@ -56,6 +87,29 @@ def test_code_after_if_else_endif_survives_stripping():
         if isinstance(e, c_ast.FuncDef) and e.decl
     ]
     assert "after" in names
+
+
+def test_symbol_fallback_mode_keeps_conditional_bodies(tmp_path):
+    from pycparser import c_ast
+
+    src = tmp_path / "conditional.c"
+    src.write_text(
+        "#if FEATURE\n"
+        "int conditional_symbol(void) { return 1; }\n"
+        "#endif\n",
+        encoding="utf-8",
+    )
+
+    parser = CParser(keep_conditional_bodies=True)
+    ast, errors = parser.parse_file(str(src))
+
+    assert ast is not None
+    assert errors == []
+    names = [
+        e.decl.name for e in ast.ext
+        if isinstance(e, c_ast.FuncDef) and e.decl
+    ]
+    assert "conditional_symbol" in names
 
 
 def test_strip_preprocessor_preserves_line_count_with_continuations():

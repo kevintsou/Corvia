@@ -66,8 +66,7 @@ typedef signed int int32_t;
 typedef signed long long int64_t;
 typedef unsigned char BOOL;
 typedef unsigned char bool;
-typedef int TRUE;
-typedef int FALSE;
+enum { TRUE = 1, FALSE = 0 };
 typedef void VOID;
 typedef int INT;
 typedef unsigned int UINT;
@@ -247,7 +246,7 @@ def _dedup_stub_typedefs(code: str) -> str:
     return _STUB_TYPEDEF_RE.sub(_replace, code)
 
 
-def _strip_preprocessor(code: str) -> str:
+def _strip_preprocessor(code: str, keep_conditional_bodies: bool = False) -> str:
     """Remove preprocessor directives (#include, #define, #if, etc.) so pycparser can parse the file.
     Handles #if/#endif block pairs and single-line directives. Injects common type stubs.
     Also handles MSVC/ARM preprocessor output with binary artifacts by filtering garbage lines.
@@ -270,6 +269,9 @@ def _strip_preprocessor(code: str) -> str:
             continue
         if stripped.startswith("#"):
             in_directive_continuation = stripped.endswith("\\")
+        if keep_conditional_bodies and stripped.startswith("#"):
+            result.append("")
+            continue
         # Only #if / #ifdef / #ifndef open a conditional block; #elif and
         # #else are alternatives *within* the current block and must not
         # increase the nesting depth (otherwise the matching #endif leaves
@@ -457,6 +459,7 @@ class CParser:
         cpp_defines: Optional[list[str]] = None,
         include_dirs: Optional[list[str]] = None,
         auto_install: bool = False,
+        keep_conditional_bodies: bool = False,
     ) -> None:
         self._use_cpp = use_cpp
         self._cpp_path = cpp_path
@@ -464,6 +467,7 @@ class CParser:
         self._cpp_defines = cpp_defines or []
         self._include_dirs = include_dirs or []
         self._auto_install = auto_install
+        self._keep_conditional_bodies = keep_conditional_bodies
 
     def _ensure_cpp_path(self) -> str:
         if self._cpp_path is None:
@@ -614,6 +618,14 @@ class CParser:
                         f"Install it with: pip install corvia[cpp] or run: corvia-install-cpp"
                     )
 
+            if returncode != 0:
+                combined = stderr.strip() if stderr else f"C preprocessor error (exit code {returncode})"
+                issues = self._parse_cpp_errors(combined, filepath)
+                if issues:
+                    return None, issues
+                first_line = combined.split('\n')[0] if combined else f"C preprocessor error (exit code {returncode})"
+                return _make_error(first_line)
+
             if not text:
                 combined = stderr.strip() if stderr else f"C preprocessor error (exit code {returncode})"
                 issues = self._parse_cpp_errors(combined, filepath)
@@ -678,7 +690,9 @@ class CParser:
         except OSError as e:
             return _make_error(f"Cannot read file: {filepath}: {e}")
 
-        code = _strip_preprocessor(code)
+        code = _strip_preprocessor(
+            code, keep_conditional_bodies=self._keep_conditional_bodies
+        )
         code = _strip_comments(code)
 
         try:
