@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, is_reserved_identifier
 from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
@@ -69,7 +69,6 @@ _TIME = {
 }
 _FENV = {"feclearexcept", "fegetexceptflag", "feraiseexcept", "fesetexceptflag", "fetestexcept"}
 
-_RESERVED_PREFIXES = ("__", "_")  # _ + uppercase or _ at file scope
 _RESERVED_NAMES = {"errno"}
 
 
@@ -131,13 +130,8 @@ class MisraStandardLibChecker(BaseChecker):
             self.report(node, f"Use of emergent language feature '{name}'", Severity.WARNING, RULE_1_4)
 
     def _is_reserved(self, name: str) -> bool:
-        if name in _RESERVED_NAMES:
-            return True
-        if name.startswith("__"):
-            return True
-        if name.startswith("_") and len(name) >= 2 and name[1].isupper():
-            return True
-        return False
+        # Shared predicate (checkers.base) plus names reserved by <errno.h>.
+        return name in _RESERVED_NAMES or is_reserved_identifier(name)
 
 
 CheckerRegistry.register(MisraStandardLibChecker)

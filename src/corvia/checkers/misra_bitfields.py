@@ -25,9 +25,19 @@ RULE_6_2 = MisraRule(
 _ALLOWED_BITFIELD_TYPES = {
     "_Bool", "bool",
     "signed int", "unsigned int", "int", "signed", "unsigned",
+    # Fixed-width <stdint.h> types are explicitly signed/unsigned and are
+    # accepted even when their typedef is not visible in the parsed AST.
+    "uint8_t", "uint16_t", "uint32_t", "uint64_t",
+    "int8_t", "int16_t", "int32_t", "int64_t",
+    "unsigned char", "unsigned short", "unsigned long", "unsigned long long",
+    "signed char", "signed short", "signed long", "signed long long",
 }
 
-_SIGNED_INT_TYPES = {"signed int", "int", "signed"}
+_SIGNED_INT_TYPES = {
+    "signed int", "int", "signed",
+    "signed char", "signed short", "signed long", "signed long long",
+    "int8_t", "int16_t", "int32_t", "int64_t",
+}
 
 
 def _identifier_names(type_node: c_ast.Node) -> list[str] | None:
@@ -44,6 +54,31 @@ class MisraBitFieldsChecker(BaseChecker):
     description = "MISRA C:2012 Rules 6.1 / 6.2: bit-field type restrictions"
     default_severity = Severity.WARNING
     misra_rules = [RULE_6_1, RULE_6_2]
+
+    def __init__(self) -> None:
+        super().__init__()
+        # typedef name -> underlying type name string (chains resolved),
+        # so `typedef unsigned int u32; u32 mode : 4;` is judged by its
+        # underlying type instead of the literal typedef name.
+        self._typedefs: dict[str, str] = {}
+
+    def reset(self) -> None:
+        self._typedefs = {}
+
+    def visit_FileAST(self, node: c_ast.FileAST) -> None:
+        for ext in node.ext or []:
+            if isinstance(ext, c_ast.Typedef) and ext.name:
+                names = _identifier_names(ext.type)
+                if names:
+                    self._typedefs[ext.name] = " ".join(names)
+        self.generic_visit(node)
+
+    def _resolve_typedef(self, joined: str) -> str:
+        seen: set[str] = set()
+        while joined in self._typedefs and joined not in seen:
+            seen.add(joined)
+            joined = self._typedefs[joined]
+        return joined
 
     def visit_Struct(self, node: c_ast.Struct) -> None:
         self._check_members(node.decls or [], parent=node)
@@ -69,7 +104,7 @@ class MisraBitFieldsChecker(BaseChecker):
             names = _identifier_names(member.type)
             if names is None:
                 continue
-            joined = " ".join(names)
+            joined = self._resolve_typedef(" ".join(names))
 
             # Use parent node as coord fallback when member has no usable location.
             coord_node = member

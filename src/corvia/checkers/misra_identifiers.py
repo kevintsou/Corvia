@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, is_reserved_identifier
 from corvia.models import Issue, MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
@@ -28,22 +28,10 @@ RULE_5_9 = MisraRule("5.9", MisraCategory.ADVISORY, "Identifiers that define obj
 _EXTERN_PREFIX_LEN = 31  # MISRA C:2012 minimum significance for external identifiers
 
 
-def _is_compiler_reserved(name: str) -> bool:
-    """Return True for identifiers that are reserved by the implementation.
-
-    C standard (7.1.3) reserves:
-    * Names starting with ``__`` (double underscore)
-    * Names starting with ``_`` followed by an uppercase letter
-
-    GCC/Clang ARM intrinsics, MSVC extensions, and built-in helpers all fall
-    into one of these categories.  Reporting MISRA violations on them is
-    noise — the programmer cannot rename them.
-    """
-    if name.startswith("__"):
-        return True
-    if len(name) >= 2 and name[0] == "_" and name[1].isupper():
-        return True
-    return False
+# Reserved-identifier detection is shared with other checkers (e.g.
+# misra-stdlib Rule 21.2) via checkers.base.is_reserved_identifier so the
+# predicates cannot drift apart.
+_is_compiler_reserved = is_reserved_identifier
 
 
 _SYSTEM_PATH_MARKERS = (

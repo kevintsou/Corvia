@@ -24,6 +24,12 @@ class _IDCollector(c_ast.NodeVisitor):
     def visit_ID(self, node: c_ast.ID) -> None:
         self.names.add(node.name)
 
+    def visit_StructRef(self, node: c_ast.StructRef) -> None:
+        # Only the base expression (`s` in `s.field`) is a variable use;
+        # the field name is a struct member, not an identifier reference.
+        if node.name is not None:
+            self.visit(node.name)
+
 
 class UnusedVarsChecker(BaseChecker):
     checker_id = "unused-var"
@@ -89,6 +95,10 @@ class UnusedVarsChecker(BaseChecker):
             if isinstance(item, c_ast.Decl):
                 if item.init:
                     collector.visit(item.init)
+                if item.type is not None:
+                    # Identifiers can appear inside the declarator itself,
+                    # e.g. array dimensions: `int n = 4; int buf[n];`.
+                    collector.visit(item.type)
             else:
                 collector.visit(item)
         return collector.names

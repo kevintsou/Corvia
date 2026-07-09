@@ -149,6 +149,10 @@ class MisraPointerConvChecker(BaseChecker):
         self._local_types: list[dict[str, dict]] = []
         self._typedefs: dict[str, dict] = {}
 
+    def reset(self) -> None:
+        self._local_types = []
+        self._typedefs = {}
+
     def _build_typedef_map(self, node: c_ast.FileAST) -> dict[str, dict]:
         """Resolve every typedef to a classification, following typedef chains.
 

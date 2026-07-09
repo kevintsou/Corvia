@@ -1,28 +1,31 @@
-"""MISRA C:2012 preprocessor rules (Rules 20.1-20.14) - AST-detectable subset."""
+"""MISRA C:2012 preprocessor rules (Rules 20.1-20.14) - placeholder.
+
+This checker deliberately declares NO rules. The Section 20 preprocessor
+rules (20.7 parenthesized macro parameters, 20.10/20.11/20.12 # and ##
+operators, 20.14 matching #else/#endif files) all require access to
+preprocessor tokens, but pycparser only sees the translation unit AFTER
+preprocessing - macro definitions, # / ## operators and conditional
+directives are gone by then. Declaring those rules here would falsely
+advertise coverage that does not exist.
+
+Implementing them would require a raw-source / token-level scanner run
+before (or instead of) preprocessing. Until such a scanner exists, this
+module stays registered as an inert stub so configurations referencing
+"misra-preproc" keep working.
+"""
 
 from __future__ import annotations
 
-from pycparser import c_ast
-
 from corvia.checkers.base import BaseChecker
-from corvia.models import MisraCategory, MisraRule, Severity
+from corvia.models import Severity
 from corvia.registry import CheckerRegistry
-
-RULE_20_7 = MisraRule("20.7", MisraCategory.REQUIRED, "Expressions resulting from the expansion of macro parameters shall be enclosed in parentheses")
-RULE_20_10 = MisraRule("20.10", MisraCategory.ADVISORY, "The # and ## preprocessor operators should not be used")
-RULE_20_11 = MisraRule("20.11", MisraCategory.REQUIRED, "A macro parameter immediately following a # operator shall not immediately be followed by a ## operator")
-RULE_20_12 = MisraRule("20.12", MisraCategory.REQUIRED, "A macro parameter used as an operand to the # or ## operators, which is itself subject to further macro replacement, shall only be used as an operand to these operators")
-RULE_20_14 = MisraRule("20.14", MisraCategory.REQUIRED, "All #else, #elif and #endif preprocessor directives shall reside in the same file as the #if, #ifdef or #ifndef directive to which they are related")
 
 
 class MisraPreprocChecker(BaseChecker):
     checker_id = "misra-preproc"
-    description = "MISRA C:2012 Rules 20.x: preprocessor rules (AST-detectable subset)"
+    description = "MISRA C:2012 Rules 20.x: preprocessor rules (not implementable post-preprocessing; inert stub)"
     default_severity = Severity.INFO
-    misra_rules = [RULE_20_7, RULE_20_10, RULE_20_11, RULE_20_12, RULE_20_14]
-
-    def visit_Pragma(self, node: c_ast.Pragma) -> None:
-        self.generic_visit(node)
+    misra_rules = []
 
 
 CheckerRegistry.register(MisraPreprocChecker)

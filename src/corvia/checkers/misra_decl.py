@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, parse_int_literal
 from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
@@ -64,8 +64,9 @@ class MisraDeclChecker(BaseChecker):
         self.generic_visit(node)
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
-        quals = node.quals or []
-        if "restrict" in quals:
+        # Rule 8.14: `restrict` attaches to the PtrDecl in the declarator
+        # chain (`int * restrict p`), not to Decl.quals, so walk the chain.
+        if self._has_restrict_qualifier(node):
             self.report(
                 node,
                 "The 'restrict' type qualifier shall not be used",
@@ -91,24 +92,31 @@ class MisraDeclChecker(BaseChecker):
 
         seen_values: dict[int, str] = {}
         next_implicit = 0
+        counter_unknown = False  # True after a value we could not evaluate
 
         for enumerator in node.values.enumerators or []:
             if enumerator.value:
-                if isinstance(enumerator.value, c_ast.Constant) and enumerator.value.type == "int":
-                    try:
-                        val = int(enumerator.value.value, 0)
-                        next_implicit = val + 1
-                        if val in seen_values:
-                            self.report(
-                                enumerator,
-                                f"Enum value {val} for '{enumerator.name}' duplicates '{seen_values[val]}'",
-                                Severity.WARNING,
-                                RULE_8_12,
-                            )
-                        seen_values[val] = enumerator.name
-                    except ValueError:
-                        pass
+                val = self._eval_const_expr(enumerator.value)
+                if val is None:
+                    # Non-evaluable explicit value (e.g. a macro-expanded
+                    # expression): the implicit counter is now desynced.
+                    # Suppress duplicate reporting until the next evaluable
+                    # explicit constant re-synchronizes it.
+                    counter_unknown = True
+                    continue
+                counter_unknown = False
+                next_implicit = val + 1
+                if val in seen_values:
+                    self.report(
+                        enumerator,
+                        f"Enum value {val} for '{enumerator.name}' duplicates '{seen_values[val]}'",
+                        Severity.WARNING,
+                        RULE_8_12,
+                    )
+                seen_values[val] = enumerator.name
             else:
+                if counter_unknown:
+                    continue
                 val = next_implicit
                 next_implicit = val + 1
                 if val in seen_values:
@@ -121,6 +129,59 @@ class MisraDeclChecker(BaseChecker):
                 seen_values[val] = enumerator.name
 
         self.generic_visit(node)
+
+    def _eval_const_expr(self, node: c_ast.Node) -> int | None:
+        """Fold simple constant expressions (`1 << 4`, `-1`, `(2 + 3)`)."""
+        if isinstance(node, c_ast.Constant):
+            return parse_int_literal(node.value)
+        if isinstance(node, c_ast.UnaryOp):
+            inner = self._eval_const_expr(node.expr)
+            if inner is None:
+                return None
+            if node.op == "-":
+                return -inner
+            if node.op == "+":
+                return inner
+            if node.op == "~":
+                return ~inner
+            return None
+        if isinstance(node, c_ast.BinaryOp):
+            left = self._eval_const_expr(node.left)
+            right = self._eval_const_expr(node.right)
+            if left is None or right is None:
+                return None
+            try:
+                if node.op == "+":
+                    return left + right
+                if node.op == "-":
+                    return left - right
+                if node.op == "*":
+                    return left * right
+                if node.op == "<<":
+                    return left << right
+                if node.op == ">>":
+                    return left >> right
+                if node.op == "|":
+                    return left | right
+                if node.op == "&":
+                    return left & right
+                if node.op == "^":
+                    return left ^ right
+            except (ValueError, OverflowError):
+                return None
+        return None
+
+    def _has_restrict_qualifier(self, node: c_ast.Decl) -> bool:
+        if "restrict" in (node.quals or []):
+            return True
+        t = node.type
+        while isinstance(t, (c_ast.PtrDecl, c_ast.ArrayDecl, c_ast.FuncDecl, c_ast.TypeDecl)):
+            if isinstance(t, c_ast.PtrDecl) and "restrict" in (t.quals or []):
+                return True
+            if isinstance(t, c_ast.ArrayDecl) and "restrict" in (t.dim_quals or []):
+                return True
+            t = t.type
+        return False
 
 
 CheckerRegistry.register(MisraDeclChecker)

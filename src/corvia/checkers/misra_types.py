@@ -142,18 +142,21 @@ class MisraTypesChecker(BaseChecker):
                             RULE_10_4,
                         )
 
-            if node.op in ("<<", ">>", "&", "|", "^", "~"):
-                for operand, side in [(node.left, "left"), (node.right, "right")]:
-                    otype = self._infer_type_names(operand)
-                    if otype:
-                        ocat = _essential_category(otype)
-                        if ocat in ("boolean", "character", "floating"):
-                            self.report(
-                                node,
-                                f"Inappropriate essential type ({ocat}) for {side} operand of '{node.op}'",
-                                Severity.WARNING,
-                                RULE_10_1,
-                            )
+        if node.op in ("<<", ">>", "&", "|", "^"):
+            # This check must live at method level: shift/bitwise operators
+            # are disjoint from the arithmetic-op branch above, so nesting it
+            # inside that branch made it unreachable dead code.
+            for operand, side in [(node.left, "left"), (node.right, "right")]:
+                otype = self._infer_type_names(operand)
+                if otype:
+                    ocat = _essential_category(otype)
+                    if ocat in ("boolean", "character", "floating"):
+                        self.report(
+                            node,
+                            f"Inappropriate essential type ({ocat}) for {side} operand of '{node.op}'",
+                            Severity.WARNING,
+                            RULE_10_1,
+                        )
 
         self.generic_visit(node)
 

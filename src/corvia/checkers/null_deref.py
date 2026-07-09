@@ -132,30 +132,47 @@ class _NullAnalysis(ForwardAnalysis[_NullState]):
         elif isinstance(stmt, c_ast.BinaryOp):
             # When the CFG condition block contains a null comparison, update
             # state conservatively so downstream blocks don't produce false
-            # positives.  We mark the variable as non-null for != NULL and as
-            # null for == NULL.  This is a single-block approximation: the
-            # transfer function cannot split state per successor, so we choose
-            # the safe side (non-null for !=, null for ==) rather than emitting
-            # a spurious dereference warning inside the guarded body.
-            if stmt.op == "!=":
-                if isinstance(stmt.left, c_ast.ID) and _is_null(stmt.right):
-                    state.nonnull_vars.add(stmt.left.name)
-                    state.null_vars.discard(stmt.left.name)
-                elif isinstance(stmt.right, c_ast.ID) and _is_null(stmt.left):
-                    state.nonnull_vars.add(stmt.right.name)
-                    state.null_vars.discard(stmt.right.name)
-            elif stmt.op == "==":
-                if isinstance(stmt.left, c_ast.ID) and _is_null(stmt.right):
-                    state.null_vars.add(stmt.left.name)
-                    state.nonnull_vars.discard(stmt.left.name)
-                elif isinstance(stmt.right, c_ast.ID) and _is_null(stmt.left):
-                    state.null_vars.add(stmt.right.name)
-                    state.nonnull_vars.discard(stmt.right.name)
+            # positives.  We mark the variable as non-null for != NULL (also
+            # narrowing through && chains, e.g. `p != NULL && p->x`).
+            #
+            # NOTE: there is deliberately NO narrowing for `== NULL`.  The
+            # transfer function applies to a block whose state flows into
+            # BOTH successors; adding the variable to null_vars here would
+            # poison the fall-through branch too, so
+            # `if (p == NULL) { return -1; } *p = 5;` would falsely report.
+            # Implementing `==` narrowing correctly requires per-edge
+            # (per-successor) dataflow states, which this framework does not
+            # provide yet.
+            if stmt.op in ("!=", "&&"):
+                self._narrow_nonnull(stmt, state)
             else:
                 self._check_deref_expr(stmt, state)
 
         else:
             self._check_deref_expr(stmt, state)
+
+    def _narrow_nonnull(self, expr: c_ast.Node, state: _NullState) -> None:
+        """Apply `!= NULL` narrowing, recursing through `&&` chains.
+
+        In a compound guard like `p != NULL && count > 0`, all conjuncts are
+        established on the condition-true path, so each `x != NULL` conjunct
+        marks x non-null. This shares the same single-block approximation as
+        the plain `!=` case (safe side: it can only suppress warnings, never
+        add them).
+        """
+        if not isinstance(expr, c_ast.BinaryOp):
+            return
+        if expr.op == "&&":
+            self._narrow_nonnull(expr.left, state)
+            self._narrow_nonnull(expr.right, state)
+            return
+        if expr.op == "!=":
+            if isinstance(expr.left, c_ast.ID) and _is_null(expr.right):
+                state.nonnull_vars.add(expr.left.name)
+                state.null_vars.discard(expr.left.name)
+            elif isinstance(expr.right, c_ast.ID) and _is_null(expr.left):
+                state.nonnull_vars.add(expr.right.name)
+                state.null_vars.discard(expr.right.name)
 
     def _check_deref_expr(self, node: c_ast.Node, state: _NullState) -> None:
         if node is None:

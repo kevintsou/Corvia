@@ -4,34 +4,47 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, parse_int_literal
 from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
 RULE_2_1 = MisraRule("2.1", MisraCategory.REQUIRED, "A project shall not contain unreachable code")
 RULE_14_3 = MisraRule("14.3", MisraCategory.REQUIRED, "Controlling expressions shall not be invariant")
+RULE_1_3 = MisraRule("1.3", MisraCategory.REQUIRED, "There shall be no occurrence of undefined behaviour")
+
+# Compound assignments for which a zero right-hand side leaves the lvalue
+# unchanged. Note that `*=` and `&=` with zero are NOT no-ops (they zero the
+# lvalue) and `/=` / `%=` with zero are undefined behaviour.
+_ZERO_NOOP_OPS = {"+=", "-=", "|=", "^=", "<<=", ">>="}
 
 
 class DeadCodeChecker(BaseChecker):
     checker_id = "dead-code"
     description = "Detects unreachable code after return/break/continue/goto and invariant conditions"
     default_severity = Severity.WARNING
-    misra_rules = [RULE_2_1, RULE_14_3]
+    misra_rules = [RULE_2_1, RULE_14_3, RULE_1_3]
 
     def visit_Compound(self, node: c_ast.Compound) -> None:
         if node.block_items is None:
             return
 
         terminator_seen = False
+        region_reported = False
         for item in node.block_items:
-            if terminator_seen:
+            if isinstance(item, (c_ast.Label, c_ast.Case, c_ast.Default)):
+                # A label makes the code reachable again (e.g.
+                # `goto out; ... out: cleanup();`), as do case/default labels.
+                terminator_seen = False
+                region_reported = False
+
+            if terminator_seen and not region_reported:
                 self.report(
                     item,
                     "Unreachable code after return/break/continue/goto",
                     Severity.WARNING,
                     RULE_2_1,
                 )
-                break
+                region_reported = True
 
             if isinstance(item, (c_ast.Return, c_ast.Break, c_ast.Continue, c_ast.Goto)):
                 terminator_seen = True
@@ -42,14 +55,25 @@ class DeadCodeChecker(BaseChecker):
         if node.op != "=":
             rhs_val = self._eval_constant_extended(node.rvalue)
             if rhs_val == 0:
-                self.report(
-                    node,
-                    f"Compound assignment '{node.op}' with zero value is a no-op",
-                    Severity.WARNING,
-                    RULE_2_1,
-                )
+                if node.op in _ZERO_NOOP_OPS:
+                    self.report(
+                        node,
+                        f"Compound assignment '{node.op}' with zero value is a no-op",
+                        Severity.WARNING,
+                        RULE_2_1,
+                    )
+                elif node.op in ("/=", "%="):
+                    self.report(
+                        node,
+                        f"Division by zero in compound assignment '{node.op}'",
+                        Severity.ERROR,
+                        RULE_1_3,
+                    )
+                # `*=` / `&=` with zero clear the lvalue - not a no-op.
             elif self._is_all_ones(node.rvalue):
-                if node.op in ("|=", "&=", "^="):
+                # ANDing with all-ones bits leaves the value unchanged;
+                # |= / ^= with all-ones do NOT (they set / flip every bit).
+                if node.op == "&=":
                     self.report(
                         node,
                         f"Compound assignment '{node.op}' with bitwise complement of zero is a no-op",
@@ -101,10 +125,7 @@ class DeadCodeChecker(BaseChecker):
     def _eval_constant(self, node: c_ast.Node) -> object:
         if isinstance(node, c_ast.Constant):
             if node.type == "int":
-                try:
-                    return int(node.value, 0)
-                except ValueError:
-                    return None
+                return parse_int_literal(node.value)
         if isinstance(node, c_ast.UnaryOp) and node.op == "!":
             inner = self._eval_constant(node.expr)
             if inner is not None:
@@ -113,11 +134,7 @@ class DeadCodeChecker(BaseChecker):
 
     def _eval_constant_extended(self, node: c_ast.Node) -> object:
         if isinstance(node, c_ast.Constant):
-            raw = node.value.rstrip("uUlL")
-            try:
-                return int(raw, 0)
-            except ValueError:
-                return None
+            return parse_int_literal(node.value)
         if isinstance(node, c_ast.UnaryOp) and node.op == "!":
             inner = self._eval_constant_extended(node.expr)
             if inner is not None:

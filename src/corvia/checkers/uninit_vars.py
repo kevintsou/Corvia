@@ -30,52 +30,36 @@ class _VarState:
         self.initialized_indices: set[int] = set()
         self.initialized_fields: set[str] = set()
 
+    def clone(self) -> "_VarState":
+        """Deep copy for branch forking: mutable sets must not be shared."""
+        c = _VarState(self.name, self.node, self.is_array, self.array_size,
+                      self.is_struct, list(self.struct_fields))
+        c.fully_initialized = self.fully_initialized
+        c.initialized_indices = set(self.initialized_indices)
+        c.initialized_fields = set(self.initialized_fields)
+        return c
 
-def _collect_id_reads(node: c_ast.Node, exclude_lvalue: bool = True) -> list[c_ast.ID]:
-    """Collect all ID nodes in read position within an expression."""
-    ids: list[c_ast.ID] = []
-    _walk_reads(node, ids, is_lvalue=False)
-    return ids
+
+def _fork_states(var_states: dict[str, _VarState]) -> dict[str, _VarState]:
+    """Fork variable states for a conditionally-executed branch.
+
+    A shallow dict() copy would share the mutable _VarState objects, letting
+    initialization inside one branch leak into the outer scope and disable
+    partial-initialization detection."""
+    return {name: st.clone() for name, st in var_states.items()}
 
 
-def _walk_reads(node: c_ast.Node, ids: list[c_ast.ID], is_lvalue: bool) -> None:
+def _branch_terminates(node: c_ast.Node) -> bool:
+    """True if a branch statement definitely transfers control away
+    (so execution never falls through to the code after the if)."""
     if node is None:
-        return
-
-    if isinstance(node, c_ast.ID):
-        if not is_lvalue:
-            ids.append(node)
-        return
-
-    if isinstance(node, c_ast.Assignment):
-        _walk_reads(node.lvalue, ids, is_lvalue=True)
-        _walk_reads(node.rvalue, ids, is_lvalue=False)
-        return
-
-    if isinstance(node, c_ast.UnaryOp):
-        if node.op in ("p++", "p--", "++", "--"):
-            _walk_reads(node.expr, ids, is_lvalue=True)
-        else:
-            _walk_reads(node.expr, ids, is_lvalue=False)
-        return
-
-    if isinstance(node, c_ast.ArrayRef):
-        _walk_reads(node.name, ids, is_lvalue=is_lvalue)
-        _walk_reads(node.subscript, ids, is_lvalue=False)
-        return
-
-    if isinstance(node, c_ast.StructRef):
-        _walk_reads(node.name, ids, is_lvalue=is_lvalue)
-        return
-
-    if isinstance(node, c_ast.FuncCall):
-        if node.args:
-            for arg in node.args.exprs or []:
-                _walk_reads(arg, ids, is_lvalue=False)
-        return
-
-    for child_name, child in node.children():
-        _walk_reads(child, ids, is_lvalue=False)
+        return False
+    if isinstance(node, (c_ast.Return, c_ast.Break, c_ast.Continue, c_ast.Goto)):
+        return True
+    if isinstance(node, c_ast.Compound):
+        items = node.block_items or []
+        return bool(items) and _branch_terminates(items[-1])
+    return False
 
 
 def _get_array_size(type_node: c_ast.Node) -> Optional[int]:
@@ -153,12 +137,46 @@ class UninitVarsChecker(BaseChecker):
         super().__init__()
         self._func_return_states: dict[str, str] = {}
         self._struct_defs: dict[str, list[str]] = {}
+        self._typedef_structs: dict[str, list[str]] = {}
+
+    def reset(self) -> None:
+        self._func_return_states = {}
+        self._struct_defs = {}
+        self._typedef_structs = {}
 
     def visit_FileAST(self, node: c_ast.FileAST) -> None:
         collector = _StructCollector()
         collector.visit(node)
         self._struct_defs = collector.structs
+        self._collect_typedef_structs(node)
         self.generic_visit(node)
+
+    def _collect_typedef_structs(self, node: c_ast.FileAST) -> None:
+        """Map typedef names to struct field lists so `S s; s.a = 1;` with
+        `typedef struct {...} S;` is tracked as a struct, not a scalar."""
+        raw: dict[str, c_ast.Node] = {}
+        for ext in node.ext or []:
+            if isinstance(ext, c_ast.Typedef) and ext.name:
+                raw[ext.name] = ext.type
+        # Iterate a few times so typedef-of-typedef chains resolve regardless
+        # of declaration order.
+        for _ in range(3):
+            for name, t in raw.items():
+                if name in self._typedef_structs:
+                    continue
+                inner = t
+                if isinstance(inner, c_ast.TypeDecl):
+                    inner = inner.type
+                if isinstance(inner, c_ast.Struct):
+                    fields = _get_struct_fields(inner)
+                    if fields is None and inner.name and inner.name in self._struct_defs:
+                        fields = list(self._struct_defs[inner.name])
+                    if fields:
+                        self._typedef_structs[name] = fields
+                elif isinstance(inner, c_ast.IdentifierType):
+                    names = inner.names
+                    if len(names) == 1 and names[0] in self._typedef_structs:
+                        self._typedef_structs[name] = list(self._typedef_structs[names[0]])
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
         if node.body is None or node.body.block_items is None:
@@ -180,10 +198,23 @@ class UninitVarsChecker(BaseChecker):
                     self._scan_block(item.block_items, dict(var_states))
             elif isinstance(item, c_ast.If):
                 self._handle_if(item, var_states)
-            elif isinstance(item, (c_ast.While, c_ast.DoWhile)):
-                self._check_reads(item.cond, var_states) if item.cond else None
+            elif isinstance(item, c_ast.While):
+                if item.cond:
+                    self._check_reads(item.cond, var_states)
+                if item.stmt and isinstance(item.stmt, c_ast.Compound) and item.stmt.block_items:
+                    # Body may execute zero times: fork so its inits don't
+                    # count as definite for code after the loop.
+                    self._scan_block(item.stmt.block_items, _fork_states(var_states))
+            elif isinstance(item, c_ast.DoWhile):
+                # A do-while executes its body once before evaluating the
+                # condition, so scan the body first, then the condition.
+                # The body runs unconditionally: share states (dict copy keeps
+                # inner declarations from leaking, while writes to outer vars
+                # correctly propagate).
                 if item.stmt and isinstance(item.stmt, c_ast.Compound) and item.stmt.block_items:
                     self._scan_block(item.stmt.block_items, dict(var_states))
+                if item.cond:
+                    self._check_reads(item.cond, var_states)
             elif isinstance(item, c_ast.For):
                 if item.init:
                     if isinstance(item.init, c_ast.DeclList):
@@ -197,7 +228,7 @@ class UninitVarsChecker(BaseChecker):
                 if item.next:
                     self._check_reads(item.next, var_states)
                 if item.stmt and isinstance(item.stmt, c_ast.Compound) and item.stmt.block_items:
-                    self._scan_block(item.stmt.block_items, dict(var_states))
+                    self._scan_block(item.stmt.block_items, _fork_states(var_states))
             elif isinstance(item, c_ast.Return):
                 if item.expr:
                     self._check_reads(item.expr, var_states)
@@ -226,6 +257,13 @@ class UninitVarsChecker(BaseChecker):
             if struct_fields is None and struct_node.name and struct_node.name in self._struct_defs:
                 struct_fields = list(self._struct_defs[struct_node.name])
             is_struct = struct_fields is not None
+        elif isinstance(decl.type, c_ast.TypeDecl) and isinstance(decl.type.type, c_ast.IdentifierType):
+            # Resolve typedef'd struct types (`typedef struct {...} S; S s;`)
+            # so they are tracked per-field instead of as opaque scalars.
+            names = decl.type.type.names
+            if len(names) == 1 and names[0] in self._typedef_structs:
+                struct_fields = list(self._typedef_structs[names[0]])
+                is_struct = True
 
         state = _VarState(
             name=decl.name,
@@ -264,6 +302,10 @@ class UninitVarsChecker(BaseChecker):
     def _handle_assignment(self, node: c_ast.Assignment, var_states: dict[str, _VarState]) -> None:
         self._check_reads(node.rvalue, var_states)
 
+        if node.op != "=":
+            # Compound assignment (x += 1) reads the lvalue before writing it.
+            self._check_reads(node.lvalue, var_states)
+
         if isinstance(node.lvalue, c_ast.ID):
             name = node.lvalue.name
             if name in var_states:
@@ -294,17 +336,49 @@ class UninitVarsChecker(BaseChecker):
         if node.cond:
             self._check_reads(node.cond, var_states)
 
+        # Fork deep copies for each branch so initialization inside one branch
+        # cannot leak into the outer scope, then merge explicitly: a variable
+        # counts as initialized after the if only when EVERY possible path
+        # (including the implicit fall-through when there is no else)
+        # initializes it.
+        branch_states: list[dict[str, _VarState]] = []
+
+        true_states = _fork_states(var_states)
         if node.iftrue:
-            true_states = dict(var_states)
             if isinstance(node.iftrue, c_ast.Compound) and node.iftrue.block_items:
                 self._scan_block(node.iftrue.block_items, true_states)
+            else:
+                self._scan_block([node.iftrue], true_states)
+        # A branch that definitely terminates (return/break/...) never reaches
+        # the code after the if, so it must not weaken the merge.
+        if not _branch_terminates(node.iftrue):
+            branch_states.append(true_states)
 
         if node.iffalse:
-            false_states = dict(var_states)
+            false_states = _fork_states(var_states)
             if isinstance(node.iffalse, c_ast.Compound) and node.iffalse.block_items:
                 self._scan_block(node.iffalse.block_items, false_states)
             elif isinstance(node.iffalse, c_ast.If):
-                self._handle_if(node.iffalse, dict(var_states))
+                self._handle_if(node.iffalse, false_states)
+            else:
+                self._scan_block([node.iffalse], false_states)
+            if not _branch_terminates(node.iffalse):
+                branch_states.append(false_states)
+        else:
+            # No else: the fall-through path keeps the pre-if state.
+            branch_states.append(_fork_states(var_states))
+
+        for name, st in var_states.items():
+            per_branch = [bs[name] for bs in branch_states if name in bs]
+            if not per_branch:
+                continue
+            st.fully_initialized = all(b.fully_initialized for b in per_branch)
+            st.initialized_indices = set.intersection(
+                *[b.initialized_indices for b in per_branch]
+            ) if per_branch else set()
+            st.initialized_fields = set.intersection(
+                *[b.initialized_fields for b in per_branch]
+            ) if per_branch else set()
 
     def _handle_func_call(self, node: c_ast.FuncCall, var_states: dict[str, _VarState]) -> None:
         callee_name = node.name.name if isinstance(node.name, c_ast.ID) else None
@@ -368,6 +442,15 @@ class UninitVarsChecker(BaseChecker):
 
     def _check_reads(self, node: c_ast.Node, var_states: dict[str, _VarState]) -> None:
         if node is None:
+            return
+
+        if isinstance(node, c_ast.Assignment):
+            # An assignment nested inside an expression context (e.g. the
+            # init clause of `for (i = 0; ...)`) WRITES its lvalue - it must
+            # not be treated as a read. Delegate to _handle_assignment, which
+            # checks the rvalue (and the lvalue for compound ops) and then
+            # marks the lvalue as initialized.
+            self._handle_assignment(node, var_states)
             return
 
         if isinstance(node, c_ast.UnaryOp) and node.op == "&":
@@ -533,9 +616,10 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
 
         elif isinstance(stmt, c_ast.Assignment):
             self._check_use(stmt.rvalue, state)
-            if isinstance(stmt.lvalue, c_ast.ID):
-                state.init.add(stmt.lvalue.name)
-                state.uninit.discard(stmt.lvalue.name)
+            if stmt.op != "=":
+                # Compound assignment (x += 1) reads the lvalue first.
+                self._check_use(stmt.lvalue, state)
+            self._mark_lvalue_initialized(stmt.lvalue, state)
 
         elif isinstance(stmt, c_ast.Return):
             if hasattr(stmt, 'expr') and stmt.expr:
@@ -545,6 +629,22 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
             self._process_call_args(stmt, state)
         else:
             self._check_use(stmt, state)
+
+    def _mark_lvalue_initialized(self, lvalue: c_ast.Node, state: _UninitCFGState) -> None:
+        """Mark the root variable of an assignment target as initialized.
+
+        Resolves through StructRef/ArrayRef chains so `s.a = 1` and
+        `arr[0] = 1` conservatively initialize `s` / `arr` (a plain
+        `lvalue is ID` test would leave them permanently uninitialized).
+        """
+        node = lvalue
+        while isinstance(node, (c_ast.StructRef, c_ast.ArrayRef)):
+            if isinstance(node, c_ast.ArrayRef) and node.subscript is not None:
+                self._check_use(node.subscript, state)
+            node = node.name
+        if isinstance(node, c_ast.ID):
+            state.init.add(node.name)
+            state.uninit.discard(node.name)
 
     def _process_call_args(self, call: c_ast.FuncCall, state: _UninitCFGState) -> None:
         if not call.args:
@@ -584,7 +684,12 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
             self._process_call_args(node, state)
             return
         if isinstance(node, c_ast.Assignment):
+            # Nested assignment expression: the lvalue is written, not read
+            # (except by compound operators), and becomes initialized.
             self._check_use(node.rvalue, state)
+            if node.op != "=":
+                self._check_use(node.lvalue, state)
+            self._mark_lvalue_initialized(node.lvalue, state)
             return
         for _, child in node.children():
             self._check_use(child, state)

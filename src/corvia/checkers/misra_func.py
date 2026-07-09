@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, parse_int_literal
 from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
@@ -30,6 +30,9 @@ class MisraFuncChecker(BaseChecker):
     def __init__(self) -> None:
         super().__init__()
         self._func_names: set[str] = set()
+
+    def reset(self) -> None:
+        self._func_names = set()
 
     def visit_FileAST(self, node: c_ast.FileAST) -> None:
         for ext in node.ext or []:
@@ -105,8 +108,12 @@ class MisraFuncChecker(BaseChecker):
             )
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
-        if isinstance(node.type, c_ast.IdentifierType):
-            if any(n in _STDARG_NAMES for n in node.type.names):
+        # Decl.type is a TypeDecl wrapper; the IdentifierType lives inside it.
+        type_node = node.type
+        if isinstance(type_node, c_ast.TypeDecl):
+            type_node = type_node.type
+        if isinstance(type_node, c_ast.IdentifierType):
+            if any(n in _STDARG_NAMES for n in type_node.names):
                 self.report(
                     node,
                     "Use of stdarg type 'va_list'",
@@ -150,6 +157,14 @@ class MisraFuncChecker(BaseChecker):
                     and self._block_returns(item.iftrue)
                     and self._block_returns(item.iffalse)):
                     return True
+            if isinstance(item, c_ast.Switch) and self._switch_all_clauses_return(item):
+                return True
+            if isinstance(item, (c_ast.While, c_ast.DoWhile)) and self._is_infinite_loop(item):
+                # `while (1) { ... }` with no break never falls through, so
+                # the "missing" return after it is unreachable.
+                return True
+            if isinstance(item, c_ast.For) and item.cond is None and not self._contains_break(item.stmt):
+                return True  # `for (;;)` without break
         return False
 
     def _block_returns(self, node: c_ast.Node) -> bool:
@@ -157,6 +172,64 @@ class MisraFuncChecker(BaseChecker):
             return True
         if isinstance(node, c_ast.Compound):
             return self._all_paths_return(node)
+        return False
+
+    def _switch_all_clauses_return(self, sw: c_ast.Switch) -> bool:
+        """True for a switch with a default clause where every clause returns."""
+        body = sw.stmt
+        items = body.block_items if isinstance(body, c_ast.Compound) and body.block_items else []
+        has_default = False
+        clauses: list[list[c_ast.Node]] = []
+        for item in items:
+            if isinstance(item, (c_ast.Case, c_ast.Default)):
+                if isinstance(item, c_ast.Default):
+                    has_default = True
+                if clauses and not clauses[-1]:
+                    # Consecutive label of the same clause.
+                    clauses[-1].extend(item.stmts or [])
+                else:
+                    clauses.append(list(item.stmts or []))
+            else:
+                if clauses:
+                    clauses[-1].append(item)
+        if not has_default or not clauses:
+            return False
+        return all(self._stmts_return(stmts) for stmts in clauses)
+
+    def _stmts_return(self, stmts: list[c_ast.Node]) -> bool:
+        for s in reversed(stmts):
+            if isinstance(s, c_ast.Return) and s.expr is not None:
+                return True
+            if isinstance(s, c_ast.Compound):
+                return self._stmts_return(s.block_items or [])
+            if isinstance(s, c_ast.If):
+                return (s.iftrue is not None and s.iffalse is not None
+                        and self._block_returns(s.iftrue)
+                        and self._block_returns(s.iffalse))
+            return False
+        return False
+
+    def _is_infinite_loop(self, loop: c_ast.Node) -> bool:
+        cond = getattr(loop, "cond", None)
+        if not (isinstance(cond, c_ast.Constant) and cond.type == "int"):
+            return False
+        val = parse_int_literal(cond.value)
+        if not val:  # 0 or unparseable: not an infinite loop
+            return False
+        return not self._contains_break(loop.stmt)
+
+    def _contains_break(self, node: c_ast.Node) -> bool:
+        """Does the loop body contain a break at this loop's level?
+        (breaks inside nested loops/switches belong to those constructs)."""
+        if node is None:
+            return False
+        if isinstance(node, c_ast.Break):
+            return True
+        if isinstance(node, (c_ast.For, c_ast.While, c_ast.DoWhile, c_ast.Switch)):
+            return False
+        for _, child in node.children():
+            if self._contains_break(child):
+                return True
         return False
 
     def _get_param_names(self, type_node: c_ast.Node) -> set[str]:

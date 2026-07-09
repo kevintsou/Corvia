@@ -99,7 +99,11 @@ class MisraLiteralsChecker(BaseChecker):
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
         if node.init is not None and _is_string_literal(node.init):
-            if not _pointee_is_const_char(node.type):
+            if isinstance(node.type, c_ast.ArrayDecl):
+                # `char buf[16] = "hello";` copies the literal into the
+                # array; Rule 7.4 only governs POINTERS to string literals.
+                pass
+            elif not _pointee_is_const_char(node.type):
                 self.report(
                     node,
                     f"String literal assigned to '{node.name}' which is not 'const char *'",

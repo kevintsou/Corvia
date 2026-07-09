@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pycparser import c_ast
 
-from corvia.checkers.base import BaseChecker
+from corvia.checkers.base import BaseChecker, parse_int_literal
 from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
@@ -39,10 +39,7 @@ def _is_aggregate_type(type_node: c_ast.Node) -> str | None:
 
 def _array_dim(type_node: c_ast.Node) -> int | None:
     if isinstance(type_node, c_ast.ArrayDecl) and isinstance(type_node.dim, c_ast.Constant):
-        try:
-            return int(type_node.dim.value, 0)
-        except ValueError:
-            return None
+        return parse_int_literal(type_node.dim.value)
     return None
 
 
@@ -62,12 +59,15 @@ class MisraInitChecker(BaseChecker):
             self.generic_visit(node)
             return
 
-        # 9.2: aggregates / unions need brace-enclosed initializers.
+        # 9.2 governs initializer LISTS only. Expression initializers such as
+        # struct copy-initialization (`struct S s = t;` / `= f();`) are
+        # perfectly legal and outside the rule's scope, so only literal
+        # (non-list) constants are worth flagging here.
         if kind in ("array", "struct", "union"):
             if not isinstance(node.init, (c_ast.InitList, c_ast.CompoundLiteral)):
                 if kind == "array" and isinstance(node.init, c_ast.Constant) and node.init.type == "string":
                     pass  # char arr[] = "..." is allowed
-                else:
+                elif isinstance(node.init, c_ast.Constant):
                     self.report(
                         node,
                         f"Initializer for {kind} '{node.name}' is not enclosed in braces",
@@ -84,12 +84,20 @@ class MisraInitChecker(BaseChecker):
                     isinstance(e, (c_ast.NamedInitializer,)) for e in exprs
                 )
                 if not has_designated and len(exprs) < dim:
-                    self.report(
-                        node,
-                        f"Array '{node.name}' has {dim} elements but only {len(exprs)} initializers",
-                        Severity.WARNING,
-                        RULE_9_3,
+                    # MISRA 9.3 explicitly permits `= {0}` as an all-zero
+                    # initializer for the entire array.
+                    is_zero_init = (
+                        len(exprs) == 1
+                        and isinstance(exprs[0], c_ast.Constant)
+                        and parse_int_literal(exprs[0].value) == 0
                     )
+                    if not is_zero_init:
+                        self.report(
+                            node,
+                            f"Array '{node.name}' has {dim} elements but only {len(exprs)} initializers",
+                            Severity.WARNING,
+                            RULE_9_3,
+                        )
 
         self.generic_visit(node)
 

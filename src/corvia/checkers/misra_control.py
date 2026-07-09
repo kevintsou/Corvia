@@ -1,4 +1,4 @@
-"""MISRA C:2012 control flow rules (Rules 14.1-14.4, 15.1-15.7)."""
+"""MISRA C:2012 control flow rules (Rules 14.1, 15.1, 15.4, 15.5, 15.7)."""
 
 from __future__ import annotations
 
@@ -9,24 +9,31 @@ from corvia.models import MisraCategory, MisraRule, Severity
 from corvia.registry import CheckerRegistry
 
 RULE_14_1 = MisraRule("14.1", MisraCategory.REQUIRED, "A loop counter shall not have essentially floating type")
-RULE_14_2 = MisraRule("14.2", MisraCategory.REQUIRED, "A for loop shall be well-formed")
-RULE_14_3 = MisraRule("14.3", MisraCategory.REQUIRED, "Controlling expressions shall not be invariant")
-RULE_14_4 = MisraRule("14.4", MisraCategory.REQUIRED, "The controlling expression of an if-statement and the controlling expression of an iteration-statement shall have essentially Boolean type")
 RULE_15_1 = MisraRule("15.1", MisraCategory.ADVISORY, "The goto statement should not be used")
-RULE_15_2 = MisraRule("15.2", MisraCategory.REQUIRED, "The goto statement shall jump to a label declared later in the same function")
-RULE_15_3 = MisraRule("15.3", MisraCategory.REQUIRED, "Any label referenced by a goto statement shall be declared in the same block, or in any block enclosing the goto statement")
 RULE_15_4 = MisraRule("15.4", MisraCategory.ADVISORY, "There should be no more than one break or goto statement used to terminate any iteration statement")
 RULE_15_5 = MisraRule("15.5", MisraCategory.ADVISORY, "A function should have a single point of exit at the end")
-RULE_15_6 = MisraRule("15.6", MisraCategory.REQUIRED, "The body of an iteration-statement or a selection-statement shall be a compound-statement")
 RULE_15_7 = MisraRule("15.7", MisraCategory.REQUIRED, "All if...else if constructs shall be terminated with an else statement")
+
+# NOTE: this checker only declares the rules it actually implements.
+# 14.3 is implemented by the dead-code checker, 15.6 by the syntax checker;
+# 14.2 / 14.4 / 15.2 / 15.3 are not implemented anywhere yet and declaring
+# them here would falsely advertise coverage.
 
 
 class MisraControlChecker(BaseChecker):
     checker_id = "misra-control"
-    description = "MISRA C:2012 Rules 14.1-14.4, 15.1-15.7: control flow rules"
+    description = "MISRA C:2012 Rules 14.1, 15.1, 15.4, 15.5, 15.7: control flow rules"
     default_severity = Severity.WARNING
-    misra_rules = [RULE_14_1, RULE_14_2, RULE_14_3, RULE_14_4,
-                   RULE_15_1, RULE_15_2, RULE_15_3, RULE_15_4, RULE_15_5, RULE_15_6, RULE_15_7]
+    misra_rules = [RULE_14_1, RULE_15_1, RULE_15_4, RULE_15_5, RULE_15_7]
+
+    def __init__(self) -> None:
+        super().__init__()
+        # If nodes already handled as members of an else-if chain, so Rule
+        # 15.7 reports once per chain instead of once per nesting level.
+        self._elseif_members: set[int] = set()
+
+    def reset(self) -> None:
+        self._elseif_members = set()
 
     def visit_Goto(self, node: c_ast.Goto) -> None:
         self.report(node, f"Use of goto statement (target: '{node.name}')", Severity.INFO, RULE_15_1)
@@ -83,9 +90,14 @@ class MisraControlChecker(BaseChecker):
         self.generic_visit(node)
 
     def visit_If(self, node: c_ast.If) -> None:
-        if node.iffalse and isinstance(node.iffalse, c_ast.If):
-            terminal = self._find_else_if_terminal(node)
-            if terminal and terminal.iffalse is None:
+        if id(node) not in self._elseif_members and node.iffalse and isinstance(node.iffalse, c_ast.If):
+            # Mark every else-if in this chain as handled so the traversal
+            # does not re-report the same chain at each nesting level.
+            current = node
+            while isinstance(current.iffalse, c_ast.If):
+                current = current.iffalse
+                self._elseif_members.add(id(current))
+            if current.iffalse is None:
                 self.report(
                     node,
                     "if...else if chain is not terminated with a final 'else' clause",
@@ -105,12 +117,6 @@ class MisraControlChecker(BaseChecker):
                     RULE_15_5,
                 )
         self.generic_visit(node)
-
-    def _find_else_if_terminal(self, node: c_ast.If) -> c_ast.If | None:
-        current = node
-        while current.iffalse and isinstance(current.iffalse, c_ast.If):
-            current = current.iffalse
-        return current
 
     def _count_returns(self, node: c_ast.Node) -> int:
         count = 0

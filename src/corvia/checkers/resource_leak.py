@@ -21,6 +21,38 @@ RULE_22_6 = MisraRule("22.6", MisraCategory.MANDATORY, "The value of a pointer t
 _OPEN_FUNCS = {"fopen", "tmpfile", "fdopen", "freopen", "popen"}
 _CLOSE_FUNCS = {"fclose", "pclose"}
 
+# Standard I/O functions that USE a FILE* without retaining it. Passing a
+# handle to these is normal usage, not an ownership transfer. Passing the
+# handle to any other (unknown) function is conservatively treated as an
+# escape - the callee may store or close it.
+_KNOWN_IO_FUNCS = {
+    "fread", "fwrite", "fprintf", "fscanf", "vfprintf", "vfscanf",
+    "fgets", "fputs", "fgetc", "fputc", "getc", "putc", "ungetc",
+    "fseek", "ftell", "rewind", "fsetpos", "fgetpos",
+    "feof", "ferror", "clearerr", "fflush", "fileno",
+    "setbuf", "setvbuf", "perror",
+}
+
+
+def _collect_ids(node: c_ast.Node, out: set[str]) -> None:
+    if node is None:
+        return
+    if isinstance(node, c_ast.ID):
+        out.add(node.name)
+        return
+    for _, child in node.children():
+        _collect_ids(child, out)
+
+
+def _is_null_const(node: c_ast.Node) -> bool:
+    if isinstance(node, c_ast.Constant):
+        return node.value in ("0", "NULL")
+    if isinstance(node, c_ast.ID):
+        return node.name == "NULL"
+    if isinstance(node, c_ast.Cast) and node.expr is not None:
+        return _is_null_const(node.expr)
+    return False
+
 
 def _looks_like_open(name: str, ctx) -> bool:
     if name in _OPEN_FUNCS:
@@ -97,12 +129,36 @@ class _ResourceAnalysis(ForwardAnalysis[_ResourceState]):
                 if self._is_open_call(stmt.rvalue):
                     state.opened.add(stmt.lvalue.name)
                     state.closed.discard(stmt.lvalue.name)
+            else:
+                # Storing the handle into a struct member / array element /
+                # deref target publishes it beyond the local: it escapes and
+                # this function is no longer responsible for closing it.
+                escaped: set[str] = set()
+                _collect_ids(stmt.rvalue, escaped)
+                state.opened -= escaped
+
+        elif isinstance(stmt, c_ast.Return):
+            # `return f;` transfers ownership of the handle to the caller.
+            if stmt.expr is not None:
+                escaped = set()
+                _collect_ids(stmt.expr, escaped)
+                state.opened -= escaped
 
         elif isinstance(stmt, c_ast.FuncCall):
             if self._is_close_call(stmt) and stmt.args and stmt.args.exprs:
                 for arg in stmt.args.exprs:
                     if isinstance(arg, c_ast.ID):
                         state.closed.add(arg.name)
+            elif not self._is_close_call(stmt):
+                # Passing the handle to an unknown (non-stdio) function is a
+                # conservative escape - the callee may store or close it.
+                callee = stmt.name.name if isinstance(stmt.name, c_ast.ID) else None
+                if callee is not None and callee not in _KNOWN_IO_FUNCS \
+                        and callee not in _OPEN_FUNCS and stmt.args:
+                    escaped = set()
+                    for arg in stmt.args.exprs or []:
+                        _collect_ids(arg, escaped)
+                    state.opened -= escaped
 
     def _is_open_call(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
@@ -141,6 +197,11 @@ class ResourceLeakChecker(BaseChecker):
             in_state, _ = exit_pair
             leaked = in_state.opened - in_state.closed
             for var_name in sorted(leaked):
+                # `f = fopen(..); if (!f) { return -1; } ... fclose(f);` -
+                # the unclosed path is the open-failure path where f is NULL.
+                if self._has_null_guard_return(node.body, var_name) and \
+                        self._has_close_of(node.body, var_name):
+                    continue
                 alloc_node = self._find_open_node(node.body, var_name)
                 report_node = alloc_node or node.decl or node
                 self.report(
@@ -160,10 +221,29 @@ class ResourceLeakChecker(BaseChecker):
             in_state, _ = pair
             closed = set(in_state.closed)
             for stmt in block.statements:
+                # Reopening the handle (`f = fopen(...)`) clears its closed
+                # state so later uses are legitimate again.
+                if isinstance(stmt, c_ast.Assignment) and isinstance(stmt.lvalue, c_ast.ID):
+                    if self._is_open_call(stmt.rvalue):
+                        closed.discard(stmt.lvalue.name)
+                    continue
+                if isinstance(stmt, c_ast.Decl) and stmt.name and stmt.init is not None:
+                    if self._is_open_call(stmt.init):
+                        closed.discard(stmt.name)
+                    continue
                 if isinstance(stmt, c_ast.FuncCall) and stmt.args:
                     if isinstance(stmt.name, c_ast.ID) and _looks_like_close(stmt.name.name, self._ctx):
                         for arg in stmt.args.exprs or []:
                             if isinstance(arg, c_ast.ID):
+                                if arg.name in closed:
+                                    # Closing an already-closed handle is
+                                    # itself a use-after-close (double fclose).
+                                    self.report(
+                                        stmt,
+                                        f"File handle '{arg.name}' is closed twice",
+                                        Severity.ERROR,
+                                        RULE_22_6,
+                                    )
                                 closed.add(arg.name)
                         continue
                     for arg in stmt.args.exprs or []:
@@ -174,6 +254,53 @@ class ResourceLeakChecker(BaseChecker):
                                 Severity.ERROR,
                                 RULE_22_6,
                             )
+
+    def _is_open_call(self, node: c_ast.Node) -> bool:
+        if isinstance(node, c_ast.Cast) and node.expr is not None:
+            return self._is_open_call(node.expr)
+        if isinstance(node, c_ast.FuncCall) and isinstance(node.name, c_ast.ID):
+            return _looks_like_open(node.name.name, self._ctx)
+        return False
+
+    def _has_close_of(self, body: c_ast.Node, var_name: str) -> bool:
+        if isinstance(body, c_ast.FuncCall):
+            if isinstance(body.name, c_ast.ID) and _looks_like_close(body.name.name, self._ctx):
+                for arg in (body.args.exprs if body.args else None) or []:
+                    if isinstance(arg, c_ast.ID) and arg.name == var_name:
+                        return True
+        for _, child in body.children():
+            if self._has_close_of(child, var_name):
+                return True
+        return False
+
+    def _has_null_guard_return(self, body: c_ast.Node, var_name: str) -> bool:
+        """True if the function contains `if (!var) return ...` or
+        `if (var == NULL) return ...` (the open-failure guard idiom)."""
+        if isinstance(body, c_ast.If) and self._cond_is_null_test(body.cond, var_name):
+            if self._branch_returns(body.iftrue):
+                return True
+        for _, child in body.children():
+            if self._has_null_guard_return(child, var_name):
+                return True
+        return False
+
+    def _cond_is_null_test(self, cond: c_ast.Node, var_name: str) -> bool:
+        if isinstance(cond, c_ast.UnaryOp) and cond.op == "!":
+            return isinstance(cond.expr, c_ast.ID) and cond.expr.name == var_name
+        if isinstance(cond, c_ast.BinaryOp) and cond.op == "==":
+            if isinstance(cond.left, c_ast.ID) and cond.left.name == var_name:
+                return _is_null_const(cond.right)
+            if isinstance(cond.right, c_ast.ID) and cond.right.name == var_name:
+                return _is_null_const(cond.left)
+        return False
+
+    def _branch_returns(self, node: c_ast.Node) -> bool:
+        if isinstance(node, (c_ast.Return, c_ast.Goto)):
+            return True
+        if isinstance(node, c_ast.Compound):
+            items = node.block_items or []
+            return bool(items) and self._branch_returns(items[-1])
+        return False
 
     def _check_file_deref_22_5(self, func: c_ast.FuncDef) -> None:
         """Find variables of type FILE* and report any *p / p-> dereference."""

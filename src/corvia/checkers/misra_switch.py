@@ -47,6 +47,10 @@ def _ends_with_break_or_return(stmts: list[c_ast.Node]) -> bool:
             return True
         if isinstance(s, c_ast.Compound):
             return _ends_with_break_or_return(s.block_items or [])
+        if isinstance(s, (c_ast.Case, c_ast.Default)):
+            # Multi-label clause (`case 1: case 2: break;`): the terminating
+            # statement lives inside the trailing nested label. Unwrap it.
+            return _ends_with_break_or_return(s.stmts or [])
         return False
     return False
 
@@ -87,29 +91,30 @@ class MisraSwitchChecker(BaseChecker):
         elif body is not None:
             items = [body]
 
-        cases: list[tuple[c_ast.Node, list[c_ast.Node]]] = []
-        has_default = False
-        default_position = -1
-        case_position = 0
-
-        current_label: c_ast.Node | None = None
-        current_stmts: list[c_ast.Node] = []
+        # Group switch labels into clauses. Consecutive labels with no
+        # statements between them (`case 1: case 2: break;`) are multiple
+        # labels of the SAME clause, not separate empty clauses.
+        groups: list[dict] = []  # {"labels": [Case/Default...], "stmts": [...]}
         for item in items:
             if isinstance(item, (c_ast.Case, c_ast.Default)):
-                if current_label is not None:
-                    cases.append((current_label, current_stmts))
-                current_label = item
-                current_stmts = []
-                if isinstance(item, c_ast.Default):
-                    has_default = True
-                    default_position = case_position
-                if item.stmts:
-                    current_stmts.extend(item.stmts)
-                case_position += 1
+                if groups and not groups[-1]["stmts"]:
+                    groups[-1]["labels"].append(item)
+                    groups[-1]["stmts"].extend(item.stmts or [])
+                else:
+                    groups.append({"labels": [item], "stmts": list(item.stmts or [])})
             else:
-                current_stmts.append(item)
-        if current_label is not None:
-            cases.append((current_label, current_stmts))
+                if groups:
+                    groups[-1]["stmts"].append(item)
+
+        cases: list[tuple[c_ast.Node, list[c_ast.Node]]] = [
+            (g["labels"][0], g["stmts"]) for g in groups
+        ]
+        has_default = False
+        default_position = -1
+        for pos, g in enumerate(groups):
+            if any(isinstance(lbl, c_ast.Default) for lbl in g["labels"]):
+                has_default = True
+                default_position = pos
 
         # 16.6: must have at least two clauses.
         if len(cases) < 2:
@@ -155,6 +160,11 @@ class MisraSwitchChecker(BaseChecker):
         """Recursively walk into nested compound statements; any Case/Default
         we find in a sub-compound (i.e. not directly in `switch_body`) is a
         16.2 violation."""
+        if isinstance(node, c_ast.Switch):
+            # A nested switch owns its labels; recursing into it would report
+            # perfectly legal inner case labels as 16.2 violations. The inner
+            # switch gets its own visit_Switch pass.
+            return
         if isinstance(node, c_ast.Compound):
             for item in node.block_items or []:
                 if isinstance(item, (c_ast.Case, c_ast.Default)):
