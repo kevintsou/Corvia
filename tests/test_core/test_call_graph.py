@@ -53,6 +53,37 @@ def test_detects_mutual_recursion():
     assert g.is_recursive("g")
 
 
+def test_scc_handles_deep_call_chains_iteratively():
+    """Regression: Tarjan's SCC must be iterative — a call chain deeper than
+    Python's recursion limit used to raise RecursionError."""
+    from corvia.core.call_graph import CallGraph, CallSite
+
+    g = CallGraph()
+    n = 5000  # far beyond the default recursion limit
+    for i in range(n):
+        g.add_call(CallSite(caller=f"f{i}", callee=f"f{i + 1}", file="a.c", line=i + 1))
+
+    sccs = g.strongly_connected_components()
+    assert len(sccs) == n + 1
+    assert all(len(scc) == 1 for scc in sccs)
+    # Reverse topological order: the deepest callee comes first.
+    assert sccs[0] == {f"f{n}"}
+
+
+def test_scc_iterative_still_finds_cycles():
+    from corvia.core.call_graph import CallGraph, CallSite
+
+    g = CallGraph()
+    g.add_call(CallSite(caller="a", callee="b", file="x.c", line=1))
+    g.add_call(CallSite(caller="b", callee="c", file="x.c", line=2))
+    g.add_call(CallSite(caller="c", callee="a", file="x.c", line=3))
+    g.add_call(CallSite(caller="a", callee="d", file="x.c", line=4))
+
+    sccs = g.strongly_connected_components()
+    assert {"a", "b", "c"} in sccs
+    assert {"d"} in sccs
+
+
 def test_topological_order_callees_before_callers():
     src = """
     int leaf(void) { return 0; }

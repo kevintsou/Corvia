@@ -58,8 +58,23 @@ def parse_cproject_include_paths(cproject_path: str | Path) -> list[str]:
     include_paths: list[str] = []
     proj_dir = path.parent
 
-    name_match = re.search(r'<name>(\w+)</name>', content)
-    project_name = name_match.group(1) if name_match else None
+    # The authoritative project name lives in the sibling .project file
+    # (Eclipse workspace descriptor); the first <name> in .cproject is often
+    # a configuration name, not the project name. Accept names containing
+    # '-' and '.', and fall back to the directory name.
+    project_name: Optional[str] = None
+    project_file = proj_dir / ".project"
+    if project_file.is_file():
+        try:
+            pcontent = project_file.read_text(encoding="utf-8", errors="replace")
+            pmatch = re.search(r'<name>\s*([^<]+?)\s*</name>', pcontent)
+            if pmatch:
+                project_name = pmatch.group(1)
+        except OSError:
+            pass
+    if project_name is None:
+        name_match = re.search(r'<name>([\w.-]+)</name>', content)
+        project_name = name_match.group(1) if name_match else proj_dir.name
 
     def find_matching_brace(content: str, start: int) -> int:
         depth = 0
@@ -353,6 +368,17 @@ else:  # pragma: no cover
 _VALID_SEVERITIES = {"error", "warning", "info", "off"}
 
 
+def _merge_unique(first: list[str], second: list[str]) -> list[str]:
+    """Concatenate two path lists, preserving order and dropping duplicates."""
+    merged: list[str] = []
+    seen: set[str] = set()
+    for item in [*first, *second]:
+        if item not in seen:
+            seen.add(item)
+            merged.append(item)
+    return merged
+
+
 @dataclass
 class CorviaConfig:
     enabled_checkers: Optional[list[str]] = None
@@ -415,8 +441,11 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
     paths = data.get("paths", {}) or {}
     if "include" in paths:
         base = path.parent
+        # Keep absolute paths as written (including POSIX-style "/..." paths,
+        # which pathlib does not consider absolute on Windows); resolve
+        # relative paths against the config file's directory.
         config.include_dirs = [
-            str((base / d).resolve()) if not Path(d).is_absolute() else d
+            d if Path(d).is_absolute() or str(d).startswith("/") else str((base / d).resolve())
             for d in paths["include"]
         ]
     if "use_cpp" in paths:
@@ -436,7 +465,11 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
         config.cproject = str(paths["cproject"])
         cproject_path = proj_dir / config.cproject
         if cproject_path.exists():
-            config.include_dirs = parse_cproject_include_paths(str(cproject_path))
+            # Merge with (not replace) any manual [paths] include entries.
+            config.include_dirs = _merge_unique(
+                config.include_dirs,
+                parse_cproject_include_paths(str(cproject_path)),
+            )
 
     elif "makefile" in paths:
         # Makefile project: only when explicitly configured (avoids running make -B -n on every startup)
@@ -459,8 +492,8 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
             make_args=config.make_args,
         )
         if inc_dirs:
-            # Only override manual include list if Makefile returned results
-            config.include_dirs = inc_dirs
+            # Merge Makefile-derived paths with any manual include entries.
+            config.include_dirs = _merge_unique(config.include_dirs, inc_dirs)
         if cpp_defs and not config.cpp_args:
             # Only inject defines if user hasn't already set cpp_args
             config.cpp_args = [f"-D{d}" for d in cpp_defs]

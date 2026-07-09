@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -26,7 +27,13 @@ from typing import Optional
 from corvia.models import Issue, MisraCategory, MisraRule, Severity
 
 
-SCHEMA_VERSION = 1
+# v2: added env_hash (analysis environment fingerprint) and normalized paths.
+SCHEMA_VERSION = 2
+
+
+def _normalize_path(file: str) -> str:
+    """Canonical cache key for a file path (resolved + case-normalized)."""
+    return os.path.normcase(str(Path(file).resolve()))
 
 
 @dataclass
@@ -37,6 +44,7 @@ class FileCache:
     issues: list[Issue] = field(default_factory=list)
     callees: list[str] = field(default_factory=list)  # functions this file calls
     defines: list[str] = field(default_factory=list)  # external function names defined here
+    env_hash: str = ""  # fingerprint of the analysis environment (flags/checkers/version)
 
     def to_json(self) -> dict:
         return {
@@ -47,6 +55,7 @@ class FileCache:
             "issues": [_issue_to_json(i) for i in self.issues],
             "callees": self.callees,
             "defines": self.defines,
+            "env_hash": self.env_hash,
         }
 
     @classmethod
@@ -60,6 +69,7 @@ class FileCache:
             issues=[_issue_from_json(d) for d in data.get("issues", [])],
             callees=list(data.get("callees", [])),
             defines=list(data.get("defines", [])),
+            env_hash=str(data.get("env_hash", "")),
         )
 
 
@@ -96,18 +106,25 @@ def hash_file(path: str) -> str:
 
 
 class CacheManager:
-    def __init__(self, cache_dir: str | Path = ".corvia_cache") -> None:
+    def __init__(
+        self, cache_dir: str | Path = ".corvia_cache", env_hash: str = ""
+    ) -> None:
         self.cache_dir = Path(cache_dir)
+        self.env_hash = env_hash
         self._loaded: dict[str, FileCache] = {}
 
     def _entry_path(self, file: str) -> Path:
-        # Hash the path itself to avoid filesystem-incompatible names.
-        key = hashlib.sha256(file.encode()).hexdigest()[:32]
+        # Key on the resolved, case-normalized path so the same file reached
+        # via different spellings (relative vs absolute, case differences on
+        # Windows) maps to a single cache entry. Hash the normalized path to
+        # avoid filesystem-incompatible names.
+        key = hashlib.sha256(_normalize_path(file).encode()).hexdigest()[:32]
         return self.cache_dir / f"{key}.json"
 
     def load(self, file: str) -> Optional[FileCache]:
-        if file in self._loaded:
-            return self._loaded[file]
+        norm = _normalize_path(file)
+        if norm in self._loaded:
+            return self._loaded[norm]
         p = self._entry_path(file)
         if not p.exists():
             return None
@@ -117,18 +134,26 @@ class CacheManager:
             return None
         cache = FileCache.from_json(data)
         if cache is not None:
-            self._loaded[file] = cache
+            self._loaded[norm] = cache
         return cache
 
     def save(self, cache: FileCache) -> None:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        # Store resolved paths so entries are stable across spellings.
+        cache.path = str(Path(cache.path).resolve())
+        if not cache.env_hash:
+            cache.env_hash = self.env_hash
         p = self._entry_path(cache.path)
         p.write_text(json.dumps(cache.to_json(), indent=2))
-        self._loaded[cache.path] = cache
+        self._loaded[_normalize_path(cache.path)] = cache
 
     def is_valid(self, file: str, current_hash: str) -> bool:
         cached = self.load(file)
-        return cached is not None and cached.content_hash == current_hash
+        return (
+            cached is not None
+            and cached.content_hash == current_hash
+            and cached.env_hash == self.env_hash
+        )
 
     def clear(self) -> None:
         if self.cache_dir.exists():
@@ -145,13 +170,25 @@ class CacheManager:
                 result.add(f)
         return result
 
-    def determine_files_to_analyze(self, files: list[str]) -> tuple[set[str], set[str]]:
+    def determine_files_to_analyze(
+        self,
+        files: list[str],
+        new_defines: Optional[dict[str, list[str]]] = None,
+    ) -> tuple[set[str], set[str]]:
         """Returns (files_to_analyze, files_reusable_from_cache).
 
         A file must be re-analyzed if:
           - It has no valid cache entry, OR
           - One of the symbols it depends on (functions it calls) was defined
             in a file that itself needs to be re-analyzed.
+
+        ``new_defines`` optionally maps each file to the external function
+        names it defines *now* (from a fresh parse). For a changed file the
+        invalidation set is the union of its old cached defines and its new
+        defines, so both removed and newly-added definitions invalidate
+        callers. When ``new_defines`` is not supplied and a changed file has
+        no cache entry (we cannot know what it defines), we conservatively
+        invalidate every cached file — correctness over cache hits.
         """
         changed: set[str] = set()
         for f in files:
@@ -171,6 +208,13 @@ class CacheManager:
             cached = self.load(f)
             if cached:
                 invalidated_symbols.update(cached.defines)
+            elif new_defines is None:
+                # Changed file with no cache entry and no fresh parse info:
+                # its definitions are unknown, so conservatively re-analyze
+                # everything rather than risk stale cross-file results.
+                return set(files), set()
+            if new_defines is not None:
+                invalidated_symbols.update(new_defines.get(f, []))
 
         if invalidated_symbols:
             queue = list(invalidated_symbols)

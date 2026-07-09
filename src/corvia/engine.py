@@ -59,13 +59,16 @@ class AnalysisEngine:
         selected: list[type] = []
         for c in all_checkers:
             if cli_checkers is not None:
+                # CLI --checkers takes precedence over config: a checker
+                # explicitly requested on the command line runs even if the
+                # config file disables it.
                 if c.checker_id not in cli_checkers:
                     continue
-            elif cfg_enabled is not None:
-                if c.checker_id not in cfg_enabled:
+            else:
+                if cfg_enabled is not None and c.checker_id not in cfg_enabled:
                     continue
-            if c.checker_id in cfg_disabled:
-                continue
+                if c.checker_id in cfg_disabled:
+                    continue
             selected.append(c)
         self._checker_classes = selected
 
@@ -87,9 +90,48 @@ class AnalysisEngine:
         if cache_dir is None and config and config.cache_dir:
             cache_dir = config.cache_dir
         self._incremental = incremental
-        self._cache = (
-            CacheManager(cache_dir or ".corvia_cache") if incremental else None
+        env_hash = self._compute_env_hash(
+            use_cpp=use_cpp,
+            include_dirs=merged_includes,
+            cpp_defines=cpp_defines or [],
+            cpp_args=merged_cpp_args,
+            checker_ids=sorted(c.checker_id for c in self._checker_classes),
         )
+        self._cache = (
+            CacheManager(cache_dir or ".corvia_cache", env_hash=env_hash)
+            if incremental
+            else None
+        )
+
+    @staticmethod
+    def _compute_env_hash(
+        *,
+        use_cpp: bool,
+        include_dirs: list[str],
+        cpp_defines: list[str],
+        cpp_args: list[str],
+        checker_ids: list[str],
+    ) -> str:
+        """Fingerprint of everything (besides file content) that can change
+        analysis results. Cached entries produced under a different
+        environment (flags, selected checkers, Corvia version) are stale."""
+        import hashlib
+        import json
+
+        from corvia import __version__
+
+        payload = json.dumps(
+            {
+                "version": __version__,
+                "use_cpp": use_cpp,
+                "include_dirs": list(include_dirs),
+                "cpp_defines": list(cpp_defines),
+                "cpp_args": list(cpp_args),
+                "checkers": list(checker_ids),
+            },
+            sort_keys=True,
+        )
+        return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
     def analyze(self, targets: list[str], progress_callback: Optional[ProgressCallback] = None) -> AnalysisResult:
         result = AnalysisResult()
@@ -99,22 +141,18 @@ class AnalysisEngine:
 
         result.files_analyzed.extend(files)
 
-        if self._cache is not None:
-            to_analyze, reusable = self._cache.determine_files_to_analyze(files)
-            for f in reusable:
-                cached = self._cache.load(f)
-                if cached:
-                    result.issues.extend(self._filter_issues(cached.issues))
-            files_to_parse = sorted(to_analyze)
-        else:
-            files_to_parse = files
-
         source_files_resolved = {Path(f).resolve() for f in files}
 
+        # Pass 1: always parse ALL collected files so the AnalysisContext
+        # (symbol table, call graph, summaries) reflects the whole target
+        # set. The incremental cache only skips the CHECKER pass for
+        # unchanged files — building the context from changed files alone
+        # would drop summaries for functions in unchanged files and make
+        # incremental results diverge from full runs.
         asts: dict[str, c_ast.FileAST] = {}
-        for idx, f in enumerate(files_to_parse):
+        for idx, f in enumerate(files):
             if progress_callback:
-                progress_callback(idx + 1, len(files_to_parse), str(Path(f).name))
+                progress_callback(idx + 1, len(files), str(Path(f).name))
             ast, parse_errors = self._parser.parse_file(f)
             result.issues.extend(parse_errors)
             if ast is not None:
@@ -122,8 +160,28 @@ class AnalysisEngine:
 
         ctx = self._build_context(asts)
 
-        total_files = len(asts)
-        for file_idx, (filename, ast) in enumerate(asts.items()):
+        files_to_check = list(asts.keys())
+        if self._cache is not None:
+            new_defines = {
+                f: sorted({
+                    fn.name
+                    for fn in ctx.symbol_table.all_functions()
+                    if fn.is_definition and fn.file == f and not fn.is_static
+                })
+                for f in files
+            }
+            to_analyze, reusable = self._cache.determine_files_to_analyze(
+                files, new_defines=new_defines
+            )
+            for f in sorted(reusable):
+                cached = self._cache.load(f)
+                if cached:
+                    result.issues.extend(self._filter_issues(cached.issues))
+            files_to_check = [f for f in asts if f in to_analyze]
+
+        total_files = len(files_to_check)
+        for file_idx, filename in enumerate(files_to_check):
+            ast = asts[filename]
             # Progress is reported per source file (not per file x checker), so
             # the count matches the number of files being analyzed rather than
             # ballooning to files * checkers.
@@ -146,9 +204,40 @@ class AnalysisEngine:
 
             result.issues.extend(self._filter_issues(file_issues))
 
+        # Cross-file issues can appear both in a reused cache entry (stored
+        # under the file whose checker produced them) and freshly from the
+        # re-analyzed file they point at — keep a single copy.
+        result.issues = self._dedupe_issues(result.issues)
+
         self._populate_context(result.issues)
         result.issues.sort(key=lambda i: (i.file, i.line, i.column))
         return result
+
+    @staticmethod
+    def _dedupe_issues(issues: list[Issue]) -> list[Issue]:
+        """Drop duplicate issues, comparing on
+        (checker_id, normalized file, line, column, message)."""
+        import os
+
+        norm_cache: dict[str, str] = {}
+
+        def _norm(file: str) -> str:
+            if file not in norm_cache:
+                try:
+                    norm_cache[file] = os.path.normcase(str(Path(file).resolve()))
+                except OSError:
+                    norm_cache[file] = file
+            return norm_cache[file]
+
+        seen: set[tuple[str, str, int, int, str]] = set()
+        unique: list[Issue] = []
+        for i in issues:
+            key = (i.checker_id, _norm(i.file), i.line, i.column, i.message)
+            if key in seen:
+                continue
+            seen.add(key)
+            unique.append(i)
+        return unique
 
     @staticmethod
     def _populate_context(issues: list[Issue]) -> None:
@@ -263,14 +352,27 @@ class AnalysisEngine:
         return issues
 
     def _collect_files(self, targets: list[str], result: AnalysisResult) -> list[str]:
+        import os
+
         files: list[str] = []
+        seen: set[str] = set()
+
+        def _add(path: Path) -> None:
+            # Dedupe on the resolved path so overlapping targets (a file and
+            # its parent directory, or the same directory twice) don't get
+            # analyzed twice; first occurrence wins to preserve order.
+            key = os.path.normcase(str(path.resolve()))
+            if key not in seen:
+                seen.add(key)
+                files.append(str(path))
+
         for target in targets:
             p = Path(target)
             if p.is_file():
-                files.append(str(p))
+                _add(p)
             elif p.is_dir():
                 for f in sorted(p.rglob("*.c")):
-                    files.append(str(f))
+                    _add(f)
             else:
                 result.issues.append(
                     Issue(

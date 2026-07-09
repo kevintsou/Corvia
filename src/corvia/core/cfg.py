@@ -69,11 +69,20 @@ class CFGBuilder:
         self._block_counter = 0
         self._label_blocks: dict[str, BasicBlock] = {}
         self._pending_gotos: list[tuple[BasicBlock, str]] = []
+        # Explicit break/continue target stacks. Loops push (after_block,
+        # header_block); switches push only a break target. A `break` or
+        # `continue` statement connects to the innermost matching target,
+        # so a break inside a switch nested in a loop exits the switch, not
+        # the loop.
+        self._break_targets: list[BasicBlock] = []
+        self._continue_targets: list[BasicBlock] = []
 
     def build(self, func_def: c_ast.FuncDef) -> CFG:
         self._block_counter = 0
         self._label_blocks = {}
         self._pending_gotos = []
+        self._break_targets = []
+        self._continue_targets = []
 
         entry = self._new_block()
         entry.is_entry = True
@@ -143,9 +152,13 @@ class CFGBuilder:
             return None
         elif isinstance(stmt, c_ast.Break):
             current.statements.append(stmt)
+            if self._break_targets:
+                current.add_successor(self._break_targets[-1])
             return None
         elif isinstance(stmt, c_ast.Continue):
             current.statements.append(stmt)
+            if self._continue_targets:
+                current.add_successor(self._continue_targets[-1])
             return None
         elif isinstance(stmt, c_ast.Goto):
             current.statements.append(stmt)
@@ -157,7 +170,9 @@ class CFGBuilder:
             self._label_blocks[stmt.name] = new_block
             current.add_successor(new_block)
             if stmt.stmt:
-                new_block.statements.append(stmt.stmt)
+                # Recurse so structured statements after a label (if/while/
+                # switch/...) get a proper CFG instead of being appended raw.
+                return self._process_stmt(stmt.stmt, new_block, exit_block)
             return new_block
         elif isinstance(stmt, c_ast.Compound):
             if stmt.block_items:
@@ -223,17 +238,22 @@ class CFGBuilder:
         cond_block.add_successor(body_block)
         cond_block.add_successor(after_block)
 
-        if node.stmt:
-            if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
-                body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+        self._break_targets.append(after_block)
+        self._continue_targets.append(cond_block)
+        try:
+            if node.stmt:
+                if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
+                    body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+                else:
+                    body_end = self._process_stmt(node.stmt, body_block, exit_block)
+                if body_end is not None:
+                    body_end.add_successor(cond_block)
             else:
-                body_end = self._process_stmt(node.stmt, body_block, exit_block)
-            if body_end is not None:
-                body_end.add_successor(cond_block)
-        else:
-            body_block.add_successor(cond_block)
+                body_block.add_successor(cond_block)
+        finally:
+            self._continue_targets.pop()
+            self._break_targets.pop()
 
-        self._resolve_breaks_continues(body_block, after_block, cond_block)
         return after_block
 
     def _process_dowhile(
@@ -248,22 +268,27 @@ class CFGBuilder:
         cond_block = self._new_block()
         after_block = self._new_block()
 
-        if node.stmt:
-            if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
-                body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+        self._break_targets.append(after_block)
+        self._continue_targets.append(cond_block)
+        try:
+            if node.stmt:
+                if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
+                    body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+                else:
+                    body_end = self._process_stmt(node.stmt, body_block, exit_block)
+                if body_end is not None:
+                    body_end.add_successor(cond_block)
             else:
-                body_end = self._process_stmt(node.stmt, body_block, exit_block)
-            if body_end is not None:
-                body_end.add_successor(cond_block)
-        else:
-            body_block.add_successor(cond_block)
+                body_block.add_successor(cond_block)
+        finally:
+            self._continue_targets.pop()
+            self._break_targets.pop()
 
         if node.cond:
             cond_block.statements.append(node.cond)
         cond_block.add_successor(body_block)
         cond_block.add_successor(after_block)
 
-        self._resolve_breaks_continues(body_block, after_block, cond_block)
         return after_block
 
     def _process_for(
@@ -291,17 +316,22 @@ class CFGBuilder:
             incr_block.statements.append(node.next)
         incr_block.add_successor(cond_block)
 
-        if node.stmt:
-            if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
-                body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+        self._break_targets.append(after_block)
+        self._continue_targets.append(incr_block)
+        try:
+            if node.stmt:
+                if isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
+                    body_end = self._process_stmts(node.stmt.block_items, body_block, exit_block)
+                else:
+                    body_end = self._process_stmt(node.stmt, body_block, exit_block)
+                if body_end is not None:
+                    body_end.add_successor(incr_block)
             else:
-                body_end = self._process_stmt(node.stmt, body_block, exit_block)
-            if body_end is not None:
-                body_end.add_successor(incr_block)
-        else:
-            body_block.add_successor(incr_block)
+                body_block.add_successor(incr_block)
+        finally:
+            self._continue_targets.pop()
+            self._break_targets.pop()
 
-        self._resolve_breaks_continues(body_block, after_block, incr_block)
         return after_block
 
     def _process_switch(
@@ -310,67 +340,57 @@ class CFGBuilder:
         current: BasicBlock,
         exit_block: BasicBlock,
     ) -> Optional[BasicBlock]:
+        """Build the CFG for a switch statement.
+
+        pycparser nests each case's statements (including its ``break``)
+        inside ``Case.stmts`` / ``Default.stmts``, so break handling relies
+        on the explicit break-target stack: a Break processed anywhere in a
+        case body connects to this switch's after-block (not to an enclosing
+        loop's exit). When the switch has no ``default`` label, an edge from
+        the switch head to the after-block models "no case matches".
+        """
         current.statements.append(node.cond)
         after_block = self._new_block()
 
-        if node.stmt and isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
-            prev_block: Optional[BasicBlock] = None
-            for item in node.stmt.block_items:
-                if isinstance(item, (c_ast.Case, c_ast.Default)):
-                    case_block = self._new_block()
-                    current.add_successor(case_block)
-                    if prev_block is not None:
-                        prev_block.add_successor(case_block)
+        has_default = False
+        self._break_targets.append(after_block)
+        try:
+            if node.stmt and isinstance(node.stmt, c_ast.Compound) and node.stmt.block_items:
+                prev_block: Optional[BasicBlock] = None
+                for item in node.stmt.block_items:
+                    if isinstance(item, (c_ast.Case, c_ast.Default)):
+                        case_block = self._new_block()
+                        current.add_successor(case_block)
+                        if prev_block is not None:
+                            # Fall-through from the previous (break-less) case.
+                            prev_block.add_successor(case_block)
 
-                    if isinstance(item, c_ast.Case) and item.stmts:
-                        case_block.statements.append(item.expr)
-                        end = self._process_stmts(item.stmts, case_block, exit_block)
-                        prev_block = end
-                    elif isinstance(item, c_ast.Default) and item.stmts:
-                        end = self._process_stmts(item.stmts, case_block, exit_block)
-                        prev_block = end
+                        if isinstance(item, c_ast.Default):
+                            has_default = True
+                        if isinstance(item, c_ast.Case):
+                            case_block.statements.append(item.expr)
+                        if item.stmts:
+                            prev_block = self._process_stmts(item.stmts, case_block, exit_block)
+                        else:
+                            prev_block = case_block
                     else:
-                        prev_block = case_block
-                elif isinstance(item, c_ast.Break):
-                    if prev_block:
-                        prev_block.add_successor(after_block)
-                    prev_block = None
+                        # Statement at switch level outside any label (e.g.
+                        # ASTs shaped by fix_switch_cases where break is a
+                        # sibling of Case). It only executes via fall-through.
+                        if prev_block is not None:
+                            prev_block = self._process_stmt(item, prev_block, exit_block)
 
-            if prev_block is not None:
-                prev_block.add_successor(after_block)
-        else:
+                if prev_block is not None:
+                    # Last case falls out of the switch.
+                    prev_block.add_successor(after_block)
+        finally:
+            self._break_targets.pop()
+
+        if not has_default:
+            # No default: the switch may match no case and skip straight past.
             current.add_successor(after_block)
 
         return after_block
-
-    def _resolve_breaks_continues(
-        self,
-        body_start: BasicBlock,
-        break_target: BasicBlock,
-        continue_target: BasicBlock,
-    ) -> None:
-        visited: set[int] = set()
-        self._resolve_bc_recursive(body_start, break_target, continue_target, visited)
-
-    def _resolve_bc_recursive(
-        self,
-        block: BasicBlock,
-        break_target: BasicBlock,
-        continue_target: BasicBlock,
-        visited: set[int],
-    ) -> None:
-        if block.id in visited:
-            return
-        visited.add(block.id)
-
-        for stmt in block.statements:
-            if isinstance(stmt, c_ast.Break):
-                block.add_successor(break_target)
-            elif isinstance(stmt, c_ast.Continue):
-                block.add_successor(continue_target)
-
-        for succ in list(block.successors):
-            self._resolve_bc_recursive(succ, break_target, continue_target, visited)
 
     def _collect_blocks(self, entry: BasicBlock) -> set[BasicBlock]:
         visited: set[BasicBlock] = set()

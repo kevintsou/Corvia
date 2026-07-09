@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 from corvia.core.cfg import BasicBlock, CFG
 
 T = TypeVar("T")
+
+logger = logging.getLogger(__name__)
 
 
 class ForwardAnalysis(ABC, Generic[T]):
@@ -67,6 +70,17 @@ class ForwardAnalysis(ABC, Generic[T]):
                 if not self.equal(out_states[block.id], new_out):
                     out_states[block.id] = new_out
                     changed = True
+
+        if changed:
+            # Fixpoint not reached within the iteration budget: results are
+            # a sound-ish snapshot but may be imprecise. Warn, don't raise.
+            logger.warning(
+                "Forward dataflow analysis did not converge after %d "
+                "iterations for CFG '%s' (%d blocks)",
+                max_iterations,
+                cfg.func_name,
+                len(cfg.blocks),
+            )
 
         return {bid: (in_states[bid], out_states[bid]) for bid in in_states}
 
@@ -128,5 +142,16 @@ class BackwardAnalysis(ABC, Generic[T]):
                 if not self.equal(in_states[block.id], new_in):
                     in_states[block.id] = new_in
                     changed = True
+
+        if changed:
+            # Fixpoint not reached within the iteration budget: results are
+            # a sound-ish snapshot but may be imprecise. Warn, don't raise.
+            logger.warning(
+                "Backward dataflow analysis did not converge after %d "
+                "iterations for CFG '%s' (%d blocks)",
+                max_iterations,
+                cfg.func_name,
+                len(cfg.blocks),
+            )
 
         return {bid: (in_states[bid], out_states[bid]) for bid in in_states}

@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import importlib
+import inspect
+import warnings
 from pathlib import Path
+from types import ModuleType
 from typing import Optional
 
 from corvia.checkers.base import BaseChecker
@@ -66,14 +69,38 @@ class CheckerRegistry:
         return result
 
     @classmethod
+    def _register_module_checkers(cls, module: ModuleType) -> None:
+        """Register every BaseChecker subclass defined in ``module``.
+
+        Decorator-based registration only runs on first import; scanning the
+        module makes loading idempotent and lets the registry repopulate
+        after :meth:`reset` even though the modules are already imported.
+        """
+        for _, obj in inspect.getmembers(module, inspect.isclass):
+            if (
+                issubclass(obj, BaseChecker)
+                and obj is not BaseChecker
+                and obj.__module__ == module.__name__
+                and getattr(obj, "checker_id", None)
+            ):
+                cls._checkers.setdefault(obj.checker_id, obj)
+
+    @classmethod
     def load_builtin_checkers(cls) -> None:
         if cls._loaded:
             return
         for mod_name in _BUILTIN_MODULES:
+            full_name = f"corvia.checkers.{mod_name}"
             try:
-                importlib.import_module(f"corvia.checkers.{mod_name}")
-            except ImportError:
-                pass
+                module = importlib.import_module(full_name)
+            except ImportError as e:
+                warnings.warn(
+                    f"Failed to import builtin checker module '{full_name}': {e}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+                continue
+            cls._register_module_checkers(module)
         cls._loaded = True
 
     @classmethod
@@ -89,9 +116,15 @@ class CheckerRegistry:
                 continue
             mod_name = py_file.stem
             try:
-                importlib.import_module(mod_name)
-            except ImportError:
-                pass
+                module = importlib.import_module(mod_name)
+            except Exception as e:  # user code: any failure must not crash Corvia
+                warnings.warn(
+                    f"Failed to load external checker '{py_file}': {e}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+                continue
+            cls._register_module_checkers(module)
 
     @classmethod
     def _ensure_loaded(cls) -> None:
@@ -100,5 +133,8 @@ class CheckerRegistry:
 
     @classmethod
     def reset(cls) -> None:
+        """Clear the registry. A subsequent :meth:`load_builtin_checkers`
+        repopulates it (module re-import is a no-op, so registration is done
+        by scanning the already-imported modules)."""
         cls._checkers.clear()
         cls._loaded = False

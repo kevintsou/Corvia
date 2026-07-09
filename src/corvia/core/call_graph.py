@@ -69,49 +69,83 @@ class CallGraph:
         return order
 
     def strongly_connected_components(self) -> list[set[str]]:
-        """Tarjan's SCC algorithm. Returns SCCs in reverse topological order
-        (callees first, suitable for bottom-up summary computation)."""
-        index_counter = [0]
+        """Tarjan's SCC algorithm (iterative). Returns SCCs in reverse
+        topological order (callees first, suitable for bottom-up summary
+        computation).
+
+        Implemented with an explicit work stack so deep call chains do not
+        hit Python's recursion limit."""
+        index_counter = 0
         stack: list[str] = []
         on_stack: set[str] = set()
         index: dict[str, int] = {}
         lowlink: dict[str, int] = {}
         result: list[set[str]] = []
+        callees_cache: dict[str, list[str]] = {}
 
-        def strongconnect(v: str) -> None:
-            index[v] = index_counter[0]
-            lowlink[v] = index_counter[0]
-            index_counter[0] += 1
-            stack.append(v)
-            on_stack.add(v)
+        def _callees(v: str) -> list[str]:
+            if v not in callees_cache:
+                callees_cache[v] = self.callees_of(v)
+            return callees_cache[v]
 
-            for w in self.callees_of(v):
-                if w not in index:
-                    strongconnect(w)
-                    lowlink[v] = min(lowlink[v], lowlink[w])
-                elif w in on_stack:
-                    lowlink[v] = min(lowlink[v], index[w])
+        for root in sorted(self.nodes):
+            if root in index:
+                continue
+            # Each frame is (node, index of next callee to visit).
+            work: list[tuple[str, int]] = [(root, 0)]
+            while work:
+                v, child_idx = work[-1]
+                if child_idx == 0:
+                    index[v] = index_counter
+                    lowlink[v] = index_counter
+                    index_counter += 1
+                    stack.append(v)
+                    on_stack.add(v)
 
-            if lowlink[v] == index[v]:
-                component: set[str] = set()
-                while True:
-                    w = stack.pop()
-                    on_stack.discard(w)
-                    component.add(w)
-                    if w == v:
+                callees = _callees(v)
+                descended = False
+                for i in range(child_idx, len(callees)):
+                    w = callees[i]
+                    if w not in index:
+                        work[-1] = (v, i + 1)
+                        work.append((w, 0))
+                        descended = True
                         break
-                result.append(component)
+                    if w in on_stack:
+                        lowlink[v] = min(lowlink[v], index[w])
+                if descended:
+                    continue
 
-        for node in sorted(self.nodes):
-            if node not in index:
-                strongconnect(node)
+                # All callees of v processed: finish v.
+                work.pop()
+                if work:
+                    parent = work[-1][0]
+                    lowlink[parent] = min(lowlink[parent], lowlink[v])
+                if lowlink[v] == index[v]:
+                    component: set[str] = set()
+                    while True:
+                        w = stack.pop()
+                        on_stack.discard(w)
+                        component.add(w)
+                        if w == v:
+                            break
+                    result.append(component)
 
         return result
 
 
 class CallGraphBuilder:
     """Walks each FuncDef body and records every FuncCall whose callee
-    is a known function (resolvable via SymbolTable)."""
+    is a known function (resolvable via SymbolTable).
+
+    Known limitation: graph nodes are bare function names, so two static
+    functions with the same name in different files share a node (their
+    callees/callers are merged). Each CallSite carries its ``file``, and
+    ``SymbolTable.lookup_function(name, file=...)`` resolves the static
+    definition in the call site's own file first — consumers needing
+    file-accurate resolution should use those. Renaming nodes to qualified
+    "file::name" form would break the public schema and checker lookups,
+    so it is deliberately not done here."""
 
     def __init__(self, symbol_table: SymbolTable) -> None:
         self.symbol_table = symbol_table

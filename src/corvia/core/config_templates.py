@@ -100,14 +100,21 @@ def _detect_soc(root: Path, preferred_soc: Optional[str] = None) -> str:
     return "PS5801"
 
 
-def detect_config_templates(target: str | Path) -> list[TemplateDetection]:
-    """Return ordered template candidates with confidence and human-readable reasons."""
+def detect_config_templates(
+    target: str | Path, *, ignore_existing: bool = False
+) -> list[TemplateDetection]:
+    """Return ordered template candidates with confidence and human-readable reasons.
+
+    With ``ignore_existing=True`` an existing corvia.toml is disregarded, so
+    real project-based detection runs (used by ``init_config(force=True)``).
+    """
     root = _target_root(target)
     detections: list[TemplateDetection] = []
 
-    existing = root / "corvia.toml"
-    if existing.is_file():
-        return [TemplateDetection("existing", 100, [f"existing corvia.toml found at {existing}"])]
+    if not ignore_existing:
+        existing = root / "corvia.toml"
+        if existing.is_file():
+            return [TemplateDetection("existing", 100, [f"existing corvia.toml found at {existing}"])]
 
     if _limited_rglob(root, ".cproject", max_hits=1):
         detections.append(TemplateDetection("ds5", 95, [".cproject found under target tree"]))
@@ -303,12 +310,23 @@ def init_config(
     if dest.exists() and not force:
         raise ConfigError(f"{dest} already exists; pass --force to overwrite")
 
-    detections = detect_config_templates(root)
+    # With force=True the existing corvia.toml is being overwritten, so run
+    # detection against the project itself (the "existing" pseudo-template
+    # is not renderable and would make template_id="auto" fail).
+    detections = detect_config_templates(root, ignore_existing=force)
     selected = template_id
     reasons = ["manual selection"]
     confidence = None
     if template_id == "auto":
-        selected_detection = next((d for d in detections if d.template_id != "existing"), detections[0])
+        selected_detection = next(
+            (d for d in detections if d.template_id != "existing"), None
+        )
+        if selected_detection is None:
+            # Nothing but the existing-file marker detected: fall back to
+            # the always-valid minimal template.
+            selected_detection = TemplateDetection(
+                "minimal", 10, ["fallback when only an existing corvia.toml was detected"]
+            )
         selected = selected_detection.template_id
         reasons = selected_detection.reasons
         confidence = selected_detection.confidence

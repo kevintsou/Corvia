@@ -85,6 +85,8 @@ def serialize_symbol_graph(
     files = list(asts.keys())
     functions: list[dict] = []
     defined_names: set[str] = set()
+    nonstatic_defined: set[str] = set()
+    static_defined: set[tuple[str, str]] = set()
 
     for filename, ast in asts.items():
         if ast is None:
@@ -93,13 +95,24 @@ def serialize_symbol_graph(
             if not isinstance(ext, c_ast.FuncDef) or not ext.decl or not ext.decl.name:
                 continue
             name = ext.decl.name
-            if name in defined_names:
-                # First translation unit to define a name wins. Avoids
-                # duplicating header-inlined definitions once per includer.
-                continue
+            is_static = "static" in (ext.decl.storage or [])
+            # Non-static: first translation unit to define a name wins
+            # (avoids duplicating header-inlined definitions once per
+            # includer). Static definitions are file-scoped, so an
+            # identically-named static in a *different* file is a distinct
+            # function and gets its own entry — its `file` field carries
+            # the qualification while the JSON schema stays unchanged.
+            if is_static:
+                if (filename, name) in static_defined:
+                    continue
+                static_defined.add((filename, name))
+            else:
+                if name in nonstatic_defined:
+                    continue
+                nonstatic_defined.add(name)
             defined_names.add(name)
             line = ext.decl.coord.line if ext.decl.coord else 0
-            fn = symbol_table.lookup_function(name)
+            fn = symbol_table.lookup_function(name, file=filename)
             functions.append(
                 {
                     "name": name,

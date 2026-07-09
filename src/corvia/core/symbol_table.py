@@ -134,6 +134,10 @@ class SymbolTable:
         self.globals: dict[str, Symbol] = {}
         self.file_locals: dict[str, dict[str, Symbol]] = {}
         self.functions: dict[str, FunctionSymbol] = {}
+        # Static function definitions keyed by (file, name) so that
+        # identically-named static functions in different files stay
+        # distinguishable (see lookup_function's `file` parameter).
+        self.static_functions: dict[tuple[str, str], FunctionSymbol] = {}
         self.typedefs: dict[str, str] = {}
         self.tags: dict[str, TagSymbol] = {}
         self._all_decls: list[Symbol] = []
@@ -142,8 +146,23 @@ class SymbolTable:
         self._all_decls.append(sym)
 
         if sym.kind == "function" and isinstance(sym, FunctionSymbol):
+            if sym.is_static and sym.is_definition:
+                self.static_functions[(sym.file, sym.name)] = sym
             existing = self.functions.get(sym.name)
+            # Bare-name map preference: definitions beat declarations, and a
+            # non-static definition beats a static one (so a file-local
+            # static cannot hijack the global entry for an identically
+            # named external function). NOTE: two static definitions with
+            # the same name in different files still collide here — use
+            # lookup_function(name, file=...) for file-aware resolution.
             if existing is None or (sym.is_definition and not existing.is_definition):
+                self.functions[sym.name] = sym
+            elif (
+                sym.is_definition
+                and existing.is_definition
+                and existing.is_static
+                and not sym.is_static
+            ):
                 self.functions[sym.name] = sym
 
         if sym.scope == "global":
@@ -164,7 +183,25 @@ class SymbolTable:
             return self.file_locals[file][name]
         return self.globals.get(name)
 
-    def lookup_function(self, name: str) -> Optional[FunctionSymbol]:
+    def lookup_function(
+        self, name: str, file: Optional[str] = None
+    ) -> Optional[FunctionSymbol]:
+        """Resolve a function by name.
+
+        When ``file`` is given, a static definition in that same file takes
+        precedence over the global bare-name entry — mirroring C linkage,
+        where a call site binds to the file-local static before any external
+        function of the same name.
+
+        Known limitation: callers without file context (e.g. summary
+        computation keyed on bare call-graph node names) cannot distinguish
+        identically-named static functions defined in different files; the
+        bare-name map keeps one of them (non-static definitions preferred).
+        """
+        if file is not None:
+            static = self.static_functions.get((file, name))
+            if static is not None:
+                return static
         return self.functions.get(name)
 
     def all_definitions_of(self, name: str) -> list[Symbol]:

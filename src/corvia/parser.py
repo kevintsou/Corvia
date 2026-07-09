@@ -250,16 +250,36 @@ def _dedup_stub_typedefs(code: str) -> str:
 def _strip_preprocessor(code: str) -> str:
     """Remove preprocessor directives (#include, #define, #if, etc.) so pycparser can parse the file.
     Handles #if/#endif block pairs and single-line directives. Injects common type stubs.
-    Also handles MSVC/ARM preprocessor output with binary artifacts by filtering garbage lines."""
-    code = _CONTINUATION_RE.sub("", code)
+    Also handles MSVC/ARM preprocessor output with binary artifacts by filtering garbage lines.
+
+    Line counts are preserved: every removed line is replaced by an empty
+    line, and line-continuation backslashes are stripped in place (the
+    newline is kept) so downstream line maps stay accurate."""
     lines = code.split('\n')
     result: list[str] = []
     depth = 0
+    in_directive_continuation = False
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith("#if") or stripped.startswith("#elif") or stripped.startswith("#else"):
+        if in_directive_continuation:
+            # Continuation line of a multi-line preprocessor directive
+            # (e.g. a #define whose body spans several lines): blank it,
+            # keeping the newline so line numbering is stable.
+            result.append("")
+            in_directive_continuation = stripped.endswith("\\")
+            continue
+        if stripped.startswith("#"):
+            in_directive_continuation = stripped.endswith("\\")
+        # Only #if / #ifdef / #ifndef open a conditional block; #elif and
+        # #else are alternatives *within* the current block and must not
+        # increase the nesting depth (otherwise the matching #endif leaves
+        # depth > 0 and every subsequent line gets blanked).
+        if stripped.startswith("#if"):
             result.append("")
             depth += 1
+            continue
+        if stripped.startswith("#elif") or stripped.startswith("#else"):
+            result.append("")
             continue
         if stripped.startswith("#endif"):
             result.append("")
@@ -274,6 +294,12 @@ def _strip_preprocessor(code: str) -> str:
         if len(stripped) > 10000:
             result.append("")
             continue
+        if stripped.endswith("\\"):
+            # Ordinary code line continuation: drop the backslash but keep
+            # the line break (C is whitespace-insensitive outside strings),
+            # so the total line count does not change.
+            idx = line.rfind("\\")
+            line = line[:idx] + line[idx + 1:]
         result.append(line)
     code = "\n".join(result)
     code = re.sub(r'\b__builtin_va_list\b', 'int', code)
@@ -314,7 +340,8 @@ def _build_line_map(text: str, target_file: str) -> list[tuple[int, str]]:
     last_marker_idx = -1
     last_marker_line = 0
     for i, line in enumerate(lines):
-        m = re.match(r'#\s+(\d+)\s+"([^"]+)"', line)
+        # GCC/Clang emit '# N "file"'; MSVC cl emits '#line N "file"'.
+        m = re.match(r'#\s*(?:line\s+)?(\d+)\s+"([^"]+)"', line)
         if m:
             cur_line = int(m.group(1))
             cur_file = m.group(2)
@@ -322,7 +349,8 @@ def _build_line_map(text: str, target_file: str) -> list[tuple[int, str]]:
             last_marker_line = cur_line
             result[i] = (0, '')
         elif cur_file and last_marker_idx >= 0:
-            orig_line = last_marker_line + (i - last_marker_idx)
+            # A "# N \"file\"" marker means the *next* line is line N.
+            orig_line = last_marker_line + (i - last_marker_idx) - 1
             result[i] = (orig_line, cur_file)
         else:
             result[i] = (cur_line, cur_file)
@@ -353,6 +381,19 @@ class _CoordRemapper(NodeVisitor):
 
 def _remap_ast(ast: c_ast.FileAST, line_map: list[tuple[int, str]], target_file: str) -> None:
     _CoordRemapper(line_map, target_file).visit(ast)
+
+
+def _stub_offset_line_map(parsed_text: str, offset: int, target_file: str) -> list[tuple[int, str]]:
+    """Line map for text whose first `offset` lines are synthetic stub preamble.
+
+    Stub lines get ('', 0) so _CoordRemapper leaves them untouched; every
+    following line maps back to its position in the original source file.
+    """
+    total = parsed_text.count('\n') + 1
+    stub_count = min(offset, total)
+    line_map: list[tuple[int, str]] = [(0, '')] * stub_count
+    line_map.extend((i, target_file) for i in range(1, total - stub_count + 1))
+    return line_map
 
 
 def _try_fix_unknown_types(code: str) -> str | None:
@@ -441,6 +482,8 @@ class CParser:
                 stdout=sub.PIPE,
                 stderr=sub.PIPE,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
             )
             stdout, stderr = proc.communicate()
             if proc.returncode != 0:
@@ -463,6 +506,8 @@ class CParser:
                 stdout=sub.PIPE,
                 stderr=sub.PIPE,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 shell=False,
             )
             stdout, stderr = proc.communicate()
@@ -545,17 +590,29 @@ class CParser:
             cpp_args_list = self._build_cpp_args()
             try:
                 text, stderr, returncode = self._preprocess_file_safe(filepath, cpp_args_list)
-            except (OSError, RuntimeError) as e:
-                if self._auto_install or self._use_cpp:
+            except (OSError, RuntimeError):
+                # No usable preprocessor: try to install one, then retry the
+                # preprocessing once if the installation succeeded.
+                installed = False
+                try:
+                    from corvia.install import install_cpp
+                    installed = install_cpp() == 0
+                except Exception:
+                    installed = False
+                text = None
+                if installed:
+                    self._cpp_path = None  # re-discover the freshly installed cpp
                     try:
-                        from corvia.install import install_cpp
-                        install_cpp()
-                    except Exception:
-                        pass
-                return _make_error(
-                    f"C preprocessor (cpp) not found. "
-                    f"Install it with: pip install corvia[cpp] or run: corvia-install-cpp"
-                )
+                        text, stderr, returncode = self._preprocess_file_safe(
+                            filepath, cpp_args_list
+                        )
+                    except (OSError, RuntimeError):
+                        text = None
+                if text is None:
+                    return _make_error(
+                        f"C preprocessor (cpp) not found. "
+                        f"Install it with: pip install corvia[cpp] or run: corvia-install-cpp"
+                    )
 
             if not text:
                 combined = stderr.strip() if stderr else f"C preprocessor error (exit code {returncode})"
@@ -627,6 +684,8 @@ class CParser:
         try:
             parser = _CParser()
             ast = parser.parse(code, filename=filepath)
+            # _strip_preprocessor prepended _COMMON_TYPE_STUBS — map lines back.
+            _remap_ast(ast, _stub_offset_line_map(code, _STUB_LINES, filepath), filepath)
             return ast, []
         except ParseError as e:
             error_msg = str(e)
@@ -636,6 +695,14 @@ class CParser:
                     parser2 = _CParser()
                     try:
                         ast = parser2.parse(fixed, filename=filepath)
+                        # _try_fix_unknown_types prepends extra typedef stub
+                        # lines on top of the _COMMON_TYPE_STUBS preamble.
+                        extra = fixed.count('\n') - code.count('\n')
+                        _remap_ast(
+                            ast,
+                            _stub_offset_line_map(fixed, _STUB_LINES + extra, filepath),
+                            filepath,
+                        )
                         return ast, []
                     except ParseError:
                         pass
@@ -654,6 +721,7 @@ class CParser:
         parser = _CParser()
         try:
             ast = parser.parse(code, filename=filename)
+            _remap_ast(ast, _stub_offset_line_map(code, _STUB_LINES, filename), filename)
             return ast, []
         except ParseError as e:
             issue = Issue(

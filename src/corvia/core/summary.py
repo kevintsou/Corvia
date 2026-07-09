@@ -107,6 +107,13 @@ class _SummaryComputer:
         return self.summaries
 
     def _compute_scc(self, scc: set[str]) -> None:
+        # Known limitation: summaries are keyed by bare function name (the
+        # call graph's node naming), so identically-named static functions
+        # in different files share one summary — the body found via
+        # lookup_function(name) wins. File-aware resolution is available
+        # via SymbolTable.lookup_function(name, file=...), but adopting it
+        # here would require qualified call-graph nodes, which would break
+        # the public schema and checker lookups.
         for name in scc:
             if name in self.summaries and self.summaries[name].is_external:
                 continue
