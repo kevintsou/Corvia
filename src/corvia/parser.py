@@ -615,7 +615,7 @@ class CParser:
                 if text is None:
                     return _make_error(
                         f"C preprocessor (cpp) not found. "
-                        f"Install it with: pip install corvia[cpp] or run: corvia-install-cpp"
+                        f"Install gcc/clang, or on Windows run: corvia-install-cpp"
                     )
 
             if returncode != 0:

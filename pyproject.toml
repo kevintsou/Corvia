@@ -27,9 +27,6 @@ lsp = [
 mcp = [
     "mcp>=1.0.0",
 ]
-cpp = [
-    "wmi; sys_platform == 'win32'",
-]
 
 [project.scripts]
 corvia = "corvia.cli:main"

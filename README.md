@@ -24,19 +24,39 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 
 ## Installation / 安裝
 
+### Requirements / 環境需求
+
+- Python **3.9+**（3.11 以下會自動加裝 `tomli` 以讀取 TOML）
+- C preprocessor（gcc 或 clang）— 預設的 `--use-cpp` 模式需要。
+  Windows 上若尚未安裝，可執行內附的輔助指令：
+  ```bash
+  corvia-install-cpp   # 透過 winget 安裝 LLVM-MinGW（會先詢問確認）
+  ```
+  沒有 preprocessor 時仍可用 `--no-cpp` 的 fallback 模式分析。
+
 ### From GitHub
 ```bash
-pip install git+https://github.com/kevintsou/Corvia.git
+pip install "corvia @ git+https://github.com/kevintsou/Corvia.git"
+```
+
+### From a local clone / 本機開發安裝
+```bash
+git clone https://github.com/kevintsou/Corvia.git
+cd Corvia
+pip install -e .
 ```
 
 ### Optional feature groups
+
+> 注意：extras 不能直接寫在 git URL 後面（`pip install git+...git[lsp]` 是無效語法），
+> 必須使用下方 `corvia[extra] @ git+URL` 的形式。
 
 #### `[lsp]` — IDE 即時分析（VS Code / Neovim）
 
 **適用情境：** 想在編輯器裡即時看到 Corvia 的警告，不需要手動執行 CLI。
 
 ```bash
-pip install "git+https://github.com/kevintsou/Corvia.git[lsp]"
+pip install "corvia[lsp] @ git+https://github.com/kevintsou/Corvia.git"
 ```
 
 安裝後啟動 Language Server：
@@ -53,7 +73,7 @@ corvia-lsp
 **適用情境：** 想讓 Claude Desktop 或 Claude Code 直接呼叫 Corvia 分析工具，不需要手動下指令。
 
 ```bash
-pip install "git+https://github.com/kevintsou/Corvia.git[mcp]"
+pip install "corvia[mcp] @ git+https://github.com/kevintsou/Corvia.git"
 ```
 
 安裝後在 `claude_desktop_config.json` 加入：
@@ -72,14 +92,14 @@ Claude 就可以直接說「幫我分析這個專案」並自動呼叫 Corvia。
 #### `[lsp,mcp]` — 同時安裝兩者
 
 ```bash
-pip install "git+https://github.com/kevintsou/Corvia.git[lsp,mcp]"
+pip install "corvia[lsp,mcp] @ git+https://github.com/kevintsou/Corvia.git"
 ```
 
 ---
 
 **一般命令列使用不需要任何 extra，直接安裝基本版即可：**
 ```bash
-pip install git+https://github.com/kevintsou/Corvia.git
+pip install "corvia @ git+https://github.com/kevintsou/Corvia.git"
 ```
 
 ### Uninstall / 移除
@@ -368,7 +388,7 @@ corvia --list-checkers
 CORVIA provides a Language Server Protocol implementation for IDE integration.
 
 ```bash
-pip install corvia[lsp]
+pip install "corvia[lsp] @ git+https://github.com/kevintsou/Corvia.git"   # or: pip install -e ".[lsp]" from a clone
 corvia-lsp
 ```
 
@@ -383,7 +403,7 @@ CORVIA provides a [Model Context Protocol](https://modelcontextprotocol.io) serv
 ### Installation
 
 ```bash
-pip install corvia[mcp]
+pip install "corvia[mcp] @ git+https://github.com/kevintsou/Corvia.git"   # or: pip install -e ".[mcp]" from a clone
 ```
 
 ### Available tools
