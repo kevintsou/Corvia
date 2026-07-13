@@ -588,6 +588,9 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### Unreleased
+- **Incremental mode now skips re-parsing unchanged files**: parsed ASTs are cached (pickled, keyed on content + environment + interpreter/pycparser fingerprints), so the expensive preprocess+parse step — the dominant cost under `--use-cpp` — only runs for changed files. The analysis context is still rebuilt from real ASTs every run, so cross-file correctness is identical to a full run; corrupt or incompatible cache entries silently fall back to parsing.
+
 ### v0.4.0 (2026-07-09)
 - **`corvia-graph`**: new console tool rendering `--emit-symbols` JSON as Graphviz DOT (clustered by file, static functions dashed, external callees grayed) or Mermaid (pasteable into GitLab/GitHub markdown), with `--focus FUNC --depth N` neighborhood trimming
 

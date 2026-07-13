@@ -207,3 +207,113 @@ def test_clean_cache(tmp_path: Path):
     cache.clear()
     fresh = CacheManager(cache_dir)
     assert fresh.load(str(src)) is None
+
+
+# ---------------------------------------------------------------------------
+# Pickled-AST cache: unchanged files skip the expensive preprocess+parse
+# ---------------------------------------------------------------------------
+
+
+def _count_parses(monkeypatch):
+    """Wrap CParser.parse_file to count real parses per path."""
+    from corvia.parser import CParser
+
+    calls: list[str] = []
+    original = CParser.parse_file
+
+    def counting(self, filepath):
+        calls.append(str(Path(filepath).name))
+        return original(self, filepath)
+
+    monkeypatch.setattr(CParser, "parse_file", counting)
+    return calls
+
+
+def test_ast_cache_skips_reparse_of_unchanged_files(tmp_path: Path, monkeypatch):
+    a = tmp_path / "a.c"
+    a.write_text("int *get_null(void) { return 0; }\n")
+    b = tmp_path / "b.c"
+    b.write_text(
+        "int *get_null(void);\n"
+        "void use(void) { int *p = get_null(); *p = 1; }\n"
+    )
+    cache_dir = tmp_path / "corvia_cache"
+
+    AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(tmp_path)])
+
+    calls = _count_parses(monkeypatch)
+    r2 = AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze(
+        [str(tmp_path)]
+    )
+    assert calls == [], f"unchanged files were re-parsed: {calls}"
+    # Cross-file fact from the cached AST still reaches the checkers.
+    assert any(i.checker_id == "null-deref" for i in r2.issues)
+
+
+def test_ast_cache_reparses_only_changed_file(tmp_path: Path, monkeypatch):
+    a = tmp_path / "a.c"
+    a.write_text("int *get_null(void) { return 0; }\n")
+    b = tmp_path / "b.c"
+    b.write_text(
+        "int *get_null(void);\n"
+        "void use(void) { int *p = get_null(); *p = 1; }\n"
+    )
+    cache_dir = tmp_path / "corvia_cache"
+    AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(tmp_path)])
+
+    b.write_text(
+        "int *get_null(void);\n"
+        "void use2(void) { int *q = get_null(); *q = 2; }\n"
+    )
+    calls = _count_parses(monkeypatch)
+    r2 = AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze(
+        [str(tmp_path)]
+    )
+    assert calls == ["b.c"], f"expected only b.c re-parsed, got: {calls}"
+    full = AnalysisEngine().analyze([str(tmp_path)])
+
+    def key(i):
+        return (i.checker_id, Path(i.file).name, i.line, i.column, i.message)
+
+    assert sorted(map(key, r2.issues)) == sorted(map(key, full.issues))
+
+
+def test_ast_cache_corrupt_pickle_falls_back_to_parse(tmp_path: Path):
+    src = tmp_path / "a.c"
+    src.write_text("void ok(void) { int x = 1; (void)x; }\n")
+    cache_dir = tmp_path / "corvia_cache"
+    AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])
+
+    pkls = list(cache_dir.glob("*.ast.pkl"))
+    assert pkls, "expected a pickled AST to be written"
+    for p in pkls:
+        p.write_bytes(b"not a pickle")
+
+    r = AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])
+    assert not any(i.severity == Severity.ERROR for i in r.issues)
+
+
+def test_ast_cache_invalidated_by_env_change(tmp_path: Path, monkeypatch):
+    src = tmp_path / "a.c"
+    src.write_text("void ok(void) { int x = 1; (void)x; }\n")
+    cache_dir = tmp_path / "corvia_cache"
+    AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])
+
+    calls = _count_parses(monkeypatch)
+    # Different checker selection -> different env_hash -> AST cache miss.
+    AnalysisEngine(
+        checker_ids=["null-deref"], incremental=True, cache_dir=str(cache_dir)
+    ).analyze([str(src)])
+    assert calls == ["a.c"], "env change must invalidate the pickled AST"
+
+
+def test_clean_cache_removes_ast_pickles(tmp_path: Path):
+    src = tmp_path / "a.c"
+    src.write_text("int x;\n")
+    cache_dir = tmp_path / "corvia_cache"
+    AnalysisEngine(incremental=True, cache_dir=str(cache_dir)).analyze([str(src)])
+    assert list(cache_dir.glob("*.ast.pkl"))
+
+    CacheManager(cache_dir).clear()
+    assert not list(cache_dir.glob("*.ast.pkl"))
+    assert not list(cache_dir.glob("*.json"))

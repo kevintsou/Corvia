@@ -147,17 +147,33 @@ class AnalysisEngine:
 
         source_files_resolved = {Path(f).resolve() for f in files}
 
-        # Pass 1: always parse ALL collected files so the AnalysisContext
-        # (symbol table, call graph, summaries) reflects the whole target
-        # set. The incremental cache only skips the CHECKER pass for
-        # unchanged files — building the context from changed files alone
-        # would drop summaries for functions in unchanged files and make
-        # incremental results diverge from full runs.
+        # Pass 1: the AnalysisContext (symbol table, call graph, summaries)
+        # must reflect ALL collected files — building it from changed files
+        # alone would drop summaries for functions in unchanged files and
+        # make incremental results diverge from full runs. To keep that
+        # guarantee without paying the expensive preprocess+parse for every
+        # file, unchanged files load their pickled AST from the cache; the
+        # context is then rebuilt from real ASTs exactly as in a full run.
         asts: dict[str, c_ast.FileAST] = {}
         for idx, f in enumerate(files):
             if progress_callback:
                 progress_callback(idx + 1, len(files), str(Path(f).name))
-            ast, parse_errors = self._parser.parse_file(f)
+            ast = None
+            parse_errors: list[Issue] = []
+            file_hash: Optional[str] = None
+            if self._cache is not None:
+                try:
+                    file_hash = hash_file(f)
+                except OSError:
+                    file_hash = None
+                if file_hash is not None:
+                    cached_parse = self._cache.load_ast(f, file_hash)
+                    if cached_parse is not None:
+                        ast, parse_errors = cached_parse
+            if ast is None:
+                ast, parse_errors = self._parser.parse_file(f)
+                if ast is not None and self._cache is not None and file_hash is not None:
+                    self._cache.save_ast(f, file_hash, ast, parse_errors)
             result.issues.extend(self._filter_issues(parse_errors))
             if ast is not None:
                 asts[f] = ast

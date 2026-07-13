@@ -20,15 +20,32 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import pickle
+import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from corvia.models import Issue, MisraCategory, MisraRule, Severity
 
 
 # v2: added env_hash (analysis environment fingerprint) and normalized paths.
 SCHEMA_VERSION = 2
+
+# Version of the pickled-AST side cache. Bump when the payload layout changes.
+AST_SCHEMA_VERSION = 1
+
+
+def _ast_env_fingerprint() -> str:
+    """Interpreter + pycparser versions: pickled c_ast nodes are only safe to
+    reuse in the environment that produced them."""
+    try:
+        import pycparser
+
+        pyc = getattr(pycparser, "__version__", "?")
+    except ImportError:  # pragma: no cover - pycparser is a hard dependency
+        pyc = "?"
+    return f"py{sys.version_info.major}.{sys.version_info.minor}-pycparser{pyc}"
 
 
 def _normalize_path(file: str) -> str:
@@ -155,10 +172,73 @@ class CacheManager:
             and cached.env_hash == self.env_hash
         )
 
+    # ------------------------------------------------------------------
+    # Pickled-AST side cache: skips the expensive preprocess+parse step for
+    # unchanged files. The AST stays the single source of truth — the
+    # analysis context is rebuilt from real ASTs every run, so a cache hit
+    # cannot desync cross-file semantics the way serialized facts could.
+    # ------------------------------------------------------------------
+
+    def _ast_entry_path(self, file: str) -> Path:
+        key = hashlib.sha256(_normalize_path(file).encode()).hexdigest()[:32]
+        return self.cache_dir / f"{key}.ast.pkl"
+
+    def load_ast(
+        self, file: str, current_hash: str
+    ) -> Optional[tuple[Any, list[Issue]]]:
+        """Return (ast, parse_issues) for `file` if a pickled AST matching the
+        current content/environment exists; otherwise None (caller parses)."""
+        p = self._ast_entry_path(file)
+        if not p.exists():
+            return None
+        try:
+            with open(p, "rb") as f:
+                payload = pickle.load(f)
+        except Exception:
+            # Corrupt/partial/incompatible pickle: treat as a miss.
+            return None
+        meta = payload.get("meta", {}) if isinstance(payload, dict) else {}
+        if (
+            meta.get("schema") != AST_SCHEMA_VERSION
+            or meta.get("content_hash") != current_hash
+            or meta.get("env_hash") != self.env_hash
+            or meta.get("ast_env") != _ast_env_fingerprint()
+        ):
+            return None
+        return payload.get("ast"), list(payload.get("parse_issues", []))
+
+    def save_ast(
+        self, file: str, content_hash: str, ast: Any, parse_issues: list[Issue]
+    ) -> None:
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "meta": {
+                "schema": AST_SCHEMA_VERSION,
+                "content_hash": content_hash,
+                "env_hash": self.env_hash,
+                "ast_env": _ast_env_fingerprint(),
+            },
+            "ast": ast,
+            "parse_issues": list(parse_issues),
+        }
+        p = self._ast_entry_path(file)
+        tmp = p.with_suffix(".pkl.tmp")
+        try:
+            with open(tmp, "wb") as f:
+                pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
+            os.replace(tmp, p)  # atomic on the same filesystem
+        except (OSError, pickle.PicklingError, RecursionError):
+            # Caching is best-effort; never fail the analysis over it.
+            try:
+                tmp.unlink(missing_ok=True)
+            except OSError:
+                pass
+
     def clear(self) -> None:
         if self.cache_dir.exists():
-            for p in self.cache_dir.glob("*.json"):
-                p.unlink()
+            for pattern in ("*.json", "*.ast.pkl", "*.pkl.tmp"):
+                for p in self.cache_dir.glob(pattern):
+                    p.unlink()
         self._loaded.clear()
 
     def find_dependents(self, callee: str, all_files: list[str]) -> set[str]:
