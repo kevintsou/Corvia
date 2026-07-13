@@ -129,3 +129,44 @@ def test_strip_preprocessor_preserves_line_count_with_continuations():
     # everything after must keep the original number of lines.
     expected = _COMMON_TYPE_STUBS.count("\n") + 1 + code.count("\n")
     assert out.count("\n") == expected
+
+
+def test_strip_asm_recovers_output_operand_write():
+    """Extended-asm output operands write through their lvalue; stripping the
+    asm must leave a synthesized write so dataflow sees the variable as set."""
+    from corvia.parser import _strip_gcc_calls
+
+    code = 'void f(void){ unsigned int id; __asm volatile ("mrs %0, X\\n" : "=r" (id)); }'
+    out = _strip_gcc_calls(code)
+    assert "__asm" not in out
+    assert "(id) = 0;" in out
+
+
+def test_strip_asm_readwrite_operand_recovered():
+    """A read-write constraint ('+') is also an output that must be recovered."""
+    from corvia.parser import _strip_gcc_calls
+
+    code = 'void f(int *p){ __asm ("op %0" : "+r" (*p)); }'
+    out = _strip_gcc_calls(code)
+    assert "= 0;" in out
+
+
+def test_strip_asm_input_only_produces_no_write():
+    """An input-only asm has no output operands: nothing should be synthesized."""
+    from corvia.parser import _strip_gcc_calls
+
+    code = 'void f(void){ __asm volatile ("msr X, %0" :: "r" ((unsigned long)1)); }'
+    out = _strip_gcc_calls(code)
+    assert "__asm" not in out
+    assert "= 0;" not in out
+
+
+def test_strip_asm_no_operands_stripped_entirely():
+    """A bare asm with no operand sections at all is removed cleanly."""
+    from corvia.parser import _strip_gcc_calls
+
+    code = 'void f(void){ __asm volatile ("isb"); int x = 1; }'
+    out = _strip_gcc_calls(code)
+    assert "__asm" not in out
+    assert "= 0;" not in out
+    assert "int x = 1;" in out

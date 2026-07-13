@@ -189,7 +189,12 @@ def _strip_gcc_calls(code: str) -> str:
     catastrophic backtracking that regex paren-matching suffers on code like
     __asm volatile("..." :: "r" ((T)(a | ((T)b << 16) | (((T)c << 24))))).
 
-    __asm__ / __asm are stripped entirely (they are statements).
+    __asm__ / __asm are stripped, but their OUTPUT operands are recovered: an
+    extended-asm output like `: "=r" (id)` writes through `id`, so the strip
+    synthesizes an assignment (`id = 0;`) in its place. Without this, a
+    variable only ever written by inline asm looks uninitialized to the
+    dataflow checkers (false "used before initialization"). Plain `__asm(...)`
+    with no outputs is removed entirely (it is a statement).
     __builtin_XXX() are replaced with 0 (they are expressions — removing
     them would leave 'x = ;' which is a syntax error).
     """
@@ -205,7 +210,8 @@ def _strip_gcc_calls(code: str) -> str:
             continue  # already consumed by a previous (outer) match
         result.append(code[pos:m.start()])
         depth = 1
-        i = m.end()  # right after the opening '('
+        body_start = m.end()  # right after the opening '('
+        i = body_start
         while i < len(code) and depth > 0:
             c = code[i]
             if c in ('"', "'"):
@@ -225,12 +231,134 @@ def _strip_gcc_calls(code: str) -> str:
             elif c == ')':
                 depth -= 1
             i += 1
-        pos = i  # skip past the matching closing ')'
         if kind == 'builtin':
-            result.append('0')  # keep as a valid expression placeholder
-        # 'asm' → stripped entirely (it is a statement, nothing to replace)
+            pos = i  # skip past the matching closing ')'
+            name = code[m.start():m.end()].rstrip(' \t(').strip()
+            if name in ('__builtin_va_start', '__builtin_va_copy'):
+                # These builtins WRITE their first argument (the va_list being
+                # started/copied). Replacing them with a bare '0' silently
+                # drops that write, making a correctly va_start-ed va_list look
+                # uninitialized downstream. Synthesize `((arg) = 0)` instead -
+                # still a valid expression where the call appeared, and the
+                # dataflow sees the initialization.
+                body = code[body_start:i - 1]
+                first_arg = _first_call_arg(body)
+                if first_arg:
+                    result.append(f'(({first_arg}) = 0)')
+                else:
+                    result.append('0')
+            else:
+                result.append('0')  # keep as a valid expression placeholder
+        else:
+            # 'asm': recover output-operand writes before dropping the statement.
+            body = code[body_start:i - 1]  # inside the outer parens
+            result.append(_asm_output_writes(body))
+            # An asm statement ends with ';'; consume it so we don't leave a
+            # stray ';' that turns the synthesized writes into a null statement.
+            j = i
+            while j < len(code) and code[j] in ' \t\r\n':
+                j += 1
+            if j < len(code) and code[j] == ';':
+                j += 1
+            pos = j
     result.append(code[pos:])
     return ''.join(result)
+
+
+def _first_call_arg(body: str) -> str:
+    """Return the first top-level comma-separated argument of a call body."""
+    depth = 0
+    for idx, ch in enumerate(body):
+        if ch in '([{':
+            depth += 1
+        elif ch in ')]}':
+            depth -= 1
+        elif ch == ',' and depth == 0:
+            return body[:idx].strip()
+    return body.strip()
+
+
+# An extended-asm output operand: optional [symbolic name], a quoted constraint
+# string containing '=' (write-only) or '+' (read-write), then a parenthesized
+# lvalue expression. We synthesize `<lvalue> = <lvalue>;` for each so the
+# dataflow checkers see the variable as written by the asm.
+_ASM_OUTPUT_RE = re.compile(
+    r'(?:\[\s*\w+\s*\]\s*)?"[^"]*[=+][^"]*"\s*\('
+)
+
+
+def _asm_output_writes(body: str) -> str:
+    """Given the text inside an extended-asm `(...)`, return synthesized C
+    assignment statements for each output operand's lvalue.
+
+    Extended asm is `template : outputs : inputs : clobbers`. Only the first
+    colon-section holds outputs, and only constraints containing '=' or '+'
+    denote a write. Anything we cannot confidently parse yields no statement
+    (safe: worst case reverts to the original strip-entirely behaviour)."""
+    # Split off the template string literal, then take the first ':' section.
+    # Find the end of the (possibly concatenated) template string(s).
+    i = 0
+    n = len(body)
+    # Skip whitespace and a leading 'volatile'/'goto' already consumed by the
+    # keyword regex, so body starts at the template. Walk to the first top-level
+    # ':' that is not inside a string.
+    depth = 0
+    section_start = 0
+    section_idx = 0
+    outputs = ""
+    while i < n:
+        c = body[i]
+        if c in ('"', "'"):
+            q = c
+            i += 1
+            while i < n:
+                if body[i] == '\\':
+                    i += 2
+                    continue
+                if body[i] == q:
+                    i += 1
+                    break
+                i += 1
+            continue
+        if c in '([{':
+            depth += 1
+        elif c in ')]}':
+            depth -= 1
+        elif c == ':' and depth == 0:
+            if section_idx == 1:  # end of the outputs section
+                outputs = body[section_start:i]
+                break
+            section_idx += 1
+            section_start = i + 1
+        i += 1
+    else:
+        # No further ':' after the outputs section (outputs run to end), or no
+        # colon at all (no outputs).
+        if section_idx == 1:
+            outputs = body[section_start:]
+
+    if not outputs.strip():
+        return ""
+
+    writes: list[str] = []
+    for m in _ASM_OUTPUT_RE.finditer(outputs):
+        # Capture the balanced parenthesized lvalue following the constraint.
+        start = m.end()  # just after '('
+        d = 1
+        k = start
+        while k < len(outputs) and d > 0:
+            ch = outputs[k]
+            if ch == '(':
+                d += 1
+            elif ch == ')':
+                d -= 1
+            k += 1
+        lvalue = outputs[start:k - 1].strip()
+        if lvalue:
+            # Assign a constant, not `lvalue = lvalue`, so the synthesized write
+            # does not itself read the (as-yet-uninitialized) output operand.
+            writes.append(f"({lvalue}) = 0;")
+    return " ".join(writes)
 
 
 def _dedup_stub_typedefs(code: str) -> str:

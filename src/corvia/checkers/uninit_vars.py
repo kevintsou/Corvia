@@ -19,13 +19,19 @@ class _VarState:
     """Tracks initialization state of a variable."""
 
     def __init__(self, name: str, node: c_ast.Node, is_array: bool = False, array_size: int = 0,
-                 is_struct: bool = False, struct_fields: Optional[list[str]] = None) -> None:
+                 is_struct: bool = False, struct_fields: Optional[list[str]] = None,
+                 is_pointer: bool = False) -> None:
         self.name = name
         self.node = node
         self.is_array = is_array
         self.array_size = array_size
         self.is_struct = is_struct
         self.struct_fields = struct_fields or []
+        # An array or pointer variable, when passed to a function by its bare
+        # name, decays to a writable address the callee may fill in - the same
+        # out-parameter idiom as &scalar. Tracked so the func-call handlers can
+        # treat `memset(buf, 0, n)` as an initialization rather than a read.
+        self.is_pointer = is_pointer
         self.fully_initialized = False
         self.initialized_indices: set[int] = set()
         self.initialized_fields: set[str] = set()
@@ -33,11 +39,21 @@ class _VarState:
     def clone(self) -> "_VarState":
         """Deep copy for branch forking: mutable sets must not be shared."""
         c = _VarState(self.name, self.node, self.is_array, self.array_size,
-                      self.is_struct, list(self.struct_fields))
+                      self.is_struct, list(self.struct_fields), self.is_pointer)
         c.fully_initialized = self.fully_initialized
         c.initialized_indices = set(self.initialized_indices)
         c.initialized_fields = set(self.initialized_fields)
         return c
+
+    @property
+    def is_addressable(self) -> bool:
+        """True when the bare variable name denotes a writable address.
+
+        Arrays decay to a pointer to their storage and pointers hold an address
+        into writable memory, so passing either by name to a function lets the
+        callee write through it. Scalars and structs pass by value, so their
+        bare name is a genuine read."""
+        return self.is_array or self.is_pointer
 
 
 def _fork_states(var_states: dict[str, _VarState]) -> dict[str, _VarState]:
@@ -62,6 +78,19 @@ def _branch_terminates(node: c_ast.Node) -> bool:
     return False
 
 
+def _unwrap_casts(node: c_ast.Node) -> c_ast.Node:
+    """Strip enclosing C casts from an expression.
+
+    A pointer/array out-parameter is frequently cast at the call site
+    (`memset((void *)buf, 0, n)`), which wraps the bare identifier in one or
+    more Cast nodes. Unwrapping lets the out-parameter detection see the
+    underlying variable instead of treating the cast expression as an opaque
+    read."""
+    while isinstance(node, c_ast.Cast):
+        node = node.expr
+    return node
+
+
 def _get_array_size(type_node: c_ast.Node) -> Optional[int]:
     if isinstance(type_node, c_ast.ArrayDecl) and type_node.dim:
         if isinstance(type_node.dim, c_ast.Constant) and type_node.dim.type == "int":
@@ -76,41 +105,6 @@ def _get_struct_fields(type_node: c_ast.Node) -> Optional[list[str]]:
     if isinstance(type_node, c_ast.Struct) and type_node.decls:
         return [d.name for d in type_node.decls if d.name]
     return None
-
-
-def _count_init_list_items(init: c_ast.InitList) -> int:
-    if init.exprs is None:
-        return 0
-    return len(init.exprs)
-
-
-def _get_designated_indices(init: c_ast.InitList) -> set[int]:
-    indices: set[int] = set()
-    if init.exprs is None:
-        return indices
-    for i, expr in enumerate(init.exprs):
-        if isinstance(expr, c_ast.NamedInitializer):
-            for name_part in expr.name or []:
-                if isinstance(name_part, c_ast.Constant) and name_part.type == "int":
-                    try:
-                        indices.add(int(name_part.value))
-                    except ValueError:
-                        pass
-        else:
-            indices.add(i)
-    return indices
-
-
-def _get_designated_fields(init: c_ast.InitList) -> set[str]:
-    fields: set[str] = set()
-    if init.exprs is None:
-        return fields
-    for expr in init.exprs:
-        if isinstance(expr, c_ast.NamedInitializer):
-            for name_part in expr.name or []:
-                if isinstance(name_part, c_ast.ID):
-                    fields.add(name_part.name)
-    return fields
 
 
 class _StructCollector(c_ast.NodeVisitor):
@@ -242,7 +236,15 @@ class UninitVarsChecker(BaseChecker):
             return
 
         arr_size = _get_array_size(decl.type) if decl.type else None
-        is_array = arr_size is not None
+        # Array-ness is decided by the declarator node, NOT by whether the
+        # dimension folds to a constant: a size like `buf[MACRO]` (where MACRO
+        # expands to a non-trivial constant expression) yields arr_size=None but
+        # is still an array. Keying is_array off arr_size would leave such a
+        # buffer non-addressable and re-introduce the memset/memcpy false
+        # positive. array_size stays 0 when unknown (used only for the
+        # partial-init element count, which safely degrades).
+        is_array = isinstance(decl.type, c_ast.ArrayDecl)
+        is_pointer = isinstance(decl.type, c_ast.PtrDecl)
 
         struct_fields: Optional[list[str]] = None
         is_struct = False
@@ -272,32 +274,23 @@ class UninitVarsChecker(BaseChecker):
             array_size=arr_size or 0,
             is_struct=is_struct,
             struct_fields=struct_fields or [],
+            is_pointer=is_pointer,
         )
 
         if decl.init is None:
             var_states[decl.name] = state
             return
 
-        if isinstance(decl.init, c_ast.InitList):
-            if is_array and arr_size:
-                init_count = _count_init_list_items(decl.init)
-                designated = _get_designated_indices(decl.init)
-                state.initialized_indices = designated if designated else set(range(init_count))
-                state.fully_initialized = len(state.initialized_indices) >= arr_size
-            elif is_struct and struct_fields:
-                designated = _get_designated_fields(decl.init)
-                if designated:
-                    state.initialized_fields = designated
-                else:
-                    init_count = _count_init_list_items(decl.init)
-                    state.initialized_fields = set(struct_fields[:init_count])
-                state.fully_initialized = state.initialized_fields >= set(struct_fields)
-            else:
-                state.fully_initialized = True
-            var_states[decl.name] = state
-        else:
-            state.fully_initialized = True
-            var_states[decl.name] = state
+        # ANY initializer - including a partial init list like `{0}` or
+        # `{1, 2}` - fully initializes the object: C11 6.7.9p19/p21 zero-
+        # initializes every element/member not covered by the list. Treating a
+        # short init list as "partially initialized" (and warning that later
+        # reads may see uninitialized data) is factually wrong for C and
+        # false-positives on the idiomatic `= {0}` zero-fill. The stylistic
+        # "arrays shall not be partially initialized" concern is MISRA 9.3,
+        # which the misra-init checker handles separately.
+        state.fully_initialized = True
+        var_states[decl.name] = state
 
     def _handle_assignment(self, node: c_ast.Assignment, var_states: dict[str, _VarState]) -> None:
         self._check_reads(node.rvalue, var_states)
@@ -383,7 +376,8 @@ class UninitVarsChecker(BaseChecker):
     def _handle_func_call(self, node: c_ast.FuncCall, var_states: dict[str, _VarState]) -> None:
         callee_name = node.name.name if isinstance(node.name, c_ast.ID) else None
         if node.args:
-            for idx, arg in enumerate(node.args.exprs or []):
+            for idx, raw_arg in enumerate(node.args.exprs or []):
+                arg = _unwrap_casts(raw_arg)
                 if isinstance(arg, c_ast.UnaryOp) and arg.op == "&":
                     # Passing &var to a function. The overwhelmingly common
                     # reason to take a variable's address is so the callee can
@@ -412,7 +406,29 @@ class UninitVarsChecker(BaseChecker):
                     # address is not a read of the value.
                     continue
 
-                self._check_reads(arg, var_states)
+                if isinstance(arg, c_ast.ID) and arg.name in var_states \
+                        and var_states[arg.name].is_addressable:
+                    # A bare array/pointer name passed to a function decays to a
+                    # writable address (e.g. memset(buf, 0, n), memcpy(dst, ...)).
+                    # This is the same out-parameter idiom as &scalar: the callee
+                    # may initialize the pointed-to storage. Treat as an init
+                    # unless a summary proves the callee does not write this param.
+                    name = arg.name
+                    writes_through = self._callee_initializes_param(callee_name, idx)
+                    if writes_through is False:
+                        if not var_states[name].fully_initialized:
+                            self.report(
+                                node,
+                                f"Variable '{name}' passed to '{callee_name}', "
+                                f"which does not initialize it",
+                                Severity.WARNING,
+                                RULE_9_1,
+                            )
+                    else:
+                        var_states[name].fully_initialized = True
+                    continue
+
+                self._check_reads(raw_arg, var_states)
 
     def _callee_initializes_param(self, callee_name: Optional[str], idx: int) -> Optional[bool]:
         """Tri-state answer to 'does callee write through its idx-th param?'
@@ -453,6 +469,15 @@ class UninitVarsChecker(BaseChecker):
             self._handle_assignment(node, var_states)
             return
 
+        if isinstance(node, c_ast.FuncCall):
+            # A call reached as an expression (e.g. a `(void)memset(buf, ...)`
+            # statement, or `x = f(buf)`) must go through the func-call handler
+            # so array/pointer out-parameters are recognized as writes. A plain
+            # generic recursion here would visit the bare `buf` as a read and
+            # false-positive. _handle_func_call also visits by-value read args.
+            self._handle_func_call(node, var_states)
+            return
+
         if isinstance(node, c_ast.UnaryOp) and node.op == "&":
             # Taking a variable's address is not a read of its value. Treat a
             # bare &var as an out-parameter initialization to stay consistent
@@ -463,6 +488,13 @@ class UninitVarsChecker(BaseChecker):
                     var_states[name].fully_initialized = True
             else:
                 self._check_reads(node.expr, var_states)
+            return
+
+        if isinstance(node, c_ast.UnaryOp) and node.op in ("sizeof", "_Alignof", "alignof"):
+            # sizeof/alignof operate on the TYPE of their operand and never
+            # read its value, so `sizeof(rng)` on an uninitialized buffer is
+            # not a use (C11 6.5.3.4; the operand is unevaluated except for
+            # VLAs, where only the size expression is evaluated).
             return
 
         if isinstance(node, c_ast.ID):
@@ -543,6 +575,12 @@ class UninitVarsChecker(BaseChecker):
         """CFG-based pass to catch branch-dependent uninitialized reads."""
         cfg = build_cfg(func_node)
         analysis = _UninitCFGAnalysis()
+        # Pre-scan every declaration in the function so array/pointer locals are
+        # known as addressable up front. The dataflow visits blocks in worklist
+        # order, so a memcpy(buf, ...) block can be transferred before the block
+        # that declares buf; lazily learning addressability during transfer
+        # would then miss it and false-positive.
+        analysis.collect_addressable(func_node)
         results = analysis.analyze(cfg)
 
         reported_lines = {i.line for i in self._issues}
@@ -575,6 +613,24 @@ class _UninitCFGState:
 class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
     def __init__(self) -> None:
         self.found_issues: list[tuple[c_ast.Node, str, str]] = []
+        # Names of array/pointer locals: passing one by bare name to a function
+        # hands over a writable address (out-parameter idiom), so it must not be
+        # counted as a read of an uninitialized value. Pre-populated from all
+        # declarations before the dataflow runs (see collect_addressable), since
+        # blocks are not visited in declaration order.
+        self._addressable: set[str] = set()
+
+    def collect_addressable(self, func_node: c_ast.Node) -> None:
+        """Record every array/pointer local in the function as addressable."""
+        addressable = self._addressable
+
+        class _AddrCollector(c_ast.NodeVisitor):
+            def visit_Decl(self, d: c_ast.Decl) -> None:
+                if d.name and isinstance(d.type, (c_ast.ArrayDecl, c_ast.PtrDecl)):
+                    addressable.add(d.name)
+                self.generic_visit(d)
+
+        _AddrCollector().visit(func_node)
 
     def initial_state(self) -> _UninitCFGState:
         return _UninitCFGState()
@@ -607,6 +663,8 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
 
     def _process(self, stmt: c_ast.Node, state: _UninitCFGState) -> None:
         if isinstance(stmt, c_ast.Decl) and stmt.name:
+            if isinstance(stmt.type, (c_ast.ArrayDecl, c_ast.PtrDecl)):
+                self._addressable.add(stmt.name)
             if stmt.init is None:
                 state.uninit.add(stmt.name)
             else:
@@ -649,7 +707,8 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
     def _process_call_args(self, call: c_ast.FuncCall, state: _UninitCFGState) -> None:
         if not call.args:
             return
-        for arg in call.args.exprs or []:
+        for raw_arg in call.args.exprs or []:
+            arg = _unwrap_casts(raw_arg)
             if isinstance(arg, c_ast.UnaryOp) and arg.op == "&" and isinstance(arg.expr, c_ast.ID):
                 # &var passed to a function is treated as an out-parameter
                 # write: the callee is assumed to initialize the object.
@@ -657,7 +716,14 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
                 state.init.add(name)
                 state.uninit.discard(name)
                 continue
-            self._check_use(arg, state)
+            if isinstance(arg, c_ast.ID) and arg.name in self._addressable:
+                # A bare array/pointer name decays to a writable address, so the
+                # callee may initialize it (memset(buf, 0, n), memcpy(dst, ...)).
+                # Same out-parameter idiom as &var.
+                state.init.add(arg.name)
+                state.uninit.discard(arg.name)
+                continue
+            self._check_use(raw_arg, state)
 
     def _check_use(self, node: c_ast.Node, state: _UninitCFGState) -> None:
         if node is None:
@@ -678,6 +744,10 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
                 state.uninit.discard(node.expr.name)
             else:
                 self._check_use(node.expr, state)
+            return
+        if isinstance(node, c_ast.UnaryOp) and node.op in ("sizeof", "_Alignof", "alignof"):
+            # sizeof/alignof never read the operand's value (unevaluated
+            # context), so they are not a use of an uninitialized variable.
             return
         if isinstance(node, c_ast.FuncCall):
             # A nested call (e.g. x = foo(&y)) may itself have &var out-params.
