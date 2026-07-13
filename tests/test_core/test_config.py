@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
@@ -97,7 +98,11 @@ def test_parse_cproject_include_paths_uses_platform_separators(tmp_path: Path):
     assert str(tmp_path / "src_root" / "duan" / "user") in include_dirs
     assert str(tmp_path / "src_root" / "framework" / "flibhal") in include_dirs
     assert str(tmp_path / "src_root" / "sal") in include_dirs
-    assert all("\\src_root\\" not in p for p in include_dirs)
+    # The backslash-styled workspace_loc value must be normalized to the
+    # platform separator. On Windows the platform form itself contains
+    # backslashes, so this check is only meaningful on POSIX.
+    if os.sep == "/":
+        assert all("\\" not in p for p in include_dirs)
 
 
 def test_invalid_severity_value_rejected(tmp_path: Path):
