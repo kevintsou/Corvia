@@ -191,14 +191,37 @@ corvia [options] [targets ...]
 
 ### Config setup commands
 
+一條指令為任何專案（新 clone、新機器）生出正確的 `corvia.toml`：
+
 ```bash
-corvia config list-templates
-corvia config detect <project_dir>
 corvia config init <project_dir> --template auto
 ```
 
-Use `--json` with any config command for machine-readable output. `config init`
-never overwrites an existing `corvia.toml` unless `--force` is supplied.
+`--template auto` 會掃描目標目錄的特徵、為每個範本打分，選最高分者生成：
+
+| 偵測到的特徵 | 選中範本 | 產出內容 |
+|-------------|---------|---------|
+| 已有 `corvia.toml` | `existing` | 不生成（提示已存在；`--force` 才覆蓋重生） |
+| `common/include/phison_hw/<SoC>` Phison 目錄結構 | `ps5801` | 現場走訪目錄，只列**實際存在**的 include 子目錄 + `-DSOC_ID=...` defines |
+| `.cproject`（Eclipse CDT / ARM DS-5） | `ds5` | 設定 `cproject = ".cproject"`，include 由 .cproject 自動抽取 |
+| `Makefile` | `makefile` | 用 make dry-run / 靜態解析抽 `-I`/`-D` |
+| 都沒有 | `minimal` | 只開 use_cpp + cache 的最小可用設定 |
+
+其他常用形式：
+
+```bash
+corvia config list-templates                          # 列出所有範本
+corvia config detect <project_dir>                    # 只看偵測結果與信心分數，不寫檔
+corvia config init <project_dir> --template auto --dry-run   # 預覽會生成什麼，不寫檔
+corvia config init <project_dir> --template ps5801    # 跳過偵測，指名範本
+corvia config init <project_dir> --template auto --force     # 已有 config 時強制重生
+corvia config detect <project_dir> --json             # 機器可讀輸出（CI / AI agent 用）
+```
+
+`config init` never overwrites an existing `corvia.toml` unless `--force` is
+supplied. Because the `ps5801` template renders include paths by walking the
+actual directory tree, the generated config is correct for any checkout
+location — new team members never need to copy a config from someone else.
 
 Supported templates:
 
@@ -242,6 +265,17 @@ corvia -I /usr/local/include -I ./src/include src/
 
 # Incremental analysis (enabled by default, use --no-incremental to disable)
 corvia src/
+
+# First-time setup on a fresh clone: auto-generate corvia.toml, then analyze
+corvia config init . --template auto
+corvia src/
+
+# Apply a config stored outside the repo (use ${TARGET_ROOT} includes in it,
+# and point corvia at the tree root)
+corvia <tree_root> --config D:/configs/shared_corvia.toml
+
+# CI gating: non-zero exit code when warnings (or worse) are found
+corvia --fail-on warning -f json -o result.json src/
 ```
 
 ---
