@@ -228,7 +228,7 @@ corvia src/
 
 ## Configuration / 設定檔 (`corvia.toml`)
 
-CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory. If no config file is found, run `corvia config detect` and `corvia config init` to generate one before analysis.
+CORVIA automatically discovers `corvia.toml` by walking upward from the target file's directory, **stopping at the repository boundary** (the first directory containing `.git`) so a config belonging to an unrelated project above your repo is never picked up silently. Use `--config <path>` to point at a config outside the repository explicitly. If no config file is found, run `corvia config detect` and `corvia config init` to generate one before analysis.
 
 ### Full configuration reference
 
@@ -242,6 +242,11 @@ make_target = "all"               # Make target to dry-run (optional)
 make_args = ["SOC_ID=PS5801"]     # Extra variables passed to make / static parser
 cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS"
 include = ["../common/include"]   # Additional include directories
+# Relative include entries resolve against the corvia.toml directory.
+# Path variables let one config serve source trees at different locations:
+#   ${TARGET_ROOT} = the directory being analyzed
+#   ${CONFIG_DIR}  = the directory containing corvia.toml
+# include = ["${TARGET_ROOT}/common/sal", "${TARGET_ROOT}/common/config"]
 
 [checkers]
 enabled = ["null-deref", "misra-switch"]   # Only run these checkers (omit = all)

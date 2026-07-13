@@ -229,3 +229,89 @@ def test_severity_from_string():
     assert severity_from_string("info") == Severity.INFO
     assert severity_from_string("off") is None
     assert severity_from_string("nope") is None
+
+
+# ---------------------------------------------------------------------------
+# Path variables (${TARGET_ROOT} / ${CONFIG_DIR}) and repo-boundary discovery
+# ---------------------------------------------------------------------------
+
+
+def test_include_target_root_variable(tmp_path: Path):
+    """${TARGET_ROOT} anchors include paths to the analyzed tree, not the toml."""
+    config_dir = tmp_path / "configs"
+    config_dir.mkdir()
+    tree = tmp_path / "checkout_a"
+    (tree / "common" / "sal").mkdir(parents=True)
+    cfg = _write(config_dir, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/common/sal"]\n')
+
+    config = load(cfg, target_root=tree)
+
+    assert config.include_dirs == [str(tree / "common" / "sal")]
+
+
+def test_include_config_dir_variable(tmp_path: Path):
+    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["${CONFIG_DIR}/third_party"]\n')
+    config = load(cfg, target_root=tmp_path / "elsewhere")
+    assert config.include_dirs == [str(tmp_path / "third_party")]
+
+
+def test_include_relative_still_anchors_to_config_dir(tmp_path: Path):
+    """Plain relative entries keep the historical config-dir anchoring."""
+    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["third_party"]\n')
+    config = load(cfg, target_root=tmp_path / "elsewhere")
+    assert config.include_dirs == [str((tmp_path / "third_party").resolve())]
+
+
+def test_target_root_variable_without_target_falls_back_with_warning(tmp_path: Path):
+    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
+    with pytest.warns(UserWarning, match="TARGET_ROOT"):
+        config = load(cfg)
+    assert config.include_dirs == [str(tmp_path / "inc")]
+
+
+def test_discover_passes_target_root(tmp_path: Path):
+    """discover() defaults ${TARGET_ROOT} to the directory being analyzed."""
+    repo = tmp_path / "repo"
+    sub = repo / "src"
+    (sub / "inc").mkdir(parents=True)
+    _write(repo, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
+
+    config = discover(sub)
+
+    assert config is not None
+    assert config.include_dirs == [str(sub / "inc")]
+
+
+def test_discover_stops_at_repo_boundary(tmp_path: Path):
+    """A corvia.toml above the target's git repo must not be picked up."""
+    _write(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')  # foreign config
+    repo = tmp_path / "project"
+    (repo / ".git").mkdir(parents=True)
+    src = repo / "src"
+    src.mkdir()
+
+    assert discover(src) is None
+
+
+def test_discover_finds_config_at_repo_root(tmp_path: Path):
+    """The repo root itself is still searched before the walk stops."""
+    repo = tmp_path / "project"
+    (repo / ".git").mkdir(parents=True)
+    src = repo / "src"
+    src.mkdir()
+    _write(repo, "corvia.toml", '[output]\nformat = "json"\n')
+
+    config = discover(src)
+
+    assert config is not None
+    assert config.output_format == "json"
+
+
+def test_discover_respects_gitfile_worktree_boundary(tmp_path: Path):
+    """.git may be a *file* (worktrees/submodules) — still a boundary."""
+    _write(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')
+    repo = tmp_path / "wt"
+    repo.mkdir()
+    (repo / ".git").write_text("gitdir: ../real/.git/worktrees/wt\n")
+
+    assert discover(repo) is None

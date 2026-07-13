@@ -445,7 +445,35 @@ class ConfigError(Exception):
     pass
 
 
-def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
+def _expand_path_vars(entry: str, config_dir: Path, target_root: Optional[Path]) -> str:
+    """Expand ${CONFIG_DIR} and ${TARGET_ROOT} in a [paths] include entry.
+
+    ${CONFIG_DIR} anchors to the directory containing corvia.toml (the
+    historical behavior for relative paths). ${TARGET_ROOT} anchors to the
+    directory being analyzed, so one config works for source trees checked
+    out at different locations. When ${TARGET_ROOT} is used but no target
+    root is known (e.g. bare load()), fall back to the config dir and warn.
+    """
+    if "${CONFIG_DIR}" in entry:
+        entry = entry.replace("${CONFIG_DIR}", str(config_dir))
+    if "${TARGET_ROOT}" in entry:
+        if target_root is None:
+            import warnings
+
+            warnings.warn(
+                f"corvia.toml include entry '{entry}' uses ${{TARGET_ROOT}} but no "
+                "analysis target is known; falling back to the config directory.",
+                stacklevel=2,
+            )
+            entry = entry.replace("${TARGET_ROOT}", str(config_dir))
+        else:
+            entry = entry.replace("${TARGET_ROOT}", str(target_root))
+    return entry
+
+
+def _validate(
+    data: dict[str, Any], path: Path, target_root: Optional[Path] = None
+) -> CorviaConfig:
     config = CorviaConfig(source_path=str(path))
 
     checkers = data.get("checkers", {}) or {}
@@ -471,11 +499,23 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
         base = path.parent
         # Keep absolute paths as written (including POSIX-style "/..." paths,
         # which pathlib does not consider absolute on Windows); resolve
-        # relative paths against the config file's directory.
-        config.include_dirs = [
-            d if Path(d).is_absolute() or str(d).startswith("/") else str((base / d).resolve())
-            for d in paths["include"]
-        ]
+        # relative paths against the config file's directory. Entries may use
+        # ${CONFIG_DIR} / ${TARGET_ROOT} variables (expanded first).
+        include_dirs: list[str] = []
+        for raw in paths["include"]:
+            raw = str(raw)
+            had_var = "${" in raw
+            d = _expand_path_vars(raw, base, target_root)
+            if Path(d).is_absolute():
+                # Normalize variable-expanded entries (they may mix / and \\);
+                # keep non-variable absolute entries exactly as written.
+                include_dirs.append(str(Path(d).resolve()) if had_var else d)
+            elif d.startswith("/"):
+                # POSIX-style absolute path, not absolute per pathlib on Windows.
+                include_dirs.append(d)
+            else:
+                include_dirs.append(str((base / d).resolve()))
+        config.include_dirs = include_dirs
     if "use_cpp" in paths:
         config.use_cpp = bool(paths["use_cpp"])
     if "cpp_args" in paths:
@@ -541,7 +581,7 @@ def _validate(data: dict[str, Any], path: Path) -> CorviaConfig:
     return config
 
 
-def load(path: str | Path) -> CorviaConfig:
+def load(path: str | Path, target_root: str | Path | None = None) -> CorviaConfig:
     if _toml is None:
         raise ConfigError(
             "TOML support requires Python 3.11+ or `pip install tomli`"
@@ -549,18 +589,37 @@ def load(path: str | Path) -> CorviaConfig:
     p = Path(path)
     with p.open("rb") as f:
         data = _toml.load(f)
-    return _validate(data, p)
+    root = Path(target_root).resolve() if target_root is not None else None
+    if root is not None and root.is_file():
+        root = root.parent
+    return _validate(data, p, target_root=root)
 
 
-def discover(start: str | Path = ".") -> Optional[CorviaConfig]:
-    """Walk upward from `start` looking for corvia.toml. Returns None if absent."""
+def discover(
+    start: str | Path = ".", target_root: str | Path | None = None
+) -> Optional[CorviaConfig]:
+    """Walk upward from `start` looking for corvia.toml. Returns None if absent.
+
+    The walk stops at the first repository boundary (a directory containing
+    ``.git``) so a corvia.toml belonging to an unrelated sibling project above
+    the repo can never be picked up silently. Use --config / load() to point
+    at a config outside the repository explicitly.
+
+    ``target_root`` anchors ${TARGET_ROOT} include entries; it defaults to
+    `start` (the directory being analyzed).
+    """
     cur = Path(start).resolve()
     if cur.is_file():
         cur = cur.parent
+    if target_root is None:
+        target_root = cur
     for candidate in [cur, *cur.parents]:
         config_file = candidate / "corvia.toml"
         if config_file.is_file():
-            return load(config_file)
+            return load(config_file, target_root=target_root)
+        # .git may be a dir (normal clone) or a file (worktree/submodule).
+        if (candidate / ".git").exists():
+            break
     return None
 
 
@@ -583,6 +642,11 @@ _EXAMPLE_TOML = """\
 [paths]
 use_cpp = false
 # include  = ["/usr/local/include", "third_party/include"]  # extra -I paths
+#   Relative entries resolve against the directory containing corvia.toml.
+#   Variables: ${TARGET_ROOT} = the directory being analyzed (lets one config
+#   serve source trees checked out at different locations), ${CONFIG_DIR} =
+#   the directory containing this file.
+#   e.g. include = ["${TARGET_ROOT}/common/sal", "${TARGET_ROOT}/common/config"]
 # cproject = ".cproject"          # Eclipse CDT: auto-extract include paths from .cproject
 # makefile = "Makefile"           # Makefile: auto-detect include paths (mutually exclusive with cproject)
 # make_target = "all"             # make target used for dry-run (optional)
@@ -601,6 +665,8 @@ dir     = ".corvia_cache"
 
 def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
     """Walk upward from `start` looking for corvia.toml.
+
+    The walk stops at the repository boundary — see :func:`discover`.
 
     If not found, creates a ``corvia.toml.example`` in the start directory
     for the user to reference, then raises :class:`ConfigError` with an
@@ -623,7 +689,8 @@ def discover_or_create(start: str | Path = ".") -> Optional[CorviaConfig]:
         example_created = False
 
     msg_lines = [
-        f"No corvia.toml found (searched upward from '{cur}').",
+        f"No corvia.toml found (searched upward from '{cur}', "
+        "stopping at the repository boundary).",
     ]
     if example_created:
         msg_lines += [

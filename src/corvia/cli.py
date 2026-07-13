@@ -243,7 +243,7 @@ def main(argv: list[str] | None = None) -> int:
         from corvia.core.config import ConfigError, discover_or_create, load, parse_cproject_include_paths
         try:
             if args.config:
-                config = load(args.config)
+                config = load(args.config, target_root=discover_base)
             else:
                 config = discover_or_create(discover_base)
             cproject_path_str = args.cproject or (config.cproject if config else None)
