@@ -1,3 +1,3 @@
 """CORVIA - C language static analysis tool with MISRA C:2012 support."""
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"

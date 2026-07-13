@@ -588,7 +588,7 @@ corvia/
 
 ## Changelog / 版本紀錄
 
-### Unreleased
+### v0.4.0 (2026-07-09)
 - **`corvia-graph`**: new console tool rendering `--emit-symbols` JSON as Graphviz DOT (clustered by file, static functions dashed, external callees grayed) or Mermaid (pasteable into GitLab/GitHub markdown), with `--focus FUNC --depth N` neighborhood trimming
 
 ### v0.3.0 (2026-07-09)
