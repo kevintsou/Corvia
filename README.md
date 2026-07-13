@@ -187,6 +187,7 @@ corvia [options] [targets ...]
 | `--clean-cache` | Delete cache and exit |
 | `--list-checkers` | List all available checkers |
 | `--external-checkers` | Directory containing external checker modules |
+| `--emit-symbols` | Also write a JSON symbol table + call graph to PATH (for dependency-aware tooling; see Call Graph section) |
 | `--no-color` | Disable colored output |
 
 ### Config setup commands
@@ -414,6 +415,37 @@ corvia --list-checkers
 | json | `-f json` | JSON array of issues |
 | html | `-f html` | Self-contained HTML report |
 | md | `-f md` | Markdown report |
+
+---
+
+## Call Graph / 呼叫圖
+
+Analysis can emit a whole-program symbol table + call graph as a byproduct
+(C files only — the graph never covers headers-only constructs it can't see):
+
+```bash
+corvia src/ --emit-symbols symbols.json -o findings.json -f json
+```
+
+The JSON contains `functions` (definition site, signature, `is_static`,
+callees), `call_edges` (caller → callee with call-site file/line),
+`file_defines`, and `unresolved_callees` (called but defined outside the
+scanned target, e.g. libc).
+
+Visualize it with the bundled `corvia-graph` tool:
+
+```bash
+corvia-graph symbols.json -o graph.dot            # Graphviz DOT
+dot -Tsvg graph.dot -o graph.svg                  #   → render (needs graphviz)
+
+corvia-graph symbols.json --format mermaid        # Mermaid — paste into
+                                                  #   GitLab/GitHub markdown
+corvia-graph symbols.json --focus main --depth 2  # only main ± 2 hops
+```
+
+DOT output clusters functions by file, draws `static` functions dashed, and
+grays out unresolved external callees. `--focus FUNC --depth N` trims large
+firmware graphs down to the neighborhood you care about.
 
 ---
 

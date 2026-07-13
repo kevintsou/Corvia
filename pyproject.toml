@@ -33,6 +33,7 @@ corvia = "corvia.cli:main"
 corvia-lsp = "corvia.lsp.server:main"
 corvia-install-cpp = "corvia.install:install_cpp"
 corvia-mcp = "corvia.mcp.server:main"
+corvia-graph = "corvia.utils.symbols_to_dot:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
