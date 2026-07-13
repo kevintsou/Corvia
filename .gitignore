@@ -35,3 +35,11 @@ Thumbs.db
 corvia.toml
 .corvia_review_prefs.json
 .corvia_cache/
+
+# Local experiment artifacts and presentations (never commit — a past
+# Coverity-comparison dump here once bloated the repo to 570MB)
+temp/
+document/
+
+# Review reports generated in-place
+*_corvia_review.md
