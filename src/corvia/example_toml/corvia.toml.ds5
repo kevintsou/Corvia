@@ -7,6 +7,11 @@
 use_cpp = true
 cproject = ".cproject"
 
+# Manual include entries may be added alongside cproject extraction; relative
+# paths anchor to this file's directory, and ${TARGET_ROOT}/${CONFIG_DIR}
+# variables are supported (see corvia.toml.example).
+# include = ["${TARGET_ROOT}/extra/headers"]
+
 # Extra preprocessor flags — add target arch and project-specific defines here.
 # Example below mirrors a typical Phison firmware project (IC_TYPE, IC_NAME, BOOT_TYPE).
 cpp_args = "--target=armv7-unknown-windows-gnu -D_IC_TYPE_=IC_TYPE_FPGA_HAPS -D_IC_NAME_=IC_PS5037 -D_BOOT_TYPE_=BOOT_TYPE_MASKROM"

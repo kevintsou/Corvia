@@ -8,6 +8,14 @@
 [paths]
 use_cpp = true
 
+# Path anchoring:
+#   Relative include entries resolve against the directory containing THIS
+#   corvia.toml. Keep the config at the source-tree root and the paths stay
+#   valid for any checkout location, and for analyzing any subdirectory.
+#   For a config stored OUTSIDE the tree (applied via --config), write
+#   entries as ${TARGET_ROOT}/... instead (${TARGET_ROOT} = the directory
+#   passed to corvia - point corvia at the tree root when using it).
+#   ${CONFIG_DIR} (= this file's directory) is also available.
 include = [
     # SAL and build types (sal_conf.h, sal_build_types.h, etc.)
     "common/sal",

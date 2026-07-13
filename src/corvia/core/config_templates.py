@@ -172,17 +172,31 @@ def _collect_existing_dirs(root: Path, candidates: Iterable[Path]) -> list[str]:
     return include_dirs
 
 
+# Shared doc block rendered into every template's [paths] section so each
+# generated corvia.toml carries the path-anchoring rules with it.
+_PATH_ANCHOR_DOC = """\
+# Path anchoring:
+#   Relative include entries resolve against the directory containing THIS
+#   corvia.toml. Keep the config at the source-tree root and the paths stay
+#   valid for any checkout location, and for analyzing any subdirectory.
+#   For a config stored OUTSIDE the tree (applied via --config), write
+#   entries as ${TARGET_ROOT}/... instead (${TARGET_ROOT} = the directory
+#   passed to corvia - point corvia at the tree root when using it).
+#   ${CONFIG_DIR} (= this file's directory) is also available.
+"""
+
+
 def _render_include_list(include_dirs: list[str]) -> str:
     if not include_dirs:
-        return '# include = ["path/to/headers"]'
+        return _PATH_ANCHOR_DOC + '# include = ["path/to/headers"]'
     body = "\n".join(f'    "{p}",' for p in include_dirs)
-    return "include = [\n" + body + "\n]"
+    return _PATH_ANCHOR_DOC + "include = [\n" + body + "\n]"
 
 
 def _render_minimal(reasons: Iterable[str]) -> str:
-    return _header("minimal", reasons) + """[paths]
+    return _header("minimal", reasons) + f"""[paths]
 use_cpp = true
-# include = ["path/to/headers"]
+{_PATH_ANCHOR_DOC}# include = ["path/to/headers"]
 # cproject = ".cproject"   # Eclipse CDT: auto-extract include paths
 # makefile = "Makefile"    # Makefile: auto-extract -I/-D flags
 
