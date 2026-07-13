@@ -13,8 +13,11 @@ CORVIA parses C source code using pycparser and runs a suite of checkers to dete
 - **Eclipse .cproject support**: Auto-discover include paths from `.cproject`
 - **Makefile support**: Auto-detect include paths and defines from `Makefile` (runs `make -B -n` when available, falls back to static variable expansion for Windows/cross-platform use)
 - **First-class config setup**: `corvia config detect/init` selects and generates `corvia.toml` from built-in templates, with machine-readable JSON for agents and CI
+- **Location-independent configs**: `${TARGET_ROOT}` / `${CONFIG_DIR}` path variables let one config serve source trees checked out anywhere; config discovery stops at the repository boundary so an unrelated project's config is never picked up silently
+- **Call graph export**: `--emit-symbols` writes a whole-program symbol table + call graph JSON; `corvia-graph` renders it as Graphviz DOT or Mermaid
+- **CI gating**: `--fail-on {error,warning,info}` controls which severity makes the exit code non-zero
 - **Multiple output formats**: text, JSON, HTML, Markdown
-- **Incremental analysis**: Cache results to skip unchanged files
+- **Incremental analysis**: Cache results to skip unchanged files (invalidated automatically when config, include paths, defines, checker selection, or Corvia version change)
 - **MISRA category filtering**: Filter by mandatory / required / advisory
 - **Extensible**: Load external checkers from a directory
 - **LSP support**: Language Server Protocol for IDE integration
@@ -580,6 +583,32 @@ corvia/
 ├── pyproject.toml
 └── corvia.toml.example
 ```
+
+---
+
+## Changelog / 版本紀錄
+
+### Unreleased
+- **`corvia-graph`**: new console tool rendering `--emit-symbols` JSON as Graphviz DOT (clustered by file, static functions dashed, external callees grayed) or Mermaid (pasteable into GitLab/GitHub markdown), with `--focus FUNC --depth N` neighborhood trimming
+
+### v0.3.0 (2026-07-09)
+
+**New features**
+- `${TARGET_ROOT}` / `${CONFIG_DIR}` path variables in `[paths] include` — one config serves source trees checked out at different locations
+- Config discovery stops at the repository boundary (`.git`), so a corvia.toml belonging to an unrelated project above the repo is never applied silently; `--config` remains the explicit escape hatch
+- `--fail-on {error,warning,info}` for CI exit-code gating
+- Path-anchoring rules documented in every generated config template
+
+**Correctness fixes (highlights of ~100 fixed review findings)**
+- Preprocessor stripping: `#elif`/`#else` no longer corrupted nesting depth (code after the first `#if/#else/#endif` block was silently dropped); stub-preamble line offsets now remapped, so issues report real source lines
+- CFG: switch statements rewritten with explicit break/continue target stacks — post-switch code reachable, no-default bypass edge added, switch-break inside loops no longer wired to the loop exit; labeled statements expand properly
+- Cache: keyed on environment hash (config, include paths, defines, checker set, Corvia version), normalized paths; incremental runs now parse all files for full cross-file context and match full-run results
+- Checkers: eliminated systematic false positives across 20+ checkers (for-loop counters, `== NULL` guards, `free()` of parameters, `return malloc(...)`, `{0}` initializers, typedef'd structs/bitfields, multi-label switch cases, and more); dead rule logic (10.1, 12.1, 8.14, 13.3, 17.1) now actually fires; unimplemented MISRA rule declarations removed
+- Interfaces: HTML report XSS fixed (autoescape), config discovery starts at the target directory, `--format=json` no longer overridden by corvia.toml, pygls 1.x/2.x compatibility, MCP `analyze` no longer writes files into analyzed projects, Ctrl-C at the install prompt aborts instead of consenting
+- Repository slimmed from 570MB to 32MB (experiment artifacts purged from history)
+
+### v0.2.8 and earlier
+- Symbol graph export (`--emit-symbols`), first-class config templates (`corvia config detect/init`), MCP server, LSP server, incremental analysis, 23 built-in checkers with MISRA C:2012 mapping
 
 ---
 
