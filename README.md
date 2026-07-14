@@ -588,6 +588,11 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.5.1 (2026-07-14)
+- **Fixed `uninit-var` (MISRA 9.1) false positives on out-parameters**: a bare array/pointer name passed to a function (`memset(buf, 0, sizeof(buf))`) decays to a writable address, same as `&scalar` — the checker now treats it as a possible initialization instead of a read. Covers casts (`(void *)buf`), `(void)`-discarded call statements, and macro-sized arrays (`buf[MACRO_LEN]`). `sizeof`/`_Alignof` operands are also no longer treated as reads (C11 6.5.3.4), and any initializer list (`= {0}`) is now recognized as fully initializing the object (C11 6.7.9), not "partially initialized".
+- **Fixed inline-asm and `va_start` write-loss in the parser**: stripping a GNU `__asm__` statement now recovers its output operands (`: "=r" (id)`) as a synthesized write, instead of discarding them along with the statement; `__builtin_va_start`/`__builtin_va_copy` now synthesize a write to their first argument instead of being replaced with a bare `0`. Both previously made correctly-written variables look uninitialized.
+- Validated against a 94-file real-world C firmware tree: `uninit-var` findings dropped 46 → 1, with the sole survivor being an actual bug (a variable whose only assignment was commented out) — no loss of true positives. 21 new regression tests added.
+
 ### v0.5.0 (2026-07-13)
 - **Incremental mode now skips re-parsing unchanged files**: parsed ASTs are cached (pickled, keyed on content + environment + interpreter/pycparser fingerprints), so the expensive preprocess+parse step — the dominant cost under `--use-cpp` — only runs for changed files. The analysis context is still rebuilt from real ASTs every run, so cross-file correctness is identical to a full run; corrupt or incompatible cache entries silently fall back to parsing.
 
