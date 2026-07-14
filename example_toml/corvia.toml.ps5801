@@ -1,14 +1,25 @@
-# corvia.toml — Corvia static analysis configuration for secure_boot
-# SOC_ID: PS5801 (default). To use PT5801, replace all PS5801 entries below.
+# corvia.toml — Corvia static analysis configuration for Phison secure_boot
+#   SOC_ID: PS5801 (default). To target PT5801, replace PS5801 with PT5801 in
+#   the include paths and set the cpp_args defines accordingly.
 #
-# Include paths mirror the TF-A Makefile logic:
-#   find common/include/phison_hw/$(SOC_ID) -type d  (all subdirs)
-#   + common/config, common/sal and its subdirs
+# Covers BOTH source trees used by the BL1 secure-boot build:
+#   1. common/                       — Phison SAL / config / phison_hw (PS5801) sources
+#   2. bl1_32/trusted-firmware-a/    — ARM Trusted Firmware-A BL1 port (aarch32 / ARMv7 Cortex-A15)
+#
+# Include-path layout mirrors the TF-A build's -I flags. The set below was
+# verified by scanning the BL1 source tree with Corvia until every resolvable
+# #include was satisfied (see the two KNOWN-UNRESOLVED notes at the bottom).
+#
+# NOTE ON ARCH: this is the 32-bit BL1 port, so the aarch32 arch/libc/el3_runtime
+# include dirs are used — NOT aarch64. Do not swap these to aarch64 for this build.
 
 [paths]
 use_cpp = true
 
 include = [
+    # ============================================================
+    # 1) Phison common/ project tree
+    # ============================================================
     # SAL and build types (sal_conf.h, sal_build_types.h, etc.)
     "common/sal",
     "common/sal/build",
@@ -52,15 +63,70 @@ include = [
     "common/include/phison_hw/PS5801/reg/nvme",
     "common/include/phison_hw/PS5801/reg/pasc",
     "common/include/phison_hw/PS5801/reg/pcie",
+    "common/include/phison_hw/PS5801/reg/pcie_ctrl",
+    "common/include/phison_hw/PS5801/reg/pmu",
     "common/include/phison_hw/PS5801/reg/sec",
     "common/include/phison_hw/PS5801/reg/spi",
     "common/include/phison_hw/PS5801/reg/sys",
     "common/include/phison_hw/PS5801/reg/uart",
     "common/include/phison_hw/PS5801/reg/ufs",
+
+    # ============================================================
+    # 2) ARM Trusted Firmware-A BL1 tree (bl1_32/trusted-firmware-a)
+    # ============================================================
+    # TF-A include root — resolves <common/...>, <bl1/...>, <drivers/...>,
+    # <lib/...>, <plat/common/...>, <psa/...>, <tools_share/...> etc.
+    "bl1_32/trusted-firmware-a/include",
+
+    # aarch32 arch + libc (32-bit / ARMv7 Cortex-A15 port — see ARCH note above)
+    "bl1_32/trusted-firmware-a/include/arch/aarch32",
+    "bl1_32/trusted-firmware-a/include/lib/libc",
+    "bl1_32/trusted-firmware-a/include/lib/libc/aarch32",
+    "bl1_32/trusted-firmware-a/include/lib/el3_runtime/aarch32",
+    "bl1_32/trusted-firmware-a/include/lib/libfdt",
+
+    # Phison driver headers (some referenced by their subdir as an include root,
+    # e.g. <host/pcie/pcie.h>, bare "framework_libs.h", "efuse_api.h")
+    "bl1_32/trusted-firmware-a/include/drivers/phison",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/efuse",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/framework",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/framework/flibhal",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/framework/dsa",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/framework/vua",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/framework/flibhal/protocol/vendor/adm_vuc",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/host",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/host/pcie",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/sec",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/uart",
+    "bl1_32/trusted-firmware-a/include/drivers/phison/ufs",
+
+    # Phison platform headers (platform_def.h, phison_scatter.h, efuse_common.h,
+    # plat_bl1_libs.h, vuc/*, sec/*, top/*)
+    "bl1_32/trusted-firmware-a/plat/phison/phison/include",
+    "bl1_32/trusted-firmware-a/plat/phison/common/include",
+    "bl1_32/trusted-firmware-a/plat/phison/common",
+    "bl1_32/trusted-firmware-a/plat/phison/common/vuc",
+    "bl1_32/trusted-firmware-a/plat/phison/common/bl1",
+    "bl1_32/trusted-firmware-a/plat/phison/common/bl1/sec",
+    "bl1_32/trusted-firmware-a/plat/phison/common/bl1/top",
+
+    # Phison TF-A lib (crc32.h, version.h)
+    "bl1_32/trusted-firmware-a/lib/phison",
+
+    # mbedtls + psa (auth / crypto modules) — lives outside the TF-A tree
+    "bl1_32/mbedtls/include",
+
+    # ---- Optional: uncomment only if the analysis set also includes BL2 /
+    # ---- SP_MIN / aarch64 sources (they are NOT part of the aarch32 BL1 build):
+    # "bl1_32/trusted-firmware-a/plat/phison/common/bl2",
+    # "bl1_32/trusted-firmware-a/plat/phison/common/bl2/spi_bcfg",
+    # "bl1_32/trusted-firmware-a/include/bl32/sp_min",
+    # "bl1_32/trusted-firmware-a/include/lib/cpus/aarch64",
 ]
 
-# Preprocessor defines — match build defaults
-cpp_args = "-DSOC_ID=PS5801 -DPS5801=2 -DPT5801=1"
+# Preprocessor defines — match build defaults.
+# ARM_ARCH_MAJOR=7 selects the ARMv7 / Cortex-A15 (aarch32) path in the TF-A headers.
+cpp_args = "-DSOC_ID=PS5801 -DPS5801=2 -DPT5801=1 -DARM_ARCH_MAJOR=7"
 
 [output]
 format = "text"
@@ -68,3 +134,17 @@ format = "text"
 [cache]
 enabled = true
 dir     = ".corvia_cache"
+
+# ============================================================
+# KNOWN UNRESOLVED (NOT include-path gaps — do not try to "fix" with -I):
+#
+#   * platform_oid.h  — build-generated per platform (only a Juno cert-tool
+#     sample exists in the tree). A few TBBR/auth files won't fully preprocess
+#     without the real generated copy; this is expected under static analysis.
+#
+#   * A block of "<macro> redefined" warnings in the PS5801 register headers
+#     (dal_reg_pcie_ide_misc_reg*.h, dal_reg_sys_angc_pdaon_upif*.h,
+#     dal_reg_unipro*.h, ...). These are duplicate #define in the SOURCE
+#     headers themselves, not a config problem — no include path change
+#     removes them. Fix in the headers, or silence via [severity] if desired.
+# ============================================================
