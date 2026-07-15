@@ -588,8 +588,8 @@ corvia/
 
 ## Changelog / 版本紀錄
 
-### Unreleased
-Round-2 false-positive elimination, validated by a full before/after rescan of a 94-file firmware tree (8,873 → 2,564 issues, −71%; out-of-range line numbers 65 → 0; all audited true positives retained):
+### v0.5.4 (2026-07-15)
+Round-2 false-positive elimination, validated by a full before/after rescan of a 94-file firmware tree (8,873 → 2,564 issues, −71%; out-of-range line numbers 65 → 0; all audited true positives retained). Post-release manual audit of every remaining ERROR-level uninit-var/misra-func finding on that tree confirmed 20/20 true positives — no residual false-positive patterns:
 - **buffer-overflow**: parameters and local non-array declarations now shadow same-named file-scope arrays (cpp-inlined headers declaring `r[2]` no longer bounds-check a `U8 *r` parameter)
 - **misra-func 17.4**: `else if` chains are recognized — a bare `If` in `iffalse` recurses instead of failing the all-paths-return proof (88 → 2 ERRORs on the firmware tree)
 - **Macro-expansion noise**: Rule 12.1 findings whose flagged operators do not appear on the reported source line are dropped — under `--use-cpp` a single unparenthesized register-macro expression no longer reports once per call site (6,627 → 752)
