@@ -588,6 +588,16 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.5.3 (2026-07-15)
+False-positive elimination driven by a line-by-line verification of a real firmware scan (2047 issues audited):
+- **Coord double-remap fixed (root cause of scattered/out-of-range line numbers)**: pycparser AST nodes share Coord objects; the stub-offset remapper now maps each Coord exactly once instead of once per referencing node — issues no longer land on unrelated lines, comment lines, or beyond end-of-file
+- **MISRA 11.4/11.5/11.6 now exempt the null pointer constant** (`NULL`, integer `0`, `(void *)0`) per the MISRA C:2012 exception — `(U32)NULL`-style casts and normal NULL usage no longer report
+- **buffer-overflow no longer bounds-checks pointer/array parameters** (`U8 *r`, `U8 r[]`, `U8 r[2]`) — array parameters decay to pointers and carry no usable size
+- **dead-code whitelists the `do { ... } while (0)` macro idiom**; genuine `while(0)` bodies and unreachable-after-return still report
+- **uninit-var understands loop-driven initialization** (`for (k...) t[k] = ...` then read) and no longer treats struct member names (`p->cq_len`) as same-named locals
+- **misra-pointer (18.x) is now scope- and typedef-aware** — integer variables (`U32 s; s += 4U`) shadowing a file-scope pointer are no longer misread as pointer arithmetic
+- **Same-line/same-message issues at different columns are collapsed** (one logical violation, reported once); serialized `file` paths are normalized (no doubled backslashes)
+
 ### v0.5.2 (2026-07-14)
 - **`ps5801` config template now covers the full TF-A BL1 (aarch32) tree.** Previously it only included the Phison `common/` sources, so scanning `bl1_32/trusted-firmware-a/` produced a cascade of "No such file or directory" parser errors (which in turn force no-cpp-style false positives). Added the TF-A include root, the aarch32 arch/libc/el3_runtime variants (this is the 32-bit / ARMv7 Cortex-A15 port, not aarch64), libfdt, the Phison driver header roots (`drivers/phison/{efuse,framework/*,host,host/pcie,sec,uart,ufs}`), the Phison platform roots (`plat/phison/...` providing `platform_def.h`, `phison_scatter.h`, `efuse_common.h`, `plat_bl1_libs.h`), two deeper PS5801 register subdirs (`reg/pcie_ctrl`, `reg/pmu`), `lib/phison`, and the external `mbedtls/include`. `ARM_ARCH_MAJOR=7` added to `cpp_args`. Verified by scanning the real BL1 tree until every resolvable `#include` was satisfied. Template-only change; no analyzer behavior change.
 

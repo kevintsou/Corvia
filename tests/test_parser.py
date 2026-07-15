@@ -170,3 +170,34 @@ def test_strip_asm_no_operands_stripped_entirely():
     assert "__asm" not in out
     assert "= 0;" not in out
     assert "int x = 1;" in out
+
+
+def test_shared_coord_objects_remapped_once(tmp_path):
+    """pycparser AST nodes can share a single Coord object; the stub-offset
+    remap must be applied exactly once per Coord, not once per referencing
+    node (double-remapping scattered issues onto unrelated lines)."""
+    from pycparser import c_ast
+
+    from corvia.parser import CParser
+
+    # Enough preceding functions that a double-shifted coordinate would be
+    # visibly wrong (bounded by the stub offset).
+    src = tmp_path / "shared_coord.c"
+    filler = "\n".join(f"void f{i}(void) {{ }}" for i in range(70))
+    src.write_text(filler + "\nvoid tail(void)\n{\n    char buf[2];\n    buf[2] = 1;\n}\n")
+    expected_line = 70 + 4  # 70 filler lines, then: tail, {, decl, buf[2]=1
+
+    parser = CParser(use_cpp=False)
+    ast, errs = parser.parse_file(str(src))
+    assert ast is not None and not errs
+
+    lines: list[int] = []
+
+    class V(c_ast.NodeVisitor):
+        def visit_ArrayRef(self, node):
+            if isinstance(node.name, c_ast.ID) and node.name.name == "buf":
+                lines.append(node.coord.line)
+            self.generic_visit(node)
+
+    V().visit(ast)
+    assert lines == [expected_line], f"ArrayRef coords wrong: {lines}"

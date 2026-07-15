@@ -488,16 +488,27 @@ def _build_line_map(text: str, target_file: str) -> list[tuple[int, str]]:
 
 
 class _CoordRemapper(NodeVisitor):
-    """Walk AST and remap all node coordinates using the line map."""
+    """Walk AST and remap all node coordinates using the line map.
+
+    pycparser AST nodes frequently SHARE a single Coord object (e.g. an
+    ArrayRef and its subscript). Since remapping mutates the Coord in place,
+    each unique Coord must be remapped exactly once — remapping a shared
+    Coord once per referencing node would apply the offset repeatedly and
+    scatter issues onto unrelated lines/files.
+    """
 
     def __init__(self, line_map: list[tuple[int, str]], target_file: str) -> None:
         self.line_map = line_map
         self.target_norm = Path(target_file).resolve()
+        self._remapped: set[int] = set()
 
     def generic_visit(self, node: c_ast.Node) -> None:
         if hasattr(node, 'coord') and node.coord is not None:
             coord = node.coord
-            if coord.line is not None and 0 <= coord.line - 1 < len(self.line_map):
+            if id(coord) in self._remapped:
+                pass
+            elif coord.line is not None and 0 <= coord.line - 1 < len(self.line_map):
+                self._remapped.add(id(coord))
                 orig_line, orig_file = self.line_map[coord.line - 1]
                 if orig_file:
                     orig_path = Path(orig_file).resolve()

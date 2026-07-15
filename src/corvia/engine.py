@@ -224,19 +224,30 @@ class AnalysisEngine:
 
             result.issues.extend(self._filter_issues(file_issues))
 
-        # Cross-file issues can appear both in a reused cache entry (stored
-        # under the file whose checker produced them) and freshly from the
-        # re-analyzed file they point at — keep a single copy.
+        # Sort first so dedup keeps the lowest-column occurrence of each
+        # logical issue. Dedup then (a) collapses cross-file issues that
+        # appear both in a reused cache entry and freshly from the re-analyzed
+        # file, and (b) removes same-line/same-message inflation across
+        # columns (see _dedupe_issues).
+        result.issues.sort(key=lambda i: (i.file, i.line, i.column))
         result.issues = self._dedupe_issues(result.issues)
 
         self._populate_context(result.issues)
-        result.issues.sort(key=lambda i: (i.file, i.line, i.column))
         return result
 
     @staticmethod
     def _dedupe_issues(issues: list[Issue]) -> list[Issue]:
-        """Drop duplicate issues, comparing on
-        (checker_id, normalized file, line, column, message)."""
+        """Drop duplicate issues.
+
+        The dedup key deliberately EXCLUDES column: the same checker reporting
+        the same message on the same line at different columns is one logical
+        violation the checker emitted from multiple AST positions (e.g. a
+        macro expanded at several sub-expressions, or ``(U32)NULL`` counted
+        once per token). Collapsing on (checker_id, file, line, message)
+        removes that inflation. Two genuinely distinct violations on one line
+        differ in message, so they are preserved. The first occurrence (lowest
+        column after the earlier sort) is kept.
+        """
         import os
 
         norm_cache: dict[str, str] = {}
@@ -249,10 +260,10 @@ class AnalysisEngine:
                     norm_cache[file] = file
             return norm_cache[file]
 
-        seen: set[tuple[str, str, int, int, str]] = set()
+        seen: set[tuple[str, str, int, str]] = set()
         unique: list[Issue] = []
         for i in issues:
-            key = (i.checker_id, _norm(i.file), i.line, i.column, i.message)
+            key = (i.checker_id, _norm(i.file), i.line, i.message)
             if key in seen:
                 continue
             seen.add(key)

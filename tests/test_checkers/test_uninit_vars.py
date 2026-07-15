@@ -319,6 +319,183 @@ def test_va_list_without_va_start_still_reported(parse_c):
     assert _uninit_messages(checker, ast) != []
 
 
+def test_loop_indexed_init_then_element_read_not_reported(parse_c):
+    """The loop-init idiom `for (k = 0; k < 8; k++) t[k] = ...;` fully writes
+    the array before it is read. The element tracker only records CONSTANT
+    subscripts, so a variable-indexed loop write would otherwise leave `t`
+    looking (partially) uninitialized and a later `t[3]` read would false-
+    positive. Regression for hal_sec_pqc_mlkem_api.c's t[] buffers.
+
+    Both passes must be clean: the linear pass emits the element-level
+    "may not be initialized", and the CFG pass emits "uninitialized on some
+    execution paths" on the zero-trip path."""
+    code = """
+    void use(unsigned char a);
+    void f(void) {
+        unsigned char t[8];
+        unsigned int k;
+        for (k = 0; k < 8; k++) {
+            t[k] = (unsigned char)k;
+        }
+        use(t[3]);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    issues = checker.check(ast)
+    assert not any("may not be initialized" in i.message for i in issues)
+    assert _uninit_messages(checker, ast) == []
+
+
+def test_loop_indexed_init_while_and_do_while_not_reported(parse_c):
+    """The loop-init relaxation applies to while and do-while loops too, not
+    just for-loops."""
+    code = """
+    void use(unsigned char a);
+    void wl(void) {
+        unsigned char t[8];
+        unsigned int k = 0;
+        while (k < 8) { t[k] = (unsigned char)k; k++; }
+        use(t[3]);
+    }
+    void dw(void) {
+        unsigned char u[8];
+        unsigned int j = 0;
+        do { u[j] = (unsigned char)j; j++; } while (j < 8);
+        use(u[3]);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert _uninit_messages(checker, ast) == []
+    issues = checker.check(ast)
+    assert not any("may not be initialized" in i.message for i in issues)
+
+
+def test_genuinely_uninit_array_without_loop_still_reported(parse_c):
+    """The loop-init relaxation must not blanket-suppress: an array declared
+    and read by constant index with NO write on any path is still a genuine
+    uninitialized read."""
+    code = """
+    void use(unsigned char a);
+    void f(void) {
+        unsigned char t[8];
+        use(t[3]);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    issues = checker.check(ast)
+    assert any("may not be initialized" in i.message for i in issues)
+
+
+def test_scalar_beside_loop_filled_array_still_reported(parse_c):
+    """A loop that fills `t` must not launder an unrelated scalar `y` that is
+    genuinely uninitialized - the relaxation is per-array."""
+    code = """
+    void use(unsigned char a, int b);
+    void f(void) {
+        unsigned char t[8];
+        int y;
+        unsigned int k;
+        for (k = 0; k < 8; k++) { t[k] = (unsigned char)k; }
+        use(t[3], y);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert _uninit_messages(checker, ast) != []
+
+
+def test_struct_member_through_pointer_not_treated_as_local(parse_c):
+    """`p->cq_len` reads the FIELD of the object `p`; the field identifier
+    `cq_len` is not a local variable. The write `p->cq_len = 1` then the read
+    `p->cq_len` must not be reported. Regression for hal_ufs.c's
+    ->ctrl_info.cq_len flagged as a use-before-init of a local named cq_len."""
+    code = """
+    typedef int S;
+    void use(int a);
+    void f(S *p) {
+        p->cq_len = 1;
+        use(p->cq_len);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert _uninit_messages(checker, ast) == []
+
+
+def test_struct_member_by_value_field_read_not_reported(parse_c):
+    """`s.a = 1; use(s.a);` initializes and reads field `a`; the field name
+    must never be treated as a separate local variable."""
+    code = """
+    typedef struct { int a; int b; } S;
+    void use(int a);
+    void g(void) {
+        S s;
+        s.a = 1;
+        use(s.a);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert _uninit_messages(checker, ast) == []
+
+
+def test_nested_struct_member_field_named_like_local_not_reported(parse_c):
+    """A local `int cq_len;` that shares its name with a nested struct field
+    accessed as `p->ctrl_info.cq_len` must not be flagged: the member access
+    reads the struct field, never the same-named local. Regression for the CFG
+    pass's generic recursion into StructRef.field. The genuine local read (if
+    any) is unaffected - here cq_len is never actually read as a local."""
+    code = """
+    typedef int S;
+    void use(int a);
+    void f(S *p) {
+        int cq_len;
+        p->ctrl_info.cq_len = 1;
+        use(p->ctrl_info.cq_len);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert not any(
+        i.message and "cq_len" in i.message
+        and ("before initialization" in i.message.lower()
+             or "uninitialized on some" in i.message.lower())
+        for i in checker.check(ast)
+    )
+
+
+def test_uninit_pointer_base_of_member_still_reported(parse_c):
+    """The StructRef relaxation only spares the FIELD name - a genuinely
+    uninitialized pointer BASE (`S *p; use(p->x);`) must still be reported."""
+    code = """
+    typedef struct { int cq_len; } Ct;
+    typedef struct { Ct ctrl_info; } S;
+    void use(int a);
+    void f(void) {
+        S *p;
+        use(p->ctrl_info.cq_len);
+    }
+    """
+    ast, _ = parse_c(code)
+    checker = UninitVarsChecker()
+    checker.set_file("<test>")
+    assert any(
+        i.message and "'p'" in i.message
+        and "uninitialized on some" in i.message.lower()
+        for i in checker.check(ast)
+    )
+
+
 def test_asm_input_only_does_not_hide_genuine_uninit(parse_c):
     """An input-only asm (`:: "r" (...)`) does NOT write the variable, so a
     genuine uninitialized read after it must still be reported - the asm

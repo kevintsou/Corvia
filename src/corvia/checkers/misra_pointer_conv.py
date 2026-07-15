@@ -130,6 +130,58 @@ def _classify(type_node: c_ast.Node, typedefs: dict[str, dict] | None = None,
     return info
 
 
+def _is_integer_constant_zero(node: c_ast.Node) -> bool:
+    """True when ``node`` is an integer constant literal with value zero.
+
+    Accepts the usual suffixed forms (``0``, ``0U``, ``0L``, ``0UL``,
+    ``0x0``, ``00``) but not floating literals (``0.0``) or non-zero values.
+    """
+    if not isinstance(node, c_ast.Constant) or node.type not in ("int", "char"):
+        return False
+    text = node.value.strip()
+    # Strip a char-constant's quotes conservatively; a char 0 is not a null
+    # pointer constant per the strict wording, so only handle integer text.
+    if node.type == "char":
+        return False
+    # Remove integer suffixes (u/U/l/L combinations).
+    core = text.rstrip("uUlL")
+    if not core:
+        return False
+    try:
+        # int(...,0) understands 0x / 0b / 0o / decimal / leading-zero octal.
+        return int(core, 0) == 0
+    except ValueError:
+        return False
+
+
+def _is_null_pointer_constant(node: c_ast.Node) -> bool:
+    """True when ``node`` is a MISRA null pointer constant.
+
+    Covers the three forms that appear in this codebase (with or without the
+    C preprocessor having expanded ``NULL``):
+      * the identifier ``NULL``
+      * an integer constant expression with value zero (``0``, ``0U``, ...)
+      * a cast of an integer constant zero to a pointer type, e.g. ``(void *)0``
+        (the common expansion of the ``NULL`` macro)
+
+    Rule 11.6 (and the integer<->pointer conversions 11.4/11.5) explicitly
+    exempt the null pointer constant, so a cast whose operand is one of these
+    must not be reported.
+    """
+    if isinstance(node, c_ast.ID) and node.name == "NULL":
+        return True
+    if _is_integer_constant_zero(node):
+        return True
+    # ``(void *)0`` / ``(T *)0`` — a pointer-typed cast of integer zero.
+    if isinstance(node, c_ast.Cast) and node.to_type is not None:
+        t = node.to_type
+        if isinstance(t, c_ast.Typename):
+            t = t.type
+        if isinstance(t, c_ast.PtrDecl) and _is_integer_constant_zero(node.expr):
+            return True
+    return False
+
+
 def _is_pointer_kind(kind: str) -> bool:
     return kind in ("func_pointer", "void_pointer", "object_pointer", "char_pointer")
 
@@ -210,7 +262,8 @@ class MisraPointerConvChecker(BaseChecker):
         target = _classify(node.to_type, self._typedefs)
         source = self._classify_expr(node.expr) or {"kind": "other"}
 
-        self._check_cast(node, source, target)
+        src_is_null = _is_null_pointer_constant(node.expr)
+        self._check_cast(node, source, target, src_is_null)
         self.generic_visit(node)
 
     def _classify_expr(self, node: c_ast.Node) -> dict | None:
@@ -235,7 +288,8 @@ class MisraPointerConvChecker(BaseChecker):
                 )
         self.generic_visit(node)
 
-    def _check_cast(self, node: c_ast.Cast, src: dict, dst: dict) -> None:
+    def _check_cast(self, node: c_ast.Cast, src: dict, dst: dict,
+                    src_is_null: bool = False) -> None:
         sk, dk = src.get("kind", "other"), dst.get("kind", "other")
 
         # 11.1: function pointer <-> non-function-pointer
@@ -254,18 +308,25 @@ class MisraPointerConvChecker(BaseChecker):
                     RULE_11_3,
                 )
 
-        # 11.4: pointer <-> integer
-        if (sk in ("object_pointer", "void_pointer", "char_pointer") and dk == "int") or \
-           (sk == "int" and dk in ("object_pointer", "void_pointer", "char_pointer")):
+        # 11.4: pointer <-> integer. Exempt the null pointer constant: casting
+        # NULL / (void*)0 / integer 0 to or from an integer type is not a real
+        # pointer<->integer conversion (MISRA exempts the null pointer constant).
+        if not src_is_null and (
+                (sk in ("object_pointer", "void_pointer", "char_pointer") and dk == "int") or
+                (sk == "int" and dk in ("object_pointer", "void_pointer", "char_pointer"))):
             self.report(node, "Conversion between pointer and integer type", Severity.WARNING, RULE_11_4)
 
-        # 11.5: void pointer -> object pointer
-        if sk == "void_pointer" and dk in ("object_pointer", "char_pointer"):
+        # 11.5: void pointer -> object pointer. A null pointer constant cast to
+        # an object pointer (e.g. (T*)NULL) is exempt.
+        if not src_is_null and sk == "void_pointer" and dk in ("object_pointer", "char_pointer"):
             self.report(node, "Conversion from pointer-to-void to pointer-to-object", Severity.INFO, RULE_11_5)
 
-        # 11.6: pointer-to-void <-> arithmetic
-        if (sk == "void_pointer" and _is_arithmetic_kind(dk)) or \
-           (dk == "void_pointer" and _is_arithmetic_kind(sk)):
+        # 11.6: pointer-to-void <-> arithmetic. MISRA C:2012 11.6 explicitly
+        # EXEMPTS the null pointer constant, so casts such as (U32)NULL,
+        # (uintptr_t)NULL or (void*)0 must not be reported.
+        if not src_is_null and (
+                (sk == "void_pointer" and _is_arithmetic_kind(dk)) or
+                (dk == "void_pointer" and _is_arithmetic_kind(sk))):
             self.report(node, "Cast between pointer-to-void and arithmetic type", Severity.ERROR, RULE_11_6)
 
         # 11.7: object pointer <-> non-integer arithmetic (float)

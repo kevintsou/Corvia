@@ -26,26 +26,66 @@ class BufferOverflowChecker(BaseChecker):
         # global array indexed inside the second function is still checked.
         self._global_arrays: dict[str, int] = {}
         self._in_function = False
+        # Names of the current function's parameters. A parameter declared as
+        # `U8 *r` or `U8 r[]`/`U8 r[2]` decays to a pointer into a
+        # caller-provided buffer: it has NO statically known size, so indexing
+        # through it must never be flagged as out-of-bounds.
+        self._param_names: set[str] = set()
 
     def reset(self) -> None:
         self._arrays = {}
         self._global_arrays = {}
         self._in_function = False
+        self._param_names = set()
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
         self._arrays.clear()
+        self._param_names = self._collect_param_names(node)
         self._in_function = True
         self.generic_visit(node)
         self._in_function = False
+        self._param_names = set()
+
+    def _collect_param_names(self, node: c_ast.FuncDef) -> set[str]:
+        """Return the names of the function's parameters.
+
+        Parameters decay to pointers regardless of whether they are written
+        `U8 *r`, `U8 r[]` or `U8 r[2]` — none of these carry a size the callee
+        can rely on, so they are excluded from bounds checking.
+        """
+        names: set[str] = set()
+        func_decl = node.decl.type if node.decl else None
+        if isinstance(func_decl, c_ast.FuncDecl) and func_decl.args:
+            for param in func_decl.args.params:
+                if isinstance(param, c_ast.Decl) and param.name:
+                    names.add(param.name)
+        return names
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
-        if node.name and isinstance(node.type, c_ast.ArrayDecl):
+        # Never track a parameter as a sized array: an array parameter
+        # (`U8 r[2]`) decays to a pointer, so pycparser's `ArrayDecl` dimension
+        # does not constrain the accessible range.
+        if (
+            node.name
+            and node.name not in self._param_names
+            and isinstance(node.type, c_ast.ArrayDecl)
+        ):
             size = self._get_array_size(node.type)
             if size is not None:
                 if self._in_function:
                     self._arrays[node.name] = size
                 else:
                     self._global_arrays[node.name] = size
+        self.generic_visit(node)
+
+    def visit_Assignment(self, node: c_ast.Assignment) -> None:
+        # A genuine array is not an lvalue in C, so any assignment (including
+        # pointer advancement such as `r += 5U`) to a tracked name means it is
+        # really a pointer. Drop it from tracking to avoid phantom bounds
+        # checks against a dimension that no longer applies.
+        if isinstance(node.lvalue, c_ast.ID):
+            self._arrays.pop(node.lvalue.name, None)
+            self._global_arrays.pop(node.lvalue.name, None)
         self.generic_visit(node)
 
     def visit_ArrayRef(self, node: c_ast.ArrayRef) -> None:

@@ -91,6 +91,16 @@ class DeadCodeChecker(BaseChecker):
         self.generic_visit(node)
 
     def visit_DoWhile(self, node: c_ast.DoWhile) -> None:
+        # `do { ... } while (0)` with a constant-false condition is the
+        # standard single-iteration / swallow-the-semicolon macro idiom
+        # (WAIT_UNTIL_TIMEOUT and friends). The body always runs exactly once,
+        # so it is neither unreachable nor a genuine invariant-condition bug —
+        # never flag it. A `while (0) { ... }` loop, whose body never runs, is
+        # still caught by visit_While.
+        cond_val = self._eval_constant(node.cond)
+        if cond_val is not None and not cond_val:
+            self.generic_visit(node)
+            return
         self._check_invariant_condition(node.cond, node, "do-while")
         self.generic_visit(node)
 

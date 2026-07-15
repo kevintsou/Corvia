@@ -107,6 +107,45 @@ def _get_struct_fields(type_node: c_ast.Node) -> Optional[list[str]]:
     return None
 
 
+def _collect_loop_indexed_writes(node: c_ast.Node, out: set[str]) -> None:
+    """Collect base names of arrays written through a variable (non-constant)
+    subscript anywhere inside a loop body.
+
+    The canonical loop-init idiom - `for (k = 0; k < N; k++) arr[k] = ...;` -
+    writes every element of `arr` before the array is read after the loop, but
+    the element-level tracker only records writes with a CONSTANT subscript, so
+    such an array otherwise looks (partially) uninitialized. When the subscript
+    is a variable the loop plausibly covers the whole array; conservatively
+    treating `arr` as fully initialized after the loop trades a possible missed
+    init (false negative) for eliminating a common, trust-destroying false
+    positive. Constant-subscript writes are deliberately excluded here: those
+    are already modeled precisely by the element-level tracker.
+    """
+    if node is None:
+        return
+    if isinstance(node, c_ast.Assignment):
+        lval = node.lvalue
+        if isinstance(lval, c_ast.ArrayRef) and isinstance(lval.name, c_ast.ID) \
+                and not isinstance(lval.subscript, c_ast.Constant):
+            out.add(lval.name.name)
+    for _, child in node.children():
+        _collect_loop_indexed_writes(child, out)
+
+
+def _mark_loop_indexed_writes(stmt: Optional[c_ast.Node],
+                              var_states: dict[str, _VarState]) -> None:
+    """Mark tracked arrays that a loop body fills via a variable index as fully
+    initialized in the outer state (see _collect_loop_indexed_writes)."""
+    if stmt is None:
+        return
+    written: set[str] = set()
+    _collect_loop_indexed_writes(stmt, written)
+    for name in written:
+        st = var_states.get(name)
+        if st is not None and st.is_array:
+            st.fully_initialized = True
+
+
 class _StructCollector(c_ast.NodeVisitor):
     """Collects struct definitions with their field names."""
 
@@ -199,6 +238,10 @@ class UninitVarsChecker(BaseChecker):
                     # Body may execute zero times: fork so its inits don't
                     # count as definite for code after the loop.
                     self._scan_block(item.stmt.block_items, _fork_states(var_states))
+                # An array filled element-by-element via a variable index inside
+                # the loop is conservatively treated as fully initialized after
+                # the loop (loop-init idiom); see _mark_loop_indexed_writes.
+                _mark_loop_indexed_writes(item.stmt, var_states)
             elif isinstance(item, c_ast.DoWhile):
                 # A do-while executes its body once before evaluating the
                 # condition, so scan the body first, then the condition.
@@ -209,6 +252,7 @@ class UninitVarsChecker(BaseChecker):
                     self._scan_block(item.stmt.block_items, dict(var_states))
                 if item.cond:
                     self._check_reads(item.cond, var_states)
+                _mark_loop_indexed_writes(item.stmt, var_states)
             elif isinstance(item, c_ast.For):
                 if item.init:
                     if isinstance(item.init, c_ast.DeclList):
@@ -223,6 +267,7 @@ class UninitVarsChecker(BaseChecker):
                     self._check_reads(item.next, var_states)
                 if item.stmt and isinstance(item.stmt, c_ast.Compound) and item.stmt.block_items:
                     self._scan_block(item.stmt.block_items, _fork_states(var_states))
+                _mark_loop_indexed_writes(item.stmt, var_states)
             elif isinstance(item, c_ast.Return):
                 if item.expr:
                     self._check_reads(item.expr, var_states)
@@ -619,16 +664,34 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
         # declarations before the dataflow runs (see collect_addressable), since
         # blocks are not visited in declaration order.
         self._addressable: set[str] = set()
+        # Arrays filled element-by-element via a variable index inside a loop
+        # (the loop-init idiom `for(k...) arr[k]=...`). The block-granular
+        # dataflow cannot prove the loop covers every element, so on the
+        # zero-trip path such an array stays uninit and a later read would be a
+        # false positive. Mirror the linear pass and treat these as initialized.
+        self._loop_filled: set[str] = set()
 
     def collect_addressable(self, func_node: c_ast.Node) -> None:
-        """Record every array/pointer local in the function as addressable."""
+        """Record every array/pointer local in the function as addressable, and
+        every array a loop fills via a variable index as loop-filled."""
         addressable = self._addressable
+        loop_filled = self._loop_filled
 
         class _AddrCollector(c_ast.NodeVisitor):
             def visit_Decl(self, d: c_ast.Decl) -> None:
                 if d.name and isinstance(d.type, (c_ast.ArrayDecl, c_ast.PtrDecl)):
                     addressable.add(d.name)
                 self.generic_visit(d)
+
+            def _visit_loop(self, n: c_ast.Node) -> None:
+                stmt = getattr(n, "stmt", None)
+                if stmt is not None:
+                    _collect_loop_indexed_writes(stmt, loop_filled)
+                self.generic_visit(n)
+
+            visit_For = _visit_loop
+            visit_While = _visit_loop
+            visit_DoWhile = _visit_loop
 
         _AddrCollector().visit(func_node)
 
@@ -729,7 +792,8 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
         if node is None:
             return
         if isinstance(node, c_ast.ID):
-            if node.name in state.uninit and node.name not in state.init:
+            if node.name in state.uninit and node.name not in state.init \
+                    and node.name not in self._loop_filled:
                 self.found_issues.append((
                     node,
                     node.name,
@@ -752,6 +816,16 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
         if isinstance(node, c_ast.FuncCall):
             # A nested call (e.g. x = foo(&y)) may itself have &var out-params.
             self._process_call_args(node, state)
+            return
+        if isinstance(node, c_ast.StructRef):
+            # A member access `x->field` / `x.field` reads the field of the
+            # object `x`; the FIELD identifier is not a local variable. Recursing
+            # generically would visit `node.field` as a bare ID and flag a
+            # same-named local (`int cq_len; ... p->ctrl_info.cq_len`) that was
+            # never actually read. Only the base object may be a tracked local,
+            # and for a nested member the base is itself a StructRef/ArrayRef, so
+            # recurse into node.name alone.
+            self._check_use(node.name, state)
             return
         if isinstance(node, c_ast.Assignment):
             # Nested assignment expression: the lvalue is written, not read

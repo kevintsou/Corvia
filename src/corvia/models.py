@@ -41,12 +41,28 @@ class Issue:
     context: Optional[str] = None
     misra_rule: Optional[MisraRule] = None
 
+    @staticmethod
+    def _normalize_file(file: str) -> str:
+        """Present a clean, forward-slash path in serialized output.
+
+        Preprocessor ``#line`` markers and path joins can leave doubled or
+        mixed separators (e.g. ``common\\\\source\\\\x.c``); collapse them so
+        consumers of the JSON/HTML/markdown report don't each have to. Purely
+        cosmetic — internal path comparisons resolve paths independently.
+        """
+        if not file or "\\" not in file:
+            return file
+        # Collapse doubled backslashes, then switch to forward slashes.
+        while "\\\\" in file:
+            file = file.replace("\\\\", "\\")
+        return file.replace("\\", "/")
+
     def to_dict(self) -> dict:
         d = {
             "checker_id": self.checker_id,
             "severity": self.severity.name,
             "message": self.message,
-            "file": self.file,
+            "file": self._normalize_file(self.file),
             "line": self.line,
             "column": self.column,
         }

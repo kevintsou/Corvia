@@ -264,7 +264,19 @@ def _render_ps5801(root: Path, reasons: Iterable[str], soc: Optional[str]) -> st
     if not include_dirs:
         template = _template_file("corvia.toml.ps5801")
         if template and template.is_file():
-            return _header("ps5801", reasons) + template.read_text(encoding="utf-8").replace("PS5801", soc_id)
+            body = template.read_text(encoding="utf-8").replace("PS5801", soc_id)
+            # The dynamic path below downgrades parser diagnostics to warnings
+            # (firmware preprocessing emits target-specific parser noise). Keep
+            # the static-fallback config consistent by injecting the same
+            # [severity] override if the packaged template lacks it.
+            if '"parser" = "warning"' not in body:
+                body += (
+                    '\n[severity]\n'
+                    '# Firmware preprocessing emits target-specific parser\n'
+                    '# diagnostics; keep the scan usable while still surfacing them.\n'
+                    '"parser" = "warning"\n'
+                )
+            return _header("ps5801", reasons) + body
 
     return _header("ps5801", reasons) + f"""# SOC_ID: {soc_id}
 

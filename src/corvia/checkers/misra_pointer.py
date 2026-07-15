@@ -27,24 +27,67 @@ class MisraPointerChecker(BaseChecker):
 
     def __init__(self) -> None:
         super().__init__()
-        # Names of variables declared with pointer (or array) type, so
-        # pointer arithmetic / comparison rules can recognize `p + 1`.
-        self._ptr_vars: set[str] = set()
+        # Scope stack mapping variable name -> is-pointer(bool). A *local*
+        # declaration of the same name shadows an outer one, so a `U32 s`
+        # inside a function correctly overrides a file-scope `char *s`. Only a
+        # variable whose *nearest* declaration is a pointer/array is treated as
+        # a pointer operand; integer-typed variables (including typedef'd ones
+        # like U32) are recorded as non-pointers so `s += 4U` / `i < m` are not
+        # mistaken for pointer arithmetic.
+        self._scopes: list[dict[str, bool]] = [{}]
         # Enumeration constants: an array dimension referencing only these is
         # a constant expression, NOT a variable-length array.
         self._enum_consts: set[str] = set()
         # Struct/union member declarations are field names, not variables;
-        # they must not pollute _ptr_vars.
+        # they must not pollute the scope map.
         self._struct_depth = 0
+        # Typedef name -> True when it ultimately names a pointer type. Lets us
+        # see through `U32`-style integer typedefs (which are NOT pointers) as
+        # well as `typedef struct x *X_PTR` (which are).
+        self._typedef_is_ptr: dict[str, bool] = {}
 
     def reset(self) -> None:
-        self._ptr_vars = set()
+        self._scopes = [{}]
         self._enum_consts = set()
         self._struct_depth = 0
+        self._typedef_is_ptr = {}
 
     def visit_FileAST(self, node: c_ast.FileAST) -> None:
         self._collect_enum_constants(node)
+        self._build_typedef_map(node)
+        self._scopes = [{}]
         self.generic_visit(node)
+
+    def _build_typedef_map(self, node: c_ast.FileAST) -> None:
+        """Record which typedef names ultimately resolve to a pointer type.
+
+        A typedef of an integer (``typedef unsigned int U32;``) is a
+        non-pointer; a typedef of a pointer (``typedef char *STR;``) is a
+        pointer. Iterated to a fixpoint so typedef-of-typedef chains resolve
+        regardless of declaration order.
+        """
+        raw: dict[str, c_ast.Node] = {}
+        for ext in node.ext or []:
+            if isinstance(ext, c_ast.Typedef) and ext.name:
+                raw[ext.name] = ext.type
+
+        def resolve(t: c_ast.Node) -> bool | None:
+            if isinstance(t, (c_ast.PtrDecl, c_ast.ArrayDecl)):
+                return True
+            if isinstance(t, c_ast.TypeDecl):
+                inner = t.type
+                if isinstance(inner, c_ast.IdentifierType) and len(inner.names) == 1 \
+                        and inner.names[0] in raw:
+                    return self._typedef_is_ptr.get(inner.names[0])
+                return False
+            return False
+
+        self._typedef_is_ptr = {}
+        for _ in range(4):
+            for name, t in raw.items():
+                r = resolve(t)
+                if r is not None:
+                    self._typedef_is_ptr[name] = r
 
     def _collect_enum_constants(self, node: c_ast.Node) -> None:
         if isinstance(node, c_ast.Enumerator) and node.name:
@@ -53,11 +96,35 @@ class MisraPointerChecker(BaseChecker):
             self._collect_enum_constants(child)
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
-        # Pointer variables are scoped per function: snapshot and restore so
-        # a pointer `p` in one function does not taint an int `p` elsewhere.
-        saved = set(self._ptr_vars)
+        # Pointer variables are scoped per function: push a fresh scope so a
+        # pointer `p` in one function does not taint an int `p` elsewhere, and
+        # a local declaration shadows a same-named file-scope variable.
+        scope: dict[str, bool] = {}
+        # Register parameters in the function scope.
+        t = node.decl.type if node.decl else None
+        while isinstance(t, c_ast.PtrDecl):
+            t = t.type
+        if isinstance(t, c_ast.FuncDecl) and t.args:
+            for p in t.args.params or []:
+                if isinstance(p, c_ast.Decl) and p.name:
+                    scope[p.name] = self._decl_is_pointer(p.type)
+        self._scopes.append(scope)
         self.generic_visit(node)
-        self._ptr_vars = saved
+        self._scopes.pop()
+
+    def _decl_is_pointer(self, type_node: c_ast.Node) -> bool:
+        """Whether a declaration's type is a pointer/array operand.
+
+        Arrays decay to pointers in arithmetic contexts, so they count. A bare
+        identifier naming an integer typedef (U32, ...) is NOT a pointer; one
+        naming a pointer typedef is."""
+        if isinstance(type_node, (c_ast.PtrDecl, c_ast.ArrayDecl)):
+            return True
+        if isinstance(type_node, c_ast.TypeDecl):
+            inner = type_node.type
+            if isinstance(inner, c_ast.IdentifierType) and len(inner.names) == 1:
+                return bool(self._typedef_is_ptr.get(inner.names[0], False))
+        return False
 
     def visit_Struct(self, node: c_ast.Struct) -> None:
         # Rule 18.7: a flexible array member is an incomplete array type as
@@ -85,9 +152,10 @@ class MisraPointerChecker(BaseChecker):
         self._struct_depth -= 1
 
     def visit_Decl(self, node: c_ast.Decl) -> None:
-        if node.name and self._struct_depth == 0 \
-                and isinstance(node.type, (c_ast.PtrDecl, c_ast.ArrayDecl)):
-            self._ptr_vars.add(node.name)
+        if node.name and self._struct_depth == 0 and not self._is_typedef(node):
+            # Record every variable (pointer or not) in the current scope so a
+            # local integer declaration shadows an outer same-named pointer.
+            self._scopes[-1][node.name] = self._decl_is_pointer(node.type)
 
         if node.type:
             ptr_depth = self._pointer_depth(node.type)
@@ -179,11 +247,25 @@ class MisraPointerChecker(BaseChecker):
             return 0
         return 0
 
+    def _is_typedef(self, node: c_ast.Decl) -> bool:
+        storage = node.storage or []
+        return "typedef" in storage
+
+    def _lookup(self, name: str) -> bool | None:
+        for scope in reversed(self._scopes):
+            if name in scope:
+                return scope[name]
+        return None
+
     def _is_pointer_expr(self, node: c_ast.Node) -> bool:
         if isinstance(node, c_ast.UnaryOp) and node.op == "&":
             return True
         if isinstance(node, c_ast.ID):
-            return node.name in self._ptr_vars
+            # Only a variable whose nearest declaration is a pointer/array is a
+            # pointer operand. Unknown names (never declared here) are treated
+            # as non-pointers to avoid false pointer-arithmetic reports on
+            # ordinary integer variables.
+            return self._lookup(node.name) is True
         if isinstance(node, c_ast.Cast) and node.to_type is not None:
             t = node.to_type
             if isinstance(t, c_ast.Typename):
