@@ -278,3 +278,83 @@ def test_macro_expansion_121_artifacts_dropped():
     )
     kept = AnalysisEngine._drop_macro_expansion_artifacts([artifact, genuine, no_ctx])
     assert genuine in kept and no_ctx in kept and artifact not in kept
+
+
+# ---------------------------------------------------------------------------
+# Round 3: early-exit NULL guard idiom (TF-A bl1_fwu.c pattern)
+# ---------------------------------------------------------------------------
+
+_MAYBE_NULL_HELPER = """
+    typedef struct desc { int state; } desc_t;
+    desc_t *get_desc(int id)
+    {
+        static desc_t d;
+        if (id < 0) {
+            return (desc_t *)0;
+        }
+        return &d;
+    }
+"""
+
+
+def test_early_exit_null_guard_suppresses_deref(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    int use(int id)
+    {
+        desc_t *d = get_desc(id);
+        if (d == (desc_t *)0) {
+            return -1;
+        }
+        d->state = 1;
+        return 0;
+    }
+    """)
+    assert not [i for i in issues if "Dereference" in i.message]
+
+
+def test_early_exit_or_guard_narrows_all_disjuncts(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    int use2(int id)
+    {
+        desc_t *a = get_desc(id);
+        desc_t *b = get_desc(id + 1);
+        if ((a == (desc_t *)0) || (b == (desc_t *)0)) {
+            return -1;
+        }
+        a->state = 1;
+        b->state = 2;
+        return 0;
+    }
+    """)
+    assert not [i for i in issues if "Dereference" in i.message]
+
+
+def test_non_terminating_null_guard_still_reports(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    void log_msg(void);
+    int use3(int id)
+    {
+        desc_t *d = get_desc(id);
+        if (d == (desc_t *)0) {
+            log_msg();
+        }
+        d->state = 1;
+        return 0;
+    }
+    """)
+    assert [i for i in issues if "Dereference of NULL pointer 'd'" in i.message]
+
+
+def test_deref_inside_null_branch_still_reports(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    int use4(int id)
+    {
+        desc_t *d = get_desc(id);
+        if (d == (desc_t *)0) {
+            d->state = 9;
+            return -1;
+        }
+        return 0;
+    }
+    """)
+    assert [i for i in issues if "Dereference of NULL pointer 'd'" in i.message]
