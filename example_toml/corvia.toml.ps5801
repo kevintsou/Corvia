@@ -135,7 +135,11 @@ include = [
 
 # Preprocessor defines — match build defaults.
 # ARM_ARCH_MAJOR=7 selects the ARMv7 / Cortex-A15 (aarch32) path in the TF-A headers.
-cpp_args = "-DSOC_ID=PS5801 -DPS5801=2 -DPT5801=1 -DARM_ARCH_MAJOR=7"
+# ENABLE_ASSERTIONS=1 keeps assert(e) expanded to `(e) ? (void)0 : __assert(...)`
+# instead of collapsing to `((void)0)` with e discarded — Corvia's null-deref
+# checker (v0.5.5+) reads that expansion to recognize assert(p != NULL) as a
+# non-null guard, matching the actual assertion-enabled build config.
+cpp_args = "-DSOC_ID=PS5801 -DPS5801=2 -DPT5801=1 -DARM_ARCH_MAJOR=7 -DENABLE_ASSERTIONS=1"
 
 [output]
 format = "text"
