@@ -588,6 +588,15 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.5.5 (2026-07-15)
+Further false-positive fixes found via a targeted rescan of a TF-A BL1 tree after v0.5.4's fixes and a `corvia.toml` include-path completion (`spi_bcfg.h`, `drivers/phison/framework` source tree — parser errors on that tree dropped 36 → 8, the remainder being an unrelated mbedtls `bignum.h` parse issue):
+- **`null-deref` now recognizes `assert(p != NULL)` as a non-null guard.** TF-A code (`bl1_context_mgmt.c`, `bl1_fwu.c`) commonly guards a dereference with `assert(p != NULL)` instead of an early-exit `if`. With `ENABLE_ASSERTIONS` defined, the preprocessor expands `assert(e)` to the bare statement `(e) ? (void)0 : __assert(...);`; the checker now narrows the condition's variables to non-null past that statement, the same way it already does for `if (p == NULL) { return; }`. Without `ENABLE_ASSERTIONS`, `assert(e)` expands to `((void)0)` and `e` is discarded entirely by the preprocessor — that case remains out of scope (unrecoverable at the AST level). Eliminated 10 of 11 null-deref findings on a 7-file BL1 rescan; the 11th was a genuine missing-NULL-check bug the checker correctly still reports.
+- **`misra-expr` (12.3) no longer flags function-call argument lists as the comma operator.**
+- **`uninit-var` no longer flags `init(&var)`-style out-parameters** (the address-of argument is now treated as an initializing write unless a function summary proves otherwise), nor function-scope `static` locals (zero-initialized by the C standard), nor a `for`-loop next-expression variable assigned in the loop body.
+- **`misra-identifiers` (5.1/5.6/5.8/5.9) no longer compares project symbols against host toolchain / bundled libc-stub headers** (MinGW, ARM bare-metal, `fake_libc_include`) — those are not user definitions.
+- **`misra-pointer-conv` (11.4/11.6) now resolves pointer typedefs** (`typedef struct x *X_PTR`) instead of misreading them as an integer type, which previously turned a valid `void*`→object-pointer cast into a spurious pointer/integer + void/arithmetic violation pair.
+- Progress reporting during the checking phase is now per source file instead of per (file × checker) pair, so large trees no longer appear to "balloon" to files×checkers in the progress bar.
+
 ### v0.5.4 (2026-07-15)
 Round-2 false-positive elimination, validated by a full before/after rescan of a 94-file firmware tree (8,873 → 2,564 issues, −71%; out-of-range line numbers 65 → 0; all audited true positives retained). Post-release manual audit of every remaining ERROR-level uninit-var/misra-func finding on that tree confirmed 20/20 true positives — no residual false-positive patterns:
 - **buffer-overflow**: parameters and local non-array declarations now shadow same-named file-scope arrays (cpp-inlined headers declaring `r[2]` no longer bounds-check a `U8 *r` parameter)
