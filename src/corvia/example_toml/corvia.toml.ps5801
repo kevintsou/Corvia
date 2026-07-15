@@ -100,6 +100,11 @@ include = [
     "bl1_32/trusted-firmware-a/include/drivers/phison/uart",
     "bl1_32/trusted-firmware-a/include/drivers/phison/ufs",
 
+    # Framework SOURCE tree: framework_libs.h pulls in prefixed headers such as
+    # "landmark/framework_efuse_landmark.h" that live in the driver source tree
+    # (drivers/phison/framework/...), not the include/ tree above.
+    "bl1_32/trusted-firmware-a/drivers/phison/framework",
+
     # Phison platform headers (platform_def.h, phison_scatter.h, efuse_common.h,
     # plat_bl1_libs.h, vuc/*, sec/*, top/*)
     "bl1_32/trusted-firmware-a/plat/phison/phison/include",
@@ -116,10 +121,14 @@ include = [
     # mbedtls + psa (auth / crypto modules) — lives outside the TF-A tree
     "bl1_32/mbedtls/include",
 
-    # ---- Optional: uncomment only if the analysis set also includes BL2 /
+    # BL2 SPI board-config headers — adm_vuc.h does #include "spi_bcfg.h",
+    # which lives here. Needed even for the BL1-centric analysis set because
+    # BL1 vendor/adm_vuc headers pull it in.
+    "bl1_32/trusted-firmware-a/plat/phison/common/bl2",
+    "bl1_32/trusted-firmware-a/plat/phison/common/bl2/spi_bcfg",
+
+    # ---- Optional: uncomment only if the analysis set also includes
     # ---- SP_MIN / aarch64 sources (they are NOT part of the aarch32 BL1 build):
-    # "bl1_32/trusted-firmware-a/plat/phison/common/bl2",
-    # "bl1_32/trusted-firmware-a/plat/phison/common/bl2/spi_bcfg",
     # "bl1_32/trusted-firmware-a/include/bl32/sp_min",
     # "bl1_32/trusted-firmware-a/include/lib/cpus/aarch64",
 ]
