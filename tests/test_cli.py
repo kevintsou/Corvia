@@ -4,7 +4,13 @@ from __future__ import annotations
 
 import json
 
+from corvia import __version__
 from corvia.cli import main
+
+
+def _versioned_toml(content: str) -> str:
+    """Prepend the required corvia_config_version comment to a TOML string."""
+    return f"# corvia_config_version: {__version__}\n{content}"
 
 
 def test_cli_writes_context_and_symbol_graph(tmp_path):
@@ -68,13 +74,13 @@ def test_emit_symbols_falls_back_when_cpp_parse_fails(tmp_path):
         encoding="utf-8",
     )
     (tmp_path / "corvia.toml").write_text(
-        """
+        _versioned_toml("""
 [paths]
 use_cpp = true
 
 [severity]
 "parser" = "warning"
-""",
+"""),
         encoding="utf-8",
     )
 
@@ -115,13 +121,13 @@ def test_emit_symbols_uses_regex_fallback_for_parser_hostile_file(tmp_path):
         encoding="utf-8",
     )
     (tmp_path / "corvia.toml").write_text(
-        """
+        _versioned_toml("""
 [paths]
 use_cpp = true
 
 [severity]
 "parser" = "warning"
-""",
+"""),
         encoding="utf-8",
     )
 
@@ -154,7 +160,7 @@ def _write_demo_source(tmp_path):
 def test_format_flag_overrides_config_output_format(tmp_path):
     """--format=json (equals form) must win over output.format in corvia.toml."""
     src = _write_demo_source(tmp_path)
-    (tmp_path / "corvia.toml").write_text('[output]\nformat = "md"\n', encoding="utf-8")
+    (tmp_path / "corvia.toml").write_text(_versioned_toml('[output]\nformat = "md"\n'), encoding="utf-8")
     out = tmp_path / "report.out"
 
     rc = main(
@@ -175,7 +181,7 @@ def test_format_flag_overrides_config_output_format(tmp_path):
 def test_config_output_format_used_when_no_format_flag(tmp_path):
     """Without -f/--format, output.format from corvia.toml applies."""
     src = _write_demo_source(tmp_path)
-    (tmp_path / "corvia.toml").write_text('[output]\nformat = "md"\n', encoding="utf-8")
+    (tmp_path / "corvia.toml").write_text(_versioned_toml('[output]\nformat = "md"\n'), encoding="utf-8")
     out = tmp_path / "report.out"
 
     rc = main(
