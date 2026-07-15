@@ -263,10 +263,17 @@ class UninitVarsChecker(BaseChecker):
                         self._check_reads(item.init, var_states)
                 if item.cond:
                     self._check_reads(item.cond, var_states)
-                if item.next:
-                    self._check_reads(item.next, var_states)
+                # Execution order is init -> cond -> body -> next: a variable
+                # assigned in the body (e.g. `nbytes = ops->read(...)`) is
+                # initialized by the time the next-expression (`left -= nbytes`)
+                # runs, so the body must be scanned BEFORE the next-expression.
                 if item.stmt and isinstance(item.stmt, c_ast.Compound) and item.stmt.block_items:
-                    self._scan_block(item.stmt.block_items, _fork_states(var_states))
+                    body_states = _fork_states(var_states)
+                    self._scan_block(item.stmt.block_items, body_states)
+                    if item.next:
+                        self._check_reads(item.next, body_states)
+                elif item.next:
+                    self._check_reads(item.next, var_states)
                 _mark_loop_indexed_writes(item.stmt, var_states)
             elif isinstance(item, c_ast.Return):
                 if item.expr:
@@ -321,6 +328,13 @@ class UninitVarsChecker(BaseChecker):
             struct_fields=struct_fields or [],
             is_pointer=is_pointer,
         )
+
+        if "static" in (decl.storage or []):
+            # Function-scope statics have static storage duration and are
+            # zero-initialized by the C standard — never uninitialized.
+            state.fully_initialized = True
+            var_states[decl.name] = state
+            return
 
         if decl.init is None:
             var_states[decl.name] = state
@@ -728,7 +742,14 @@ class _UninitCFGAnalysis(ForwardAnalysis[_UninitCFGState]):
         if isinstance(stmt, c_ast.Decl) and stmt.name:
             if isinstance(stmt.type, (c_ast.ArrayDecl, c_ast.PtrDecl)):
                 self._addressable.add(stmt.name)
-            if stmt.init is None:
+            if "static" in (stmt.storage or []):
+                # Function-scope statics have static storage duration and are
+                # zero-initialized by the C standard — never uninitialized.
+                state.init.add(stmt.name)
+                state.uninit.discard(stmt.name)
+                if stmt.init is not None:
+                    self._check_use(stmt.init, state)
+            elif stmt.init is None:
                 state.uninit.add(stmt.name)
             else:
                 state.init.add(stmt.name)

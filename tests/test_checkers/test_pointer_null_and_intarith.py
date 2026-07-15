@@ -358,3 +358,58 @@ def test_deref_inside_null_branch_still_reports(tmp_path):
     }
     """)
     assert [i for i in issues if "Dereference of NULL pointer 'd'" in i.message]
+
+
+def test_static_local_is_zero_initialized(tmp_path):
+    """Function-scope statics are zero-initialized by the C standard."""
+    issues = _run_checker("uninit-var", tmp_path, """
+    void panic(void);
+    void init_once(void)
+    {
+        static int ready;
+        static unsigned char heap[16];
+        if (!ready) {
+            ready = 1;
+        }
+        if (heap[0] != 0U) {
+            panic();
+        }
+    }
+    """)
+    assert not [i for i in issues if "before initialization" in i.message]
+
+
+def test_for_next_expression_reads_body_assignment(tmp_path):
+    """for (...; left -= nbytes): nbytes is assigned in the body before the
+    next-expression ever runs (io_block.c pattern)."""
+    issues = _run_checker("uninit-var", tmp_path, """
+    unsigned int read_block(void);
+    unsigned int consume(unsigned int length)
+    {
+        unsigned int left;
+        unsigned int nbytes;
+        unsigned int count = 0U;
+        for (left = length; left > 0U; left -= nbytes) {
+            nbytes = read_block();
+            count += nbytes;
+        }
+        return count;
+    }
+    """)
+    assert not [i for i in issues if "'nbytes'" in i.message]
+
+
+def test_for_next_reading_never_assigned_var_still_reports(tmp_path):
+    issues = _run_checker("uninit-var", tmp_path, """
+    unsigned int consume2(unsigned int length)
+    {
+        unsigned int left;
+        unsigned int nbytes;
+        unsigned int count = 0U;
+        for (left = length; left > 0U; left -= nbytes) {
+            count += 1U;
+        }
+        return count;
+    }
+    """)
+    assert [i for i in issues if "'nbytes'" in i.message]
