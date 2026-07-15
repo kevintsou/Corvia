@@ -581,7 +581,46 @@ def _validate(
     return config
 
 
+def _extract_config_version(toml_text: str) -> Optional[str]:
+    """Extract corvia_config_version from TOML file text.
+
+    Looks for a comment in the first few lines matching:
+    # corvia_config_version: X.Y.Z
+    """
+    # Check first 10 lines for version comment (covers typical headers)
+    lines = toml_text.split('\n')[:10]
+    for line in lines:
+        m = re.search(r'#\s*corvia_config_version:\s*([\d.]+)', line)
+        if m:
+            return m.group(1)
+    return None
+
+
+def _check_config_version(
+    config_version: Optional[str], tool_version: str, config_path: Path
+) -> None:
+    """Check if config version matches tool version.
+
+    Raises ConfigError if version is missing or mismatched.
+    """
+    if config_version is None:
+        raise ConfigError(
+            f"{config_path}: missing corvia_config_version comment.\n"
+            f"Current tool version is {tool_version}.\n"
+            f"Run `corvia config init {config_path.parent} --force` to update your config."
+        )
+    if config_version != tool_version:
+        raise ConfigError(
+            f"{config_path}: corvia_config_version is {config_version}, "
+            f"but tool version is {tool_version}.\n"
+            f"Run `corvia config init {config_path.parent} --force` to update your config, "
+            f"or use --no-config to skip config file discovery."
+        )
+
+
 def load(path: str | Path, target_root: str | Path | None = None) -> CorviaConfig:
+    from corvia import __version__
+
     if _toml is None:
         raise ConfigError(
             "TOML support requires Python 3.11+ or `pip install tomli`"
@@ -589,6 +628,11 @@ def load(path: str | Path, target_root: str | Path | None = None) -> CorviaConfi
     p = Path(path)
     with p.open("rb") as f:
         data = _toml.load(f)
+    # Check version before processing config
+    with p.open("r", encoding="utf-8") as f:
+        toml_text = f.read()
+    config_version = _extract_config_version(toml_text)
+    _check_config_version(config_version, __version__, p)
     root = Path(target_root).resolve() if target_root is not None else None
     if root is not None and root.is_file():
         root = root.parent

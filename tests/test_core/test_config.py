@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+from corvia import __version__
 from corvia.core.config import (
     ConfigError,
     discover,
@@ -24,8 +25,14 @@ def _write(tmp_path: Path, name: str, content: str) -> Path:
     return p
 
 
+def _write_toml(tmp_path: Path, name: str, content: str) -> Path:
+    """Write a TOML config file with version comment prepended."""
+    versioned_content = f"# corvia_config_version: {__version__}\n{content}"
+    return _write(tmp_path, name, versioned_content)
+
+
 def test_load_minimal(tmp_path: Path):
-    cfg = _write(tmp_path, "corvia.toml", "")
+    cfg = _write_toml(tmp_path, "corvia.toml", "")
     config = load(cfg)
     assert config.enabled_checkers is None
     assert config.disabled_checkers == []
@@ -33,7 +40,7 @@ def test_load_minimal(tmp_path: Path):
 
 
 def test_load_full_schema(tmp_path: Path):
-    cfg = _write(
+    cfg = _write_toml(
         tmp_path,
         "corvia.toml",
         """
@@ -106,7 +113,7 @@ def test_parse_cproject_include_paths_uses_platform_separators(tmp_path: Path):
 
 
 def test_invalid_severity_value_rejected(tmp_path: Path):
-    cfg = _write(
+    cfg = _write_toml(
         tmp_path,
         "corvia.toml",
         """
@@ -131,7 +138,7 @@ def test_severity_lookup_prefers_rule_over_checker():
 def test_discover_walks_upward(tmp_path: Path):
     nested = tmp_path / "a" / "b" / "c"
     nested.mkdir(parents=True)
-    _write(tmp_path, "corvia.toml", "[checkers]\ndisabled = ['x']\n")
+    _write_toml(tmp_path, "corvia.toml", "[checkers]\ndisabled = ['x']\n")
     config = discover(nested)
     assert config is not None
     assert config.disabled_checkers == ["x"]
@@ -149,7 +156,7 @@ def test_engine_disables_checkers_via_config(tmp_path: Path):
         "src.c",
         "union variant { int i; float f; };\nvoid use(void) { union variant v; v.i = 1; (void)v; }\n",
     )
-    cfg_file = _write(
+    cfg_file = _write_toml(
         tmp_path,
         "corvia.toml",
         '[checkers]\ndisabled = ["misra-unions"]\n',
@@ -166,7 +173,7 @@ def test_engine_severity_override_silences_via_off(tmp_path: Path):
         "src.c",
         "union variant { int i; };\nvoid use(void) { union variant v; v.i = 1; (void)v; }\n",
     )
-    cfg_file = _write(
+    cfg_file = _write_toml(
         tmp_path,
         "corvia.toml",
         '[severity]\n"19.2" = "off"\n',
@@ -186,7 +193,7 @@ def test_engine_severity_override_promotes(tmp_path: Path):
         "src.c",
         "union variant { int i; };\nvoid use(void) { union variant v; v.i = 1; (void)v; }\n",
     )
-    cfg_file = _write(
+    cfg_file = _write_toml(
         tmp_path,
         "corvia.toml",
         '[severity]\n"19.2" = "error"\n',
@@ -202,7 +209,7 @@ def test_engine_severity_override_promotes(tmp_path: Path):
 
 def test_engine_applies_severity_override_to_parser_errors(tmp_path: Path):
     src = _write(tmp_path, "src.c", '#include "missing_header.h"\nint ok(void) { return 0; }\n')
-    cfg_file = _write(
+    cfg_file = _write_toml(
         tmp_path,
         "corvia.toml",
         """
@@ -242,7 +249,7 @@ def test_include_target_root_variable(tmp_path: Path):
     config_dir.mkdir()
     tree = tmp_path / "checkout_a"
     (tree / "common" / "sal").mkdir(parents=True)
-    cfg = _write(config_dir, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/common/sal"]\n')
+    cfg = _write_toml(config_dir, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/common/sal"]\n')
 
     config = load(cfg, target_root=tree)
 
@@ -250,20 +257,20 @@ def test_include_target_root_variable(tmp_path: Path):
 
 
 def test_include_config_dir_variable(tmp_path: Path):
-    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["${CONFIG_DIR}/third_party"]\n')
+    cfg = _write_toml(tmp_path, "corvia.toml", '[paths]\ninclude = ["${CONFIG_DIR}/third_party"]\n')
     config = load(cfg, target_root=tmp_path / "elsewhere")
     assert config.include_dirs == [str(tmp_path / "third_party")]
 
 
 def test_include_relative_still_anchors_to_config_dir(tmp_path: Path):
     """Plain relative entries keep the historical config-dir anchoring."""
-    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["third_party"]\n')
+    cfg = _write_toml(tmp_path, "corvia.toml", '[paths]\ninclude = ["third_party"]\n')
     config = load(cfg, target_root=tmp_path / "elsewhere")
     assert config.include_dirs == [str((tmp_path / "third_party").resolve())]
 
 
 def test_target_root_variable_without_target_falls_back_with_warning(tmp_path: Path):
-    cfg = _write(tmp_path, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
+    cfg = _write_toml(tmp_path, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
     with pytest.warns(UserWarning, match="TARGET_ROOT"):
         config = load(cfg)
     assert config.include_dirs == [str(tmp_path / "inc")]
@@ -274,7 +281,7 @@ def test_discover_passes_target_root(tmp_path: Path):
     repo = tmp_path / "repo"
     sub = repo / "src"
     (sub / "inc").mkdir(parents=True)
-    _write(repo, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
+    _write_toml(repo, "corvia.toml", '[paths]\ninclude = ["${TARGET_ROOT}/inc"]\n')
 
     config = discover(sub)
 
@@ -284,7 +291,7 @@ def test_discover_passes_target_root(tmp_path: Path):
 
 def test_discover_stops_at_repo_boundary(tmp_path: Path):
     """A corvia.toml above the target's git repo must not be picked up."""
-    _write(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')  # foreign config
+    _write_toml(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')  # foreign config
     repo = tmp_path / "project"
     (repo / ".git").mkdir(parents=True)
     src = repo / "src"
@@ -299,7 +306,7 @@ def test_discover_finds_config_at_repo_root(tmp_path: Path):
     (repo / ".git").mkdir(parents=True)
     src = repo / "src"
     src.mkdir()
-    _write(repo, "corvia.toml", '[output]\nformat = "json"\n')
+    _write_toml(repo, "corvia.toml", '[output]\nformat = "json"\n')
 
     config = discover(src)
 
@@ -309,9 +316,49 @@ def test_discover_finds_config_at_repo_root(tmp_path: Path):
 
 def test_discover_respects_gitfile_worktree_boundary(tmp_path: Path):
     """.git may be a *file* (worktrees/submodules) — still a boundary."""
-    _write(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')
+    _write_toml(tmp_path, "corvia.toml", '[output]\nformat = "html"\n')
     repo = tmp_path / "wt"
     repo.mkdir()
     (repo / ".git").write_text("gitdir: ../real/.git/worktrees/wt\n")
 
     assert discover(repo) is None
+
+
+# ---------------------------------------------------------------------------
+# Config version checking
+# ---------------------------------------------------------------------------
+
+
+def test_config_version_match(tmp_path: Path):
+    """Config with matching version loads normally."""
+    from corvia import __version__
+
+    cfg = _write(
+        tmp_path,
+        "corvia.toml",
+        f"# corvia_config_version: {__version__}\n[paths]\nuse_cpp = true\n",
+    )
+    config = load(cfg)
+    assert config.use_cpp is True
+
+
+def test_config_version_mismatch(tmp_path: Path):
+    """Config with mismatched version raises ConfigError."""
+    cfg = _write(
+        tmp_path,
+        "corvia.toml",
+        "# corvia_config_version: 0.5.5\n[paths]\nuse_cpp = true\n",
+    )
+    with pytest.raises(ConfigError, match="corvia_config_version is 0.5.5"):
+        load(cfg)
+
+
+def test_config_version_missing(tmp_path: Path):
+    """Config without version comment raises ConfigError."""
+    cfg = _write(
+        tmp_path,
+        "corvia.toml",
+        "[paths]\nuse_cpp = true\n",
+    )
+    with pytest.raises(ConfigError, match="missing corvia_config_version"):
+        load(cfg)
