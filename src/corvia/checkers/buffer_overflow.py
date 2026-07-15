@@ -31,20 +31,26 @@ class BufferOverflowChecker(BaseChecker):
         # caller-provided buffer: it has NO statically known size, so indexing
         # through it must never be flagged as out-of-bounds.
         self._param_names: set[str] = set()
+        # Local non-array declarations (e.g. `U8 *r`) that shadow a same-named
+        # file-scope array: the global's size must not apply inside here.
+        self._local_shadows: set[str] = set()
 
     def reset(self) -> None:
         self._arrays = {}
         self._global_arrays = {}
         self._in_function = False
         self._param_names = set()
+        self._local_shadows = set()
 
     def visit_FuncDef(self, node: c_ast.FuncDef) -> None:
         self._arrays.clear()
         self._param_names = self._collect_param_names(node)
+        self._local_shadows = set()
         self._in_function = True
         self.generic_visit(node)
         self._in_function = False
         self._param_names = set()
+        self._local_shadows = set()
 
     def _collect_param_names(self, node: c_ast.FuncDef) -> set[str]:
         """Return the names of the function's parameters.
@@ -76,6 +82,10 @@ class BufferOverflowChecker(BaseChecker):
                     self._arrays[node.name] = size
                 else:
                     self._global_arrays[node.name] = size
+        elif self._in_function and node.name and not isinstance(node.type, c_ast.ArrayDecl):
+            # A local non-array declaration shadows any same-named file-scope
+            # array for the rest of this function.
+            self._local_shadows.add(node.name)
         self.generic_visit(node)
 
     def visit_Assignment(self, node: c_ast.Assignment) -> None:
@@ -91,6 +101,11 @@ class BufferOverflowChecker(BaseChecker):
     def visit_ArrayRef(self, node: c_ast.ArrayRef) -> None:
         if isinstance(node.name, c_ast.ID):
             name = node.name.name
+            # A parameter or local non-array shadows a same-named file-scope
+            # array: its size says nothing about what `name` points at here.
+            if name in self._param_names or name in self._local_shadows:
+                self.generic_visit(node)
+                return
             size = self._arrays.get(name)
             if size is None and name not in self._arrays:
                 size = self._global_arrays.get(name)

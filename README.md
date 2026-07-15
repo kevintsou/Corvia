@@ -588,6 +588,13 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### Unreleased
+Round-2 false-positive elimination, validated by a full before/after rescan of a 94-file firmware tree (8,873 → 2,564 issues, −71%; out-of-range line numbers 65 → 0; all audited true positives retained):
+- **buffer-overflow**: parameters and local non-array declarations now shadow same-named file-scope arrays (cpp-inlined headers declaring `r[2]` no longer bounds-check a `U8 *r` parameter)
+- **misra-func 17.4**: `else if` chains are recognized — a bare `If` in `iffalse` recurses instead of failing the all-paths-return proof (88 → 2 ERRORs on the firmware tree)
+- **Macro-expansion noise**: Rule 12.1 findings whose flagged operators do not appear on the reported source line are dropped — under `--use-cpp` a single unparenthesized register-macro expression no longer reports once per call site (6,627 → 752)
+- **Type-stub attribution**: symbols from the injected stub preamble map to a sentinel file in both the non-cpp and cpp-fallback parse paths, so stub scaffolding (`NULL_SIM`, `L4KTableBitMap`, …) never produces issues in user files (eliminated all 65 beyond-end-of-file findings and 66 misra-unions artifacts)
+
 ### v0.5.3 (2026-07-15)
 False-positive elimination driven by a line-by-line verification of a real firmware scan (2047 issues audited):
 - **Coord double-remap fixed (root cause of scattered/out-of-range line numbers)**: pycparser AST nodes share Coord objects; the stub-offset remapper now maps each Coord exactly once instead of once per referencing node — issues no longer land on unrelated lines, comment lines, or beyond end-of-file

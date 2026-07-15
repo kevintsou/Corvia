@@ -140,3 +140,141 @@ def test_18_pointer_compound_assign_still_reported(parse_c):
     code = "void f(void) { char buf[16]; char *v = buf; v += 12U; (void)v; }"
     issues = _check(MisraPointerChecker, parse_c, code)
     assert "18.4" in _rules(issues), [i.message for i in issues]
+
+
+# ---------------------------------------------------------------------------
+# Round 2: FPs exposed by the v0.5.3 rescan of secure_boot
+# ---------------------------------------------------------------------------
+
+
+def _run_checker(checker_id: str, tmp_path, code: str):
+    from corvia.engine import AnalysisEngine
+
+    src = tmp_path / "case.c"
+    src.write_text(code)
+    return AnalysisEngine(checker_ids=[checker_id]).analyze([str(src)]).issues
+
+
+def test_param_shadows_global_array_no_bounds_check(tmp_path):
+    """cpp-inlined headers can declare a global `r[2]`; a parameter named r
+    inside a function must shadow it (poly_compress FP)."""
+    issues = _run_checker("buffer-overflow", tmp_path, """
+        typedef unsigned char U8;
+        U8 r[2];
+        void poly_compress(U8 *r, const U8 *t)
+        {
+            r[0] = t[0];
+            r[4] = t[6];
+        }
+    """)
+    assert not [i for i in issues if "out of bounds" in i.message]
+
+
+def test_local_pointer_shadows_global_array(tmp_path):
+    issues = _run_checker("buffer-overflow", tmp_path, """
+        typedef unsigned char U8;
+        U8 r[2];
+        U8 *get_buf(void);
+        void f(void)
+        {
+            U8 *r = get_buf();
+            r[5] = 1U;
+        }
+    """)
+    assert not [i for i in issues if "out of bounds" in i.message]
+
+
+def test_global_array_oob_still_reported_without_shadow(tmp_path):
+    issues = _run_checker("buffer-overflow", tmp_path, """
+        typedef unsigned char U8;
+        U8 g_buf[2];
+        void f(void)
+        {
+            g_buf[2] = 1U;
+        }
+    """)
+    assert [i for i in issues if "out of bounds" in i.message]
+
+
+def test_else_if_chain_all_paths_return_no_17_4(tmp_path):
+    """if / else if / else where every branch returns (dal_flow_i2c FP)."""
+    issues = _run_checker("misra-func", tmp_path, """
+        typedef unsigned short U16;
+        typedef unsigned char U8;
+        U16 get_ht(U8 pd)
+        {
+            if (pd == 0U)
+            {
+                return 1U;
+            }
+            else if (pd == 1U)
+            {
+                return 2U;
+            }
+            else
+            {
+                return 0U;
+            }
+        }
+    """)
+    assert not [i for i in issues if i.misra_rule and i.misra_rule.rule_id == "17.4"]
+
+
+def test_else_if_chain_missing_else_still_17_4(tmp_path):
+    issues = _run_checker("misra-func", tmp_path, """
+        typedef unsigned short U16;
+        typedef unsigned char U8;
+        U16 get_ht(U8 pd)
+        {
+            if (pd == 0U)
+            {
+                return 1U;
+            }
+            else if (pd == 1U)
+            {
+                return 2U;
+            }
+        }
+    """)
+    assert [i for i in issues if i.misra_rule and i.misra_rule.rule_id == "17.4"]
+
+
+def test_stub_symbols_not_attributed_to_user_file(tmp_path):
+    """Type-stub scaffolding (NULL_SIM, TRUE_SIM enums, L4KTableBitMap union)
+    must not produce issues attributed to the user's file — previously they
+    landed on lines beyond end-of-file in short files."""
+    from corvia.engine import AnalysisEngine
+
+    src = tmp_path / "tiny.c"
+    src.write_text("int conf_get(void)\n{\n    return 1;\n}\n")
+    n_lines = 4
+
+    result = AnalysisEngine(
+        checker_ids=["misra-decl", "misra-identifiers", "misra-unions"]
+    ).analyze([str(src)])
+    offenders = [i for i in result.issues if i.line > n_lines]
+    assert not offenders, [(i.checker_id, i.line, i.message[:50]) for i in offenders]
+
+
+def test_macro_expansion_121_artifacts_dropped():
+    from corvia.engine import AnalysisEngine
+    from corvia.models import Issue, MisraCategory, MisraRule, Severity
+
+    rule = MisraRule("12.1", MisraCategory.ADVISORY, "precedence")
+    artifact = Issue(
+        checker_id="misra-expr", severity=Severity.INFO,
+        message="Operator precedence may be unclear: '>>' within '+'",
+        file="a.c", line=39, context="w_spi_CMD_OD_2(0x0DU);", misra_rule=rule,
+    )
+    genuine = Issue(
+        checker_id="misra-expr", severity=Severity.INFO,
+        message="Operator precedence may be unclear: '>>' within '+'",
+        file="a.c", line=40, context="x = a >> 2 + b;", misra_rule=rule,
+    )
+    no_ctx = Issue(
+        checker_id="misra-expr", severity=Severity.INFO,
+        message="Operator precedence may be unclear: '>>' within '+'",
+        file="a.c", line=41, context=None, misra_rule=rule,
+    )
+    kept = AnalysisEngine._drop_macro_expansion_artifacts([artifact, genuine, no_ctx])
+    assert genuine in kept and no_ctx in kept and artifact not in kept

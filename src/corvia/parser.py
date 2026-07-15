@@ -524,15 +524,26 @@ def _remap_ast(ast: c_ast.FileAST, line_map: list[tuple[int, str]], target_file:
     _CoordRemapper(line_map, target_file).visit(ast)
 
 
+# Sentinel "file" for coordinates inside the injected type-stub preamble.
+# Symbols declared there (NULL_SIM, L4KTableBitMap, ...) are analysis
+# scaffolding, not user code: attributing them to the parsed .c file produced
+# issues on out-of-range lines. With this sentinel the engine's source-file
+# filter drops such issues naturally.
+STUB_SENTINEL_FILE = "__corvia_type_stubs__"
+
+
 def _stub_offset_line_map(parsed_text: str, offset: int, target_file: str) -> list[tuple[int, str]]:
     """Line map for text whose first `offset` lines are synthetic stub preamble.
 
-    Stub lines get ('', 0) so _CoordRemapper leaves them untouched; every
+    Stub lines map to STUB_SENTINEL_FILE so issues raised on stub symbols are
+    attributed to the (filtered-out) sentinel, never to the user's file; every
     following line maps back to its position in the original source file.
     """
     total = parsed_text.count('\n') + 1
     stub_count = min(offset, total)
-    line_map: list[tuple[int, str]] = [(0, '')] * stub_count
+    line_map: list[tuple[int, str]] = [
+        (i, STUB_SENTINEL_FILE) for i in range(1, stub_count + 1)
+    ]
     line_map.extend((i, target_file) for i in range(1, total - stub_count + 1))
     return line_map
 
@@ -789,7 +800,12 @@ class CParser:
                     # Extend with stub entries - compute actual offset from line count difference
                     stub_lines = fallback_text.count('\n') - text.count('\n')
                     if stub_lines > 0:
-                        fb_line_map = [(0, '')] * stub_lines + fb_line_map
+                        # Attribute the injected stub preamble to the sentinel
+                        # file (not left as unmapped (0, '')): issues on stub
+                        # symbols must never land in the user's file.
+                        fb_line_map = [
+                            (i, STUB_SENTINEL_FILE) for i in range(1, stub_lines + 1)
+                        ] + fb_line_map
                     fb_line_map = fb_line_map[:fallback_text.count('\n') + 1]
                     try:
                         fallback_parser = _CParser()

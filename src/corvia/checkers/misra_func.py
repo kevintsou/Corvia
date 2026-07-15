@@ -172,6 +172,15 @@ class MisraFuncChecker(BaseChecker):
             return True
         if isinstance(node, c_ast.Compound):
             return self._all_paths_return(node)
+        if isinstance(node, c_ast.If):
+            # An `else if` chain arrives here as a bare If node in `iffalse`
+            # (not wrapped in a Compound): recurse through the chain.
+            return (
+                node.iftrue is not None
+                and node.iffalse is not None
+                and self._block_returns(node.iftrue)
+                and self._block_returns(node.iffalse)
+            )
         return False
 
     def _switch_all_clauses_return(self, sw: c_ast.Switch) -> bool:

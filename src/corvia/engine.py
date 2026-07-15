@@ -233,7 +233,37 @@ class AnalysisEngine:
         result.issues = self._dedupe_issues(result.issues)
 
         self._populate_context(result.issues)
+        result.issues = self._drop_macro_expansion_artifacts(result.issues)
         return result
+
+    @staticmethod
+    def _drop_macro_expansion_artifacts(issues: list[Issue]) -> list[Issue]:
+        """Drop Rule 12.1 (operator precedence) findings whose flagged
+        operators do not appear on the reported source line.
+
+        Under --use-cpp a macro body is re-expanded at every call site, so a
+        single unparenthesized expression inside a register-access macro
+        reports once per invocation — at lines that contain only the macro
+        call. The violation may be real, but it lives in the macro definition
+        (unrecoverable after preprocessing) and the per-call-site copies are
+        pure noise: keep 12.1 findings only where the operator is visible on
+        the line itself.
+        """
+        import re
+
+        kept: list[Issue] = []
+        for i in issues:
+            if (
+                i.checker_id == "misra-expr"
+                and i.misra_rule is not None
+                and i.misra_rule.rule_id == "12.1"
+                and i.context
+            ):
+                ops = re.findall(r"'([^']+)'", i.message)
+                if ops and all(op not in i.context for op in ops):
+                    continue
+            kept.append(i)
+        return kept
 
     @staticmethod
     def _dedupe_issues(issues: list[Issue]) -> list[Issue]:
