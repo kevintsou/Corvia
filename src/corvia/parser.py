@@ -141,7 +141,6 @@ _GCC_KEYWORDS = [
     "__aligned__",
     "__section__",
     "__may_alias__",
-    "__builtin_va_list",
     "__int64",
     "__int128",
     "__ptr32",
@@ -158,9 +157,18 @@ _GCC_KEYWORDS = [
 ]
 _GCC_KEYWORD_RE = re.compile(r'\b(' + '|'.join(re.escape(k) for k in _GCC_KEYWORDS) + r')\b')
 
+# `__builtin_va_list` is a TYPE, not a decoration: deleting it leaves
+# declarations like `int vprintf(const char *fmt,  args);` (cpp expands
+# `va_list args` to `__builtin_va_list args`). Substitute a stand-in type.
+_BUILTIN_VA_LIST_RE = re.compile(r'\b__builtin_va_list\b')
+
 
 def _strip_attributes(code: str) -> str:
-    """Strip __attribute__((...)) constructs with proper bracket counting."""
+    """Strip __attribute__((...)) constructs with proper bracket counting.
+
+    Newlines inside the removed span are re-emitted so line numbering stays
+    stable for everything that follows.
+    """
     result: list[str] = []
     i = 0
     while i < len(code):
@@ -178,8 +186,31 @@ def _strip_attributes(code: str) -> str:
             elif code[j] == ')':
                 depth -= 1
             j += 1
+        result.append("\n" * code[i + m.start():j].count("\n"))
         i = j
     return ''.join(result)
+
+
+# GNU range designator in initializers: `[0 ... N-1] = value`. pycparser has
+# no support for it; dropping the designator leaves a plain (positional)
+# initializer, which is good enough for static analysis of the values.
+_RANGE_DESIGNATOR_RE = re.compile(r'\[[^\[\]\n]*?\.\.\.[^\[\]\n]*?\]\s*=')
+
+
+def _strip_gnu_extensions_for_strict(text: str) -> str:
+    """Make gcc-preprocessed output parseable by pycparser in the strict path.
+
+    TF-A-style trees ship their own libc headers, so constructs like
+    `__attribute__((__format__(__printf__, 1, 2)))` and GNU range designators
+    survive preprocessing and abort the strict parse (losing marker-accurate
+    coordinates to the stub fallback). All transformations preserve line
+    numbering; preprocessor line markers are left untouched.
+    """
+    text = _strip_attributes(text)
+    text = _strip_gcc_calls(text)
+    text = _BUILTIN_VA_LIST_RE.sub("int", text)
+    text = _GCC_KEYWORD_RE.sub("", text)
+    return _RANGE_DESIGNATOR_RE.sub("", text)
 
 
 def _strip_gcc_calls(code: str) -> str:
@@ -231,6 +262,7 @@ def _strip_gcc_calls(code: str) -> str:
             elif c == ')':
                 depth -= 1
             i += 1
+        span_newlines = "\n" * code[m.start():i].count("\n")
         if kind == 'builtin':
             pos = i  # skip past the matching closing ')'
             name = code[m.start():m.end()].rstrip(' \t(').strip()
@@ -260,7 +292,11 @@ def _strip_gcc_calls(code: str) -> str:
                 j += 1
             if j < len(code) and code[j] == ';':
                 j += 1
+            span_newlines = "\n" * code[m.start():j].count("\n")
             pos = j
+        # Re-emit the newlines swallowed with the removed span so line
+        # numbering stays stable for everything after it.
+        result.append(span_newlines)
     result.append(code[pos:])
     return ''.join(result)
 
@@ -436,7 +472,10 @@ def _strip_preprocessor(code: str, keep_conditional_bodies: bool = False) -> str
     code = _strip_attributes(code)
     # Strip __asm__/__asm/__builtin_XXX(...) using depth-counting (no backtracking).
     code = _strip_gcc_calls(code)
+    code = _BUILTIN_VA_LIST_RE.sub("int", code)
     code = _GCC_KEYWORD_RE.sub("", code)
+    # GNU range designators (`[0 ... N-1] = v`) are not parseable by pycparser.
+    code = _RANGE_DESIGNATOR_RE.sub("", code)
     code = re.sub(r'\bregister\s+\w+(?:\s+\w+)*\s*\(\s*"[^"]*"\s*\)\s*=\s*[^;]+;', ';', code)
     code = re.sub(r'\s*\(\s*"[^"]*"\s*::[^;]*;', ';', code)
     code = _dedup_stub_typedefs(code)
@@ -567,24 +606,63 @@ def _try_fix_unknown_types(code: str) -> str | None:
         'FW_SLOT', 'BootHeader_t', 'LaunchInfo_t', 'CodeHeaderNew_t',
         'ParallelReadStruct', 'L4KTable16B', 'CodeHeader_t', 'L4KTableBitMap',
     }
-    pattern = re.compile(r'\b([A-Z][A-Za-z0-9_]{1,})\b')
+    # Everything the injected stub preamble already declares (typedef names,
+    # enum constants, struct tags, libc prototypes) must never be re-stubbed:
+    # the code being fixed usually embeds that preamble. Deriving the set
+    # from the stubs keeps it in sync automatically.
+    known |= set(re.findall(r'[A-Za-z_]\w+', _COMMON_TYPE_STUBS))
+    # Names already typedef'd in the code itself must not be re-stubbed
+    # (duplicate typedefs abort the parse). Both plain `typedef ... name;`
+    # and struct-typedef closers `} name;` are collected; over-matching the
+    # latter is harmless (it only skips a stub).
+    defined = set(re.findall(r'typedef\b[^;{]*?\b(\w+)\s*;', code))
+    defined |= set(re.findall(r'\}\s*(\w+)\s*;', code))
+
+    patterns = (
+        # CamelCase-style type names. Requires at least one lowercase letter:
+        # ALL_CAPS identifiers are almost always macros, enum constants, or
+        # linker symbols (BL_CODE_BASE, ...) — stubbing those as typedefs
+        # conflicts with their real use and aborts the whole repair.
+        re.compile(r'\b([A-Z][A-Z0-9_]*[a-z][A-Za-z0-9_]*)\b'),
+        # POSIX/TF-A style lowercase `_t` types (cpu_context_t, ...): these
+        # go undefined when their definition sits behind a compiled-out
+        # conditional (e.g. ENABLE_SME_FOR_NS).
+        re.compile(r'\b([a-z_][A-Za-z0-9_]*_t)\b'),
+    )
     found = set()
-    for m in pattern.finditer(code):
-        word = m.group(1)
-        if word not in known and len(word) >= 2:
-            found.add(word)
+    for pattern in patterns:
+        for m in pattern.finditer(code):
+            word = m.group(1)
+            if word not in known and word not in defined and len(word) >= 2:
+                found.add(word)
 
     if not found:
         return None
 
-    stubs = "\n".join(f"typedef int {t};" for t in sorted(found))
-    fixed_code = stubs + "\n" + code
-
-    try:
-        _CParser().parse(fixed_code)
-        return fixed_code
-    except ParseError:
-        return None
+    # A candidate may actually be a variable/function/enum-constant, in which
+    # case its `typedef int X;` stub conflicts. The parse error names the
+    # offending token ("before: X"): drop it and retry a few times instead of
+    # giving up on the first conflict.
+    for _ in range(6):
+        if not found:
+            return None
+        stubs = "\n".join(f"typedef int {t};" for t in sorted(found))
+        fixed_code = stubs + "\n" + code
+        try:
+            _CParser().parse(fixed_code)
+            return fixed_code
+        except ParseError as e:
+            msg = str(e)
+            # Conflicts surface in several message shapes:
+            #   "... before: X"                     (syntax clash at X)
+            #   "Non-typedef 'X' previously declared as typedef ..."
+            #   "Typedef 'X' previously declared as non-typedef ..."
+            m = re.search(r'before: (\w+)', msg) or re.search(r"'(\w+)'", msg)
+            if m and m.group(1) in found:
+                found.discard(m.group(1))
+            else:
+                return None
+    return None
 
 
 def _fake_libc_dir() -> str:
@@ -785,10 +863,22 @@ class CParser:
                 return _make_error(first_line)
 
             try:
-                line_map = _build_line_map(text, filepath)
                 parser = _CParser()
-                ast = parser.parse(text, filename=filepath)
-                _remap_ast(ast, line_map, filepath)
+                # gcc-isms that survive preprocessing (TF-A-style projects
+                # ship their own libc headers with __attribute__ decorations,
+                # GNU range designators, inline asm) abort pycparser; strip
+                # them line-stably so the strict, marker-accurate parse
+                # succeeds instead of degrading to the stub fallback.
+                #
+                # No _remap_ast here: pycparser consumes the preprocessor's
+                # `# N "file"` line markers natively, so coordinates already
+                # carry the original file/line. Remapping again would index
+                # source line numbers into the preprocessed-text line map —
+                # a double mapping that corrupted coordinates whenever the
+                # source line number happened to fall within the map.
+                ast = parser.parse(
+                    _strip_gnu_extensions_for_strict(text), filename=filepath
+                )
                 return ast, []
             except ParseError as e:
                 error_msg = str(e)
@@ -812,8 +902,31 @@ class CParser:
                         fallback_ast = fallback_parser.parse(fallback_text, filename=filepath)
                         _remap_ast(fallback_ast, fb_line_map, filepath)
                         return fallback_ast, []
-                    except ParseError:
-                        pass
+                    except ParseError as fb_err:
+                        # Unknown-typedef failures (e.g. a type whose
+                        # definition sits behind a compiled-out conditional)
+                        # get one more chance with auto-generated type stubs,
+                        # mirroring the non-cpp path's retry.
+                        if "before: *" in str(fb_err):
+                            fixed = _try_fix_unknown_types(fallback_text)
+                            if fixed:
+                                try:
+                                    fixed_ast = _CParser().parse(
+                                        fixed, filename=filepath
+                                    )
+                                    extra = (
+                                        fixed.count('\n')
+                                        - fallback_text.count('\n')
+                                    )
+                                    fixed_map = [
+                                        (i, STUB_SENTINEL_FILE)
+                                        for i in range(1, extra + 1)
+                                    ] + fb_line_map
+                                    fixed_map = fixed_map[:fixed.count('\n') + 1]
+                                    _remap_ast(fixed_ast, fixed_map, filepath)
+                                    return fixed_ast, []
+                                except ParseError:
+                                    pass
                 if text:
                     return None, [Issue(
                         checker_id="parser",

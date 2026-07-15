@@ -201,3 +201,42 @@ def test_shared_coord_objects_remapped_once(tmp_path):
 
     V().visit(ast)
     assert lines == [expected_line], f"ArrayRef coords wrong: {lines}"
+
+
+def test_gnu_extensions_stripped_line_stably(tmp_path):
+    """TF-A-style code: libc-header attribute decorations and GNU range
+    designators must not abort parsing, and multi-line spans must not shift
+    line numbers."""
+    from pycparser import c_ast
+
+    from corvia.parser import CParser
+
+    src = tmp_path / "gnu_ext.c"
+    src.write_text(
+        "typedef unsigned int size_t2;\n"
+        "int printf(const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));\n"
+        "int snprintf(char *s, size_t2 n, const char *fmt, ...)\n"
+        "    __attribute__((__format__\n"
+        "        (__printf__, 3, 4)));\n"          # multi-line attribute
+        "static unsigned int loaded_ids[10] = {\n"
+        "    [0 ... 10 - 1] = (0xFFFFFFFFU)\n"      # GNU range designator
+        "};\n"
+        "int tail_marker(void)\n"
+        "{\n"
+        "    return 0;\n"
+        "}\n"
+    )
+    parser = CParser(use_cpp=False)
+    ast, errs = parser.parse_file(str(src))
+    assert ast is not None and not errs
+
+    coords = []
+
+    class V(c_ast.NodeVisitor):
+        def visit_FuncDef(self, node):
+            if node.decl.name == "tail_marker":
+                coords.append(node.decl.coord.line)
+            self.generic_visit(node)
+
+    V().visit(ast)
+    assert coords == [9], f"tail_marker line wrong (line shift): {coords}"
