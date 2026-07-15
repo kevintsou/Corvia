@@ -360,6 +360,60 @@ def test_deref_inside_null_branch_still_reports(tmp_path):
     assert [i for i in issues if "Dereference of NULL pointer 'd'" in i.message]
 
 
+# ---------------------------------------------------------------------------
+# assert(p != NULL) guard idiom (TF-A bl1_context_mgmt.c / bl1_fwu.c pattern):
+# with ENABLE_ASSERTIONS defined, assert(e) expands to a bare statement
+# `(e) ? (void)0 : __assert(...);`. Tests below write that expansion
+# directly, matching what the preprocessor produces (the checker operates on
+# preprocessed/parsed AST, not on the assert() macro call itself).
+# ---------------------------------------------------------------------------
+
+
+def test_assert_ternary_guard_suppresses_deref(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    void __assert(void);
+    int use5(int id)
+    {
+        desc_t *d = get_desc(id);
+        (d != (desc_t *)0) ? (void)0 : __assert();
+        d->state = 1;
+        return 0;
+    }
+    """)
+    assert not [i for i in issues if "Dereference" in i.message]
+
+
+def test_assert_ternary_and_chain_narrows_all_conjuncts(tmp_path):
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    void __assert(void);
+    int use6(int id)
+    {
+        desc_t *a = get_desc(id);
+        desc_t *b = get_desc(id + 1);
+        ((a != (desc_t *)0) && (b != (desc_t *)0)) ? (void)0 : __assert();
+        a->state = 1;
+        b->state = 2;
+        return 0;
+    }
+    """)
+    assert not [i for i in issues if "Dereference" in i.message]
+
+
+def test_no_assert_guard_still_reports(tmp_path):
+    """Without a preceding assert/guard, the dereference must still be
+    flagged — this pins down that the ternary-guard narrowing does not
+    over-suppress unrelated dereferences."""
+    issues = _run_checker("null-deref", tmp_path, _MAYBE_NULL_HELPER + """
+    int use7(int id)
+    {
+        desc_t *d = get_desc(id);
+        d->state = 1;
+        return 0;
+    }
+    """)
+    assert [i for i in issues if "Dereference of NULL pointer 'd'" in i.message]
+
+
 def test_static_local_is_zero_initialized(tmp_path):
     """Function-scope statics are zero-initialized by the C standard."""
     issues = _run_checker("uninit-var", tmp_path, """

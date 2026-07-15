@@ -41,6 +41,24 @@ def _null_eq_vars(cond: c_ast.Node) -> set[str]:
     return set()
 
 
+def _null_ne_vars(cond: c_ast.Node) -> set[str]:
+    """Variables established non-NULL on the true edge of `cond`.
+
+    Handles `p != NULL`, `NULL != p`, and `&&` chains of such tests: for the
+    whole condition to be true, every `X != NULL` conjunct must be true, so
+    each X is non-null. `||` offers no such guarantee and yields nothing.
+    """
+    if isinstance(cond, c_ast.BinaryOp):
+        if cond.op == "&&":
+            return _null_ne_vars(cond.left) | _null_ne_vars(cond.right)
+        if cond.op == "!=":
+            if isinstance(cond.left, c_ast.ID) and _is_null(cond.right):
+                return {cond.left.name}
+            if isinstance(cond.right, c_ast.ID) and _is_null(cond.left):
+                return {cond.right.name}
+    return set()
+
+
 def _branch_terminates(node: c_ast.Node) -> bool:
     """True if the branch unconditionally leaves the enclosing flow."""
     if isinstance(node, c_ast.Compound):
@@ -62,14 +80,33 @@ def _derefs_var(node: c_ast.Node, name: str) -> bool:
     return any(_derefs_var(child, name) for _, child in node.children())
 
 
+def _is_noop(node: c_ast.Node) -> bool:
+    """True for `(void)0`-style no-op expressions (the "true" arm of an
+    expanded `assert()` macro)."""
+    if isinstance(node, c_ast.Cast):
+        return _is_null(node.expr) or (
+            isinstance(node.expr, c_ast.Constant) and node.expr.value == "0"
+        )
+    return False
+
+
 class _GuardCollector(c_ast.NodeVisitor):
-    """Collect the condition nodes of early-exit NULL guards.
+    """Collect the condition nodes of early-exit / assert NULL guards.
 
     The idiom `if (p == NULL) { ...; return/goto/...; }` guarantees p is
     non-null on the fall-through path. The dataflow framework has no per-edge
     states, so narrowing on `==` is unsound in general (it would poison the
     then-branch too) — but for these specific conditions the then-branch
     terminates and never dereferences p, so block-level narrowing is safe.
+
+    `assert(p != NULL);` is the other common source of this guarantee. When
+    ENABLE_ASSERTIONS is defined, the preprocessor expands it to
+    `(p != NULL) ? (void)0 : __assert(...);` — a bare ternary used as a
+    statement. Its condition establishes the same non-null fact as the
+    early-exit idiom (the false arm is a call that aborts), so it narrows on
+    the ternary's own condition too. When ENABLE_ASSERTIONS is undefined,
+    `assert(e)` expands to `((void)0)` with `e` discarded entirely — the
+    condition is unrecoverable at the AST level, so nothing can be narrowed.
     """
 
     def __init__(self) -> None:
@@ -84,6 +121,16 @@ class _GuardCollector(c_ast.NodeVisitor):
             and not any(_derefs_var(node.iftrue, v) for v in vars_)
         ):
             self.guard_conditions.add(id(node.cond))
+        self.generic_visit(node)
+
+    def visit_TernaryOp(self, node: c_ast.TernaryOp) -> None:
+        # assert(cond) expands to `cond ? (void)0 : <abort call>`.
+        if (
+            _is_noop(node.iftrue)
+            and isinstance(node.iffalse, c_ast.FuncCall)
+            and _null_ne_vars(node.cond)
+        ):
+            self.guard_conditions.add(id(node))
         self.generic_visit(node)
 
 
@@ -217,6 +264,18 @@ class _NullAnalysis(ForwardAnalysis[_NullState]):
                 self._narrow_nonnull(stmt, state)
             else:
                 self._check_deref_expr(stmt, state)
+
+        elif isinstance(stmt, c_ast.TernaryOp):
+            # assert(p != NULL); expands (with ENABLE_ASSERTIONS defined) to
+            # the bare statement `(p != NULL) ? (void)0 : __assert(...);`.
+            # Pre-collected by _GuardCollector: the false arm aborts, so on
+            # the path that continues past this statement, p is non-null.
+            if id(stmt) in self.guard_conditions:
+                for name in _null_ne_vars(stmt.cond):
+                    state.nonnull_vars.add(name)
+                    state.null_vars.discard(name)
+            else:
+                self._check_deref_expr(stmt.cond, state)
 
         else:
             self._check_deref_expr(stmt, state)
