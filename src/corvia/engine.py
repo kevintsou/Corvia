@@ -90,7 +90,10 @@ class AnalysisEngine:
         )
 
         if incremental is None:
-            incremental = False
+            if config and config.cache_enabled is not None:
+                incremental = config.cache_enabled
+            else:
+                incremental = False
         if cache_dir is None and config and config.cache_dir:
             cache_dir = config.cache_dir
         self._incremental = incremental

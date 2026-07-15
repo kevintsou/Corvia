@@ -552,6 +552,8 @@ def _validate(
                 config.make_args = val.split()
             elif isinstance(val, list):
                 config.make_args = [str(v) for v in val]
+            else:
+                raise ConfigError(f"{path}: [paths] make_args must be a string or list")
 
         makefile_path = proj_dir / config.makefile
         inc_dirs, cpp_defs = parse_makefile_include_paths(
@@ -757,7 +759,7 @@ def find_example_tomls() -> list[Path]:
         pkg_dir = importlib.resources.files("corvia") / "example_toml"
         paths = sorted(
             Path(str(f)) for f in pkg_dir.iterdir()  # type: ignore[union-attr]
-            if f.name.endswith((".toml", ".toml.ds5", ".toml.ps5801")) or "toml" in f.name
+            if f.is_file() and ("toml" in f.name)
         )
         return paths
     except (TypeError, FileNotFoundError, AttributeError):
