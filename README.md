@@ -206,7 +206,7 @@ corvia config init <project_dir> --template auto
 | 偵測到的特徵 | 選中範本 | 產出內容 |
 |-------------|---------|---------|
 | 已有 `corvia.toml` | `existing` | 不生成（提示已存在；`--force` 才覆蓋重生） |
-| `common/include/phison_hw/<SoC>` Phison 目錄結構 | `ps5801` | 現場走訪目錄，只列**實際存在**的 include 子目錄 + `-DSOC_ID=...` defines |
+| `common/include/phison_hw/<SoC>` vendor 目錄結構 | `ps5801` | 現場走訪目錄，只列**實際存在**的 include 子目錄 + `-DSOC_ID=...` defines |
 | `.cproject`（Eclipse CDT / ARM DS-5） | `ds5` | 設定 `cproject = ".cproject"`，include 由 .cproject 自動抽取 |
 | `Makefile` | `makefile` | 用 make dry-run / 靜態解析抽 `-I`/`-D` |
 | 都沒有 | `minimal` | 只開 use_cpp + cache 的最小可用設定 |
@@ -233,7 +233,7 @@ Supported templates:
 |----------|-------------|
 | `auto` | Select the highest-confidence detected template |
 | `ds5` | Eclipse CDT / ARM DS-5 project using `.cproject` include extraction |
-| `ps5801` | Phison PS5801/PT5801 firmware; dynamically renders existing SoC include directories when present |
+| `ps5801` | Vendor SoC firmware (PS5801/PT5801-family); dynamically renders existing SoC include directories when present |
 | `makefile` | Makefile-backed project using Corvia's `-I` / `-D` extraction |
 | `minimal` | Portable fallback with preprocessing and cache enabled |
 
@@ -336,7 +336,7 @@ Ready-to-use `corvia.toml` templates are bundled with the package and exposed th
 
 | Template | Description |
 |----------|-------------|
-| `ps5801` | Phison PS5801/PT5801 firmware project; dynamically renders existing SoC include paths where possible |
+| `ps5801` | Vendor SoC firmware (PS5801/PT5801-family) project; dynamically renders existing SoC include paths where possible |
 | `ds5` | Eclipse CDT / ARM DS-5 project; auto-extracts include paths from `.cproject` |
 | `makefile` | Makefile-backed project; extracts include paths and defines from `Makefile` |
 | `minimal` | Generic fallback for projects that need manual include path tuning |
@@ -589,7 +589,7 @@ corvia/
 ## Changelog / 版本紀錄
 
 ### v0.5.6 (2026-07-15)
-Further false-positive fixes found via a targeted rescan of a TF-A BL1 tree after v0.5.4's fixes and a `corvia.toml` include-path completion (`spi_bcfg.h`, `drivers/phison/framework` source tree — parser errors on that tree dropped 36 → 8, the remainder being an unrelated mbedtls `bignum.h` parse issue):
+Further false-positive fixes found via a targeted rescan of a TF-A BL1 tree after v0.5.4's fixes and a `corvia.toml` include-path completion (a vendor driver-framework source tree — parser errors on that tree dropped 36 → 8, the remainder being an unrelated mbedtls `bignum.h` parse issue):
 - **`null-deref` now recognizes `assert(p != NULL)` as a non-null guard.** TF-A code (`bl1_context_mgmt.c`, `bl1_fwu.c`) commonly guards a dereference with `assert(p != NULL)` instead of an early-exit `if`. With `ENABLE_ASSERTIONS` defined, the preprocessor expands `assert(e)` to the bare statement `(e) ? (void)0 : __assert(...);`; the checker now narrows the condition's variables to non-null past that statement, the same way it already does for `if (p == NULL) { return; }`. Without `ENABLE_ASSERTIONS`, `assert(e)` expands to `((void)0)` and `e` is discarded entirely by the preprocessor — that case remains out of scope (unrecoverable at the AST level). The `ps5801` config template now defines `-DENABLE_ASSERTIONS=1` so this recognition is active by default. Eliminated 10 of 11 null-deref findings on a 7-file BL1 rescan; the 11th was a genuine missing-NULL-check bug the checker correctly still reports.
 - **`misra-expr` (12.3) no longer flags function-call argument lists as the comma operator.**
 - **`uninit-var` no longer flags `init(&var)`-style out-parameters** (the address-of argument is now treated as an initializing write unless a function summary proves otherwise), nor function-scope `static` locals (zero-initialized by the C standard), nor a `for`-loop next-expression variable assigned in the loop body.
@@ -615,7 +615,7 @@ False-positive elimination driven by a line-by-line verification of a real firmw
 - **Same-line/same-message issues at different columns are collapsed** (one logical violation, reported once); serialized `file` paths are normalized (no doubled backslashes)
 
 ### v0.5.2 (2026-07-14)
-- **`ps5801` config template now covers the full TF-A BL1 (aarch32) tree.** Previously it only included the Phison `common/` sources, so scanning `bl1_32/trusted-firmware-a/` produced a cascade of "No such file or directory" parser errors (which in turn force no-cpp-style false positives). Added the TF-A include root, the aarch32 arch/libc/el3_runtime variants (this is the 32-bit / ARMv7 Cortex-A15 port, not aarch64), libfdt, the Phison driver header roots (`drivers/phison/{efuse,framework/*,host,host/pcie,sec,uart,ufs}`), the Phison platform roots (`plat/phison/...` providing `platform_def.h`, `phison_scatter.h`, `efuse_common.h`, `plat_bl1_libs.h`), two deeper PS5801 register subdirs (`reg/pcie_ctrl`, `reg/pmu`), `lib/phison`, and the external `mbedtls/include`. `ARM_ARCH_MAJOR=7` added to `cpp_args`. Verified by scanning the real BL1 tree until every resolvable `#include` was satisfied. Template-only change; no analyzer behavior change.
+- **`ps5801` config template now covers the full TF-A BL1 (aarch32) tree.** Previously it only included the vendor `common/` sources, so scanning `bl1_32/trusted-firmware-a/` produced a cascade of "No such file or directory" parser errors (which in turn force no-cpp-style false positives). Added the TF-A include root, the aarch32 arch/libc/el3_runtime variants (this is the 32-bit / ARMv7 Cortex-A15 port, not aarch64), libfdt, the vendor driver and platform header roots, two deeper SoC register subdirectories, a vendor support library, and the external `mbedtls/include`. `ARM_ARCH_MAJOR=7` added to `cpp_args`. Verified by scanning the real BL1 tree until every resolvable `#include` was satisfied. Template-only change; no analyzer behavior change.
 
 ### v0.5.1 (2026-07-14)
 - **Fixed `uninit-var` (MISRA 9.1) false positives on out-parameters**: a bare array/pointer name passed to a function (`memset(buf, 0, sizeof(buf))`) decays to a writable address, same as `&scalar` — the checker now treats it as a possible initialization instead of a read. Covers casts (`(void *)buf`), `(void)`-discarded call statements, and macro-sized arrays (`buf[MACRO_LEN]`). `sizeof`/`_Alignof` operands are also no longer treated as reads (C11 6.5.3.4), and any initializer list (`= {0}`) is now recognized as fully initializing the object (C11 6.7.9), not "partially initialized".
