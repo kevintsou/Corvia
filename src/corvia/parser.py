@@ -834,7 +834,13 @@ class CParser:
             )
 
     def _build_cpp_args(self) -> list[str]:
-        parts: list[str] = ["-E"]
+        # -nostdinc: keep the compiler's own system headers (MinGW/glibc) out of
+        # the preprocessed output. Those headers carry __cdecl/__attribute__/
+        # #pragma pack/_mingw* extensions that pycparser cannot parse (e.g. TF-A
+        # mbedtls pulling in <stdint.h>/<stddef.h> caused "Invalid declaration"
+        # on bignum.h). All libc symbols come from the bundled fake_libc_include
+        # stubs (added below) plus the injected _COMMON_TYPE_STUBS instead.
+        parts: list[str] = ["-E", "-nostdinc"]
         if self._cpp_args:
             if isinstance(self._cpp_args, list):
                 parts.extend(self._cpp_args)
@@ -985,31 +991,42 @@ class CParser:
                         fallback_ast = fallback_parser.parse(fallback_text, filename=filepath)
                         _remap_ast(fallback_ast, fb_line_map, filepath)
                         return fallback_ast, []
-                    except ParseError as fb_err:
+                    except ParseError:
                         # Unknown-typedef failures (e.g. a type whose
-                        # definition sits behind a compiled-out conditional)
-                        # get one more chance with auto-generated type stubs,
-                        # mirroring the non-cpp path's retry.
-                        if "before: *" in str(fb_err):
-                            fixed = _try_fix_unknown_types(fallback_text)
-                            if fixed:
-                                try:
-                                    fixed_ast = _CParser().parse(
-                                        fixed, filename=filepath
-                                    )
-                                    extra = (
-                                        fixed.count('\n')
-                                        - fallback_text.count('\n')
-                                    )
-                                    fixed_map = [
-                                        (i, STUB_SENTINEL_FILE)
-                                        for i in range(1, extra + 1)
-                                    ] + fb_line_map
-                                    fixed_map = fixed_map[:fixed.count('\n') + 1]
-                                    _remap_ast(fixed_ast, fixed_map, filepath)
-                                    return fixed_ast, []
-                                except ParseError:
-                                    pass
+                        # definition sits behind a compiled-out conditional,
+                        # or an opaque libc type like FILE pulled in by a
+                        # project-shipped libc header under -nostdinc) get one
+                        # more chance with auto-generated type stubs, mirroring
+                        # the non-cpp path's retry.
+                        #
+                        # Retry on ANY fallback ParseError, not only the
+                        # "before: *" shape: an unknown type surfaces in several
+                        # message forms ("before: FILE", "Invalid function
+                        # definition" when the unknown type precedes a function,
+                        # etc.). _try_fix_unknown_types is self-guarding — it
+                        # returns None when it finds nothing to stub and drops
+                        # conflicting candidates over 6 retries — so widening
+                        # the trigger cannot manufacture bad stubs, it only gives
+                        # the repair a chance it was previously denied.
+                        fixed = _try_fix_unknown_types(fallback_text)
+                        if fixed:
+                            try:
+                                fixed_ast = _CParser().parse(
+                                    fixed, filename=filepath
+                                )
+                                extra = (
+                                    fixed.count('\n')
+                                    - fallback_text.count('\n')
+                                )
+                                fixed_map = [
+                                    (i, STUB_SENTINEL_FILE)
+                                    for i in range(1, extra + 1)
+                                ] + fb_line_map
+                                fixed_map = fixed_map[:fixed.count('\n') + 1]
+                                _remap_ast(fixed_ast, fixed_map, filepath)
+                                return fixed_ast, []
+                            except ParseError:
+                                pass
                 if text:
                     return None, [Issue(
                         checker_id="parser",
