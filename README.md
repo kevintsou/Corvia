@@ -592,6 +592,14 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.6.6 (2026-08-22)
+New `corvia baseline` subcommand — an FP-rate regression gate.
+
+- **`corvia baseline capture <targets>`** runs analysis and freezes per-checker + per-severity issue counts into `.corvia_baseline.json` in the target's directory (a *per-project* artifact — commit it alongside the project's `corvia.toml`). **`corvia baseline check <targets>`** re-runs and **exits 1 if any checker's count rose** vs the baseline (or a brand-new checker started firing); a count that *fell* is reported as an improvement and never fails (re-run `capture` to lock it in). `update` is an alias for `capture`. All verbs take `--json` and `--no-config`.
+- Why: the per-case `test_fp_regressions.py` pins individual false positives so a *specific* one can't return, but measures nothing about the *aggregate* count on a real tree — so each new codebase surfaced a fresh batch of false positives as a surprise. The baseline turns "the count went up" into a committed number and a reviewed diff, instead of noise that erodes trust in the report.
+- Parse-error (`parser`, line 0) entries are counted **separately** (`parse_errors`) and never folded into checker counts, so a coverage gap can't mask — or be mistaken for — a checker-count change. A rise in parse errors is surfaced as informational, not a checker regression.
+- The baseline records env metadata (Corvia version, a config fingerprint, the target list) so a legitimate bump (e.g. a Corvia upgrade that changes a checker) is explained rather than mysterious. Reuses `AnalysisEngine` + the same config discovery as the main analysis path; non-interactive (a missing config errors cleanly rather than prompting — it's a CI/scripting command).
+
 ### v0.6.5 (2026-08-21)
 Heuristic checks no longer emit build-breaking ERRORs on things they cannot prove.
 

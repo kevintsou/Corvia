@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
+from typing import Optional
 
 from corvia import __version__
+from corvia import baseline as baseline_module
 from corvia.engine import AnalysisEngine
 from corvia.models import AnalysisResult, MisraCategory, Severity
 from corvia.registry import CheckerRegistry
@@ -83,6 +86,10 @@ def _list_checkers() -> None:
 # _build_config_parser(). A bare `corvia config <path>` where <path> is not
 # one of these is treated as an analysis target, not a config command.
 _CONFIG_VERBS = frozenset({"list-templates", "detect", "init"})
+
+# Verbs handled by the `corvia baseline` subcommand (FP-rate baseline). Same
+# routing convention as _CONFIG_VERBS.
+_BASELINE_VERBS = frozenset({"capture", "check", "update"})
 
 
 def _build_config_parser() -> argparse.ArgumentParser:
@@ -169,6 +176,141 @@ def _main_config(argv: list[str]) -> int:
     return 2
 
 
+def _build_baseline_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        prog="corvia baseline",
+        description="Freeze per-checker issue counts on a known-good tree and "
+                    "fail when any checker's count rises (FP-rate regression gate)",
+    )
+    sub = p.add_subparsers(dest="command", required=True)
+
+    for verb, help_text in (
+        ("capture", "Run analysis and write .corvia_baseline.json (creates or overwrites)"),
+        ("update", "Alias for capture — re-freeze the baseline at the current counts"),
+        ("check", "Re-run analysis and fail if any checker's count rose vs the baseline"),
+    ):
+        sp = sub.add_parser(verb, help=help_text)
+        sp.add_argument("targets", nargs="+", help="Files or directories to analyze")
+        sp.add_argument("--config", help="Path to corvia.toml (default: discover upward)")
+        sp.add_argument("--no-config", action="store_true", help="Do not load a corvia.toml")
+        sp.add_argument("--baseline-file", help=f"Baseline path (default: <target-dir>/{baseline_module.BASELINE_FILENAME})")
+        sp.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
+
+    return p
+
+
+def _baseline_run_analysis(args):
+    """Build the engine the same way the main analysis path does (config
+    discovery + AnalysisEngine) and return (result, config). Non-interactive:
+    a missing/invalid config errors cleanly rather than prompting — this is a
+    CI/scripting command."""
+    from corvia.core.config import ConfigError, discover_or_create, load
+
+    first = Path(args.targets[0]).resolve()
+    discover_base = str(first if first.is_dir() else first.parent)
+
+    config = None
+    if not args.no_config:
+        try:
+            if args.config:
+                config = load(args.config, target_root=discover_base)
+            else:
+                config = discover_or_create(discover_base)
+        except ConfigError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            print("Baseline commands are non-interactive: create a corvia.toml first "
+                  "(`corvia config init <dir>`), or pass --no-config.", file=sys.stderr)
+            return None, None
+        if config and config.source_path:
+            print(f"Using config: {config.source_path}", file=sys.stderr)
+
+    engine = AnalysisEngine(use_cpp=False, config=config)
+    result = engine.analyze(args.targets)
+    return result, config
+
+
+def _config_fingerprint(config) -> Optional[str]:
+    """Lightweight fingerprint of the config inputs that shape results, so a
+    baseline records the config it was captured under. Informational only."""
+    if config is None:
+        return None
+    import hashlib
+    payload = json.dumps(
+        {
+            "include_dirs": list(getattr(config, "include_dirs", []) or []),
+            "cpp_args": list(getattr(config, "cpp_args", []) or []),
+            "external": getattr(config, "external_checkers_dir", None),
+        },
+        sort_keys=True,
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+
+
+def _main_baseline(argv: list[str]) -> int:
+    from corvia import __version__
+
+    parser = _build_baseline_parser()
+    args = parser.parse_args(argv)
+
+    first = Path(args.targets[0]).resolve()
+    target_dir = first if first.is_dir() else first.parent
+    bpath = Path(args.baseline_file) if args.baseline_file else baseline_module.baseline_path(target_dir)
+
+    if args.command in ("capture", "update"):
+        result, config = _baseline_run_analysis(args)
+        if result is None:
+            return 2
+        doc = baseline_module.build_baseline(
+            result,
+            corvia_version=__version__,
+            config_fingerprint=_config_fingerprint(config),
+            targets=[str(Path(t)) for t in args.targets],
+        )
+        baseline_module.save_baseline(bpath, doc)
+        if args.json:
+            print(json.dumps({"status": "captured", "path": str(bpath), "baseline": doc}, ensure_ascii=False))
+        else:
+            print(f"Baseline written to {bpath}")
+            print(f"  {doc['total_findings']} checker findings across "
+                  f"{doc['_meta']['files_analyzed']} files "
+                  f"({doc['parse_errors']} parse errors, counted separately)")
+            for cid, n in doc["by_checker"].items():
+                print(f"    {cid}: {n}")
+        return 0
+
+    if args.command == "check":
+        if not bpath.exists():
+            print(f"Error: no baseline at {bpath}. Run `corvia baseline capture {args.targets[0]}` first.",
+                  file=sys.stderr)
+            return 2
+        baseline_doc = baseline_module.load_baseline(bpath)
+        result, config = _baseline_run_analysis(args)
+        if result is None:
+            return 2
+        current = baseline_module.counts_from_result(result)
+        diff = baseline_module.compare(baseline_doc, current)
+        regressed = baseline_module.diff_has_regression(diff)
+
+        if args.json:
+            print(json.dumps({
+                "status": "regression" if regressed else "ok",
+                "path": str(bpath),
+                "diff": diff,
+            }, ensure_ascii=False))
+        else:
+            print(baseline_module.format_diff_text(diff))
+            if regressed:
+                print("\nFAIL: checker counts rose above the committed baseline. "
+                      "Fix the new findings, or re-run `corvia baseline capture` if the "
+                      "increase is intentional and reviewed.", file=sys.stderr)
+            else:
+                print("\nOK: no checker regression against the baseline.")
+        return 1 if regressed else 0
+
+    parser.error(f"Unknown baseline command: {args.command}")
+    return 2
+
+
 def _format_text(result: AnalysisResult, use_color: bool) -> str:
     lines: list[str] = []
     for issue in result.issues:
@@ -209,6 +351,16 @@ def main(argv: list[str] | None = None) -> int:
             return _main_config(rest)
         if not rest and not Path("config").exists():
             return _main_config(rest)
+
+    if effective_argv[:1] == ["baseline"]:
+        rest = effective_argv[1:]
+        # Same routing convention as `config`: only treat it as the baseline
+        # subcommand for a known verb / help; otherwise a path named
+        # "baseline" is an analysis target.
+        if rest and rest[0] in (_BASELINE_VERBS | {"-h", "--help"}):
+            return _main_baseline(rest)
+        if not rest and not Path("baseline").exists():
+            return _main_baseline(rest)
 
     parser = _build_parser()
     args = parser.parse_args(effective_argv)
