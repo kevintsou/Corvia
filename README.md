@@ -592,6 +592,15 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.6.3 (2026-08-21)
+The bundled libc stubs are now pycparser's official `fake_libc_include` set, closing the "target includes a standard header we never stubbed" failure class.
+
+- **`utils/fake_libc_include` is now pycparser's official ~120-header set** (BSD, `LICENSE.pycparser` in that dir), replacing the 8 hand-written stubs (`arm_compat.h` is kept). Under `-nostdinc`, a source `#include <errno.h>` / `<stdbool.h>` / `<stdarg.h>` / `<assert.h>` / `<inttypes.h>` / `<ctype.h>` / `<setjmp.h>` previously failed with `fatal error: No such file or directory` and **discarded the entire translation unit from every checker**. Verified before/after: those seven headers went from a hard parse failure to a clean parse (AST, 0 parser errors). Hand-maintaining an 8-file subset was a standing whack-a-mole — each new codebase hit a header we hadn't stubbed; the official set covers the whole standard library plus common `sys/`, `arpa/`, `linux/`, `openssl/` trees.
+- **Width-correct core types are preserved.** The official `_fake_typedefs.h` declares everything as `typedef int ...` (wrong width for `uint64_t`, `size_t`, etc.). Corvia keeps its own width-correct `_COMMON_TYPE_STUBS`; where the two collide, the existing `_dedup_stub_typedefs` pass blanks the header's line so the width-correct definition wins. Best of both: breadth from the official set, correct widths from Corvia.
+- **Fixed a collision the swap exposed:** the official `_fake_typedefs.h` *declares* `__builtin_va_list` as a typedef, while Corvia rewrites `__builtin_va_list` → `int` everywhere (cpp expands `va_list x` → `__builtin_va_list x`). Left alone that produced the illegal `typedef int int;`. Corvia now drops the header's `typedef int __builtin_va_list;` / `__gnuc_va_list;` declaration lines before the rewrite.
+- **Packaging:** `package-data` now globs `utils/fake_libc_include/**/*.h` so the nested subdir headers actually ship in the wheel (a flat `*.h` would silently drop them).
+- Not covered by this change: mbedtls `bignum.h`'s `__attribute__((mode(TI)))`-family GNU constructs still fail to parse on some configs — that is a GNU-extension (stripper) issue, tracked separately, not a missing-header one.
+
 ### v0.6.2 (2026-08-21)
 The config-version marker no longer turns a cosmetic drift into a hard failure, and generated configs now carry a marker so they stop failing on their own next run.
 

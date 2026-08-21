@@ -548,6 +548,19 @@ def _strip_preprocessor(code: str, keep_conditional_bodies: bool = False) -> str
             line = line[:idx] + line[idx + 1:]
         result.append(line)
     code = "\n".join(result)
+    # The bundled fake_libc (_fake_typedefs.h) *declares* `__builtin_va_list`
+    # and `__gnuc_va_list` as typedef names. Corvia instead treats
+    # `__builtin_va_list` as the compiler built-in and rewrites every
+    # occurrence to `int` below (cpp expands `va_list x` -> `__builtin_va_list
+    # x`). Left alone, that rewrite would turn the header's own declaration
+    # `typedef int __builtin_va_list;` into the illegal `typedef int int;`.
+    # Drop those declaration lines first -- `_COMMON_TYPE_STUBS` already
+    # provides the `__gnuc_va_list`/`va_list` chain. Blank in place to keep
+    # line numbering stable.
+    code = re.sub(
+        r'^[ \t]*typedef[ \t]+int[ \t]+(?:__builtin_va_list|__gnuc_va_list)[ \t]*;[ \t]*$',
+        '', code, flags=re.M,
+    )
     code = re.sub(r'\b__builtin_va_list\b', 'int', code)
     code = _strip_attributes(code)
     # Strip __asm__/__asm/__builtin_XXX(...) using depth-counting (no backtracking).
@@ -749,6 +762,14 @@ def _try_fix_unknown_types(code: str) -> str | None:
 
 
 def _fake_libc_dir() -> str:
+    # pycparser's official fake_libc_include (~120 headers incl. subdirs),
+    # vendored under utils/fake_libc_include (BSD, LICENSE.pycparser in that
+    # dir), plus arm_compat.h. Added to the -I path so that, under -nostdinc, a
+    # source `#include <errno.h>` (stdbool/stdarg/assert/inttypes/...) resolves
+    # to a stub instead of failing with "No such file" and discarding the whole
+    # translation unit. Width-correct core types still come from
+    # _COMMON_TYPE_STUBS: where the official _fake_typedefs.h collides (e.g.
+    # `typedef int uint32_t;`), _dedup_stub_typedefs blanks the header's line.
     import os
     return os.path.join(os.path.dirname(__file__), "utils", "fake_libc_include")
 

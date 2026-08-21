@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "corvia"
-version = "0.6.2"
+version = "0.6.3"
 description = "CORVIA - C language static analysis tool with MISRA C:2012 support"
 requires-python = ">=3.9"
 dependencies = [
@@ -39,7 +39,16 @@ corvia-graph = "corvia.utils.symbols_to_dot:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-corvia = ["example_toml/*", "utils/fake_libc_include/*.h"]
+# fake_libc_include is pycparser's official stub set (BSD, see LICENSE.pycparser
+# in that dir) plus arm_compat.h. The `**/*.h` glob is required because the
+# official set nests headers under subdirs (sys/, arpa/, linux/, openssl/, ...);
+# a flat `*.h` would silently drop them and reintroduce missing-header failures.
+corvia = [
+    "example_toml/*",
+    "utils/fake_libc_include/*.h",
+    "utils/fake_libc_include/**/*.h",
+    "utils/fake_libc_include/LICENSE.pycparser",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

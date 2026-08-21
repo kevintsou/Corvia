@@ -314,3 +314,53 @@ def test_code_without_statement_expression_unchanged():
 
     src = "int c = f(1, 2);"
     assert _rewrite_stmt_exprs(src) == src
+
+
+import pytest
+
+
+@pytest.mark.parametrize(
+    "header, body",
+    [
+        ("inttypes.h", "int f(void){return 0;}"),
+        ("errno.h", "int f(void){return errno;}"),
+        ("stdbool.h", "int f(void){bool b=true;return b?1:0;}"),
+        ("stdarg.h", "int f(int n,...){va_list a;va_start(a,n);int x=va_arg(a,int);va_end(a);return x;}"),
+        ("assert.h", "int f(int n){assert(n>0);return n;}"),
+        ("ctype.h", "int f(int c){return isdigit(c);}"),
+        ("setjmp.h", "jmp_buf jb;int f(void){return setjmp(jb);}"),
+    ],
+)
+def test_cpp_bundled_official_fake_libc_headers(tmp_path, header, body):
+    """Regression for A1: the bundled fake_libc is pycparser's official set.
+
+    These standard headers were NOT in the old 8-file hand-written stub set, so
+    `#include <header>` under -nostdinc used to fail with `fatal error: No such
+    file or directory`, discarding the entire translation unit from every
+    checker. With the official ~120-header set vendored in, they resolve and the
+    file parses cleanly.
+    """
+    src = tmp_path / f"uses_{header.replace('.', '_')}.c"
+    src.write_text(f"#include <{header}>\n{body}\n", encoding="utf-8")
+    parser = CParser(use_cpp=True)
+    ast, errors = parser.parse_file(str(src))
+    parse_errs = [e for e in errors if e.checker_id == "parser"]
+    assert ast is not None, f"<{header}> failed to parse: {parse_errs}"
+    assert parse_errs == []
+
+
+def test_bundled_fake_libc_va_list_typedef_not_broken(tmp_path):
+    """Regression: the official _fake_typedefs.h declares __builtin_va_list as a
+    typedef, but Corvia rewrites __builtin_va_list -> int everywhere. Those two
+    must not collide into the illegal `typedef int int;`. A file including a
+    header that pulls _fake_typedefs.h must still parse."""
+    src = tmp_path / "uses_stdlib.c"
+    src.write_text(
+        "#include <stdlib.h>\n"
+        "int f(void){void*p=malloc(4);free(p);return 0;}\n",
+        encoding="utf-8",
+    )
+    parser = CParser(use_cpp=True)
+    ast, errors = parser.parse_file(str(src))
+    assert ast is not None
+    assert errors == []
