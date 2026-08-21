@@ -364,3 +364,40 @@ def test_bundled_fake_libc_va_list_typedef_not_broken(tmp_path):
     ast, errors = parser.parse_file(str(src))
     assert ast is not None
     assert errors == []
+
+
+def test_blame_parse_error_remaps_to_real_source():
+    """Regression for A2: a fallback ParseError coordinate is remapped through
+    the line map to the true source file:line, instead of the strict parse's
+    mis-attributed header (the "bignum.h: Invalid declaration" symptom, where
+    the real bug was a missing-semicolon struct in another header)."""
+    from corvia.parser import _blame_parse_error, STUB_SENTINEL_FILE
+
+    # line_map[i] = (orig_line, orig_file) for fallback-text line i+1
+    line_map = [
+        (0, STUB_SENTINEL_FILE),   # fb line 1 -> injected stub preamble
+        (10, "/proj/real_header.h"),  # fb line 2 -> real source
+        (11, "/proj/real_header.h"),  # fb line 3
+    ]
+    msg = "/proj/target.c:3:5: before: }"
+    out = _blame_parse_error(msg, line_map, "/proj/target.c")
+    assert "real_header.h" in out
+    assert out.endswith(":11: before: }")
+
+
+def test_blame_parse_error_leaves_message_when_unmappable():
+    """When the coordinate maps to the stub sentinel / no source / out of
+    range, the original message is returned unchanged (never fabricate a
+    location)."""
+    from corvia.parser import _blame_parse_error, STUB_SENTINEL_FILE
+
+    line_map = [(0, STUB_SENTINEL_FILE), (0, "")]
+    # maps to sentinel
+    msg1 = "/proj/target.c:1:1: before: X"
+    assert _blame_parse_error(msg1, line_map, "/proj/target.c") == msg1
+    # out of range
+    msg2 = "/proj/target.c:99:1: before: X"
+    assert _blame_parse_error(msg2, line_map, "/proj/target.c") == msg2
+    # no coordinate at all
+    msg3 = "some error with no coord"
+    assert _blame_parse_error(msg3, line_map, "/proj/target.c") == msg3

@@ -622,6 +622,42 @@ def _build_line_map(text: str, target_file: str) -> list[tuple[int, str]]:
     return result
 
 
+def _blame_parse_error(
+    error_msg: str, line_map: list[tuple[int, str]], target_file: str
+) -> str:
+    """Rewrite a pycparser ParseError string to point at the real source file.
+
+    The strict parse consumes cpp's `# N "file"` markers natively, so when it
+    fails pycparser attributes the error to whatever marker was most recently
+    in scope -- which, for a syntax error that spans or follows an #included
+    header boundary, is frequently an *innocent* header (classic symptom: a
+    missing-semicolon struct in framework_i2c.h reported as
+    "bignum.h: Invalid declaration"). That misattribution sends people
+    debugging the wrong file.
+
+    The fallback parse strips the markers and reports coordinates in the
+    fallback text; `line_map[line-1]` maps those back to the true (orig_line,
+    orig_file). Given the fallback ParseError message (``<path>:L:C: reason``),
+    return ``<orig_file>:<orig_line>: reason`` when the mapping resolves to a
+    real source location; otherwise return the message unchanged.
+    """
+    m = re.search(r':(\d+):(\d+):\s*(.*)$', error_msg)
+    if not m:
+        return error_msg
+    fb_line = int(m.group(1))
+    reason = m.group(3).strip()
+    if not (1 <= fb_line <= len(line_map)):
+        return error_msg
+    orig_line, orig_file = line_map[fb_line - 1]
+    if not orig_file or orig_file == STUB_SENTINEL_FILE or orig_line <= 0:
+        return error_msg
+    try:
+        shown = str(Path(orig_file).resolve())
+    except (OSError, ValueError):
+        shown = orig_file
+    return f"{shown}:{orig_line}: {reason}"
+
+
 class _CoordRemapper(NodeVisitor):
     """Walk AST and remap all node coordinates using the line map.
 
@@ -992,6 +1028,10 @@ class CParser:
                 return ast, []
             except ParseError as e:
                 error_msg = str(e)
+                # Default report is the strict parse's message; the fallback
+                # path below replaces it with a source-accurate location when
+                # it can (see _blame_parse_error).
+                blamed_msg = error_msg
                 if text and len(text) > 100:
                     fallback_text = _strip_preprocessor(text)
                     fallback_text = _strip_comments(fallback_text)
@@ -1007,12 +1047,20 @@ class CParser:
                             (i, STUB_SENTINEL_FILE) for i in range(1, stub_lines + 1)
                         ] + fb_line_map
                     fb_line_map = fb_line_map[:fallback_text.count('\n') + 1]
+                    # When the fallback also fails, its coordinate (unlike the
+                    # strict parse's) is in the marker-stripped fallback text,
+                    # so it maps cleanly through fb_line_map to the true source
+                    # file/line. Prefer that over the strict parse's often
+                    # mis-attributed error_msg for the reported diagnostic.
                     try:
                         fallback_parser = _CParser()
                         fallback_ast = fallback_parser.parse(fallback_text, filename=filepath)
                         _remap_ast(fallback_ast, fb_line_map, filepath)
                         return fallback_ast, []
-                    except ParseError:
+                    except ParseError as fb_err:
+                        blamed_msg = _blame_parse_error(
+                            str(fb_err), fb_line_map, filepath
+                        )
                         # Unknown-typedef failures (e.g. a type whose
                         # definition sits behind a compiled-out conditional,
                         # or an opaque libc type like FILE pulled in by a
@@ -1049,10 +1097,15 @@ class CParser:
                             except ParseError:
                                 pass
                 if text:
+                    # blamed_msg carries the fallback-derived source location
+                    # (real file:line) when available; error_msg is the strict
+                    # parse's message, which frequently mis-blames an innocent
+                    # header. Fall back to error_msg only if the fallback path
+                    # never ran (e.g. text too short).
                     return None, [Issue(
                         checker_id="parser",
                         severity=Severity.ERROR,
-                        message=f"Preprocessed output parse error: {error_msg}",
+                        message=f"Preprocessed output parse error: {blamed_msg}",
                         file=filepath,
                         line=0,
                         column=0,

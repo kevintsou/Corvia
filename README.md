@@ -592,6 +592,12 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.6.4 (2026-08-21)
+Parse errors now point at the real source file:line instead of an innocent header.
+
+- **A syntax error is now blamed on the file that actually contains it.** The strict parse consumes cpp's `# N "file"` line markers natively, so when it fails pycparser attributes the error to whatever marker was last in scope — for a syntax error near an `#include` boundary that is frequently an *innocent* header. Real symptom on a Phison BL1 scan: a missing-semicolon anonymous `union`/`struct` in `framework_i2c.h:117` was reported 17 times as `mbedtls/bignum.h: Invalid declaration`, sending everyone to debug the wrong file. The fallback parse (which strips the markers) has a coordinate that maps cleanly through the line map to the true source location; the terminal error now reports that (`.../framework_i2c.h:117: before: }`) instead of the strict parse's mis-attributed message. New `_blame_parse_error()` helper; falls back to the original message when the coordinate can't be resolved to a real source line (never fabricates a location).
+- This is purely a diagnostic-accuracy fix — it does not make an ill-formed file parse (that missing-semicolon struct is a genuine source bug). It stops the error from misdirecting the reader, which was the actual cost of the "always broken in bignum.h" experience.
+
 ### v0.6.3 (2026-08-21)
 The bundled libc stubs are now pycparser's official `fake_libc_include` set, closing the "target includes a standard header we never stubbed" failure class.
 
