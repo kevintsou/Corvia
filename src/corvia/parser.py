@@ -107,6 +107,18 @@ void *memset(void *s, int c, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
 typedef int __gnuc_va_list;
 typedef __gnuc_va_list va_list;
+typedef struct _CORVIA_FILE FILE;
+typedef long fpos_t;
+typedef int ptrdiff_t;
+typedef int ssize_t;
+typedef unsigned int wchar_t;
+typedef int wint_t;
+typedef unsigned long time_t;
+typedef unsigned long clock_t;
+typedef int intptr_t;
+typedef unsigned int uintptr_t;
+typedef long long intmax_t;
+typedef unsigned long long uintmax_t;
 """
 
 _STUB_LINES = len(_COMMON_TYPE_STUBS.split('\n'))
@@ -208,9 +220,77 @@ def _strip_gnu_extensions_for_strict(text: str) -> str:
     """
     text = _strip_attributes(text)
     text = _strip_gcc_calls(text)
+    text = _rewrite_stmt_exprs(text)
     text = _BUILTIN_VA_LIST_RE.sub("int", text)
     text = _GCC_KEYWORD_RE.sub("", text)
     return _RANGE_DESIGNATOR_RE.sub("", text)
+
+
+def _rewrite_stmt_exprs(code: str) -> str:
+    """Rewrite GCC statement expressions ``({ ...; result; })`` to ``(result)``.
+
+    TF-A's ``MIN``/``MAX``/``div_round_up`` in ``lib/utils_def.h`` expand to
+    statement expressions, which pycparser cannot parse — one use aborts the
+    whole translation unit. The value of such an expression is its final
+    statement, so keeping only that expression preserves the type and the
+    dataflow the checkers care about, while the discarded declarations
+    (``__typeof__(x) _x = (x);``) only bound temporaries.
+
+    A statement expression whose final statement is not a plain expression
+    (e.g. it ends in a loop or an ``if``) has no simple equivalent; those are
+    replaced with ``0`` so the surrounding code still parses.
+
+    Line numbering is preserved by re-appending the newlines that were removed.
+    """
+    out: list[str] = []
+    pos = 0
+    while True:
+        start = code.find("({", pos)
+        if start == -1:
+            out.append(code[pos:])
+            break
+        out.append(code[pos:start])
+
+        # Find the matching close brace of the "({".
+        depth = 0
+        i = start + 1  # at '{'
+        end = -1
+        while i < len(code):
+            ch = code[i]
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    # Expect the ')' that closes "({ ... })".
+                    j = i + 1
+                    while j < len(code) and code[j].isspace():
+                        j += 1
+                    end = j if j < len(code) and code[j] == ")" else -1
+                    break
+            i += 1
+
+        if end == -1:
+            # Not a statement expression (unbalanced, or "({" inside a string
+            # literal we cannot resolve here) — leave the text as-is.
+            out.append(code[start : start + 2])
+            pos = start + 2
+            continue
+
+        body = code[start + 2 : i]
+        newlines = code.count("\n", start, end + 1)
+        stmts = [s.strip() for s in body.split(";")]
+        # The value is the last non-empty statement before the closing brace.
+        last = ""
+        for s in reversed(stmts):
+            if s:
+                last = s
+                break
+        if not last or last.endswith("}") or last.startswith(("for", "while", "if", "do", "switch")):
+            last = "0"
+        out.append("(" + last + ")" + "\n" * newlines)
+        pos = end + 1
+    return "".join(out)
 
 
 def _strip_gcc_calls(code: str) -> str:
@@ -472,6 +552,9 @@ def _strip_preprocessor(code: str, keep_conditional_bodies: bool = False) -> str
     code = _strip_attributes(code)
     # Strip __asm__/__asm/__builtin_XXX(...) using depth-counting (no backtracking).
     code = _strip_gcc_calls(code)
+    # GCC statement expressions (TF-A's MIN/MAX/div_round_up) — must run after
+    # __asm__/__builtin stripping so their braces are already gone.
+    code = _rewrite_stmt_exprs(code)
     code = _BUILTIN_VA_LIST_RE.sub("int", code)
     code = _GCC_KEYWORD_RE.sub("", code)
     # GNU range designators (`[0 ... N-1] = v`) are not parseable by pycparser.

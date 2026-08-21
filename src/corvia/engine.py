@@ -47,8 +47,13 @@ class AnalysisEngine:
         config: Optional[CorviaConfig] = None,
     ) -> None:
         CheckerRegistry.load_builtin_checkers()
-        if external_checkers_dir:
-            CheckerRegistry.load_external_checkers(external_checkers_dir)
+        # --external-checkers wins over [checkers] external in corvia.toml, so
+        # a one-off CLI run can override the project's configured directory.
+        ext_dir = external_checkers_dir or (
+            config.external_checkers_dir if config else None
+        )
+        if ext_dir:
+            CheckerRegistry.load_external_checkers(ext_dir)
 
         self._config = config
 

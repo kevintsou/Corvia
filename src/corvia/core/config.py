@@ -411,6 +411,7 @@ def _merge_unique(first: list[str], second: list[str]) -> list[str]:
 class CorviaConfig:
     enabled_checkers: Optional[list[str]] = None
     disabled_checkers: list[str] = field(default_factory=list)
+    external_checkers_dir: Optional[str] = None
     severity_overrides: dict[str, str] = field(default_factory=dict)
     include_dirs: list[str] = field(default_factory=list)
     use_cpp: bool = False
@@ -483,6 +484,17 @@ def _validate(
         config.enabled_checkers = list(checkers["enabled"])
     if "disabled" in checkers:
         config.disabled_checkers = list(checkers["disabled"])
+    if "external" in checkers:
+        raw_ext = checkers["external"]
+        if not isinstance(raw_ext, str):
+            raise ConfigError(f"{path}: [checkers] external must be a string path")
+        # Anchor like [paths] include: ${CONFIG_DIR} / ${TARGET_ROOT} first,
+        # then resolve a relative path against the config file's directory so
+        # the entry stays valid regardless of the checkout location.
+        expanded = _expand_path_vars(raw_ext, path.parent, target_root)
+        if not Path(expanded).is_absolute():
+            expanded = str((path.parent / expanded).resolve())
+        config.external_checkers_dir = expanded
 
     severity = data.get("severity", {}) or {}
     if not isinstance(severity, dict):
@@ -677,6 +689,10 @@ _EXAMPLE_TOML = """\
 [checkers]
 # enabled  = ["null-deref", "memory-leak", "uninit-var"]  # run only these checkers
 # disabled = ["misra-unions", "misra-preproc"]             # exclude specific checkers
+# Directory of project-specific external checkers, loaded in addition to the
+# builtins. Relative paths and ${CONFIG_DIR} / ${TARGET_ROOT} resolve the same
+# way as [paths] include. Overridden by --external-checkers.
+# external = "${CONFIG_DIR}/tools/corvia_checkers"
 
 [severity]
 # Override severity per checker-id or MISRA rule-id.

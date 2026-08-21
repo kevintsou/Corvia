@@ -240,3 +240,77 @@ def test_gnu_extensions_stripped_line_stably(tmp_path):
 
     V().visit(ast)
     assert coords == [9], f"tail_marker line wrong (line shift): {coords}"
+
+
+# ---------- libc opaque types in the stub preamble ----------
+
+
+def test_file_type_parses():
+    """`FILE *` must parse: mbedtls/bignum.h declares FS_IO prototypes.
+
+    Regression: one such declaration aborted the whole translation unit,
+    silently dropping 7 files from a secure_boot common/ scan.
+    """
+    parser = CParser()
+    ast, errors = parser.parse_string(
+        "int mbedtls_mpi_read_file(int *X, int radix, FILE *fin);"
+    )
+    assert ast is not None
+    assert errors == []
+
+
+def test_other_libc_opaque_types_parse():
+    parser = CParser()
+    src = (
+        "int a(time_t t);\n"
+        "int b(clock_t c);\n"
+        "int d(ptrdiff_t p);\n"
+        "int e(ssize_t s);\n"
+        "int f(intptr_t i, uintptr_t u);\n"
+        "int g(wchar_t w, wint_t wi);\n"
+        "int h(fpos_t p);\n"
+        "int i(intmax_t a, uintmax_t b);\n"
+    )
+    ast, errors = parser.parse_string(src)
+    assert ast is not None
+    assert errors == []
+
+
+# ---------- GCC statement expressions ----------
+
+
+def test_statement_expression_parses():
+    """TF-A's MIN/MAX expand to `({ ...; value; })`, which pycparser rejects.
+
+    Regression: one MIN() use aborted the file
+    (hal_sec_comm_api.c:584 in secure_boot).
+    """
+    parser = CParser()
+    src = (
+        "int pick(int x, int y) {\n"
+        "    return __extension__ ({\n"
+        "        __typeof__(x) _x = (x);\n"
+        "        __typeof__(y) _y = (y);\n"
+        "        (void)(&_x == &_y);\n"
+        "        (_x < _y) ? _x : _y;\n"
+        "    });\n"
+        "}\n"
+    )
+    ast, errors = parser.parse_string(src)
+    assert ast is not None
+    assert errors == []
+
+
+def test_statement_expression_preserves_line_numbers():
+    """The rewrite must not shift coordinates of later code."""
+    from corvia.parser import _rewrite_stmt_exprs
+
+    src = "a = ({ int _x = 1;\n int _y = 2;\n _x < _y ? _x : _y; });\nb = 2;"
+    assert _rewrite_stmt_exprs(src).count("\n") == src.count("\n")
+
+
+def test_code_without_statement_expression_unchanged():
+    from corvia.parser import _rewrite_stmt_exprs
+
+    src = "int c = f(1, 2);"
+    assert _rewrite_stmt_exprs(src) == src

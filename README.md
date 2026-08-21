@@ -309,6 +309,10 @@ include = ["../common/include"]   # Additional include directories
 [checkers]
 enabled = ["null-deref", "misra-switch"]   # Only run these checkers (omit = all)
 disabled = ["misra-unions"]                # Disable specific checkers
+# Directory of project-specific external checkers, loaded on top of the
+# builtins. Relative paths and ${CONFIG_DIR} / ${TARGET_ROOT} resolve like
+# [paths] include. Overridden by --external-checkers.
+external = "${CONFIG_DIR}/tools/corvia_checkers"
 
 [severity]
 # Override severity per checker id or MISRA rule id
@@ -587,6 +591,14 @@ corvia/
 ---
 
 ## Changelog / 版本紀錄
+
+### v0.6.0 (2026-08-21)
+Project-specific checkers can now be configured, and two parser gaps that silently dropped whole files are closed.
+
+- **New `[checkers] external = "<dir>"` in `corvia.toml`.** Loads external checker modules on top of the builtins, without needing the `--external-checkers` CLI flag. Relative paths and `${CONFIG_DIR}` / `${TARGET_ROOT}` resolve exactly like `[paths] include`; `--external-checkers` still overrides the configured value. This matters for tooling with a fixed command line (e.g. the `corvia_code_review` skill), which previously had no way to reach a project checker at all.
+- **Parser: undefined libc opaque types no longer abort a file.** `FILE`, `fpos_t`, `time_t`, `clock_t`, `ptrdiff_t`, `ssize_t`, `wchar_t`, `wint_t`, `intptr_t`, `uintptr_t`, `intmax_t` and `uintmax_t` are now in the stub preamble. A single `FILE *` prototype (e.g. mbedtls `bignum.h` under `MBEDTLS_FS_IO`) used to fail with a bare `Invalid declaration` and discard the entire translation unit — from every checker, not just one.
+- **Parser: GCC statement expressions are now rewritten instead of rejected.** `__extension__ ({ ...; value; })` — used by TF-A's `MIN`/`MAX`/`div_round_up` in `lib/utils_def.h` — is reduced to its final expression, preserving both the resulting type and line numbering. One `MIN()` call previously aborted the whole file.
+- Measured on a Phison secure_boot `common/` scan: **85/85 files analyzed, 0 parse errors** (previously 78/85, with 7 files silently skipped).
 
 ### v0.5.6 (2026-07-15)
 Further false-positive fixes found via a targeted rescan of a TF-A BL1 tree after v0.5.4's fixes and a `corvia.toml` include-path completion (a vendor driver-framework source tree — parser errors on that tree dropped 36 → 8, the remainder being an unrelated mbedtls `bignum.h` parse issue):

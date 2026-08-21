@@ -362,3 +362,49 @@ def test_config_version_missing(tmp_path: Path):
     )
     with pytest.raises(ConfigError, match="missing corvia_config_version"):
         load(cfg)
+
+
+# ---------- [checkers] external ----------
+
+
+def test_external_checkers_dir_defaults_to_none(tmp_path: Path):
+    config = load(_write_toml(tmp_path, "corvia.toml", ""))
+    assert config.external_checkers_dir is None
+
+
+def test_external_checkers_dir_relative_anchors_to_config_dir(tmp_path: Path):
+    cfg = _write_toml(
+        tmp_path, "corvia.toml",
+        '[checkers]\nexternal = "tools/checkers"\n',
+    )
+    config = load(cfg)
+    assert config.external_checkers_dir == str((tmp_path / "tools" / "checkers").resolve())
+
+
+def test_external_checkers_dir_expands_config_dir_var(tmp_path: Path):
+    cfg = _write_toml(
+        tmp_path, "corvia.toml",
+        '[checkers]\nexternal = "${CONFIG_DIR}/ext"\n',
+    )
+    config = load(cfg)
+    assert Path(config.external_checkers_dir).name == "ext"
+    assert Path(config.external_checkers_dir).is_absolute()
+
+
+def test_external_checkers_dir_absolute_kept(tmp_path: Path):
+    target = (tmp_path / "abs_ext").resolve()
+    cfg = _write_toml(
+        tmp_path, "corvia.toml",
+        f'[checkers]\nexternal = "{target.as_posix()}"\n',
+    )
+    config = load(cfg)
+    assert Path(config.external_checkers_dir) == Path(target.as_posix())
+
+
+def test_external_checkers_dir_rejects_non_string(tmp_path: Path):
+    cfg = _write_toml(
+        tmp_path, "corvia.toml",
+        '[checkers]\nexternal = ["a", "b"]\n',
+    )
+    with pytest.raises(ConfigError, match="must be a string path"):
+        load(cfg)
