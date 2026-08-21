@@ -613,22 +613,40 @@ def _extract_config_version(toml_text: str) -> Optional[str]:
 def _check_config_version(
     config_version: Optional[str], tool_version: str, config_path: Path
 ) -> None:
-    """Check if config version matches tool version.
+    """Warn (never fail) when the config-version marker doesn't match the tool.
 
-    Raises ConfigError if version is missing or mismatched.
+    The marker is advisory. Correctness across tool versions is already
+    guaranteed by the cache's env_hash (which folds in __version__), so a
+    version delta never means the results would be wrong -- it only means the
+    config file was last hand-verified against a different Corvia release.
+
+    Historically this raised ConfigError on any missing/mismatched marker,
+    which turned a cosmetic drift into a hard failure: in a shared repo a
+    single patch bump invalidated every checked-in corvia.toml at once, and in
+    non-interactive shells (CI) it became a bare `exit 2` with a misleading
+    "No corvia.toml found" message. It also fought the generator, which used
+    to emit configs with no marker at all -- so `config init` produced a file
+    that failed on the very next run. We now warn to stderr and continue.
     """
     if config_version is None:
-        raise ConfigError(
-            f"{config_path}: missing corvia_config_version comment.\n"
-            f"Current tool version is {tool_version}.\n"
-            f"Run `corvia config init {config_path.parent} --force` to update your config."
+        print(
+            f"Warning: {config_path} has no corvia_config_version comment "
+            f"(tool version is {tool_version}). Analysis will proceed; add "
+            f"`# corvia_config_version: {tool_version}` to the config header "
+            f"to silence this, or run "
+            f"`corvia config init {config_path.parent} --force` to regenerate.",
+            file=sys.stderr,
         )
+        return
     if config_version != tool_version:
-        raise ConfigError(
-            f"{config_path}: corvia_config_version is {config_version}, "
-            f"but tool version is {tool_version}.\n"
-            f"Run `corvia config init {config_path.parent} --force` to update your config, "
-            f"or use --no-config to skip config file discovery."
+        print(
+            f"Warning: {config_path} corvia_config_version is {config_version}, "
+            f"but tool version is {tool_version}. Analysis will proceed; the "
+            f"marker is advisory (cache correctness is version-aware). Update "
+            f"the marker to {tool_version}, or run "
+            f"`corvia config init {config_path.parent} --force` to regenerate, "
+            f"if you want to keep them in sync.",
+            file=sys.stderr,
         )
 
 

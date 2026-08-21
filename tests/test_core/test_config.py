@@ -342,26 +342,37 @@ def test_config_version_match(tmp_path: Path):
     assert config.use_cpp is True
 
 
-def test_config_version_mismatch(tmp_path: Path):
-    """Config with mismatched version raises ConfigError."""
+def test_config_version_mismatch(tmp_path: Path, capsys):
+    """A mismatched version marker warns and continues -- it does not raise.
+
+    The marker is advisory (cache correctness is version-aware), so a version
+    delta must not turn into a hard failure that breaks CI or forces a whole
+    team to upgrade in lockstep.
+    """
     cfg = _write(
         tmp_path,
         "corvia.toml",
         "# corvia_config_version: 0.5.5\n[paths]\nuse_cpp = true\n",
     )
-    with pytest.raises(ConfigError, match="corvia_config_version is 0.5.5"):
-        load(cfg)
+    config = load(cfg)
+    assert config.use_cpp is True
+    err = capsys.readouterr().err
+    assert "corvia_config_version is 0.5.5" in err
+    assert "proceed" in err.lower()
 
 
-def test_config_version_missing(tmp_path: Path):
-    """Config without version comment raises ConfigError."""
+def test_config_version_missing(tmp_path: Path, capsys):
+    """A missing version marker warns and continues -- it does not raise."""
     cfg = _write(
         tmp_path,
         "corvia.toml",
         "[paths]\nuse_cpp = true\n",
     )
-    with pytest.raises(ConfigError, match="missing corvia_config_version"):
-        load(cfg)
+    config = load(cfg)
+    assert config.use_cpp is True
+    err = capsys.readouterr().err
+    assert "no corvia_config_version" in err.lower()
+    assert "proceed" in err.lower()
 
 
 # ---------- [checkers] external ----------

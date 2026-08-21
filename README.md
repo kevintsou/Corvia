@@ -592,6 +592,13 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.6.2 (2026-08-21)
+The config-version marker no longer turns a cosmetic drift into a hard failure, and generated configs now carry a marker so they stop failing on their own next run.
+
+- **`config init` now stamps the version marker into every generated config.** `_header()` writes `# corvia_config_version: {__version__}` as the second line of every template (minimal / makefile / ds5 / ps5801 / auto). Previously the `minimal`/`makefile`/`auto` generators emitted no marker at all, so `corvia config init` produced a `corvia.toml` that the version check rejected on the *very next run* — you followed the tool's own instructions and it immediately declared the result invalid. The marker is now derived from `__version__`, making `__init__.py` the single source of truth.
+- **A missing or mismatched `corvia_config_version` now warns and continues — it no longer raises.** The marker is advisory: correctness across tool versions is already guaranteed by the cache's `env_hash` (which folds in `__version__`), so a version delta never means the analysis would be wrong. The old hard-fail meant a single patch bump invalidated every checked-in `corvia.toml` across a shared repo at once (forcing the whole team to upgrade in lockstep), and in non-interactive shells (CI) it surfaced as a bare `exit 2` with a misleading "No corvia.toml found" message even though the file was present. It is now a one-line stderr warning; analysis proceeds normally.
+- Cache behavior is unchanged: a tool-version bump still forces a one-time full re-analyze via the cache `env_hash`, which is the correct and only version coupling needed.
+
 ### v0.6.0 (2026-08-21)
 Project-specific checkers can now be configured, and two parser gaps that silently dropped whole files are closed.
 
