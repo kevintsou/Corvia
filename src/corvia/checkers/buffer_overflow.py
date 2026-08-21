@@ -15,7 +15,12 @@ RULE_18_1 = MisraRule("18.1", MisraCategory.REQUIRED, "A pointer resulting from 
 class BufferOverflowChecker(BaseChecker):
     checker_id = "buffer-overflow"
     description = "Detects constant-index out-of-bounds access on fixed-size arrays"
-    default_severity = Severity.ERROR
+    # WARNING is the confidence floor for this pattern-matcher (no range/dataflow
+    # analysis, so it cannot reason about a variable index). The two findings it
+    # *can* prove -- a constant index that is negative or >= a known array size
+    # -- pass Severity.ERROR explicitly below; anything added later that is not
+    # constant-proven inherits WARNING rather than a build-breaking ERROR.
+    default_severity = Severity.WARNING
     misra_rules = [RULE_1_3, RULE_18_1]
 
     def __init__(self) -> None:

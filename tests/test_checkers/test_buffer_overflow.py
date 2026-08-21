@@ -83,3 +83,25 @@ def test_local_array_still_checked_after_param_fix(parse_c):
     checker.set_file("<test>")
     issues = checker.check(ast)
     assert any("out of bounds" in i.message.lower() for i in issues)
+
+
+def test_provable_oob_stays_error(parse_c):
+    """C1 tiering: a *provable* constant-index OOB is a real defect and must
+    stay ERROR even though the checker's default tier is now WARNING."""
+    from corvia.models import Severity
+
+    ast, _ = parse_c("void f(void) { int arr[4]; arr[9] = 1; }")
+    checker = BufferOverflowChecker()
+    checker.set_file("<test>")
+    issues = checker.check(ast)
+    oob = [i for i in issues if "out of bounds" in i.message.lower()]
+    assert oob, "expected a constant OOB finding"
+    assert all(i.severity == Severity.ERROR for i in oob)
+
+
+def test_default_severity_is_warning():
+    """C1 tiering: the pattern-matcher's confidence floor is WARNING; only the
+    two constant-proven cases escalate to ERROR explicitly."""
+    from corvia.models import Severity
+
+    assert BufferOverflowChecker.default_severity == Severity.WARNING

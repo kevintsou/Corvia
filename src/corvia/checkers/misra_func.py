@@ -59,10 +59,19 @@ class MisraFuncChecker(BaseChecker):
             if ret_type and ret_type != "void":
                 if node.body:
                     if not self._all_paths_return(node.body):
+                        # WARNING, not ERROR: _all_paths_return is an AST-shape
+                        # heuristic, not real reachability analysis. It has no
+                        # notion of noreturn functions (panic(), plat_panic_
+                        # handler(), __assert(), exit()), so a function that
+                        # legitimately ends by calling one is flagged as a false
+                        # positive -- common in firmware. A heuristic that can
+                        # be wrong must not emit a build-breaking ERROR (the
+                        # message already hedges with "may not"). A genuinely
+                        # missing return is still surfaced, just at WARNING.
                         self.report(
                             node.decl,
                             f"Function '{func_name}' with non-void return type may not return a value on all paths",
-                            Severity.ERROR,
+                            Severity.WARNING,
                             RULE_17_4,
                         )
 

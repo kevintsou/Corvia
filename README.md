@@ -592,6 +592,13 @@ corvia/
 
 ## Changelog / 版本紀錄
 
+### v0.6.5 (2026-08-21)
+Heuristic checks no longer emit build-breaking ERRORs on things they cannot prove.
+
+- **`misra-func` Rule 17.4 (missing return on some path): ERROR → WARNING.** The underlying `_all_paths_return` is an AST-shape heuristic, not reachability analysis — it has no notion of noreturn functions, so a non-void function that legitimately ends by calling `panic()` / `plat_panic_handler()` / `__assert()` / `exit()` was flagged as a false positive, and at ERROR that false positive broke the build. A genuinely missing return is still reported, now at WARNING (the message already hedges with "may not return a value on all paths").
+- **`buffer-overflow` default severity: ERROR → WARNING.** This checker is a pattern-matcher with no range/dataflow analysis. Its two *provable* findings — a **constant** index that is negative or `>=` a **known** array size — still emit ERROR explicitly (they are real, not guesses). The class default is now the WARNING confidence-floor, so any future non-constant-proven finding inherits WARNING rather than a spurious ERROR.
+- Rationale: a proven defect and a heuristic guess should not look identical to the consumer. ERROR now means "provable"; heuristic findings live at WARNING/INFO. Provable ERRORs elsewhere are unchanged: `misra-expr` 13.6 (`sizeof` with side effects), `misra-pointer-conv` 11.6/11.7 (pointer↔void-arith / pointer↔float cast), `dead-code` 1.3 (literal division by zero), and the 3 dataflow checkers (`null-deref`, `uninit-var`, `memory-leak`) all stay as they were. Any project can still retune any checker/rule via `corvia.toml` `[severity]`.
+
 ### v0.6.4 (2026-08-21)
 Parse errors now point at the real source file:line instead of an innocent header.
 
